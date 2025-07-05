@@ -107,7 +107,7 @@ export default function Index() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
-              <div className="text-2xl font-semibold pl-2">Trio</div>
+              <div className="text-2xl font-semibold">Trio</div>
               <nav className="hidden md:flex space-x-8">
                 <a
                   href="#"
@@ -380,7 +380,7 @@ export default function Index() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="text-xl font-semibold mb-4 pl-2">Trio</div>
+              <div className="text-xl font-semibold mb-4">Trio</div>
               <p className="text-muted-foreground">
                 The nation's largest rental marketplace.
               </p>
