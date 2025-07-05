@@ -1,62 +1,517 @@
-import { DemoResponse } from "@shared/api";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import {
+  Calendar as CalendarIcon,
+  Search,
+  MapPin,
+  Star,
+  Users,
+  Shield,
+  Zap,
+  Menu,
+  ChevronRight,
+  Car,
+  Clock,
+  Heart,
+} from "lucide-react";
 
 export default function Index() {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  // Fetch users on component mount
-  useEffect(() => {
-    fetchDemo();
-  }, []);
+  const [pickupDate, setPickupDate] = useState<Date>();
+  const [returnDate, setReturnDate] = useState<Date>();
+  const [location, setLocation] = useState("");
 
-  // Example of how to fetch data from the server (if needed)
-  const fetchDemo = async () => {
-    try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch (error) {
-      console.error("Error fetching hello:", error);
-    }
-  };
+  const featuredCars = [
+    {
+      id: 1,
+      name: "Tesla Model S",
+      price: "$89",
+      rating: 4.9,
+      trips: 142,
+      image:
+        "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&h=250&fit=crop&auto=format",
+      host: "Sarah",
+      type: "Electric",
+      location: "San Francisco, CA",
+    },
+    {
+      id: 2,
+      name: "BMW M3",
+      price: "$125",
+      rating: 4.8,
+      trips: 89,
+      image:
+        "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=250&fit=crop&auto=format",
+      host: "Michael",
+      type: "Sport",
+      location: "Los Angeles, CA",
+    },
+    {
+      id: 3,
+      name: "Jeep Wrangler",
+      price: "$75",
+      rating: 4.7,
+      trips: 203,
+      image:
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop&auto=format",
+      host: "Alex",
+      type: "SUV",
+      location: "Denver, CO",
+    },
+  ];
+
+  const categories = [
+    { name: "Electric", icon: "⚡", count: "500+" },
+    { name: "Luxury", icon: "💎", count: "300+" },
+    { name: "SUV", icon: "🚙", count: "800+" },
+    { name: "Convertible", icon: "🏎️", count: "150+" },
+    { name: "Truck", icon: "🚛", count: "200+" },
+    { name: "Exotic", icon: "🏁", count: "50+" },
+  ];
+
+  const benefits = [
+    {
+      icon: <Shield className="h-8 w-8 text-primary" />,
+      title: "Protection included",
+      description:
+        "Every trip includes comprehensive insurance coverage and 24/7 roadside assistance.",
+    },
+    {
+      icon: <Users className="h-8 w-8 text-primary" />,
+      title: "Trusted community",
+      description:
+        "Join millions of members worldwide in our trusted peer-to-peer car sharing network.",
+    },
+    {
+      icon: <Zap className="h-8 w-8 text-primary" />,
+      title: "Instant booking",
+      description:
+        "Book instantly with hosts who have enabled Instant Book for immediate confirmation.",
+    },
+  ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="relative z-50 bg-white/95 backdrop-blur-sm border-b border-border/40">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-8">
+              <div className="flex items-center space-x-2">
+                <Car className="h-8 w-8 text-primary" />
+                <span className="text-2xl font-bold text-foreground">
+                  AutoShare
+                </span>
+              </div>
+              <nav className="hidden md:flex space-x-8">
+                <a
+                  href="#"
+                  className="text-foreground hover:text-primary transition-colors"
+                >
+                  Book a car
+                </a>
+                <a
+                  href="#"
+                  className="text-foreground hover:text-primary transition-colors"
+                >
+                  Become a host
+                </a>
+              </nav>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" className="hidden md:inline-flex">
+                Become a host
+              </Button>
+              <Button variant="ghost" className="hidden md:inline-flex">
+                Log in
+              </Button>
+              <Button>Sign up</Button>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200&h=600&fit=crop&auto=format')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+            Skip the rental
+            <br />
+            car counter
+          </h1>
+          <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto">
+            Rent just about any car, just about anywhere
+          </p>
+
+          {/* Search Form */}
+          <Card className="max-w-4xl mx-auto bg-white shadow-2xl">
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="md:col-span-2 relative">
+                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input
+                    placeholder="Where"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="pl-10 h-14 text-lg border-0 focus-visible:ring-1"
+                  />
+                </div>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1",
+                        !pickupDate && "text-muted-foreground",
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-5 w-5" />
+                      {pickupDate ? format(pickupDate, "MMM dd") : "Pick up"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={pickupDate}
+                      onSelect={setPickupDate}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1",
+                        !returnDate && "text-muted-foreground",
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-5 w-5" />
+                      {returnDate ? format(returnDate, "MMM dd") : "Return"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={returnDate}
+                      onSelect={setReturnDate}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <Button size="lg" className="w-full mt-6 h-14 text-lg">
+                <Search className="mr-2 h-5 w-5" />
+                Search
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Browse by Category */}
+      <section className="py-16 bg-accent/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Browse by category
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {categories.map((category, index) => (
+              <Card
+                key={index}
+                className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+              >
+                <CardContent className="p-6 text-center">
+                  <div className="text-4xl mb-3">{category.icon}</div>
+                  <h3 className="font-semibold text-lg mb-1">
+                    {category.name}
+                  </h3>
+                  <p className="text-muted-foreground text-sm">
+                    {category.count}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Cars */}
+      <section className="py-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold">Popular near you</h2>
+            <Button variant="ghost" className="group">
+              View all
+              <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredCars.map((car) => (
+              <Card
+                key={car.id}
+                className="group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden"
+              >
+                <div className="relative">
+                  <img
+                    src={car.image}
+                    alt={car.name}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="absolute top-3 right-3 bg-white/80 hover:bg-white"
+                  >
+                    <Heart className="h-4 w-4" />
+                  </Button>
+                  <Badge className="absolute bottom-3 left-3 bg-black/60 text-white">
+                    {car.type}
+                  </Badge>
+                </div>
+
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-semibold text-xl">{car.name}</h3>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold">{car.price}</div>
+                      <div className="text-sm text-muted-foreground">/day</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-3">
+                    <div className="flex items-center">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
+                      {car.rating}
+                    </div>
+                    <div className="flex items-center">
+                      <Clock className="h-4 w-4 mr-1" />
+                      {car.trips} trips
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">
+                      Hosted by {car.host}
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      {car.location}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="py-16 bg-accent/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Why choose AutoShare?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="text-center">
+                <div className="flex justify-center mb-4">{benefit.icon}</div>
+                <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
+                <p className="text-muted-foreground">{benefit.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Ready to get started?
+          </h2>
+          <p className="text-xl mb-8 opacity-90">
+            Join millions of people who choose AutoShare for their
+            transportation needs.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" variant="secondary" className="text-lg px-8">
+              Book your first car
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-lg px-8 bg-transparent border-white text-white hover:bg-white hover:text-primary"
+            >
+              Become a host
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-muted py-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <Car className="h-6 w-6 text-primary" />
+                <span className="text-xl font-bold">AutoShare</span>
+              </div>
+              <p className="text-muted-foreground">
+                The world's largest car sharing marketplace.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Book</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Book a car
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Weddings & events
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Business
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Host</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    List your car
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Host tools
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Insurance
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Help center
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Contact us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Safety
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-muted-foreground text-sm">
+              © 2024 AutoShare. All rights reserved.
+            </p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Privacy
+              </a>
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Terms
+              </a>
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Cookies
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
