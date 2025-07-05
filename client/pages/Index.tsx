@@ -81,16 +81,16 @@ export default function Index() {
 
   const benefits = [
     {
-      icon: <Shield className="h-8 w-8 text-primary" />,
-      title: "Protection included",
-      description:
-        "Every rental includes comprehensive insurance coverage and live chat assistance.",
-    },
-    {
       icon: <Users className="h-8 w-8 text-primary" />,
       title: "Community-based",
       description:
         "Join thousands of members nationwide in our peer-to-peer sharing network.",
+    },
+    {
+      icon: <Shield className="h-8 w-8 text-primary" />,
+      title: "Protection included",
+      description:
+        "Every rental includes comprehensive insurance coverage and live chat assistance.",
     },
     {
       icon: <Zap className="h-8 w-8 text-primary" />,
