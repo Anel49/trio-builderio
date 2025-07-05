@@ -142,7 +142,7 @@ export default function Index() {
           className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200&h=600&fit=crop&auto=format')",
+              "url('https://images.pexels.com/photos/11727078/pexels-photo-11727078.jpeg?w=1200&h=600&fit=crop&auto=format')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
