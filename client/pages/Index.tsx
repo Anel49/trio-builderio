@@ -71,12 +71,12 @@ export default function Index() {
   ];
 
   const categories = [
-    { name: "Electric", icon: "⚡", count: "500+" },
-    { name: "Luxury", icon: "💎", count: "300+" },
-    { name: "SUV", icon: "🚙", count: "800+" },
-    { name: "Convertible", icon: "🏎️", count: "150+" },
-    { name: "Truck", icon: "🚛", count: "200+" },
-    { name: "Exotic", icon: "🏁", count: "50+" },
+    { name: "Landscaping", icon: "🌻", count: "500+" },
+    { name: "Clothing", icon: "👗", count: "300+" },
+    { name: "Tools", icon: "🔨", count: "800+" },
+    { name: "Tech", icon: "📷", count: "150+" },
+    { name: "Party", icon: "🎈", count: "200+" },
+    { name: "Instruments", icon: "🎷", count: "50+" },
   ];
 
   const benefits = [
@@ -84,19 +84,19 @@ export default function Index() {
       icon: <Shield className="h-8 w-8 text-primary" />,
       title: "Protection included",
       description:
-        "Every trip includes comprehensive insurance coverage and 24/7 roadside assistance.",
+        "Every rental includes comprehensive insurance coverage and live chat assistance.",
     },
     {
       icon: <Users className="h-8 w-8 text-primary" />,
-      title: "Trusted community",
+      title: "Community-based",
       description:
-        "Join millions of members worldwide in our trusted peer-to-peer car sharing network.",
+        "Join thousands of members nationwide in our peer-to-peer sharing network.",
     },
     {
       icon: <Zap className="h-8 w-8 text-primary" />,
       title: "Instant booking",
       description:
-        "Book instantly with hosts who have enabled Instant Book for immediate confirmation.",
+        "Book instantly with renters who have enabled Instant Book for immediate confirmation.",
     },
   ];
 
@@ -107,31 +107,23 @@ export default function Index() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-2">
-                <Car className="h-8 w-8 text-primary" />
-                <span className="text-2xl font-bold text-foreground">
-                  AutoShare
-                </span>
-              </div>
+              <div className="text-2xl font-normal pl-2">Trio</div>
               <nav className="hidden md:flex space-x-8">
                 <a
                   href="#"
                   className="text-foreground hover:text-primary transition-colors"
                 >
-                  Book a car
+                  Browse listings
                 </a>
                 <a
                   href="#"
                   className="text-foreground hover:text-primary transition-colors"
                 >
-                  Become a host
+                  Rent your product
                 </a>
               </nav>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="hidden md:inline-flex">
-                Become a host
-              </Button>
               <Button variant="ghost" className="hidden md:inline-flex">
                 Log in
               </Button>
@@ -160,12 +152,12 @@ export default function Index() {
 
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            Skip the rental
+            Rent from
             <br />
-            car counter
+            peers
           </h1>
           <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto">
-            Rent just about any car, just about anywhere
+            Rent anything, anywhere
           </p>
 
           {/* Search Form */}
@@ -253,7 +245,9 @@ export default function Index() {
                 className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
               >
                 <CardContent className="p-6 text-center">
-                  <div className="text-4xl mb-3">{category.icon}</div>
+                  <div className="text-4xl mb-3">
+                    <p>{category.icon}</p>
+                  </div>
                   <h3 className="font-semibold text-lg mb-1">
                     {category.name}
                   </h3>
@@ -271,7 +265,9 @@ export default function Index() {
       <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">Popular near you</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Recently listings near you
+            </h2>
             <Button variant="ghost" className="group">
               View all
               <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -341,7 +337,7 @@ export default function Index() {
       <section className="py-16 bg-accent/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Why choose AutoShare?
+            Why choose Trio?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
@@ -362,19 +358,18 @@ export default function Index() {
             Ready to get started?
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Join millions of people who choose AutoShare for their
-            transportation needs.
+            Join thousands of people who choose Trio for their rental needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="secondary" className="text-lg px-8">
-              Book your first car
+              Browse listings
             </Button>
             <Button
               size="lg"
               variant="outline"
               className="text-lg px-8 bg-transparent border-white text-white hover:bg-white hover:text-primary"
             >
-              Become a host
+              Rent your item
             </Button>
           </div>
         </div>
@@ -385,24 +380,21 @@ export default function Index() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Car className="h-6 w-6 text-primary" />
-                <span className="text-xl font-bold">AutoShare</span>
-              </div>
+              <div className="text-xl font-normal mb-4 pl-2">Trio</div>
               <p className="text-muted-foreground">
-                The world's largest car sharing marketplace.
+                The nation's largest rental marketplace.
               </p>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Book</h4>
+              <h4 className="font-semibold mb-4">Rent</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <a
                     href="#"
                     className="hover:text-foreground transition-colors"
                   >
-                    Book a car
+                    Browse listings
                   </a>
                 </li>
                 <li>
@@ -432,7 +424,7 @@ export default function Index() {
                     href="#"
                     className="hover:text-foreground transition-colors"
                   >
-                    List your car
+                    Rent your item
                   </a>
                 </li>
                 <li>
@@ -487,7 +479,7 @@ export default function Index() {
 
           <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-muted-foreground text-sm">
-              © 2024 AutoShare. All rights reserved.
+              © 2025 Trio. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a
