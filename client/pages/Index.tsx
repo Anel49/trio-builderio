@@ -224,7 +224,7 @@ export default function Index() {
               </div>
 
               <Button size="lg" className="w-full mt-6 h-14 text-lg">
-                <Search className="mr-2 h-5 w-5" />
+                <Search className="h-5 w-5" />
                 Search
               </Button>
             </CardContent>
