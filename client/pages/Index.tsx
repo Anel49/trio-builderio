@@ -227,7 +227,7 @@ export default function Index() {
                 <span className="flex items-center justify-center w-full">
                   Search
                 </span>
-                <Search className="h-5 w-5 absolute left-1/2 -translate-x-8" />
+                <Search className="h-5 w-5 absolute left-1/2 -translate-x-16" />
               </Button>
             </CardContent>
           </Card>
