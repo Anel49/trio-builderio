@@ -223,9 +223,11 @@ export default function Index() {
                 </Popover>
               </div>
 
-              <Button size="lg" className="w-full mt-6 h-14 text-lg">
-                <Search className="h-5 w-5" />
-                Search
+              <Button size="lg" className="w-full mt-6 h-14 text-lg relative">
+                <span className="flex items-center justify-center w-full">
+                  Search
+                </span>
+                <Search className="h-5 w-5 absolute left-1/2 -translate-x-8" />
               </Button>
             </CardContent>
           </Card>
