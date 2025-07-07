@@ -231,9 +231,16 @@ export default function ProductDetails() {
                     {product.rating}
                   </span>
                 </div>
-                <span className="text-sm text-muted-foreground">
+                <button
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors underline"
+                  onClick={() =>
+                    document
+                      .getElementById("reviews-section")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                >
                   ({product.totalReviews} reviews)
-                </span>
+                </button>
               </div>
 
               <div className="flex items-center text-muted-foreground mb-6">
@@ -309,7 +316,10 @@ export default function ProductDetails() {
       </section>
 
       {/* Reviews Section - Full Width */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section
+        id="reviews-section"
+        className="container mx-auto px-4 sm:px-6 lg:px-8 py-8"
+      >
         <h2 className="text-2xl font-bold mb-6">
           Reviews ({product.totalReviews})
         </h2>
