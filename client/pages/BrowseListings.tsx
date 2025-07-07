@@ -198,7 +198,10 @@ export default function BrowseListings() {
                     "group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden",
                     selectedListing === listing.id && "ring-2 ring-primary",
                   )}
-                  onClick={() => setSelectedListing(listing.id)}
+                  onClick={() => {
+                    setSelectedListing(listing.id);
+                    window.location.href = `/product/${listing.id}`;
+                  }}
                 >
                   <div className="relative">
                     <img
