@@ -162,6 +162,46 @@ export default function ProductDetails() {
     },
   ];
 
+  // Filter and sort reviews
+  const filteredAndSortedReviews = useMemo(() => {
+    let filtered = reviews;
+
+    // Filter by search query
+    if (reviewSearchQuery) {
+      filtered = filtered.filter(
+        (review) =>
+          review.text.toLowerCase().includes(reviewSearchQuery.toLowerCase()) ||
+          review.user.toLowerCase().includes(reviewSearchQuery.toLowerCase()),
+      );
+    }
+
+    // Filter by rating
+    if (reviewRatingFilter !== "all") {
+      const targetRating = parseInt(reviewRatingFilter);
+      filtered = filtered.filter((review) => review.rating === targetRating);
+    }
+
+    // Sort reviews
+    switch (reviewSortBy) {
+      case "newest":
+        filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
+        break;
+      case "oldest":
+        filtered.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
+        break;
+      case "rating-high":
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case "rating-low":
+        filtered.sort((a, b) => a.rating - b.rating);
+        break;
+      default:
+        break;
+    }
+
+    return filtered;
+  }, [reviews, reviewSearchQuery, reviewSortBy, reviewRatingFilter]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header - Same as other pages */}
