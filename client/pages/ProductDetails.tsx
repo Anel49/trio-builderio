@@ -1,0 +1,538 @@
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import {
+  Star,
+  Heart,
+  MapPin,
+  Calendar,
+  Shield,
+  Users,
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+} from "lucide-react";
+
+export default function ProductDetails() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const productImages = [
+    "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1574263867128-5c8a8e78c8c0?w=600&h=400&fit=crop&auto=format",
+  ];
+
+  const product = {
+    name: "Professional Riding Lawn Mower",
+    price: "$45",
+    categories: ["Landscaping", "Garden Equipment", "Outdoor"],
+    description:
+      "High-performance riding lawn mower perfect for large yards and commercial use. Features a powerful 24HP engine, 54-inch cutting deck, and comfortable seating for extended use. Includes mulching kit and side discharge chute. Regularly maintained and serviced for optimal performance.",
+    rating: 4.9,
+    totalReviews: 142,
+    location: "San Francisco, CA",
+  };
+
+  const host = {
+    name: "Sarah Martinez",
+    image:
+      "https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=64&h=64&fit=crop&auto=format",
+    rating: 4.8,
+    totalReviews: 89,
+    joinedDate: "2022",
+    responseTime: "within an hour",
+  };
+
+  const reviews = [
+    {
+      id: 1,
+      user: "Mike Johnson",
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&auto=format",
+      rating: 5,
+      date: "2 weeks ago",
+      text: "Excellent mower! Cut my 2-acre property with ease. Sarah was very helpful and the pickup/drop-off was smooth.",
+    },
+    {
+      id: 2,
+      user: "Jennifer Lee",
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&auto=format",
+      rating: 5,
+      date: "1 month ago",
+      text: "Perfect for my large yard. The mower was in great condition and very easy to operate. Will definitely rent again!",
+    },
+    {
+      id: 3,
+      user: "David Chen",
+      avatar:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&h=48&fit=crop&auto=format",
+      rating: 4,
+      date: "2 months ago",
+      text: "Good quality equipment. Minor wear but works perfectly. Host was responsive and accommodating with timing.",
+    },
+  ];
+
+  const similarProducts = [
+    {
+      id: 1,
+      name: "Electric Hedge Trimmer",
+      price: "$25",
+      image:
+        "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=200&fit=crop&auto=format",
+      rating: 4.7,
+      type: "Landscaping",
+    },
+    {
+      id: 2,
+      name: "Leaf Blower Set",
+      price: "$30",
+      image:
+        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop&auto=format",
+      rating: 4.8,
+      type: "Landscaping",
+    },
+    {
+      id: 3,
+      name: "Garden Tiller",
+      price: "$40",
+      image:
+        "https://images.unsplash.com/photo-1574263867128-5c8a8e78c8c0?w=300&h=200&fit=crop&auto=format",
+      rating: 4.6,
+      type: "Landscaping",
+    },
+    {
+      id: 4,
+      name: "Pressure Washer",
+      price: "$35",
+      image:
+        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop&auto=format",
+      rating: 4.9,
+      type: "Tools",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header - Same as other pages */}
+      <header className="relative z-50 bg-white/95 backdrop-blur-sm border-b border-border/40">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-8">
+              <div className="text-2xl font-semibold">
+                <a href="/">Trio</a>
+              </div>
+              <nav className="hidden md:flex space-x-8">
+                <a
+                  href="/browse"
+                  className="text-foreground hover:text-primary transition-colors"
+                >
+                  Browse listings
+                </a>
+                <a
+                  href="#"
+                  className="text-foreground hover:text-primary transition-colors"
+                >
+                  Rent your product
+                </a>
+              </nav>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" className="hidden md:inline-flex">
+                Log in
+              </Button>
+              <Button>Sign up</Button>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Product Section - 60/40 Split */}
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          {/* Left Column - Product Images (60%) */}
+          <div className="lg:col-span-3">
+            {/* Main Image */}
+            <div className="relative mb-4">
+              <img
+                src={productImages[currentImageIndex]}
+                alt={product.name}
+                className="w-full h-96 object-cover rounded-lg"
+              />
+              <Button
+                size="icon"
+                variant="ghost"
+                className="absolute top-4 right-4 bg-white/80 hover:bg-white"
+              >
+                <Heart className="h-5 w-5" />
+              </Button>
+            </div>
+
+            {/* Image Carousel */}
+            <div className="flex space-x-3 overflow-x-auto pb-2">
+              {productImages.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={cn(
+                    "flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all",
+                    currentImageIndex === index
+                      ? "border-primary"
+                      : "border-transparent hover:border-gray-300",
+                  )}
+                >
+                  <img
+                    src={image}
+                    alt={`${product.name} ${index + 1}`}
+                    className="w-20 h-20 object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Column - Product Info & Host (40%) */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Product Information */}
+            <div>
+              <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+              <div className="flex flex-wrap gap-2 mb-3">
+                {product.categories.map((category) => (
+                  <Badge key={category} variant="secondary">
+                    {category}
+                  </Badge>
+                ))}
+              </div>
+              <p className="text-muted-foreground mb-4">
+                {product.description}
+              </p>
+
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={cn(
+                        "h-4 w-4",
+                        i < Math.floor(product.rating)
+                          ? "fill-yellow-400 text-yellow-400"
+                          : "text-gray-300",
+                      )}
+                    />
+                  ))}
+                  <span className="ml-2 text-sm font-medium">
+                    {product.rating}
+                  </span>
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  ({product.totalReviews} reviews)
+                </span>
+              </div>
+
+              <div className="flex items-center text-muted-foreground mb-6">
+                <MapPin className="h-4 w-4 mr-1" />
+                <span className="text-sm">{product.location}</span>
+              </div>
+
+              <div className="text-right mb-6">
+                <div className="text-3xl font-bold text-primary">
+                  {product.price}
+                </div>
+                <div className="text-muted-foreground">per day</div>
+              </div>
+
+              <Button size="lg" className="w-full mb-4">
+                <Calendar className="mr-2 h-5 w-5" />
+                Reserve Now
+              </Button>
+            </div>
+
+            {/* Host Information */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center space-x-4 mb-4">
+                  <Avatar className="h-16 w-16">
+                    <AvatarImage src={host.image} alt={host.name} />
+                    <AvatarFallback>
+                      {host.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="font-semibold text-lg">{host.name}</h3>
+                    <div className="flex items-center mt-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={cn(
+                            "h-3 w-3",
+                            i < Math.floor(host.rating)
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-300",
+                          )}
+                        />
+                      ))}
+                      <span className="ml-2 text-sm">
+                        ({host.totalReviews} reviews)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <div className="flex justify-between">
+                    <span>Joined:</span>
+                    <span>{host.joinedDate}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Response time:</span>
+                    <span>{host.responseTime}</span>
+                  </div>
+                </div>
+
+                <Button variant="outline" className="w-full mt-4">
+                  Contact Host
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews Section - Full Width */}
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 className="text-2xl font-bold mb-6">
+          Reviews ({product.totalReviews})
+        </h2>
+
+        <div className="space-y-6">
+          {reviews.map((review) => (
+            <Card key={review.id}>
+              <CardContent className="p-6">
+                <div className="flex items-start space-x-4">
+                  <Avatar>
+                    <AvatarImage src={review.avatar} alt={review.user} />
+                    <AvatarFallback>
+                      {review.user
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-semibold">{review.user}</h4>
+                      <span className="text-sm text-muted-foreground">
+                        {review.date}
+                      </span>
+                    </div>
+                    <div className="flex items-center mb-3">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={cn(
+                            "h-4 w-4",
+                            i < review.rating
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-300",
+                          )}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-muted-foreground">{review.text}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="text-center mt-8">
+          <Button variant="outline">Load more reviews</Button>
+        </div>
+      </section>
+
+      {/* Similar Products Carousel */}
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold">Similar products nearby</h2>
+          <Button variant="ghost" className="group">
+            View all
+            <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {similarProducts.map((item) => (
+            <Card
+              key={item.id}
+              className="group cursor-pointer hover:shadow-lg transition-all duration-300"
+            >
+              <div className="relative">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
+                />
+                <Badge className="absolute top-3 left-3 bg-black/60 text-white">
+                  {item.type}
+                </Badge>
+              </div>
+              <CardContent className="p-4">
+                <h3 className="font-semibold mb-2">{item.name}</h3>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
+                    <span className="text-sm">{item.rating}</span>
+                  </div>
+                  <div className="text-lg font-bold text-primary">
+                    {item.price}/day
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer - Same as Homepage */}
+      <footer className="bg-muted py-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="text-xl font-semibold mb-4">Trio</div>
+              <p className="text-muted-foreground">
+                The nation's largest rental marketplace.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Rent</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <a
+                    href="/browse"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Browse listings
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Weddings & events
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Business
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Host</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Rent your item
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Host tools
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Insurance
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Help center
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Contact us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Safety
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-muted-foreground text-sm">
+              © 2025 Trio. All rights reserved.
+            </p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Privacy
+              </a>
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Terms
+              </a>
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Cookies
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
