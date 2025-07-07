@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -14,10 +22,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Menu,
+  Search,
+  SlidersHorizontal,
 } from "lucide-react";
 
 export default function ProductDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [reviewSearchQuery, setReviewSearchQuery] = useState("");
+  const [reviewSortBy, setReviewSortBy] = useState("newest");
+  const [reviewRatingFilter, setReviewRatingFilter] = useState("all");
 
   const productImages = [
     "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
@@ -55,6 +68,7 @@ export default function ProductDetails() {
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&auto=format",
       rating: 5,
       date: "2 weeks ago",
+      dateValue: new Date("2024-12-01"),
       text: "Excellent mower! Cut my 2-acre property with ease. Sarah was very helpful and the pickup/drop-off was smooth.",
     },
     {
@@ -64,6 +78,7 @@ export default function ProductDetails() {
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&auto=format",
       rating: 5,
       date: "1 month ago",
+      dateValue: new Date("2024-11-15"),
       text: "Perfect for my large yard. The mower was in great condition and very easy to operate. Will definitely rent again!",
     },
     {
@@ -73,7 +88,38 @@ export default function ProductDetails() {
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&h=48&fit=crop&auto=format",
       rating: 4,
       date: "2 months ago",
+      dateValue: new Date("2024-10-20"),
       text: "Good quality equipment. Minor wear but works perfectly. Host was responsive and accommodating with timing.",
+    },
+    {
+      id: 4,
+      user: "Lisa Rodriguez",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=48&h=48&fit=crop&auto=format",
+      rating: 3,
+      date: "3 months ago",
+      dateValue: new Date("2024-09-10"),
+      text: "Decent mower but had some starting issues. Overall got the job done but could use better maintenance.",
+    },
+    {
+      id: 5,
+      user: "Robert Smith",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&auto=format",
+      rating: 5,
+      date: "4 months ago",
+      dateValue: new Date("2024-08-05"),
+      text: "Amazing service! The lawn mower worked flawlessly and saved me so much time. Highly recommend for large properties.",
+    },
+    {
+      id: 6,
+      user: "Emma Wilson",
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&auto=format",
+      rating: 2,
+      date: "5 months ago",
+      dateValue: new Date("2024-07-12"),
+      text: "Had some mechanical problems during rental. Host was responsive but the equipment needs better upkeep.",
     },
   ];
 
@@ -324,51 +370,127 @@ export default function ProductDetails() {
           Reviews ({product.totalReviews})
         </h2>
 
+        {/* Review Filters and Controls */}
+        <div className="mb-8 space-y-4">
+          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+            {/* Search Reviews */}
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search reviews..."
+                value={reviewSearchQuery}
+                onChange={(e) => setReviewSearchQuery(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+
+            {/* Sort By */}
+            <div className="flex items-center gap-2">
+              <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
+              <Select value={reviewSortBy} onValueChange={setReviewSortBy}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest first</SelectItem>
+                  <SelectItem value="oldest">Oldest first</SelectItem>
+                  <SelectItem value="rating-high">Highest rating</SelectItem>
+                  <SelectItem value="rating-low">Lowest rating</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Filter by Rating */}
+            <div className="flex items-center gap-2">
+              <Star className="h-4 w-4 text-muted-foreground" />
+              <Select
+                value={reviewRatingFilter}
+                onValueChange={setReviewRatingFilter}
+              >
+                <SelectTrigger className="w-40">
+                  <SelectValue placeholder="All ratings" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All ratings</SelectItem>
+                  <SelectItem value="5">5 stars</SelectItem>
+                  <SelectItem value="4">4 stars</SelectItem>
+                  <SelectItem value="3">3 stars</SelectItem>
+                  <SelectItem value="2">2 stars</SelectItem>
+                  <SelectItem value="1">1 star</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Results Count */}
+          <div className="text-sm text-muted-foreground">
+            Showing {filteredAndSortedReviews.length} of {reviews.length}{" "}
+            reviews
+          </div>
+        </div>
+
         <div className="space-y-6">
-          {reviews.map((review) => (
-            <Card key={review.id}>
-              <CardContent className="p-6">
-                <div className="flex items-start space-x-4">
-                  <Avatar>
-                    <AvatarImage src={review.avatar} alt={review.user} />
-                    <AvatarFallback>
-                      {review.user
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-semibold">{review.user}</h4>
-                      <span className="text-sm text-muted-foreground">
-                        {review.date}
-                      </span>
+          {filteredAndSortedReviews.length > 0 ? (
+            filteredAndSortedReviews.map((review) => (
+              <Card key={review.id}>
+                <CardContent className="p-6">
+                  <div className="flex items-start space-x-4">
+                    <Avatar>
+                      <AvatarImage src={review.avatar} alt={review.user} />
+                      <AvatarFallback>
+                        {review.user
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-semibold">{review.user}</h4>
+                        <span className="text-sm text-muted-foreground">
+                          {review.date}
+                        </span>
+                      </div>
+                      <div className="flex items-center mb-3">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={cn(
+                              "h-4 w-4",
+                              i < review.rating
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300",
+                            )}
+                          />
+                        ))}
+                      </div>
+                      <p className="text-muted-foreground">{review.text}</p>
                     </div>
-                    <div className="flex items-center mb-3">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={cn(
-                            "h-4 w-4",
-                            i < review.rating
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-300",
-                          )}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-muted-foreground">{review.text}</p>
                   </div>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <Card>
+              <CardContent className="p-8 text-center">
+                <div className="text-muted-foreground">
+                  <Search className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <h3 className="text-lg font-medium mb-2">No reviews found</h3>
+                  <p>
+                    Try adjusting your search terms or filters to find more
+                    reviews.
+                  </p>
                 </div>
               </CardContent>
             </Card>
-          ))}
+          )}
         </div>
 
-        <div className="text-center mt-8">
-          <Button variant="outline">Load more reviews</Button>
-        </div>
+        {filteredAndSortedReviews.length > 0 && (
+          <div className="text-center mt-8">
+            <Button variant="outline">Load more reviews</Button>
+          </div>
+        )}
       </section>
 
       {/* Similar Products Carousel */}
