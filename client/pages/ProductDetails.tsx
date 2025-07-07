@@ -24,6 +24,7 @@ import {
   Menu,
   Search,
   SlidersHorizontal,
+  Flag,
 } from "lucide-react";
 
 export default function ProductDetails() {
@@ -288,7 +289,17 @@ export default function ProductDetails() {
           <div className="lg:col-span-2 space-y-6">
             {/* Product Information */}
             <div>
-              <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+              <div className="flex items-start justify-between mb-2">
+                <h1 className="text-3xl font-bold flex-1">{product.name}</h1>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-destructive ml-4"
+                >
+                  <Flag className="h-4 w-4 mr-2" />
+                  Report listing
+                </Button>
+              </div>
               <div className="flex flex-wrap gap-2 mb-3">
                 {product.categories.map((category) => (
                   <Badge key={category} variant="secondary">
