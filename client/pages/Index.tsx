@@ -110,7 +110,7 @@ export default function Index() {
               <div className="text-2xl font-semibold">Trio</div>
               <nav className="hidden md:flex space-x-8">
                 <a
-                  href="#"
+                  href="/browse"
                   className="text-foreground hover:text-primary transition-colors"
                 >
                   Browse listings
