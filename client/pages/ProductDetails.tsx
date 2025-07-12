@@ -298,7 +298,7 @@ export default function ProductDetails() {
               <div className="flex items-start justify-between mb-2">
                 <h1 className="text-3xl font-bold flex-1">{product.name}</h1>
                 <TooltipProvider>
-                  <Tooltip delayDuration={300}>
+                  <Tooltip delayDuration={200}>
                     <TooltipTrigger asChild>
                       <Button
                         variant="ghost"
