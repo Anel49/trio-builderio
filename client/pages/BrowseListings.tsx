@@ -357,7 +357,7 @@ export default function BrowseListings() {
                           {(showPricePopup === listing.id ||
                             selectedListing === listing.id) && (
                             <div
-                              className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-primary text-white px-3 py-2 rounded text-xl font-semibold whitespace-nowrap shadow-lg z-20"
+                              className="absolute -top-14 left-1/2 transform -translate-x-1/2 bg-primary text-white px-3 py-2 rounded text-sm font-semibold whitespace-nowrap shadow-lg z-20"
                               style={{
                                 animation:
                                   showPricePopup === listing.id
