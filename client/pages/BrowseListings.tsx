@@ -227,7 +227,7 @@ export default function BrowseListings() {
                     <img
                       src={listing.image}
                       alt={listing.name}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-48 object-cover"
                     />
                     <Button
                       size="icon"
