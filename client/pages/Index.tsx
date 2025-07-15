@@ -293,9 +293,14 @@ export default function Index() {
                   <Button
                     size="icon"
                     variant="ghost"
-                    className="absolute top-3 right-3 bg-white/80 hover:bg-white"
+                    className="absolute top-3 right-3 bg-white/80 hover:bg-white group"
                   >
-                    <Heart className="h-4 w-4" />
+                    <Heart
+                      className="h-4 w-4 transition-all duration-200 fill-transparent group-hover:fill-[#ff6f6f]"
+                      style={{
+                        stroke: "#ff6f6f",
+                      }}
+                    />
                   </Button>
                   <Badge className="absolute bottom-3 left-3 bg-black/60 text-white">
                     {car.type}
