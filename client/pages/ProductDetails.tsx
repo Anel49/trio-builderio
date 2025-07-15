@@ -590,33 +590,21 @@ export default function ProductDetails() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {similarProducts.map((item) => (
-            <Card
+            <ProductCard
               key={item.id}
-              className="group cursor-pointer hover:shadow-lg transition-all duration-300"
-            >
-              <div className="relative">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
-                />
-                <Badge className="absolute top-3 left-3 bg-black/60 text-white">
-                  {item.type}
-                </Badge>
-              </div>
-              <CardContent className="p-4">
-                <h3 className="font-semibold mb-2">{item.name}</h3>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
-                    <span className="text-sm">{item.rating}</span>
-                  </div>
-                  <div className="text-lg font-bold text-primary">
-                    {item.price}/day
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              id={item.id}
+              name={item.name}
+              price={item.price}
+              rating={item.rating}
+              trips={item.trips}
+              image={item.image}
+              host={item.host}
+              type={item.type}
+              location={item.location}
+              onClick={() => {
+                window.location.href = `/product/${item.id}`;
+              }}
+            />
           ))}
         </div>
       </section>
