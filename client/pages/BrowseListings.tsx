@@ -218,7 +218,6 @@ export default function BrowseListings() {
                     image={listing.image}
                     host={listing.host}
                     type={listing.type}
-                    location={listing.location}
                     distance={listing.distance}
                     className={cn(
                       selectedListing === listing.id &&
