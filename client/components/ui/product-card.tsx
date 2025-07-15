@@ -9,13 +9,11 @@ interface ProductCardProps {
   name: string;
   price: string;
   rating: number;
-  trips?: number;
   reviews?: number;
   image: string;
   host: string;
   type: string;
-  location: string;
-  distance?: string;
+  distance: string;
   onClick?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -27,12 +25,10 @@ export function ProductCard({
   name,
   price,
   rating,
-  trips,
   reviews,
   image,
   host,
   type,
-  location,
   distance,
   onClick,
   onMouseEnter,
