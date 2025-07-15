@@ -230,9 +230,9 @@ export default function BrowseListings() {
                     <Button
                       size="icon"
                       variant="ghost"
-                      className="absolute top-3 right-3 bg-white/80 hover:bg-white"
+                      className="absolute top-3 right-3 bg-white/80 hover:bg-white text-black hover:text-black dark:text-black dark:hover:text-black group"
                     >
-                      <Heart className="h-4 w-4" />
+                      <Heart className="h-4 w-4 group-hover:fill-black dark:group-hover:fill-black" />
                     </Button>
                     <Badge className="absolute bottom-3 left-3 bg-black/60 text-white">
                       {listing.type}
