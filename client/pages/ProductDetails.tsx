@@ -140,10 +140,9 @@ export default function ProductDetails() {
       image:
         "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=200&fit=crop&auto=format",
       rating: 4.7,
-      trips: 85,
       type: "Landscaping",
       host: "Mike",
-      location: "San Francisco, CA",
+      distance: "1.5 miles",
     },
     {
       id: 2,
@@ -152,10 +151,9 @@ export default function ProductDetails() {
       image:
         "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop&auto=format",
       rating: 4.8,
-      trips: 124,
       type: "Landscaping",
       host: "Jennifer",
-      location: "San Mateo, CA",
+      distance: "2.8 miles",
     },
     {
       id: 3,
@@ -164,10 +162,9 @@ export default function ProductDetails() {
       image:
         "https://images.unsplash.com/photo-1574263867128-5c8a8e78c8c0?w=300&h=200&fit=crop&auto=format",
       rating: 4.6,
-      trips: 67,
       type: "Landscaping",
       host: "David",
-      location: "Palo Alto, CA",
+      distance: "4.2 miles",
     },
     {
       id: 4,
@@ -176,10 +173,9 @@ export default function ProductDetails() {
       image:
         "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop&auto=format",
       rating: 4.9,
-      trips: 156,
       type: "Tools",
       host: "Lisa",
-      location: "Mountain View, CA",
+      distance: "3.7 miles",
     },
   ];
 
@@ -596,11 +592,10 @@ export default function ProductDetails() {
               name={item.name}
               price={item.price}
               rating={item.rating}
-              trips={item.trips}
               image={item.image}
               host={item.host}
               type={item.type}
-              location={item.location}
+              distance={item.distance}
               onClick={() => {
                 window.location.href = `/product/${item.id}`;
               }}
