@@ -208,30 +208,31 @@ export default function BrowseListings() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {listings.map((listing) => (
-                <ProductCard
-                  key={listing.id}
-                  id={listing.id}
-                  name={listing.name}
-                  price={listing.price}
-                  rating={listing.rating}
-                  reviews={listing.reviews}
-                  image={listing.image}
-                  host={listing.host}
-                  type={listing.type}
-                  location={listing.location}
-                  distance={listing.distance}
-                  className={cn(
-                    selectedListing === listing.id &&
-                      "ring-2 ring-primary scale-105",
-                    hoveredListing === listing.id && "scale-105",
-                  )}
-                  onMouseEnter={() => setHoveredListing(listing.id)}
-                  onMouseLeave={() => setHoveredListing(null)}
-                  onClick={() => {
-                    setSelectedListing(listing.id);
-                    window.location.href = `/product/${listing.id}`;
-                  }}
-                />
+                <div key={listing.id} id={`listing-${listing.id}`}>
+                  <ProductCard
+                    id={listing.id}
+                    name={listing.name}
+                    price={listing.price}
+                    rating={listing.rating}
+                    reviews={listing.reviews}
+                    image={listing.image}
+                    host={listing.host}
+                    type={listing.type}
+                    location={listing.location}
+                    distance={listing.distance}
+                    className={cn(
+                      selectedListing === listing.id &&
+                        "ring-2 ring-primary scale-105",
+                      hoveredListing === listing.id && "scale-105",
+                    )}
+                    onMouseEnter={() => setHoveredListing(listing.id)}
+                    onMouseLeave={() => setHoveredListing(null)}
+                    onClick={() => {
+                      setSelectedListing(listing.id);
+                      window.location.href = `/product/${listing.id}`;
+                    }}
+                  />
+                </div>
               ))}
             </div>
 
