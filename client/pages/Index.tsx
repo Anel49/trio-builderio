@@ -237,7 +237,7 @@ export default function Index() {
       </section>
 
       {/* Browse by Category */}
-      <section className="py-16 bg-accent/30">
+      <section className="py-16 bg-accent/30 dark:bg-gray-800/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Browse by category
@@ -338,7 +338,7 @@ export default function Index() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-16 bg-accent/30">
+      <section className="py-16 bg-accent/30 dark:bg-gray-800/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Why choose Trio?
