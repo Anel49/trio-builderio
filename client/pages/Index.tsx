@@ -39,36 +39,33 @@ export default function Index() {
       name: "Riding Lawn Mower",
       price: "$45",
       rating: 4.9,
-      trips: 142,
       image:
         "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Sarah",
       type: "Landscaping",
-      location: "San Francisco, CA",
+      distance: "2.3 miles",
     },
     {
       id: 2,
       name: "Designer Dress",
       price: "$35",
       rating: 4.8,
-      trips: 89,
       image:
         "https://images.pexels.com/photos/5418926/pexels-photo-5418926.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Michael",
       type: "Clothing",
-      location: "Los Angeles, CA",
+      distance: "1.8 miles",
     },
     {
       id: 3,
       name: "Professional Tool Set",
       price: "$25",
       rating: 4.7,
-      trips: 203,
       image:
         "https://images.pexels.com/photos/6790973/pexels-photo-6790973.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Alex",
       type: "Tools",
-      location: "Denver, CO",
+      distance: "3.1 miles",
     },
   ];
 
@@ -287,11 +284,10 @@ export default function Index() {
                 name={car.name}
                 price={car.price}
                 rating={car.rating}
-                trips={car.trips}
                 image={car.image}
                 host={car.host}
                 type={car.type}
-                location={car.location}
+                distance={car.distance}
                 onClick={() => {
                   // Navigate to product details
                   window.location.href = `/product/${car.id}`;
