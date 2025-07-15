@@ -18,6 +18,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ProductCard } from "@/components/ui/product-card";
 import { cn } from "@/lib/utils";
 import {
   Star,
