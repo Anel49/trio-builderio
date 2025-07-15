@@ -9,12 +9,17 @@ interface ProductCardProps {
   name: string;
   price: string;
   rating: number;
-  trips: number;
+  trips?: number;
+  reviews?: number;
   image: string;
   host: string;
   type: string;
   location: string;
+  distance?: string;
   onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  className?: string;
 }
 
 export function ProductCard({
@@ -23,16 +28,23 @@ export function ProductCard({
   price,
   rating,
   trips,
+  reviews,
   image,
   host,
   type,
   location,
+  distance,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
+  className,
 }: ProductCardProps) {
   return (
     <Card
-      className="group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-105"
+      className={`group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-105 ${className || ""}`}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <div className="relative">
         <img src={image} alt={name} className="w-full h-48 object-cover" />
@@ -71,18 +83,31 @@ export function ProductCard({
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
             {rating}
           </div>
-          <div className="flex items-center">
-            <Clock className="h-4 w-4 mr-1" />
-            {trips} trips
-          </div>
+          {trips && (
+            <div className="flex items-center">
+              <Clock className="h-4 w-4 mr-1" />
+              {trips} trips
+            </div>
+          )}
+          {reviews && <div>({reviews} reviews)</div>}
         </div>
 
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">
             Hosted by {host}
           </span>
-          <span className="text-sm text-muted-foreground">{location}</span>
+          {distance ? (
+            <div className="flex items-center text-sm text-muted-foreground">
+              <MapPin className="h-3 w-3 mr-1" />
+              {distance}
+            </div>
+          ) : (
+            <span className="text-sm text-muted-foreground">{location}</span>
+          )}
         </div>
+        {distance && (
+          <div className="mt-3 text-sm text-muted-foreground">{location}</div>
+        )}
       </CardContent>
     </Card>
   );
