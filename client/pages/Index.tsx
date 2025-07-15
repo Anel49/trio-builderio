@@ -181,7 +181,7 @@ export default function Index() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600",
+                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white",
                         !pickupDate && "text-muted-foreground",
                       )}
                     >
@@ -205,7 +205,7 @@ export default function Index() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600",
+                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white",
                         !returnDate && "text-muted-foreground",
                       )}
                     >
