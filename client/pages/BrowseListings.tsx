@@ -15,6 +15,14 @@ import {
   Car,
 } from "lucide-react";
 
+// CSS animation for price popup fade in effect
+const fadeInStyle = `
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+`;
+
 export default function BrowseListings() {
   const [searchQuery, setSearchQuery] = useState("");
 
