@@ -319,7 +319,7 @@ export default function Login() {
               {/* Facebook Login */}
               <Button
                 variant="outline"
-                className="w-full hover:bg-blue-50 border-blue-200 hover:border-blue-300"
+                className="w-full"
                 onClick={handleFacebookLogin}
                 disabled={isLoading}
               >
