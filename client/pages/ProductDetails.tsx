@@ -17,6 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -239,6 +240,7 @@ export default function ProductDetails() {
                 <a href="/login">Log in</a>
               </Button>
               <Button>Sign up</Button>
+              <ThemeToggle />
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
               </Button>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Menu } from "lucide-react";
 
 // OAuth Configuration
@@ -265,6 +266,7 @@ export default function Login() {
               <Button variant="ghost" className="hidden md:inline-flex">
                 <a href="/signup">Sign up</a>
               </Button>
+              <ThemeToggle />
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
               </Button>

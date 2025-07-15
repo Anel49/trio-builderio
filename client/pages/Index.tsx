@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/popover";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
@@ -128,6 +129,7 @@ export default function Index() {
                 <a href="/login">Log in</a>
               </Button>
               <Button>Sign up</Button>
+              <ThemeToggle />
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
               </Button>
