@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Star, Clock, Heart } from "lucide-react";
+import { Star, Clock, Heart, MapPin } from "lucide-react";
 
 interface ProductCardProps {
   id: number;
