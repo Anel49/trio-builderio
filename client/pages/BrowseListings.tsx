@@ -233,10 +233,9 @@ export default function BrowseListings() {
                       className="absolute top-3 right-3 bg-white/80 hover:bg-white group"
                     >
                       <Heart
-                        className="h-4 w-4 transition-all duration-200 group-hover:fill-[#ff8585]"
+                        className="h-4 w-4 transition-all duration-200 fill-transparent group-hover:fill-[#ff8585]"
                         style={{
                           stroke: "#ff8585",
-                          fill: "transparent",
                         }}
                       />
                     </Button>
