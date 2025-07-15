@@ -98,11 +98,14 @@
 @layer base {
   * {
     @apply border-border;
-    transition:
-      background-color 0s,
-      color 0s,
-      border-color 0s,
-      box-shadow 0s;
+  }
+
+  /* Force instant color transitions while preserving transform transitions */
+  * {
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill,
+      stroke, box-shadow !important;
+    transition-duration: 0s !important;
   }
 
   body {
