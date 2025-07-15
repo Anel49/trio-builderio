@@ -98,6 +98,7 @@
 @layer base {
   * {
     @apply border-border;
+    transition-duration: 0s !important;
   }
 
   body {
