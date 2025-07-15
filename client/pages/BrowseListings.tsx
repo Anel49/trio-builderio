@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ProductCard } from "@/components/ui/product-card";
 import { cn } from "@/lib/utils";
 import {
   MapPin,
