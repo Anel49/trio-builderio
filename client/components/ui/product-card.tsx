@@ -83,12 +83,6 @@ export function ProductCard({
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
             {rating}
           </div>
-          {trips && (
-            <div className="flex items-center">
-              <Clock className="h-4 w-4 mr-1" />
-              {trips} trips
-            </div>
-          )}
           {reviews && <div>({reviews} reviews)</div>}
         </div>
 
@@ -96,18 +90,11 @@ export function ProductCard({
           <span className="text-sm text-muted-foreground">
             Hosted by {host}
           </span>
-          {distance ? (
-            <div className="flex items-center text-sm text-muted-foreground">
-              <MapPin className="h-3 w-3 mr-1" />
-              {distance}
-            </div>
-          ) : (
-            <span className="text-sm text-muted-foreground">{location}</span>
-          )}
+          <div className="flex items-center text-sm text-muted-foreground">
+            <MapPin className="h-3 w-3 mr-1" />
+            {distance}
+          </div>
         </div>
-        {distance && (
-          <div className="mt-3 text-sm text-muted-foreground">{location}</div>
-        )}
       </CardContent>
     </Card>
   );
