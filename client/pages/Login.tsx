@@ -62,30 +62,59 @@ export default function Login() {
   const handleFacebookLogin = async () => {
     setIsLoading(true);
     try {
+      // Check if we have a valid Facebook App ID
+      if (FACEBOOK_APP_ID === "demo-facebook-app-id") {
+        // Demo mode - simulate Facebook login
+        setTimeout(() => {
+          handleOAuthSuccess("facebook", {
+            authResponse: { accessToken: "demo-token" },
+            userInfo: { name: "Demo User", email: "demo@facebook.com" },
+          });
+          setIsLoading(false);
+        }, 1000);
+        return;
+      }
+
       // Load Facebook SDK
       if (!window.FB) {
         await loadFacebookScript();
       }
 
-      window.FB.login(
-        (response: any) => {
-          console.log("Facebook OAuth Response:", response);
-          if (response.authResponse) {
-            // Get user info
-            window.FB.api(
-              "/me",
-              { fields: "name,email,picture" },
-              (userInfo: any) => {
-                handleOAuthSuccess("facebook", { ...response, userInfo });
-              },
-            );
-          } else {
-            alert("Facebook login failed. Please try again.");
-          }
+      // Wait for SDK to be ready
+      window.FB.getLoginStatus((response: any) => {
+        if (response.status === "connected") {
+          // Already logged in
+          handleOAuthSuccess("facebook", response);
           setIsLoading(false);
-        },
-        { scope: "email,public_profile" },
-      );
+        } else {
+          // Not logged in, show login dialog
+          window.FB.login(
+            (loginResponse: any) => {
+              console.log("Facebook OAuth Response:", loginResponse);
+              if (loginResponse.authResponse) {
+                // Get user info
+                window.FB.api(
+                  "/me",
+                  { fields: "name,email,picture" },
+                  (userInfo: any) => {
+                    handleOAuthSuccess("facebook", {
+                      ...loginResponse,
+                      userInfo,
+                    });
+                  },
+                );
+              } else {
+                console.log("Facebook login cancelled or failed");
+                alert(
+                  "Facebook login was cancelled or failed. Please try again.",
+                );
+              }
+              setIsLoading(false);
+            },
+            { scope: "email,public_profile" },
+          );
+        }
+      });
     } catch (error) {
       console.error("Facebook login error:", error);
       alert("Facebook login failed. Please try again.");
@@ -162,22 +191,48 @@ export default function Login() {
         return;
       }
 
+      // Set up Facebook async init
       window.fbAsyncInit = function () {
-        window.FB.init({
-          appId: FACEBOOK_APP_ID,
-          cookie: true,
-          xfbml: true,
-          version: "v18.0",
-        });
-        resolve();
+        try {
+          window.FB.init({
+            appId: FACEBOOK_APP_ID,
+            cookie: true,
+            xfbml: true,
+            version: "v19.0",
+          });
+          console.log("Facebook SDK initialized successfully");
+          resolve();
+        } catch (error) {
+          console.error("Facebook SDK initialization error:", error);
+          reject(error);
+        }
       };
 
+      // Check if script already exists
+      if (document.getElementById("facebook-jssdk")) {
+        return;
+      }
+
       const script = document.createElement("script");
+      script.id = "facebook-jssdk";
       script.src = "https://connect.facebook.net/en_US/sdk.js";
       script.async = true;
       script.defer = true;
-      script.onerror = () => reject(new Error("Failed to load Facebook SDK"));
-      document.head.appendChild(script);
+      script.onload = () => {
+        console.log("Facebook SDK script loaded");
+      };
+      script.onerror = (error) => {
+        console.error("Failed to load Facebook SDK script:", error);
+        reject(new Error("Failed to load Facebook SDK"));
+      };
+
+      // Insert script
+      const firstScript = document.getElementsByTagName("script")[0];
+      if (firstScript && firstScript.parentNode) {
+        firstScript.parentNode.insertBefore(script, firstScript);
+      } else {
+        document.head.appendChild(script);
+      }
     });
   };
 
@@ -262,7 +317,7 @@ export default function Login() {
               {/* Facebook Login */}
               <Button
                 variant="outline"
-                className="w-full"
+                className="w-full hover:bg-blue-50 border-blue-200 hover:border-blue-300"
                 onClick={handleFacebookLogin}
                 disabled={isLoading}
               >
@@ -273,7 +328,7 @@ export default function Login() {
                 >
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
-                Continue with Facebook
+                {isLoading ? "Connecting..." : "Continue with Facebook"}
               </Button>
 
               {/* Microsoft Login */}
