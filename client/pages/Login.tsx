@@ -291,7 +291,7 @@ export default function Login() {
               {/* Google Login */}
               <Button
                 variant="outline"
-                className="w-full"
+                className="w-full hover:text-white"
                 onClick={handleGoogleLogin}
                 disabled={isLoading}
               >
@@ -319,7 +319,7 @@ export default function Login() {
               {/* Facebook Login */}
               <Button
                 variant="outline"
-                className="w-full"
+                className="w-full hover:text-white"
                 onClick={handleFacebookLogin}
                 disabled={isLoading}
               >
@@ -336,7 +336,7 @@ export default function Login() {
               {/* Microsoft Login */}
               <Button
                 variant="outline"
-                className="w-full"
+                className="w-full hover:text-white"
                 onClick={handleMicrosoftLogin}
                 disabled={isLoading}
               >
