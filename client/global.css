@@ -100,20 +100,32 @@
     @apply border-border;
   }
 
-  /* Force instant color transitions only */
-  * {
-    transition:
-      color 0s !important,
-      background-color 0s !important,
-      border-color 0s !important,
-      text-decoration-color 0s !important,
-      fill 0s !important,
-      stroke 0s !important,
-      box-shadow 0s !important,
-      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  }
-
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Override all color transitions to be instant while preserving transform */
+*,
+*::before,
+*::after {
+  transition-property: transform !important;
+  transition-duration: 0.3s !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Force all color-related properties to have no transition */
+* {
+  color: inherit !important;
+  background-color: var(--background) !important;
+  border-color: var(--border) !important;
+}
+
+/* Let elements override with their CSS custom properties */
+*[style*="color"],
+*[style*="background"],
+*[style*="border"] {
+  color: revert !important;
+  background-color: revert !important;
+  border-color: revert !important;
 }
