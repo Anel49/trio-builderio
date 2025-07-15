@@ -319,7 +319,7 @@ export default function ProductDetails() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-muted-foreground hover:text-destructive ml-4 h-8 w-8"
+                        className="text-muted-foreground hover:text-destructive ml-4 h-8 w-8 dark:hover:bg-red-600 dark:hover:text-white"
                       >
                         <Flag className="h-4 w-4" />
                       </Button>
