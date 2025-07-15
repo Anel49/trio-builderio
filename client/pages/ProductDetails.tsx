@@ -264,9 +264,14 @@ export default function ProductDetails() {
               <Button
                 size="icon"
                 variant="ghost"
-                className="absolute top-4 right-4 bg-white/80 hover:bg-white"
+                className="absolute top-4 right-4 bg-white/80 hover:bg-white group"
               >
-                <Heart className="h-5 w-5" />
+                <Heart
+                  className="h-5 w-5 transition-all duration-200 fill-transparent group-hover:fill-[#ff6f6f]"
+                  style={{
+                    stroke: "#ff6f6f",
+                  }}
+                />
               </Button>
             </div>
 
