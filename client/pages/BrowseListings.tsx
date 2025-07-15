@@ -308,7 +308,7 @@ export default function BrowseListings() {
                           {/* Map Pin */}
                           <div
                             className={cn(
-                              "w-8 h-8 rounded-full border-2 shadow-lg flex items-center justify-center text-xl font-bold cursor-pointer transition-all duration-200 relative",
+                              "w-8 h-8 rounded-full border-2 shadow-lg flex items-center justify-center text-base font-bold cursor-pointer transition-all duration-200 relative",
                               // Default style: light gray background, darker gray border, black text
                               selectedListing === listing.id ||
                                 hoveredListing === listing.id
