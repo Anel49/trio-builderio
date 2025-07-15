@@ -282,7 +282,7 @@ export default function Index() {
             {featuredCars.map((car) => (
               <Card
                 key={car.id}
-                className="group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden"
+                className="group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-105"
               >
                 <div className="relative">
                   <img
