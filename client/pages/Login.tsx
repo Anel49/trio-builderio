@@ -9,21 +9,24 @@ import { Eye, EyeOff, Menu } from "lucide-react";
 
 // OAuth Configuration
 const GOOGLE_CLIENT_ID =
-  process.env.REACT_APP_GOOGLE_CLIENT_ID || "your-google-client-id";
+  import.meta.env.VITE_GOOGLE_CLIENT_ID || "demo-google-client-id";
 const FACEBOOK_APP_ID =
-  process.env.REACT_APP_FACEBOOK_APP_ID || "your-facebook-app-id";
+  import.meta.env.VITE_FACEBOOK_APP_ID || "demo-facebook-app-id";
 const MICROSOFT_CLIENT_ID =
-  process.env.REACT_APP_MICROSOFT_CLIENT_ID || "your-microsoft-client-id";
+  import.meta.env.VITE_MICROSOFT_CLIENT_ID || "demo-microsoft-client-id";
 
 // Microsoft MSAL configuration
 const msalConfig = {
   auth: {
     clientId: MICROSOFT_CLIENT_ID,
     authority: "https://login.microsoftonline.com/common",
-    redirectUri: window.location.origin + "/login",
+    redirectUri:
+      typeof window !== "undefined"
+        ? window.location.origin + "/login"
+        : "http://localhost:8080/login",
   },
   cache: {
-    cacheLocation: "sessionStorage",
+    cacheLocation: "sessionStorage" as const,
     storeAuthStateInCookie: false,
   },
 };
