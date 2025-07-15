@@ -130,7 +130,7 @@ export default function BrowseListings() {
     <div className="min-h-screen bg-background">
       <style>{fadeInStyle}</style>
       {/* Header - Same as homepage */}
-      <header className="relative z-50 bg-white/95 backdrop-blur-sm border-b border-border/40">
+      <header className="relative z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-border/40 dark:border-gray-700/40">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
@@ -167,7 +167,7 @@ export default function BrowseListings() {
       </header>
 
       {/* Search Bar */}
-      <section className="bg-accent/30 py-6">
+      <section className="bg-accent/30 dark:bg-gray-800/30 py-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="relative flex-1 max-w-md">
