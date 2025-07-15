@@ -47,14 +47,14 @@ export function ProductCard({
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-3 right-3 bg-white/80 hover:bg-white group"
+          className="absolute top-3 right-3 bg-white/80 hover:bg-white hover:[&>svg]:fill-[#ff6f6f]"
           onClick={(e) => {
             e.stopPropagation();
             // Handle heart click
           }}
         >
           <Heart
-            className="h-4 w-4 transition-all duration-200 fill-transparent group-hover:fill-[#ff6f6f]"
+            className="h-4 w-4 transition-all duration-200 fill-transparent"
             style={{
               stroke: "#ff6f6f",
             }}
