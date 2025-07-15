@@ -308,7 +308,7 @@ export default function BrowseListings() {
                           {/* Map Pin */}
                           <div
                             className={cn(
-                              "w-10 h-10 rounded-full border-2 shadow-lg flex items-center justify-center text-sm font-bold cursor-pointer transition-all duration-200 relative",
+                              "w-8 h-8 rounded-full border-2 shadow-lg flex items-center justify-center text-lg font-bold cursor-pointer transition-all duration-200 relative",
                               // Default style: light gray background, darker gray border, black text
                               selectedListing === listing.id ||
                                 hoveredListing === listing.id
@@ -355,7 +355,7 @@ export default function BrowseListings() {
                           {(showPricePopup === listing.id ||
                             selectedListing === listing.id) && (
                             <div
-                              className="absolute -top-14 left-1/2 transform -translate-x-1/2 bg-primary text-white px-3 py-2 rounded text-sm font-semibold whitespace-nowrap shadow-lg z-20"
+                              className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-primary text-white px-3 py-2 rounded text-lg font-semibold whitespace-nowrap shadow-lg z-20"
                               style={{
                                 animation:
                                   showPricePopup === listing.id
