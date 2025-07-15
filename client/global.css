@@ -105,27 +105,17 @@
   }
 }
 
-/* Override all color transitions to be instant while preserving transform */
+/* Override Tailwind's default transitions - instant colors, smooth transforms */
 *,
 *::before,
 *::after {
-  transition-property: transform !important;
-  transition-duration: 0.3s !important;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* Force all color-related properties to have no transition */
-* {
-  color: inherit !important;
-  background-color: var(--background) !important;
-  border-color: var(--border) !important;
-}
-
-/* Let elements override with their CSS custom properties */
-*[style*="color"],
-*[style*="background"],
-*[style*="border"] {
-  color: revert !important;
-  background-color: revert !important;
-  border-color: revert !important;
+  transition:
+    color 0s,
+    background-color 0s,
+    border-color 0s,
+    text-decoration-color 0s,
+    fill 0s,
+    stroke 0s,
+    box-shadow 0s,
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
