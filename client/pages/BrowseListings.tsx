@@ -410,9 +410,11 @@ export default function BrowseListings() {
                     </div>
 
                     {/* Map Label */}
-                    <div className="absolute bottom-4 left-4 bg-white/90 px-3 py-2 rounded-lg">
-                      <p className="text-sm font-medium">Interactive Map</p>
-                      <p className="text-xs text-muted-foreground">
+                    <div className="absolute bottom-4 left-4 bg-white/90 dark:bg-gray-800/90 px-3 py-2 rounded-lg">
+                      <p className="text-sm font-medium dark:text-white">
+                        Interactive Map
+                      </p>
+                      <p className="text-xs text-muted-foreground dark:text-gray-300">
                         Click markers to view details
                       </p>
                     </div>
