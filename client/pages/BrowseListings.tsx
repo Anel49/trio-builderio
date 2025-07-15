@@ -211,8 +211,10 @@ export default function BrowseListings() {
                   key={listing.id}
                   id={`listing-${listing.id}`}
                   className={cn(
-                    "group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden",
-                    selectedListing === listing.id && "ring-2 ring-primary",
+                    "group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-105",
+                    selectedListing === listing.id &&
+                      "ring-2 ring-primary scale-105",
+                    hoveredListing === listing.id && "scale-105",
                   )}
                   onMouseEnter={() => setHoveredListing(listing.id)}
                   onMouseLeave={() => setHoveredListing(null)}
