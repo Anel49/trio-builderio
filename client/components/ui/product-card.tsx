@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,8 @@ export function ProductCard({
   onMouseLeave,
   className,
 }: ProductCardProps) {
+  const [isHeartHovered, setIsHeartHovered] = useState(false);
+
   return (
     <Card
       className={`group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-105 ${className || ""}`}
@@ -47,16 +49,19 @@ export function ProductCard({
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-3 right-3 bg-white/80 hover:bg-white hover:[&>svg]:fill-[#ff6f6f]"
+          className="absolute top-3 right-3 bg-white/80 hover:bg-white"
+          onMouseEnter={() => setIsHeartHovered(true)}
+          onMouseLeave={() => setIsHeartHovered(false)}
           onClick={(e) => {
             e.stopPropagation();
             // Handle heart click
           }}
         >
           <Heart
-            className="h-4 w-4 transition-all duration-200 fill-transparent"
+            className="h-4 w-4 transition-all duration-200"
             style={{
               stroke: "#ff6f6f",
+              fill: isHeartHovered ? "#ff6f6f" : "transparent",
             }}
           />
         </Button>
