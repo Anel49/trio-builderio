@@ -163,7 +163,7 @@ export default function Index() {
           </p>
 
           {/* Search Form */}
-          <Card className="max-w-4xl mx-auto bg-white shadow-2xl">
+          <Card className="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/30">
             <CardContent className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="md:col-span-2 relative">
@@ -172,7 +172,7 @@ export default function Index() {
                     placeholder="Where"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="pl-10 h-14 text-lg border-0 focus-visible:ring-1"
+                    className="pl-10 h-14 text-lg border-0 focus-visible:ring-1 dark:bg-gray-700 dark:placeholder:text-gray-400"
                   />
                 </div>
 
@@ -181,7 +181,7 @@ export default function Index() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1",
+                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600",
                         !pickupDate && "text-muted-foreground",
                       )}
                     >
@@ -205,7 +205,7 @@ export default function Index() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1",
+                        "h-14 justify-start text-left font-normal border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600",
                         !returnDate && "text-muted-foreground",
                       )}
                     >
