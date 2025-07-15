@@ -230,20 +230,13 @@ export default function BrowseListings() {
                     <Button
                       size="icon"
                       variant="ghost"
-                      className="absolute top-3 right-3 bg-white/80 hover:bg-white group"
-                      style={{ color: "#ff8585" }}
+                      className="absolute top-3 right-3 bg-white/80 hover:bg-white"
                     >
                       <Heart
-                        className="h-4 w-4 transition-all duration-200"
+                        className="h-4 w-4"
                         style={{
                           stroke: "#ff8585",
                           fill: "transparent",
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.fill = "#ff8585";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.fill = "transparent";
                         }}
                       />
                     </Button>
