@@ -140,7 +140,7 @@ export default function BrowseListings() {
             </div>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" className="hidden md:inline-flex">
-                Log in
+                <a href="/login">Log in</a>
               </Button>
               <Button>Sign up</Button>
               <Button variant="ghost" size="icon" className="md:hidden">
