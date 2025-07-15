@@ -54,7 +54,7 @@ export function ProductCard({
           }}
         >
           <Heart
-            className="h-4 w-4 transition-all duration-200 fill-transparent group-hover:fill-[#ff6f6f]"
+            className="h-4 w-4 transition-all duration-200 fill-transparent hover:fill-[#ff6f6f]"
             style={{
               stroke: "#ff6f6f",
             }}
