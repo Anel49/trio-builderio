@@ -112,9 +112,14 @@ export default function BrowseListings() {
   ];
 
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
+  const [hoveredListing, setHoveredListing] = useState<number | null>(null);
+  const [hoveredPin, setHoveredPin] = useState<number | null>(null);
+  const [showPricePopup, setShowPricePopup] = useState<number | null>(null);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
   return (
     <div className="min-h-screen bg-background">
+      <style>{fadeInStyle}</style>
       {/* Header - Same as homepage */}
       <header className="relative z-50 bg-white/95 backdrop-blur-sm border-b border-border/40">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -194,10 +199,13 @@ export default function BrowseListings() {
               {listings.map((listing) => (
                 <Card
                   key={listing.id}
+                  id={`listing-${listing.id}`}
                   className={cn(
                     "group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden",
                     selectedListing === listing.id && "ring-2 ring-primary",
                   )}
+                  onMouseEnter={() => setHoveredListing(listing.id)}
+                  onMouseLeave={() => setHoveredListing(null)}
                   onClick={() => {
                     setSelectedListing(listing.id);
                     window.location.href = `/product/${listing.id}`;
@@ -283,19 +291,75 @@ export default function BrowseListings() {
                       {listings.map((listing, index) => (
                         <div
                           key={listing.id}
-                          className={cn(
-                            "absolute w-8 h-8 rounded-full border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-bold cursor-pointer transition-all duration-200",
-                            selectedListing === listing.id
-                              ? "bg-primary scale-125 z-10"
-                              : "bg-blue-500 hover:scale-110",
-                          )}
+                          className="absolute"
                           style={{
                             left: `${20 + index * 15}%`,
                             top: `${25 + index * 12}%`,
                           }}
-                          onClick={() => setSelectedListing(listing.id)}
                         >
-                          {index + 1}
+                          {/* Map Pin */}
+                          <div
+                            className={cn(
+                              "w-8 h-8 rounded-full border-2 shadow-lg flex items-center justify-center text-xs font-bold cursor-pointer transition-all duration-200 relative",
+                              // Default style: light gray background, darker gray border, black text
+                              selectedListing === listing.id ||
+                                hoveredListing === listing.id
+                                ? "bg-primary border-white text-white scale-125 z-10"
+                                : "bg-gray-200 border-gray-400 text-black hover:scale-110",
+                            )}
+                            onClick={() => {
+                              setSelectedListing(listing.id);
+                              // Scroll to the listing
+                              const listingElement = document.getElementById(
+                                `listing-${listing.id}`,
+                              );
+                              if (listingElement) {
+                                listingElement.scrollIntoView({
+                                  behavior: "smooth",
+                                  block: "center",
+                                });
+                              }
+                            }}
+                            onMouseEnter={() => {
+                              setHoveredPin(listing.id);
+                              // Set timeout for price popup
+                              const timeout = setTimeout(() => {
+                                setShowPricePopup(listing.id);
+                              }, 200);
+                              setHoverTimeout(timeout);
+                            }}
+                            onMouseLeave={() => {
+                              setHoveredPin(null);
+                              // Clear timeout and hide popup unless pin is selected
+                              if (hoverTimeout) {
+                                clearTimeout(hoverTimeout);
+                                setHoverTimeout(null);
+                              }
+                              if (selectedListing !== listing.id) {
+                                setShowPricePopup(null);
+                              }
+                            }}
+                          >
+                            {index + 1}
+                          </div>
+
+                          {/* Price Popup */}
+                          {(showPricePopup === listing.id ||
+                            selectedListing === listing.id) && (
+                            <div
+                              className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs font-semibold whitespace-nowrap shadow-lg z-20"
+                              style={{
+                                animation:
+                                  showPricePopup === listing.id
+                                    ? "fadeIn 0.2s ease-in"
+                                    : undefined,
+                              }}
+                            >
+                              {listing.price}/day
+                              {/* Arrow */}
+                              <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-black"></div>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -325,33 +389,6 @@ export default function BrowseListings() {
                         Click markers to view details
                       </p>
                     </div>
-
-                    {/* Selected Listing Info */}
-                    {selectedListing && (
-                      <div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 max-w-48">
-                        {(() => {
-                          const selected = listings.find(
-                            (l) => l.id === selectedListing,
-                          );
-                          if (!selected) return null;
-                          return (
-                            <div>
-                              <h4 className="font-medium text-sm mb-1">
-                                {selected.name}
-                              </h4>
-                              <div className="flex items-center justify-between text-xs">
-                                <span className="text-muted-foreground">
-                                  {selected.distance}
-                                </span>
-                                <span className="font-bold text-primary">
-                                  {selected.price}/day
-                                </span>
-                              </div>
-                            </div>
-                          );
-                        })()}
-                      </div>
-                    )}
                   </div>
                 </CardContent>
               </Card>
