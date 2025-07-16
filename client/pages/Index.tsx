@@ -170,7 +170,7 @@ export default function Index() {
                     placeholder="Where"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="pl-10 h-14 text-lg border border-gray-300 dark:border-gray-600 focus-visible:ring-1 dark:bg-gray-700 dark:placeholder:text-gray-400"
+                    className="pl-10 h-14 text-lg border border-gray-200 dark:border-gray-700 focus-visible:ring-1 dark:bg-gray-700 dark:placeholder:text-gray-400"
                   />
                 </div>
 
@@ -179,7 +179,7 @@ export default function Index() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "h-14 justify-start text-left font-normal border border-gray-300 dark:border-gray-600 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white",
+                        "h-14 justify-start text-left font-normal border border-gray-200 dark:border-gray-700 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white",
                         !pickupDate && "text-muted-foreground",
                       )}
                     >
@@ -203,7 +203,7 @@ export default function Index() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "h-14 justify-start text-left font-normal border border-gray-300 dark:border-gray-600 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white",
+                        "h-14 justify-start text-left font-normal border border-gray-200 dark:border-gray-700 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white",
                         !returnDate && "text-muted-foreground",
                       )}
                     >
