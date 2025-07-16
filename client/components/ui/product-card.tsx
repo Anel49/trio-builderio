@@ -49,7 +49,7 @@ export function ProductCard({
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-3 right-3 bg-white/80 hover:bg-white"
+          className="absolute top-3 right-3 bg-white/80 hover:bg-white transition-all duration-200"
           onMouseEnter={() => setIsHeartHovered(true)}
           onMouseLeave={() => setIsHeartHovered(false)}
           onClick={(e) => {
@@ -58,10 +58,11 @@ export function ProductCard({
           }}
         >
           <Heart
-            className="h-4 w-4 transition-all duration-200"
+            className="h-4 w-4"
             style={{
               stroke: "#ff6f6f",
               fill: isHeartHovered ? "#ff6f6f" : "transparent",
+              transition: "fill 0.2s ease-in-out",
             }}
           />
         </Button>
