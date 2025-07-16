@@ -353,14 +353,14 @@ export default function BrowseListings() {
                       <Button
                         size="sm"
                         variant="secondary"
-                        className="w-8 h-8 p-0"
+                        className="w-8 h-8 p-0 flex items-center justify-center"
                       >
                         +
                       </Button>
                       <Button
                         size="sm"
                         variant="secondary"
-                        className="w-8 h-8 p-0"
+                        className="w-8 h-8 p-0 flex items-center justify-center"
                       >
                         −
                       </Button>
