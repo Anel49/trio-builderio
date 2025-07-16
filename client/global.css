@@ -119,3 +119,8 @@
     box-shadow 0s,
     transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
+
+/* Allow gradual transitions for heart icon */
+.heart-transition {
+  transition: fill 0.2s ease-in-out !important;
+}
