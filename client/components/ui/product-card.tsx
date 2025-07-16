@@ -58,11 +58,10 @@ export function ProductCard({
           }}
         >
           <Heart
-            className="h-4 w-4"
+            className="h-4 w-4 heart-transition"
             style={{
               stroke: "#ff6f6f",
               fill: isHeartHovered ? "#ff6f6f" : "transparent",
-              transition: "fill 0.2s ease-in-out",
             }}
           />
         </Button>
