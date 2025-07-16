@@ -49,7 +49,7 @@ export function ProductCard({
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-3 right-3 bg-white/80 hover:bg-white transition-all duration-200"
+          className="absolute top-3 right-3 bg-white/80 hover:bg-white heart-button-transition"
           onMouseEnter={() => setIsHeartHovered(true)}
           onMouseLeave={() => setIsHeartHovered(false)}
           onClick={(e) => {
