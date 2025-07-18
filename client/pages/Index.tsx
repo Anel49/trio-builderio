@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
+import { SignUpModal } from "@/components/ui/signup-modal";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
@@ -32,6 +33,7 @@ export default function Index() {
   const [pickupDate, setPickupDate] = useState<Date>();
   const [returnDate, setReturnDate] = useState<Date>();
   const [location, setLocation] = useState("");
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
 
   const featuredCars = [
     {
@@ -126,7 +128,9 @@ export default function Index() {
               <Button variant="ghost" className="hidden md:inline-flex">
                 <a href="/login">Log in</a>
               </Button>
-              <Button>Sign up</Button>
+              <Button onClick={() => setIsSignUpModalOpen(true)}>
+                Sign up
+              </Button>
               <ThemeToggle />
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
@@ -470,6 +474,11 @@ export default function Index() {
           </div>
         </div>
       </footer>
+
+      <SignUpModal
+        isOpen={isSignUpModalOpen}
+        onOpenChange={setIsSignUpModalOpen}
+      />
     </div>
   );
 }
