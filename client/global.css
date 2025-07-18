@@ -128,3 +128,10 @@
 .heart-button-transition {
   transition: background-color 0.2s ease-in-out !important;
 }
+
+/* Preserve dialog animations - don't override with global transform rule */
+[data-radix-popper-content-wrapper],
+[data-state="open"],
+[data-state="closed"] {
+  transition: none !important;
+}
