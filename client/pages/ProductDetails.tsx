@@ -20,6 +20,7 @@ import {
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
+import { LoginModal } from "@/components/ui/login-modal";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -42,6 +43,7 @@ export default function ProductDetails() {
   const [reviewSortBy, setReviewSortBy] = useState("newest");
   const [reviewRatingFilter, setReviewRatingFilter] = useState("all");
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const productImages = [
     "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
@@ -247,8 +249,12 @@ export default function ProductDetails() {
               </nav>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="hidden md:inline-flex">
-                <a href="/login">Log in</a>
+              <Button
+                variant="ghost"
+                className="hidden md:inline-flex"
+                onClick={() => setIsLoginModalOpen(true)}
+              >
+                Log in
               </Button>
               <Button onClick={() => setIsSignUpModalOpen(true)}>
                 Sign up
@@ -738,6 +744,14 @@ export default function ProductDetails() {
         </div>
       </footer>
 
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onOpenChange={setIsLoginModalOpen}
+        onSwitchToSignUp={() => {
+          setIsLoginModalOpen(false);
+          setIsSignUpModalOpen(true);
+        }}
+      />
       <SignUpModal
         isOpen={isSignUpModalOpen}
         onOpenChange={setIsSignUpModalOpen}
