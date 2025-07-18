@@ -36,10 +36,18 @@ import {
 export default function UploadProduct() {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Mock user profile data - in real app this would come from context/API
+  const userProfile = {
+    defaultLocation: "94102", // San Francisco zip code
+    hasLocation: true,
+  };
 
   const recommendedTags = [
     "Landscaping",
