@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { SignUpModal } from "@/components/ui/signup-modal";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -48,6 +49,7 @@ export default function UploadProduct() {
   const [pendingNavigation, setPendingNavigation] = useState<string | null>(
     null,
   );
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
@@ -508,7 +510,7 @@ export default function UploadProduct() {
               >
                 Log in
               </Button>
-              <Button onClick={() => handleNavigation("/signup")}>
+              <Button onClick={() => setIsSignUpModalOpen(true)}>
                 Sign up
               </Button>
               <ThemeToggle />
@@ -746,6 +748,10 @@ export default function UploadProduct() {
 
       <DraftDialog />
       <PreviewModal />
+      <SignUpModal
+        isOpen={isSignUpModalOpen}
+        onOpenChange={setIsSignUpModalOpen}
+      />
     </div>
   );
 }
