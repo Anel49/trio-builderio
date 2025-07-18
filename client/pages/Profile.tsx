@@ -23,6 +23,8 @@ import {
   X,
   Search,
   SlidersHorizontal,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -50,6 +52,42 @@ export default function Profile() {
   const [sellerReviewSortBy, setSellerReviewSortBy] = useState("newest");
   const [sellerReviewRatingFilter, setSellerReviewRatingFilter] =
     useState("all");
+
+  // Mobile tabs navigation
+  const [activeTab, setActiveTab] = useState("listings");
+  const tabs = [
+    {
+      id: "listings",
+      label: "Listed Items",
+      count: listedItems.length,
+      icon: Package,
+    },
+    {
+      id: "item-reviews",
+      label: "Item Reviews",
+      count: itemReviews.length,
+      icon: Star,
+    },
+    {
+      id: "seller-reviews",
+      label: "Seller Reviews",
+      count: sellerReviews.length,
+      icon: User,
+    },
+  ];
+  const currentTabIndex = tabs.findIndex((tab) => tab.id === activeTab);
+
+  const goToPrevTab = () => {
+    const prevIndex =
+      currentTabIndex > 0 ? currentTabIndex - 1 : tabs.length - 1;
+    setActiveTab(tabs[prevIndex].id);
+  };
+
+  const goToNextTab = () => {
+    const nextIndex =
+      currentTabIndex < tabs.length - 1 ? currentTabIndex + 1 : 0;
+    setActiveTab(tabs[nextIndex].id);
+  };
 
   // Mock user profile data
   const userProfile = {
