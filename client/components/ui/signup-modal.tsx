@@ -35,9 +35,14 @@ const msalConfig = {
 interface SignUpModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  onSwitchToLogin?: () => void;
 }
 
-export function SignUpModal({ isOpen, onOpenChange }: SignUpModalProps) {
+export function SignUpModal({
+  isOpen,
+  onOpenChange,
+  onSwitchToLogin,
+}: SignUpModalProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   // Google OAuth Signup
@@ -332,7 +337,9 @@ export function SignUpModal({ isOpen, onOpenChange }: SignUpModalProps) {
               className="p-0"
               onClick={() => {
                 onOpenChange(false);
-                window.location.href = "/login";
+                if (onSwitchToLogin) {
+                  onSwitchToLogin();
+                }
               }}
             >
               Sign in
