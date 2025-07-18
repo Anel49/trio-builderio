@@ -125,7 +125,7 @@ export default function UploadProduct() {
 
   const PreviewModal = () => (
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-      <DialogContent className="max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto mx-4">
+      <DialogContent className="max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-hidden lg:overflow-y-auto mx-4">
         <DialogHeader>
           <DialogTitle>Listing Preview</DialogTitle>
         </DialogHeader>
