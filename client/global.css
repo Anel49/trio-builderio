@@ -130,8 +130,13 @@
 }
 
 /* Preserve dialog animations - don't override with global transform rule */
-[data-radix-dialog-content],
-[data-radix-dialog-overlay] {
+*[role="dialog"],
+*[data-state] {
   transition: none !important;
+}
+
+/* Ensure dialog animations work properly */
+*[role="dialog"] {
   animation-duration: 200ms !important;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
