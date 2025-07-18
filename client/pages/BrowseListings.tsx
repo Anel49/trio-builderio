@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
@@ -168,6 +169,15 @@ export default function BrowseListings() {
               <Button onClick={() => setIsSignUpModalOpen(true)}>
                 Sign up
               </Button>
+              {/* Profile Picture Link */}
+              <Avatar className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity">
+                <AvatarImage
+                  src="https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=200&h=200&fit=crop&auto=format"
+                  alt="Profile"
+                  onClick={() => (window.location.href = "/profile")}
+                />
+                <AvatarFallback>SM</AvatarFallback>
+              </Avatar>
               <ThemeToggle />
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
