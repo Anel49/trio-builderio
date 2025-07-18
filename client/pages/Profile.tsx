@@ -21,8 +21,17 @@ import {
   Menu,
   Check,
   X,
+  Search,
+  SlidersHorizontal,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Profile() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
@@ -30,6 +39,17 @@ export default function Profile() {
   const [isEditingZipCode, setIsEditingZipCode] = useState(false);
   const [zipCode, setZipCode] = useState("94102");
   const [tempZipCode, setTempZipCode] = useState("");
+
+  // Item reviews search and filter state
+  const [itemReviewSearchQuery, setItemReviewSearchQuery] = useState("");
+  const [itemReviewSortBy, setItemReviewSortBy] = useState("newest");
+  const [itemReviewRatingFilter, setItemReviewRatingFilter] = useState("all");
+
+  // Seller reviews search and filter state
+  const [sellerReviewSearchQuery, setSellerReviewSearchQuery] = useState("");
+  const [sellerReviewSortBy, setSellerReviewSortBy] = useState("newest");
+  const [sellerReviewRatingFilter, setSellerReviewRatingFilter] =
+    useState("all");
 
   // Mock user profile data
   const userProfile = {
