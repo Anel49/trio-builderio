@@ -118,6 +118,7 @@ export default function Profile() {
       reviewer: "Mike Johnson",
       rating: 5,
       date: "2 weeks ago",
+      dateValue: new Date("2024-12-01"),
       comment:
         "Excellent mower! Cut my 2-acre property with ease. Sarah was very helpful and the pickup/drop-off was smooth.",
     },
@@ -127,6 +128,7 @@ export default function Profile() {
       reviewer: "Jennifer Lee",
       rating: 5,
       date: "1 month ago",
+      dateValue: new Date("2024-11-15"),
       comment:
         "Perfect tools for my home renovation project. All tools were in great condition and very well maintained.",
     },
@@ -136,6 +138,7 @@ export default function Profile() {
       reviewer: "David Chen",
       rating: 4,
       date: "2 months ago",
+      dateValue: new Date("2024-10-20"),
       comment:
         "Great sound quality for our outdoor party. Easy setup and Sarah provided clear instructions.",
     },
@@ -148,6 +151,7 @@ export default function Profile() {
       reviewer: "Emily Rodriguez",
       rating: 5,
       date: "1 week ago",
+      dateValue: new Date("2024-12-08"),
       comment:
         "Sarah is an amazing host! Very responsive, friendly, and her items are always in perfect condition. Highly recommend!",
     },
@@ -156,6 +160,7 @@ export default function Profile() {
       reviewer: "Robert Smith",
       rating: 5,
       date: "3 weeks ago",
+      dateValue: new Date("2024-11-25"),
       comment:
         "Fantastic experience renting from Sarah. Quick responses, flexible pickup times, and excellent communication throughout.",
     },
@@ -164,6 +169,7 @@ export default function Profile() {
       reviewer: "Lisa Wang",
       rating: 4,
       date: "1 month ago",
+      dateValue: new Date("2024-11-15"),
       comment:
         "Great host with quality items. Sarah was very accommodating with timing and provided helpful usage tips.",
     },
@@ -258,14 +264,10 @@ export default function Profile() {
     // Sort reviews
     switch (itemReviewSortBy) {
       case "newest":
-        filtered.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
+        filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
         break;
       case "oldest":
-        filtered.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-        );
+        filtered.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);
@@ -312,14 +314,10 @@ export default function Profile() {
     // Sort reviews
     switch (sellerReviewSortBy) {
       case "newest":
-        filtered.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
+        filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
         break;
       case "oldest":
-        filtered.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-        );
+        filtered.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);
