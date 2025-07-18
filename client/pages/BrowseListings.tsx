@@ -170,11 +170,13 @@ export default function BrowseListings() {
                 Sign up
               </Button>
               {/* Profile Picture Link */}
-              <Avatar className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity">
+              <Avatar
+                className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => (window.location.href = "/profile")}
+              >
                 <AvatarImage
                   src="https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=200&h=200&fit=crop&auto=format"
                   alt="Profile"
-                  onClick={() => (window.location.href = "/profile")}
                 />
                 <AvatarFallback>SM</AvatarFallback>
               </Avatar>
