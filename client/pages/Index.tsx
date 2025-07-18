@@ -14,6 +14,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
+import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
@@ -37,6 +38,7 @@ export default function Index() {
   const [location, setLocation] = useState("");
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const featuredCars = [
     {
@@ -150,7 +152,12 @@ export default function Index() {
                 <AvatarFallback>SM</AvatarFallback>
               </Avatar>
               <ThemeToggle />
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
@@ -508,6 +515,10 @@ export default function Index() {
           setIsSignUpModalOpen(false);
           setIsLoginModalOpen(true);
         }}
+      />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onOpenChange={setIsMobileMenuOpen}
       />
     </div>
   );
