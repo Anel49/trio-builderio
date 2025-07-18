@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,6 +18,7 @@ import {
   Menu,
   Plus,
   Flag,
+  Save,
 } from "lucide-react";
 import {
   Dialog,
@@ -42,12 +43,72 @@ export default function UploadProduct() {
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isListed, setIsListed] = useState(false);
+  const [showDraftDialog, setShowDraftDialog] = useState(false);
+  const [pendingNavigation, setPendingNavigation] = useState<string | null>(
+    null,
+  );
+  const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
+    null,
+  );
 
   // Mock user profile data - in real app this would come from context/API
   const userProfile = {
     defaultLocation: "94102", // San Francisco zip code
     hasLocation: true,
   };
+
+  // Check if form has content that should be saved
+  const hasContent = () => {
+    return (
+      title.trim() !== "" ||
+      price.trim() !== "" ||
+      location.trim() !== "" ||
+      description.trim() !== "" ||
+      selectedTags.length > 0 ||
+      uploadedImages.length > 0
+    );
+  };
+
+  // Handle navigation protection
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (!isListed && hasContent()) {
+        e.preventDefault();
+        e.returnValue = "";
+        return "";
+      }
+    };
+
+    const handlePopState = (e: PopStateEvent) => {
+      if (!isListed && hasContent()) {
+        e.preventDefault();
+        setShowDraftDialog(true);
+        setPendingNavigation("back");
+        // Push current state back to prevent navigation
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("popstate", handlePopState);
+
+    // Push initial state to detect back button
+    window.history.pushState(null, "", window.location.href);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [
+    isListed,
+    title,
+    price,
+    location,
+    description,
+    selectedTags,
+    uploadedImages,
+  ]);
 
   const recommendedTags = [
     "Landscaping",
@@ -113,6 +174,62 @@ export default function UploadProduct() {
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // Handle navigation with draft protection
+  const handleNavigation = (href: string, callback?: () => void) => {
+    if (!isListed && hasContent()) {
+      navigationRef.current = { href, callback };
+      setShowDraftDialog(true);
+      setPendingNavigation(href);
+    } else {
+      if (callback) {
+        callback();
+      } else {
+        window.location.href = href;
+      }
+    }
+  };
+
+  // Handle draft dialog responses
+  const handleSaveDraft = () => {
+    // Save draft logic here (API call, localStorage, etc.)
+    console.log("Saving draft:", {
+      title,
+      price,
+      location,
+      description,
+      selectedTags,
+      uploadedImages,
+    });
+
+    setShowDraftDialog(false);
+    proceedWithNavigation();
+  };
+
+  const handleDiscardDraft = () => {
+    setShowDraftDialog(false);
+    proceedWithNavigation();
+  };
+
+  const proceedWithNavigation = () => {
+    if (pendingNavigation === "back") {
+      window.history.back();
+    } else if (navigationRef.current) {
+      if (navigationRef.current.callback) {
+        navigationRef.current.callback();
+      } else {
+        window.location.href = navigationRef.current.href;
+      }
+    }
+    setPendingNavigation(null);
+    navigationRef.current = null;
+  };
+
+  const handleListProduct = () => {
+    // Product listing logic here
+    setIsListed(true);
+    console.log("Product listed successfully!");
+  };
+
   const mockHost = {
     name: "You",
     image:
@@ -122,6 +239,35 @@ export default function UploadProduct() {
     joinedDate: "2024",
     responseTime: "within an hour",
   };
+
+  const DraftDialog = () => (
+    <Dialog open={showDraftDialog} onOpenChange={() => {}}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>Save as Draft?</DialogTitle>
+        </DialogHeader>
+        <div className="py-4">
+          <p className="text-muted-foreground">
+            You have unsaved changes. Would you like to save this listing as a
+            draft before leaving?
+          </p>
+        </div>
+        <div className="flex gap-4">
+          <Button
+            variant="outline"
+            className="flex-1"
+            onClick={handleDiscardDraft}
+          >
+            No, Discard
+          </Button>
+          <Button className="flex-1" onClick={handleSaveDraft}>
+            <Save className="h-4 w-4 mr-2" />
+            Yes, Save Draft
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 
   const PreviewModal = () => (
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
@@ -332,15 +478,20 @@ export default function UploadProduct() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
               <div className="text-2xl font-semibold">
-                <a href="/">Trio</a>
+                <button
+                  onClick={() => handleNavigation("/")}
+                  className="hover:text-primary transition-colors"
+                >
+                  Trio
+                </button>
               </div>
               <nav className="hidden md:flex space-x-8">
-                <a
-                  href="/browse"
+                <button
+                  onClick={() => handleNavigation("/browse")}
                   className="text-foreground hover:text-primary transition-colors"
                 >
                   Browse listings
-                </a>
+                </button>
                 <a
                   href="/upload"
                   className="text-primary font-medium hover:text-primary transition-colors"
@@ -350,10 +501,16 @@ export default function UploadProduct() {
               </nav>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="hidden md:inline-flex">
-                <a href="/login">Log in</a>
+              <Button
+                variant="ghost"
+                className="hidden md:inline-flex"
+                onClick={() => handleNavigation("/login")}
+              >
+                Log in
               </Button>
-              <Button>Sign up</Button>
+              <Button onClick={() => handleNavigation("/signup")}>
+                Sign up
+              </Button>
               <ThemeToggle />
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
@@ -574,7 +731,11 @@ export default function UploadProduct() {
                 </Button>
 
                 {/* Submit Button */}
-                <Button className="w-full" size="lg">
+                <Button
+                  className="w-full"
+                  size="lg"
+                  onClick={handleListProduct}
+                >
                   List Product
                 </Button>
               </CardContent>
@@ -583,6 +744,7 @@ export default function UploadProduct() {
         </div>
       </div>
 
+      <DraftDialog />
       <PreviewModal />
     </div>
   );
