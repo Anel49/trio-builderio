@@ -50,26 +50,11 @@ export default function Profile() {
   // Seller reviews search and filter state
   const [sellerReviewSearchQuery, setSellerReviewSearchQuery] = useState("");
   const [sellerReviewSortBy, setSellerReviewSortBy] = useState("newest");
-  const [sellerReviewRatingFilter, setSellerReviewRatingFilter] = useState("all");
+  const [sellerReviewRatingFilter, setSellerReviewRatingFilter] =
+    useState("all");
 
   // Mobile tabs navigation
   const [activeTab, setActiveTab] = useState("listings");
-  const tabs = [
-    { id: "listings", label: "Listed Items", count: listedItems.length, icon: Package },
-    { id: "item-reviews", label: "Item Reviews", count: itemReviews.length, icon: Star },
-    { id: "seller-reviews", label: "Seller Reviews", count: sellerReviews.length, icon: User },
-  ];
-  const currentTabIndex = tabs.findIndex(tab => tab.id === activeTab);
-
-  const goToPrevTab = () => {
-    const prevIndex = currentTabIndex > 0 ? currentTabIndex - 1 : tabs.length - 1;
-    setActiveTab(tabs[prevIndex].id);
-  };
-
-  const goToNextTab = () => {
-    const nextIndex = currentTabIndex < tabs.length - 1 ? currentTabIndex + 1 : 0;
-    setActiveTab(tabs[nextIndex].id);
-  };
 
   // Mock user profile data
   const userProfile = {
@@ -182,6 +167,40 @@ export default function Profile() {
     },
   ];
 
+  const tabs = [
+    {
+      id: "listings",
+      label: "Listed Items",
+      count: listedItems.length,
+      icon: Package,
+    },
+    {
+      id: "item-reviews",
+      label: "Item Reviews",
+      count: itemReviews.length,
+      icon: Star,
+    },
+    {
+      id: "seller-reviews",
+      label: "Seller Reviews",
+      count: sellerReviews.length,
+      icon: User,
+    },
+  ];
+  const currentTabIndex = tabs.findIndex((tab) => tab.id === activeTab);
+
+  const goToPrevTab = () => {
+    const prevIndex =
+      currentTabIndex > 0 ? currentTabIndex - 1 : tabs.length - 1;
+    setActiveTab(tabs[prevIndex].id);
+  };
+
+  const goToNextTab = () => {
+    const nextIndex =
+      currentTabIndex < tabs.length - 1 ? currentTabIndex + 1 : 0;
+    setActiveTab(tabs[nextIndex].id);
+  };
+
   const handleZipCodeEdit = () => {
     setTempZipCode(zipCode);
     setIsEditingZipCode(true);
@@ -215,9 +234,15 @@ export default function Profile() {
     if (itemReviewSearchQuery) {
       filtered = filtered.filter(
         (review) =>
-          review.comment.toLowerCase().includes(itemReviewSearchQuery.toLowerCase()) ||
-          review.reviewer.toLowerCase().includes(itemReviewSearchQuery.toLowerCase()) ||
-          review.itemName.toLowerCase().includes(itemReviewSearchQuery.toLowerCase()),
+          review.comment
+            .toLowerCase()
+            .includes(itemReviewSearchQuery.toLowerCase()) ||
+          review.reviewer
+            .toLowerCase()
+            .includes(itemReviewSearchQuery.toLowerCase()) ||
+          review.itemName
+            .toLowerCase()
+            .includes(itemReviewSearchQuery.toLowerCase()),
       );
     }
 
@@ -231,10 +256,14 @@ export default function Profile() {
     // Sort reviews
     switch (itemReviewSortBy) {
       case "newest":
-        filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        filtered.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
         break;
       case "oldest":
-        filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        filtered.sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        );
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);
@@ -247,7 +276,12 @@ export default function Profile() {
     }
 
     return filtered;
-  }, [itemReviews, itemReviewSearchQuery, itemReviewSortBy, itemReviewRatingFilter]);
+  }, [
+    itemReviews,
+    itemReviewSearchQuery,
+    itemReviewSortBy,
+    itemReviewRatingFilter,
+  ]);
 
   // Filter and sort seller reviews
   const filteredAndSortedSellerReviews = useMemo(() => {
@@ -257,8 +291,12 @@ export default function Profile() {
     if (sellerReviewSearchQuery) {
       filtered = filtered.filter(
         (review) =>
-          review.comment.toLowerCase().includes(sellerReviewSearchQuery.toLowerCase()) ||
-          review.reviewer.toLowerCase().includes(sellerReviewSearchQuery.toLowerCase()),
+          review.comment
+            .toLowerCase()
+            .includes(sellerReviewSearchQuery.toLowerCase()) ||
+          review.reviewer
+            .toLowerCase()
+            .includes(sellerReviewSearchQuery.toLowerCase()),
       );
     }
 
@@ -272,10 +310,14 @@ export default function Profile() {
     // Sort reviews
     switch (sellerReviewSortBy) {
       case "newest":
-        filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        filtered.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
         break;
       case "oldest":
-        filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        filtered.sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        );
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);
@@ -288,7 +330,12 @@ export default function Profile() {
     }
 
     return filtered;
-  }, [sellerReviews, sellerReviewSearchQuery, sellerReviewSortBy, sellerReviewRatingFilter]);
+  }, [
+    sellerReviews,
+    sellerReviewSearchQuery,
+    sellerReviewSortBy,
+    sellerReviewRatingFilter,
+  ]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -326,7 +373,7 @@ export default function Profile() {
               <Button onClick={() => setIsSignUpModalOpen(true)}>
                 Sign up
               </Button>
-              {/* Profile Picture Link */}
+              {/* Profile Picture Link - Blue outline when on profile page */}
               <Avatar className="h-8 w-8 cursor-pointer hover:opacity-80 transition-all ring-2 ring-primary">
                 <AvatarImage
                   src={userProfile.profileImage}
@@ -475,7 +522,7 @@ export default function Profile() {
                     <Button
                       variant="outline"
                       className="w-full"
-                      onClick={() => window.location.href = '/upload'}
+                      onClick={() => (window.location.href = "/upload")}
                     >
                       <Package className="h-4 w-4 mr-2" />
                       Add New Listing
@@ -501,9 +548,12 @@ export default function Profile() {
                 </Button>
 
                 <div className="flex items-center space-x-2 flex-1 justify-center">
-                  {React.createElement(tabs[currentTabIndex].icon, { className: "h-4 w-4" })}
+                  {React.createElement(tabs[currentTabIndex].icon, {
+                    className: "h-4 w-4",
+                  })}
                   <span className="font-medium text-sm">
-                    {tabs[currentTabIndex].label} ({tabs[currentTabIndex].count})
+                    {tabs[currentTabIndex].label} ({tabs[currentTabIndex].count}
+                    )
                   </span>
                 </div>
 
@@ -520,7 +570,11 @@ export default function Profile() {
 
             {/* Desktop Tabs */}
             <div className="hidden md:block">
-              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <Tabs
+                value={activeTab}
+                onValueChange={setActiveTab}
+                className="w-full"
+              >
                 <TabsList className="grid w-full grid-cols-3 mb-6">
                   <TabsTrigger
                     value="listings"
@@ -552,7 +606,7 @@ export default function Profile() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold">Your Listed Items</h2>
-                  <Button onClick={() => window.location.href = '/upload'}>
+                  <Button onClick={() => (window.location.href = "/upload")}>
                     <Package className="h-4 w-4 mr-2" />
                     Add New Item
                   </Button>
@@ -580,288 +634,265 @@ export default function Profile() {
             )}
 
             {activeTab === "item-reviews" && (
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold">Your Listed Items</h2>
-                    <Button onClick={() => window.location.href = '/upload'}>
-                      <Package className="h-4 w-4 mr-2" />
-                      Add New Item
-                    </Button>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold">Reviews for Your Items</h2>
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={cn(
+                            "h-4 w-4",
+                            i < Math.floor(parseFloat(calculateAvgItemRating()))
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-300",
+                          )}
+                        />
+                      ))}
+                    </div>
+                    <span className="font-medium">
+                      {calculateAvgItemRating()}
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      ({itemReviews.length} reviews)
+                    </span>
                   </div>
+                </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {listedItems.map((item) => (
-                      <ProductCard
-                        key={item.id}
-                        id={item.id}
-                        name={item.name}
-                        price={item.price}
-                        rating={item.rating}
-                        image={item.image}
-                        host={item.host}
-                        type={item.type}
-                        distance={item.distance}
-                        onClick={() => {
-                          window.location.href = `/product/${item.id}`;
-                        }}
+                {/* Review Filters and Controls */}
+                <div className="mb-8 space-y-4">
+                  <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+                    {/* Search Reviews */}
+                    <div className="relative flex-1 max-w-md">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        placeholder="Search reviews..."
+                        value={itemReviewSearchQuery}
+                        onChange={(e) =>
+                          setItemReviewSearchQuery(e.target.value)
+                        }
+                        className="pl-9"
                       />
-                    ))}
+                    </div>
+
+                    {/* Sort By */}
+                    <div className="flex items-center gap-2">
+                      <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
+                      <Select
+                        value={itemReviewSortBy}
+                        onValueChange={setItemReviewSortBy}
+                      >
+                        <SelectTrigger className="w-48">
+                          <SelectValue placeholder="Sort by" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="newest">Newest first</SelectItem>
+                          <SelectItem value="oldest">Oldest first</SelectItem>
+                          <SelectItem value="rating-high">
+                            Highest rating
+                          </SelectItem>
+                          <SelectItem value="rating-low">
+                            Lowest rating
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Filter by Rating */}
+                    <div className="flex items-center gap-2">
+                      <Star className="h-4 w-4 text-muted-foreground" />
+                      <Select
+                        value={itemReviewRatingFilter}
+                        onValueChange={setItemReviewRatingFilter}
+                      >
+                        <SelectTrigger className="w-40">
+                          <SelectValue placeholder="All ratings" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All ratings</SelectItem>
+                          <SelectItem value="5">5 stars</SelectItem>
+                          <SelectItem value="4">4 stars</SelectItem>
+                          <SelectItem value="3">3 stars</SelectItem>
+                          <SelectItem value="2">2 stars</SelectItem>
+                          <SelectItem value="1">1 star</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {/* Results Count */}
+                  <div className="text-sm text-muted-foreground">
+                    Showing {filteredAndSortedItemReviews.length} of{" "}
+                    {itemReviews.length} reviews
                   </div>
                 </div>
-              </TabsContent>
 
-              {/* Item Reviews Tab */}
-              <TabsContent value="item-reviews">
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold">
-                      Reviews for Your Items
-                    </h2>
-                    <div className="flex items-center space-x-2">
-                      <div className="flex items-center">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={cn(
-                              "h-4 w-4",
-                              i <
-                                Math.floor(parseFloat(calculateAvgItemRating()))
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "text-gray-300",
-                            )}
-                          />
-                        ))}
-                      </div>
-                      <span className="font-medium">
-                        {calculateAvgItemRating()}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        ({itemReviews.length} reviews)
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Review Filters and Controls */}
-                  <div className="mb-8 space-y-4">
-                    <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-                      {/* Search Reviews */}
-                      <div className="relative flex-1 max-w-md">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          placeholder="Search reviews..."
-                          value={itemReviewSearchQuery}
-                          onChange={(e) => setItemReviewSearchQuery(e.target.value)}
-                          className="pl-9"
-                        />
-                      </div>
-
-                      {/* Sort By */}
-                      <div className="flex items-center gap-2">
-                        <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-                        <Select value={itemReviewSortBy} onValueChange={setItemReviewSortBy}>
-                          <SelectTrigger className="w-48">
-                            <SelectValue placeholder="Sort by" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="newest">Newest first</SelectItem>
-                            <SelectItem value="oldest">Oldest first</SelectItem>
-                            <SelectItem value="rating-high">Highest rating</SelectItem>
-                            <SelectItem value="rating-low">Lowest rating</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      {/* Filter by Rating */}
-                      <div className="flex items-center gap-2">
-                        <Star className="h-4 w-4 text-muted-foreground" />
-                        <Select
-                          value={itemReviewRatingFilter}
-                          onValueChange={setItemReviewRatingFilter}
-                        >
-                          <SelectTrigger className="w-40">
-                            <SelectValue placeholder="All ratings" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="all">All ratings</SelectItem>
-                            <SelectItem value="5">5 stars</SelectItem>
-                            <SelectItem value="4">4 stars</SelectItem>
-                            <SelectItem value="3">3 stars</SelectItem>
-                            <SelectItem value="2">2 stars</SelectItem>
-                            <SelectItem value="1">1 star</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    {/* Results Count */}
-                    <div className="text-sm text-muted-foreground">
-                      Showing {filteredAndSortedItemReviews.length} of {itemReviews.length} reviews
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    {filteredAndSortedItemReviews.map((review) => (
-                      <Card key={review.id}>
-                        <CardContent className="p-6">
-                          <div className="flex items-start justify-between mb-3">
-                            <div>
-                              <h4 className="font-semibold">
-                                {review.itemName}
-                              </h4>
-                              <p className="text-sm text-muted-foreground">
-                                Review by {review.reviewer} • {review.date}
-                              </p>
-                            </div>
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={cn(
-                                    "h-4 w-4",
-                                    i < review.rating
-                                      ? "fill-yellow-400 text-yellow-400"
-                                      : "text-gray-300",
-                                  )}
-                                />
-                              ))}
-                            </div>
+                <div className="space-y-4">
+                  {filteredAndSortedItemReviews.map((review) => (
+                    <Card key={review.id}>
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h4 className="font-semibold">{review.itemName}</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Review by {review.reviewer} • {review.date}
+                            </p>
                           </div>
-                          <p className="text-muted-foreground">
-                            {review.comment}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              </TabsContent>
-
-              {/* Seller Reviews Tab */}
-              <TabsContent value="seller-reviews">
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold">Reviews as a Seller</h2>
-                    <div className="flex items-center space-x-2">
-                      <div className="flex items-center">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={cn(
-                              "h-4 w-4",
-                              i <
-                                Math.floor(
-                                  parseFloat(calculateAvgSellerRating()),
-                                )
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "text-gray-300",
-                            )}
-                          />
-                        ))}
-                      </div>
-                      <span className="font-medium">
-                        {calculateAvgSellerRating()}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        ({sellerReviews.length} reviews)
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Review Filters and Controls */}
-                  <div className="mb-8 space-y-4">
-                    <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-                      {/* Search Reviews */}
-                      <div className="relative flex-1 max-w-md">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          placeholder="Search reviews..."
-                          value={sellerReviewSearchQuery}
-                          onChange={(e) => setSellerReviewSearchQuery(e.target.value)}
-                          className="pl-9"
-                        />
-                      </div>
-
-                      {/* Sort By */}
-                      <div className="flex items-center gap-2">
-                        <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-                        <Select value={sellerReviewSortBy} onValueChange={setSellerReviewSortBy}>
-                          <SelectTrigger className="w-48">
-                            <SelectValue placeholder="Sort by" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="newest">Newest first</SelectItem>
-                            <SelectItem value="oldest">Oldest first</SelectItem>
-                            <SelectItem value="rating-high">Highest rating</SelectItem>
-                            <SelectItem value="rating-low">Lowest rating</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      {/* Filter by Rating */}
-                      <div className="flex items-center gap-2">
-                        <Star className="h-4 w-4 text-muted-foreground" />
-                        <Select
-                          value={sellerReviewRatingFilter}
-                          onValueChange={setSellerReviewRatingFilter}
-                        >
-                          <SelectTrigger className="w-40">
-                            <SelectValue placeholder="All ratings" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="all">All ratings</SelectItem>
-                            <SelectItem value="5">5 stars</SelectItem>
-                            <SelectItem value="4">4 stars</SelectItem>
-                            <SelectItem value="3">3 stars</SelectItem>
-                            <SelectItem value="2">2 stars</SelectItem>
-                            <SelectItem value="1">1 star</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    {/* Results Count */}
-                    <div className="text-sm text-muted-foreground">
-                      Showing {filteredAndSortedSellerReviews.length} of {sellerReviews.length} reviews
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    {filteredAndSortedSellerReviews.map((review) => (
-                      <Card key={review.id}>
-                        <CardContent className="p-6">
-                          <div className="flex items-start justify-between mb-3">
-                            <div>
-                              <h4 className="font-semibold">
-                                {review.reviewer}
-                              </h4>
-                              <p className="text-sm text-muted-foreground">
-                                {review.date}
-                              </p>
-                            </div>
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={cn(
-                                    "h-4 w-4",
-                                    i < review.rating
-                                      ? "fill-yellow-400 text-yellow-400"
-                                      : "text-gray-300",
-                                  )}
-                                />
-                              ))}
-                            </div>
+                          <div className="flex items-center">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={cn(
+                                  "h-4 w-4",
+                                  i < review.rating
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-gray-300",
+                                )}
+                              />
+                            ))}
                           </div>
-                          <p className="text-muted-foreground">
-                            {review.comment}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    ))}
+                        </div>
+                        <p className="text-muted-foreground">
+                          {review.comment}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === "seller-reviews" && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold">Reviews as a Seller</h2>
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={cn(
+                            "h-4 w-4",
+                            i <
+                              Math.floor(parseFloat(calculateAvgSellerRating()))
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-300",
+                          )}
+                        />
+                      ))}
+                    </div>
+                    <span className="font-medium">
+                      {calculateAvgSellerRating()}
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      ({sellerReviews.length} reviews)
+                    </span>
                   </div>
                 </div>
-              </TabsContent>
-            </Tabs>
+
+                {/* Review Filters and Controls */}
+                <div className="mb-8 space-y-4">
+                  <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+                    {/* Search Reviews */}
+                    <div className="relative flex-1 max-w-md">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        placeholder="Search reviews..."
+                        value={sellerReviewSearchQuery}
+                        onChange={(e) =>
+                          setSellerReviewSearchQuery(e.target.value)
+                        }
+                        className="pl-9"
+                      />
+                    </div>
+
+                    {/* Sort By */}
+                    <div className="flex items-center gap-2">
+                      <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
+                      <Select
+                        value={sellerReviewSortBy}
+                        onValueChange={setSellerReviewSortBy}
+                      >
+                        <SelectTrigger className="w-48">
+                          <SelectValue placeholder="Sort by" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="newest">Newest first</SelectItem>
+                          <SelectItem value="oldest">Oldest first</SelectItem>
+                          <SelectItem value="rating-high">
+                            Highest rating
+                          </SelectItem>
+                          <SelectItem value="rating-low">
+                            Lowest rating
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Filter by Rating */}
+                    <div className="flex items-center gap-2">
+                      <Star className="h-4 w-4 text-muted-foreground" />
+                      <Select
+                        value={sellerReviewRatingFilter}
+                        onValueChange={setSellerReviewRatingFilter}
+                      >
+                        <SelectTrigger className="w-40">
+                          <SelectValue placeholder="All ratings" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All ratings</SelectItem>
+                          <SelectItem value="5">5 stars</SelectItem>
+                          <SelectItem value="4">4 stars</SelectItem>
+                          <SelectItem value="3">3 stars</SelectItem>
+                          <SelectItem value="2">2 stars</SelectItem>
+                          <SelectItem value="1">1 star</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {/* Results Count */}
+                  <div className="text-sm text-muted-foreground">
+                    Showing {filteredAndSortedSellerReviews.length} of{" "}
+                    {sellerReviews.length} reviews
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {filteredAndSortedSellerReviews.map((review) => (
+                    <Card key={review.id}>
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h4 className="font-semibold">{review.reviewer}</h4>
+                            <p className="text-sm text-muted-foreground">
+                              {review.date}
+                            </p>
+                          </div>
+                          <div className="flex items-center">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={cn(
+                                  "h-4 w-4",
+                                  i < review.rating
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-gray-300",
+                                )}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        <p className="text-muted-foreground">
+                          {review.comment}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
