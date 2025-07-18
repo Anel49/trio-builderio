@@ -115,7 +115,7 @@ export default function Index() {
                   Browse listings
                 </a>
                 <a
-                  href="#"
+                  href="/upload"
                   className="text-foreground hover:text-primary transition-colors"
                 >
                   Rent your product
