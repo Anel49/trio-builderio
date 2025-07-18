@@ -492,6 +492,10 @@ export default function Index() {
       <SignUpModal
         isOpen={isSignUpModalOpen}
         onOpenChange={setIsSignUpModalOpen}
+        onSwitchToLogin={() => {
+          setIsSignUpModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
       />
     </div>
   );

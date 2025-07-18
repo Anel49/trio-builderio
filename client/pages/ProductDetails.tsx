@@ -755,6 +755,10 @@ export default function ProductDetails() {
       <SignUpModal
         isOpen={isSignUpModalOpen}
         onOpenChange={setIsSignUpModalOpen}
+        onSwitchToLogin={() => {
+          setIsSignUpModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
       />
     </div>
   );

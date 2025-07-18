@@ -761,6 +761,10 @@ export default function UploadProduct() {
       <SignUpModal
         isOpen={isSignUpModalOpen}
         onOpenChange={setIsSignUpModalOpen}
+        onSwitchToLogin={() => {
+          setIsSignUpModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
       />
     </div>
   );

@@ -404,6 +404,10 @@ export default function BrowseListings() {
       <SignUpModal
         isOpen={isSignUpModalOpen}
         onOpenChange={setIsSignUpModalOpen}
+        onSwitchToLogin={() => {
+          setIsSignUpModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
       />
     </div>
   );
