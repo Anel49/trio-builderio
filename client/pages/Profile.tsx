@@ -580,8 +580,76 @@ export default function Profile() {
                     </div>
                   </div>
 
+                  {/* Review Filters and Controls */}
+                  <div className="mb-8 space-y-4">
+                    <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+                      {/* Search Reviews */}
+                      <div className="relative flex-1 max-w-md">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Search reviews..."
+                          value={itemReviewSearchQuery}
+                          onChange={(e) =>
+                            setItemReviewSearchQuery(e.target.value)
+                          }
+                          className="pl-9"
+                        />
+                      </div>
+
+                      {/* Sort By */}
+                      <div className="flex items-center gap-2">
+                        <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
+                        <Select
+                          value={itemReviewSortBy}
+                          onValueChange={setItemReviewSortBy}
+                        >
+                          <SelectTrigger className="w-48">
+                            <SelectValue placeholder="Sort by" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="newest">Newest first</SelectItem>
+                            <SelectItem value="oldest">Oldest first</SelectItem>
+                            <SelectItem value="rating-high">
+                              Highest rating
+                            </SelectItem>
+                            <SelectItem value="rating-low">
+                              Lowest rating
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {/* Filter by Rating */}
+                      <div className="flex items-center gap-2">
+                        <Star className="h-4 w-4 text-muted-foreground" />
+                        <Select
+                          value={itemReviewRatingFilter}
+                          onValueChange={setItemReviewRatingFilter}
+                        >
+                          <SelectTrigger className="w-40">
+                            <SelectValue placeholder="All ratings" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All ratings</SelectItem>
+                            <SelectItem value="5">5 stars</SelectItem>
+                            <SelectItem value="4">4 stars</SelectItem>
+                            <SelectItem value="3">3 stars</SelectItem>
+                            <SelectItem value="2">2 stars</SelectItem>
+                            <SelectItem value="1">1 star</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {/* Results Count */}
+                    <div className="text-sm text-muted-foreground">
+                      Showing {filteredAndSortedItemReviews.length} of{" "}
+                      {itemReviews.length} reviews
+                    </div>
+                  </div>
+
                   <div className="space-y-4">
-                    {itemReviews.map((review) => (
+                    {filteredAndSortedItemReviews.map((review) => (
                       <Card key={review.id}>
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between mb-3">
