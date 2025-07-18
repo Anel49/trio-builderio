@@ -333,8 +333,9 @@ export default function Index() {
               size="lg"
               variant="outline"
               className="text-lg px-8 bg-transparent border-white text-white hover:bg-white hover:text-primary"
+              asChild
             >
-              Rent your item
+              <a href="/upload">Rent your item</a>
             </Button>
           </div>
         </div>
@@ -386,7 +387,7 @@ export default function Index() {
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <a
-                    href="#"
+                    href="/upload"
                     className="hover:text-foreground transition-colors"
                   >
                     Rent your item
