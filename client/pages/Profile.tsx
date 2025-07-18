@@ -488,6 +488,36 @@ export default function Profile() {
 
           {/* Right Side - Tabs Content (70%) */}
           <div className="lg:col-span-7">
+            {/* Mobile Tab Navigation */}
+            <div className="md:hidden mb-6">
+              <div className="flex items-center justify-between bg-muted/50 rounded-lg p-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={goToPrevTab}
+                  className="h-8 w-8"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+
+                <div className="flex items-center space-x-2 flex-1 justify-center">
+                  {React.createElement(tabs[currentTabIndex].icon, { className: "h-4 w-4" })}
+                  <span className="font-medium text-sm">
+                    {tabs[currentTabIndex].label} ({tabs[currentTabIndex].count})
+                  </span>
+                </div>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={goToNextTab}
+                  className="h-8 w-8"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
             {/* Desktop Tabs */}
             <div className="hidden md:block">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -514,12 +544,42 @@ export default function Profile() {
                     <span>Seller Reviews ({sellerReviews.length})</span>
                   </TabsTrigger>
                 </TabsList>
+              </Tabs>
+            </div>
 
-                {/* Desktop Tab Content */}
-                {activeTab === "listings" && (
+            {/* Tab Content (Works for both mobile and desktop) */}
+            {activeTab === "listings" && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold">Your Listed Items</h2>
+                  <Button onClick={() => window.location.href = '/upload'}>
+                    <Package className="h-4 w-4 mr-2" />
+                    Add New Item
+                  </Button>
+                </div>
 
-              {/* Listed Items Tab */}
-              <TabsContent value="listings">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {listedItems.map((item) => (
+                    <ProductCard
+                      key={item.id}
+                      id={item.id}
+                      name={item.name}
+                      price={item.price}
+                      rating={item.rating}
+                      image={item.image}
+                      host={item.host}
+                      type={item.type}
+                      distance={item.distance}
+                      onClick={() => {
+                        window.location.href = `/product/${item.id}`;
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === "item-reviews" && (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <h2 className="text-2xl font-bold">Your Listed Items</h2>
