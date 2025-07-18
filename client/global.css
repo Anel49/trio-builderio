@@ -130,8 +130,8 @@
 }
 
 /* Preserve dialog animations - don't override with global transform rule */
-[data-radix-popper-content-wrapper],
-[data-state="open"],
-[data-state="closed"] {
+[data-radix-dialog-content],
+[data-radix-dialog-overlay] {
   transition: none !important;
+  animation-duration: 200ms !important;
 }
