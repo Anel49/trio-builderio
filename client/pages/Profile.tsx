@@ -187,6 +187,117 @@ export default function Profile() {
     return (total / sellerReviews.length).toFixed(1);
   };
 
+  // Filter and sort item reviews
+  const filteredAndSortedItemReviews = React.useMemo(() => {
+    let filtered = itemReviews;
+
+    // Filter by search query
+    if (itemReviewSearchQuery) {
+      filtered = filtered.filter(
+        (review) =>
+          review.comment
+            .toLowerCase()
+            .includes(itemReviewSearchQuery.toLowerCase()) ||
+          review.reviewer
+            .toLowerCase()
+            .includes(itemReviewSearchQuery.toLowerCase()) ||
+          review.itemName
+            .toLowerCase()
+            .includes(itemReviewSearchQuery.toLowerCase()),
+      );
+    }
+
+    // Filter by rating
+    if (itemReviewRatingFilter !== "all") {
+      filtered = filtered.filter(
+        (review) => review.rating === parseInt(itemReviewRatingFilter),
+      );
+    }
+
+    // Sort reviews
+    switch (itemReviewSortBy) {
+      case "newest":
+        filtered.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
+        break;
+      case "oldest":
+        filtered.sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        );
+        break;
+      case "rating-high":
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case "rating-low":
+        filtered.sort((a, b) => a.rating - b.rating);
+        break;
+      default:
+        break;
+    }
+
+    return filtered;
+  }, [
+    itemReviews,
+    itemReviewSearchQuery,
+    itemReviewSortBy,
+    itemReviewRatingFilter,
+  ]);
+
+  // Filter and sort seller reviews
+  const filteredAndSortedSellerReviews = React.useMemo(() => {
+    let filtered = sellerReviews;
+
+    // Filter by search query
+    if (sellerReviewSearchQuery) {
+      filtered = filtered.filter(
+        (review) =>
+          review.comment
+            .toLowerCase()
+            .includes(sellerReviewSearchQuery.toLowerCase()) ||
+          review.reviewer
+            .toLowerCase()
+            .includes(sellerReviewSearchQuery.toLowerCase()),
+      );
+    }
+
+    // Filter by rating
+    if (sellerReviewRatingFilter !== "all") {
+      filtered = filtered.filter(
+        (review) => review.rating === parseInt(sellerReviewRatingFilter),
+      );
+    }
+
+    // Sort reviews
+    switch (sellerReviewSortBy) {
+      case "newest":
+        filtered.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
+        break;
+      case "oldest":
+        filtered.sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        );
+        break;
+      case "rating-high":
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case "rating-low":
+        filtered.sort((a, b) => a.rating - b.rating);
+        break;
+      default:
+        break;
+    }
+
+    return filtered;
+  }, [
+    sellerReviews,
+    sellerReviewSearchQuery,
+    sellerReviewSortBy,
+    sellerReviewRatingFilter,
+  ]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
