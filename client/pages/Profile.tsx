@@ -335,7 +335,7 @@ export default function Profile() {
                 Sign up
               </Button>
               {/* Profile Picture Link */}
-              <Avatar className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity">
+              <Avatar className="h-8 w-8 cursor-pointer hover:opacity-80 transition-all ring-2 ring-primary">
                 <AvatarImage
                   src={userProfile.profileImage}
                   alt={userProfile.name}
