@@ -472,6 +472,25 @@ export default function UploadProduct() {
                   />
                 </div>
 
+                {/* Location */}
+                <div>
+                  <label
+                    htmlFor="location"
+                    className="block text-sm font-medium mb-2"
+                  >
+                    Location
+                  </label>
+                  <Input
+                    id="location"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder={
+                      userProfile.hasLocation ? userProfile.defaultLocation : ""
+                    }
+                    className="w-full"
+                  />
+                </div>
+
                 {/* Price */}
                 <div>
                   <label
