@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
+import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
 import {
   MapPin,
@@ -32,6 +33,7 @@ export default function BrowseListings() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const listings = [
     {
@@ -181,7 +183,12 @@ export default function BrowseListings() {
                 <AvatarFallback>SM</AvatarFallback>
               </Avatar>
               <ThemeToggle />
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
@@ -420,6 +427,10 @@ export default function BrowseListings() {
           setIsSignUpModalOpen(false);
           setIsLoginModalOpen(true);
         }}
+      />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onOpenChange={setIsMobileMenuOpen}
       />
     </div>
   );
