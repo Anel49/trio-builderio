@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
+import { LoginModal } from "@/components/ui/login-modal";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
@@ -34,6 +35,7 @@ export default function Index() {
   const [returnDate, setReturnDate] = useState<Date>();
   const [location, setLocation] = useState("");
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const featuredCars = [
     {
@@ -125,8 +127,12 @@ export default function Index() {
               </nav>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="hidden md:inline-flex">
-                <a href="/login">Log in</a>
+              <Button
+                variant="ghost"
+                className="hidden md:inline-flex"
+                onClick={() => setIsLoginModalOpen(true)}
+              >
+                Log in
               </Button>
               <Button onClick={() => setIsSignUpModalOpen(true)}>
                 Sign up
@@ -475,6 +481,14 @@ export default function Index() {
         </div>
       </footer>
 
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onOpenChange={setIsLoginModalOpen}
+        onSwitchToSignUp={() => {
+          setIsLoginModalOpen(false);
+          setIsSignUpModalOpen(true);
+        }}
+      />
       <SignUpModal
         isOpen={isSignUpModalOpen}
         onOpenChange={setIsSignUpModalOpen}
