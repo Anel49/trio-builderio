@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
+import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -52,6 +53,7 @@ export default function UploadProduct() {
   );
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
@@ -527,7 +529,12 @@ export default function UploadProduct() {
                 <AvatarFallback>SM</AvatarFallback>
               </Avatar>
               <ThemeToggle />
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
@@ -776,6 +783,10 @@ export default function UploadProduct() {
           setIsSignUpModalOpen(false);
           setIsLoginModalOpen(true);
         }}
+      />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onOpenChange={setIsMobileMenuOpen}
       />
     </div>
   );
