@@ -50,42 +50,24 @@ export default function Profile() {
   // Seller reviews search and filter state
   const [sellerReviewSearchQuery, setSellerReviewSearchQuery] = useState("");
   const [sellerReviewSortBy, setSellerReviewSortBy] = useState("newest");
-  const [sellerReviewRatingFilter, setSellerReviewRatingFilter] =
-    useState("all");
+  const [sellerReviewRatingFilter, setSellerReviewRatingFilter] = useState("all");
 
   // Mobile tabs navigation
   const [activeTab, setActiveTab] = useState("listings");
   const tabs = [
-    {
-      id: "listings",
-      label: "Listed Items",
-      count: listedItems.length,
-      icon: Package,
-    },
-    {
-      id: "item-reviews",
-      label: "Item Reviews",
-      count: itemReviews.length,
-      icon: Star,
-    },
-    {
-      id: "seller-reviews",
-      label: "Seller Reviews",
-      count: sellerReviews.length,
-      icon: User,
-    },
+    { id: "listings", label: "Listed Items", count: listedItems.length, icon: Package },
+    { id: "item-reviews", label: "Item Reviews", count: itemReviews.length, icon: Star },
+    { id: "seller-reviews", label: "Seller Reviews", count: sellerReviews.length, icon: User },
   ];
-  const currentTabIndex = tabs.findIndex((tab) => tab.id === activeTab);
+  const currentTabIndex = tabs.findIndex(tab => tab.id === activeTab);
 
   const goToPrevTab = () => {
-    const prevIndex =
-      currentTabIndex > 0 ? currentTabIndex - 1 : tabs.length - 1;
+    const prevIndex = currentTabIndex > 0 ? currentTabIndex - 1 : tabs.length - 1;
     setActiveTab(tabs[prevIndex].id);
   };
 
   const goToNextTab = () => {
-    const nextIndex =
-      currentTabIndex < tabs.length - 1 ? currentTabIndex + 1 : 0;
+    const nextIndex = currentTabIndex < tabs.length - 1 ? currentTabIndex + 1 : 0;
     setActiveTab(tabs[nextIndex].id);
   };
 
@@ -233,15 +215,9 @@ export default function Profile() {
     if (itemReviewSearchQuery) {
       filtered = filtered.filter(
         (review) =>
-          review.comment
-            .toLowerCase()
-            .includes(itemReviewSearchQuery.toLowerCase()) ||
-          review.reviewer
-            .toLowerCase()
-            .includes(itemReviewSearchQuery.toLowerCase()) ||
-          review.itemName
-            .toLowerCase()
-            .includes(itemReviewSearchQuery.toLowerCase()),
+          review.comment.toLowerCase().includes(itemReviewSearchQuery.toLowerCase()) ||
+          review.reviewer.toLowerCase().includes(itemReviewSearchQuery.toLowerCase()) ||
+          review.itemName.toLowerCase().includes(itemReviewSearchQuery.toLowerCase()),
       );
     }
 
@@ -255,14 +231,10 @@ export default function Profile() {
     // Sort reviews
     switch (itemReviewSortBy) {
       case "newest":
-        filtered.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
+        filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         break;
       case "oldest":
-        filtered.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-        );
+        filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);
@@ -275,12 +247,7 @@ export default function Profile() {
     }
 
     return filtered;
-  }, [
-    itemReviews,
-    itemReviewSearchQuery,
-    itemReviewSortBy,
-    itemReviewRatingFilter,
-  ]);
+  }, [itemReviews, itemReviewSearchQuery, itemReviewSortBy, itemReviewRatingFilter]);
 
   // Filter and sort seller reviews
   const filteredAndSortedSellerReviews = useMemo(() => {
@@ -290,12 +257,8 @@ export default function Profile() {
     if (sellerReviewSearchQuery) {
       filtered = filtered.filter(
         (review) =>
-          review.comment
-            .toLowerCase()
-            .includes(sellerReviewSearchQuery.toLowerCase()) ||
-          review.reviewer
-            .toLowerCase()
-            .includes(sellerReviewSearchQuery.toLowerCase()),
+          review.comment.toLowerCase().includes(sellerReviewSearchQuery.toLowerCase()) ||
+          review.reviewer.toLowerCase().includes(sellerReviewSearchQuery.toLowerCase()),
       );
     }
 
@@ -309,14 +272,10 @@ export default function Profile() {
     // Sort reviews
     switch (sellerReviewSortBy) {
       case "newest":
-        filtered.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
+        filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         break;
       case "oldest":
-        filtered.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-        );
+        filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);
@@ -329,12 +288,7 @@ export default function Profile() {
     }
 
     return filtered;
-  }, [
-    sellerReviews,
-    sellerReviewSearchQuery,
-    sellerReviewSortBy,
-    sellerReviewRatingFilter,
-  ]);
+  }, [sellerReviews, sellerReviewSearchQuery, sellerReviewSortBy, sellerReviewRatingFilter]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -521,7 +475,7 @@ export default function Profile() {
                     <Button
                       variant="outline"
                       className="w-full"
-                      onClick={() => (window.location.href = "/upload")}
+                      onClick={() => window.location.href = '/upload'}
                     >
                       <Package className="h-4 w-4 mr-2" />
                       Add New Listing
@@ -534,37 +488,42 @@ export default function Profile() {
 
           {/* Right Side - Tabs Content (70%) */}
           <div className="lg:col-span-7">
-            <Tabs defaultValue="listings" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 mb-6">
-                <TabsTrigger
-                  value="listings"
-                  className="flex items-center space-x-2"
-                >
-                  <Package className="h-4 w-4" />
-                  <span>Listed Items ({listedItems.length})</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="item-reviews"
-                  className="flex items-center space-x-2"
-                >
-                  <Star className="h-4 w-4" />
-                  <span>Item Reviews ({itemReviews.length})</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="seller-reviews"
-                  className="flex items-center space-x-2"
-                >
-                  <User className="h-4 w-4" />
-                  <span>Seller Reviews ({sellerReviews.length})</span>
-                </TabsTrigger>
-              </TabsList>
+            {/* Desktop Tabs */}
+            <div className="hidden md:block">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="grid w-full grid-cols-3 mb-6">
+                  <TabsTrigger
+                    value="listings"
+                    className="flex items-center space-x-2"
+                  >
+                    <Package className="h-4 w-4" />
+                    <span>Listed Items ({listedItems.length})</span>
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="item-reviews"
+                    className="flex items-center space-x-2"
+                  >
+                    <Star className="h-4 w-4" />
+                    <span>Item Reviews ({itemReviews.length})</span>
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="seller-reviews"
+                    className="flex items-center space-x-2"
+                  >
+                    <User className="h-4 w-4" />
+                    <span>Seller Reviews ({sellerReviews.length})</span>
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* Desktop Tab Content */}
+                {activeTab === "listings" && (
 
               {/* Listed Items Tab */}
               <TabsContent value="listings">
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <h2 className="text-2xl font-bold">Your Listed Items</h2>
-                    <Button onClick={() => (window.location.href = "/upload")}>
+                    <Button onClick={() => window.location.href = '/upload'}>
                       <Package className="h-4 w-4 mr-2" />
                       Add New Item
                     </Button>
@@ -631,9 +590,7 @@ export default function Profile() {
                         <Input
                           placeholder="Search reviews..."
                           value={itemReviewSearchQuery}
-                          onChange={(e) =>
-                            setItemReviewSearchQuery(e.target.value)
-                          }
+                          onChange={(e) => setItemReviewSearchQuery(e.target.value)}
                           className="pl-9"
                         />
                       </div>
@@ -641,22 +598,15 @@ export default function Profile() {
                       {/* Sort By */}
                       <div className="flex items-center gap-2">
                         <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-                        <Select
-                          value={itemReviewSortBy}
-                          onValueChange={setItemReviewSortBy}
-                        >
+                        <Select value={itemReviewSortBy} onValueChange={setItemReviewSortBy}>
                           <SelectTrigger className="w-48">
                             <SelectValue placeholder="Sort by" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="newest">Newest first</SelectItem>
                             <SelectItem value="oldest">Oldest first</SelectItem>
-                            <SelectItem value="rating-high">
-                              Highest rating
-                            </SelectItem>
-                            <SelectItem value="rating-low">
-                              Lowest rating
-                            </SelectItem>
+                            <SelectItem value="rating-high">Highest rating</SelectItem>
+                            <SelectItem value="rating-low">Lowest rating</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -685,8 +635,7 @@ export default function Profile() {
 
                     {/* Results Count */}
                     <div className="text-sm text-muted-foreground">
-                      Showing {filteredAndSortedItemReviews.length} of{" "}
-                      {itemReviews.length} reviews
+                      Showing {filteredAndSortedItemReviews.length} of {itemReviews.length} reviews
                     </div>
                   </div>
 
@@ -767,9 +716,7 @@ export default function Profile() {
                         <Input
                           placeholder="Search reviews..."
                           value={sellerReviewSearchQuery}
-                          onChange={(e) =>
-                            setSellerReviewSearchQuery(e.target.value)
-                          }
+                          onChange={(e) => setSellerReviewSearchQuery(e.target.value)}
                           className="pl-9"
                         />
                       </div>
@@ -777,22 +724,15 @@ export default function Profile() {
                       {/* Sort By */}
                       <div className="flex items-center gap-2">
                         <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-                        <Select
-                          value={sellerReviewSortBy}
-                          onValueChange={setSellerReviewSortBy}
-                        >
+                        <Select value={sellerReviewSortBy} onValueChange={setSellerReviewSortBy}>
                           <SelectTrigger className="w-48">
                             <SelectValue placeholder="Sort by" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="newest">Newest first</SelectItem>
                             <SelectItem value="oldest">Oldest first</SelectItem>
-                            <SelectItem value="rating-high">
-                              Highest rating
-                            </SelectItem>
-                            <SelectItem value="rating-low">
-                              Lowest rating
-                            </SelectItem>
+                            <SelectItem value="rating-high">Highest rating</SelectItem>
+                            <SelectItem value="rating-low">Lowest rating</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -821,8 +761,7 @@ export default function Profile() {
 
                     {/* Results Count */}
                     <div className="text-sm text-muted-foreground">
-                      Showing {filteredAndSortedSellerReviews.length} of{" "}
-                      {sellerReviews.length} reviews
+                      Showing {filteredAndSortedSellerReviews.length} of {sellerReviews.length} reviews
                     </div>
                   </div>
 
