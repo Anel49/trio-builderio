@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
+import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -55,6 +56,7 @@ export default function Profile() {
 
   // Mobile tabs navigation
   const [activeTab, setActiveTab] = useState("listings");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Mock user profile data
   const userProfile = {
@@ -387,7 +389,12 @@ export default function Profile() {
                 </AvatarFallback>
               </Avatar>
               <ThemeToggle />
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
@@ -912,6 +919,10 @@ export default function Profile() {
           setIsSignUpModalOpen(false);
           setIsLoginModalOpen(true);
         }}
+      />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onOpenChange={setIsMobileMenuOpen}
       />
     </div>
   );
