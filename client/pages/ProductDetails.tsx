@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
+import { SignUpModal } from "@/components/ui/signup-modal";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -40,6 +41,7 @@ export default function ProductDetails() {
   const [reviewSearchQuery, setReviewSearchQuery] = useState("");
   const [reviewSortBy, setReviewSortBy] = useState("newest");
   const [reviewRatingFilter, setReviewRatingFilter] = useState("all");
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
 
   const productImages = [
     "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
@@ -248,7 +250,9 @@ export default function ProductDetails() {
               <Button variant="ghost" className="hidden md:inline-flex">
                 <a href="/login">Log in</a>
               </Button>
-              <Button>Sign up</Button>
+              <Button onClick={() => setIsSignUpModalOpen(true)}>
+                Sign up
+              </Button>
               <ThemeToggle />
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
@@ -733,6 +737,11 @@ export default function ProductDetails() {
           </div>
         </div>
       </footer>
+
+      <SignUpModal
+        isOpen={isSignUpModalOpen}
+        onOpenChange={setIsSignUpModalOpen}
+      />
     </div>
   );
 }
