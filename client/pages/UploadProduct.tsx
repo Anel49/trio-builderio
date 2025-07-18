@@ -348,14 +348,7 @@ export default function UploadProduct() {
                         <Flag className="h-4 w-4" />
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent
-                      className="opacity-100"
-                      style={{
-                        animation: "none",
-                        transform: "none",
-                        transition: "none",
-                      }}
-                    >
+                    <TooltipContent>
                       <p>Report listing</p>
                     </TooltipContent>
                   </Tooltip>
