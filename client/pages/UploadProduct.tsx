@@ -377,9 +377,28 @@ export default function UploadProduct() {
               <CardContent>
                 <div className="space-y-4">
                   {/* Upload Area */}
-                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8 text-center">
-                    <Upload className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                    <p className="text-lg mb-2">Upload product images</p>
+                  <div
+                    className={cn(
+                      "border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200",
+                      isDragging
+                        ? "border-primary bg-primary/10 border-solid"
+                        : "border-gray-300 dark:border-gray-700",
+                    )}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                  >
+                    <Upload
+                      className={cn(
+                        "h-12 w-12 mx-auto mb-4 transition-colors",
+                        isDragging ? "text-primary" : "text-gray-400",
+                      )}
+                    />
+                    <p className="text-lg mb-2">
+                      {isDragging
+                        ? "Drop images here"
+                        : "Upload product images"}
+                    </p>
                     <p className="text-sm text-muted-foreground mb-4">
                       Drag and drop or click to select files
                     </p>
