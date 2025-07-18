@@ -73,7 +73,13 @@ export default function UploadProduct() {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      Array.from(files).forEach((file) => {
+      processFiles(Array.from(files));
+    }
+  };
+
+  const processFiles = (files: File[]) => {
+    files.forEach((file) => {
+      if (file.type.startsWith("image/")) {
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target?.result) {
@@ -81,8 +87,26 @@ export default function UploadProduct() {
           }
         };
         reader.readAsDataURL(file);
-      });
-    }
+      }
+    });
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+
+    const files = Array.from(event.dataTransfer.files);
+    processFiles(files);
   };
 
   const removeImage = (index: number) => {
