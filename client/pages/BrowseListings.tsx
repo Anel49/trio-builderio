@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
+import { SignUpModal } from "@/components/ui/signup-modal";
 import { cn } from "@/lib/utils";
 import {
   MapPin,
@@ -27,6 +28,7 @@ const fadeInStyle = `
 
 export default function BrowseListings() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
 
   const listings = [
     {
@@ -157,7 +159,9 @@ export default function BrowseListings() {
               <Button variant="ghost" className="hidden md:inline-flex">
                 <a href="/login">Log in</a>
               </Button>
-              <Button>Sign up</Button>
+              <Button onClick={() => setIsSignUpModalOpen(true)}>
+                Sign up
+              </Button>
               <ThemeToggle />
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
@@ -382,6 +386,11 @@ export default function BrowseListings() {
           </div>
         </div>
       </div>
+
+      <SignUpModal
+        isOpen={isSignUpModalOpen}
+        onOpenChange={setIsSignUpModalOpen}
+      />
     </div>
   );
 }
