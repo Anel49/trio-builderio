@@ -188,7 +188,7 @@ export default function Profile() {
   };
 
   // Filter and sort item reviews
-  const filteredAndSortedItemReviews = React.useMemo(() => {
+  const filteredAndSortedItemReviews = useMemo(() => {
     let filtered = itemReviews;
 
     // Filter by search query
@@ -245,7 +245,7 @@ export default function Profile() {
   ]);
 
   // Filter and sort seller reviews
-  const filteredAndSortedSellerReviews = React.useMemo(() => {
+  const filteredAndSortedSellerReviews = useMemo(() => {
     let filtered = sellerReviews;
 
     // Filter by search query
