@@ -63,7 +63,7 @@ export default function ProductDetails() {
       "High-performance riding lawn mower perfect for large yards and commercial use. Features a powerful 24HP engine, 54-inch cutting deck, and comfortable seating for extended use. Includes mulching kit and side discharge chute. Regularly maintained and serviced for optimal performance.",
     rating: 4.9,
     totalReviews: 142,
-    location: "San Francisco, CA",
+    location: "94102",
   };
 
   const host = {
