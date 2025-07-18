@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
+import { MobileMenu } from "@/components/ui/mobile-menu";
 import { Menu } from "lucide-react";
 
 // OAuth Configuration
@@ -32,6 +33,7 @@ const msalConfig = {
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Google OAuth Login
   const handleGoogleLogin = async () => {
@@ -273,7 +275,12 @@ export default function Login() {
                 Sign up
               </Button>
               <ThemeToggle />
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
@@ -375,6 +382,10 @@ export default function Login() {
       <SignUpModal
         isOpen={isSignUpModalOpen}
         onOpenChange={setIsSignUpModalOpen}
+      />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onOpenChange={setIsMobileMenuOpen}
       />
     </div>
   );
