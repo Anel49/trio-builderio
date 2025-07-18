@@ -405,7 +405,6 @@ export default function Profile() {
                         name={item.name}
                         price={item.price}
                         rating={item.rating}
-                        trips={item.trips}
                         image={item.image}
                         host={item.host}
                         type={item.type}
