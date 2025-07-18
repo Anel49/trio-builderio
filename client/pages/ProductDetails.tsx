@@ -301,12 +301,15 @@ export default function ProductDetails() {
               <Button
                 size="icon"
                 variant="ghost"
-                className="absolute top-4 right-4 bg-white/80 hover:bg-white group"
+                className="absolute top-4 right-4 bg-white/80 hover:bg-white heart-button-transition"
+                onMouseEnter={() => setIsHeartHovered(true)}
+                onMouseLeave={() => setIsHeartHovered(false)}
               >
                 <Heart
-                  className="h-5 w-5 transition-all duration-200 fill-transparent group-hover:fill-[#ff6f6f]"
+                  className="h-5 w-5 heart-transition"
                   style={{
                     stroke: "#ff6f6f",
+                    fill: isHeartHovered ? "#ff6f6f" : "transparent",
                   }}
                 />
               </Button>
