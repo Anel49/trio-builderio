@@ -504,14 +504,19 @@ export default function UploadProduct() {
                   >
                     Price per day
                   </label>
-                  <Input
-                    id="price"
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    placeholder="35 (Recommended based on similar items)"
-                    className="w-full"
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                      $
+                    </span>
+                    <Input
+                      id="price"
+                      type="number"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      placeholder="35"
+                      className="w-full pl-8"
+                    />
+                  </div>
                 </div>
 
                 {/* Tags */}
