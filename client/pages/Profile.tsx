@@ -480,7 +480,11 @@ export default function Profile() {
                       <Edit3 className="h-4 w-4 mr-2" />
                       Edit Profile
                     </Button>
-                    <Button variant="outline" className="w-full">
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => (window.location.href = "/upload")}
+                    >
                       <Package className="h-4 w-4 mr-2" />
                       Add New Listing
                     </Button>
@@ -522,7 +526,7 @@ export default function Profile() {
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <h2 className="text-2xl font-bold">Your Listed Items</h2>
-                    <Button>
+                    <Button onClick={() => (window.location.href = "/upload")}>
                       <Package className="h-4 w-4 mr-2" />
                       Add New Item
                     </Button>
