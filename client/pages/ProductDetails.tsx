@@ -21,6 +21,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
+import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -44,6 +45,7 @@ export default function ProductDetails() {
   const [reviewRatingFilter, setReviewRatingFilter] = useState("all");
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const productImages = [
     "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
@@ -271,7 +273,12 @@ export default function ProductDetails() {
                 <AvatarFallback>SM</AvatarFallback>
               </Avatar>
               <ThemeToggle />
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
@@ -770,6 +777,10 @@ export default function ProductDetails() {
           setIsSignUpModalOpen(false);
           setIsLoginModalOpen(true);
         }}
+      />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onOpenChange={setIsMobileMenuOpen}
       />
     </div>
   );
