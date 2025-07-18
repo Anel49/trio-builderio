@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
+import { LoginModal } from "@/components/ui/login-modal";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -50,6 +51,7 @@ export default function UploadProduct() {
     null,
   );
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
@@ -506,7 +508,7 @@ export default function UploadProduct() {
               <Button
                 variant="ghost"
                 className="hidden md:inline-flex"
-                onClick={() => handleNavigation("/login")}
+                onClick={() => setIsLoginModalOpen(true)}
               >
                 Log in
               </Button>
@@ -748,6 +750,14 @@ export default function UploadProduct() {
 
       <DraftDialog />
       <PreviewModal />
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onOpenChange={setIsLoginModalOpen}
+        onSwitchToSignUp={() => {
+          setIsLoginModalOpen(false);
+          setIsSignUpModalOpen(true);
+        }}
+      />
       <SignUpModal
         isOpen={isSignUpModalOpen}
         onOpenChange={setIsSignUpModalOpen}
