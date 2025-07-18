@@ -74,7 +74,7 @@ export function ProductCard({
         <div className="flex items-start justify-between mb-2">
           <h3 className="font-semibold text-xl">{name}</h3>
           <div className="text-right">
-            <div className="text-2xl font-bold">{price}</div>
+            <div className="text-2xl font-bold text-primary">{price}</div>
             <div className="text-sm text-muted-foreground">/day</div>
           </div>
         </div>
