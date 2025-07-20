@@ -17,6 +17,7 @@ interface ProductCardProps {
   onClick?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  onFavorite?: (name: string) => void;
   className?: string;
 }
 
@@ -33,6 +34,7 @@ export function ProductCard({
   onClick,
   onMouseEnter,
   onMouseLeave,
+  onFavorite,
   className,
 }: ProductCardProps) {
   const [isHeartHovered, setIsHeartHovered] = useState(false);
@@ -54,7 +56,9 @@ export function ProductCard({
           onMouseLeave={() => setIsHeartHovered(false)}
           onClick={(e) => {
             e.stopPropagation();
-            // Handle heart click
+            if (onFavorite) {
+              onFavorite(name);
+            }
           }}
         >
           <Heart
