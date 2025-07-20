@@ -18,17 +18,18 @@ export function PrivacyModal({ isOpen, onOpenChange }: PrivacyModalProps) {
       <DialogContent className="max-w-4xl max-h-[80vh]">
         <DialogHeader>
           <DialogTitle>Privacy Policy</DialogTitle>
-          <DialogDescription>
-            Last updated: December 15, 2024
-          </DialogDescription>
+          <DialogDescription>Last updated: December 15, 2024</DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-[60vh] pr-4">
           <div className="space-y-6">
             <section>
-              <h3 className="text-lg font-semibold mb-3">1. Information We Collect</h3>
+              <h3 className="text-lg font-semibold mb-3">
+                1. Information We Collect
+              </h3>
               <p className="text-muted-foreground mb-4">
-                We collect information you provide directly to us, such as when you create an account, 
-                list a product, make a rental, or contact us for support.
+                We collect information you provide directly to us, such as when
+                you create an account, list a product, make a rental, or contact
+                us for support.
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                 <li>Personal information (name, email, phone number)</li>
@@ -40,9 +41,12 @@ export function PrivacyModal({ isOpen, onOpenChange }: PrivacyModalProps) {
             </section>
 
             <section>
-              <h3 className="text-lg font-semibold mb-3">2. How We Use Your Information</h3>
+              <h3 className="text-lg font-semibold mb-3">
+                2. How We Use Your Information
+              </h3>
               <p className="text-muted-foreground mb-4">
-                We use the information we collect to provide, maintain, and improve our services.
+                We use the information we collect to provide, maintain, and
+                improve our services.
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                 <li>Process rentals and facilitate transactions</li>
@@ -54,9 +58,12 @@ export function PrivacyModal({ isOpen, onOpenChange }: PrivacyModalProps) {
             </section>
 
             <section>
-              <h3 className="text-lg font-semibold mb-3">3. Information Sharing</h3>
+              <h3 className="text-lg font-semibold mb-3">
+                3. Information Sharing
+              </h3>
               <p className="text-muted-foreground mb-4">
-                We don't sell your personal information. We may share your information in the following circumstances:
+                We don't sell your personal information. We may share your
+                information in the following circumstances:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                 <li>With other users as necessary to facilitate rentals</li>
@@ -69,9 +76,10 @@ export function PrivacyModal({ isOpen, onOpenChange }: PrivacyModalProps) {
             <section>
               <h3 className="text-lg font-semibold mb-3">4. Data Security</h3>
               <p className="text-muted-foreground">
-                We implement appropriate security measures to protect your personal information against 
-                unauthorized access, alteration, disclosure, or destruction. However, no internet 
-                transmission is completely secure, and we cannot guarantee absolute security.
+                We implement appropriate security measures to protect your
+                personal information against unauthorized access, alteration,
+                disclosure, or destruction. However, no internet transmission is
+                completely secure, and we cannot guarantee absolute security.
               </p>
             </section>
 
@@ -92,8 +100,8 @@ export function PrivacyModal({ isOpen, onOpenChange }: PrivacyModalProps) {
             <section>
               <h3 className="text-lg font-semibold mb-3">6. Contact Us</h3>
               <p className="text-muted-foreground">
-                If you have any questions about this Privacy Policy, please contact us at privacy@trio.com 
-                or through our support channels.
+                If you have any questions about this Privacy Policy, please
+                contact us at privacy@trio.com or through our support channels.
               </p>
             </section>
           </div>

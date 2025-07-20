@@ -284,195 +284,196 @@ export default function UploadProduct() {
         </DialogHeader>
         <ScrollArea className="h-[75vh] pr-4">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mt-4">
-          {/* Left Column - Product Images (60%) */}
-          <div className="lg:col-span-3">
-            {/* Main Image */}
-            <div className="relative mb-4">
-              <img
-                src={
-                  uploadedImages[0] ||
-                  "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format"
-                }
-                alt={title || "Product preview"}
-                className="w-full h-96 object-cover rounded-lg"
-              />
-              <Button
-                size="icon"
-                variant="ghost"
-                className="absolute top-4 right-4 bg-white/80 hover:bg-white heart-button-transition"
-              >
-                <Heart
-                  className="h-5 w-5 heart-transition"
-                  style={{
-                    stroke: "#ff6f6f",
-                    fill: "transparent",
-                  }}
+            {/* Left Column - Product Images (60%) */}
+            <div className="lg:col-span-3">
+              {/* Main Image */}
+              <div className="relative mb-4">
+                <img
+                  src={
+                    uploadedImages[0] ||
+                    "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format"
+                  }
+                  alt={title || "Product preview"}
+                  className="w-full h-96 object-cover rounded-lg"
                 />
-              </Button>
-            </div>
-
-            {/* Image Carousel */}
-            {uploadedImages.length > 1 && (
-              <div className="flex space-x-3 overflow-x-auto pb-2">
-                {uploadedImages.map((image, index) => (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 rounded-lg overflow-hidden border-2 border-gray-300 transition-all hover:border-primary"
-                  >
-                    <img
-                      src={image}
-                      alt={`${title} ${index + 1}`}
-                      className="w-20 h-20 object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Right Column - Product Info & Host (40%) */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Product Information */}
-            <div>
-              <div className="flex items-start justify-between mb-2">
-                <h1 className="text-3xl font-bold flex-1">
-                  {title || "Your Product Title"}
-                </h1>
-                <TooltipProvider>
-                  <Tooltip delayDuration={200}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-muted-foreground hover:text-destructive ml-4 h-8 w-8 dark:hover:bg-red-600 dark:hover:text-white"
-                      >
-                        <Flag className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Report listing</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="absolute top-4 right-4 bg-white/80 hover:bg-white heart-button-transition"
+                >
+                  <Heart
+                    className="h-5 w-5 heart-transition"
+                    style={{
+                      stroke: "#ff6f6f",
+                      fill: "transparent",
+                    }}
+                  />
+                </Button>
               </div>
 
-              {selectedTags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-3">
-                  {selectedTags.map((tag) => (
-                    <Badge key={tag} variant="secondary">
-                      {tag}
-                    </Badge>
+              {/* Image Carousel */}
+              {uploadedImages.length > 1 && (
+                <div className="flex space-x-3 overflow-x-auto pb-2">
+                  {uploadedImages.map((image, index) => (
+                    <div
+                      key={index}
+                      className="flex-shrink-0 rounded-lg overflow-hidden border-2 border-gray-300 transition-all hover:border-primary"
+                    >
+                      <img
+                        src={image}
+                        alt={`${title} ${index + 1}`}
+                        className="w-20 h-20 object-cover"
+                      />
+                    </div>
                   ))}
                 </div>
               )}
-
-              <p className="text-muted-foreground mb-4">
-                {description || "Your product description will appear here..."}
-              </p>
-
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={cn(
-                        "h-4 w-4",
-                        i < Math.floor(mockHost.rating)
-                          ? "fill-yellow-400 text-yellow-400"
-                          : "text-gray-300",
-                      )}
-                    />
-                  ))}
-                  <span className="ml-2 text-sm font-medium">
-                    {mockHost.rating}
-                  </span>
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  ({mockHost.totalReviews} reviews)
-                </span>
-              </div>
-
-              <div className="flex items-center text-muted-foreground mb-6">
-                <MapPin className="h-4 w-4 mr-1" />
-                <span className="text-sm">
-                  {location ||
-                    (userProfile.hasLocation
-                      ? userProfile.defaultLocation
-                      : "Your location")}
-                </span>
-              </div>
-
-              <div className="text-right mb-6">
-                <div className="text-3xl font-bold text-primary">
-                  ${price || "0"}
-                </div>
-                <div className="text-muted-foreground">per day</div>
-              </div>
-
-              <Button size="lg" className="w-full mb-4">
-                <Calendar className="mr-2 h-5 w-5" />
-                Reserve Now
-              </Button>
             </div>
 
-            {/* Host Information */}
-            <Card>
-              <CardContent className="p-6">
+            {/* Right Column - Product Info & Host (40%) */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Product Information */}
+              <div>
+                <div className="flex items-start justify-between mb-2">
+                  <h1 className="text-3xl font-bold flex-1">
+                    {title || "Your Product Title"}
+                  </h1>
+                  <TooltipProvider>
+                    <Tooltip delayDuration={200}>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-muted-foreground hover:text-destructive ml-4 h-8 w-8 dark:hover:bg-red-600 dark:hover:text-white"
+                        >
+                          <Flag className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Report listing</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+
+                {selectedTags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {selectedTags.map((tag) => (
+                      <Badge key={tag} variant="secondary">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+
+                <p className="text-muted-foreground mb-4">
+                  {description ||
+                    "Your product description will appear here..."}
+                </p>
+
                 <div className="flex items-center space-x-4 mb-4">
-                  <Avatar className="h-16 w-16">
-                    <AvatarImage src={mockHost.image} alt={mockHost.name} />
-                    <AvatarFallback>
-                      {mockHost.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h3 className="font-semibold text-lg">{mockHost.name}</h3>
-                    <div className="flex items-center mt-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={cn(
-                            "h-3 w-3",
-                            i < Math.floor(mockHost.rating)
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-300",
-                          )}
-                        />
-                      ))}
-                      <span className="ml-2 text-sm text-muted-foreground">
-                        {mockHost.rating}
-                      </span>
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={cn(
+                          "h-4 w-4",
+                          i < Math.floor(mockHost.rating)
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-gray-300",
+                        )}
+                      />
+                    ))}
+                    <span className="ml-2 text-sm font-medium">
+                      {mockHost.rating}
+                    </span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    ({mockHost.totalReviews} reviews)
+                  </span>
+                </div>
+
+                <div className="flex items-center text-muted-foreground mb-6">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  <span className="text-sm">
+                    {location ||
+                      (userProfile.hasLocation
+                        ? userProfile.defaultLocation
+                        : "Your location")}
+                  </span>
+                </div>
+
+                <div className="text-right mb-6">
+                  <div className="text-3xl font-bold text-primary">
+                    ${price || "0"}
+                  </div>
+                  <div className="text-muted-foreground">per day</div>
+                </div>
+
+                <Button size="lg" className="w-full mb-4">
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Reserve Now
+                </Button>
+              </div>
+
+              {/* Host Information */}
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <Avatar className="h-16 w-16">
+                      <AvatarImage src={mockHost.image} alt={mockHost.name} />
+                      <AvatarFallback>
+                        {mockHost.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h3 className="font-semibold text-lg">{mockHost.name}</h3>
+                      <div className="flex items-center mt-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={cn(
+                              "h-3 w-3",
+                              i < Math.floor(mockHost.rating)
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300",
+                            )}
+                          />
+                        ))}
+                        <span className="ml-2 text-sm text-muted-foreground">
+                          {mockHost.rating}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="font-medium">Response time</p>
-                    <p className="text-muted-foreground">
-                      {mockHost.responseTime}
-                    </p>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p className="font-medium">Response time</p>
+                      <p className="text-muted-foreground">
+                        {mockHost.responseTime}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-medium">Joined</p>
+                      <p className="text-muted-foreground">
+                        {mockHost.joinedDate}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium">Joined</p>
-                    <p className="text-muted-foreground">
-                      {mockHost.joinedDate}
-                    </p>
-                  </div>
-                </div>
 
-                <div className="mt-4 pt-4 border-t">
-                  <Button variant="outline" className="w-full">
-                    Contact Host
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                  <div className="mt-4 pt-4 border-t">
+                    <Button variant="outline" className="w-full">
+                      Contact Host
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
-        </div>
         </ScrollArea>
       </DialogContent>
     </Dialog>
