@@ -272,7 +272,7 @@ export function LoginModal({
             {/* Google Login */}
             <Button
               variant="outline"
-              className="w-full hover:text-white"
+              className="w-full"
               onClick={handleGoogleLogin}
               disabled={isLoading}
             >
@@ -300,7 +300,7 @@ export function LoginModal({
             {/* Facebook Login */}
             <Button
               variant="outline"
-              className="w-full hover:text-white"
+              className="w-full"
               onClick={handleFacebookLogin}
               disabled={isLoading}
             >
@@ -313,7 +313,7 @@ export function LoginModal({
             {/* Microsoft Login */}
             <Button
               variant="outline"
-              className="w-full hover:text-white"
+              className="w-full"
               onClick={handleMicrosoftLogin}
               disabled={isLoading}
             >
