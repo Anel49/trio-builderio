@@ -540,6 +540,10 @@ export default function Profile() {
                       <Edit3 className="h-4 w-4 mr-2" />
                       Edit Profile
                     </Button>
+                    <Button variant="outline" className="w-full">
+                      <Heart className="h-4 w-4 mr-2" />
+                      Favorites
+                    </Button>
                     <Button
                       variant="outline"
                       className="w-full"
