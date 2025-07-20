@@ -333,6 +333,7 @@ export default function Index() {
                 host={car.host}
                 type={car.type}
                 distance={car.distance}
+                onFavorite={handleFavorite}
                 onClick={() => {
                   // Navigate to product details
                   window.location.href = `/product/${car.id}`;
