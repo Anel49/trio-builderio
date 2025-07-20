@@ -35,6 +35,13 @@ export default function BrowseListings() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
+  const [favoritedListing, setFavoritedListing] = useState("");
+
+  const handleFavorite = (listingName: string) => {
+    setFavoritedListing(listingName);
+    setIsFavoritesModalOpen(true);
+  };
 
   const listings = [
     {
