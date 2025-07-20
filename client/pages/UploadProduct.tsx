@@ -278,12 +278,12 @@ export default function UploadProduct() {
 
   const PreviewModal = () => (
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-      <DialogContent className="max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-hidden lg:overflow-y-auto">
+      <DialogContent className="max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh]">
         <DialogHeader>
           <DialogTitle>Listing Preview</DialogTitle>
         </DialogHeader>
-
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mt-4">
+        <ScrollArea className="h-[75vh] pr-4">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mt-4">
           {/* Left Column - Product Images (60%) */}
           <div className="lg:col-span-3">
             {/* Main Image */}
