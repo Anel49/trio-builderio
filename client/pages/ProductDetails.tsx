@@ -691,7 +691,7 @@ export default function ProductDetails() {
                     href="#"
                     className="hover:text-foreground transition-colors"
                   >
-                    Rent your item
+                    Rent your product
                   </a>
                 </li>
                 <li>

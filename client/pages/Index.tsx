@@ -427,7 +427,7 @@ export default function Index() {
                     href="/upload"
                     className="hover:text-foreground transition-colors"
                   >
-                    Rent your item
+                    Rent your product
                   </a>
                 </li>
                 <li>
