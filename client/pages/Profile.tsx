@@ -645,6 +645,7 @@ export default function Profile() {
                       host={item.host}
                       type={item.type}
                       distance={item.distance}
+                      onFavorite={handleFavorite}
                       onClick={() => {
                         window.location.href = `/product/${item.id}`;
                       }}
