@@ -254,6 +254,7 @@ export default function BrowseListings() {
                     host={listing.host}
                     type={listing.type}
                     distance={listing.distance}
+                    onFavorite={handleFavorite}
                     className={cn(
                       selectedListing === listing.id &&
                         "ring-2 ring-primary scale-105",
