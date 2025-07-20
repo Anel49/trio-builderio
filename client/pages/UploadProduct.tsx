@@ -473,6 +473,7 @@ export default function UploadProduct() {
             </Card>
           </div>
         </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
