@@ -389,10 +389,15 @@ export default function UploadProduct() {
 
                 <div className="text-right mb-6">
                   <div className="text-3xl font-bold text-primary">
-                    ${price ? (() => {
-                      const num = parseFloat(price);
-                      return num % 1 === 0 ? num.toString() : num.toFixed(2);
-                    })() : "0"}
+                    $
+                    {price
+                      ? (() => {
+                          const num = parseFloat(price);
+                          return num % 1 === 0
+                            ? num.toString()
+                            : num.toFixed(2);
+                        })()
+                      : "0"}
                   </div>
                   <div className="text-muted-foreground">per day</div>
                 </div>
@@ -582,7 +587,11 @@ export default function UploadProduct() {
                       id="image-upload"
                     />
                     <label htmlFor="image-upload" className="cursor-pointer">
-                      <Button variant="outline" className="cursor-pointer" asChild>
+                      <Button
+                        variant="outline"
+                        className="cursor-pointer"
+                        asChild
+                      >
                         <div>
                           <Plus className="h-4 w-4 mr-2" />
                           Add Images
