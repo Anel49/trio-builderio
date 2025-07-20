@@ -18,6 +18,7 @@ import { MobileMenu } from "@/components/ui/mobile-menu";
 import { PrivacyModal } from "@/components/ui/privacy-modal";
 import { TermsModal } from "@/components/ui/terms-modal";
 import { CookiesModal } from "@/components/ui/cookies-modal";
+import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
@@ -45,6 +46,8 @@ export default function Index() {
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [isCookiesModalOpen, setIsCookiesModalOpen] = useState(false);
+  const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
+  const [favoritedListing, setFavoritedListing] = useState("");
 
   const featuredCars = [
     {
