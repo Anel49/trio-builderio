@@ -676,8 +676,15 @@ export default function UploadProduct() {
                     <Input
                       id="price"
                       type="number"
+                      min="0"
+                      step="0.01"
                       value={price}
-                      onChange={(e) => setPrice(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "" || parseFloat(value) >= 0) {
+                          setPrice(value);
+                        }
+                      }}
                       placeholder="35"
                       className="w-full pl-8"
                     />
