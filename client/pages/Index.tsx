@@ -528,6 +528,18 @@ export default function Index() {
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
       />
+      <PrivacyModal
+        isOpen={isPrivacyModalOpen}
+        onOpenChange={setIsPrivacyModalOpen}
+      />
+      <TermsModal
+        isOpen={isTermsModalOpen}
+        onOpenChange={setIsTermsModalOpen}
+      />
+      <CookiesModal
+        isOpen={isCookiesModalOpen}
+        onOpenChange={setIsCookiesModalOpen}
+      />
     </div>
   );
 }
