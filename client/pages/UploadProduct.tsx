@@ -578,10 +578,12 @@ export default function UploadProduct() {
                       className="hidden"
                       id="image-upload"
                     />
-                    <label htmlFor="image-upload">
-                      <Button variant="outline" className="cursor-pointer">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Add Images
+                    <label htmlFor="image-upload" className="cursor-pointer">
+                      <Button variant="outline" className="cursor-pointer" asChild>
+                        <div>
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add Images
+                        </div>
                       </Button>
                     </label>
                   </div>
