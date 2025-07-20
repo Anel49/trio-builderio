@@ -363,8 +363,8 @@ export default function Index() {
             Join thousands of people who choose Trio for their rental needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8">
-              Browse listings
+            <Button size="lg" variant="secondary" className="text-lg px-8" asChild>
+              <a href="/browse">Browse listings</a>
             </Button>
             <Button
               size="lg"
