@@ -49,6 +49,11 @@ export default function Index() {
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
 
+  const handleFavorite = (listingName: string) => {
+    setFavoritedListing(listingName);
+    setIsFavoritesModalOpen(true);
+  };
+
   const featuredCars = [
     {
       id: 1,
