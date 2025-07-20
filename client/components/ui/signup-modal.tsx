@@ -273,7 +273,7 @@ export function SignUpModal({
             {/* Google Signup */}
             <Button
               variant="outline"
-              className="w-full hover:text-white"
+              className="w-full"
               onClick={handleGoogleSignup}
               disabled={isLoading}
             >
@@ -301,7 +301,7 @@ export function SignUpModal({
             {/* Facebook Signup */}
             <Button
               variant="outline"
-              className="w-full hover:text-white"
+              className="w-full"
               onClick={handleFacebookSignup}
               disabled={isLoading}
             >
@@ -314,7 +314,7 @@ export function SignUpModal({
             {/* Microsoft Signup */}
             <Button
               variant="outline"
-              className="w-full hover:text-white"
+              className="w-full"
               onClick={handleMicrosoftSignup}
               disabled={isLoading}
             >
