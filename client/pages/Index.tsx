@@ -372,7 +372,12 @@ export default function Index() {
             Join thousands of people who choose Trio for their rental needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8" asChild>
+            <Button
+              size="lg"
+              variant="secondary"
+              className="text-lg px-8"
+              asChild
+            >
               <a href="/browse">Browse listings</a>
             </Button>
             <Button
@@ -417,7 +422,6 @@ export default function Index() {
                     Weddings & events
                   </a>
                 </li>
-
               </ul>
             </div>
 
@@ -463,7 +467,6 @@ export default function Index() {
                     Contact us
                   </a>
                 </li>
-
               </ul>
             </div>
           </div>

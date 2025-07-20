@@ -273,14 +273,10 @@ export default function Profile() {
     // Sort reviews
     switch (itemReviewSortBy) {
       case "newest":
-        filtered.sort(
-          (a, b) => b.dateValue.getTime() - a.dateValue.getTime(),
-        );
+        filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
         break;
       case "oldest":
-        filtered.sort(
-          (a, b) => a.dateValue.getTime() - b.dateValue.getTime(),
-        );
+        filtered.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);
@@ -327,14 +323,10 @@ export default function Profile() {
     // Sort reviews
     switch (sellerReviewSortBy) {
       case "newest":
-        filtered.sort(
-          (a, b) => b.dateValue.getTime() - a.dateValue.getTime(),
-        );
+        filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
         break;
       case "oldest":
-        filtered.sort(
-          (a, b) => a.dateValue.getTime() - b.dateValue.getTime(),
-        );
+        filtered.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);

@@ -682,7 +682,6 @@ export default function ProductDetails() {
                     Weddings & events
                   </a>
                 </li>
-
               </ul>
             </div>
 
@@ -728,7 +727,6 @@ export default function ProductDetails() {
                     Contact us
                   </a>
                 </li>
-
               </ul>
             </div>
           </div>

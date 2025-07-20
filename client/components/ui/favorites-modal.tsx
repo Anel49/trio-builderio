@@ -14,10 +14,10 @@ interface FavoritesModalProps {
   listingTitle: string;
 }
 
-export function FavoritesModal({ 
-  isOpen, 
-  onOpenChange, 
-  listingTitle 
+export function FavoritesModal({
+  isOpen,
+  onOpenChange,
+  listingTitle,
 }: FavoritesModalProps) {
   // Auto close the modal after 2 seconds
   useEffect(() => {
@@ -25,7 +25,7 @@ export function FavoritesModal({
       const timer = setTimeout(() => {
         onOpenChange(false);
       }, 2000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [isOpen, onOpenChange]);
@@ -36,14 +36,13 @@ export function FavoritesModal({
         <DialogHeader>
           <div className="flex items-center justify-center mb-4">
             <div className="rounded-full bg-red-50 dark:bg-red-900/20 p-3">
-              <Heart 
-                className="h-8 w-8 text-red-500 fill-red-500" 
-              />
+              <Heart className="h-8 w-8 text-red-500 fill-red-500" />
             </div>
           </div>
           <DialogTitle className="text-center">Added to Favorites</DialogTitle>
           <DialogDescription className="text-center">
-            <span className="font-medium">{listingTitle}</span> has been added to your favorites.
+            <span className="font-medium">{listingTitle}</span> has been added
+            to your favorites.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
