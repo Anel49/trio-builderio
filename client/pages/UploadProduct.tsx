@@ -334,26 +334,10 @@ export default function UploadProduct() {
             <div className="lg:col-span-2 space-y-6">
               {/* Product Information */}
               <div>
-                <div className="flex items-start justify-between mb-2">
-                  <h1 className="text-3xl font-bold flex-1">
+                <div className="mb-2">
+                  <h1 className="text-3xl font-bold">
                     {title || "Your Product Title"}
                   </h1>
-                  <TooltipProvider>
-                    <Tooltip delayDuration={200}>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-muted-foreground hover:text-destructive ml-4 h-8 w-8 dark:hover:bg-red-600 dark:hover:text-white"
-                        >
-                          <Flag className="h-4 w-4" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Report listing</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
                 </div>
 
                 {selectedTags.length > 0 && (
