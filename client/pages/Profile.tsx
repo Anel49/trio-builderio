@@ -939,6 +939,11 @@ export default function Profile() {
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
       />
+      <FavoritesModal
+        isOpen={isFavoritesModalOpen}
+        onOpenChange={setIsFavoritesModalOpen}
+        listingTitle={favoritedListing}
+      />
     </div>
   );
 }
