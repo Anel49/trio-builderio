@@ -15,6 +15,9 @@ import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
+import { PrivacyModal } from "@/components/ui/privacy-modal";
+import { TermsModal } from "@/components/ui/terms-modal";
+import { CookiesModal } from "@/components/ui/cookies-modal";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
