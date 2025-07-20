@@ -672,14 +672,7 @@ export default function ProductDetails() {
                     Weddings & events
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    Business
-                  </a>
-                </li>
+
               </ul>
             </div>
 
@@ -694,14 +687,7 @@ export default function ProductDetails() {
                     Rent your product
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    Host tools
-                  </a>
-                </li>
+
                 <li>
                   <a
                     href="#"
@@ -732,14 +718,7 @@ export default function ProductDetails() {
                     Contact us
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    Safety
-                  </a>
-                </li>
+
               </ul>
             </div>
           </div>
