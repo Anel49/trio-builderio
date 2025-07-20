@@ -389,7 +389,7 @@ export default function UploadProduct() {
 
                 <div className="text-right mb-6">
                   <div className="text-3xl font-bold text-primary">
-                    ${price || "0"}
+                    ${price ? parseFloat(price).toFixed(2) : "0.00"}
                   </div>
                   <div className="text-muted-foreground">per day</div>
                 </div>
