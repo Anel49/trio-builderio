@@ -528,6 +528,11 @@ export default function Index() {
         isOpen={isCookiesModalOpen}
         onOpenChange={setIsCookiesModalOpen}
       />
+      <FavoritesModal
+        isOpen={isFavoritesModalOpen}
+        onOpenChange={setIsFavoritesModalOpen}
+        listingTitle={favoritedListing}
+      />
     </div>
   );
 }
