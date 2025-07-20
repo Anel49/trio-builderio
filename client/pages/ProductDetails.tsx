@@ -749,24 +749,24 @@ export default function ProductDetails() {
               �� 2025 Trio. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a
-                href="#"
+              <button
+                onClick={() => setIsPrivacyModalOpen(true)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Privacy
-              </a>
-              <a
-                href="#"
+              </button>
+              <button
+                onClick={() => setIsTermsModalOpen(true)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Terms
-              </a>
-              <a
-                href="#"
+              </button>
+              <button
+                onClick={() => setIsCookiesModalOpen(true)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Cookies
-              </a>
+              </button>
             </div>
           </div>
         </div>
