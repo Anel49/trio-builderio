@@ -9,6 +9,7 @@ import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
+import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { cn } from "@/lib/utils";
 import {
   Star,
@@ -57,6 +58,13 @@ export default function Profile() {
   // Mobile tabs navigation
   const [activeTab, setActiveTab] = useState("listings");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
+  const [favoritedListing, setFavoritedListing] = useState("");
+
+  const handleFavorite = (listingName: string) => {
+    setFavoritedListing(listingName);
+    setIsFavoritesModalOpen(true);
+  };
 
   // Mock user profile data
   const userProfile = {
@@ -264,10 +272,14 @@ export default function Profile() {
     // Sort reviews
     switch (itemReviewSortBy) {
       case "newest":
-        filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
+        filtered.sort(
+          (a, b) => b.dateValue.getTime() - a.dateValue.getTime(),
+        );
         break;
       case "oldest":
-        filtered.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
+        filtered.sort(
+          (a, b) => a.dateValue.getTime() - b.dateValue.getTime(),
+        );
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);
@@ -314,10 +326,14 @@ export default function Profile() {
     // Sort reviews
     switch (sellerReviewSortBy) {
       case "newest":
-        filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
+        filtered.sort(
+          (a, b) => b.dateValue.getTime() - a.dateValue.getTime(),
+        );
         break;
       case "oldest":
-        filtered.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
+        filtered.sort(
+          (a, b) => a.dateValue.getTime() - b.dateValue.getTime(),
+        );
         break;
       case "rating-high":
         filtered.sort((a, b) => b.rating - a.rating);
