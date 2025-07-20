@@ -20,6 +20,7 @@ import {
 import { PrivacyModal } from "@/components/ui/privacy-modal";
 import { TermsModal } from "@/components/ui/terms-modal";
 import { CookiesModal } from "@/components/ui/cookies-modal";
+import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { SignUpModal } from "@/components/ui/signup-modal";
@@ -53,6 +54,13 @@ export default function ProductDetails() {
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [isCookiesModalOpen, setIsCookiesModalOpen] = useState(false);
+  const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
+  const [favoritedListing, setFavoritedListing] = useState("");
+
+  const handleFavorite = (listingName: string) => {
+    setFavoritedListing(listingName);
+    setIsFavoritesModalOpen(true);
+  };
 
   const productImages = [
     "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
@@ -634,6 +642,7 @@ export default function ProductDetails() {
               host={item.host}
               type={item.type}
               distance={item.distance}
+              onFavorite={handleFavorite}
               onClick={() => {
                 window.location.href = `/product/${item.id}`;
               }}
