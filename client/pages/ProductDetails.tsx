@@ -792,6 +792,11 @@ export default function ProductDetails() {
         isOpen={isCookiesModalOpen}
         onOpenChange={setIsCookiesModalOpen}
       />
+      <FavoritesModal
+        isOpen={isFavoritesModalOpen}
+        onOpenChange={setIsFavoritesModalOpen}
+        listingTitle={favoritedListing}
+      />
     </div>
   );
 }
