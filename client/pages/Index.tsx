@@ -394,7 +394,7 @@ export default function Index() {
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <a
-                    href="#"
+                    href="/browse"
                     className="hover:text-foreground transition-colors"
                   >
                     Browse listings
