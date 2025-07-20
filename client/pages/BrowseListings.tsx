@@ -439,6 +439,11 @@ export default function BrowseListings() {
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
       />
+      <FavoritesModal
+        isOpen={isFavoritesModalOpen}
+        onOpenChange={setIsFavoritesModalOpen}
+        listingTitle={favoritedListing}
+      />
     </div>
   );
 }
