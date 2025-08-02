@@ -131,50 +131,167 @@ export default function Messages() {
     },
   ];
 
-  // Mock messages for selected chat
-  const messages = [
-    {
-      id: 1,
-      senderId: 1,
-      senderName: "Sarah Martinez",
-      content: "Hi! I'm interested in renting your lawn mower this weekend.",
-      timestamp: "10:30 AM",
-      isCurrentUser: false,
-    },
-    {
-      id: 2,
-      senderId: "current",
-      senderName: "You",
-      content: "Sure! It's available. When would you like to pick it up?",
-      timestamp: "10:32 AM",
-      isCurrentUser: true,
-    },
-    {
-      id: 3,
-      senderId: 1,
-      senderName: "Sarah Martinez",
-      content: "Saturday morning would be perfect. Around 9 AM?",
-      timestamp: "10:35 AM",
-      isCurrentUser: false,
-    },
-    {
-      id: 4,
-      senderId: "current",
-      senderName: "You",
-      content:
-        "That works perfectly! My address is 123 Oak Street. I'll have it ready for you.",
-      timestamp: "10:37 AM",
-      isCurrentUser: true,
-    },
-    {
-      id: 5,
-      senderId: 1,
-      senderName: "Sarah Martinez",
-      content: "The lawn mower is ready for pickup anytime after 2pm",
-      timestamp: "2:15 PM",
-      isCurrentUser: false,
-    },
-  ];
+  // Mock messages for different chats
+  const getMessagesForChat = (chatId: number) => {
+    const chatMessages: { [key: number]: any[] } = {
+      1: [ // Sarah Martinez - Lawn Mower
+        {
+          id: 1,
+          senderId: 1,
+          senderName: "Sarah Martinez",
+          content: "Hi! I'm interested in renting your lawn mower this weekend.",
+          timestamp: "10:30 AM",
+          isCurrentUser: false,
+        },
+        {
+          id: 2,
+          senderId: "current",
+          senderName: "You",
+          content: "Sure! It's available. When would you like to pick it up?",
+          timestamp: "10:32 AM",
+          isCurrentUser: true,
+        },
+        {
+          id: 3,
+          senderId: 1,
+          senderName: "Sarah Martinez",
+          content: "Saturday morning would be perfect. Around 9 AM?",
+          timestamp: "10:35 AM",
+          isCurrentUser: false,
+        },
+        {
+          id: 4,
+          senderId: "current",
+          senderName: "You",
+          content: "That works perfectly! My address is 123 Oak Street. I'll have it ready for you.",
+          timestamp: "10:37 AM",
+          isCurrentUser: true,
+        },
+        {
+          id: 5,
+          senderId: 1,
+          senderName: "Sarah Martinez",
+          content: "The lawn mower is ready for pickup anytime after 2pm",
+          timestamp: "2:15 PM",
+          isCurrentUser: false,
+        },
+      ],
+      2: [ // Michael Chen - Dress
+        {
+          id: 1,
+          senderId: 2,
+          senderName: "Michael Chen",
+          content: "Hello! Is the designer dress still available for this Friday?",
+          timestamp: "2:15 PM",
+          isCurrentUser: false,
+        },
+        {
+          id: 2,
+          senderId: "current",
+          senderName: "You",
+          content: "Yes, it's available! What's the occasion?",
+          timestamp: "2:18 PM",
+          isCurrentUser: true,
+        },
+        {
+          id: 3,
+          senderId: 2,
+          senderName: "Michael Chen",
+          content: "It's for my sister's wedding. She loved it in the photos!",
+          timestamp: "2:20 PM",
+          isCurrentUser: false,
+        },
+        {
+          id: 4,
+          senderId: "current",
+          senderName: "You",
+          content: "Perfect! It's been dry cleaned and ready to go.",
+          timestamp: "2:22 PM",
+          isCurrentUser: true,
+        },
+        {
+          id: 5,
+          senderId: 2,
+          senderName: "Michael Chen",
+          content: "Thanks for renting the dress! Hope it worked well for the event",
+          timestamp: "Yesterday",
+          isCurrentUser: false,
+        },
+      ],
+      3: [ // Alex Thompson - Tool Set
+        {
+          id: 1,
+          senderId: 3,
+          senderName: "Alex Thompson",
+          content: "Hi! I need to borrow some tools for a weekend project.",
+          timestamp: "9:00 AM",
+          isCurrentUser: false,
+        },
+        {
+          id: 2,
+          senderId: "current",
+          senderName: "You",
+          content: "What kind of project are you working on?",
+          timestamp: "9:05 AM",
+          isCurrentUser: true,
+        },
+        {
+          id: 3,
+          senderId: 3,
+          senderName: "Alex Thompson",
+          content: "Building a deck in my backyard. Need drill, saw, and measuring tools.",
+          timestamp: "9:07 AM",
+          isCurrentUser: false,
+        },
+        {
+          id: 4,
+          senderId: "current",
+          senderName: "You",
+          content: "Perfect! My tool set has everything you need.",
+          timestamp: "9:10 AM",
+          isCurrentUser: true,
+        },
+        {
+          id: 5,
+          senderId: 3,
+          senderName: "Alex Thompson",
+          content: "The tool set is in great condition, will return tomorrow",
+          timestamp: "6:30 PM",
+          isCurrentUser: false,
+        },
+      ],
+      4: [ // Emma Wilson - Camera
+        {
+          id: 1,
+          senderId: 4,
+          senderName: "Emma Wilson",
+          content: "Is the camera still available for this weekend?",
+          timestamp: "Yesterday",
+          isCurrentUser: false,
+        },
+        {
+          id: 2,
+          senderId: "current",
+          senderName: "You",
+          content: "Yes! What type of photography are you planning?",
+          timestamp: "Yesterday",
+          isCurrentUser: true,
+        },
+        {
+          id: 3,
+          senderId: 4,
+          senderName: "Emma Wilson",
+          content: "Family portraits at the beach. I heard it takes great outdoor shots!",
+          timestamp: "Yesterday",
+          isCurrentUser: false,
+        },
+      ],
+    };
+
+    return chatMessages[chatId] || [];
+  };
+
+  const messages = getMessagesForChat(selectedChat);
 
   const selectedChatData = chats.find((chat) => chat.id === selectedChat);
 
