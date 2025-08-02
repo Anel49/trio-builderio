@@ -11,6 +11,7 @@ import BrowseListings from "./pages/BrowseListings";
 import ProductDetails from "./pages/ProductDetails";
 import UploadProduct from "./pages/UploadProduct";
 import Profile from "./pages/Profile";
+import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/upload" element={<UploadProduct />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/messages" element={<Messages />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
