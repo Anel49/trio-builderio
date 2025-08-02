@@ -13,6 +13,8 @@ import {
   Paperclip,
   Menu,
   MessageCircle,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 
 export default function Messages() {
@@ -22,6 +24,7 @@ export default function Messages() {
   const [selectedChat, setSelectedChat] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [messageInput, setMessageInput] = useState("");
+  const [isSafetyBannerExpanded, setIsSafetyBannerExpanded] = useState(false);
 
   // Mock chat data
   const chats = [
@@ -105,7 +108,7 @@ export default function Messages() {
 
   const selectedChatData = chats.find(chat => chat.id === selectedChat);
 
-  const filteredChats = chats.filter(chat => 
+  const filteredChats = chats.filter(chat =>
     chat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     chat.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -152,7 +155,7 @@ export default function Messages() {
                 Log in
               </Button>
               <Button onClick={() => setIsSignUpModalOpen(true)}>Sign up</Button>
-              
+
               {/* Messages Link */}
               <Button
                 variant="ghost"
@@ -162,7 +165,7 @@ export default function Messages() {
               >
                 <MessageCircle className="h-5 w-5" />
               </Button>
-              
+
               {/* Profile Picture Link */}
               <Avatar
                 className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
@@ -170,7 +173,7 @@ export default function Messages() {
               >
                 <AvatarFallback>SM</AvatarFallback>
               </Avatar>
-              
+
               <ThemeToggle />
               <Button
                 variant="ghost"
@@ -304,11 +307,11 @@ export default function Messages() {
                   <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background"></div>
                 )}
               </div>
-              
+
               <h3 className="font-semibold text-lg mb-2">
                 {selectedChatData.name}
               </h3>
-              
+
               <p className="text-sm text-muted-foreground">
                 {selectedChatData.isOnline ? "Online" : `Last seen ${selectedChatData.lastActivity}`}
               </p>
