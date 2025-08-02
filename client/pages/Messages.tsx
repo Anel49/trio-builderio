@@ -1,0 +1,343 @@
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { LoginModal } from "@/components/ui/login-modal";
+import { SignUpModal } from "@/components/ui/signup-modal";
+import { MobileMenu } from "@/components/ui/mobile-menu";
+import {
+  Search,
+  Send,
+  Paperclip,
+  Menu,
+  MessageCircle,
+} from "lucide-react";
+
+export default function Messages() {
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedChat, setSelectedChat] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [messageInput, setMessageInput] = useState("");
+
+  // Mock chat data
+  const chats = [
+    {
+      id: 1,
+      name: "Sarah Martinez",
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "The lawn mower is ready for pickup anytime after 2pm",
+      lastActivity: "2 min ago",
+      isOnline: true,
+    },
+    {
+      id: 2,
+      name: "Michael Chen",
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "Thanks for renting the dress! Hope it worked well for the event",
+      lastActivity: "1 hour ago",
+      isOnline: false,
+    },
+    {
+      id: 3,
+      name: "Alex Thompson",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "The tool set is in great condition, will return tomorrow",
+      lastActivity: "3 hours ago",
+      isOnline: true,
+    },
+    {
+      id: 4,
+      name: "Emma Wilson",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "Is the camera still available for this weekend?",
+      lastActivity: "1 day ago",
+      isOnline: false,
+    },
+  ];
+
+  // Mock messages for selected chat
+  const messages = [
+    {
+      id: 1,
+      senderId: 1,
+      senderName: "Sarah Martinez",
+      content: "Hi! I'm interested in renting your lawn mower this weekend.",
+      timestamp: "10:30 AM",
+      isCurrentUser: false,
+    },
+    {
+      id: 2,
+      senderId: "current",
+      senderName: "You",
+      content: "Sure! It's available. When would you like to pick it up?",
+      timestamp: "10:32 AM",
+      isCurrentUser: true,
+    },
+    {
+      id: 3,
+      senderId: 1,
+      senderName: "Sarah Martinez",
+      content: "Saturday morning would be perfect. Around 9 AM?",
+      timestamp: "10:35 AM",
+      isCurrentUser: false,
+    },
+    {
+      id: 4,
+      senderId: "current",
+      senderName: "You",
+      content: "That works perfectly! My address is 123 Oak Street. I'll have it ready for you.",
+      timestamp: "10:37 AM",
+      isCurrentUser: true,
+    },
+    {
+      id: 5,
+      senderId: 1,
+      senderName: "Sarah Martinez",
+      content: "The lawn mower is ready for pickup anytime after 2pm",
+      timestamp: "2:15 PM",
+      isCurrentUser: false,
+    },
+  ];
+
+  const selectedChatData = chats.find(chat => chat.id === selectedChat);
+
+  const filteredChats = chats.filter(chat => 
+    chat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    chat.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleSendMessage = () => {
+    if (messageInput.trim()) {
+      // Add message logic here
+      setMessageInput("");
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="relative z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-border/40 dark:border-gray-700/40">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-8">
+              <div className="text-2xl font-semibold">
+                <a href="/">Trio</a>
+              </div>
+              <nav className="hidden md:flex space-x-8">
+                <a
+                  href="/browse"
+                  className="text-foreground hover:text-primary transition-colors"
+                >
+                  Browse listings
+                </a>
+                <a
+                  href="/upload"
+                  className="text-foreground hover:text-primary transition-colors"
+                >
+                  Rent your product
+                </a>
+              </nav>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                className="hidden md:inline-flex"
+                onClick={() => setIsLoginModalOpen(true)}
+              >
+                Log in
+              </Button>
+              <Button onClick={() => setIsSignUpModalOpen(true)}>Sign up</Button>
+              
+              {/* Messages Link */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative"
+                onClick={() => window.location.href = '/messages'}
+              >
+                <MessageCircle className="h-5 w-5" />
+              </Button>
+              
+              {/* Profile Picture Link */}
+              <Avatar
+                className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => (window.location.href = "/profile")}
+              >
+                <AvatarFallback>SM</AvatarFallback>
+              </Avatar>
+              
+              <ThemeToggle />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Messages Interface */}
+      <div className="h-[calc(100vh-4rem)] flex">
+        {/* Left Sidebar - Chat List (25%) */}
+        <div className="w-1/4 border-r border-border bg-muted/30">
+          {/* Search Bar */}
+          <div className="p-4 border-b border-border">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search conversations..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+          </div>
+
+          {/* Chat List */}
+          <div className="overflow-y-auto h-full">
+            {filteredChats.map((chat) => (
+              <div
+                key={chat.id}
+                onClick={() => setSelectedChat(chat.id)}
+                className={`p-4 border-b border-border cursor-pointer hover:bg-accent/50 transition-colors ${
+                  selectedChat === chat.id ? "bg-accent" : ""
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="relative">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage src={chat.avatar} alt={chat.name} />
+                      <AvatarFallback>
+                        {chat.name.split(" ").map(n => n[0]).join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    {chat.isOnline && (
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-sm truncate">
+                      {chat.name}
+                    </div>
+                    <div className="text-xs text-muted-foreground truncate">
+                      {chat.lastMessage}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Main Chat Area (60% of remaining 75%) */}
+        <div className="flex-1 flex flex-col">
+          {/* Chat Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.isCurrentUser ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                    message.isCurrentUser
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted"
+                  }`}
+                >
+                  <p className="text-sm">{message.content}</p>
+                  <p
+                    className={`text-xs mt-1 ${
+                      message.isCurrentUser
+                        ? "text-primary-foreground/70"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    {message.timestamp}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Message Input */}
+          <div className="border-t border-border p-4">
+            <div className="flex space-x-2">
+              <Button variant="outline" size="icon">
+                <Paperclip className="h-4 w-4" />
+              </Button>
+              <Input
+                placeholder="Type a message..."
+                value={messageInput}
+                onChange={(e) => setMessageInput(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                className="flex-1"
+              />
+              <Button onClick={handleSendMessage}>
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Sidebar - Chat Details (20% of remaining 75%) */}
+        <div className="w-1/5 border-l border-border bg-muted/30">
+          {selectedChatData && (
+            <div className="p-6 text-center">
+              <div className="relative inline-block mb-4">
+                <Avatar className="h-20 w-20">
+                  <AvatarImage src={selectedChatData.avatar} alt={selectedChatData.name} />
+                  <AvatarFallback className="text-lg">
+                    {selectedChatData.name.split(" ").map(n => n[0]).join("")}
+                  </AvatarFallback>
+                </Avatar>
+                {selectedChatData.isOnline && (
+                  <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background"></div>
+                )}
+              </div>
+              
+              <h3 className="font-semibold text-lg mb-2">
+                {selectedChatData.name}
+              </h3>
+              
+              <p className="text-sm text-muted-foreground">
+                {selectedChatData.isOnline ? "Online" : `Last seen ${selectedChatData.lastActivity}`}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Modals */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onOpenChange={setIsLoginModalOpen}
+        onSwitchToSignUp={() => {
+          setIsLoginModalOpen(false);
+          setIsSignUpModalOpen(true);
+        }}
+      />
+      <SignUpModal
+        isOpen={isSignUpModalOpen}
+        onOpenChange={setIsSignUpModalOpen}
+        onSwitchToLogin={() => {
+          setIsSignUpModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
+      />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onOpenChange={setIsMobileMenuOpen}
+      />
+    </div>
+  );
+}
