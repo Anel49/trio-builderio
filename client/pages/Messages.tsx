@@ -211,7 +211,7 @@ export default function Messages() {
       <div className="h-[calc(100vh-4rem)] p-6">
         <div className="h-full flex gap-4 rounded-lg overflow-hidden shadow-sm">
           {/* Left Sidebar - Chat List (25%) */}
-          <div className="w-1/4 bg-muted/30 rounded-l-lg border border-border">
+          <div className="w-1/4 bg-muted/30 rounded-lg border border-border">
           {/* Search Bar */}
           <div className="p-4 border-b border-border">
             <div className="relative">
@@ -262,7 +262,7 @@ export default function Messages() {
         </div>
 
         {/* Main Chat Area (60% of remaining 75%) */}
-        <div className="flex-1 flex flex-col bg-background border-y border-border">
+        <div className="flex-1 flex flex-col bg-background border border-border rounded-lg">
           {/* Safety Banner */}
           <div className="bg-red-100 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800/50">
             <div className="p-4">
@@ -342,7 +342,7 @@ export default function Messages() {
         </div>
 
         {/* Right Sidebar - Chat Details (20% of remaining 75%) */}
-        <div className="w-1/5 bg-muted/30 rounded-r-lg border border-border">
+        <div className="w-1/5 bg-muted/30 rounded-lg border border-border">
           {selectedChatData && (
             <div className="p-6 text-center">
               <div className="relative inline-block mb-4">
