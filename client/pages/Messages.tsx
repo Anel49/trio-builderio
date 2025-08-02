@@ -120,6 +120,25 @@ export default function Messages() {
     }
   };
 
+  const downloadChat = () => {
+    if (!selectedChatData) return;
+
+    const chatHistory = messages.map(msg =>
+      `[${msg.timestamp}] ${msg.senderName}: ${msg.content}`
+    ).join('\n');
+
+    const content = `Chat with ${selectedChatData.name}\n${'='.repeat(30)}\n\n${chatHistory}`;
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `chat-${selectedChatData.name.replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
