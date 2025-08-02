@@ -388,7 +388,7 @@ export default function Profile() {
                 variant="ghost"
                 size="icon"
                 className="relative"
-                onClick={() => window.location.href = '/messages'}
+                onClick={() => (window.location.href = "/messages")}
               >
                 <MessageCircle className="h-5 w-5" />
               </Button>
