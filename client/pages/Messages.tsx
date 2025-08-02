@@ -421,7 +421,7 @@ export default function Messages() {
                 <div
                   key={chat.id}
                   onClick={() => setSelectedChat(chat.id)}
-                  className={`p-2 mx-2 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
+                  className={`p-2 ml-2 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
                     selectedChat === chat.id ? "bg-accent" : ""
                   }`}
                 >
