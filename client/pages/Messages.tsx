@@ -208,9 +208,10 @@ export default function Messages() {
       </header>
 
       {/* Main Messages Interface */}
-      <div className="h-[calc(100vh-4rem)] flex">
-        {/* Left Sidebar - Chat List (25%) */}
-        <div className="w-1/4 border-r border-border bg-muted/30">
+      <div className="h-[calc(100vh-4rem)] p-6">
+        <div className="h-full flex gap-4 rounded-lg overflow-hidden shadow-sm">
+          {/* Left Sidebar - Chat List (25%) */}
+          <div className="w-1/4 bg-muted/30 rounded-l-lg border border-border">
           {/* Search Bar */}
           <div className="p-4 border-b border-border">
             <div className="relative">
