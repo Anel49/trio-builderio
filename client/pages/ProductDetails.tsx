@@ -40,6 +40,7 @@ import {
   Search,
   SlidersHorizontal,
   Flag,
+  MessageCircle,
 } from "lucide-react";
 
 export default function ProductDetails() {
