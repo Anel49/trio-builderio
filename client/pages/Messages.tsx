@@ -134,12 +134,14 @@ export default function Messages() {
   // Mock messages for different chats
   const getMessagesForChat = (chatId: number) => {
     const chatMessages: { [key: number]: any[] } = {
-      1: [ // Sarah Martinez - Lawn Mower
+      1: [
+        // Sarah Martinez - Lawn Mower
         {
           id: 1,
           senderId: 1,
           senderName: "Sarah Martinez",
-          content: "Hi! I'm interested in renting your lawn mower this weekend.",
+          content:
+            "Hi! I'm interested in renting your lawn mower this weekend.",
           timestamp: "10:30 AM",
           isCurrentUser: false,
         },
@@ -163,7 +165,8 @@ export default function Messages() {
           id: 4,
           senderId: "current",
           senderName: "You",
-          content: "That works perfectly! My address is 123 Oak Street. I'll have it ready for you.",
+          content:
+            "That works perfectly! My address is 123 Oak Street. I'll have it ready for you.",
           timestamp: "10:37 AM",
           isCurrentUser: true,
         },
@@ -176,12 +179,14 @@ export default function Messages() {
           isCurrentUser: false,
         },
       ],
-      2: [ // Michael Chen - Dress
+      2: [
+        // Michael Chen - Dress
         {
           id: 1,
           senderId: 2,
           senderName: "Michael Chen",
-          content: "Hello! Is the designer dress still available for this Friday?",
+          content:
+            "Hello! Is the designer dress still available for this Friday?",
           timestamp: "2:15 PM",
           isCurrentUser: false,
         },
@@ -213,12 +218,14 @@ export default function Messages() {
           id: 5,
           senderId: 2,
           senderName: "Michael Chen",
-          content: "Thanks for renting the dress! Hope it worked well for the event",
+          content:
+            "Thanks for renting the dress! Hope it worked well for the event",
           timestamp: "Yesterday",
           isCurrentUser: false,
         },
       ],
-      3: [ // Alex Thompson - Tool Set
+      3: [
+        // Alex Thompson - Tool Set
         {
           id: 1,
           senderId: 3,
@@ -239,7 +246,8 @@ export default function Messages() {
           id: 3,
           senderId: 3,
           senderName: "Alex Thompson",
-          content: "Building a deck in my backyard. Need drill, saw, and measuring tools.",
+          content:
+            "Building a deck in my backyard. Need drill, saw, and measuring tools.",
           timestamp: "9:07 AM",
           isCurrentUser: false,
         },
@@ -260,7 +268,8 @@ export default function Messages() {
           isCurrentUser: false,
         },
       ],
-      4: [ // Emma Wilson - Camera
+      4: [
+        // Emma Wilson - Camera
         {
           id: 1,
           senderId: 4,
@@ -281,7 +290,8 @@ export default function Messages() {
           id: 3,
           senderId: 4,
           senderName: "Emma Wilson",
-          content: "Family portraits at the beach. I heard it takes great outdoor shots!",
+          content:
+            "Family portraits at the beach. I heard it takes great outdoor shots!",
           timestamp: "Yesterday",
           isCurrentUser: false,
         },
