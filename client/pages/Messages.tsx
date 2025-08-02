@@ -387,31 +387,31 @@ export default function Messages() {
             {/* Chat Messages */}
             <ScrollArea className="flex-1 px-4">
               <div className="py-4 space-y-4">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.isCurrentUser ? "justify-end" : "justify-start"}`}
-                >
+                {messages.map((message) => (
                   <div
-                    className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                      message.isCurrentUser
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted"
-                    }`}
+                    key={message.id}
+                    className={`flex ${message.isCurrentUser ? "justify-end" : "justify-start"}`}
                   >
-                    <p className="text-sm">{message.content}</p>
-                    <p
-                      className={`text-xs mt-1 ${
+                    <div
+                      className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                         message.isCurrentUser
-                          ? "text-primary-foreground/70"
-                          : "text-muted-foreground"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted"
                       }`}
                     >
-                      {message.timestamp}
-                    </p>
+                      <p className="text-sm">{message.content}</p>
+                      <p
+                        className={`text-xs mt-1 ${
+                          message.isCurrentUser
+                            ? "text-primary-foreground/70"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {message.timestamp}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
               </div>
             </ScrollArea>
 
