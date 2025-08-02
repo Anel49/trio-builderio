@@ -262,6 +262,35 @@ export default function Messages() {
 
         {/* Main Chat Area (60% of remaining 75%) */}
         <div className="flex-1 flex flex-col">
+          {/* Safety Banner */}
+          <div className="bg-red-100 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800/50">
+            <div className="p-4">
+              <div className="text-sm text-red-800 dark:text-red-200">
+                <strong>Safety Notice:</strong> Avoid meeting at night or at private locations. It is safest to meet during the day in well-lit, public locations such as active parking lots, public libraries, and outside police stations. Do not bring additional people unless it is agreed upon by all parties.
+              </div>
+
+              {/* Collapsible second part */}
+              <div className="mt-2">
+                <button
+                  onClick={() => setIsSafetyBannerExpanded(!isSafetyBannerExpanded)}
+                  className="flex items-center text-xs text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100 transition-colors"
+                >
+                  {isSafetyBannerExpanded ? "Hide" : "Show"} privacy guidelines
+                  {isSafetyBannerExpanded ?
+                    <ChevronUp className="ml-1 h-3 w-3" /> :
+                    <ChevronDown className="ml-1 h-3 w-3" />
+                  }
+                </button>
+
+                {isSafetyBannerExpanded && (
+                  <div className="mt-2 text-xs text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/30 p-3 rounded">
+                    <strong>Privacy Protection:</strong> Do not send any personal or identifiable information in your messages. This includes your last name, the names or information of family members or friends, phone numbers, living addresses, social security or passport numbers, credit or debit card numbers, bank account or routing numbers, medical information, work addresses or work information, etc. Keep your messages relevant to the rental item, the meetup location, and the time of the meetup.
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Chat Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message) => (
