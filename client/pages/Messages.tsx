@@ -412,7 +412,8 @@ export default function Messages() {
                   </div>
                 </div>
               ))}
-            </div>
+              </div>
+            </ScrollArea>
 
             {/* Message Input */}
             <div className="border-t border-border p-4">
