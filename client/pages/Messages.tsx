@@ -286,7 +286,7 @@ export default function Messages() {
           {/* Left Sidebar - Chat List (25%) */}
           <div className="w-1/4 bg-muted/30 rounded-lg border border-border overflow-hidden">
             {/* Search Bar */}
-            <div className="p-4 border-b border-border">
+            <div className="p-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
