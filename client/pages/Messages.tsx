@@ -360,9 +360,23 @@ export default function Messages() {
                 {selectedChatData.name}
               </h3>
 
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground mb-6">
                 {selectedChatData.isOnline ? "Online" : `Last seen ${selectedChatData.lastActivity}`}
               </p>
+
+              {/* Chat Deletion Notice */}
+              <div className="border-t border-border pt-6">
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Chats will be deleted after 180 days (approximately 6 months) of inactivity. You may download this conversation in its entirety by clicking or tapping{" "}
+                  <button
+                    onClick={downloadChat}
+                    className="underline hover:text-foreground transition-colors font-medium"
+                  >
+                    here
+                  </button>
+                  .
+                </p>
+              </div>
             </div>
           )}
         </div>
