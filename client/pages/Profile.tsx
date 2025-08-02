@@ -382,6 +382,17 @@ export default function Profile() {
               <Button onClick={() => setIsSignUpModalOpen(true)}>
                 Sign up
               </Button>
+
+              {/* Messages Link */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative"
+                onClick={() => window.location.href = '/messages'}
+              >
+                <MessageCircle className="h-5 w-5" />
+              </Button>
+
               {/* Profile Picture Link - Blue outline when on profile page */}
               <Avatar className="h-8 w-8 cursor-pointer hover:opacity-80 transition-all ring-2 ring-primary">
                 <AvatarImage
