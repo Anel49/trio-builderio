@@ -323,11 +323,11 @@ export default function Messages() {
                         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
                       )}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-sm truncate">
+                    <div className="flex-1 min-w-0 max-w-0">
+                      <div className="font-semibold text-sm truncate w-full">
                         {chat.name}
                       </div>
-                      <div className="text-xs text-muted-foreground truncate">
+                      <div className="text-xs text-muted-foreground truncate w-full">
                         {chat.lastMessage}
                       </div>
                     </div>
