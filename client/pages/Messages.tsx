@@ -598,7 +598,7 @@ export default function Messages() {
                 <div className="border-t border-border pt-6">
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Chats will be deleted after 180 days (approximately 6
-                    months) of inactivity. <br><br>You may download this conversation in
+                    months) of inactivity. You may download this conversation in
                     its entirety by clicking or tapping{" "}
                     <button
                       onClick={downloadChat}
