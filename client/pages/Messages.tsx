@@ -366,7 +366,7 @@ export default function Messages() {
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
-                className="hidden md:inline-flex items-center justify-center pt-0.5"
+                className="hidden md:inline-flex items-center justify-center pt-0.6"
                 onClick={() => setIsLoginModalOpen(true)}
               >
                 Log in
