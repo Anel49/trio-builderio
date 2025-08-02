@@ -34,6 +34,7 @@ import {
   Car,
   Clock,
   Heart,
+  MessageCircle,
 } from "lucide-react";
 
 export default function Index() {
@@ -156,6 +157,17 @@ export default function Index() {
               <Button onClick={() => setIsSignUpModalOpen(true)}>
                 Sign up
               </Button>
+
+              {/* Messages Link */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative"
+                onClick={() => window.location.href = '/messages'}
+              >
+                <MessageCircle className="h-5 w-5" />
+              </Button>
+
               {/* Profile Picture Link */}
               <Avatar
                 className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
