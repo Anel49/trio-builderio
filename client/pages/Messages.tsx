@@ -284,7 +284,7 @@ export default function Messages() {
       <div className="h-[calc(100vh-4rem)] p-6">
         <div className="h-full flex gap-4 rounded-lg overflow-hidden shadow-sm">
           {/* Left Sidebar - Chat List (25%) */}
-          <div className="w-1/4 bg-muted/30 rounded-lg border border-border">
+          <div className="w-1/4 bg-muted/30 rounded-lg border border-border overflow-hidden">
             {/* Search Bar */}
             <div className="p-4 border-b border-border">
               <div className="relative">
@@ -323,7 +323,7 @@ export default function Messages() {
                         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
                       )}
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 w-0">
                       <div className="font-semibold text-sm truncate">
                         {chat.name}
                       </div>
