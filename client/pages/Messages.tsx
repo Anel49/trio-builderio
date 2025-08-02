@@ -543,7 +543,7 @@ export default function Messages() {
             </ScrollArea>
 
             {/* Message Input */}
-            <div className="border-t border-border p-4">
+            <div className="p-4">
               <div className="flex space-x-2">
                 <Button variant="outline" size="icon">
                   <Paperclip className="h-4 w-4" />
