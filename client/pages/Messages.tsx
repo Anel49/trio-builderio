@@ -66,6 +66,69 @@ export default function Messages() {
       lastActivity: "1 day ago",
       isOnline: false,
     },
+    {
+      id: 5,
+      name: "David Rodriguez",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "Thanks for the power drill rental, worked perfectly!",
+      lastActivity: "2 days ago",
+      isOnline: true,
+    },
+    {
+      id: 6,
+      name: "Lisa Park",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "Can I extend the rental for one more day?",
+      lastActivity: "3 days ago",
+      isOnline: false,
+    },
+    {
+      id: 7,
+      name: "James Anderson",
+      avatar:
+        "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "The tent setup was easy, perfect for camping trip",
+      lastActivity: "4 days ago",
+      isOnline: true,
+    },
+    {
+      id: 8,
+      name: "Maria Garcia",
+      avatar:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "Do you have any other bike accessories available?",
+      lastActivity: "5 days ago",
+      isOnline: false,
+    },
+    {
+      id: 9,
+      name: "Robert Kim",
+      avatar:
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "The speaker system was amazing for the party!",
+      lastActivity: "1 week ago",
+      isOnline: true,
+    },
+    {
+      id: 10,
+      name: "Jessica Taylor",
+      avatar:
+        "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "I'd like to rent the projector again next month",
+      lastActivity: "1 week ago",
+      isOnline: false,
+    },
+    {
+      id: 11,
+      name: "Kevin Wong",
+      avatar:
+        "https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=64&h=64&fit=crop&auto=format",
+      lastMessage: "The kayak was in excellent condition, thank you!",
+      lastActivity: "2 weeks ago",
+      isOnline: true,
+    },
   ];
 
   // Mock messages for selected chat
