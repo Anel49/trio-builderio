@@ -334,7 +334,7 @@ export default function Messages() {
                   </div>
                 </div>
               ))}
-            </div>
+            </ScrollArea>
           </div>
 
           {/* Main Chat Area (60% of remaining 75%) */}
