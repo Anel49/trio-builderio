@@ -366,12 +366,15 @@ export default function Messages() {
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
-                className="hidden md:inline-flex"
+                className="hidden md:inline-flex items-center justify-center"
                 onClick={() => setIsLoginModalOpen(true)}
               >
                 Log in
               </Button>
-              <Button onClick={() => setIsSignUpModalOpen(true)}>
+              <Button
+                className="items-center justify-center"
+                onClick={() => setIsSignUpModalOpen(true)}
+              >
                 Sign up
               </Button>
 
