@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LoginModal } from "@/components/ui/login-modal";
 import { SignUpModal } from "@/components/ui/signup-modal";
