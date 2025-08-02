@@ -299,7 +299,7 @@ export default function Messages() {
             </div>
 
             {/* Chat List */}
-            <div className="overflow-y-auto h-full">
+            <ScrollArea className="h-full">
               {filteredChats.map((chat) => (
                 <div
                   key={chat.id}
