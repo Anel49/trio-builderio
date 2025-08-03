@@ -144,7 +144,8 @@ export default function Index() {
           <div className="absolute inset-0 bg-black/40 dark:bg-black/60" />
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 text-center">
+          <Container>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
             Rent from
             <br />
