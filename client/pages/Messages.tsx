@@ -566,7 +566,7 @@ export default function Messages() {
           </div>
 
           {/* Right Sidebar - Chat Details (20% of remaining 75%) */}
-          <div className="w-1/5 bg-muted/30 rounded-lg border border-border">
+          <div className="w-1/5 bg-muted/30">
             {selectedChatData && (
               <div className="p-6 text-center">
                 <div className="relative inline-block mb-4">
