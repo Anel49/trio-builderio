@@ -75,98 +75,23 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Login Modal */}
-      <Dialog open={isLoginModalOpen} onOpenChange={setIsLoginModalOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Welcome back</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                className="w-full"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                className="w-full"
-              />
-            </div>
-            <Button className="w-full">Sign in</Button>
-            <div className="text-center text-sm text-muted-foreground">
-              Don't have an account?{" "}
-              <button
-                onClick={() => {
-                  setIsLoginModalOpen(false);
-                  setIsSignUpModalOpen(true);
-                }}
-                className="text-primary hover:underline"
-              >
-                Sign up
-              </button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onOpenChange={setIsLoginModalOpen}
+        onSwitchToSignUp={() => {
+          setIsLoginModalOpen(false);
+          setIsSignUpModalOpen(true);
+        }}
+      />
 
-      {/* Sign Up Modal */}
-      <Dialog open={isSignUpModalOpen} onOpenChange={setIsSignUpModalOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Create your account</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <Label htmlFor="signup-name">Full Name</Label>
-              <Input
-                id="signup-name"
-                type="text"
-                placeholder="Enter your full name"
-                className="w-full"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="signup-email">Email</Label>
-              <Input
-                id="signup-email"
-                type="email"
-                placeholder="Enter your email"
-                className="w-full"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="signup-password">Password</Label>
-              <Input
-                id="signup-password"
-                type="password"
-                placeholder="Create a password"
-                className="w-full"
-              />
-            </div>
-            <Button className="w-full">Create account</Button>
-            <div className="text-center text-sm text-muted-foreground">
-              Already have an account?{" "}
-              <button
-                onClick={() => {
-                  setIsSignUpModalOpen(false);
-                  setIsLoginModalOpen(true);
-                }}
-                className="text-primary hover:underline"
-              >
-                Sign in
-              </button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <SignUpModal
+        isOpen={isSignUpModalOpen}
+        onOpenChange={setIsSignUpModalOpen}
+        onSwitchToLogin={() => {
+          setIsSignUpModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
+      />
     </>
   );
 }
