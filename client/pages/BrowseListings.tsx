@@ -76,6 +76,20 @@ export default function BrowseListings() {
   });
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
+  // Filter state
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    minPrice: "",
+    maxPrice: "",
+    maxDistance: "",
+    zipCode: "",
+    category: "",
+  });
+
+  // Sort state
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [sortBy, setSortBy] = useState("");
+
   const handleFavorite = (listingName: string) => {
     setFavoritedListing(listingName);
     setIsFavoritesModalOpen(true);
