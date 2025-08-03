@@ -204,7 +204,10 @@ export default function Index() {
                 </div>
 
                 <div className="md:col-span-1">
-                  <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+                  <Popover
+                    open={isDatePickerOpen}
+                    onOpenChange={setIsDatePickerOpen}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -217,8 +220,8 @@ export default function Index() {
                         {dateRange.start && dateRange.end
                           ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
                           : dateRange.start
-                          ? `${format(dateRange.start, "MMM dd")} - End`
-                          : "Dates"}
+                            ? `${format(dateRange.start, "MMM dd")} - End`
+                            : "Dates"}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
@@ -241,7 +244,10 @@ export default function Index() {
                             variant="outline"
                             size="default"
                             onClick={() => {
-                              setDateRange({ start: undefined, end: undefined });
+                              setDateRange({
+                                start: undefined,
+                                end: undefined,
+                              });
                             }}
                             className="w-full"
                           >

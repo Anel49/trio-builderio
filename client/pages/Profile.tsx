@@ -479,7 +479,6 @@ export default function Profile() {
                       <Heart className="h-4 w-4 mr-2" />
                       Favorites
                     </Button>
-
                   </div>
                 </div>
               </CardContent>
