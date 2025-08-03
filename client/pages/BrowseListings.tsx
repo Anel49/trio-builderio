@@ -214,14 +214,40 @@ export default function BrowseListings() {
                   initialFocus
                 />
                 {dateRange.start && (
-                  <div className="p-3 border-t text-sm text-muted-foreground">
+                  <div className="p-3 border-t">
                     {dateRange.end ? (
-                      <div>
-                        Selected: {format(dateRange.start, "MMM dd, yyyy")} - {format(dateRange.end, "MMM dd, yyyy")}
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">
+                          {format(dateRange.start, "MMM dd, yyyy")} - {format(dateRange.end, "MMM dd, yyyy")}
+                        </span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setDateRange({ start: undefined, end: undefined });
+                            setIsDatePickerOpen(false);
+                          }}
+                          className="text-xs"
+                        >
+                          Clear selection
+                        </Button>
                       </div>
                     ) : (
-                      <div>
-                        Start: {format(dateRange.start, "MMM dd, yyyy")} (Select end date)
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">
+                          Start: {format(dateRange.start, "MMM dd, yyyy")} (Select end date)
+                        </span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setDateRange({ start: undefined, end: undefined });
+                            setIsDatePickerOpen(false);
+                          }}
+                          className="text-xs"
+                        >
+                          Clear
+                        </Button>
                       </div>
                     )}
                   </div>
