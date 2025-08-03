@@ -256,24 +256,24 @@ export default function BrowseListings() {
       }
 
       // Price filter
-      if (filters.minPrice) {
+      if (appliedFilters.minPrice) {
         const price = parseInt(listing.price.replace("$", ""));
-        if (price < parseInt(filters.minPrice)) return false;
+        if (price < parseInt(appliedFilters.minPrice)) return false;
       }
-      if (filters.maxPrice) {
+      if (appliedFilters.maxPrice) {
         const price = parseInt(listing.price.replace("$", ""));
-        if (price > parseInt(filters.maxPrice)) return false;
+        if (price > parseInt(appliedFilters.maxPrice)) return false;
       }
 
       // Category filter
-      if (filters.category && listing.type !== filters.category) {
+      if (appliedFilters.category && listing.type !== appliedFilters.category) {
         return false;
       }
 
       // Distance filter (simplified - in real app would calculate based on zip code)
-      if (filters.maxDistance && filters.zipCode) {
+      if (appliedFilters.maxDistance && appliedFilters.zipCode) {
         const distance = parseFloat(listing.distance.replace(" miles", ""));
-        if (distance > parseInt(filters.maxDistance)) return false;
+        if (distance > parseInt(appliedFilters.maxDistance)) return false;
       }
 
       return true;
