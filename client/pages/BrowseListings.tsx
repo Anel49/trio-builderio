@@ -59,6 +59,24 @@ export default function BrowseListings() {
     setIsFavoritesModalOpen(true);
   };
 
+  const handleDateSelect = (date: Date | undefined) => {
+    if (!date) return;
+
+    if (!dateRange.start || (dateRange.start && dateRange.end)) {
+      // First click or reset - set start date
+      setDateRange({ start: date, end: undefined });
+    } else if (dateRange.start && !dateRange.end) {
+      // Second click - set end date
+      if (date >= dateRange.start) {
+        setDateRange({ ...dateRange, end: date });
+        setIsDatePickerOpen(false);
+      } else {
+        // If selected date is before start date, make it the new start date
+        setDateRange({ start: date, end: undefined });
+      }
+    }
+  };
+
   const listings = [
     {
       id: 1,
