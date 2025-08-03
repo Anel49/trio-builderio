@@ -218,6 +218,77 @@ export default function BrowseListings() {
   const [showPricePopup, setShowPricePopup] = useState<number | null>(null);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
+  // Filter and sort listings
+  const filteredAndSortedListings = React.useMemo(() => {
+    let filtered = listings.filter((listing) => {
+      // Search query filter
+      if (searchQuery && !listing.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return false;
+      }
+
+      // Price filter
+      if (filters.minPrice) {
+        const price = parseInt(listing.price.replace('$', ''));
+        if (price < parseInt(filters.minPrice)) return false;
+      }
+      if (filters.maxPrice) {
+        const price = parseInt(listing.price.replace('$', ''));
+        if (price > parseInt(filters.maxPrice)) return false;
+      }
+
+      // Category filter
+      if (filters.category && listing.type !== filters.category) {
+        return false;
+      }
+
+      // Distance filter (simplified - in real app would calculate based on zip code)
+      if (filters.maxDistance && filters.zipCode) {
+        const distance = parseFloat(listing.distance.replace(' miles', ''));
+        if (distance > parseInt(filters.maxDistance)) return false;
+      }
+
+      return true;
+    });
+
+    // Sort listings
+    if (sortBy) {
+      filtered.sort((a, b) => {
+        switch (sortBy) {
+          case 'distance-asc':
+            return parseFloat(a.distance.replace(' miles', '')) - parseFloat(b.distance.replace(' miles', ''));
+          case 'distance-desc':
+            return parseFloat(b.distance.replace(' miles', '')) - parseFloat(a.distance.replace(' miles', ''));
+          case 'price-asc':
+            return parseInt(a.price.replace('$', '')) - parseInt(b.price.replace('$', ''));
+          case 'price-desc':
+            return parseInt(b.price.replace('$', '')) - parseInt(a.price.replace('$', ''));
+          case 'time-asc':
+            // Recently listed first - parse time strings
+            return getTimeInMinutes(a.listedTime) - getTimeInMinutes(b.listedTime);
+          case 'time-desc':
+            // Oldest listed first
+            return getTimeInMinutes(b.listedTime) - getTimeInMinutes(a.listedTime);
+          default:
+            return 0;
+        }
+      });
+    }
+
+    return filtered;
+  }, [listings, searchQuery, filters, sortBy]);
+
+  // Helper function to convert time strings to minutes for sorting
+  const getTimeInMinutes = (timeStr: string): number => {
+    if (timeStr.includes('mins')) {
+      return parseInt(timeStr.replace(' mins ago', ''));
+    } else if (timeStr.includes('hour')) {
+      return parseInt(timeStr.replace(' hours ago', '').replace(' hour ago', '')) * 60;
+    } else if (timeStr.includes('day')) {
+      return parseInt(timeStr.replace(' days ago', '').replace(' day ago', '')) * 24 * 60;
+    }
+    return 0;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <style>{fadeInStyle}</style>
