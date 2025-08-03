@@ -498,7 +498,6 @@ export default function BrowseListings() {
                       };
                       setFilters(emptyFilters);
                       setAppliedFilters(emptyFilters);
-                      setIsFilterOpen(false);
                     }}
                   >
                     Clear filter
