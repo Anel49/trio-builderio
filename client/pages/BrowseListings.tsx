@@ -220,12 +220,19 @@ export default function BrowseListings() {
 
   // Helper function to convert time strings to minutes for sorting
   const getTimeInMinutes = (timeStr: string): number => {
-    if (timeStr.includes('mins')) {
-      return parseInt(timeStr.replace(' mins ago', ''));
-    } else if (timeStr.includes('hour')) {
-      return parseInt(timeStr.replace(' hours ago', '').replace(' hour ago', '')) * 60;
-    } else if (timeStr.includes('day')) {
-      return parseInt(timeStr.replace(' days ago', '').replace(' day ago', '')) * 24 * 60;
+    if (timeStr.includes("mins")) {
+      return parseInt(timeStr.replace(" mins ago", ""));
+    } else if (timeStr.includes("hour")) {
+      return (
+        parseInt(timeStr.replace(" hours ago", "").replace(" hour ago", "")) *
+        60
+      );
+    } else if (timeStr.includes("day")) {
+      return (
+        parseInt(timeStr.replace(" days ago", "").replace(" day ago", "")) *
+        24 *
+        60
+      );
     }
     return 0;
   };
@@ -234,17 +241,20 @@ export default function BrowseListings() {
   const filteredAndSortedListings = React.useMemo(() => {
     let filtered = listings.filter((listing) => {
       // Search query filter
-      if (searchQuery && !listing.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+      if (
+        searchQuery &&
+        !listing.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
         return false;
       }
 
       // Price filter
       if (filters.minPrice) {
-        const price = parseInt(listing.price.replace('$', ''));
+        const price = parseInt(listing.price.replace("$", ""));
         if (price < parseInt(filters.minPrice)) return false;
       }
       if (filters.maxPrice) {
-        const price = parseInt(listing.price.replace('$', ''));
+        const price = parseInt(listing.price.replace("$", ""));
         if (price > parseInt(filters.maxPrice)) return false;
       }
 
@@ -255,7 +265,7 @@ export default function BrowseListings() {
 
       // Distance filter (simplified - in real app would calculate based on zip code)
       if (filters.maxDistance && filters.zipCode) {
-        const distance = parseFloat(listing.distance.replace(' miles', ''));
+        const distance = parseFloat(listing.distance.replace(" miles", ""));
         if (distance > parseInt(filters.maxDistance)) return false;
       }
 
@@ -266,20 +276,36 @@ export default function BrowseListings() {
     if (sortBy) {
       filtered.sort((a, b) => {
         switch (sortBy) {
-          case 'distance-asc':
-            return parseFloat(a.distance.replace(' miles', '')) - parseFloat(b.distance.replace(' miles', ''));
-          case 'distance-desc':
-            return parseFloat(b.distance.replace(' miles', '')) - parseFloat(a.distance.replace(' miles', ''));
-          case 'price-asc':
-            return parseInt(a.price.replace('$', '')) - parseInt(b.price.replace('$', ''));
-          case 'price-desc':
-            return parseInt(b.price.replace('$', '')) - parseInt(a.price.replace('$', ''));
-          case 'time-asc':
+          case "distance-asc":
+            return (
+              parseFloat(a.distance.replace(" miles", "")) -
+              parseFloat(b.distance.replace(" miles", ""))
+            );
+          case "distance-desc":
+            return (
+              parseFloat(b.distance.replace(" miles", "")) -
+              parseFloat(a.distance.replace(" miles", ""))
+            );
+          case "price-asc":
+            return (
+              parseInt(a.price.replace("$", "")) -
+              parseInt(b.price.replace("$", ""))
+            );
+          case "price-desc":
+            return (
+              parseInt(b.price.replace("$", "")) -
+              parseInt(a.price.replace("$", ""))
+            );
+          case "time-asc":
             // Recently listed first - parse time strings
-            return getTimeInMinutes(a.listedTime) - getTimeInMinutes(b.listedTime);
-          case 'time-desc':
+            return (
+              getTimeInMinutes(a.listedTime) - getTimeInMinutes(b.listedTime)
+            );
+          case "time-desc":
             // Oldest listed first
-            return getTimeInMinutes(b.listedTime) - getTimeInMinutes(a.listedTime);
+            return (
+              getTimeInMinutes(b.listedTime) - getTimeInMinutes(a.listedTime)
+            );
           default:
             return 0;
         }
@@ -375,13 +401,17 @@ export default function BrowseListings() {
                       <Input
                         placeholder="Min"
                         value={filters.minPrice}
-                        onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
+                        onChange={(e) =>
+                          setFilters({ ...filters, minPrice: e.target.value })
+                        }
                         className="flex-1"
                       />
                       <Input
                         placeholder="Max"
                         value={filters.maxPrice}
-                        onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
+                        onChange={(e) =>
+                          setFilters({ ...filters, maxPrice: e.target.value })
+                        }
                         className="flex-1"
                       />
                     </div>
@@ -394,14 +424,23 @@ export default function BrowseListings() {
                       <Input
                         placeholder="Miles"
                         value={filters.maxDistance}
-                        onChange={(e) => setFilters({ ...filters, maxDistance: e.target.value })}
+                        onChange={(e) =>
+                          setFilters({
+                            ...filters,
+                            maxDistance: e.target.value,
+                          })
+                        }
                         className="w-20"
                       />
-                      <span className="text-sm text-muted-foreground">miles from</span>
+                      <span className="text-sm text-muted-foreground">
+                        miles from
+                      </span>
                       <Input
                         placeholder="Zip code"
                         value={filters.zipCode}
-                        onChange={(e) => setFilters({ ...filters, zipCode: e.target.value })}
+                        onChange={(e) =>
+                          setFilters({ ...filters, zipCode: e.target.value })
+                        }
                         className="w-24"
                       />
                     </div>
@@ -412,7 +451,9 @@ export default function BrowseListings() {
                     <Label className="text-sm font-medium">Category</Label>
                     <select
                       value={filters.category}
-                      onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+                      onChange={(e) =>
+                        setFilters({ ...filters, category: e.target.value })
+                      }
                       className="w-full mt-2 p-2 border border-input rounded-md bg-background"
                     >
                       <option value="">All Categories</option>
@@ -446,7 +487,10 @@ export default function BrowseListings() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56">
-                <DropdownMenuRadioGroup value={sortBy} onValueChange={setSortBy}>
+                <DropdownMenuRadioGroup
+                  value={sortBy}
+                  onValueChange={setSortBy}
+                >
                   <DropdownMenuRadioItem value="distance-asc">
                     Distance (Closest First)
                   </DropdownMenuRadioItem>

@@ -81,7 +81,9 @@ export function ProductCard({
           <div>
             <h3 className="font-semibold text-xl">{name}</h3>
             {listedTime && (
-              <p className="text-sm text-muted-foreground">Listed {listedTime}</p>
+              <p className="text-sm text-muted-foreground">
+                Listed {listedTime}
+              </p>
             )}
           </div>
           <div className="text-right">
