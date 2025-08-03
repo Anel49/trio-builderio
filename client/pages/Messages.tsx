@@ -414,7 +414,7 @@ export default function Messages() {
       <div className="h-[calc(100vh-4rem)]">
         <div className="h-full flex overflow-hidden shadow-sm">
           {/* Left Sidebar - Chat List (25%) */}
-          <div className="w-1/4 bg-muted/30 border border-border overflow-hidden">
+          <div className="w-1/4 bg-muted/30 overflow-hidden">
             {/* Search Bar */}
             <div className="p-4">
               <div className="relative">
