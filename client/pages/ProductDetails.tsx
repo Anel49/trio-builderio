@@ -250,7 +250,8 @@ export default function ProductDetails() {
       <Header />
 
       {/* Main Product Section - 60/40 Split */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Section>
+        <Container>
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           {/* Left Column - Product Images (60%) */}
           <div className="lg:col-span-3">
