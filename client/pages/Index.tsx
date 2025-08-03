@@ -218,7 +218,7 @@ export default function Index() {
                           ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
                           : dateRange.start
                           ? `${format(dateRange.start, "MMM dd")} - End`
-                          : "Pick up - Return"}
+                          : "Dates"}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
