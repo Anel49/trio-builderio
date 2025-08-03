@@ -284,10 +284,85 @@ export default function BrowseListings() {
                 )}
               </PopoverContent>
             </Popover>
-            <Button variant="outline" className="flex items-center gap-2">
-              <SlidersHorizontal className="h-4 w-4" />
-              Filters
-            </Button>
+            <DropdownMenu open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <SlidersHorizontal className="h-4 w-4" />
+                  Filters
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-80 p-4">
+                <div className="space-y-4">
+                  {/* Price Filter */}
+                  <div>
+                    <Label className="text-sm font-medium">Price Range</Label>
+                    <div className="flex gap-2 mt-2">
+                      <Input
+                        placeholder="Min"
+                        value={filters.minPrice}
+                        onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
+                        className="flex-1"
+                      />
+                      <Input
+                        placeholder="Max"
+                        value={filters.maxPrice}
+                        onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
+                        className="flex-1"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Distance Filter */}
+                  <div>
+                    <Label className="text-sm font-medium">Distance</Label>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Input
+                        placeholder="50"
+                        value={filters.maxDistance}
+                        onChange={(e) => setFilters({ ...filters, maxDistance: e.target.value })}
+                        className="w-20"
+                      />
+                      <span className="text-sm text-muted-foreground">miles from</span>
+                      <Input
+                        placeholder="37193"
+                        value={filters.zipCode}
+                        onChange={(e) => setFilters({ ...filters, zipCode: e.target.value })}
+                        className="w-24"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Category Filter */}
+                  <div>
+                    <Label className="text-sm font-medium">Category</Label>
+                    <select
+                      value={filters.category}
+                      onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+                      className="w-full mt-2 p-2 border border-input rounded-md bg-background"
+                    >
+                      <option value="">All Categories</option>
+                      <option value="Landscaping">Landscaping</option>
+                      <option value="Clothing">Clothing</option>
+                      <option value="Tools">Tools</option>
+                      <option value="Electronics">Electronics</option>
+                      <option value="Sports">Sports</option>
+                      <option value="Instruments">Instruments</option>
+                    </select>
+                  </div>
+
+                  {/* Apply Button */}
+                  <Button
+                    className="w-full mt-4"
+                    onClick={() => {
+                      // Apply filters logic here
+                      setIsFilterOpen(false);
+                    }}
+                  >
+                    Apply Filters
+                  </Button>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button variant="outline" className="flex items-center gap-2">
               <Filter className="h-4 w-4" />
               Sort
