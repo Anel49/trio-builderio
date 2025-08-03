@@ -72,6 +72,14 @@ export default function Header() {
                 <AvatarFallback>SM</AvatarFallback>
               </Avatar>
               <ThemeToggle />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
