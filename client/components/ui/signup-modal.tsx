@@ -155,9 +155,12 @@ export function SignUpModal({
       const response = await pca.loginPopup(loginRequest);
       console.log("Microsoft OAuth Response:", response);
       handleOAuthSuccess("microsoft", response);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Microsoft signup error:", error);
-      alert("Microsoft signup failed. Please try again.");
+      // Don't show alert for user cancellation
+      if (error.errorCode !== "user_cancelled") {
+        alert("Microsoft signup failed. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
