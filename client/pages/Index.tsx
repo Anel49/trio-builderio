@@ -231,33 +231,21 @@ export default function Index() {
       </section>
 
       {/* Browse by Category */}
-      <section className="py-16 bg-accent/30 dark:bg-gray-800/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Browse by category
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {categories.map((category, index) => (
-              <Card
-                key={index}
-                className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-              >
-                <CardContent className="p-6 text-center">
-                  <div className="text-4xl mb-3">
-                    <p>{category.icon}</p>
-                  </div>
-                  <h3 className="font-semibold text-lg mb-1">
-                    {category.name}
-                  </h3>
-                  <p className="text-muted-foreground text-sm">
-                    {category.count}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+      <Section background="accent" padding="large">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+          Browse by category
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {categories.map((category, index) => (
+            <CategoryCard
+              key={index}
+              icon={category.icon}
+              name={category.name}
+              count={category.count}
+            />
+          ))}
         </div>
-      </section>
+      </Section>
 
       {/* Featured Cars */}
       <section className="py-16">
