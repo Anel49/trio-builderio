@@ -320,7 +320,7 @@ export default function BrowseListings() {
     }
 
     return filtered;
-  }, [listings, searchQuery, filters, sortBy]);
+  }, [listings, searchQuery, appliedFilters, sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
