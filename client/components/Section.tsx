@@ -8,22 +8,22 @@ interface SectionProps {
   containerized?: boolean;
 }
 
-export function Section({ 
-  children, 
-  className = "", 
+export function Section({
+  children,
+  className = "",
   background = "default",
   padding = "default",
-  containerized = true
+  containerized = true,
 }: SectionProps) {
   const backgroundClasses = {
     default: "",
     accent: "bg-accent/30 dark:bg-gray-800/30",
-    primary: "bg-primary text-primary-foreground"
+    primary: "bg-primary text-primary-foreground",
   };
 
   const paddingClasses = {
     default: "py-8",
-    large: "py-16"
+    large: "py-16",
   };
 
   const sectionClasses = `${backgroundClasses[background]} ${paddingClasses[padding]} ${className}`;
@@ -31,16 +31,10 @@ export function Section({
   if (containerized) {
     return (
       <section className={sectionClasses}>
-        <Container>
-          {children}
-        </Container>
+        <Container>{children}</Container>
       </section>
     );
   }
 
-  return (
-    <section className={sectionClasses}>
-      {children}
-    </section>
-  );
+  return <section className={sectionClasses}>{children}</section>;
 }
