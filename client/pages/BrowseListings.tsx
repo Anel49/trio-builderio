@@ -405,22 +405,34 @@ export default function BrowseListings() {
                   <div>
                     <Label className="text-sm font-medium">Price Range</Label>
                     <div className="flex gap-2 mt-2">
-                      <Input
-                        placeholder="Min"
-                        value={filters.minPrice}
-                        onChange={(e) =>
-                          setFilters({ ...filters, minPrice: e.target.value })
-                        }
-                        className="flex-1"
-                      />
-                      <Input
-                        placeholder="Max"
-                        value={filters.maxPrice}
-                        onChange={(e) =>
-                          setFilters({ ...filters, maxPrice: e.target.value })
-                        }
-                        className="flex-1"
-                      />
+                      <div className="relative flex-1">
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                          $
+                        </span>
+                        <Input
+                          type="text"
+                          placeholder="Min"
+                          value={filters.minPrice}
+                          onChange={(e) =>
+                            setFilters({ ...filters, minPrice: e.target.value })
+                          }
+                          className="pl-8"
+                        />
+                      </div>
+                      <div className="relative flex-1">
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                          $
+                        </span>
+                        <Input
+                          type="text"
+                          placeholder="Max"
+                          value={filters.maxPrice}
+                          onChange={(e) =>
+                            setFilters({ ...filters, maxPrice: e.target.value })
+                          }
+                          className="pl-8"
+                        />
+                      </div>
                     </div>
                   </div>
 
