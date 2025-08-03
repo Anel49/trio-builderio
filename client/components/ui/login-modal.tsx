@@ -154,9 +154,12 @@ export function LoginModal({
       const response = await pca.loginPopup(loginRequest);
       console.log("Microsoft OAuth Response:", response);
       handleOAuthSuccess("microsoft", response);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Microsoft login error:", error);
-      alert("Microsoft login failed. Please try again.");
+      // Don't show alert for user cancellation
+      if (error.errorCode !== "user_cancelled") {
+        alert("Microsoft login failed. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
