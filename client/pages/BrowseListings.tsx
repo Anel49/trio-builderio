@@ -48,6 +48,11 @@ export default function BrowseListings() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
+  const [dateRange, setDateRange] = useState<{start: Date | undefined, end: Date | undefined}>({
+    start: undefined,
+    end: undefined,
+  });
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const handleFavorite = (listingName: string) => {
     setFavoritedListing(listingName);
