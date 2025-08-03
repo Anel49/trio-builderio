@@ -254,7 +254,11 @@ export default function Index() {
             <h2 className="text-3xl md:text-4xl font-bold">
               Recently listed near you
             </h2>
-            <Button variant="ghost" className="group">
+            <Button
+              variant="ghost"
+              className="group"
+              onClick={() => (window.location.href = "/browse")}
+            >
               View all
               <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
