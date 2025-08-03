@@ -23,16 +23,16 @@ export default function Header() {
                   Trio
                 </a>
               </div>
-              <nav className="hidden md:flex space-x-8">
+              <nav className="hidden md:flex space-x-8 mt-[1px] ml-8">
                 <a
                   href="/browse"
-                  className="text-foreground hover:text-primary transition-colors"
+                  className="text-foreground hover:text-primary transition-colors mt-[2px]"
                 >
                   Browse listings
                 </a>
                 <a
                   href="/upload"
-                  className="text-foreground hover:text-primary transition-colors"
+                  className="text-foreground hover:text-primary transition-colors mt-[2px] ml-8"
                 >
                   Rent your product
                 </a>
