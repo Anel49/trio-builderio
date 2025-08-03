@@ -61,6 +61,21 @@ export default function Index() {
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
 
+  const handleDateSelect = (range: any) => {
+    if (range?.from) {
+      if (!dateRange.start || range.to) {
+        // First click or both dates selected
+        setDateRange({
+          start: range.from,
+          end: range.to,
+        });
+        if (range.to) {
+          setIsDatePickerOpen(false);
+        }
+      }
+    }
+  };
+
   const handleFavorite = (listingName: string) => {
     setFavoritedListing(listingName);
     setIsFavoritesModalOpen(true);
