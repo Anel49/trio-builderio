@@ -102,6 +102,11 @@ export default function Header() {
           setIsLoginModalOpen(true);
         }}
       />
+
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onOpenChange={setIsMobileMenuOpen}
+      />
     </>
   );
 }
