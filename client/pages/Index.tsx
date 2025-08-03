@@ -129,7 +129,9 @@ export default function Index() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
               <div className="text-2xl font-semibold">
-                <a href="/" className="hover:text-primary transition-colors">Trio</a>
+                <a href="/" className="hover:text-primary transition-colors">
+                  Trio
+                </a>
               </div>
               <nav className="hidden md:flex space-x-8">
                 <a
