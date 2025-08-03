@@ -3,9 +3,8 @@ import { MessageCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { ThemeToggle } from "./ui/theme-toggle";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+import { LoginModal } from "./ui/login-modal";
+import { SignUpModal } from "./ui/signup-modal";
 
 export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
