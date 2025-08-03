@@ -149,6 +149,18 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background">
+      <style>{`
+        .calendar-with-range-styling .rdp-day_range_middle {
+          background-color: hsl(var(--primary)) !important;
+          color: hsl(var(--primary-foreground)) !important;
+        }
+
+        .calendar-with-range-styling .rdp-day_range_start,
+        .calendar-with-range-styling .rdp-day_range_end {
+          background-color: hsl(var(--primary)) !important;
+          color: hsl(var(--primary-foreground)) !important;
+        }
+      `}</style>
       <Header />
 
       {/* Hero Section */}
