@@ -363,10 +363,36 @@ export default function BrowseListings() {
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="outline" className="flex items-center gap-2">
-              <Filter className="h-4 w-4" />
-              Sort
-            </Button>
+            <DropdownMenu open={isSortOpen} onOpenChange={setIsSortOpen}>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Filter className="h-4 w-4" />
+                  Sort
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56">
+                <DropdownMenuRadioGroup value={sortBy} onValueChange={setSortBy}>
+                  <DropdownMenuRadioItem value="distance-asc">
+                    Distance (Closest First)
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="distance-desc">
+                    Distance (Farthest First)
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="price-asc">
+                    Price (Low to High)
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="price-desc">
+                    Price (High to Low)
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="time-asc">
+                    Recently Listed
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="time-desc">
+                    Oldest Listed
+                  </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </section>
