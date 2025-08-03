@@ -499,6 +499,7 @@ export default function BrowseListings() {
                     host={listing.host}
                     type={listing.type}
                     distance={listing.distance}
+                    listedTime={listing.listedTime}
                     onFavorite={handleFavorite}
                     className={cn(
                       selectedListing === listing.id &&
