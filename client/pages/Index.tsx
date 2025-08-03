@@ -212,7 +212,7 @@ export default function Index() {
                       <Button
                         variant="outline"
                         className={cn(
-                          "h-14 justify-start text-left font-normal border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white w-full",
+                          "h-14 justify-start text-left font-normal border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white w-full pr-[90px]",
                           !dateRange.start && "text-muted-foreground",
                         )}
                       >
