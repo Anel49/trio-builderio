@@ -203,53 +203,55 @@ export default function Index() {
                   />
                 </div>
 
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "h-14 justify-start text-left font-normal border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white",
-                        !pickupDate && "text-muted-foreground",
+                <div className="md:col-span-2">
+                  <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "h-14 justify-start text-left font-normal border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white w-full",
+                          !dateRange.start && "text-muted-foreground",
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-5 w-5" />
+                        {dateRange.start && dateRange.end
+                          ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
+                          : dateRange.start
+                          ? `${format(dateRange.start, "MMM dd")} - End`
+                          : "Pick up - Return"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <div className="calendar-with-range-styling">
+                        <Calendar
+                          mode="range"
+                          selected={{
+                            from: dateRange.start,
+                            to: dateRange.end,
+                          }}
+                          onSelect={handleDateSelect}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                          numberOfMonths={1}
+                        />
+                      </div>
+                      {dateRange.start && (
+                        <div className="p-4 border-t">
+                          <Button
+                            variant="outline"
+                            size="default"
+                            onClick={() => {
+                              setDateRange({ start: undefined, end: undefined });
+                            }}
+                            className="w-full"
+                          >
+                            Clear selection
+                          </Button>
+                        </div>
                       )}
-                    >
-                      <CalendarIcon className="mr-2 h-5 w-5" />
-                      {pickupDate ? format(pickupDate, "MMM dd") : "Pick up"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={pickupDate}
-                      onSelect={setPickupDate}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "h-14 justify-start text-left font-normal border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white",
-                        !returnDate && "text-muted-foreground",
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-5 w-5" />
-                      {returnDate ? format(returnDate, "MMM dd") : "Return"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={returnDate}
-                      onSelect={setReturnDate}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
 
               <Button size="lg" className="w-full mt-6 h-14 text-lg relative">
