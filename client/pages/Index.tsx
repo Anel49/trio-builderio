@@ -190,7 +190,7 @@ export default function Index() {
           </Container>
 
           {/* Search Form */}
-          <Card className="max-w-7xl mx-auto bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/30">
+          <Card className="w-[80%] mx-auto bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/30">
             <CardContent className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="md:col-span-3 relative">
