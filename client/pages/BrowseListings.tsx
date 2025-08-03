@@ -487,7 +487,7 @@ export default function BrowseListings() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {listings.map((listing) => (
+              {filteredAndSortedListings.map((listing) => (
                 <div key={listing.id} id={`listing-${listing.id}`}>
                   <ProductCard
                     id={listing.id}
