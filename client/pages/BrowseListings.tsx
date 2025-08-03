@@ -33,11 +33,22 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 
-// CSS animation for price popup fade in effect
+// CSS animation for price popup fade in effect and calendar range styling
 const fadeInStyle = `
   @keyframes fadeIn {
     from { opacity: 0; transform: translateX(-50%) translateY(4px); }
     to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  .calendar-with-range-styling .rdp-day_range_middle {
+    background-color: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+  }
+
+  .calendar-with-range-styling .rdp-day_range_start,
+  .calendar-with-range-styling .rdp-day_range_end {
+    background-color: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
   }
 `;
 
