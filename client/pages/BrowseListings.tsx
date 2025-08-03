@@ -477,11 +477,31 @@ export default function BrowseListings() {
                   <Button
                     className="w-full mt-4"
                     onClick={() => {
-                      // Apply filters logic here
+                      setAppliedFilters(filters);
                       setIsFilterOpen(false);
                     }}
                   >
-                    Apply Filters
+                    Apply filter
+                  </Button>
+
+                  {/* Clear Button */}
+                  <Button
+                    variant="outline"
+                    className="w-full mt-2"
+                    onClick={() => {
+                      const emptyFilters = {
+                        minPrice: "",
+                        maxPrice: "",
+                        maxDistance: "",
+                        zipCode: "",
+                        category: "",
+                      };
+                      setFilters(emptyFilters);
+                      setAppliedFilters(emptyFilters);
+                      setIsFilterOpen(false);
+                    }}
+                  >
+                    Clear filter
                   </Button>
                 </div>
               </DropdownMenuContent>
