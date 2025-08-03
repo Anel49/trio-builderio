@@ -128,6 +128,7 @@ export default function BrowseListings() {
       distance: "2.3 miles",
       lat: 37.7749,
       lng: -122.4194,
+      listedTime: "23 mins ago",
     },
     {
       id: 2,
