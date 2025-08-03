@@ -57,7 +57,9 @@ export const PrivacyContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">2. How We Use Your Information</h3>
+      <h3 className="text-lg font-semibold mb-3">
+        2. How We Use Your Information
+      </h3>
       <p className="text-muted-foreground mb-4">
         We use the information we collect to provide, maintain, and improve our
         services.
@@ -142,7 +144,9 @@ export const TermsContent = () => (
 
     <section>
       <h3 className="text-lg font-semibold mb-3">3. User Responsibilities</h3>
-      <p className="text-muted-foreground mb-4">As a user of Trio, you agree to:</p>
+      <p className="text-muted-foreground mb-4">
+        As a user of Trio, you agree to:
+      </p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
         <li>Provide accurate and up-to-date information</li>
         <li>Use the platform in compliance with all applicable laws</li>
@@ -160,7 +164,9 @@ export const TermsContent = () => (
         <li>Engage in fraudulent or deceptive practices</li>
         <li>Harass, threaten, or harm other users</li>
         <li>Circumvent our payment or security systems</li>
-        <li>Use the platform for commercial purposes beyond personal rentals</li>
+        <li>
+          Use the platform for commercial purposes beyond personal rentals
+        </li>
       </ul>
     </section>
 
@@ -207,7 +213,9 @@ export const CookiesContent = () => (
 
     <section>
       <h3 className="text-lg font-semibold mb-3">2. How We Use Cookies</h3>
-      <p className="text-muted-foreground mb-4">We use cookies for several purposes:</p>
+      <p className="text-muted-foreground mb-4">
+        We use cookies for several purposes:
+      </p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
         <li>Keep you signed in to your account</li>
         <li>Remember your preferences and settings</li>
@@ -219,11 +227,13 @@ export const CookiesContent = () => (
 
     <section>
       <h3 className="text-lg font-semibold mb-3">3. Types of Cookies</h3>
-      <p className="text-muted-foreground mb-4">We use different types of cookies:</p>
+      <p className="text-muted-foreground mb-4">
+        We use different types of cookies:
+      </p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
         <li>
-          <strong>Essential cookies:</strong> Required for the platform to function
-          properly
+          <strong>Essential cookies:</strong> Required for the platform to
+          function properly
         </li>
         <li>
           <strong>Performance cookies:</strong> Help us understand how users
@@ -252,7 +262,8 @@ export const CookiesContent = () => (
         <li>Choose which types of cookies to allow</li>
       </ul>
       <p className="text-muted-foreground mt-4">
-        Note that disabling cookies may affect the functionality of our platform.
+        Note that disabling cookies may affect the functionality of our
+        platform.
       </p>
     </section>
 
