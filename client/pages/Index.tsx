@@ -43,8 +43,14 @@ import {
 } from "lucide-react";
 
 export default function Index() {
-  const [pickupDate, setPickupDate] = useState<Date>();
-  const [returnDate, setReturnDate] = useState<Date>();
+  const [dateRange, setDateRange] = useState<{
+    start: Date | undefined;
+    end: Date | undefined;
+  }>({
+    start: undefined,
+    end: undefined,
+  });
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [location, setLocation] = useState("");
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
