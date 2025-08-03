@@ -297,7 +297,7 @@ export default function Index() {
             </h2>
             <Button
               variant="ghost"
-              className="group pt-4 pb-2 px-4"
+              className="group pt-4 pb-2 px-4 hover:bg-transparent"
               onClick={() => (window.location.href = "/browse")}
             >
               View all
