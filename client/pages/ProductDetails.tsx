@@ -434,8 +434,8 @@ export default function ProductDetails() {
               </CardContent>
             </Card>
           </div>
-        </Container>
-      </Section>
+        </div>
+      </section>
 
       {/* Reviews Section - Full Width */}
       <section
