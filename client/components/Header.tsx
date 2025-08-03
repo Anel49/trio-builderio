@@ -41,12 +41,15 @@ export default function Header() {
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
-                className="hidden md:inline-flex"
+                className="hidden md:inline-flex pt-[6px] pb-[8px] px-4"
                 onClick={() => setIsLoginModalOpen(true)}
               >
                 Log in
               </Button>
-              <Button onClick={() => setIsSignUpModalOpen(true)}>
+              <Button
+                className="pt-[6px] pb-[8px] px-4"
+                onClick={() => setIsSignUpModalOpen(true)}
+              >
                 Sign up
               </Button>
 
