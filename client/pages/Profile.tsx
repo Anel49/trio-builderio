@@ -479,14 +479,7 @@ export default function Profile() {
                       <Heart className="h-4 w-4 mr-2" />
                       Favorites
                     </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => (window.location.href = "/upload")}
-                    >
-                      <Package className="h-4 w-4 mr-2" />
-                      Add New Listing
-                    </Button>
+
                   </div>
                 </div>
               </CardContent>
