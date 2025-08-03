@@ -160,6 +160,7 @@ export default function BrowseListings() {
       distance: "8.7 miles",
       lat: 37.8715,
       lng: -122.273,
+      listedTime: "3 hours ago",
     },
     {
       id: 4,
@@ -175,6 +176,7 @@ export default function BrowseListings() {
       distance: "12.4 miles",
       lat: 37.4419,
       lng: -122.143,
+      listedTime: "2 days ago",
     },
     {
       id: 5,
