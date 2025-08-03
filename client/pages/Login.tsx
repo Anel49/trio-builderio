@@ -244,50 +244,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header - Same as other pages */}
-      <header className="relative z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-border/40 dark:border-gray-700/40">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <div className="text-2xl font-semibold">
-                <a href="/">Trio</a>
-              </div>
-              <nav className="hidden md:flex space-x-8">
-                <a
-                  href="/browse"
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Browse listings
-                </a>
-                <a
-                  href="/upload"
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Rent your product
-                </a>
-              </nav>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                className="hidden md:inline-flex"
-                onClick={() => setIsSignUpModalOpen(true)}
-              >
-                Sign up
-              </Button>
-              <ThemeToggle />
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                onClick={() => setIsMobileMenuOpen(true)}
-              >
-                <Menu className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Login Content */}
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-12">
