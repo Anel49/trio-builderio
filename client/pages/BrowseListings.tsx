@@ -399,7 +399,12 @@ export default function BrowseListings() {
                   Filters
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-80 p-4">
+              <DropdownMenuContent
+                align="start"
+                className="w-80 p-4"
+                onCloseAutoFocus={(e) => e.preventDefault()}
+                loop
+              >
                 <div className="space-y-4">
                   {/* Price Filter */}
                   <div>
