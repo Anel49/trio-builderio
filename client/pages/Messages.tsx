@@ -411,7 +411,7 @@ export default function Messages() {
       </header>
 
       {/* Main Messages Interface */}
-      <div className="h-[calc(100vh-4rem)] p-3">
+      <div className="h-[calc(100vh-4rem)]">
         <div className="h-full flex gap-4 rounded-lg overflow-hidden shadow-sm">
           {/* Left Sidebar - Chat List (25%) */}
           <div className="w-1/4 bg-muted/30 rounded-lg border border-border overflow-hidden">
