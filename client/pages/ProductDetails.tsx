@@ -23,6 +23,7 @@ import { CookiesModal } from "@/components/ui/cookies-modal";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
+import Header from "@/components/Header";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
