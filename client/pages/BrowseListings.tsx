@@ -206,67 +206,43 @@ export default function BrowseListings() {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="range"
-                  selected={{
-                    from: dateRange.start,
-                    to: dateRange.end,
-                  }}
-                  onSelect={(range) => {
-                    if (range?.from) {
-                      if (!dateRange.start || range.to) {
-                        // First click or both dates selected
-                        setDateRange({
-                          start: range.from,
-                          end: range.to,
-                        });
-                        if (range.to) {
-                          setIsDatePickerOpen(false);
+                <div className="calendar-with-range-styling">
+                  <Calendar
+                    mode="range"
+                    selected={{
+                      from: dateRange.start,
+                      to: dateRange.end,
+                    }}
+                    onSelect={(range) => {
+                      if (range?.from) {
+                        if (!dateRange.start || range.to) {
+                          // First click or both dates selected
+                          setDateRange({
+                            start: range.from,
+                            end: range.to,
+                          });
+                          // Don't auto-close when end date is selected
                         }
                       }
-                    }
-                  }}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                  numberOfMonths={1}
-                />
+                    }}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                    numberOfMonths={1}
+                  />
+                </div>
                 {dateRange.start && (
-                  <div className="p-3 border-t">
-                    {dateRange.end ? (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">
-                          {format(dateRange.start, "MMM dd, yyyy")} - {format(dateRange.end, "MMM dd, yyyy")}
-                        </span>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            setDateRange({ start: undefined, end: undefined });
-                            setIsDatePickerOpen(false);
-                          }}
-                          className="text-xs"
-                        >
-                          Clear selection
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">
-                          Start: {format(dateRange.start, "MMM dd, yyyy")} (Select end date)
-                        </span>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            setDateRange({ start: undefined, end: undefined });
-                            setIsDatePickerOpen(false);
-                          }}
-                          className="text-xs"
-                        >
-                          Clear
-                        </Button>
-                      </div>
-                    )}
+                  <div className="p-4 border-t">
+                    <Button
+                      variant="outline"
+                      size="default"
+                      onClick={() => {
+                        setDateRange({ start: undefined, end: undefined });
+                        setIsDatePickerOpen(false);
+                      }}
+                      className="w-full"
+                    >
+                      Clear selection
+                    </Button>
                   </div>
                 )}
               </PopoverContent>
