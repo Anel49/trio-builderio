@@ -468,7 +468,7 @@ export default function Messages() {
           </div>
 
           {/* Main Chat Area (60% of remaining 75%) */}
-          <div className="flex-1 flex flex-col bg-background border border-border rounded-lg">
+          <div className="flex-1 flex flex-col bg-background border border-border">
             {/* Safety Banner */}
             <div className="bg-red-100 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800/50 rounded-t-lg">
               <div className="p-4">
