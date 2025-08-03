@@ -146,14 +146,15 @@ export default function Index() {
 
         <div className="relative z-10 text-center">
           <Container>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            Rent from
-            <br />
-            peers
-          </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto">
-            Rent anything, anywhere
-          </p>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+              Rent from
+              <br />
+              peers
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto">
+              Rent anything, anywhere
+            </p>
+          </Container>
 
           {/* Search Form */}
           <Card className="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/30">
