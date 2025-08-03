@@ -392,19 +392,14 @@ export default function BrowseListings() {
                 )}
               </PopoverContent>
             </Popover>
-            <DropdownMenu open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-              <DropdownMenuTrigger asChild>
+            <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+              <PopoverTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
                   <SlidersHorizontal className="h-4 w-4" />
                   Filters
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="start"
-                className="w-80 p-4"
-                onCloseAutoFocus={(e) => e.preventDefault()}
-                loop
-              >
+              </PopoverTrigger>
+              <PopoverContent align="start" className="w-80 p-4">
                 <div className="space-y-4">
                   {/* Price Filter */}
                   <div>
