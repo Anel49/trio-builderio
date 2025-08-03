@@ -297,11 +297,11 @@ export default function Index() {
             </h2>
             <Button
               variant="ghost"
-              className="group"
+              className="group pt-4 pb-2 px-4"
               onClick={() => (window.location.href = "/browse")}
             >
               View all
-              <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              <ChevronRight className="ml-2 mt-[3px] h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
 
