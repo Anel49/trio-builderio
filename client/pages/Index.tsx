@@ -216,12 +216,14 @@ export default function Index() {
                           !dateRange.start && "text-muted-foreground",
                         )}
                       >
-                        <CalendarIcon className="mr-2 h-5 w-5" />
-                        {dateRange.start && dateRange.end
-                          ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
-                          : dateRange.start
-                            ? `${format(dateRange.start, "MMM dd")} - End`
-                            : "Dates"}
+                        <CalendarIcon className="mr-2 h-5 w-5 flex-shrink-0" />
+                        <span className="truncate">
+                          {dateRange.start && dateRange.end
+                            ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
+                            : dateRange.start
+                              ? `${format(dateRange.start, "MMM dd")} - End`
+                              : "Dates"}
+                        </span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
