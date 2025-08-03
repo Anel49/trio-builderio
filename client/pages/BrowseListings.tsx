@@ -248,7 +248,6 @@ export default function BrowseListings() {
                       size="default"
                       onClick={() => {
                         setDateRange({ start: undefined, end: undefined });
-                        setIsDatePickerOpen(false);
                       }}
                       className="w-full"
                     >
