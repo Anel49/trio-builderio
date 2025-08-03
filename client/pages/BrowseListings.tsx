@@ -194,6 +194,40 @@ export default function BrowseListings() {
                 className="pl-10 h-12"
               />
             </div>
+            <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <CalendarIcon className="h-4 w-4" />
+                  {dateRange.start && dateRange.end
+                    ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
+                    : dateRange.start
+                    ? `${format(dateRange.start, "MMM dd")} - End`
+                    : "Dates"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={dateRange.end || dateRange.start}
+                  onSelect={handleDateSelect}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
+                {dateRange.start && (
+                  <div className="p-3 border-t text-sm text-muted-foreground">
+                    {dateRange.end ? (
+                      <div>
+                        Selected: {format(dateRange.start, "MMM dd, yyyy")} - {format(dateRange.end, "MMM dd, yyyy")}
+                      </div>
+                    ) : (
+                      <div>
+                        Start: {format(dateRange.start, "MMM dd, yyyy")} (Select end date)
+                      </div>
+                    )}
+                  </div>
+                )}
+              </PopoverContent>
+            </Popover>
             <Button variant="outline" className="flex items-center gap-2">
               <SlidersHorizontal className="h-4 w-4" />
               Filters
