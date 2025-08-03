@@ -536,7 +536,7 @@ export default function BrowseListings() {
 
                     {/* Map Markers */}
                     <div className="absolute inset-0">
-                      {listings.map((listing, index) => (
+                      {filteredAndSortedListings.map((listing, index) => (
                         <div
                           key={listing.id}
                           className="absolute"
