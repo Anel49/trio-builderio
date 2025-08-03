@@ -289,18 +289,6 @@ export default function BrowseListings() {
     return filtered;
   }, [listings, searchQuery, filters, sortBy]);
 
-  // Helper function to convert time strings to minutes for sorting
-  const getTimeInMinutes = (timeStr: string): number => {
-    if (timeStr.includes('mins')) {
-      return parseInt(timeStr.replace(' mins ago', ''));
-    } else if (timeStr.includes('hour')) {
-      return parseInt(timeStr.replace(' hours ago', '').replace(' hour ago', '')) * 60;
-    } else if (timeStr.includes('day')) {
-      return parseInt(timeStr.replace(' days ago', '').replace(' day ago', '')) * 24 * 60;
-    }
-    return 0;
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <style>{fadeInStyle}</style>
