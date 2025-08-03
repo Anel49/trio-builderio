@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
+import Header from "@/components/Header";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { Menu } from "lucide-react";
 
