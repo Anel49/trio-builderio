@@ -59,7 +59,10 @@ export default function BrowseListings() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
-  const [dateRange, setDateRange] = useState<{start: Date | undefined, end: Date | undefined}>({
+  const [dateRange, setDateRange] = useState<{
+    start: Date | undefined;
+    end: Date | undefined;
+  }>({
     start: undefined,
     end: undefined,
   });
@@ -212,8 +215,8 @@ export default function BrowseListings() {
                   {dateRange.start && dateRange.end
                     ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
                     : dateRange.start
-                    ? `${format(dateRange.start, "MMM dd")} - End`
-                    : "Dates"}
+                      ? `${format(dateRange.start, "MMM dd")} - End`
+                      : "Dates"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
