@@ -85,6 +85,13 @@ export default function BrowseListings() {
     zipCode: "",
     category: "",
   });
+  const [appliedFilters, setAppliedFilters] = useState({
+    minPrice: "",
+    maxPrice: "",
+    maxDistance: "",
+    zipCode: "",
+    category: "",
+  });
 
   // Sort state
   const [isSortOpen, setIsSortOpen] = useState(false);
