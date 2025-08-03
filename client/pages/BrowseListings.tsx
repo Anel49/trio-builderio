@@ -515,8 +515,8 @@ export default function BrowseListings() {
                     Clear filter
                   </Button>
                 </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </PopoverContent>
+            </Popover>
             <DropdownMenu open={isSortOpen} onOpenChange={setIsSortOpen}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
