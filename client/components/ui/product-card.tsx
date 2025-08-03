@@ -14,6 +14,7 @@ interface ProductCardProps {
   host: string;
   type: string;
   distance: string;
+  listedTime?: string;
   onClick?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
