@@ -207,11 +207,28 @@ export default function BrowseListings() {
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
-                  mode="single"
-                  selected={dateRange.end || dateRange.start}
-                  onSelect={handleDateSelect}
+                  mode="range"
+                  selected={{
+                    from: dateRange.start,
+                    to: dateRange.end,
+                  }}
+                  onSelect={(range) => {
+                    if (range?.from) {
+                      if (!dateRange.start || range.to) {
+                        // First click or both dates selected
+                        setDateRange({
+                          start: range.from,
+                          end: range.to,
+                        });
+                        if (range.to) {
+                          setIsDatePickerOpen(false);
+                        }
+                      }
+                    }
+                  }}
                   disabled={(date) => date < new Date()}
                   initialFocus
+                  numberOfMonths={1}
                 />
                 {dateRange.start && (
                   <div className="p-3 border-t">
