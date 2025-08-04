@@ -403,9 +403,9 @@ export default function Messages() {
           {/* Main Chat Area (60% of remaining 75%) */}
           <div className="flex-1 flex flex-col bg-background">
             {/* Safety Banner */}
-            <div className="bg-red-100 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800/50">
+            <div className={colors.ui.safetyBanner}>
               <div className="p-4">
-                <div className="text-sm text-red-800 dark:text-red-200">
+                <div className={`text-sm ${colors.status.error.textLight}`}>
                   <strong>Safety Notice:</strong> Avoid meeting at night or at
                   private locations. It is safest to meet during the day in
                   well-lit, public locations such as active parking lots, public
@@ -419,7 +419,7 @@ export default function Messages() {
                     onClick={() =>
                       setIsSafetyBannerExpanded(!isSafetyBannerExpanded)
                     }
-                    className="flex items-center text-xs text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100 transition-colors"
+                    className={`flex items-center text-xs ${colors.status.error.textMuted} ${colors.status.error.hover} transition-colors`}
                   >
                     {isSafetyBannerExpanded ? "Hide" : "Show"} privacy
                     guidelines
