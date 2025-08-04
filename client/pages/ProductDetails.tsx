@@ -573,7 +573,7 @@ export default function ProductDetails() {
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Similar products nearby</h2>
-          <Button variant="ghost" className="group">
+          <Button variant="ghost" className="group pt-4 pb-2 px-4 hover:bg-transparent">
             View all
             <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
