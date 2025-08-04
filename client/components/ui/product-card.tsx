@@ -97,7 +97,7 @@ export function ProductCard({
       </div>
 
       <CardContent className={spacing.padding.card}>
-        <div className={combineTokens(layouts.flex.between, 'items-start', spacing.margin.bottomSm)}>
+        <div className={combineTokens('flex justify-between items-start', spacing.margin.bottomSm)}>
           <div className="flex-1">
             <h3 className={combineTokens(typography.weight.semibold, typography.size.xl, 'leading-tight')}>{name}</h3>
             {listedTime && (
