@@ -10,7 +10,7 @@ import {
   typography,
   shadows,
   layouts,
-  combineTokens
+  combineTokens,
 } from "@/lib/design-tokens";
 
 interface ProductCardProps {
@@ -55,24 +55,31 @@ export function ProductCard({
   return (
     <Card
       className={combineTokens(
-        'group cursor-pointer',
+        "group cursor-pointer",
         animations.combinations.productCard,
         shadows.hover.productCard,
-        className || ""
+        className || "",
       )}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
       <div className="relative">
-        <img src={image} alt={name} className={combineTokens('w-full object-cover', spacing.dimensions.productImage)} />
+        <img
+          src={image}
+          alt={name}
+          className={combineTokens(
+            "w-full object-cover",
+            spacing.dimensions.productImage,
+          )}
+        />
         <Button
           size="icon"
           variant="ghost"
           className={combineTokens(
             layouts.absolute.topRight,
-            'bg-white/80 hover:bg-white',
-            animations.combinations.heartButton
+            "bg-white/80 hover:bg-white",
+            animations.combinations.heartButton,
           )}
           onMouseEnter={() => setIsHeartHovered(true)}
           onMouseLeave={() => setIsHeartHovered(false)}
@@ -84,37 +91,78 @@ export function ProductCard({
           }}
         >
           <Heart
-            className={combineTokens(spacing.dimensions.icon.sm, 'heart-transition')}
+            className={combineTokens(
+              spacing.dimensions.icon.sm,
+              "heart-transition",
+            )}
             style={{
               stroke: "#ff6f6f",
               fill: isHeartHovered ? "#ff6f6f" : "transparent",
             }}
           />
         </Button>
-        <Badge className={combineTokens(layouts.absolute.bottomLeft, 'bg-black/60 text-white')}>
+        <Badge
+          className={combineTokens(
+            layouts.absolute.bottomLeft,
+            "bg-black/60 text-white",
+          )}
+        >
           {type}
         </Badge>
       </div>
 
       <CardContent className={spacing.padding.card}>
-        <div className={combineTokens('flex justify-between items-start', spacing.margin.bottomSm)}>
+        <div
+          className={combineTokens(
+            "flex justify-between items-start",
+            spacing.margin.bottomSm,
+          )}
+        >
           <div className="flex-1">
-            <h3 className={combineTokens(typography.weight.semibold, typography.size.xl, 'leading-tight')}>{name}</h3>
+            <h3
+              className={combineTokens(
+                typography.weight.semibold,
+                typography.size.xl,
+                "leading-tight",
+              )}
+            >
+              {name}
+            </h3>
             {listedTime && (
-              <p className={combineTokens(typography.size.sm, colors.text.muted)}>
+              <p
+                className={combineTokens(typography.size.sm, colors.text.muted)}
+              >
                 Listed {listedTime}
               </p>
             )}
           </div>
           <div className="text-right ml-4">
             <div className={typography.combinations.price}>{price}</div>
-            <div className={combineTokens(typography.size.sm, colors.text.muted)}>/day</div>
+            <div
+              className={combineTokens(typography.size.sm, colors.text.muted)}
+            >
+              /day
+            </div>
           </div>
         </div>
 
-        <div className={combineTokens(layouts.flex.start, 'space-x-4', typography.size.sm, colors.text.muted, 'mb-3')}>
+        <div
+          className={combineTokens(
+            layouts.flex.start,
+            "space-x-4",
+            typography.size.sm,
+            colors.text.muted,
+            "mb-3",
+          )}
+        >
           <div className={layouts.flex.start}>
-            <Star className={combineTokens(spacing.dimensions.icon.sm, 'mr-1', colors.rating.star)} />
+            <Star
+              className={combineTokens(
+                spacing.dimensions.icon.sm,
+                "mr-1",
+                colors.rating.star,
+              )}
+            />
             {rating}
           </div>
           {reviews && <div>({reviews} reviews)</div>}
