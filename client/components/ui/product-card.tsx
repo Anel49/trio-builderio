@@ -95,9 +95,9 @@ export function ProductCard({
           </div>
         </div>
 
-        <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-3">
+        <div className={`flex items-center space-x-4 text-sm ${colors.text.muted} mb-3`}>
           <div className="flex items-center">
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
+            <Star className={`h-4 w-4 mr-1 ${colors.rating.star}`} />
             {rating}
           </div>
           {reviews && <div>({reviews} reviews)</div>}
@@ -105,10 +105,10 @@ export function ProductCard({
 
         {!hideHostInfo && (
           <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">
+            <span className={`text-sm ${colors.text.muted}`}>
               Hosted by {host}
             </span>
-            <div className="flex items-center text-sm text-muted-foreground">
+            <div className={`flex items-center text-sm ${colors.text.muted}`}>
               <MapPin className="h-3 w-3 mr-1" />
               {distance}
             </div>
