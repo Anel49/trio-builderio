@@ -8,8 +8,8 @@ interface CategoryCardProps {
 
 export function CategoryCard({ icon, name, count }: CategoryCardProps) {
   return (
-    <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-      <CardContent className="p-6 text-center">
+    <Card className={combineTokens('group cursor-pointer', animations.combinations.categoryCard, 'hover:shadow-lg')}>
+      <CardContent className={combineTokens(spacing.padding.card, 'text-center')}>
         <div className="text-4xl mb-3">
           <p>{icon}</p>
         </div>
