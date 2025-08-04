@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, Heart, MapPin } from "lucide-react";
+import { colors, combineColors } from "@/lib/colors";
 
 interface ProductCardProps {
   id: number;
