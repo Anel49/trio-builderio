@@ -405,130 +405,135 @@ export default function Profile() {
           {/* Left Side - Profile Info (30%) */}
           <div className="w-1/4 bg-muted/30 overflow-hidden">
             <div className="p-6">
-              <div className="text-center">
-                {/* Profile Picture with Edit on Hover */}
-                <div className="relative inline-block group mb-4">
-                  <Avatar className="h-32 w-32 mx-auto">
-                    <AvatarImage
-                      src={userProfile.profileImage}
-                      alt={userProfile.name}
-                    />
-                    <AvatarFallback className="text-2xl">
-                      {userProfile.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
-                    <Edit3 className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-
-                {/* Name */}
-                <h1 className="text-2xl font-bold mb-2">{userProfile.name}</h1>
-
-                {/* Zip Code - Editable on Hover */}
-                <div className="mb-4">
-                  {isEditingZipCode ? (
-                    <div className="flex items-center justify-center space-x-2">
-                      <Input
-                        value={tempZipCode}
-                        onChange={(e) => setTempZipCode(e.target.value)}
-                        className="w-20 text-center"
-                        maxLength={5}
+                <div className="text-center">
+                  {/* Profile Picture with Edit on Hover */}
+                  <div className="relative inline-block group mb-4">
+                    <Avatar className="h-32 w-32 mx-auto">
+                      <AvatarImage
+                        src={userProfile.profileImage}
+                        alt={userProfile.name}
                       />
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={handleZipCodeSave}
-                        className="h-6 w-6 p-0"
-                      >
-                        <Check className="h-4 w-4 text-green-600" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={handleZipCodeCancel}
-                        className="h-6 w-6 p-0"
-                      >
-                        <X className="h-4 w-4 text-red-600" />
-                      </Button>
+                      <AvatarFallback className="text-2xl">
+                        {userProfile.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                      <Edit3 className="h-6 w-6 text-white" />
                     </div>
-                  ) : (
-                    <div
-                      className="group flex items-center justify-center space-x-1 cursor-pointer hover:bg-accent/50 rounded px-2 py-1"
-                      onClick={handleZipCodeEdit}
-                    >
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">
-                        {userProfile.zipCode}
-                      </span>
-                      <Edit3 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                  )}
-                </div>
+                  </div>
 
-                {/* Average Review Rating */}
-                <div className="mb-4">
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={cn(
-                            "h-4 w-4",
-                            i < Math.floor(userProfile.avgRating)
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-300",
-                          )}
+                  {/* Name */}
+                  <h1 className="text-2xl font-bold mb-2">
+                    {userProfile.name}
+                  </h1>
+
+                  {/* Zip Code - Editable on Hover */}
+                  <div className="mb-4">
+                    {isEditingZipCode ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <Input
+                          value={tempZipCode}
+                          onChange={(e) => setTempZipCode(e.target.value)}
+                          className="w-20 text-center"
+                          maxLength={5}
                         />
-                      ))}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={handleZipCodeSave}
+                          className="h-6 w-6 p-0"
+                        >
+                          <Check className="h-4 w-4 text-green-600" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={handleZipCodeCancel}
+                          className="h-6 w-6 p-0"
+                        >
+                          <X className="h-4 w-4 text-red-600" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <div
+                        className="group flex items-center justify-center space-x-1 cursor-pointer hover:bg-accent/50 rounded px-2 py-1"
+                        onClick={handleZipCodeEdit}
+                      >
+                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">
+                          {userProfile.zipCode}
+                        </span>
+                        <Edit3 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Average Review Rating */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="flex items-center">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={cn(
+                              "h-4 w-4",
+                              i < Math.floor(userProfile.avgRating)
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300",
+                            )}
+                          />
+                        ))}
+                      </div>
+                      <span className="font-medium">
+                        {userProfile.avgRating}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        ({userProfile.totalReviews} reviews)
+                      </span>
                     </div>
-                    <span className="font-medium">{userProfile.avgRating}</span>
-                    <span className="text-sm text-muted-foreground">
-                      ({userProfile.totalReviews} reviews)
-                    </span>
+                  </div>
+
+                  {/* Date Joined */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+                      <Calendar className="h-4 w-4" />
+                      <span className="text-sm">
+                        Joined {userProfile.dateJoined}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Average Response Time */}
+                  <div className="mb-6">
+                    <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+                      <Clock className="h-4 w-4" />
+                      <span className="text-sm">
+                        Responds {userProfile.avgResponseTime}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="space-y-2">
+                    <Button className="w-full">
+                      <Edit3 className="h-4 w-4 mr-2" />
+                      Edit Profile
+                    </Button>
+                    <Button variant="outline" className="w-full">
+                      <Heart className="h-4 w-4 mr-2" />
+                      Favorites
+                    </Button>
                   </div>
                 </div>
-
-                {/* Date Joined */}
-                <div className="mb-4">
-                  <div className="flex items-center justify-center space-x-2 text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
-                    <span className="text-sm">
-                      Joined {userProfile.dateJoined}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Average Response Time */}
-                <div className="mb-6">
-                  <div className="flex items-center justify-center space-x-2 text-muted-foreground">
-                    <Clock className="h-4 w-4" />
-                    <span className="text-sm">
-                      Responds {userProfile.avgResponseTime}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="space-y-2">
-                  <Button className="w-full">
-                    <Edit3 className="h-4 w-4 mr-2" />
-                    Edit Profile
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <Heart className="h-4 w-4 mr-2" />
-                    Favorites
-                  </Button>
-                </div>
-              </div>
             </div>
           </div>
 
           {/* Right Side - Tabs Content (70%) */}
-          <div className="flex-1 bg-background p-8">
+          <div className="flex-1 bg-background overflow-y-auto">
+            <div className="p-8">
             {/* Mobile Tab Navigation */}
             <div className="md:hidden mb-6">
               <div className="flex items-center justify-between bg-muted/50 rounded-lg p-2">
@@ -889,6 +894,7 @@ export default function Profile() {
                 </div>
               </div>
             )}
+            </div>
           </div>
         </div>
       </div>
