@@ -18,6 +18,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
+import { ViewAllButton } from "@/components/ui/view-all-button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import Header from "@/components/Header";
@@ -567,14 +568,7 @@ export default function ProductDetails() {
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Similar products nearby</h2>
-          <Button
-            variant="ghost"
-            className="group pt-4 pb-2 px-4 hover:bg-transparent"
-            onClick={() => (window.location.href = "/browse")}
-          >
-            View all
-            <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <ViewAllButton />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

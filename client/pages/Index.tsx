@@ -24,6 +24,7 @@ import { PrivacyModal } from "@/components/ui/privacy-modal";
 import { TermsModal } from "@/components/ui/terms-modal";
 import { CookiesModal } from "@/components/ui/cookies-modal";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
+import { ViewAllButton } from "@/components/ui/view-all-button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
@@ -293,14 +294,7 @@ export default function Index() {
             <h2 className="text-3xl md:text-4xl font-bold">
               Recently listed near you
             </h2>
-            <Button
-              variant="ghost"
-              className="group pt-4 pb-2 px-4 hover:bg-transparent"
-              onClick={() => (window.location.href = "/browse")}
-            >
-              View all
-              <ChevronRight className="ml-2 mt-[3px] h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <ViewAllButton />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
