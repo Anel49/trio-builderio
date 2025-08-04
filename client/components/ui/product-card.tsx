@@ -102,15 +102,17 @@ export function ProductCard({
           {reviews && <div>({reviews} reviews)</div>}
         </div>
 
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">
-            Hosted by {host}
-          </span>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <MapPin className="h-3 w-3 mr-1" />
-            {distance}
+        {!hideHostInfo && (
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">
+              Hosted by {host}
+            </span>
+            <div className="flex items-center text-sm text-muted-foreground">
+              <MapPin className="h-3 w-3 mr-1" />
+              {distance}
+            </div>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );
