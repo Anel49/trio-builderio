@@ -400,11 +400,11 @@ export default function Profile() {
       <Header />
 
       {/* Main Content - 30/70 Split */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-8">
+      <div className="h-[calc(100vh-4rem)]">
+        <div className="h-full flex overflow-hidden">
           {/* Left Side - Profile Info (30%) */}
-          <div className="lg:col-span-3">
-            <Card>
+          <div className="w-1/4 bg-muted/30 overflow-hidden">
+            <div className="p-6">
               <CardContent className="p-6">
                 <div className="text-center">
                   {/* Profile Picture with Edit on Hover */}
@@ -529,12 +529,11 @@ export default function Profile() {
                     </Button>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+            </div>
           </div>
 
           {/* Right Side - Tabs Content (70%) */}
-          <div className="lg:col-span-7">
+          <div className="flex-1 bg-background">
             {/* Mobile Tab Navigation */}
             <div className="md:hidden mb-6">
               <div className="flex items-center justify-between bg-muted/50 rounded-lg p-2">
