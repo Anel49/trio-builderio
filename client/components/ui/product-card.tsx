@@ -4,6 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, Heart, MapPin } from "lucide-react";
 import { colors, combineColors } from "@/lib/colors";
+import {
+  animations,
+  spacing,
+  typography,
+  shadows,
+  layouts,
+  combineTokens
+} from "@/lib/design-tokens";
 
 interface ProductCardProps {
   id: number;
@@ -46,7 +54,12 @@ export function ProductCard({
 
   return (
     <Card
-      className={`group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-105 ${className || ""}`}
+      className={combineTokens(
+        'group cursor-pointer',
+        animations.combinations.productCard,
+        shadows.hover.productCard,
+        className || ""
+      )}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -74,12 +87,12 @@ export function ProductCard({
             }}
           />
         </Button>
-        <Badge className="absolute bottom-3 left-3 bg-black/60 text-white">
+        <Badge className={combineTokens(layouts.absolute.bottomLeft, 'bg-black/60 text-white')}>
           {type}
         </Badge>
       </div>
 
-      <CardContent className="p-6">
+      <CardContent className={spacing.padding.card}>
         <div className="flex items-start justify-between mb-2">
           <div>
             <h3 className="font-semibold text-xl">{name}</h3>
