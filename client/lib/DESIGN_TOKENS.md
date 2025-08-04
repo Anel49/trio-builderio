@@ -17,12 +17,12 @@ The design tokens system is located in `client/lib/design-tokens.ts` and provide
 ## Basic Usage
 
 ```tsx
-import { 
-  spacing, 
-  typography, 
-  animations, 
-  layouts, 
-  combineTokens 
+import {
+  spacing,
+  typography,
+  animations,
+  layouts,
+  combineTokens
 } from "@/lib/design-tokens";
 
 // Basic usage
@@ -44,98 +44,100 @@ import {
 
 ```tsx
 // Grid layouts
-spacing.grid.responsive.oneToThree     // "grid-cols-1 md:grid-cols-3"
-spacing.grid.responsive.profileLayout  // "grid-cols-1 lg:grid-cols-10"
+spacing.grid.responsive.oneToThree; // "grid-cols-1 md:grid-cols-3"
+spacing.grid.responsive.profileLayout; // "grid-cols-1 lg:grid-cols-10"
 
 // Gaps and padding
-spacing.gap.md                         // "gap-6"
-spacing.padding.card                   // "p-6"
-spacing.padding.container              // "px-4 sm:px-6 lg:px-8"
+spacing.gap.md; // "gap-6"
+spacing.padding.card; // "p-6"
+spacing.padding.container; // "px-4 sm:px-6 lg:px-8"
 
 // Dimensions
-spacing.dimensions.header              // "h-16"
-spacing.dimensions.icon.sm             // "h-4 w-4"
-spacing.dimensions.productImage        // "h-48"
+spacing.dimensions.header; // "h-16"
+spacing.dimensions.icon.sm; // "h-4 w-4"
+spacing.dimensions.productImage; // "h-48"
 ```
 
 ### Typography
 
 ```tsx
 // Individual properties
-typography.size.xl                     // "text-xl"
-typography.weight.semibold             // "font-semibold"
+typography.size.xl; // "text-xl"
+typography.weight.semibold; // "font-semibold"
 
 // Semantic combinations
-typography.combinations.heading        // "text-3xl md:text-4xl font-bold"
-typography.combinations.price          // "text-2xl font-bold text-primary"
-typography.combinations.body           // "text-base font-normal"
+typography.combinations.heading; // "text-3xl md:text-4xl font-bold"
+typography.combinations.price; // "text-2xl font-bold text-primary"
+typography.combinations.body; // "text-base font-normal"
 ```
 
 ### Animations
 
 ```tsx
 // Durations
-animations.duration.normal             // "duration-200"
+animations.duration.normal; // "duration-200"
 
 // Common combinations
-animations.combinations.productCard    // "transition-all duration-300 overflow-hidden hover:scale-105"
-animations.combinations.button         // "transition-colors duration-200"
+animations.combinations.productCard; // "transition-all duration-300 overflow-hidden hover:scale-105"
+animations.combinations.button; // "transition-colors duration-200"
 
 // Transforms
-animations.transform.scale.hover       // "hover:scale-105"
-animations.transform.translate.up      // "hover:-translate-y-1"
+animations.transform.scale.hover; // "hover:scale-105"
+animations.transform.translate.up; // "hover:-translate-y-1"
 ```
 
 ### Layout Patterns
 
 ```tsx
 // Flex patterns
-layouts.flex.between                   // "flex items-center justify-between"
-layouts.flex.center                    // "flex items-center justify-center"
-layouts.flex.start                     // "flex items-center justify-start"
+layouts.flex.between; // "flex items-center justify-between"
+layouts.flex.center; // "flex items-center justify-center"
+layouts.flex.start; // "flex items-center justify-start"
 
 // Grid patterns
-layouts.grid.responsive                // "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-layouts.grid.listings                  // "grid grid-cols-1 md:grid-cols-2 gap-6"
+layouts.grid.responsive; // "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+layouts.grid.listings; // "grid grid-cols-1 md:grid-cols-2 gap-6"
 
 // Position patterns
-layouts.absolute.topRight              // "absolute top-3 right-3"
-layouts.absolute.bottomLeft            // "absolute bottom-3 left-3"
+layouts.absolute.topRight; // "absolute top-3 right-3"
+layouts.absolute.bottomLeft; // "absolute bottom-3 left-3"
 
 // Container
-layouts.container                      // "container mx-auto px-4 sm:px-6 lg:px-8"
+layouts.container; // "container mx-auto px-4 sm:px-6 lg:px-8"
 ```
 
 ### Other Categories
 
 ```tsx
 // Shadows
-shadows.hover.productCard              // "hover:shadow-xl"
-shadows.modal                          // "shadow-2xl dark:shadow-gray-900/30"
+shadows.hover.productCard; // "hover:shadow-xl"
+shadows.modal; // "shadow-2xl dark:shadow-gray-900/30"
 
 // Z-index
-zIndex.header                          // "z-50"
-zIndex.modal                           // "z-50"
-zIndex.dropdown                        // "z-10"
+zIndex.header; // "z-50"
+zIndex.modal; // "z-50"
+zIndex.dropdown; // "z-10"
 
 // Border radius
-borderRadius.card                      // "rounded-lg"
-borderRadius.button                    // "rounded-md"
-borderRadius.full                      // "rounded-full"
+borderRadius.card; // "rounded-lg"
+borderRadius.button; // "rounded-md"
+borderRadius.full; // "rounded-full"
 ```
 
 ## Best Practices
 
 1. **Use semantic tokens over specific values**:
+
    ```tsx
    // ✅ Good
    <div className={spacing.padding.card}>
-   
+
    // ❌ Avoid
    <div className="p-6">
    ```
 
 2. **Combine tokens with `combineTokens` utility**:
+
    ```tsx
    // ✅ Good
    <div className={combineTokens(
@@ -143,25 +145,27 @@ borderRadius.full                      // "rounded-full"
      spacing.padding.card,
      'custom-class'
    )}>
-   
+
    // ❌ Avoid
    <div className="flex items-center justify-between p-6 custom-class">
    ```
 
 3. **Use layout patterns for common layouts**:
+
    ```tsx
    // ✅ Good
    <div className={layouts.grid.responsive}>
-   
+
    // ❌ Avoid
    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
    ```
 
 4. **Prefer typography combinations for consistent text styling**:
+
    ```tsx
    // ✅ Good
    <h1 className={typography.combinations.heading}>
-   
+
    // ❌ Avoid
    <h1 className="text-3xl md:text-4xl font-bold">
    ```

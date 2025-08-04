@@ -431,7 +431,9 @@ export default function Messages() {
                   </button>
 
                   {isSafetyBannerExpanded && (
-                    <div className={`mt-2 text-xs ${colors.status.error.textMuted} ${colors.status.error.backgroundAccent} p-3 rounded`}>
+                    <div
+                      className={`mt-2 text-xs ${colors.status.error.textMuted} ${colors.status.error.backgroundAccent} p-3 rounded`}
+                    >
                       <strong>Privacy Protection:</strong> Do not send any
                       personal or identifiable information in your messages.
                       This includes your last name, the names or information of

@@ -12,7 +12,7 @@ import {
   animations,
   layouts,
   zIndex,
-  combineTokens
+  combineTokens,
 } from "@/lib/design-tokens";
 
 export default function Header() {
@@ -22,12 +22,34 @@ export default function Header() {
 
   return (
     <>
-      <header className={combineTokens('relative', zIndex.header, 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-border/40 dark:border-gray-700/40')}>
+      <header
+        className={combineTokens(
+          "relative",
+          zIndex.header,
+          "bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-border/40 dark:border-gray-700/40",
+        )}
+      >
         <div className={layouts.container}>
-          <div className={combineTokens(layouts.flex.between, spacing.dimensions.header)}>
-            <div className={combineTokens(layouts.flex.start, 'space-x-8')}>
-              <div className={combineTokens(typography.size['2xl'], typography.weight.semibold)}>
-                <a href="/" className={combineTokens('hover:text-primary', animations.combinations.button)}>
+          <div
+            className={combineTokens(
+              layouts.flex.between,
+              spacing.dimensions.header,
+            )}
+          >
+            <div className={combineTokens(layouts.flex.start, "space-x-8")}>
+              <div
+                className={combineTokens(
+                  typography.size["2xl"],
+                  typography.weight.semibold,
+                )}
+              >
+                <a
+                  href="/"
+                  className={combineTokens(
+                    "hover:text-primary",
+                    animations.combinations.button,
+                  )}
+                >
                   Trio
                 </a>
               </div>
