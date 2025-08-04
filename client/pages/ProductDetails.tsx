@@ -570,6 +570,7 @@ export default function ProductDetails() {
           <Button
             variant="ghost"
             className="group pt-4 pb-2 px-4 hover:bg-transparent"
+            onClick={() => (window.location.href = "/browse")}
           >
             View all
             <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
