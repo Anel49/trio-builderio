@@ -44,24 +44,50 @@ export const colors = {
 
   // Status colors (using specific color values where needed)
   status: {
-    success: 'bg-green-500 text-white',
-    warning: 'bg-yellow-500 text-white',
-    error: 'bg-red-500 text-white',
-    info: 'bg-blue-500 text-white',
+    success: {
+      background: 'bg-green-500',
+      text: 'text-green-600',
+      light: 'bg-green-50 dark:bg-green-900/20',
+      indicator: 'bg-green-500',
+    },
+    warning: {
+      background: 'bg-yellow-500',
+      text: 'text-yellow-600',
+      light: 'bg-yellow-50 dark:bg-yellow-900/20',
+    },
+    error: {
+      background: 'bg-red-500',
+      text: 'text-red-600',
+      light: 'bg-red-50 dark:bg-red-900/20',
+      border: 'border-red-200 dark:border-red-800/50',
+      textLight: 'text-red-800 dark:text-red-200',
+      textMuted: 'text-red-700 dark:text-red-300',
+      hover: 'hover:text-red-900 dark:hover:text-red-100',
+      backgroundDark: 'bg-red-100 dark:bg-red-900/20',
+      backgroundAccent: 'bg-red-50 dark:bg-red-900/30',
+    },
+    info: {
+      background: 'bg-blue-500',
+      text: 'text-blue-600',
+      light: 'bg-blue-50 dark:bg-blue-900/20',
+    },
   },
 
   // Rating and feedback colors
   rating: {
     star: 'text-yellow-400 fill-yellow-400',
+    starEmpty: 'text-gray-300',
     heart: 'text-red-500',
     heartFilled: 'text-red-500 fill-red-500',
   },
 
   // Specific UI element colors
   ui: {
-    filterBanner: 'bg-red-100 dark:bg-red-900/20 border-red-200 dark:border-red-800/50',
-    onlineIndicator: 'bg-green-500 border-background',
+    safetyBanner: 'bg-red-100 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800/50',
+    onlineIndicator: 'bg-green-500 border-2 border-background rounded-full',
     shadow: 'shadow-2xl dark:shadow-gray-900/30',
+    removeButton: 'bg-red-500 text-white',
+    favoriteContainer: 'bg-red-50 dark:bg-red-900/20',
   },
 
   // Hover states
@@ -100,7 +126,7 @@ export const colorCombinations = {
 
   // Input variants
   inputDefault: combineColors(colors.background.card, colors.border.input, colors.focus.ring),
-  
+
   // Text variants
   textHeading: colors.text.primary,
   textBody: colors.text.primary,
