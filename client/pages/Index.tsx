@@ -69,9 +69,7 @@ export default function Index() {
           start: range.from,
           end: range.to,
         });
-        if (range.to) {
-          setIsDatePickerOpen(false);
-        }
+        // Don't close the picker automatically - let user click outside or toggle button
       }
     }
   };
