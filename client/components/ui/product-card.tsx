@@ -34,6 +34,7 @@ export function ProductCard({
   type,
   distance,
   listedTime,
+  hideHostInfo,
   onClick,
   onMouseEnter,
   onMouseLeave,
