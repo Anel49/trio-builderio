@@ -17,9 +17,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { PrivacyModal } from "@/components/ui/privacy-modal";
-import { TermsModal } from "@/components/ui/terms-modal";
-import { CookiesModal } from "@/components/ui/cookies-modal";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
