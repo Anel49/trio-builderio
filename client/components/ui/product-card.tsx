@@ -106,7 +106,7 @@ export function ProductCard({
               </p>
             )}
           </div>
-          <div className="text-right">
+          <div className="text-right ml-4">
             <div className={typography.combinations.price}>{price}</div>
             <div className={combineTokens(typography.size.sm, colors.text.muted)}>/day</div>
           </div>
