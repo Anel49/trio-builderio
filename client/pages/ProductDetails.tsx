@@ -56,9 +56,6 @@ export default function ProductDetails() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeartHovered, setIsHeartHovered] = useState(false);
-  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
-  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
-  const [isCookiesModalOpen, setIsCookiesModalOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
 
@@ -624,18 +621,6 @@ export default function ProductDetails() {
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
-      />
-      <PrivacyModal
-        isOpen={isPrivacyModalOpen}
-        onOpenChange={setIsPrivacyModalOpen}
-      />
-      <TermsModal
-        isOpen={isTermsModalOpen}
-        onOpenChange={setIsTermsModalOpen}
-      />
-      <CookiesModal
-        isOpen={isCookiesModalOpen}
-        onOpenChange={setIsCookiesModalOpen}
       />
       <FavoritesModal
         isOpen={isFavoritesModalOpen}
