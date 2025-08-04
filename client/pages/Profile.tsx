@@ -118,6 +118,54 @@ export default function Profile() {
       type: "Party",
       distance: "0 miles",
     },
+    {
+      id: 4,
+      name: "Professional Camera Kit",
+      price: "$75",
+      rating: 4.8,
+      trips: 89,
+      image:
+        "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=400&h=250&fit=crop&auto=format",
+      host: "You",
+      type: "Electronics",
+      distance: "0 miles",
+    },
+    {
+      id: 5,
+      name: "Wedding Dress",
+      price: "$120",
+      rating: 4.9,
+      trips: 23,
+      image:
+        "https://images.pexels.com/photos/5418926/pexels-photo-5418926.jpeg?w=400&h=250&fit=crop&auto=format",
+      host: "You",
+      type: "Clothing",
+      distance: "0 miles",
+    },
+    {
+      id: 6,
+      name: "Electric Guitar",
+      price: "$40",
+      rating: 4.7,
+      trips: 156,
+      image:
+        "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&h=250&fit=crop&auto=format",
+      host: "You",
+      type: "Instruments",
+      distance: "0 miles",
+    },
+    {
+      id: 7,
+      name: "Mountain Bike",
+      price: "$55",
+      rating: 4.8,
+      trips: 201,
+      image:
+        "https://images.unsplash.com/photo-1544191696-15693b6d3d9d?w=400&h=250&fit=crop&auto=format",
+      host: "You",
+      type: "Sports",
+      distance: "0 miles",
+    },
   ];
 
   // Mock item reviews
