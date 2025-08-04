@@ -65,11 +65,15 @@ export function ProductCard({
       onMouseLeave={onMouseLeave}
     >
       <div className="relative">
-        <img src={image} alt={name} className="w-full h-48 object-cover" />
+        <img src={image} alt={name} className={combineTokens('w-full object-cover', spacing.dimensions.productImage)} />
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-3 right-3 bg-white/80 hover:bg-white heart-button-transition"
+          className={combineTokens(
+            layouts.absolute.topRight,
+            'bg-white/80 hover:bg-white',
+            animations.combinations.heartButton
+          )}
           onMouseEnter={() => setIsHeartHovered(true)}
           onMouseLeave={() => setIsHeartHovered(false)}
           onClick={(e) => {
@@ -80,7 +84,7 @@ export function ProductCard({
           }}
         >
           <Heart
-            className="h-4 w-4 heart-transition"
+            className={combineTokens(spacing.dimensions.icon.sm, 'heart-transition')}
             style={{
               stroke: "#ff6f6f",
               fill: isHeartHovered ? "#ff6f6f" : "transparent",
@@ -93,24 +97,24 @@ export function ProductCard({
       </div>
 
       <CardContent className={spacing.padding.card}>
-        <div className="flex items-start justify-between mb-2">
+        <div className={combineTokens(layouts.flex.between, 'items-start', spacing.margin.bottomSm)}>
           <div>
-            <h3 className="font-semibold text-xl">{name}</h3>
+            <h3 className={combineTokens(typography.weight.semibold, typography.size.xl)}>{name}</h3>
             {listedTime && (
-              <p className="text-sm text-muted-foreground">
+              <p className={combineTokens(typography.size.sm, colors.text.muted)}>
                 Listed {listedTime}
               </p>
             )}
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-primary">{price}</div>
-            <div className="text-sm text-muted-foreground">/day</div>
+            <div className={typography.combinations.price}>{price}</div>
+            <div className={combineTokens(typography.size.sm, colors.text.muted)}>/day</div>
           </div>
         </div>
 
-        <div className={`flex items-center space-x-4 text-sm ${colors.text.muted} mb-3`}>
-          <div className="flex items-center">
-            <Star className={`h-4 w-4 mr-1 ${colors.rating.star}`} />
+        <div className={combineTokens(layouts.flex.start, 'space-x-4', typography.size.sm, colors.text.muted, 'mb-3')}>
+          <div className={layouts.flex.start}>
+            <Star className={combineTokens(spacing.dimensions.icon.sm, 'mr-1', colors.rating.star)} />
             {rating}
           </div>
           {reviews && <div>({reviews} reviews)</div>}
