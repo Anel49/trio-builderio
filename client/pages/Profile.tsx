@@ -532,7 +532,7 @@ export default function Profile() {
           </div>
 
           {/* Right Side - Tabs Content (70%) */}
-          <div className="flex-1 bg-background">
+          <div className="flex-1 bg-background p-8">
             {/* Mobile Tab Navigation */}
             <div className="md:hidden mb-6">
               <div className="flex items-center justify-between bg-muted/50 rounded-lg p-2">
