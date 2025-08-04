@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LoginModal } from "@/components/ui/login-modal";
 import Header from "@/components/Header";
+import { colors } from "@/lib/colors";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import {
