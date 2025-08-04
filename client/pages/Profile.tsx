@@ -405,7 +405,6 @@ export default function Profile() {
           {/* Left Side - Profile Info (30%) */}
           <div className="w-1/4 bg-muted/30 overflow-hidden">
             <div className="p-6">
-              <CardContent className="p-6">
                 <div className="text-center">
                   {/* Profile Picture with Edit on Hover */}
                   <div className="relative inline-block group mb-4">
