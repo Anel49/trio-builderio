@@ -363,6 +363,17 @@ export default function Messages() {
       {/* Main Messages Interface */}
       <div className="h-[calc(100vh-4rem)]">
         <div className="h-full flex overflow-hidden shadow-sm relative">
+          {/* Mobile Backdrop Overlay */}
+          {(leftSidebarOpen || rightSidebarOpen) && (
+            <div
+              className="fixed inset-0 bg-black/50 z-5 md:hidden"
+              onClick={() => {
+                setLeftSidebarOpen(false);
+                setRightSidebarOpen(false);
+              }}
+            />
+          )}
+
           {/* Mobile Tab Buttons - Only visible on tablet/mobile */}
           <div className="absolute top-1/2 left-4 z-20 flex flex-col gap-2 md:hidden">
             <button
