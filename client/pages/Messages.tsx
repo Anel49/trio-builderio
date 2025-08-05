@@ -28,6 +28,20 @@ export default function Messages() {
   const [searchQuery, setSearchQuery] = useState("");
   const [messageInput, setMessageInput] = useState("");
   const [isSafetyBannerExpanded, setIsSafetyBannerExpanded] = useState(false);
+  // Mobile sidebar states
+  const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
+
+  // Mobile sidebar toggle functions
+  const toggleLeftSidebar = () => {
+    if (rightSidebarOpen) setRightSidebarOpen(false); // Close right if open
+    setLeftSidebarOpen(!leftSidebarOpen);
+  };
+
+  const toggleRightSidebar = () => {
+    if (leftSidebarOpen) setLeftSidebarOpen(false); // Close left if open
+    setRightSidebarOpen(!rightSidebarOpen);
+  };
 
   // Mock chat data
   const chats = [
