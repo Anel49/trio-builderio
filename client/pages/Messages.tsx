@@ -374,32 +374,28 @@ export default function Messages() {
             />
           )}
 
-          {/* Mobile Tab Buttons - Only visible on tablet/mobile */}
-          <div className="absolute top-1/2 left-2 z-20 flex flex-col gap-2 md:hidden">
-            <button
-              onClick={toggleLeftSidebar}
-              className={`p-2 rounded-full shadow-lg ${
-                leftSidebarOpen
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background text-foreground hover:bg-accent"
-              }`}
-            >
-              <MessageCircle className="h-5 w-5" />
-            </button>
-          </div>
+          {/* Mobile Tab Buttons - Only visible on tablet/mobile, positioned after safety banner */}
+          {!leftSidebarOpen && (
+            <div className="absolute top-20 left-2 z-20 flex flex-col gap-2 md:hidden">
+              <button
+                onClick={toggleLeftSidebar}
+                className="p-2 rounded-full shadow-lg bg-background text-foreground hover:bg-accent"
+              >
+                <MessageCircle className="h-5 w-5" />
+              </button>
+            </div>
+          )}
 
-          <div className="absolute top-1/2 right-2 z-20 flex flex-col gap-2 md:hidden">
-            <button
-              onClick={toggleRightSidebar}
-              className={`p-2 rounded-full shadow-lg ${
-                rightSidebarOpen
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background text-foreground hover:bg-accent"
-              }`}
-            >
-              <Users className="h-5 w-5" />
-            </button>
-          </div>
+          {!rightSidebarOpen && (
+            <div className="absolute top-20 right-2 z-20 flex flex-col gap-2 md:hidden">
+              <button
+                onClick={toggleRightSidebar}
+                className="p-2 rounded-full shadow-lg bg-background text-foreground hover:bg-accent"
+              >
+                <Users className="h-5 w-5" />
+              </button>
+            </div>
+          )}
 
           {/* Left Sidebar - Chat List */}
           <div
