@@ -402,13 +402,12 @@ export default function Messages() {
           </div>
 
           {/* Left Sidebar - Chat List */}
-          <div className={`bg-muted/30 overflow-hidden transition-all duration-300 ease-in-out ${
-            // Desktop: always visible at 25% width
-            // Mobile: slide in from left or hide completely
-            'w-1/4 md:block ' +
+          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            // Desktop: always visible at 25% width with 30% opacity background
+            // Mobile: slide in from left with solid background or hide completely
             (leftSidebarOpen
-              ? 'absolute left-0 top-0 h-full w-80 z-10 md:relative md:w-1/4'
-              : 'hidden md:block md:w-1/4')
+              ? 'absolute left-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/4 md:bg-muted/30'
+              : 'hidden md:block md:w-1/4 md:bg-muted/30')
           }`}>
             {/* Mobile Close Button */}
             <div className="flex justify-between items-center p-4 border-b border-border md:hidden">
@@ -577,13 +576,12 @@ export default function Messages() {
           </div>
 
           {/* Right Sidebar - Chat Details */}
-          <div className={`bg-muted/30 transition-all duration-300 ease-in-out ${
-            // Desktop: always visible at 20% width
-            // Mobile: slide in from right or hide completely
-            'w-1/5 md:block ' +
+          <div className={`transition-all duration-300 ease-in-out ${
+            // Desktop: always visible at 20% width with 30% opacity background
+            // Mobile: slide in from right with solid background or hide completely
             (rightSidebarOpen
-              ? 'absolute right-0 top-0 h-full w-80 z-10 md:relative md:w-1/5'
-              : 'hidden md:block md:w-1/5')
+              ? 'absolute right-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/5 md:bg-muted/30'
+              : 'hidden md:block md:w-1/5 md:bg-muted/30')
           }`}>
             {selectedChatData && (
               <>
