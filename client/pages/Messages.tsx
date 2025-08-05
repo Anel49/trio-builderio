@@ -366,7 +366,7 @@ export default function Messages() {
           {/* Mobile Backdrop Overlay */}
           {(leftSidebarOpen || rightSidebarOpen) && (
             <div
-              className="fixed inset-0 bg-black/50 z-5 md:hidden"
+              className="fixed inset-0 bg-black/50 z-15 md:hidden"
               onClick={() => {
                 setLeftSidebarOpen(false);
                 setRightSidebarOpen(false);
@@ -476,7 +476,7 @@ export default function Messages() {
 
           {/* Main Chat Area */}
           <div
-            className={`flex-1 flex flex-col bg-background transition-all duration-300 ${
+            className={`flex-1 flex flex-col bg-background transition-all duration-300 relative z-0 ${
               // On mobile, take full width when no sidebars are open
               leftSidebarOpen || rightSidebarOpen
                 ? "md:flex-1"
