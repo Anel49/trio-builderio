@@ -369,7 +369,7 @@ export default function Messages() {
               onClick={toggleLeftSidebar}
               className="fixed left-0 top-1/2 -translate-y-1/2 h-32 w-3 bg-primary hover:bg-primary/80 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-r-md shadow-lg"
             >
-              <div className="w-1 h-8 bg-white dark:bg-background rounded-full"></div>
+              <div className="w-1 h-8 bg-white rounded-full"></div>
             </div>
           )}
 
@@ -378,7 +378,7 @@ export default function Messages() {
               onClick={toggleRightSidebar}
               className="fixed right-0 top-1/2 -translate-y-1/2 h-32 w-3 bg-primary hover:bg-primary/80 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-l-md shadow-lg"
             >
-              <div className="w-1 h-8 bg-white dark:bg-background rounded-full"></div>
+              <div className="w-1 h-8 bg-white rounded-full"></div>
             </div>
           )}
 
