@@ -465,8 +465,8 @@ export default function Messages() {
 
           {/* Main Chat Area */}
           <div
-            className={`flex-1 flex flex-col bg-background transition-all duration-300 relative z-0 ${
-              // On mobile, take full width when no sidebars are open
+            className={`flex-1 flex flex-col bg-background transition-all duration-300 relative z-0 px-12 md:px-0 ${
+              // On mobile, take full width when no sidebars are open, with padding to avoid tab icon overlap
               leftSidebarOpen || rightSidebarOpen
                 ? "md:flex-1"
                 : "w-full md:flex-1"
