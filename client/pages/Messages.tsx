@@ -481,6 +481,11 @@ export default function Messages() {
                 ? "md:flex-1"
                 : "w-full md:flex-1"
             }`}
+            onClick={() => {
+              // Close any open sidebars when clicking on main chat area
+              if (leftSidebarOpen) setLeftSidebarOpen(false);
+              if (rightSidebarOpen) setRightSidebarOpen(false);
+            }}
           >
             {/* Safety Banner */}
             <div className={colors.ui.safetyBanner}>
