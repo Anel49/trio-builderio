@@ -415,13 +415,17 @@ export default function Messages() {
 
           {/* Left Sidebar - Chat List */}
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            className={`overflow-hidden transition-all duration-500 ease-out ${
               // Desktop: always visible at 25% width with 30% opacity background
               // Mobile: slide in from left with solid background or hide completely
               leftSidebarOpen
-                ? "absolute left-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/4 md:bg-muted/30"
-                : "hidden md:block md:w-1/4 md:bg-muted/30"
+                ? "absolute left-0 top-0 h-full w-80 z-10 bg-background transform translate-x-0 md:relative md:w-1/4 md:bg-muted/30 md:transform-none"
+                : "hidden md:block md:w-1/4 md:bg-muted/30 md:transform-none transform -translate-x-full"
             }`}
+            style={{
+              // Add a slight spring effect on mobile
+              transitionTimingFunction: leftSidebarOpen ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'ease-out'
+            }}
           >
             {/* Mobile Close Button */}
             <div className="flex justify-between items-center p-4 border-b border-border md:hidden">
@@ -596,13 +600,17 @@ export default function Messages() {
 
           {/* Right Sidebar - Chat Details */}
           <div
-            className={`transition-all duration-300 ease-in-out ${
+            className={`transition-all duration-500 ease-out ${
               // Desktop: always visible at 20% width with 30% opacity background
               // Mobile: slide in from right with solid background or hide completely
               rightSidebarOpen
-                ? "absolute right-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/5 md:bg-muted/30"
-                : "hidden md:block md:w-1/5 md:bg-muted/30"
+                ? "absolute right-0 top-0 h-full w-80 z-10 bg-background transform translate-x-0 md:relative md:w-1/5 md:bg-muted/30 md:transform-none"
+                : "hidden md:block md:w-1/5 md:bg-muted/30 md:transform-none transform translate-x-full"
             }`}
+            style={{
+              // Add a slight spring effect on mobile
+              transitionTimingFunction: rightSidebarOpen ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'ease-out'
+            }}
           >
             {selectedChatData && (
               <>
