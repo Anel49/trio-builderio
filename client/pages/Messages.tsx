@@ -367,7 +367,7 @@ export default function Messages() {
           {!leftSidebarOpen && (
             <div
               onClick={toggleLeftSidebar}
-              className="absolute left-0 top-1/4 h-1/2 w-3 bg-primary/20 hover:bg-primary/40 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-r-md"
+              className="absolute left-0 top-1/4 h-1/3 w-3 bg-primary/20 hover:bg-primary/40 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-r-md"
             >
               <div className="w-1 h-8 bg-primary/60 rounded-full"></div>
             </div>
@@ -376,7 +376,7 @@ export default function Messages() {
           {!rightSidebarOpen && (
             <div
               onClick={toggleRightSidebar}
-              className="absolute right-0 top-1/4 h-1/2 w-3 bg-primary/20 hover:bg-primary/40 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-l-md"
+              className="absolute right-0 top-1/4 h-1/3 w-3 bg-primary/20 hover:bg-primary/40 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-l-md"
             >
               <div className="w-1 h-8 bg-primary/60 rounded-full"></div>
             </div>
