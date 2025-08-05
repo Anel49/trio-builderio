@@ -362,9 +362,43 @@ export default function Messages() {
 
       {/* Main Messages Interface */}
       <div className="h-[calc(100vh-4rem)]">
-        <div className="h-full flex overflow-hidden shadow-sm">
-          {/* Left Sidebar - Chat List (25%) */}
-          <div className="w-1/4 bg-muted/30 overflow-hidden">
+        <div className="h-full flex overflow-hidden shadow-sm relative">
+          {/* Mobile Tab Buttons - Only visible on tablet/mobile */}
+          <div className="absolute top-1/2 left-4 z-20 flex flex-col gap-2 md:hidden">
+            <button
+              onClick={toggleLeftSidebar}
+              className={`p-2 rounded-full shadow-lg transition-all duration-300 ${
+                leftSidebarOpen
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-background text-foreground hover:bg-accent'
+              }`}
+            >
+              <MessageCircle className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="absolute top-1/2 right-4 z-20 flex flex-col gap-2 md:hidden">
+            <button
+              onClick={toggleRightSidebar}
+              className={`p-2 rounded-full shadow-lg transition-all duration-300 ${
+                rightSidebarOpen
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-background text-foreground hover:bg-accent'
+              }`}
+            >
+              <Users className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Left Sidebar - Chat List */}
+          <div className={`bg-muted/30 overflow-hidden transition-all duration-300 ease-in-out ${
+            // Desktop: always visible at 25% width
+            // Mobile: slide in from left or hide completely
+            'w-1/4 md:block ' +
+            (leftSidebarOpen
+              ? 'absolute left-0 top-0 h-full w-80 z-10 md:relative md:w-1/4'
+              : 'hidden md:block md:w-1/4')
+          }`}>
             {/* Search Bar */}
             <div className="p-4">
               <div className="relative">
