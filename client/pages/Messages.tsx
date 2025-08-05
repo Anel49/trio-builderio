@@ -551,8 +551,15 @@ export default function Messages() {
             </div>
           </div>
 
-          {/* Right Sidebar - Chat Details (20% of remaining 75%) */}
-          <div className="w-1/5 bg-muted/30">
+          {/* Right Sidebar - Chat Details */}
+          <div className={`bg-muted/30 transition-all duration-300 ease-in-out ${
+            // Desktop: always visible at 20% width
+            // Mobile: slide in from right or hide completely
+            'w-1/5 md:block ' +
+            (rightSidebarOpen
+              ? 'absolute right-0 top-0 h-full w-80 z-10 md:relative md:w-1/5'
+              : 'hidden md:block md:w-1/5')
+          }`}>
             {selectedChatData && (
               <div className="p-6 text-center">
                 <div className="relative inline-block mb-4">
