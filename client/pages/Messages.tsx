@@ -410,8 +410,19 @@ export default function Messages() {
               ? 'absolute left-0 top-0 h-full w-80 z-10 md:relative md:w-1/4'
               : 'hidden md:block md:w-1/4')
           }`}>
+            {/* Mobile Close Button */}
+            <div className="flex justify-between items-center p-4 border-b border-border md:hidden">
+              <h3 className="font-semibold">Conversations</h3>
+              <button
+                onClick={() => setLeftSidebarOpen(false)}
+                className="p-1 rounded-full hover:bg-accent"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+            </div>
+
             {/* Search Bar */}
-            <div className="p-4">
+            <div className="p-4 md:pt-4">{/* md:pt-4 to keep original padding on desktop */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
