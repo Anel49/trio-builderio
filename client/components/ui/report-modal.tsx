@@ -180,8 +180,35 @@ export function ReportModal({ isOpen, onOpenChange, listingTitle }: ReportModalP
               Cancel
             </Button>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+            </div>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
+
+      {/* Confirmation Modal */}
+      <Dialog open={isConfirmationOpen} onOpenChange={setIsConfirmationOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">Report Submitted</DialogTitle>
+          </DialogHeader>
+          <div className="text-center space-y-4 py-4">
+            <div>
+              <p className="font-bold">
+                {listingTitle} has been reported.
+              </p>
+              <p className="text-sm text-muted-foreground mt-2">
+                We appreciate your care and concern!
+              </p>
+            </div>
+            <Button
+              onClick={() => setIsConfirmationOpen(false)}
+              className="w-full"
+            >
+              OK
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
