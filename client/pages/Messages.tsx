@@ -599,7 +599,7 @@ export default function Messages() {
                 </div>
 
                 <div className="p-6 text-center md:pt-6">{/* md:pt-6 to keep original padding on desktop */}
-                <div className="relative inline-block mb-4">
+                  <div className="relative inline-block mb-4">
                   <Avatar className="h-20 w-20">
                     <AvatarImage
                       src={selectedChatData.avatar}
@@ -642,7 +642,8 @@ export default function Messages() {
                     .
                   </p>
                 </div>
-              </div>
+                </div>
+              </>
             )}
           </div>
         </div>
