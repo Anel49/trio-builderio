@@ -408,6 +408,7 @@ export default function Messages() {
                 ? "translate-x-0" // Slide in to normal position
                 : "-translate-x-full md:translate-x-0" // Off-screen on mobile, normal on desktop
             }`}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Mobile Close Button */}
             <div className="flex justify-between items-center p-4 border-b border-border md:hidden">
@@ -596,6 +597,7 @@ export default function Messages() {
                 ? "translate-x-0" // Slide in to normal position
                 : "translate-x-full md:translate-x-0" // Off-screen on mobile, normal on desktop
             }`}
+            onClick={(e) => e.stopPropagation()}
           >
             {selectedChatData && (
               <>
