@@ -363,26 +363,22 @@ export default function Messages() {
       {/* Main Messages Interface */}
       <div className="h-[calc(100vh-4rem)]">
         <div className="h-full flex overflow-hidden shadow-sm relative">
-          {/* Mobile Tab Buttons - Only visible on tablet/mobile, positioned after safety banner */}
+          {/* Mobile Edge Tab Strips - Only visible on tablet/mobile */}
           {!leftSidebarOpen && (
-            <div className="absolute top-36 left-2 z-20 flex flex-col gap-2 md:hidden">
-              <button
-                onClick={toggleLeftSidebar}
-                className="p-2 rounded-full shadow-lg bg-background text-foreground hover:bg-accent"
-              >
-                <MessageCircle className="h-5 w-5" />
-              </button>
+            <div
+              onClick={toggleLeftSidebar}
+              className="absolute left-0 top-1/4 h-1/2 w-3 bg-primary/20 hover:bg-primary/40 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-r-md"
+            >
+              <div className="w-1 h-8 bg-primary/60 rounded-full"></div>
             </div>
           )}
 
           {!rightSidebarOpen && (
-            <div className="absolute top-36 right-2 z-20 flex flex-col gap-2 md:hidden">
-              <button
-                onClick={toggleRightSidebar}
-                className="p-2 rounded-full shadow-lg bg-background text-foreground hover:bg-accent"
-              >
-                <Users className="h-5 w-5" />
-              </button>
+            <div
+              onClick={toggleRightSidebar}
+              className="absolute right-0 top-1/4 h-1/2 w-3 bg-primary/20 hover:bg-primary/40 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-l-md"
+            >
+              <div className="w-1 h-8 bg-primary/60 rounded-full"></div>
             </div>
           )}
 
@@ -465,7 +461,7 @@ export default function Messages() {
 
           {/* Main Chat Area */}
           <div
-            className={`flex-1 flex flex-col bg-background transition-all duration-300 relative z-0 px-12 md:px-0 ${
+            className={`flex-1 flex flex-col bg-background transition-all duration-300 relative z-0 ${
               // On mobile, take full width when no sidebars are open, with padding to avoid tab icon overlap
               leftSidebarOpen || rightSidebarOpen
                 ? "md:flex-1"
