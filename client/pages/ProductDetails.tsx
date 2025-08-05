@@ -18,6 +18,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
+import { ReportModal } from "@/components/ui/report-modal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
@@ -55,6 +56,7 @@ export default function ProductDetails() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
 
   const handleFavorite = (listingName: string) => {
@@ -310,6 +312,7 @@ export default function ProductDetails() {
                         variant="ghost"
                         size="icon"
                         className="text-muted-foreground hover:text-destructive ml-4 h-8 w-8 dark:hover:bg-red-600 dark:hover:text-white"
+                        onClick={() => setIsReportModalOpen(true)}
                       >
                         <Flag className="h-4 w-4" />
                       </Button>
@@ -618,6 +621,11 @@ export default function ProductDetails() {
         isOpen={isFavoritesModalOpen}
         onOpenChange={setIsFavoritesModalOpen}
         listingTitle={favoritedListing}
+      />
+      <ReportModal
+        isOpen={isReportModalOpen}
+        onOpenChange={setIsReportModalOpen}
+        listingTitle={product.name}
       />
     </div>
   );
