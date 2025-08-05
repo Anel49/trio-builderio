@@ -375,41 +375,29 @@ export default function Messages() {
           )}
 
           {/* Mobile Tab Buttons - Only visible on tablet/mobile */}
-          <div className={`absolute top-1/2 z-20 flex flex-col gap-2 md:hidden transition-all duration-500 ease-out ${
-            leftSidebarOpen
-              ? 'left-72 -translate-x-4' // Pull inward when sidebar is open
-              : 'left-2 hover:left-4' // Start closer to edge, slide in on hover
-          }`}>
+          <div className="absolute top-1/2 left-2 z-20 flex flex-col gap-2 md:hidden">
             <button
               onClick={toggleLeftSidebar}
-              className={`p-3 rounded-full shadow-xl transition-all duration-500 ease-out transform ${
+              className={`p-2 rounded-full shadow-lg ${
                 leftSidebarOpen
-                  ? "bg-primary text-primary-foreground scale-110 rotate-12"
-                  : "bg-background text-foreground hover:bg-accent hover:scale-105 active:scale-95"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background text-foreground hover:bg-accent"
               }`}
             >
-              <MessageCircle className={`h-5 w-5 transition-transform duration-300 ${
-                leftSidebarOpen ? 'rotate-12' : ''
-              }`} />
+              <MessageCircle className="h-5 w-5" />
             </button>
           </div>
 
-          <div className={`absolute top-1/2 z-20 flex flex-col gap-2 md:hidden transition-all duration-500 ease-out ${
-            rightSidebarOpen
-              ? 'right-72 translate-x-4' // Pull inward when sidebar is open
-              : 'right-2 hover:right-4' // Start closer to edge, slide in on hover
-          }`}>
+          <div className="absolute top-1/2 right-2 z-20 flex flex-col gap-2 md:hidden">
             <button
               onClick={toggleRightSidebar}
-              className={`p-3 rounded-full shadow-xl transition-all duration-500 ease-out transform ${
+              className={`p-2 rounded-full shadow-lg ${
                 rightSidebarOpen
-                  ? "bg-primary text-primary-foreground scale-110 -rotate-12"
-                  : "bg-background text-foreground hover:bg-accent hover:scale-105 active:scale-95"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background text-foreground hover:bg-accent"
               }`}
             >
-              <Users className={`h-5 w-5 transition-transform duration-300 ${
-                rightSidebarOpen ? '-rotate-12' : ''
-              }`} />
+              <Users className="h-5 w-5" />
             </button>
           </div>
 
