@@ -462,8 +462,11 @@ export default function Messages() {
             </ScrollArea>
           </div>
 
-          {/* Main Chat Area (60% of remaining 75%) */}
-          <div className="flex-1 flex flex-col bg-background">
+          {/* Main Chat Area */}
+          <div className={`flex-1 flex flex-col bg-background transition-all duration-300 ${
+            // On mobile, take full width when no sidebars are open
+            (leftSidebarOpen || rightSidebarOpen) ? 'md:flex-1' : 'w-full md:flex-1'
+          }`}>
             {/* Safety Banner */}
             <div className={colors.ui.safetyBanner}>
               <div className="p-4">
