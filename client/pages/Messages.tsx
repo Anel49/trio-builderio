@@ -586,7 +586,19 @@ export default function Messages() {
               : 'hidden md:block md:w-1/5')
           }`}>
             {selectedChatData && (
-              <div className="p-6 text-center">
+              <>
+                {/* Mobile Close Button */}
+                <div className="flex justify-between items-center p-4 border-b border-border md:hidden">
+                  <h3 className="font-semibold">Chat Details</h3>
+                  <button
+                    onClick={() => setRightSidebarOpen(false)}
+                    className="p-1 rounded-full hover:bg-accent"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </div>
+
+                <div className="p-6 text-center md:pt-6">{/* md:pt-6 to keep original padding on desktop */}
                 <div className="relative inline-block mb-4">
                   <Avatar className="h-20 w-20">
                     <AvatarImage
