@@ -380,8 +380,8 @@ export default function Messages() {
               onClick={toggleLeftSidebar}
               className={`p-2 rounded-full shadow-lg transition-all duration-300 ${
                 leftSidebarOpen
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-background text-foreground hover:bg-accent'
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background text-foreground hover:bg-accent"
               }`}
             >
               <MessageCircle className="h-5 w-5" />
@@ -393,8 +393,8 @@ export default function Messages() {
               onClick={toggleRightSidebar}
               className={`p-2 rounded-full shadow-lg transition-all duration-300 ${
                 rightSidebarOpen
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-background text-foreground hover:bg-accent'
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background text-foreground hover:bg-accent"
               }`}
             >
               <Users className="h-5 w-5" />
@@ -402,13 +402,15 @@ export default function Messages() {
           </div>
 
           {/* Left Sidebar - Chat List */}
-          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            // Desktop: always visible at 25% width with 30% opacity background
-            // Mobile: slide in from left with solid background or hide completely
-            (leftSidebarOpen
-              ? 'absolute left-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/4 md:bg-muted/30'
-              : 'hidden md:block md:w-1/4 md:bg-muted/30')
-          }`}>
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              // Desktop: always visible at 25% width with 30% opacity background
+              // Mobile: slide in from left with solid background or hide completely
+              leftSidebarOpen
+                ? "absolute left-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/4 md:bg-muted/30"
+                : "hidden md:block md:w-1/4 md:bg-muted/30"
+            }`}
+          >
             {/* Mobile Close Button */}
             <div className="flex justify-between items-center p-4 border-b border-border md:hidden">
               <h3 className="font-semibold">Conversations</h3>
@@ -421,7 +423,8 @@ export default function Messages() {
             </div>
 
             {/* Search Bar */}
-            <div className="p-4 md:pt-4">{/* md:pt-4 to keep original padding on desktop */}
+            <div className="p-4 md:pt-4">
+              {/* md:pt-4 to keep original padding on desktop */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -473,10 +476,14 @@ export default function Messages() {
           </div>
 
           {/* Main Chat Area */}
-          <div className={`flex-1 flex flex-col bg-background transition-all duration-300 ${
-            // On mobile, take full width when no sidebars are open
-            (leftSidebarOpen || rightSidebarOpen) ? 'md:flex-1' : 'w-full md:flex-1'
-          }`}>
+          <div
+            className={`flex-1 flex flex-col bg-background transition-all duration-300 ${
+              // On mobile, take full width when no sidebars are open
+              leftSidebarOpen || rightSidebarOpen
+                ? "md:flex-1"
+                : "w-full md:flex-1"
+            }`}
+          >
             {/* Safety Banner */}
             <div className={colors.ui.safetyBanner}>
               <div className="p-4">
@@ -576,13 +583,15 @@ export default function Messages() {
           </div>
 
           {/* Right Sidebar - Chat Details */}
-          <div className={`transition-all duration-300 ease-in-out ${
-            // Desktop: always visible at 20% width with 30% opacity background
-            // Mobile: slide in from right with solid background or hide completely
-            (rightSidebarOpen
-              ? 'absolute right-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/5 md:bg-muted/30'
-              : 'hidden md:block md:w-1/5 md:bg-muted/30')
-          }`}>
+          <div
+            className={`transition-all duration-300 ease-in-out ${
+              // Desktop: always visible at 20% width with 30% opacity background
+              // Mobile: slide in from right with solid background or hide completely
+              rightSidebarOpen
+                ? "absolute right-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/5 md:bg-muted/30"
+                : "hidden md:block md:w-1/5 md:bg-muted/30"
+            }`}
+          >
             {selectedChatData && (
               <>
                 {/* Mobile Close Button */}
@@ -596,50 +605,51 @@ export default function Messages() {
                   </button>
                 </div>
 
-                <div className="p-6 text-center md:pt-6">{/* md:pt-6 to keep original padding on desktop */}
+                <div className="p-6 text-center md:pt-6">
+                  {/* md:pt-6 to keep original padding on desktop */}
                   <div className="relative inline-block mb-4">
-                  <Avatar className="h-20 w-20">
-                    <AvatarImage
-                      src={selectedChatData.avatar}
-                      alt={selectedChatData.name}
-                    />
-                    <AvatarFallback className="text-lg">
-                      {selectedChatData.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  {selectedChatData.isOnline && (
-                    <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background"></div>
-                  )}
-                </div>
+                    <Avatar className="h-20 w-20">
+                      <AvatarImage
+                        src={selectedChatData.avatar}
+                        alt={selectedChatData.name}
+                      />
+                      <AvatarFallback className="text-lg">
+                        {selectedChatData.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    {selectedChatData.isOnline && (
+                      <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background"></div>
+                    )}
+                  </div>
 
-                <h3 className="font-semibold text-lg mb-2">
-                  {selectedChatData.name}
-                </h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    {selectedChatData.name}
+                  </h3>
 
-                <p className="text-sm text-muted-foreground mb-6">
-                  {selectedChatData.isOnline
-                    ? "Online"
-                    : `Last seen ${selectedChatData.lastActivity}`}
-                </p>
-
-                {/* Chat Deletion Notice */}
-                <div className="border-t border-border pt-6">
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    Chats will be deleted after 180 days (approximately 6
-                    months) of inactivity. You may download this conversation in
-                    its entirety by clicking or tapping{" "}
-                    <button
-                      onClick={downloadChat}
-                      className="underline hover:text-foreground transition-colors font-medium"
-                    >
-                      here
-                    </button>
-                    .
+                  <p className="text-sm text-muted-foreground mb-6">
+                    {selectedChatData.isOnline
+                      ? "Online"
+                      : `Last seen ${selectedChatData.lastActivity}`}
                   </p>
-                </div>
+
+                  {/* Chat Deletion Notice */}
+                  <div className="border-t border-border pt-6">
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Chats will be deleted after 180 days (approximately 6
+                      months) of inactivity. You may download this conversation
+                      in its entirety by clicking or tapping{" "}
+                      <button
+                        onClick={downloadChat}
+                        className="underline hover:text-foreground transition-colors font-medium"
+                      >
+                        here
+                      </button>
+                      .
+                    </p>
+                  </div>
                 </div>
               </>
             )}
