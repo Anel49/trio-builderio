@@ -403,17 +403,15 @@ export default function Messages() {
 
           {/* Left Sidebar - Chat List */}
           <div
-            className={`overflow-hidden transition-all duration-500 ease-out ${
+            className={`overflow-hidden transition-transform duration-300 ease-in-out ${
               // Desktop: always visible at 25% width with 30% opacity background
-              // Mobile: slide in from left with solid background or hide completely
+              // Mobile: curtain effect - always rendered but slides in/out from left edge
+              "absolute left-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/4 md:bg-muted/30"
+            } ${
               leftSidebarOpen
-                ? "absolute left-0 top-0 h-full w-80 z-10 bg-background transform translate-x-0 md:relative md:w-1/4 md:bg-muted/30 md:transform-none"
-                : "hidden md:block md:w-1/4 md:bg-muted/30 md:transform-none transform -translate-x-full"
+                ? "translate-x-0" // Slide in to normal position
+                : "-translate-x-full md:translate-x-0" // Off-screen on mobile, normal on desktop
             }`}
-            style={{
-              // Add a slight spring effect on mobile
-              transitionTimingFunction: leftSidebarOpen ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'ease-out'
-            }}
           >
             {/* Mobile Close Button */}
             <div className="flex justify-between items-center p-4 border-b border-border md:hidden">
@@ -588,17 +586,15 @@ export default function Messages() {
 
           {/* Right Sidebar - Chat Details */}
           <div
-            className={`transition-all duration-500 ease-out ${
+            className={`transition-transform duration-300 ease-in-out ${
               // Desktop: always visible at 20% width with 30% opacity background
-              // Mobile: slide in from right with solid background or hide completely
+              // Mobile: curtain effect - always rendered but slides in/out from right edge
+              "absolute right-0 top-0 h-full w-80 z-10 bg-background md:relative md:w-1/5 md:bg-muted/30"
+            } ${
               rightSidebarOpen
-                ? "absolute right-0 top-0 h-full w-80 z-10 bg-background transform translate-x-0 md:relative md:w-1/5 md:bg-muted/30 md:transform-none"
-                : "hidden md:block md:w-1/5 md:bg-muted/30 md:transform-none transform translate-x-full"
+                ? "translate-x-0" // Slide in to normal position
+                : "translate-x-full md:translate-x-0" // Off-screen on mobile, normal on desktop
             }`}
-            style={{
-              // Add a slight spring effect on mobile
-              transitionTimingFunction: rightSidebarOpen ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'ease-out'
-            }}
           >
             {selectedChatData && (
               <>
