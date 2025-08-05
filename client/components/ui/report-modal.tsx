@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Dialog,
   DialogContent,
@@ -28,13 +29,13 @@ const reportCategories = [
     description: "Includes misleading or false details about the product such as the wrong manufacturer, nonexistent features, or exaggerated claims that could mislead users."
   },
   {
-    id: "misleading-images", 
+    id: "misleading-images",
     label: "Misleading Images",
     description: "Includes images that do not accurately represent the product such as stock images, edited or filtered images, or images of a different product."
   },
   {
     id: "inappropriate-images",
-    label: "Inappropriate Images", 
+    label: "Inappropriate Images",
     description: "Includes sexual or sexually suggestive images, depictions of drug or alcohol use, offensive gestures, violent or graphic content, or images intended to shock or provoke."
   },
   {
@@ -53,6 +54,7 @@ export function ReportModal({ isOpen, onOpenChange, listingTitle }: ReportModalP
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [additionalDetails, setAdditionalDetails] = useState("");
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
     if (checked) {
@@ -69,12 +71,15 @@ export function ReportModal({ isOpen, onOpenChange, listingTitle }: ReportModalP
       details: additionalDetails,
       listing: listingTitle
     });
-    
-    // Reset form and close modal
+
+    // Reset form and close report modal
     setSelectedCategories([]);
     setAdditionalDetails("");
     setIsDetailsExpanded(false);
     onOpenChange(false);
+
+    // Show confirmation modal
+    setIsConfirmationOpen(true);
   };
 
   const handleClose = () => {
@@ -86,23 +91,25 @@ export function ReportModal({ isOpen, onOpenChange, listingTitle }: ReportModalP
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Report Listing</DialogTitle>
-          {listingTitle && (
-            <p className="text-sm text-muted-foreground">
-              Reporting: "{listingTitle}"
-            </p>
-          )}
-        </DialogHeader>
+    <>
+      <Dialog open={isOpen} onOpenChange={handleClose}>
+        <DialogContent className="max-w-2xl max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>Report Listing</DialogTitle>
+            {listingTitle && (
+              <p className="text-sm text-muted-foreground">
+                Reporting: "{listingTitle}"
+              </p>
+            )}
+          </DialogHeader>
 
-        <div className="space-y-6">
+          <ScrollArea className="h-[60vh] pr-4">
+            <div className="space-y-6">
           <div>
             <h3 className="text-base font-medium mb-4">
               Please select one or more categories that best describe the issue:
             </h3>
-            
+
             <div className="space-y-4">
               {reportCategories.map((category) => (
                 <div key={category.id} className="space-y-2">
@@ -110,7 +117,7 @@ export function ReportModal({ isOpen, onOpenChange, listingTitle }: ReportModalP
                     <Checkbox
                       id={category.id}
                       checked={selectedCategories.includes(category.id)}
-                      onCheckedChange={(checked) => 
+                      onCheckedChange={(checked) =>
                         handleCategoryChange(category.id, checked as boolean)
                       }
                       className="mt-1"
@@ -124,7 +131,7 @@ export function ReportModal({ isOpen, onOpenChange, listingTitle }: ReportModalP
                       </label>
                     </div>
                   </div>
-                  
+
                   <Collapsible>
                     <CollapsibleTrigger className="flex items-center text-xs text-muted-foreground hover:text-foreground transition-colors ml-6">
                       <span className="mr-1">More details</span>
