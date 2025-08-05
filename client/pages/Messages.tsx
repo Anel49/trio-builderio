@@ -365,7 +365,7 @@ export default function Messages() {
         <div className="h-full flex overflow-hidden shadow-sm relative">
           {/* Mobile Tab Buttons - Only visible on tablet/mobile, positioned after safety banner */}
           {!leftSidebarOpen && (
-            <div className="absolute top-24 left-2 z-20 flex flex-col gap-2 md:hidden">
+            <div className="absolute top-36 left-2 z-20 flex flex-col gap-2 md:hidden">
               <button
                 onClick={toggleLeftSidebar}
                 className="p-2 rounded-full shadow-lg bg-background text-foreground hover:bg-accent"
@@ -376,7 +376,7 @@ export default function Messages() {
           )}
 
           {!rightSidebarOpen && (
-            <div className="absolute top-24 right-2 z-20 flex flex-col gap-2 md:hidden">
+            <div className="absolute top-36 right-2 z-20 flex flex-col gap-2 md:hidden">
               <button
                 onClick={toggleRightSidebar}
                 className="p-2 rounded-full shadow-lg bg-background text-foreground hover:bg-accent"
