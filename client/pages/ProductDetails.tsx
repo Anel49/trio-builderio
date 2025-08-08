@@ -378,7 +378,7 @@ export default function ProductDetails() {
               <Button
                 size="lg"
                 className="w-full mb-4"
-                onClick={() => window.location.href = '/checkout'}
+                onClick={() => (window.location.href = "/checkout")}
               >
                 <Calendar className="mr-2 h-5 w-5" />
                 Reserve Now

@@ -7,13 +7,13 @@ import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import Header from "@/components/Header";
-import { 
-  Calendar, 
-  CreditCard, 
-  Shield, 
+import {
+  Calendar,
+  CreditCard,
+  Shield,
   CheckCircle,
   ArrowLeft,
-  MapPin
+  MapPin,
 } from "lucide-react";
 
 declare global {
@@ -28,14 +28,14 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
-  
+
   // Form states
   const [cardForm, setCardForm] = useState({
     number: "",
     expiry: "",
     cvc: "",
     name: "",
-    zip: ""
+    zip: "",
   });
 
   // Mock booking data (would come from route params/state)
@@ -50,7 +50,8 @@ export default function Checkout() {
     serviceFee: 20,
     taxes: 12,
     total: 167,
-    image: "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=300&h=200&fit=crop&auto=format"
+    image:
+      "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=300&h=200&fit=crop&auto=format",
   };
 
   // Initialize payment providers
@@ -69,7 +70,7 @@ export default function Checkout() {
       window.PayPal.Buttons({
         createOrder: createPayPalOrder,
         onApprove: handlePayPalApprove,
-      }).render('#paypal-button-container');
+      }).render("#paypal-button-container");
     }
   };
 
@@ -80,25 +81,27 @@ export default function Checkout() {
       const paymentRequest = {
         apiVersion: 2,
         apiVersionMinor: 0,
-        allowedPaymentMethods: [{
-          type: 'CARD',
-          parameters: {
-            allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-            allowedCardNetworks: ['MASTERCARD', 'VISA']
-          }
-        }],
+        allowedPaymentMethods: [
+          {
+            type: "CARD",
+            parameters: {
+              allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+              allowedCardNetworks: ["MASTERCARD", "VISA"],
+            },
+          },
+        ],
         transactionInfo: {
-          totalPriceStatus: 'FINAL',
+          totalPriceStatus: "FINAL",
           totalPrice: booking.total.toString(),
-          currencyCode: 'USD'
-        }
+          currencyCode: "USD",
+        },
       };
 
       // Mock Google Pay API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       setOrderComplete(true);
     } catch (error) {
-      console.error('Google Pay error:', error);
+      console.error("Google Pay error:", error);
     } finally {
       setIsProcessing(false);
     }
@@ -109,52 +112,54 @@ export default function Checkout() {
     try {
       if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
         const session = new ApplePaySession(3, {
-          countryCode: 'US',
-          currencyCode: 'USD',
-          supportedNetworks: ['visa', 'masterCard', 'amex'],
-          merchantCapabilities: ['supports3DS'],
+          countryCode: "US",
+          currencyCode: "USD",
+          supportedNetworks: ["visa", "masterCard", "amex"],
+          merchantCapabilities: ["supports3DS"],
           total: {
-            label: 'Trio Rental',
-            amount: booking.total.toString()
-          }
+            label: "Trio Rental",
+            amount: booking.total.toString(),
+          },
         });
 
         session.begin();
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         setOrderComplete(true);
       }
     } catch (error) {
-      console.error('Apple Pay error:', error);
+      console.error("Apple Pay error:", error);
     } finally {
       setIsProcessing(false);
     }
   };
 
   const createPayPalOrder = () => {
-    return fetch('/api/paypal/create-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    return fetch("/api/paypal/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         amount: booking.total,
-        currency: 'USD'
-      })
-    }).then(res => res.json()).then(data => data.orderID);
+        currency: "USD",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => data.orderID);
   };
 
   const handlePayPalApprove = async (data: any) => {
     setIsProcessing(true);
     try {
-      const response = await fetch('/api/paypal/capture-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderID: data.orderID })
+      const response = await fetch("/api/paypal/capture-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderID: data.orderID }),
       });
-      
+
       if (response.ok) {
         setOrderComplete(true);
       }
     } catch (error) {
-      console.error('PayPal error:', error);
+      console.error("PayPal error:", error);
     } finally {
       setIsProcessing(false);
     }
@@ -164,21 +169,21 @@ export default function Checkout() {
     setIsProcessing(true);
     try {
       // Mock Stripe API call
-      const response = await fetch('/api/stripe/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/stripe/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: booking.total * 100, // Stripe uses cents
-          currency: 'usd',
-          card: cardForm
-        })
+          currency: "usd",
+          card: cardForm,
+        }),
       });
 
       if (response.ok) {
         setOrderComplete(true);
       }
     } catch (error) {
-      console.error('Card payment error:', error);
+      console.error("Card payment error:", error);
     } finally {
       setIsProcessing(false);
     }
@@ -195,7 +200,10 @@ export default function Checkout() {
             <p className="text-muted-foreground mb-6">
               Your reservation for {booking.item} has been confirmed.
             </p>
-            <Button onClick={() => window.location.href = '/profile'} className="w-full">
+            <Button
+              onClick={() => (window.location.href = "/profile")}
+              className="w-full"
+            >
               View My Bookings
             </Button>
           </div>
@@ -207,10 +215,10 @@ export default function Checkout() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           onClick={() => window.history.back()}
           className="mb-6"
         >
@@ -227,14 +235,16 @@ export default function Checkout() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex space-x-3">
-                  <img 
-                    src={booking.image} 
+                  <img
+                    src={booking.image}
                     alt={booking.item}
                     className="w-16 h-16 object-cover rounded-md"
                   />
                   <div className="flex-1">
                     <h3 className="font-semibold">{booking.item}</h3>
-                    <p className="text-sm text-muted-foreground">Hosted by {booking.host}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Hosted by {booking.host}
+                    </p>
                   </div>
                 </div>
 
@@ -255,7 +265,9 @@ export default function Checkout() {
 
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>${booking.dailyRate} × {booking.days} days</span>
+                    <span>
+                      ${booking.dailyRate} × {booking.days} days
+                    </span>
                     <span>${booking.subtotal}</span>
                   </div>
                   <div className="flex justify-between">
@@ -286,14 +298,22 @@ export default function Checkout() {
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
-                <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
+                <RadioGroup
+                  value={paymentMethod}
+                  onValueChange={setPaymentMethod}
+                >
                   {/* Google Pay */}
                   <div className="flex items-center space-x-2 p-4 border rounded-lg">
                     <RadioGroupItem value="google-pay" id="google-pay" />
-                    <Label htmlFor="google-pay" className="flex-1 cursor-pointer">
+                    <Label
+                      htmlFor="google-pay"
+                      className="flex-1 cursor-pointer"
+                    >
                       <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
-                          <span className="text-white text-xs font-bold">G</span>
+                          <span className="text-white text-xs font-bold">
+                            G
+                          </span>
                         </div>
                         <span>Google Pay</span>
                       </div>
@@ -303,7 +323,10 @@ export default function Checkout() {
                   {/* Apple Pay */}
                   <div className="flex items-center space-x-2 p-4 border rounded-lg">
                     <RadioGroupItem value="apple-pay" id="apple-pay" />
-                    <Label htmlFor="apple-pay" className="flex-1 cursor-pointer">
+                    <Label
+                      htmlFor="apple-pay"
+                      className="flex-1 cursor-pointer"
+                    >
                       <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-black rounded flex items-center justify-center">
                           <span className="text-white text-xs">🍎</span>
@@ -319,7 +342,9 @@ export default function Checkout() {
                     <Label htmlFor="paypal" className="flex-1 cursor-pointer">
                       <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                          <span className="text-white text-xs font-bold">P</span>
+                          <span className="text-white text-xs font-bold">
+                            P
+                          </span>
                         </div>
                         <span>PayPal</span>
                       </div>
@@ -345,29 +370,39 @@ export default function Checkout() {
                       <Input
                         placeholder="Card number"
                         value={cardForm.number}
-                        onChange={(e) => setCardForm({...cardForm, number: e.target.value})}
+                        onChange={(e) =>
+                          setCardForm({ ...cardForm, number: e.target.value })
+                        }
                       />
                       <div className="grid grid-cols-2 gap-4">
                         <Input
                           placeholder="MM/YY"
                           value={cardForm.expiry}
-                          onChange={(e) => setCardForm({...cardForm, expiry: e.target.value})}
+                          onChange={(e) =>
+                            setCardForm({ ...cardForm, expiry: e.target.value })
+                          }
                         />
                         <Input
                           placeholder="CVC"
                           value={cardForm.cvc}
-                          onChange={(e) => setCardForm({...cardForm, cvc: e.target.value})}
+                          onChange={(e) =>
+                            setCardForm({ ...cardForm, cvc: e.target.value })
+                          }
                         />
                       </div>
                       <Input
                         placeholder="Cardholder name"
                         value={cardForm.name}
-                        onChange={(e) => setCardForm({...cardForm, name: e.target.value})}
+                        onChange={(e) =>
+                          setCardForm({ ...cardForm, name: e.target.value })
+                        }
                       />
                       <Input
                         placeholder="ZIP code"
                         value={cardForm.zip}
-                        onChange={(e) => setCardForm({...cardForm, zip: e.target.value})}
+                        onChange={(e) =>
+                          setCardForm({ ...cardForm, zip: e.target.value })
+                        }
                       />
                     </div>
                   </div>
@@ -385,19 +420,25 @@ export default function Checkout() {
                 </div>
 
                 {/* Payment Button */}
-                <Button 
+                <Button
                   onClick={() => {
-                    switch(paymentMethod) {
-                      case 'google-pay': handleGooglePay(); break;
-                      case 'apple-pay': handleApplePay(); break;
-                      case 'card': handleCardPayment(); break;
+                    switch (paymentMethod) {
+                      case "google-pay":
+                        handleGooglePay();
+                        break;
+                      case "apple-pay":
+                        handleApplePay();
+                        break;
+                      case "card":
+                        handleCardPayment();
+                        break;
                     }
                   }}
-                  disabled={isProcessing || paymentMethod === 'paypal'}
+                  disabled={isProcessing || paymentMethod === "paypal"}
                   className="w-full"
                   size="lg"
                 >
-                  {isProcessing ? 'Processing...' : `Pay $${booking.total}`}
+                  {isProcessing ? "Processing..." : `Pay $${booking.total}`}
                 </Button>
               </CardContent>
             </Card>
