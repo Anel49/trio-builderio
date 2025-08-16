@@ -19,7 +19,7 @@ import {
 declare global {
   interface Window {
     google: any;
-    PayPal: any;
+    paypal: any;
     ApplePaySession: any;
   }
 }
@@ -58,6 +58,13 @@ export default function Checkout() {
   useEffect(() => {
     initializePaymentProviders();
   }, []);
+
+  // Re-initialize PayPal when payment method changes
+  useEffect(() => {
+    if (paymentMethod === 'paypal') {
+      initializePaymentProviders();
+    }
+  }, [paymentMethod]);
 
   const initializePaymentProviders = async () => {
     // Google Pay initialization
