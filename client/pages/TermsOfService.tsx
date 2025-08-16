@@ -255,8 +255,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Dispute Resolution */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">8. Dispute Resolution and Support</h2>
+              <section id="dispute-resolution">
+                <h2 className="text-2xl font-semibold mb-4">Dispute Resolution and Support</h2>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-medium mb-2">Resolution Process</h3>
