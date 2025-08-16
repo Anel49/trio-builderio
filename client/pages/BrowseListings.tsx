@@ -24,6 +24,8 @@ import {
   Car,
   MessageCircle,
   Calendar as CalendarIcon,
+  Map,
+  X,
 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
