@@ -125,7 +125,7 @@ export const PrivacyContent = () => (
 export const TermsContent = () => (
   <>
     <section>
-      <h3 className="text-lg font-semibold mb-3">1. Acceptance of Terms</h3>
+      <h3 className="text-lg font-semibold mb-3">Acceptance of Terms</h3>
       <p className="text-muted-foreground">
         By accessing and using Trio, you accept and agree to be bound by these
         Terms of Service. If you do not agree to these terms, please do not use
@@ -134,7 +134,7 @@ export const TermsContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">2. Description of Service</h3>
+      <h3 className="text-lg font-semibold mb-3">Description of Service</h3>
       <p className="text-muted-foreground mb-4">
         Trio is a peer-to-peer marketplace that allows users to rent and lend
         items to each other. We provide the platform to facilitate these
@@ -143,7 +143,7 @@ export const TermsContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">3. User Responsibilities</h3>
+      <h3 className="text-lg font-semibold mb-3">User Responsibilities</h3>
       <p className="text-muted-foreground mb-4">
         As a user of Trio, you agree to:
       </p>
@@ -157,7 +157,7 @@ export const TermsContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">4. Prohibited Activities</h3>
+      <h3 className="text-lg font-semibold mb-3">Prohibited Activities</h3>
       <p className="text-muted-foreground mb-4">You may not:</p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
         <li>List illegal, stolen, or dangerous items</li>
@@ -171,7 +171,7 @@ export const TermsContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">5. Payment and Fees</h3>
+      <h3 className="text-lg font-semibold mb-3">Payment and Fees</h3>
       <p className="text-muted-foreground">
         Trio charges service fees for successful rentals. Fees are clearly
         displayed before you complete a transaction. All payments are processed
@@ -180,7 +180,7 @@ export const TermsContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">6. Limitation of Liability</h3>
+      <h3 className="text-lg font-semibold mb-3">Limitation of Liability</h3>
       <p className="text-muted-foreground">
         Trio is not liable for damages arising from rentals, disputes between
         users, or loss of items. Users participate at their own risk and are
@@ -189,7 +189,7 @@ export const TermsContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">7. Changes to Terms</h3>
+      <h3 className="text-lg font-semibold mb-3">Changes to Terms</h3>
       <p className="text-muted-foreground">
         We may update these terms from time to time. We'll notify you of
         significant changes via email or platform notifications.
