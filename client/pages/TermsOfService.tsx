@@ -118,8 +118,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Rental Process */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">3. Rental Process and Booking Terms</h2>
+              <section id="rental-process">
+                <h2 className="text-2xl font-semibold mb-4">Rental Process and Booking Terms</h2>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-medium mb-2">Booking and Confirmation</h3>
