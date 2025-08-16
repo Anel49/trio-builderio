@@ -104,24 +104,26 @@ export default function Checkout() {
     setIsProcessing(true);
     try {
       if (!window.google || !window.google.payments) {
-        throw new Error('Google Pay not available');
+        throw new Error("Google Pay not available");
       }
 
       const paymentsClient = new window.google.payments.api.PaymentsClient({
-        environment: 'TEST' // Change to 'PRODUCTION' for live
+        environment: "TEST", // Change to 'PRODUCTION' for live
       });
 
       // First check if Google Pay is available
       const isReadyToPayRequest = {
         apiVersion: 2,
         apiVersionMinor: 0,
-        allowedPaymentMethods: [{
-          type: 'CARD',
-          parameters: {
-            allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-            allowedCardNetworks: ['MASTERCARD', 'VISA', 'AMEX', 'DISCOVER']
-          }
-        }]
+        allowedPaymentMethods: [
+          {
+            type: "CARD",
+            parameters: {
+              allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+              allowedCardNetworks: ["MASTERCARD", "VISA", "AMEX", "DISCOVER"],
+            },
+          },
+        ],
       };
 
       const readyToPay = await paymentsClient.isReadyToPay(isReadyToPayRequest);
@@ -130,57 +132,62 @@ export default function Checkout() {
         const paymentDataRequest = {
           apiVersion: 2,
           apiVersionMinor: 0,
-          allowedPaymentMethods: [{
-            type: 'CARD',
-            parameters: {
-              allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-              allowedCardNetworks: ['MASTERCARD', 'VISA', 'AMEX', 'DISCOVER']
-            },
-            tokenizationSpecification: {
-              type: 'PAYMENT_GATEWAY',
+          allowedPaymentMethods: [
+            {
+              type: "CARD",
               parameters: {
-                gateway: 'example', // Replace with your payment processor
-                gatewayMerchantId: 'exampleGatewayMerchantId'
-              }
-            }
-          }],
+                allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                allowedCardNetworks: ["MASTERCARD", "VISA", "AMEX", "DISCOVER"],
+              },
+              tokenizationSpecification: {
+                type: "PAYMENT_GATEWAY",
+                parameters: {
+                  gateway: "example", // Replace with your payment processor
+                  gatewayMerchantId: "exampleGatewayMerchantId",
+                },
+              },
+            },
+          ],
           transactionInfo: {
-            totalPriceStatus: 'FINAL',
+            totalPriceStatus: "FINAL",
             totalPrice: booking.total.toString(),
-            currencyCode: 'USD',
-            countryCode: 'US'
+            currencyCode: "USD",
+            countryCode: "US",
           },
           merchantInfo: {
-            merchantId: '12345678901234567890', // Replace with your merchant ID
-            merchantName: 'Trio Rental Marketplace'
-          }
+            merchantId: "12345678901234567890", // Replace with your merchant ID
+            merchantName: "Trio Rental Marketplace",
+          },
         };
 
-        const paymentData = await paymentsClient.loadPaymentData(paymentDataRequest);
+        const paymentData =
+          await paymentsClient.loadPaymentData(paymentDataRequest);
 
-        console.log('Google Pay payment data:', paymentData);
+        console.log("Google Pay payment data:", paymentData);
 
         // For demo purposes, complete the order
         // In production, you would process this with your backend
         setOrderComplete(true);
       } else {
-        throw new Error('Google Pay not available for this user');
+        throw new Error("Google Pay not available for this user");
       }
     } catch (error: any) {
-      console.error('Google Pay error:', error);
+      console.error("Google Pay error:", error);
 
-      let errorMessage = 'Google Pay payment failed. Please try another method.';
+      let errorMessage =
+        "Google Pay payment failed. Please try another method.";
 
       if (error.message) {
         errorMessage = error.message;
       } else if (error.statusCode) {
         switch (error.statusCode) {
-          case 'CANCELED':
-            console.log('Google Pay cancelled by user');
+          case "CANCELED":
+            console.log("Google Pay cancelled by user");
             setIsProcessing(false);
             return; // Don't show error for user cancellation
-          case 'DEVELOPER_ERROR':
-            errorMessage = 'Google Pay configuration error. Please contact support.';
+          case "DEVELOPER_ERROR":
+            errorMessage =
+              "Google Pay configuration error. Please contact support.";
             break;
           default:
             errorMessage = `Google Pay error: ${error.statusCode}`;
@@ -197,43 +204,47 @@ export default function Checkout() {
     setIsProcessing(true);
     try {
       if (!window.ApplePaySession) {
-        console.log('Apple Pay not supported - not on Safari/iOS');
-        alert('Apple Pay is only available on Safari browsers on iOS and macOS devices.');
+        console.log("Apple Pay not supported - not on Safari/iOS");
+        alert(
+          "Apple Pay is only available on Safari browsers on iOS and macOS devices.",
+        );
         setIsProcessing(false);
         return;
       }
 
       if (!window.ApplePaySession.canMakePayments()) {
-        console.log('Apple Pay not available - no cards configured');
-        alert('Apple Pay is not set up on this device. Please add a card to your Apple Wallet or use another payment method.');
+        console.log("Apple Pay not available - no cards configured");
+        alert(
+          "Apple Pay is not set up on this device. Please add a card to your Apple Wallet or use another payment method.",
+        );
         setIsProcessing(false);
         return;
       }
 
       const request = {
-        countryCode: 'US',
-        currencyCode: 'USD',
-        supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-        merchantCapabilities: ['supports3DS'],
+        countryCode: "US",
+        currencyCode: "USD",
+        supportedNetworks: ["visa", "masterCard", "amex", "discover"],
+        merchantCapabilities: ["supports3DS"],
         total: {
-          label: 'Trio Rental',
+          label: "Trio Rental",
           amount: booking.total.toString(),
-          type: 'final'
+          type: "final",
         },
         lineItems: [
           {
             label: booking.item,
-            amount: booking.subtotal.toString()
+            amount: booking.subtotal.toString(),
           },
           {
-            label: 'Service Fee',
-            amount: booking.serviceFee.toString()
+            label: "Service Fee",
+            amount: booking.serviceFee.toString(),
           },
           {
-            label: 'Taxes',
-            amount: booking.taxes.toString()
-          }
-        ]
+            label: "Taxes",
+            amount: booking.taxes.toString(),
+          },
+        ],
       };
 
       const session = new window.ApplePaySession(3, request);
@@ -242,29 +253,32 @@ export default function Checkout() {
         try {
           // For demo purposes, create a mock merchant session
           // In production, you would validate with your backend
-          console.log('Apple Pay merchant validation required:', event.validationURL);
+          console.log(
+            "Apple Pay merchant validation required:",
+            event.validationURL,
+          );
 
           // Mock merchant session - this will fail but show the flow
           const mockMerchantSession = {
             epochTimestamp: Date.now(),
             expiresAt: Date.now() + 300000,
-            merchantSessionIdentifier: 'mock_session_id',
-            nonce: 'mock_nonce',
-            merchantIdentifier: 'merchant.com.trio.rental',
+            merchantSessionIdentifier: "mock_session_id",
+            nonce: "mock_nonce",
+            merchantIdentifier: "merchant.com.trio.rental",
             domainName: window.location.hostname,
-            displayName: 'Trio Rental Marketplace'
+            displayName: "Trio Rental Marketplace",
           };
 
           session.completeMerchantValidation(mockMerchantSession);
         } catch (error) {
-          console.error('Merchant validation failed:', error);
+          console.error("Merchant validation failed:", error);
           session.abort();
         }
       };
 
       session.onpaymentauthorized = async (event: any) => {
         try {
-          console.log('Apple Pay payment authorized:', event.payment);
+          console.log("Apple Pay payment authorized:", event.payment);
 
           // For demo purposes, complete the payment
           // In production, you would process this with your backend
@@ -277,14 +291,14 @@ export default function Checkout() {
       };
 
       session.oncancel = () => {
-        console.log('Apple Pay cancelled by user');
+        console.log("Apple Pay cancelled by user");
         setIsProcessing(false);
       };
 
       session.begin();
     } catch (error) {
-      console.error('Apple Pay error:', error);
-      alert('Apple Pay is not available. Please try another payment method.');
+      console.error("Apple Pay error:", error);
+      alert("Apple Pay is not available. Please try another payment method.");
       setIsProcessing(false);
     }
   };
@@ -471,9 +485,11 @@ export default function Checkout() {
                   onValueChange={setPaymentMethod}
                 >
                   {/* Google Pay */}
-                  <div className={`flex items-center space-x-2 p-4 border rounded-lg ${
-                    !window.google ? 'opacity-50' : ''
-                  }`}>
+                  <div
+                    className={`flex items-center space-x-2 p-4 border rounded-lg ${
+                      !window.google ? "opacity-50" : ""
+                    }`}
+                  >
                     <RadioGroupItem
                       value="google-pay"
                       id="google-pay"
@@ -522,7 +538,8 @@ export default function Checkout() {
                   </div>
 
                   {/* Apple Pay - Hidden for now, keeping code for later */}
-                  <div className="hidden">{/* Original: flex items-center space-x-2 p-4 border rounded-lg */}
+                  <div className="hidden">
+                    {/* Original: flex items-center space-x-2 p-4 border rounded-lg */}
                     <RadioGroupItem
                       value="apple-pay"
                       id="apple-pay"
@@ -672,7 +689,7 @@ export default function Checkout() {
                         break;
                       case "paypal":
                         // PayPal handles its own button clicks
-                        console.log('PayPal should use its own buttons');
+                        console.log("PayPal should use its own buttons");
                         break;
                     }
                   }}
@@ -680,11 +697,15 @@ export default function Checkout() {
                   className="w-full"
                   size="lg"
                 >
-                  {isProcessing ? "Processing..." :
-                   paymentMethod === "google-pay" ? "Pay with Google Pay" :
-                   paymentMethod === "apple-pay" ? "Pay with Apple Pay" :
-                   paymentMethod === "paypal" ? "Use PayPal Button Above" :
-                   `Pay $${booking.total}`}
+                  {isProcessing
+                    ? "Processing..."
+                    : paymentMethod === "google-pay"
+                      ? "Pay with Google Pay"
+                      : paymentMethod === "apple-pay"
+                        ? "Pay with Apple Pay"
+                        : paymentMethod === "paypal"
+                          ? "Use PayPal Button Above"
+                          : `Pay $${booking.total}`}
                 </Button>
               </CardContent>
             </Card>
