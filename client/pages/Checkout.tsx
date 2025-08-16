@@ -153,33 +153,43 @@ export default function Checkout() {
     }
   };
 
-  const createPayPalOrder = () => {
-    return fetch("/api/paypal/create-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: booking.total,
-        currency: "USD",
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => data.orderID);
+  const createPayPalOrder = (data: any, actions: any) => {
+    return actions.order.create({
+      purchase_units: [{
+        amount: {
+          currency_code: 'USD',
+          value: booking.total.toString()
+        },
+        description: `Rental: ${booking.item} (${booking.startDate} - ${booking.endDate})`
+      }],
+      application_context: {
+        brand_name: 'Trio Rental Marketplace',
+        locale: 'en-US',
+        landing_page: 'BILLING',
+        shipping_preference: 'NO_SHIPPING',
+        user_action: 'PAY_NOW'
+      }
+    });
   };
 
-  const handlePayPalApprove = async (data: any) => {
+  const handlePayPalApprove = async (data: any, actions: any) => {
     setIsProcessing(true);
     try {
-      const response = await fetch("/api/paypal/capture-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderID: data.orderID }),
-      });
+      // Capture the order directly with PayPal SDK
+      const details = await actions.order.capture();
 
-      if (response.ok) {
+      console.log('PayPal payment completed:', details);
+
+      // For demo purposes, complete the order
+      // In production, you would verify this with your backend
+      if (details.status === 'COMPLETED') {
         setOrderComplete(true);
+      } else {
+        throw new Error('Payment not completed');
       }
     } catch (error) {
-      console.error("PayPal error:", error);
+      console.error('PayPal error:', error);
+      alert('PayPal payment failed. Please try again.');
     } finally {
       setIsProcessing(false);
     }
