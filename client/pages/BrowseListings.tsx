@@ -343,6 +343,7 @@ export default function BrowseListings() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 h-12"
+                style={{ marginRight: window.innerWidth <= 991 ? '176px' : '0' }}
               />
             </div>
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
