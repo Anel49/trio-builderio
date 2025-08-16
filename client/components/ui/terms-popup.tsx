@@ -46,16 +46,20 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
 
           <div className="space-y-3 text-sm text-muted-foreground">
             <p>
-              By using Trio, you agree to our community standards and rental policies. Our platform connects people for safe, peer-to-peer item sharing.
+              By using Trio, you agree to our community standards and rental
+              policies. Our platform connects people for safe, peer-to-peer item
+              sharing.
             </p>
-            
+
             <div className="space-y-2">
               <h4 className="font-medium text-foreground">Key Points:</h4>
               <ul className="space-y-1 text-xs ml-2">
                 <li>• You're responsible for items while renting them</li>
                 <li>• Service fees apply to all completed transactions</li>
                 <li>• Identity verification may be required</li>
-                <li>• Prohibited items include weapons and illegal substances</li>
+                <li>
+                  • Prohibited items include weapons and illegal substances
+                </li>
               </ul>
             </div>
           </div>
@@ -65,8 +69,8 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
           <div className="text-center">
             <p className="text-xs text-muted-foreground mb-4">
               Please read our full{" "}
-              <a 
-                href="/terms-of-service" 
+              <a
+                href="/terms-of-service"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:underline font-medium"
@@ -74,17 +78,14 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
                 Terms of Service here
               </a>
             </p>
-            <Button 
-              onClick={onAccept}
-              className="w-full"
-              size="lg"
-            >
+            <Button onClick={onAccept} className="w-full" size="lg">
               Accept Terms of Service
             </Button>
           </div>
 
           <p className="text-xs text-center text-muted-foreground">
-            By clicking "Accept", you agree to be bound by our Terms of Service and Privacy Policy.
+            By clicking "Accept", you agree to be bound by our Terms of Service
+            and Privacy Policy.
           </p>
         </CardContent>
       </Card>

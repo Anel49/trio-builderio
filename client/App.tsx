@@ -25,14 +25,14 @@ const App = () => {
 
   useEffect(() => {
     // Check if user has already accepted terms
-    const hasAcceptedTerms = localStorage.getItem('trio-terms-accepted');
+    const hasAcceptedTerms = localStorage.getItem("trio-terms-accepted");
     if (!hasAcceptedTerms) {
       setShowTermsPopup(true);
     }
   }, []);
 
   const handleAcceptTerms = () => {
-    localStorage.setItem('trio-terms-accepted', 'true');
+    localStorage.setItem("trio-terms-accepted", "true");
     setShowTermsPopup(false);
   };
 
