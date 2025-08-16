@@ -98,14 +98,7 @@ export function Footer() {
         </Container>
       </footer>
 
-      <PrivacyModal
-        isOpen={isPrivacyModalOpen}
-        onOpenChange={setIsPrivacyModalOpen}
-      />
-      <CookiesModal
-        isOpen={isCookiesModalOpen}
-        onOpenChange={setIsCookiesModalOpen}
-      />
+
     </>
   );
 }
