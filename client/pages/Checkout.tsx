@@ -410,7 +410,7 @@ export default function Checkout() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Booking Summary */}
-          <div className="lg:col-span-1 order-2 lg:order-1">
+          <div className="lg:col-span-1 order-1 lg:order-1">
             <Card>
               <CardHeader>
                 <CardTitle>Booking Summary</CardTitle>
