@@ -621,13 +621,21 @@ export default function Checkout() {
                       case "card":
                         handleCardPayment();
                         break;
+                      case "paypal":
+                        // PayPal handles its own button clicks
+                        console.log('PayPal should use its own buttons');
+                        break;
                     }
                   }}
                   disabled={isProcessing || paymentMethod === "paypal"}
                   className="w-full"
                   size="lg"
                 >
-                  {isProcessing ? "Processing..." : `Pay $${booking.total}`}
+                  {isProcessing ? "Processing..." :
+                   paymentMethod === "google-pay" ? "Pay with Google Pay" :
+                   paymentMethod === "apple-pay" ? "Pay with Apple Pay" :
+                   paymentMethod === "paypal" ? "Use PayPal Button Above" :
+                   `Pay $${booking.total}`}
                 </Button>
               </CardContent>
             </Card>
