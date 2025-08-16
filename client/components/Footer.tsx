@@ -1,8 +1,6 @@
 import { Container } from "./Container";
 
 export function Footer() {
-  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
-  const [isCookiesModalOpen, setIsCookiesModalOpen] = useState(false);
 
   return (
     <>
