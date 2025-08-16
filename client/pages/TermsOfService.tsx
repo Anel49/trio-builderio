@@ -334,8 +334,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Changes to Terms */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">12. Changes to Terms of Service</h2>
+              <section id="changes-to-terms">
+                <h2 className="text-2xl font-semibold mb-4">Changes to Terms of Service</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   We may modify these Terms of Service from time to time. When we make changes, we will notify users via email or through prominent notices on our platform. Your continued use of Trio after such modifications constitutes acceptance of the updated terms.
                 </p>
