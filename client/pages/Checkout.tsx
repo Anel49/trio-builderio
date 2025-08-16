@@ -166,9 +166,28 @@ export default function Checkout() {
       } else {
         throw new Error('Google Pay not available for this user');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Google Pay error:', error);
-      alert('Google Pay payment failed. Please try another method.');
+
+      let errorMessage = 'Google Pay payment failed. Please try another method.';
+
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (error.statusCode) {
+        switch (error.statusCode) {
+          case 'CANCELED':
+            console.log('Google Pay cancelled by user');
+            setIsProcessing(false);
+            return; // Don't show error for user cancellation
+          case 'DEVELOPER_ERROR':
+            errorMessage = 'Google Pay configuration error. Please contact support.';
+            break;
+          default:
+            errorMessage = `Google Pay error: ${error.statusCode}`;
+        }
+      }
+
+      alert(errorMessage);
     } finally {
       setIsProcessing(false);
     }
@@ -178,11 +197,17 @@ export default function Checkout() {
     setIsProcessing(true);
     try {
       if (!window.ApplePaySession) {
-        throw new Error('Apple Pay not supported on this device/browser');
+        console.log('Apple Pay not supported - not on Safari/iOS');
+        alert('Apple Pay is only available on Safari browsers on iOS and macOS devices.');
+        setIsProcessing(false);
+        return;
       }
 
       if (!window.ApplePaySession.canMakePayments()) {
-        throw new Error('Apple Pay not available');
+        console.log('Apple Pay not available - no cards configured');
+        alert('Apple Pay is not set up on this device. Please add a card to your Apple Wallet or use another payment method.');
+        setIsProcessing(false);
+        return;
       }
 
       const request = {
@@ -446,8 +471,14 @@ export default function Checkout() {
                   onValueChange={setPaymentMethod}
                 >
                   {/* Google Pay */}
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg">
-                    <RadioGroupItem value="google-pay" id="google-pay" />
+                  <div className={`flex items-center space-x-2 p-4 border rounded-lg ${
+                    !window.google ? 'opacity-50' : ''
+                  }`}>
+                    <RadioGroupItem
+                      value="google-pay"
+                      id="google-pay"
+                      disabled={!window.google}
+                    />
                     <Label
                       htmlFor="google-pay"
                       className="flex-1 cursor-pointer"
@@ -478,14 +509,27 @@ export default function Checkout() {
                             />
                           </svg>
                         </div>
-                        <span>Google Pay</span>
+                        <div className="flex flex-col">
+                          <span>Google Pay</span>
+                          {!window.google && (
+                            <span className="text-xs text-muted-foreground">
+                              Loading...
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </Label>
                   </div>
 
                   {/* Apple Pay */}
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg">
-                    <RadioGroupItem value="apple-pay" id="apple-pay" />
+                  <div className={`flex items-center space-x-2 p-4 border rounded-lg ${
+                    !window.ApplePaySession ? 'opacity-50' : ''
+                  }`}>
+                    <RadioGroupItem
+                      value="apple-pay"
+                      id="apple-pay"
+                      disabled={!window.ApplePaySession}
+                    />
                     <Label
                       htmlFor="apple-pay"
                       className="flex-1 cursor-pointer"
@@ -504,7 +548,14 @@ export default function Checkout() {
                             />
                           </svg>
                         </div>
-                        <span>Apple Pay</span>
+                        <div className="flex flex-col">
+                          <span>Apple Pay</span>
+                          {!window.ApplePaySession && (
+                            <span className="text-xs text-muted-foreground">
+                              Safari only
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </Label>
                   </div>
