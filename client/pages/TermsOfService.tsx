@@ -199,8 +199,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Prohibited Items */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">6. Prohibited Items and Activities</h2>
+              <section id="prohibited-items">
+                <h2 className="text-2xl font-semibold mb-4">Prohibited Items and Activities</h2>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-medium mb-2">Restricted Items</h3>
