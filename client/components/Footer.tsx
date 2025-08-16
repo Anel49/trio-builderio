@@ -92,23 +92,11 @@ export function Footer() {
               © 2025 Trio. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <button
-                onClick={() => setIsPrivacyModalOpen(true)}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Privacy
-              </button>
-              <button
-                onClick={() => setIsCookiesModalOpen(true)}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Cookies
-              </button>
               <a
                 href="/terms-of-service"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                Terms
+                Policies
               </a>
             </div>
           </div>
