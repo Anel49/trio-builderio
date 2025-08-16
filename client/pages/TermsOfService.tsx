@@ -7,7 +7,12 @@ import { ArrowLeft } from "lucide-react";
 
 export default function TermsOfService() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" style={{ scrollBehavior: 'smooth' }}>
+      <style>{`
+        html {
+          scroll-behavior: smooth;
+        }
+      `}</style>
       <Header />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
