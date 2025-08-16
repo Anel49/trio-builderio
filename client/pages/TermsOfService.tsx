@@ -344,8 +344,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Contact Information */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">13. Contact Information</h2>
+              <section id="contact-information">
+                <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   If you have questions about these Terms of Service, please contact our support team at{" "}
                   <a href="mailto:support@trio.com" className="text-primary hover:underline">
