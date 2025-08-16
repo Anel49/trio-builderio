@@ -276,8 +276,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Privacy and Data */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">9. Privacy and Data Usage</h2>
+              <section id="privacy-data">
+                <h2 className="text-2xl font-semibold mb-4">Privacy and Data Usage</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   Your privacy is important to us. We collect, use, and protect your personal information in accordance with our Privacy Policy. By using Trio, you consent to the collection and use of your information as described in our Privacy Policy, which is incorporated into these Terms of Service by reference.
                 </p>
