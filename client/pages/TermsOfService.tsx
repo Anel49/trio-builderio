@@ -286,8 +286,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Account Termination */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">10. Account Termination</h2>
+              <section id="account-termination">
+                <h2 className="text-2xl font-semibold mb-4">Account Termination</h2>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-medium mb-2">Voluntary Termination</h3>
