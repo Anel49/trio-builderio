@@ -77,11 +77,18 @@ export default function Checkout() {
           window.paypal.Buttons({
             createOrder: createPayPalOrder,
             onApprove: handlePayPalApprove,
-            onError: (err: any) => {
-              console.error('PayPal error:', err);
+            onCancel: () => {
+              console.log('PayPal payment cancelled');
               setIsProcessing(false);
+            },
+            onError: (err: any) => {
+              console.error('PayPal SDK error:', err);
+              setIsProcessing(false);
+              alert('PayPal encountered an error. Please try again.');
             }
-          }).render('#paypal-button-container');
+          }).render('#paypal-button-container').catch((err: any) => {
+            console.error('PayPal render error:', err);
+          });
         }
       }
     }, 1000);
