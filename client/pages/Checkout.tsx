@@ -471,7 +471,7 @@ export default function Checkout() {
           </div>
 
           {/* Payment Section */}
-          <div className="lg:col-span-2 order-1 lg:order-2">
+          <div className="lg:col-span-2 order-2 lg:order-2">
             <Card>
               <CardHeader>
                 <CardTitle>Payment Method</CardTitle>
