@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Container } from "./Container";
 import { PrivacyModal } from "./ui/privacy-modal";
-import { TermsModal } from "./ui/terms-modal";
 import { CookiesModal } from "./ui/cookies-modal";
 
 export function Footer() {
