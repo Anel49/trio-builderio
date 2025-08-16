@@ -198,7 +198,7 @@ export default function Index() {
                     placeholder="What"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="pl-10 h-14 text-lg border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:placeholder:text-gray-400"
+                    className="pl-10 h-14 text-lg md:text-lg border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:placeholder:text-gray-400"
                   />
                 </div>
 
