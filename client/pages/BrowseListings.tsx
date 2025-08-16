@@ -804,15 +804,8 @@ export default function BrowseListings() {
         </div>
 
         {/* Map Header */}
-        <div className="flex justify-between items-center px-4 pb-4">
+        <div className="px-4 pb-4">
           <h3 className="text-lg font-semibold">Map View</h3>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsMobileMapOpen(false)}
-          >
-            <X className="h-5 w-5" />
-          </Button>
         </div>
 
         {/* Map Container */}
