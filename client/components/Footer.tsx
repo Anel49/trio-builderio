@@ -119,10 +119,6 @@ export function Footer() {
         isOpen={isPrivacyModalOpen}
         onOpenChange={setIsPrivacyModalOpen}
       />
-      <TermsModal
-        isOpen={isTermsModalOpen}
-        onOpenChange={setIsTermsModalOpen}
-      />
       <CookiesModal
         isOpen={isCookiesModalOpen}
         onOpenChange={setIsCookiesModalOpen}
