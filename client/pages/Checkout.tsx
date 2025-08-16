@@ -521,10 +521,8 @@ export default function Checkout() {
                     </Label>
                   </div>
 
-                  {/* Apple Pay */}
-                  <div className={`flex items-center space-x-2 p-4 border rounded-lg ${
-                    !window.ApplePaySession ? 'opacity-50' : ''
-                  }`}>
+                  {/* Apple Pay - Hidden for now, keeping code for later */}
+                  <div className="hidden">{/* Original: flex items-center space-x-2 p-4 border rounded-lg */}
                     <RadioGroupItem
                       value="apple-pay"
                       id="apple-pay"
