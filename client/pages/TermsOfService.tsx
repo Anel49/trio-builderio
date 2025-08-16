@@ -307,8 +307,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Legal Disclaimers */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">11. Legal Disclaimers and Limitations</h2>
+              <section id="legal-disclaimers">
+                <h2 className="text-2xl font-semibold mb-4">Legal Disclaimers and Limitations</h2>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-medium mb-2">Platform Liability</h3>
