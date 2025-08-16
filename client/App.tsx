@@ -20,27 +20,46 @@ import { TermsPopup } from "@/components/ui/terms-popup";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/browse" element={<BrowseListings />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/upload" element={<UploadProduct />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/checkout" element={<Checkout />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const [showTermsPopup, setShowTermsPopup] = useState(false);
+
+  useEffect(() => {
+    // Check if user has already accepted terms
+    const hasAcceptedTerms = localStorage.getItem('trio-terms-accepted');
+    if (!hasAcceptedTerms) {
+      setShowTermsPopup(true);
+    }
+  }, []);
+
+  const handleAcceptTerms = () => {
+    localStorage.setItem('trio-terms-accepted', 'true');
+    setShowTermsPopup(false);
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/browse" element={<BrowseListings />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/upload" element={<UploadProduct />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+        <TermsPopup isOpen={showTermsPopup} onAccept={handleAcceptTerms} />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 const container = document.getElementById("root")!;
 let root = (container as any)._reactRoot;
