@@ -41,7 +41,7 @@ export function LegalModal({
 export const PrivacyContent = () => (
   <>
     <section>
-      <h3 className="text-lg font-semibold mb-3">1. Information We Collect</h3>
+      <h3 className="text-lg font-semibold mb-3">Information We Collect</h3>
       <p className="text-muted-foreground mb-4">
         We collect information you provide directly to us, such as when you
         create an account, list a product, make a rental, or contact us for
@@ -58,7 +58,7 @@ export const PrivacyContent = () => (
 
     <section>
       <h3 className="text-lg font-semibold mb-3">
-        2. How We Use Your Information
+        How We Use Your Information
       </h3>
       <p className="text-muted-foreground mb-4">
         We use the information we collect to provide, maintain, and improve our
@@ -74,7 +74,7 @@ export const PrivacyContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">3. Information Sharing</h3>
+      <h3 className="text-lg font-semibold mb-3">Information Sharing</h3>
       <p className="text-muted-foreground mb-4">
         We don't sell your personal information. We may share your information
         in the following circumstances:
@@ -88,7 +88,7 @@ export const PrivacyContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">4. Data Security</h3>
+      <h3 className="text-lg font-semibold mb-3">Data Security</h3>
       <p className="text-muted-foreground">
         We implement appropriate security measures to protect your personal
         information against unauthorized access, alteration, disclosure, or
@@ -98,7 +98,7 @@ export const PrivacyContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">5. Your Rights</h3>
+      <h3 className="text-lg font-semibold mb-3">Your Rights</h3>
       <p className="text-muted-foreground mb-4">
         You have certain rights regarding your personal information:
       </p>
@@ -112,7 +112,7 @@ export const PrivacyContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">6. Contact Us</h3>
+      <h3 className="text-lg font-semibold mb-3">Contact Us</h3>
       <p className="text-muted-foreground">
         If you have any questions about this Privacy Policy, please contact us
         at privacy@trio.com or through our support channels.
