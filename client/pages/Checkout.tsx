@@ -67,18 +67,24 @@ export default function Checkout() {
   }, [paymentMethod]);
 
   const initializePaymentProviders = async () => {
-    // Google Pay initialization
-    if (window.google && window.google.payments) {
-      // Google Pay is available
-    }
-
-    // PayPal initialization
-    if (window.PayPal) {
-      window.PayPal.Buttons({
-        createOrder: createPayPalOrder,
-        onApprove: handlePayPalApprove,
-      }).render("#paypal-button-container");
-    }
+    // Wait for SDKs to load
+    setTimeout(() => {
+      // PayPal initialization
+      if (window.paypal && paymentMethod === 'paypal') {
+        const paypalContainer = document.getElementById('paypal-button-container');
+        if (paypalContainer) {
+          paypalContainer.innerHTML = ''; // Clear existing buttons
+          window.paypal.Buttons({
+            createOrder: createPayPalOrder,
+            onApprove: handlePayPalApprove,
+            onError: (err: any) => {
+              console.error('PayPal error:', err);
+              setIsProcessing(false);
+            }
+          }).render('#paypal-button-container');
+        }
+      }
+    }, 1000);
   };
 
   // Payment handlers
