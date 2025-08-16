@@ -228,8 +228,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Damage and Insurance */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">7. Damage, Loss, and Insurance Policies</h2>
+              <section id="damage-insurance">
+                <h2 className="text-2xl font-semibold mb-4">Damage, Loss, and Insurance Policies</h2>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-medium mb-2">Renter Responsibility</h3>
