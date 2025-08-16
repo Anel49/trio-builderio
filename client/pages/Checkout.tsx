@@ -103,30 +103,72 @@ export default function Checkout() {
   const handleGooglePay = async () => {
     setIsProcessing(true);
     try {
-      const paymentRequest = {
+      if (!window.google || !window.google.payments) {
+        throw new Error('Google Pay not available');
+      }
+
+      const paymentsClient = new window.google.payments.api.PaymentsClient({
+        environment: 'TEST' // Change to 'PRODUCTION' for live
+      });
+
+      // First check if Google Pay is available
+      const isReadyToPayRequest = {
         apiVersion: 2,
         apiVersionMinor: 0,
-        allowedPaymentMethods: [
-          {
-            type: "CARD",
-            parameters: {
-              allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-              allowedCardNetworks: ["MASTERCARD", "VISA"],
-            },
-          },
-        ],
-        transactionInfo: {
-          totalPriceStatus: "FINAL",
-          totalPrice: booking.total.toString(),
-          currencyCode: "USD",
-        },
+        allowedPaymentMethods: [{
+          type: 'CARD',
+          parameters: {
+            allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+            allowedCardNetworks: ['MASTERCARD', 'VISA', 'AMEX', 'DISCOVER']
+          }
+        }]
       };
 
-      // Mock Google Pay API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setOrderComplete(true);
+      const readyToPay = await paymentsClient.isReadyToPay(isReadyToPayRequest);
+
+      if (readyToPay.result) {
+        const paymentDataRequest = {
+          apiVersion: 2,
+          apiVersionMinor: 0,
+          allowedPaymentMethods: [{
+            type: 'CARD',
+            parameters: {
+              allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+              allowedCardNetworks: ['MASTERCARD', 'VISA', 'AMEX', 'DISCOVER']
+            },
+            tokenizationSpecification: {
+              type: 'PAYMENT_GATEWAY',
+              parameters: {
+                gateway: 'example', // Replace with your payment processor
+                gatewayMerchantId: 'exampleGatewayMerchantId'
+              }
+            }
+          }],
+          transactionInfo: {
+            totalPriceStatus: 'FINAL',
+            totalPrice: booking.total.toString(),
+            currencyCode: 'USD',
+            countryCode: 'US'
+          },
+          merchantInfo: {
+            merchantId: '12345678901234567890', // Replace with your merchant ID
+            merchantName: 'Trio Rental Marketplace'
+          }
+        };
+
+        const paymentData = await paymentsClient.loadPaymentData(paymentDataRequest);
+
+        console.log('Google Pay payment data:', paymentData);
+
+        // For demo purposes, complete the order
+        // In production, you would process this with your backend
+        setOrderComplete(true);
+      } else {
+        throw new Error('Google Pay not available for this user');
+      }
     } catch (error) {
-      console.error("Google Pay error:", error);
+      console.error('Google Pay error:', error);
+      alert('Google Pay payment failed. Please try another method.');
     } finally {
       setIsProcessing(false);
     }
@@ -135,25 +177,89 @@ export default function Checkout() {
   const handleApplePay = async () => {
     setIsProcessing(true);
     try {
-      if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
-        const session = new ApplePaySession(3, {
-          countryCode: "US",
-          currencyCode: "USD",
-          supportedNetworks: ["visa", "masterCard", "amex"],
-          merchantCapabilities: ["supports3DS"],
-          total: {
-            label: "Trio Rental",
-            amount: booking.total.toString(),
-          },
-        });
-
-        session.begin();
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        setOrderComplete(true);
+      if (!window.ApplePaySession) {
+        throw new Error('Apple Pay not supported on this device/browser');
       }
+
+      if (!window.ApplePaySession.canMakePayments()) {
+        throw new Error('Apple Pay not available');
+      }
+
+      const request = {
+        countryCode: 'US',
+        currencyCode: 'USD',
+        supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
+        merchantCapabilities: ['supports3DS'],
+        total: {
+          label: 'Trio Rental',
+          amount: booking.total.toString(),
+          type: 'final'
+        },
+        lineItems: [
+          {
+            label: booking.item,
+            amount: booking.subtotal.toString()
+          },
+          {
+            label: 'Service Fee',
+            amount: booking.serviceFee.toString()
+          },
+          {
+            label: 'Taxes',
+            amount: booking.taxes.toString()
+          }
+        ]
+      };
+
+      const session = new window.ApplePaySession(3, request);
+
+      session.onvalidatemerchant = async (event: any) => {
+        try {
+          // For demo purposes, create a mock merchant session
+          // In production, you would validate with your backend
+          console.log('Apple Pay merchant validation required:', event.validationURL);
+
+          // Mock merchant session - this will fail but show the flow
+          const mockMerchantSession = {
+            epochTimestamp: Date.now(),
+            expiresAt: Date.now() + 300000,
+            merchantSessionIdentifier: 'mock_session_id',
+            nonce: 'mock_nonce',
+            merchantIdentifier: 'merchant.com.trio.rental',
+            domainName: window.location.hostname,
+            displayName: 'Trio Rental Marketplace'
+          };
+
+          session.completeMerchantValidation(mockMerchantSession);
+        } catch (error) {
+          console.error('Merchant validation failed:', error);
+          session.abort();
+        }
+      };
+
+      session.onpaymentauthorized = async (event: any) => {
+        try {
+          console.log('Apple Pay payment authorized:', event.payment);
+
+          // For demo purposes, complete the payment
+          // In production, you would process this with your backend
+          session.completePayment(window.ApplePaySession.STATUS_SUCCESS);
+          setOrderComplete(true);
+        } catch (error) {
+          session.completePayment(window.ApplePaySession.STATUS_FAILURE);
+          throw error;
+        }
+      };
+
+      session.oncancel = () => {
+        console.log('Apple Pay cancelled by user');
+        setIsProcessing(false);
+      };
+
+      session.begin();
     } catch (error) {
-      console.error("Apple Pay error:", error);
-    } finally {
+      console.error('Apple Pay error:', error);
+      alert('Apple Pay is not available. Please try another payment method.');
       setIsProcessing(false);
     }
   };
