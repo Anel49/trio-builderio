@@ -67,25 +67,50 @@ export default function TermsOfService() {
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {/* Main Content - Left Side */}
-          <div className="lg:col-span-3">
-            <Card>
+          {/* Sidebar - Top on Mobile, Right on Desktop */}
+          <div className="lg:col-span-1 order-1 lg:order-2">
+            <Card className="lg:sticky lg:top-8">
               <CardHeader>
-                <CardTitle className="text-3xl font-bold">
-                  {policies.find((p) => p.id === selectedPolicy)?.title}
-                </CardTitle>
-                <p className="text-muted-foreground mt-2">
-                  Last updated: {new Date().toLocaleDateString()}
+                <CardTitle className="text-lg">Terms & Policies</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Select a policy to view
                 </p>
               </CardHeader>
-              <CardContent className="space-y-6 p-8">
-                {renderPolicyContent()}
+              <CardContent className="space-y-3 p-4">
+                {policies.map((policy) => {
+                  const IconComponent = policy.icon;
+                  return (
+                    <button
+                      key={policy.id}
+                      onClick={() => setSelectedPolicy(policy.id)}
+                      className={`w-full text-left p-3 rounded-lg transition-colors ${
+                        selectedPolicy === policy.id
+                          ? 'bg-primary text-primary-foreground'
+                          : 'hover:bg-muted'
+                      }`}
+                    >
+                      <div className="flex items-start space-x-3">
+                        <IconComponent className={`h-5 w-5 mt-0.5 ${
+                          selectedPolicy === policy.id ? 'text-primary-foreground' : 'text-muted-foreground'
+                        }`} />
+                        <div className="flex-1">
+                          <h4 className="font-medium text-sm">{policy.title}</h4>
+                          <p className={`text-xs mt-1 ${
+                            selectedPolicy === policy.id ? 'text-primary-foreground/80' : 'text-muted-foreground'
+                          }`}>
+                            {policy.description}
+                          </p>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
               </CardContent>
             </Card>
           </div>
 
-          {/* Sidebar - Right Side */}
-          <div className="lg:col-span-1">
+          {/* Main Content - Bottom on Mobile, Left on Desktop */}
+          <div className="lg:col-span-3 order-2 lg:order-1">
             <Card className="sticky top-8">
               <CardHeader>
                 <CardTitle className="text-lg">Terms & Policies</CardTitle>
