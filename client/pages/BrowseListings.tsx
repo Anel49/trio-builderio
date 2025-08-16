@@ -789,12 +789,11 @@ export default function BrowseListings() {
 
       {/* Mobile Map Popup - Slides up from bottom */}
       <div
-        className={`fixed inset-x-0 bottom-0 z-20 bg-background border-t lg:hidden transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-x-0 top-16 bottom-0 z-20 bg-background border-t lg:hidden transition-transform duration-300 ease-in-out ${
           isMobileMapOpen
             ? "translate-y-0" // Slide up to visible position
             : "translate-y-full" // Slide down to hidden position
         }`}
-        style={{ height: "70vh" }}
       >
         {/* Drag Handle Tab */}
         <div
