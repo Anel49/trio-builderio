@@ -202,7 +202,7 @@ export const TermsContent = () => (
 export const CookiesContent = () => (
   <>
     <section>
-      <h3 className="text-lg font-semibold mb-3">1. What Are Cookies</h3>
+      <h3 className="text-lg font-semibold mb-3">What Are Cookies</h3>
       <p className="text-muted-foreground">
         Cookies are small text files that are placed on your computer or mobile
         device when you visit our website. They help us provide you with a
@@ -212,7 +212,7 @@ export const CookiesContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">2. How We Use Cookies</h3>
+      <h3 className="text-lg font-semibold mb-3">How We Use Cookies</h3>
       <p className="text-muted-foreground mb-4">
         We use cookies for several purposes:
       </p>
@@ -226,7 +226,7 @@ export const CookiesContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">3. Types of Cookies</h3>
+      <h3 className="text-lg font-semibold mb-3">Types of Cookies</h3>
       <p className="text-muted-foreground mb-4">
         We use different types of cookies:
       </p>
@@ -251,7 +251,7 @@ export const CookiesContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">4. Managing Cookies</h3>
+      <h3 className="text-lg font-semibold mb-3">Managing Cookies</h3>
       <p className="text-muted-foreground mb-4">
         You can control cookies through your browser settings:
       </p>
@@ -268,7 +268,7 @@ export const CookiesContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">5. Third-Party Cookies</h3>
+      <h3 className="text-lg font-semibold mb-3">Third-Party Cookies</h3>
       <p className="text-muted-foreground">
         Some of our partners may also place cookies on your device when you use
         our platform. These include payment processors, analytics providers, and
@@ -277,7 +277,7 @@ export const CookiesContent = () => (
     </section>
 
     <section>
-      <h3 className="text-lg font-semibold mb-3">6. Updates to This Policy</h3>
+      <h3 className="text-lg font-semibold mb-3">Updates to This Policy</h3>
       <p className="text-muted-foreground">
         We may update this Cookie Policy from time to time. Any changes will be
         posted on this page with an updated revision date.
