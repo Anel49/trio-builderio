@@ -172,8 +172,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Safety and Security */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">5. Safety and Security Requirements</h2>
+              <section id="safety-security">
+                <h2 className="text-2xl font-semibold mb-4">Safety and Security Requirements</h2>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-medium mb-2">Meeting Guidelines</h3>
