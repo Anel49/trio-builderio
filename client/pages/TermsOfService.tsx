@@ -91,8 +91,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Account Requirements */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">2. Account Requirements and User Responsibilities</h2>
+              <section id="account-requirements">
+                <h2 className="text-2xl font-semibold mb-4">Account Requirements and User Responsibilities</h2>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-medium mb-2">Age and Eligibility</h3>
