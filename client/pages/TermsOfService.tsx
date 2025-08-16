@@ -1,11 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, FileText, Shield, Cookie } from "lucide-react";
+import { PrivacyContent, CookiesContent } from "@/components/ui/legal-modal";
+
+type PolicyType = 'terms' | 'privacy' | 'cookies';
 
 export default function TermsOfService() {
+  const [selectedPolicy, setSelectedPolicy] = useState<PolicyType>('terms');
+
+  const policies = [
+    {
+      id: 'terms' as PolicyType,
+      title: 'Terms of Service',
+      icon: FileText,
+      description: 'Platform usage terms and conditions'
+    },
+    {
+      id: 'privacy' as PolicyType,
+      title: 'Privacy Policy',
+      icon: Shield,
+      description: 'How we handle your data'
+    },
+    {
+      id: 'cookies' as PolicyType,
+      title: 'Cookie Policy',
+      icon: Cookie,
+      description: 'Our use of cookies and tracking'
+    }
+  ];
   return (
     <div
       className="min-h-screen bg-background"
