@@ -335,7 +335,7 @@ export default function BrowseListings() {
       {/* Search Bar */}
       <section className="bg-accent/30 dark:bg-gray-800/30 py-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row gap-4 items-center">
+          <div className="flex flex-col md:flex-row gap-4 items-center md:mr-0" style={{ marginRight: window.innerWidth <= 991 ? '-3px' : '0' }}>
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
