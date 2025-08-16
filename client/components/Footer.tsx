@@ -98,18 +98,18 @@ export function Footer() {
               >
                 Privacy
               </button>
-              <a
-                href="/terms-of-service"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Terms
-              </a>
               <button
                 onClick={() => setIsCookiesModalOpen(true)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Cookies
               </button>
+              <a
+                href="/terms-of-service"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Terms
+              </a>
             </div>
           </div>
         </Container>
