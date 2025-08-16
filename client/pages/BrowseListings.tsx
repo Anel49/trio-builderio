@@ -784,7 +784,11 @@ export default function BrowseListings() {
         className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-14 h-14 rounded-full shadow-lg lg:hidden z-30"
         size="icon"
       >
-        {isMobileMapOpen ? <X className="h-6 w-6" /> : <Map className="h-6 w-6" />}
+        {isMobileMapOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <Map className="h-6 w-6" />
+        )}
       </Button>
 
       {/* Mobile Map Popup - Slides up from bottom */}
