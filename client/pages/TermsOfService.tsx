@@ -145,8 +145,8 @@ export default function TermsOfService() {
               <Separator />
 
               {/* Payment Terms */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">4. Payment Terms and Fees</h2>
+              <section id="payment-terms">
+                <h2 className="text-2xl font-semibold mb-4">Payment Terms and Fees</h2>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-lg font-medium mb-2">Service Fees</h3>
