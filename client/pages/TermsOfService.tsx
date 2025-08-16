@@ -111,7 +111,7 @@ export default function TermsOfService() {
 
           {/* Main Content - Bottom on Mobile, Left on Desktop */}
           <div className="lg:col-span-3 order-2 lg:order-1">
-            <Card className="sticky top-8">
+            <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Terms & Policies</CardTitle>
                 <p className="text-sm text-muted-foreground">
