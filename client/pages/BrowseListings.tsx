@@ -225,9 +225,6 @@ export default function BrowseListings() {
   const [showPricePopup, setShowPricePopup] = useState<number | null>(null);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  // Mobile map popup state
-  const [isMobileMapOpen, setIsMobileMapOpen] = useState(false);
-
   // Helper function to convert time strings to minutes for sorting
   const getTimeInMinutes = (timeStr: string): number => {
     if (timeStr.includes("mins")) {
