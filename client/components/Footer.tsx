@@ -1,7 +1,6 @@
 import { Container } from "./Container";
 
 export function Footer() {
-
   return (
     <>
       <footer className="bg-muted py-12">
@@ -97,8 +96,6 @@ export function Footer() {
           </div>
         </Container>
       </footer>
-
-
     </>
   );
 }
