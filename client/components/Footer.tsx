@@ -5,7 +5,6 @@ import { CookiesModal } from "./ui/cookies-modal";
 
 export function Footer() {
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
-  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [isCookiesModalOpen, setIsCookiesModalOpen] = useState(false);
 
   return (
