@@ -29,9 +29,57 @@ export default function TermsOfService() {
               </p>
             </CardHeader>
             <CardContent className="space-y-8 p-8">
+              {/* Table of Contents */}
+              <section className="bg-muted/30 rounded-lg p-6">
+                <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
+                <nav className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                  <a href="#introduction" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Introduction and Platform Overview
+                  </a>
+                  <a href="#account-requirements" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Account Requirements and User Responsibilities
+                  </a>
+                  <a href="#rental-process" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Rental Process and Booking Terms
+                  </a>
+                  <a href="#payment-terms" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Payment Terms and Fees
+                  </a>
+                  <a href="#safety-security" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Safety and Security Requirements
+                  </a>
+                  <a href="#prohibited-items" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Prohibited Items and Activities
+                  </a>
+                  <a href="#damage-insurance" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Damage, Loss, and Insurance Policies
+                  </a>
+                  <a href="#dispute-resolution" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Dispute Resolution and Support
+                  </a>
+                  <a href="#privacy-data" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Privacy and Data Usage
+                  </a>
+                  <a href="#account-termination" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Account Termination
+                  </a>
+                  <a href="#legal-disclaimers" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Legal Disclaimers and Limitations
+                  </a>
+                  <a href="#changes-to-terms" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Changes to Terms of Service
+                  </a>
+                  <a href="#contact-information" className="text-primary hover:underline hover:text-primary/80 transition-colors">
+                    Contact Information
+                  </a>
+                </nav>
+              </section>
+
+              <Separator />
+
               {/* Introduction */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">1. Introduction and Platform Overview</h2>
+              <section id="introduction">
+                <h2 className="text-2xl font-semibold mb-4">Introduction and Platform Overview</h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
                   Welcome to Trio, a peer-to-peer rental marketplace that connects people who want to rent items with those who want to share them. By using our platform, you agree to these Terms of Service, which govern your relationship with Trio and other users.
                 </p>
