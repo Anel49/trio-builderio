@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, Menu } from "lucide-react";
+import { MessageCircle, Menu, ClipboardList } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { ThemeToggle } from "./ui/theme-toggle";
