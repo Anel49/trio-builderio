@@ -120,7 +120,7 @@ export default function Index() {
     { name: "Landscaping", icon: "🌻", count: "500+" },
     { name: "Clothing", icon: "👗", count: "300+" },
     { name: "Tools", icon: "🔨", count: "800+" },
-    { name: "Tech", icon: "���", count: "150+" },
+    { name: "Tech", icon: "💻", count: "150+" },
     { name: "Party", icon: "🎈", count: "200+" },
     { name: "Instruments", icon: "🎷", count: "50+" },
   ];
