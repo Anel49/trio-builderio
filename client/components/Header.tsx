@@ -93,6 +93,16 @@ export default function Header() {
                 <MessageCircle className="h-5 w-5" />
               </Button>
 
+              {/* Order History Link */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative"
+                onClick={() => (window.location.href = "/order-history")}
+              >
+                <ClipboardList className="h-5 w-5" />
+              </Button>
+
               {/* Profile Picture Link */}
               <Avatar
                 className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
