@@ -14,6 +14,7 @@ import UploadProduct from "./pages/UploadProduct";
 import Profile from "./pages/Profile";
 import Messages from "./pages/Messages";
 import Checkout from "./pages/Checkout";
+import OrderHistory from "./pages/OrderHistory";
 import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 import { TermsPopup } from "@/components/ui/terms-popup";
