@@ -120,7 +120,7 @@ export default function Index() {
     { name: "Landscaping", icon: "🌻", count: "500+" },
     { name: "Clothing", icon: "👗", count: "300+" },
     { name: "Tools", icon: "🔨", count: "800+" },
-    { name: "Tech", icon: "📷", count: "150+" },
+    { name: "Tech", icon: "���", count: "150+" },
     { name: "Party", icon: "🎈", count: "200+" },
     { name: "Instruments", icon: "🎷", count: "50+" },
   ];
@@ -191,7 +191,7 @@ export default function Index() {
           {/* Search Form */}
           <Card className="w-[70vw] mx-auto bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/30">
             <CardContent className="p-6 mr-[3px]">
-              <div className="grid grid-cols-1 md:grid-cols-[2.7fr_1fr] gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-4">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
