@@ -534,7 +534,7 @@ export default function Profile() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+                    className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:bg-red-700 dark:border-red-700 dark:hover:text-white dark:hover:bg-red-800 dark:hover:border-red-800"
                     onClick={() => setIsLogoutModalOpen(true)}
                   >
                     Log Out
