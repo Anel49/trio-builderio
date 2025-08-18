@@ -88,6 +88,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 className="relative"
+                title="Messages"
                 onClick={() => (window.location.href = "/messages")}
               >
                 <MessageCircle className="h-5 w-5" />
