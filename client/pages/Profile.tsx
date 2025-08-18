@@ -982,7 +982,11 @@ export default function Profile() {
         className="fixed bottom-6 left-6 w-14 h-14 rounded-full shadow-lg lg:hidden z-30"
         size="icon"
       >
-        {isMobileProfileOpen ? <X className="h-6 w-6" /> : <UserIcon className="h-6 w-6" />}
+        {isMobileProfileOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <UserIcon className="h-6 w-6" />
+        )}
       </Button>
 
       {/* Mobile Profile Popup - Slides up from bottom */}
