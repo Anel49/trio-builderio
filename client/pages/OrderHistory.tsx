@@ -102,7 +102,7 @@ export default function OrderHistory() {
       amount: 105,
       status: "upcoming",
       type: "rented",
-      location: "Berkeley, CA",
+      location: "94720",
     },
     {
       id: "ORD-2024-004",
