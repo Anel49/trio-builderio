@@ -108,6 +108,7 @@ export default function Header() {
               {/* Profile Picture Link */}
               <Avatar
                 className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
+                title="Profile"
                 onClick={() => (window.location.href = "/profile")}
               >
                 <AvatarImage
