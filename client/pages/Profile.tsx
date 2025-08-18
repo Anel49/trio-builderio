@@ -976,6 +976,130 @@ export default function Profile() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Mobile Profile Floating Button - Only visible on mobile/tablet */}
+      <Button
+        onClick={() => setIsMobileProfileOpen(!isMobileProfileOpen)}
+        className="fixed bottom-6 left-6 w-14 h-14 rounded-full shadow-lg lg:hidden z-30"
+        size="icon"
+      >
+        {isMobileProfileOpen ? <X className="h-6 w-6" /> : <UserIcon className="h-6 w-6" />}
+      </Button>
+
+      {/* Mobile Profile Popup - Slides up from bottom */}
+      <div
+        className={`fixed inset-x-0 top-16 bottom-0 z-20 bg-background border-t lg:hidden transition-transform duration-300 ease-in-out ${
+          isMobileProfileOpen
+            ? "translate-y-0" // Slide up to visible position
+            : "translate-y-full" // Slide down to hidden position
+        }`}
+      >
+        {/* Drag Handle Tab */}
+        <div
+          className="flex justify-center py-3 cursor-pointer"
+          onClick={() => setIsMobileProfileOpen(false)}
+        >
+          <div className="w-12 h-1 bg-muted-foreground/30 rounded-full"></div>
+        </div>
+
+        {/* Profile Header */}
+        <div className="px-4 pb-4">
+          <h3 className="text-lg font-semibold">Profile</h3>
+        </div>
+
+        {/* Profile Content */}
+        <div className="px-4 pb-4 h-full overflow-y-auto">
+          <div className="bg-muted/30 rounded-lg p-6">
+            <div className="text-center">
+              {/* Profile Picture */}
+              <div className="relative inline-block group mb-4">
+                <Avatar className="h-24 w-24 mx-auto">
+                  <AvatarImage
+                    src={userProfile.avatarUrl}
+                    alt={userProfile.name}
+                  />
+                  <AvatarFallback>
+                    {userProfile.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+
+              {/* Name and Member Since */}
+              <h1 className="text-xl font-bold mb-1">{userProfile.name}</h1>
+              <p className="text-sm text-muted-foreground mb-4">
+                <Calendar className="inline h-4 w-4 mr-1" />
+                Member since {userProfile.memberSince}
+              </p>
+
+              {/* Location */}
+              <div className="mb-4">
+                <div className="flex items-center justify-center space-x-1">
+                  <MapPin className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">
+                    {userProfile.zipCode}
+                  </span>
+                </div>
+              </div>
+
+              {/* Average Review Rating */}
+              <div className="mb-4">
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={cn(
+                          "h-4 w-4",
+                          i < Math.floor(userProfile.avgRating)
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-gray-300",
+                        )}
+                      />
+                    ))}
+                  </div>
+                  <span className="font-medium">{userProfile.avgRating}</span>
+                  <span className="text-sm text-muted-foreground">
+                    ({userProfile.totalReviews} reviews)
+                  </span>
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-1 gap-2 text-sm text-muted-foreground mb-6">
+                <div className="flex items-center justify-center space-x-1">
+                  <Clock className="h-4 w-4" />
+                  <span>Responds {userProfile.avgResponseTime}</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="space-y-2">
+                <Button className="w-full" onClick={() => setIsMobileProfileOpen(false)}>
+                  <Edit3 className="h-4 w-4 mr-2" />
+                  Edit Profile
+                </Button>
+                <Button variant="outline" className="w-full" onClick={() => setIsMobileProfileOpen(false)}>
+                  <Heart className="h-4 w-4 mr-2" />
+                  Favorites
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700"
+                  onClick={() => {
+                    setIsMobileProfileOpen(false);
+                    setIsLogoutModalOpen(true);
+                  }}
+                >
+                  Log out
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
