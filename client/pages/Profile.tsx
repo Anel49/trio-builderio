@@ -415,7 +415,7 @@ export default function Profile() {
       <div className="h-[calc(100vh-4rem)]">
         <div className="h-full flex overflow-hidden">
           {/* Left Side - Profile Info (30%) */}
-          <div className="w-1/4 bg-muted/30 overflow-hidden">
+          <div className="hidden lg:block w-1/4 bg-muted/30 overflow-hidden">
             <div className="p-6">
               <div className="text-center">
                 {/* Profile Picture with Edit on Hover */}
