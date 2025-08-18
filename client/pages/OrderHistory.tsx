@@ -87,7 +87,7 @@ export default function OrderHistory() {
       amount: 255,
       status: "active",
       type: "hosted",
-      location: "Oakland, CA",
+      location: "94607",
     },
     {
       id: "ORD-2024-003",
