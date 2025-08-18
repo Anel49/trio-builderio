@@ -649,7 +649,7 @@ export default function Profile() {
 
               {activeTab === "item-reviews" && (
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
                     <h2 className="text-2xl font-bold">
                       Reviews for Your Items
                     </h2>
