@@ -117,7 +117,7 @@ export default function OrderHistory() {
       amount: 225,
       status: "cancelled",
       type: "rented",
-      location: "Palo Alto, CA",
+      location: "94301",
     },
     {
       id: "ORD-2024-005",
