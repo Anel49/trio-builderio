@@ -99,6 +99,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 className="relative"
+                title="Order History"
                 onClick={() => (window.location.href = "/order-history")}
               >
                 <ClipboardList className="h-5 w-5" />
