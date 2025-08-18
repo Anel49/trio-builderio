@@ -970,8 +970,7 @@ export default function Profile() {
               onClick={() => setIsLogoutModalOpen(false)}
               className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white"
             >
-              <LogOut className="h-4 w-4 mr-2" />
-              Log Out
+              Log out
             </Button>
           </DialogFooter>
         </DialogContent>
