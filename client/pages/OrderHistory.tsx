@@ -135,7 +135,7 @@ export default function OrderHistory() {
       amount: 165,
       status: "completed",
       type: "hosted",
-      location: "San Jose, CA",
+      location: "95112",
       rating: 4,
     },
   ];
