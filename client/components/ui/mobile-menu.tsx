@@ -48,7 +48,7 @@ export function MobileMenu({ isOpen, onOpenChange }: MobileMenuProps) {
 
           <Button
             variant="ghost"
-            className="justify-start h-12 text-base"
+            className="justify-start h-12 text-base sm:hidden"
             onClick={() => handleNavigation("/order-history")}
           >
             <ClipboardList className="h-5 w-5 mr-3" />
