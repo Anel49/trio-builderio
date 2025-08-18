@@ -66,7 +66,7 @@ export default function OrderHistory() {
       amount: 135,
       status: "completed",
       type: "rented",
-      location: "San Francisco, CA",
+      location: "94102",
       rating: 5,
       reviewText:
         "Great experience! The lawn mower worked perfectly and Sarah was very responsive.",
