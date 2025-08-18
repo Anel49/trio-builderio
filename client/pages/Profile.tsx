@@ -1076,21 +1076,18 @@ export default function Profile() {
 
               {/* Action Buttons */}
               <div className="space-y-2">
-                <Button className="w-full" onClick={() => setIsMobileProfileOpen(false)}>
+                <Button className="w-full">
                   <Edit3 className="h-4 w-4 mr-2" />
                   Edit Profile
                 </Button>
-                <Button variant="outline" className="w-full" onClick={() => setIsMobileProfileOpen(false)}>
+                <Button variant="outline" className="w-full">
                   <Heart className="h-4 w-4 mr-2" />
                   Favorites
                 </Button>
                 <Button
                   variant="outline"
                   className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700"
-                  onClick={() => {
-                    setIsMobileProfileOpen(false);
-                    setIsLogoutModalOpen(true);
-                  }}
+                  onClick={() => setIsLogoutModalOpen(true)}
                 >
                   Log out
                 </Button>
