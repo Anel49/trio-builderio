@@ -98,7 +98,7 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative"
+                className="relative hidden md:inline-flex"
                 title="Order History"
                 onClick={() => (window.location.href = "/order-history")}
               >
