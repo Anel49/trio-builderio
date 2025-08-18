@@ -7,7 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu, Package, Search } from "lucide-react";
+import { Menu, Package, Search, ClipboardList } from "lucide-react";
 
 interface MobileMenuProps {
   isOpen: boolean;
