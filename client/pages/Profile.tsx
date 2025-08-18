@@ -71,6 +71,7 @@ export default function Profile() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const handleFavorite = (listingName: string) => {
     setFavoritedListing(listingName);
