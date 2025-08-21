@@ -315,20 +315,22 @@ export default function UploadProduct() {
 
               {/* Image Carousel */}
               {uploadedImages.length > 1 && (
-                <div className="flex space-x-3 overflow-x-auto pb-2">
-                  {uploadedImages.map((image, index) => (
-                    <div
-                      key={index}
-                      className="flex-shrink-0 rounded-lg overflow-hidden border-2 border-gray-300 transition-all hover:border-primary"
-                    >
-                      <img
-                        src={image}
-                        alt={`${title} ${index + 1}`}
-                        className="w-20 h-20 object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
+                <ScrollArea className="w-full">
+                  <div className="flex space-x-3 pb-2">
+                    {uploadedImages.map((image, index) => (
+                      <div
+                        key={index}
+                        className="flex-shrink-0 rounded-lg overflow-hidden border-2 border-gray-300 transition-all hover:border-primary"
+                      >
+                        <img
+                          src={image}
+                          alt={`${title} ${index + 1}`}
+                          className="w-20 h-20 object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               )}
             </div>
 
