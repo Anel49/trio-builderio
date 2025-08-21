@@ -278,26 +278,28 @@ export default function ProductDetails() {
             </div>
 
             {/* Image Carousel */}
-            <div className="flex space-x-3 overflow-x-auto pb-2">
-              {productImages.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={cn(
-                    "flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all",
-                    currentImageIndex === index
-                      ? "border-primary"
-                      : "border-transparent hover:border-gray-300",
-                  )}
-                >
-                  <img
-                    src={image}
-                    alt={`${product.name} ${index + 1}`}
-                    className="w-20 h-20 object-cover"
-                  />
-                </button>
-              ))}
-            </div>
+            <ScrollArea className="w-full">
+              <div className="flex space-x-3 pb-2">
+                {productImages.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={cn(
+                      "flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all",
+                      currentImageIndex === index
+                        ? "border-primary"
+                        : "border-transparent hover:border-gray-300",
+                    )}
+                  >
+                    <img
+                      src={image}
+                      alt={`${product.name} ${index + 1}`}
+                      className="w-20 h-20 object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            </ScrollArea>
           </div>
 
           {/* Right Column - Product Info & Host (40%) */}
