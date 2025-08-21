@@ -621,7 +621,7 @@ export default function BrowseListings() {
           {/* Right Side - Interactive Map (30%) */}
           <div className="hidden lg:block" style={{ width: "30%" }}>
             <div className="sticky top-8">
-              <Card className="h-[600px] overflow-hidden">
+              <Card className="h-[750px] overflow-hidden">
                 <CardContent className="p-0 h-full relative">
                   {/* Map Placeholder */}
                   <div className="w-full h-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center relative">
