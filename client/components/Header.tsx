@@ -29,7 +29,7 @@ export default function Header() {
           "bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-border/40 dark:border-gray-700/40",
         )}
       >
-        <div className={layouts.container}>
+        <div className="px-4 sm:px-6 lg:px-8">
           <div
             className={combineTokens(
               layouts.flex.between,
