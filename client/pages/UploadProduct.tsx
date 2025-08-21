@@ -26,6 +26,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import {
   Dialog,
   DialogContent,
