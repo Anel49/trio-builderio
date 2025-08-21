@@ -579,7 +579,7 @@ export default function BrowseListings() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
               {filteredAndSortedListings.map((listing) => (
                 <div key={listing.id} id={`listing-${listing.id}`}>
                   <ProductCard
