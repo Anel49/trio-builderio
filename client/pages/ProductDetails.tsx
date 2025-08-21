@@ -283,7 +283,7 @@ export default function ProductDetails() {
 
             {/* Image Carousel */}
             <ScrollArea className="w-full">
-              <div className="flex space-x-3 pb-2">
+              <div className="flex space-x-3 pb-4">
                 {productImages.map((image, index) => (
                   <button
                     key={index}
@@ -303,7 +303,9 @@ export default function ProductDetails() {
                   </button>
                 ))}
               </div>
-              <ScrollBar orientation="horizontal" />
+              <ScrollBar orientation="horizontal" className="mt-2">
+                <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-gray-400 dark:bg-gray-500" />
+              </ScrollBar>
             </ScrollArea>
           </div>
 
