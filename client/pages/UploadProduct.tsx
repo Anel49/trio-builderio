@@ -315,8 +315,8 @@ export default function UploadProduct() {
 
               {/* Image Carousel */}
               {uploadedImages.length > 1 && (
-                <ScrollArea className="w-full" orientation="horizontal">
-                  <div className="flex space-x-3 pb-2 min-w-max">
+                <ScrollArea className="w-full">
+                  <div className="flex space-x-3 pb-2">
                     {uploadedImages.map((image, index) => (
                       <div
                         key={index}
@@ -330,6 +330,7 @@ export default function UploadProduct() {
                       </div>
                     ))}
                   </div>
+                  <ScrollBar orientation="horizontal" />
                 </ScrollArea>
               )}
             </div>
