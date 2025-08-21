@@ -23,6 +23,7 @@ import { ViewAllButton } from "@/components/ui/view-all-button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import Header from "@/components/Header";
 import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
