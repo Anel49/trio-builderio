@@ -316,7 +316,7 @@ export default function UploadProduct() {
               {/* Image Carousel */}
               {uploadedImages.length > 1 && (
                 <ScrollArea className="w-full">
-                  <div className="flex space-x-3 pb-2">
+                  <div className="flex space-x-3 pb-4">
                     {uploadedImages.map((image, index) => (
                       <div
                         key={index}
@@ -330,7 +330,9 @@ export default function UploadProduct() {
                       </div>
                     ))}
                   </div>
-                  <ScrollBar orientation="horizontal" />
+                  <ScrollBar orientation="horizontal" className="mt-2">
+                    <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-gray-400 dark:bg-gray-500" />
+                  </ScrollBar>
                 </ScrollArea>
               )}
             </div>
