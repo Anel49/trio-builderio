@@ -334,7 +334,7 @@ export default function BrowseListings() {
 
       {/* Search Bar */}
       <section className="bg-accent/30 dark:bg-gray-800/30 py-6">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8">
           <div
             className="flex flex-col md:flex-row gap-4 items-center md:mr-0"
             style={{ marginRight: window.innerWidth <= 991 ? "-3px" : "0" }}
@@ -566,7 +566,7 @@ export default function BrowseListings() {
       </section>
 
       {/* Main Content - 70/30 Split */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex gap-8">
           {/* Left Side - Listings Grid (70%) */}
           <div className="flex-1" style={{ width: "70%" }}>
