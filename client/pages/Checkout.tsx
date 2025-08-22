@@ -485,29 +485,39 @@ export default function Checkout() {
                   value={paymentMethod}
                   onValueChange={setPaymentMethod}
                 >
-                  {/* Google Pay */}
-                  <div
-                    className={`flex items-center space-x-2 p-4 border rounded-lg ${
-                      !window.google ? "opacity-50" : ""
-                    }`}
-                  >
-                    <RadioGroupItem
-                      value="google-pay"
-                      id="google-pay"
-                      disabled={!window.google}
-                    />
-                    <Label
-                      htmlFor="google-pay"
-                      className="flex-1 cursor-pointer"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-white border border-gray-200 rounded flex items-center justify-center">
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            className="w-6 h-6"
-                          >
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* PayPal */}
+                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                      <RadioGroupItem value="paypal" id="paypal" />
+                      <Label htmlFor="paypal" className="flex-1 cursor-pointer">
+                        <div className="flex items-center space-x-3">
+                          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#0070ba">
+                            <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.26-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l1.506-9.587-.506.062h2.19c4.638 0 7.709-1.89 8.638-6.699.015-.076.025-.175.038-.26a3.35 3.35 0 0 0-.607.541z"/>
+                          </svg>
+                          <span>PayPal</span>
+                        </div>
+                      </Label>
+                    </div>
+
+                    {/* Apple Pay */}
+                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                      <RadioGroupItem value="apple-pay" id="apple-pay" />
+                      <Label htmlFor="apple-pay" className="flex-1 cursor-pointer">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-6 h-6 bg-black dark:bg-white rounded flex items-center justify-center">
+                            <span className="text-white dark:text-black text-xs font-bold">A</span>
+                          </div>
+                          <span>Apple Pay</span>
+                        </div>
+                      </Label>
+                    </div>
+
+                    {/* Google Pay */}
+                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                      <RadioGroupItem value="google-pay" id="google-pay" />
+                      <Label htmlFor="google-pay" className="flex-1 cursor-pointer">
+                        <div className="flex items-center space-x-3">
+                          <svg className="w-6 h-6" viewBox="0 0 24 24">
                             <path
                               fill="#4285F4"
                               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -525,144 +535,51 @@ export default function Checkout() {
                               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                             />
                           </svg>
-                        </div>
-                        <div className="flex flex-col">
                           <span>Google Pay</span>
-                          {!window.google && (
-                            <span className="text-xs text-muted-foreground">
-                              Loading...
-                            </span>
-                          )}
                         </div>
-                      </div>
-                    </Label>
-                  </div>
+                      </Label>
+                    </div>
 
-                  {/* Apple Pay - Hidden for now, keeping code for later */}
-                  <div className="hidden">
-                    {/* Original: flex items-center space-x-2 p-4 border rounded-lg */}
-                    <RadioGroupItem
-                      value="apple-pay"
-                      id="apple-pay"
-                      disabled={!window.ApplePaySession}
-                    />
-                    <Label
-                      htmlFor="apple-pay"
-                      className="flex-1 cursor-pointer"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-black rounded flex items-center justify-center">
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            className="w-5 h-5"
-                          >
-                            <path
-                              fill="white"
-                              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
-                            />
-                          </svg>
+                    {/* Venmo */}
+                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                      <RadioGroupItem value="venmo" id="venmo" />
+                      <Label htmlFor="venmo" className="flex-1 cursor-pointer">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">V</span>
+                          </div>
+                          <span>Venmo</span>
                         </div>
-                        <div className="flex flex-col">
-                          <span>Apple Pay</span>
-                          {!window.ApplePaySession && (
-                            <span className="text-xs text-muted-foreground">
-                              Safari only
-                            </span>
-                          )}
+                      </Label>
+                    </div>
+
+                    {/* Cash App */}
+                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                      <RadioGroupItem value="cash-app" id="cash-app" />
+                      <Label htmlFor="cash-app" className="flex-1 cursor-pointer">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-6 h-6 bg-green-500 rounded flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">$</span>
+                          </div>
+                          <span>Cash App</span>
                         </div>
-                      </div>
-                    </Label>
-                  </div>
+                      </Label>
+                    </div>
 
-                  {/* PayPal */}
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg">
-                    <RadioGroupItem value="paypal" id="paypal" />
-                    <Label htmlFor="paypal" className="flex-1 cursor-pointer">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-white border border-gray-200 rounded flex items-center justify-center">
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              fill="#003087"
-                              d="M8.68 5.5h4.82c2.12 0 3.85 1.73 3.85 3.85v.01c-.01 2.11-1.73 3.83-3.84 3.83h-2.88L9.65 18.5H7.38L8.68 5.5z"
-                            />
-                            <path
-                              fill="#009CDE"
-                              d="M8.68 5.5c-.67 0-1.21.54-1.21 1.21v.01c0 .67.54 1.21 1.21 1.21h4.82c1.78 0 3.22 1.44 3.22 3.22v.01c-.01 1.77-1.45 3.21-3.22 3.21h-2.88L9.65 18.5H7.38L8.68 5.5z"
-                            />
-                            <path
-                              fill="#012069"
-                              d="M16.87 9.56v.01c-.01 2.11-1.73 3.83-3.84 3.83h-2.88L9.17 18.5H6.9L8.2 5.5h4.82c2.12 0 3.85 1.73 3.85 3.85v.01c0 .09 0 .17-.01.26h.01v-.06z"
-                            />
-                          </svg>
+                    {/* Zelle */}
+                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                      <RadioGroupItem value="zelle" id="zelle" />
+                      <Label htmlFor="zelle" className="flex-1 cursor-pointer">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">Z</span>
+                          </div>
+                          <span>Zelle</span>
                         </div>
-                        <span>PayPal</span>
-                      </div>
-                    </Label>
-                  </div>
-
-                  {/* Credit/Debit Card */}
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg">
-                    <RadioGroupItem value="card" id="card" />
-                    <Label htmlFor="card" className="flex-1 cursor-pointer">
-                      <div className="flex items-center space-x-3">
-                        <CreditCard className="h-8 w-8 text-gray-600" />
-                        <span>Credit or Debit Card</span>
-                      </div>
-                    </Label>
-                  </div>
-                </RadioGroup>
-
-                {/* Card Form */}
-                {paymentMethod === "card" && (
-                  <div className="space-y-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
-                    <div className="grid grid-cols-1 gap-4">
-                      <Input
-                        placeholder="Card number"
-                        value={cardForm.number}
-                        onChange={(e) =>
-                          setCardForm({ ...cardForm, number: e.target.value })
-                        }
-                      />
-                      <div className="grid grid-cols-2 gap-4">
-                        <Input
-                          placeholder="MM/YY"
-                          value={cardForm.expiry}
-                          onChange={(e) =>
-                            setCardForm({ ...cardForm, expiry: e.target.value })
-                          }
-                        />
-                        <Input
-                          placeholder="CVC"
-                          value={cardForm.cvc}
-                          onChange={(e) =>
-                            setCardForm({ ...cardForm, cvc: e.target.value })
-                          }
-                        />
-                      </div>
-                      <Input
-                        placeholder="Cardholder name"
-                        value={cardForm.name}
-                        onChange={(e) =>
-                          setCardForm({ ...cardForm, name: e.target.value })
-                        }
-                      />
-                      <Input
-                        placeholder="ZIP code"
-                        value={cardForm.zip}
-                        onChange={(e) =>
-                          setCardForm({ ...cardForm, zip: e.target.value })
-                        }
-                      />
+                      </Label>
                     </div>
                   </div>
-                )}
+                </RadioGroup>
 
                 {/* PayPal Container */}
                 {paymentMethod === "paypal" && (
