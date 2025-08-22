@@ -6,6 +6,7 @@ import { ThemeToggle } from "./ui/theme-toggle";
 import { LoginModal } from "./ui/login-modal";
 import { SignUpModal } from "./ui/signup-modal";
 import { MobileMenu } from "./ui/mobile-menu";
+import { currentUser } from "@/lib/user-profile";
 import {
   spacing,
   typography,
