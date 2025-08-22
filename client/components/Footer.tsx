@@ -85,13 +85,31 @@ export function Footer() {
             <p className="text-muted-foreground text-sm">
               © 2025 Trio. All rights reserved.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div className="flex space-x-6 mt-4 md:mt-0 items-center">
               <a
                 href="/terms-of-service"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Policies
               </a>
+              <button
+                onClick={() => {
+                  // Clear all cookies
+                  document.cookie.split(";").forEach((cookie) => {
+                    const eqPos = cookie.indexOf("=");
+                    const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie = `${name.trim()}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+                  });
+                  // Clear localStorage and sessionStorage
+                  localStorage.clear();
+                  sessionStorage.clear();
+                  // Reload page to reset state
+                  window.location.reload();
+                }}
+                className="px-3 py-1 text-xs font-medium bg-lime-500 hover:bg-lime-600 text-white rounded-md transition-colors"
+              >
+                Clear cookies
+              </button>
             </div>
           </div>
         </Container>
