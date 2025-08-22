@@ -82,7 +82,7 @@ export default function Profile() {
 
   // Mock user profile data
   const userProfile = {
-    name: "Sarah Martinez",
+    name: "Sarah",
     profileImage:
       "https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=200&h=200&fit=crop&auto=format",
     zipCode: zipCode,
@@ -185,7 +185,7 @@ export default function Profile() {
     {
       id: 1,
       itemName: "Professional Lawn Mower",
-      reviewer: "Mike Johnson",
+      reviewer: "Mike",
       rating: 5,
       date: "2 weeks ago",
       dateValue: new Date("2024-12-01"),
@@ -195,7 +195,7 @@ export default function Profile() {
     {
       id: 2,
       itemName: "Designer Tool Set",
-      reviewer: "Jennifer Lee",
+      reviewer: "Jennifer",
       rating: 5,
       date: "1 month ago",
       dateValue: new Date("2024-11-15"),
@@ -205,7 +205,7 @@ export default function Profile() {
     {
       id: 3,
       itemName: "Party Sound System",
-      reviewer: "David Chen",
+      reviewer: "David",
       rating: 4,
       date: "2 months ago",
       dateValue: new Date("2024-10-20"),
@@ -218,7 +218,7 @@ export default function Profile() {
   const sellerReviews = [
     {
       id: 1,
-      reviewer: "Emily Rodriguez",
+      reviewer: "Emily",
       rating: 5,
       date: "1 week ago",
       dateValue: new Date("2024-12-08"),
@@ -227,7 +227,7 @@ export default function Profile() {
     },
     {
       id: 2,
-      reviewer: "Robert Smith",
+      reviewer: "Robert",
       rating: 5,
       date: "3 weeks ago",
       dateValue: new Date("2024-11-25"),
@@ -236,7 +236,7 @@ export default function Profile() {
     },
     {
       id: 3,
-      reviewer: "Lisa Wang",
+      reviewer: "Lisa",
       rating: 4,
       date: "1 month ago",
       dateValue: new Date("2024-11-15"),
