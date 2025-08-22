@@ -4,7 +4,8 @@
 export const currentUser = {
   name: "Sarah",
   initials: "S",
-  profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
+  profileImage:
+    "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
   rating: 4.8,
   totalReviews: 89,
   joinedDate: "2022",
