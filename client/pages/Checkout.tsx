@@ -31,13 +31,6 @@ export default function Checkout() {
   const [orderComplete, setOrderComplete] = useState(false);
 
   // Form states
-  const [cardForm, setCardForm] = useState({
-    number: "",
-    expiry: "",
-    cvc: "",
-    name: "",
-    zip: "",
-  });
 
   // Mock booking data (would come from route params/state)
   const booking = {
