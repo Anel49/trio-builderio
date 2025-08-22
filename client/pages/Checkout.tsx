@@ -583,7 +583,7 @@ export default function Checkout() {
 
                 {/* PayPal Container */}
                 {paymentMethod === "paypal" && (
-                  <div id="paypal-button-container" className="p-4"></div>
+                  <div key="paypal-container" id="paypal-button-container" className="p-4"></div>
                 )}
 
                 {/* Security Badge */}
