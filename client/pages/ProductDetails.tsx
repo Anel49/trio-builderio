@@ -89,7 +89,7 @@ export default function ProductDetails() {
   };
 
   const host = {
-    name: "Sarah Martinez",
+    name: "Sarah",
     image:
       "https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=64&h=64&fit=crop&auto=format",
     rating: 4.8,
@@ -101,7 +101,7 @@ export default function ProductDetails() {
   const reviews = [
     {
       id: 1,
-      user: "Mike Johnson",
+      user: "Mike",
       avatar:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&auto=format",
       rating: 5,
@@ -111,7 +111,7 @@ export default function ProductDetails() {
     },
     {
       id: 2,
-      user: "Jennifer Lee",
+      user: "Jennifer",
       avatar:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&auto=format",
       rating: 5,
@@ -121,7 +121,7 @@ export default function ProductDetails() {
     },
     {
       id: 3,
-      user: "David Chen",
+      user: "David",
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&h=48&fit=crop&auto=format",
       rating: 4,
@@ -131,7 +131,7 @@ export default function ProductDetails() {
     },
     {
       id: 4,
-      user: "Lisa Rodriguez",
+      user: "Lisa",
       avatar:
         "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=48&h=48&fit=crop&auto=format",
       rating: 3,
@@ -141,7 +141,7 @@ export default function ProductDetails() {
     },
     {
       id: 5,
-      user: "Robert Smith",
+      user: "Robert",
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&auto=format",
       rating: 5,
@@ -151,7 +151,7 @@ export default function ProductDetails() {
     },
     {
       id: 6,
-      user: "Emma Wilson",
+      user: "Emma",
       avatar:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&auto=format",
       rating: 2,
