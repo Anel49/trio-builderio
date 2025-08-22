@@ -32,6 +32,7 @@ import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
+import { currentUser } from "@/lib/user-profile";
 import {
   Star,
   Heart,
@@ -88,15 +89,7 @@ export default function ProductDetails() {
     location: "2.3 miles away",
   };
 
-  const host = {
-    name: "Sarah",
-    image:
-      "https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=64&h=64&fit=crop&auto=format",
-    rating: 4.8,
-    totalReviews: 89,
-    joinedDate: "2022",
-    responseTime: "within an hour",
-  };
+  const host = currentUser;
 
   const reviews = [
     {
