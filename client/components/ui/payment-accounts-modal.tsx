@@ -34,7 +34,7 @@ export function PaymentAccountsModal({
         </DialogHeader>
 
         <ScrollArea className="max-h-[60vh] pr-4">
-          <div className="space-y-6">
+          <div className="space-y-6 pb-4">
             {/* Safety Notice */}
             <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
               <div className="flex items-start space-x-3">
