@@ -22,7 +22,7 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
             </div>
           </div>
           <CardTitle className="text-xl font-bold">Welcome to Trio</CardTitle>
-          <p className="text-muted-foreground" style={{ fontSize: '17px' }}>
+          <p className="text-muted-foreground" style={{ fontSize: "17px" }}>
             Please review our Terms of Service before continuing
           </p>
         </CardHeader>
@@ -34,7 +34,10 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
                 <p className="font-medium text-amber-800 dark:text-amber-200 mb-2">
                   Important Safety Guidelines
                 </p>
-                <ul className="text-amber-700 dark:text-amber-300 space-y-1" style={{ fontSize: '15px' }}>
+                <ul
+                  className="text-amber-700 dark:text-amber-300 space-y-1"
+                  style={{ fontSize: "15px" }}
+                >
                   <li>• Always meet in public, well-lit locations</li>
                   <li>• Verify item condition before and after rental</li>
                   <li>• Never share personal financial information</li>
@@ -44,7 +47,10 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
             </div>
           </div>
 
-          <div className="space-y-3 text-muted-foreground" style={{ fontSize: '17px' }}>
+          <div
+            className="space-y-3 text-muted-foreground"
+            style={{ fontSize: "17px" }}
+          >
             <p>
               By using Trio, you agree to our community standards and rental
               policies. Our platform connects people for safe, peer-to-peer item
@@ -53,7 +59,7 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
 
             <div className="space-y-2">
               <h4 className="font-medium text-foreground">Key Points:</h4>
-              <ul className="space-y-1 ml-2" style={{ fontSize: '15px' }}>
+              <ul className="space-y-1 ml-2" style={{ fontSize: "15px" }}>
                 <li>• You're responsible for items while renting them</li>
                 <li>• Service fees apply to all completed transactions</li>
                 <li>• Identity verification may be required</li>
@@ -67,7 +73,10 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
           <Separator />
 
           <div className="text-center">
-            <p className="text-muted-foreground mb-4" style={{ fontSize: '15px' }}>
+            <p
+              className="text-muted-foreground mb-4"
+              style={{ fontSize: "15px" }}
+            >
               Please read our full{" "}
               <a
                 href="/terms-of-service"
@@ -83,7 +92,10 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
             </Button>
           </div>
 
-          <p className="text-center text-muted-foreground" style={{ fontSize: '15px' }}>
+          <p
+            className="text-center text-muted-foreground"
+            style={{ fontSize: "15px" }}
+          >
             By clicking "Accept", you agree to be bound by our Terms of Service
             and Privacy Policy.
           </p>
