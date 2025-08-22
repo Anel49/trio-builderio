@@ -81,16 +81,13 @@ export default function Profile() {
     setIsFavoritesModalOpen(true);
   };
 
-  // Mock user profile data
+  // Use centralized user profile data
   const userProfile = {
-    name: "Sarah",
-    profileImage:
-      "https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=200&h=200&fit=crop&auto=format",
+    ...currentUser,
     zipCode: zipCode,
-    avgRating: 4.8,
-    totalReviews: 89,
-    dateJoined: "March 2022",
-    avgResponseTime: "within 1 hour",
+    avgRating: currentUser.rating,
+    dateJoined: `March ${currentUser.joinedDate}`,
+    avgResponseTime: currentUser.responseTime,
   };
 
   // Mock listed items
