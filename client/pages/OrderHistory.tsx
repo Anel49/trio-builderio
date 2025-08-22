@@ -58,7 +58,7 @@ export default function OrderHistory() {
       itemName: "Professional Lawn Mower",
       itemImage:
         "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=300&h=200&fit=crop&auto=format",
-      host: "Sarah Martinez",
+      host: "Sarah",
       hostAvatar:
         "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
       startDate: "Dec 15, 2024",
@@ -79,7 +79,7 @@ export default function OrderHistory() {
       host: "You",
       hostAvatar:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&auto=format",
-      renter: "Emily Chen",
+      renter: "Emily",
       renterAvatar:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
       startDate: "Dec 20, 2024",
@@ -94,7 +94,7 @@ export default function OrderHistory() {
       itemName: "Complete Tool Set",
       itemImage:
         "https://images.pexels.com/photos/6790973/pexels-photo-6790973.jpeg?w=300&h=200&fit=crop&auto=format",
-      host: "Alex Thompson",
+      host: "Alex",
       hostAvatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&auto=format",
       startDate: "Dec 25, 2024",
@@ -109,7 +109,7 @@ export default function OrderHistory() {
       itemName: "Professional Camera Kit",
       itemImage:
         "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=300&h=200&fit=crop&auto=format",
-      host: "Emma Wilson",
+      host: "Emma",
       hostAvatar:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
       startDate: "Nov 15, 2024",
@@ -127,7 +127,7 @@ export default function OrderHistory() {
       host: "You",
       hostAvatar:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&auto=format",
-      renter: "David Rodriguez",
+      renter: "David",
       renterAvatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
       startDate: "Nov 10, 2024",
