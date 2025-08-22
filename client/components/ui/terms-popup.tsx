@@ -22,7 +22,7 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
             </div>
           </div>
           <CardTitle className="text-xl font-bold">Welcome to Trio</CardTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground" style={{ fontSize: '17px' }}>
             Please review our Terms of Service before continuing
           </p>
         </CardHeader>
