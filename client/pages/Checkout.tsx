@@ -53,23 +53,15 @@ export default function Checkout() {
     initializePaymentProviders();
   }, []);
 
-  // Re-initialize PayPal when payment method changes
+  // Initialize PayPal when payment method changes
   useEffect(() => {
-    if (paymentMethod === "paypal") {
-      initializePaymentProviders();
-    }
-  }, [paymentMethod]);
+    let timeoutId: NodeJS.Timeout;
 
-  const initializePaymentProviders = async () => {
-    // Wait for SDKs to load
-    setTimeout(() => {
-      // PayPal initialization
-      if (window.paypal && paymentMethod === "paypal") {
-        const paypalContainer = document.getElementById(
-          "paypal-button-container",
-        );
-        if (paypalContainer) {
-          paypalContainer.innerHTML = ""; // Clear existing buttons
+    if (paymentMethod === "paypal") {
+      timeoutId = setTimeout(() => {
+        const paypalContainer = document.getElementById("paypal-button-container");
+
+        if (window.paypal && paypalContainer && !paypalContainer.hasChildNodes()) {
           window.paypal
             .Buttons({
               createOrder: createPayPalOrder,
@@ -89,8 +81,23 @@ export default function Checkout() {
               console.error("PayPal render error:", err);
             });
         }
+      }, 1000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
       }
-    }, 1000);
+      // Clean up PayPal buttons when component unmounts or payment method changes
+      const paypalContainer = document.getElementById("paypal-button-container");
+      if (paypalContainer) {
+        paypalContainer.innerHTML = "";
+      }
+    };
+  }, [paymentMethod]);
+
+  const initializePaymentProviders = async () => {
+    // This function is now only used for other payment providers
   };
 
   // Payment handlers
