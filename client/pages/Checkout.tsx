@@ -15,6 +15,7 @@ import {
   ArrowLeft,
   MapPin,
 } from "lucide-react";
+import { currentUser } from "@/lib/user-profile";
 
 declare global {
   interface Window {
