@@ -11,6 +11,7 @@ import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
+import { PaymentAccountsModal } from "@/components/ui/payment-accounts-modal";
 import { cn } from "@/lib/utils";
 import { currentUser } from "@/lib/user-profile";
 import {
@@ -73,6 +74,7 @@ export default function Profile() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
+  const [isPaymentAccountsModalOpen, setIsPaymentAccountsModalOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
 
@@ -945,6 +947,10 @@ export default function Profile() {
         isOpen={isFavoritesModalOpen}
         onOpenChange={setIsFavoritesModalOpen}
         listingTitle={favoritedListing}
+      />
+      <PaymentAccountsModal
+        isOpen={isPaymentAccountsModalOpen}
+        onOpenChange={setIsPaymentAccountsModalOpen}
       />
 
       {/* Logout Confirmation Modal */}
