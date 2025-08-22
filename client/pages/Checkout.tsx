@@ -41,7 +41,7 @@ export default function Checkout() {
   // Mock booking data (would come from route params/state)
   const booking = {
     item: "Professional Riding Lawn Mower",
-    host: "Sarah Martinez",
+    host: "Sarah",
     startDate: "Dec 25, 2024",
     endDate: "Dec 27, 2024",
     days: 3,
