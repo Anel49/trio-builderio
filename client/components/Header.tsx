@@ -115,7 +115,7 @@ export default function Header() {
                   src="https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=200&h=200&fit=crop&auto=format"
                   alt="Profile"
                 />
-                <AvatarFallback>SM</AvatarFallback>
+                <AvatarFallback>{currentUser.initials}</AvatarFallback>
               </Avatar>
               <ThemeToggle />
               <Button
