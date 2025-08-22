@@ -158,7 +158,7 @@ export default function Messages() {
         {
           id: 1,
           senderId: 1,
-          senderName: "Sarah Martinez",
+          senderName: "Sarah",
           content:
             "Hi! I'm interested in renting your lawn mower this weekend.",
           timestamp: "10:30 AM",
@@ -175,7 +175,7 @@ export default function Messages() {
         {
           id: 3,
           senderId: 1,
-          senderName: "Sarah Martinez",
+          senderName: "Sarah",
           content: "Saturday morning would be perfect. Around 9 AM?",
           timestamp: "10:35 AM",
           isCurrentUser: false,
@@ -192,7 +192,7 @@ export default function Messages() {
         {
           id: 5,
           senderId: 1,
-          senderName: "Sarah Martinez",
+          senderName: "Sarah",
           content: "The lawn mower is ready for pickup anytime after 2pm",
           timestamp: "2:15 PM",
           isCurrentUser: false,
