@@ -203,7 +203,7 @@ export default function Messages() {
         {
           id: 1,
           senderId: 2,
-          senderName: "Michael Chen",
+          senderName: "Michael",
           content:
             "Hello! Is the designer dress still available for this Friday?",
           timestamp: "2:15 PM",
@@ -220,7 +220,7 @@ export default function Messages() {
         {
           id: 3,
           senderId: 2,
-          senderName: "Michael Chen",
+          senderName: "Michael",
           content: "It's for my sister's wedding. She loved it in the photos!",
           timestamp: "2:20 PM",
           isCurrentUser: false,
@@ -236,7 +236,7 @@ export default function Messages() {
         {
           id: 5,
           senderId: 2,
-          senderName: "Michael Chen",
+          senderName: "Michael",
           content:
             "Thanks for renting the dress! Hope it worked well for the event",
           timestamp: "Yesterday",
@@ -248,7 +248,7 @@ export default function Messages() {
         {
           id: 1,
           senderId: 3,
-          senderName: "Alex Thompson",
+          senderName: "Alex",
           content: "Hi! I need to borrow some tools for a weekend project.",
           timestamp: "9:00 AM",
           isCurrentUser: false,
@@ -264,7 +264,7 @@ export default function Messages() {
         {
           id: 3,
           senderId: 3,
-          senderName: "Alex Thompson",
+          senderName: "Alex",
           content:
             "Building a deck in my backyard. Need drill, saw, and measuring tools.",
           timestamp: "9:07 AM",
@@ -281,7 +281,7 @@ export default function Messages() {
         {
           id: 5,
           senderId: 3,
-          senderName: "Alex Thompson",
+          senderName: "Alex",
           content: "The tool set is in great condition, will return tomorrow",
           timestamp: "6:30 PM",
           isCurrentUser: false,
@@ -292,7 +292,7 @@ export default function Messages() {
         {
           id: 1,
           senderId: 4,
-          senderName: "Emma Wilson",
+          senderName: "Emma",
           content: "Is the camera still available for this weekend?",
           timestamp: "Yesterday",
           isCurrentUser: false,
@@ -308,7 +308,7 @@ export default function Messages() {
         {
           id: 3,
           senderId: 4,
-          senderName: "Emma Wilson",
+          senderName: "Emma",
           content:
             "Family portraits at the beach. I heard it takes great outdoor shots!",
           timestamp: "Yesterday",
