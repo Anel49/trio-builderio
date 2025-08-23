@@ -17,9 +17,9 @@ export const hasCookieConsent = (): boolean => {
   return localStorage.getItem("trio-cookies-accepted") === "true";
 };
 
-export const canUseAnalytics = (): boolean => {
+export const canUseStatistics = (): boolean => {
   const preferences = getCookiePreferences();
-  return preferences?.analytics === true;
+  return preferences?.statistics === true;
 };
 
 export const canUseMarketing = (): boolean => {
@@ -27,9 +27,9 @@ export const canUseMarketing = (): boolean => {
   return preferences?.marketing === true;
 };
 
-export const canUseFunctional = (): boolean => {
+export const canUsePreferences = (): boolean => {
   const preferences = getCookiePreferences();
-  return preferences?.functional === true;
+  return preferences?.preferences === true;
 };
 
 /**
@@ -44,8 +44,8 @@ export const resetCookiePreferences = (): void => {
  * Example usage for analytics tracking
  */
 export const trackEvent = (event: string, data?: any) => {
-  if (canUseAnalytics()) {
-    // Only track if user has consented to analytics
+  if (canUseStatistics()) {
+    // Only track if user has consented to statistics
     console.log("Analytics event:", event, data);
     // Here you would integrate with your analytics service (GA, Mixpanel, etc.)
   }
