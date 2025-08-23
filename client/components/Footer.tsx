@@ -1,4 +1,5 @@
 import { Container } from "./Container";
+import { resetCookiePreferences } from "@/lib/cookie-utils";
 
 export function Footer() {
   return (
@@ -92,6 +93,15 @@ export function Footer() {
               >
                 Policies
               </a>
+              <button
+                onClick={() => {
+                  resetCookiePreferences();
+                  window.location.reload();
+                }}
+                className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+              >
+                Cookie Preferences
+              </button>
               <button
                 onClick={() => {
                   // Clear all cookies
