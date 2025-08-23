@@ -27,7 +27,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
 
   const handleToggle = (type: keyof CookiePreferences) => {
     if (type === 'necessary') return; // Can't disable necessary cookies
-    
+
     setCookiePreferences(prev => ({
       ...prev,
       [type]: !prev[type],
@@ -64,7 +64,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <Card className="w-full max-w-2xl lg:max-w-3xl xl:max-w-2xl mx-auto">
+      <Card className="w-full md:w-3/5 lg:w-2/5 mx-auto">
         <CardHeader className="pb-4">
           <CardTitle className="text-lg font-semibold">Cookie Settings</CardTitle>
         </CardHeader>
@@ -77,7 +77,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
 
             <TabsContent value="consent" className="space-y-6">
               <p className="text-sm text-muted-foreground">
-                We use cookies to enhance your browsing experience, provide personalized content, 
+                We use cookies to enhance your browsing experience, provide personalized content,
                 and analyze our traffic. You can choose which types of cookies to accept.
               </p>
 
@@ -127,7 +127,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
                 <div>
                   <h4 className="font-medium mb-1">Necessary</h4>
                   <p className="text-muted-foreground">
-                    Essential cookies for basic website functionality, security, and navigation. 
+                    Essential cookies for basic website functionality, security, and navigation.
                     These cannot be disabled as they are required for the site to work properly.
                   </p>
                 </div>
@@ -135,7 +135,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
                 <div>
                   <h4 className="font-medium mb-1">Preferences</h4>
                   <p className="text-muted-foreground">
-                    Cookies that remember your choices and settings to provide a more personalized 
+                    Cookies that remember your choices and settings to provide a more personalized
                     experience, such as language preferences and display settings.
                   </p>
                 </div>
@@ -143,7 +143,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
                 <div>
                   <h4 className="font-medium mb-1">Statistics</h4>
                   <p className="text-muted-foreground">
-                    Analytics cookies that help us understand how visitors interact with our website 
+                    Analytics cookies that help us understand how visitors interact with our website
                     by collecting and reporting information anonymously.
                   </p>
                 </div>
@@ -151,7 +151,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
                 <div>
                   <h4 className="font-medium mb-1">Marketing</h4>
                   <p className="text-muted-foreground">
-                    Cookies used to track visitors across websites and display personalized advertisements 
+                    Cookies used to track visitors across websites and display personalized advertisements
                     based on your interests and browsing behavior.
                   </p>
                 </div>
