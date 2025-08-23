@@ -52,7 +52,10 @@ const App = () => {
 
   const handleCookiePreferences = (preferences: CookiePreferences) => {
     localStorage.setItem("trio-cookies-accepted", "true");
-    localStorage.setItem("trio-cookie-preferences", JSON.stringify(preferences));
+    localStorage.setItem(
+      "trio-cookie-preferences",
+      JSON.stringify(preferences),
+    );
     setShowCookieBanner(false);
 
     // You can use the preferences to configure your analytics/marketing tools here
@@ -81,7 +84,10 @@ const App = () => {
           </Routes>
         </BrowserRouter>
         <TermsPopup isOpen={showTermsPopup} onAccept={handleAcceptTerms} />
-        <CookieBanner isOpen={showCookieBanner} onAccept={handleCookiePreferences} />
+        <CookieBanner
+          isOpen={showCookieBanner}
+          onAccept={handleCookiePreferences}
+        />
       </TooltipProvider>
     </QueryClientProvider>
   );
