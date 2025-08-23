@@ -43,7 +43,6 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
       marketing: true,
     };
     setCookiePreferences(allEnabled);
-    onAccept(allEnabled);
   };
 
   const handleDisableAll = () => {
@@ -54,7 +53,6 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
       marketing: false,
     };
     setCookiePreferences(onlyNecessary);
-    onAccept(onlyNecessary);
   };
 
   const handleSavePreferences = () => {
