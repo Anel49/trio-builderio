@@ -18,23 +18,45 @@ import OrderHistory from "./pages/OrderHistory";
 import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 import { TermsPopup } from "@/components/ui/terms-popup";
+import { CookieBanner, CookiePreferences } from "@/components/ui/cookie-banner";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [showTermsPopup, setShowTermsPopup] = useState(false);
+  const [showCookieBanner, setShowCookieBanner] = useState(false);
 
   useEffect(() => {
     // Check if user has already accepted terms
     const hasAcceptedTerms = localStorage.getItem("trio-terms-accepted");
+    const hasAcceptedCookies = localStorage.getItem("trio-cookies-accepted");
+
     if (!hasAcceptedTerms) {
       setShowTermsPopup(true);
+    } else if (!hasAcceptedCookies) {
+      // Show cookie banner only after terms are accepted
+      setShowCookieBanner(true);
     }
   }, []);
 
   const handleAcceptTerms = () => {
     localStorage.setItem("trio-terms-accepted", "true");
     setShowTermsPopup(false);
+
+    // Check if cookies need approval after terms are accepted
+    const hasAcceptedCookies = localStorage.getItem("trio-cookies-accepted");
+    if (!hasAcceptedCookies) {
+      setShowCookieBanner(true);
+    }
+  };
+
+  const handleCookiePreferences = (preferences: CookiePreferences) => {
+    localStorage.setItem("trio-cookies-accepted", "true");
+    localStorage.setItem("trio-cookie-preferences", JSON.stringify(preferences));
+    setShowCookieBanner(false);
+
+    // You can use the preferences to configure your analytics/marketing tools here
+    console.log("Cookie preferences saved:", preferences);
   };
 
   return (
@@ -59,6 +81,7 @@ const App = () => {
           </Routes>
         </BrowserRouter>
         <TermsPopup isOpen={showTermsPopup} onAccept={handleAcceptTerms} />
+        <CookieBanner isOpen={showCookieBanner} onAccept={handleCookiePreferences} />
       </TooltipProvider>
     </QueryClientProvider>
   );
