@@ -17,19 +17,21 @@ export interface CookiePreferences {
 }
 
 export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
-  const [cookiePreferences, setCookiePreferences] = useState<CookiePreferences>({
-    necessary: true, // Always required
-    preferences: false,
-    statistics: false,
-    marketing: false,
-  });
+  const [cookiePreferences, setCookiePreferences] = useState<CookiePreferences>(
+    {
+      necessary: true, // Always required
+      preferences: false,
+      statistics: false,
+      marketing: false,
+    },
+  );
 
   const [activeTab, setActiveTab] = useState("consent");
 
   const handleToggle = (type: keyof CookiePreferences) => {
-    if (type === 'necessary') return; // Can't disable necessary cookies
+    if (type === "necessary") return; // Can't disable necessary cookies
 
-    setCookiePreferences(prev => ({
+    setCookiePreferences((prev) => ({
       ...prev,
       [type]: !prev[type],
     }));
@@ -65,10 +67,16 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <Card className="w-full md:w-3/5 lg:w-2/5 mx-auto">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold">Cookie Settings</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            Cookie Settings
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="consent">Consent</TabsTrigger>
               <TabsTrigger value="details">Details</TabsTrigger>
@@ -76,8 +84,9 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
 
             <TabsContent value="consent" className="space-y-6">
               <p className="text-sm text-muted-foreground">
-                We use cookies to enhance your browsing experience, provide personalized content,
-                and analyze our traffic. You can choose which types of cookies to accept.
+                We use cookies to enhance your browsing experience, provide
+                personalized content, and analyze our traffic. You can choose
+                which types of cookies to accept.
               </p>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -100,7 +109,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
                   <div className="flex items-center justify-center space-x-3">
                     <Switch
                       checked={cookiePreferences.preferences}
-                      onCheckedChange={() => handleToggle('preferences')}
+                      onCheckedChange={() => handleToggle("preferences")}
                     />
                     <span className="text-sm font-medium">
                       {cookiePreferences.preferences ? "ON" : "OFF"}
@@ -113,7 +122,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
                   <div className="flex items-center justify-center space-x-3">
                     <Switch
                       checked={cookiePreferences.statistics}
-                      onCheckedChange={() => handleToggle('statistics')}
+                      onCheckedChange={() => handleToggle("statistics")}
                     />
                     <span className="text-sm font-medium">
                       {cookiePreferences.statistics ? "ON" : "OFF"}
@@ -126,7 +135,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
                   <div className="flex items-center justify-center space-x-3">
                     <Switch
                       checked={cookiePreferences.marketing}
-                      onCheckedChange={() => handleToggle('marketing')}
+                      onCheckedChange={() => handleToggle("marketing")}
                     />
                     <span className="text-sm font-medium">
                       {cookiePreferences.marketing ? "ON" : "OFF"}
@@ -139,10 +148,18 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
                 <Button onClick={handleEnableAll} className="flex-1">
                   Enable All Cookies
                 </Button>
-                <Button onClick={handleDisableAll} variant="outline" className="flex-1">
+                <Button
+                  onClick={handleDisableAll}
+                  variant="outline"
+                  className="flex-1"
+                >
                   Disable All Cookies
                 </Button>
-                <Button onClick={handleSavePreferences} variant="outline" className="flex-1">
+                <Button
+                  onClick={handleSavePreferences}
+                  variant="outline"
+                  className="flex-1"
+                >
                   Save Preferences
                 </Button>
               </div>
@@ -153,32 +170,36 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
                 <div>
                   <h4 className="font-medium mb-1">Necessary</h4>
                   <p className="text-muted-foreground">
-                    Essential cookies for basic website functionality, security, and navigation.
-                    These cannot be disabled as they are required for the site to work properly.
+                    Essential cookies for basic website functionality, security,
+                    and navigation. These cannot be disabled as they are
+                    required for the site to work properly.
                   </p>
                 </div>
 
                 <div>
                   <h4 className="font-medium mb-1">Preferences</h4>
                   <p className="text-muted-foreground">
-                    Cookies that remember your choices and settings to provide a more personalized
-                    experience, such as language preferences and display settings.
+                    Cookies that remember your choices and settings to provide a
+                    more personalized experience, such as language preferences
+                    and display settings.
                   </p>
                 </div>
 
                 <div>
                   <h4 className="font-medium mb-1">Statistics</h4>
                   <p className="text-muted-foreground">
-                    Analytics cookies that help us understand how visitors interact with our website
-                    by collecting and reporting information anonymously.
+                    Analytics cookies that help us understand how visitors
+                    interact with our website by collecting and reporting
+                    information anonymously.
                   </p>
                 </div>
 
                 <div>
                   <h4 className="font-medium mb-1">Marketing</h4>
                   <p className="text-muted-foreground">
-                    Cookies used to track visitors across websites and display personalized advertisements
-                    based on your interests and browsing behavior.
+                    Cookies used to track visitors across websites and display
+                    personalized advertisements based on your interests and
+                    browsing behavior.
                   </p>
                 </div>
               </div>
