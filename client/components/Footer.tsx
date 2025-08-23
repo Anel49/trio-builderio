@@ -89,7 +89,7 @@ export function Footer() {
             <div className="flex space-x-6 mt-4 md:mt-0 items-center">
               <a
                 href="/terms-of-service"
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors text-sm"
               >
                 Policies
               </a>
