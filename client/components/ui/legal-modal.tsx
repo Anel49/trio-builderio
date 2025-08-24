@@ -99,6 +99,7 @@ export const PrivacyContent = () => (
         destruction. However, no internet transmission is completely secure, and
         we cannot guarantee absolute security.
       </p>
+      <br>
       <p className="text-muted-foreground">
         We do not have access to your login credentials to your Google, Facebook, 
         Microsoft, or Apple account. We are given a temporary access token by the 
