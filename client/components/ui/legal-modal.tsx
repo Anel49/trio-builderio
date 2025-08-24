@@ -94,7 +94,7 @@ export const PrivacyContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Data Security</h3>
       <p className="text-muted-foreground">
-        We do not have access to your login credentials to your Google, Facebook, 
+        We do not have access to the login credentials to your Google, Facebook, 
         Microsoft, or Apple account. We are given a temporary access token by the
         provider to create or log into your Trio account. After an account is created,
         we form an association between your provider account and your Trio account
