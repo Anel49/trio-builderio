@@ -279,11 +279,8 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Conduct</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Your profile name must be your first name, a nickname, or
-            your rental business name. All profile names must be free
-            from offensive, vulgar, or suggestive language and should
-            not include any discriminatory, violent, or otherwise
-            inappropriate content.
+            All chat messages must remain respectful, appropriate,
+            and family-friendly. The following are strictly prohibited:
           </p>
         </div>
         <div>
