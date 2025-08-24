@@ -623,7 +623,7 @@ export default function Checkout() {
                       <RadioGroupItem value="venmo" id="venmo" />
                       <Label htmlFor="venmo" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
-                          <svg className="w-6 h-6" viewBox="0 0 24 24">
+                          <svg className="w-6 h-6" viewBox="0 0 512 512">
                             <rect
                               x="2"
                               y="2"
@@ -634,8 +634,8 @@ export default function Checkout() {
                               fill="#3b82f6"
                             />
                             <path
-                              d="M385.16-347c11.1 18.3 16.08 37.17 16.08 61 0 76-64.87 174.7-117.52 244H163.5l-48.2-288.35 105.3-10 25.6 205.17C270-174 299.43-235 299.43-276.56c0-22.77-3.9-38.25-10-51z"
-                              fill="white"
+                              d="m381.4 105.3c11 18.1 15.9 36.7 15.9 60.3 0 75.1-64.1 172.7-116.2 241.2h-118.8l-47.6-285 104.1-9.9 25.3 202.8c23.5-38.4 52.6-98.7 52.6-139.7 0-22.5-3.9-37.8-9.9-50.4z"
+                              fill="#ffffff"
                             />
                           </svg>
                           <span>Venmo</span>
