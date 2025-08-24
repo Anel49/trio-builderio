@@ -73,8 +73,6 @@ export default function Profile() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
-  const [isPaymentAccountsModalOpen, setIsPaymentAccountsModalOpen] =
-    useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
 
@@ -954,10 +952,6 @@ export default function Profile() {
         isOpen={isFavoritesModalOpen}
         onOpenChange={setIsFavoritesModalOpen}
         listingTitle={favoritedListing}
-      />
-      <PaymentAccountsModal
-        isOpen={isPaymentAccountsModalOpen}
-        onOpenChange={setIsPaymentAccountsModalOpen}
       />
 
       {/* Logout Confirmation Modal */}
