@@ -273,7 +273,7 @@ const TermsOfServiceContent = () => (
             your rental business name. For your safety, please avoid 
             including your last name. 
           </p>
-          <p>All profile names must be free
+          <p className="text-muted-foreground leading-relaxed>All profile names must be free
             of offensive, vulgar, or suggestive language and should
             not include any discriminatory, violent, or otherwise
             inappropriate content. Failure to follow these guidelines
