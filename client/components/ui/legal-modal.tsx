@@ -47,7 +47,7 @@ export const PrivacyContent = () => (
         create an account, list a product, make a rental, or contact us for
         support.
       </p>
-      <h4>User Information</h4>
+      <h4 className="font-semibold">User Information</h4>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
         <li>Display name</li>
         <li>Profile picture (optional)</li>
