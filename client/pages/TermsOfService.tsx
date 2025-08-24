@@ -282,7 +282,7 @@ const TermsOfServiceContent = () => (
             All chat messages must remain respectful, appropriate,
             and family-friendly. The following are strictly prohibited:
           </p>
-          <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+          <ul className="list-disc pl-6 space-y-2 text-muted-foreground mb-3">
             <li>Host</li>
             <li>Pictures</li>
             <li>Title</li>
