@@ -99,6 +99,13 @@ export const PrivacyContent = () => (
         destruction. However, no internet transmission is completely secure, and
         we cannot guarantee absolute security.
       </p>
+      <p>
+        We do not have access to your login credentials to your Google, Facebook, 
+        Microsoft, or Apple account. We are given a temporary access token by the 
+        provider to create or log into your Trio account. After an account is created, 
+        we form an associations betwee your provider account and your Trio account 
+        that is stored in our system.
+      </p>
     </section>
 
     <section>
