@@ -61,9 +61,15 @@ export const PrivacyContent = () => (
       </ul>
       <h4 className="font-semibold">Listing Information</h4>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-        <li></li>
-        <li></li>
-        <li></li>
+        <li>Host</li>
+        <li>Pictures</li>
+        <li>Title</li>
+        <li>Zip code</li>
+        <li>Price</li>
+        <li>Description</li>
+        <li>Tags</li>
+        <li>Availability</li>
+        <li>Reviews</li>
       </ul>
     </section>
 
