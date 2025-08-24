@@ -572,7 +572,7 @@ export default function Checkout() {
                       <Label htmlFor="venmo" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
                           <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#3b82f6">
-                            <path d="ADD_VENMO_PATH_HERE"/>
+                            <path d="M385.16-347c11.1 18.3 16.08 37.17 16.08 61 0 76-64.87 174.7-117.52 244H163.5l-48.2-288.35 105.3-10 25.6 205.17C270-174 299.43-235 299.43-276.56c0-22.77-3.9-38.25-10-51z"/>
                           </svg>
                           <span>Venmo</span>
                         </div>
