@@ -59,9 +59,15 @@ export default function Checkout() {
 
     if (paymentMethod === "paypal") {
       timeoutId = setTimeout(() => {
-        const paypalContainer = document.getElementById("paypal-button-container");
+        const paypalContainer = document.getElementById(
+          "paypal-button-container",
+        );
 
-        if (window.paypal && paypalContainer && !paypalContainer.hasChildNodes()) {
+        if (
+          window.paypal &&
+          paypalContainer &&
+          !paypalContainer.hasChildNodes()
+        ) {
           window.paypal
             .Buttons({
               createOrder: createPayPalOrder,
@@ -89,7 +95,9 @@ export default function Checkout() {
         clearTimeout(timeoutId);
       }
       // Clean up PayPal buttons when component unmounts or payment method changes
-      const paypalContainer = document.getElementById("paypal-button-container");
+      const paypalContainer = document.getElementById(
+        "paypal-button-container",
+      );
       if (paypalContainer) {
         paypalContainer.innerHTML = "";
       }
@@ -491,8 +499,12 @@ export default function Checkout() {
                       <RadioGroupItem value="paypal" id="paypal" />
                       <Label htmlFor="paypal" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
-                          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#0070ba">
-                            <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.26-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l1.506-9.587-.506.062h2.19c4.638 0 7.709-1.89 8.638-6.699.015-.076.025-.175.038-.26a3.35 3.35 0 0 0-.607.541z"/>
+                          <svg
+                            className="w-6 h-6"
+                            viewBox="0 0 24 24"
+                            fill="#0070ba"
+                          >
+                            <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.26-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l1.506-9.587-.506.062h2.19c4.638 0 7.709-1.89 8.638-6.699.015-.076.025-.175.038-.26a3.35 3.35 0 0 0-.607.541z" />
                           </svg>
                           <span>PayPal</span>
                         </div>
@@ -502,10 +514,17 @@ export default function Checkout() {
                     {/* Apple Pay */}
                     <div className="flex items-center space-x-2 p-4 border rounded-lg">
                       <RadioGroupItem value="apple-pay" id="apple-pay" />
-                      <Label htmlFor="apple-pay" className="flex-1 cursor-pointer">
+                      <Label
+                        htmlFor="apple-pay"
+                        className="flex-1 cursor-pointer"
+                      >
                         <div className="flex items-center space-x-3">
-                          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                          <svg
+                            className="w-6 h-6"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
                           </svg>
                           <span>Apple Pay</span>
                         </div>
@@ -515,7 +534,10 @@ export default function Checkout() {
                     {/* Google Pay */}
                     <div className="flex items-center space-x-2 p-4 border rounded-lg">
                       <RadioGroupItem value="google-pay" id="google-pay" />
-                      <Label htmlFor="google-pay" className="flex-1 cursor-pointer">
+                      <Label
+                        htmlFor="google-pay"
+                        className="flex-1 cursor-pointer"
+                      >
                         <div className="flex items-center space-x-3">
                           <svg className="w-6 h-6" viewBox="0 0 24 24">
                             <path
@@ -546,7 +568,9 @@ export default function Checkout() {
                       <Label htmlFor="venmo" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
                           <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">V</span>
+                            <span className="text-white text-xs font-bold">
+                              V
+                            </span>
                           </div>
                           <span>Venmo</span>
                         </div>
@@ -556,10 +580,15 @@ export default function Checkout() {
                     {/* Cash App */}
                     <div className="flex items-center space-x-2 p-4 border rounded-lg">
                       <RadioGroupItem value="cash-app" id="cash-app" />
-                      <Label htmlFor="cash-app" className="flex-1 cursor-pointer">
+                      <Label
+                        htmlFor="cash-app"
+                        className="flex-1 cursor-pointer"
+                      >
                         <div className="flex items-center space-x-3">
                           <div className="w-6 h-6 bg-green-500 rounded flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">$</span>
+                            <span className="text-white text-xs font-bold">
+                              $
+                            </span>
                           </div>
                           <span>Cash App</span>
                         </div>
@@ -572,7 +601,9 @@ export default function Checkout() {
                       <Label htmlFor="zelle" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
                           <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">Z</span>
+                            <span className="text-white text-xs font-bold">
+                              Z
+                            </span>
                           </div>
                           <span>Zelle</span>
                         </div>
@@ -583,7 +614,11 @@ export default function Checkout() {
 
                 {/* PayPal Container */}
                 {paymentMethod === "paypal" && (
-                  <div key="paypal-container" id="paypal-button-container" className="p-4"></div>
+                  <div
+                    key="paypal-container"
+                    id="paypal-button-container"
+                    className="p-4"
+                  ></div>
                 )}
 
                 {/* Security Badge */}
