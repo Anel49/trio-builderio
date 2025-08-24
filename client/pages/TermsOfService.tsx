@@ -270,8 +270,8 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Representation</h3>
           <p className="text-muted-foreground leading-relaxed">
             Your profile name must be your first name, a nickname, or 
-            your rental business name. It is recommended that users
-            leave out their last name for their own safety. All profile names must be free
+            your rental business name. For your safety, please avoid
+            including your last name. All profile names must be free
             of offensive, vulgar, or suggestive language and should
             not include any discriminatory, violent, or otherwise
             inappropriate content.
