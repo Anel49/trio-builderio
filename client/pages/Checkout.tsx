@@ -647,11 +647,19 @@ export default function Checkout() {
 
                 {/* PayPal Container */}
                 {paymentMethod === "paypal" && (
-                  <div
-                    key="paypal-container"
-                    id="paypal-button-container"
-                    className="p-4"
-                  ></div>
+                  <div className="p-4">
+                    {!paypalReady ? (
+                      <div className="flex items-center justify-center py-8 text-muted-foreground">
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mr-3"></div>
+                        Loading PayPal...
+                      </div>
+                    ) : (
+                      <div
+                        key="paypal-container"
+                        id="paypal-button-container"
+                      ></div>
+                    )}
+                  </div>
                 )}
 
                 {/* Security Badge */}
