@@ -275,9 +275,6 @@ const TermsOfServiceContent = () => (
             not include any discriminatory, violent, or otherwise
             inappropriate content.
           </p>
-          <p className="text-muted-foreground leading-relaxed">
-            You are mu
-          </p>
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Account Security</h3>
