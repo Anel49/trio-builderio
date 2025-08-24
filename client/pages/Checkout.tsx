@@ -52,13 +52,37 @@ export default function Checkout() {
   // Initialize payment providers
   useEffect(() => {
     initializePaymentProviders();
+    checkPayPalSDK();
   }, []);
 
-  // Initialize PayPal when payment method changes
+  // Check if PayPal SDK is ready
+  const checkPayPalSDK = () => {
+    let attempts = 0;
+    const maxAttempts = 30; // 3 seconds max wait time
+
+    const checkSDK = () => {
+      if (window.paypal && typeof window.paypal.Buttons === 'function') {
+        setPaypalReady(true);
+        return;
+      }
+
+      attempts++;
+      if (attempts < maxAttempts) {
+        setTimeout(checkSDK, 100);
+      } else {
+        console.error('PayPal SDK failed to load');
+        setPaypalReady(false);
+      }
+    };
+
+    checkSDK();
+  };
+
+  // Initialize PayPal when payment method changes and SDK is ready
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
 
-    if (paymentMethod === "paypal") {
+    if (paymentMethod === "paypal" && paypalReady) {
       timeoutId = setTimeout(() => {
         const paypalContainer = document.getElementById(
           "paypal-button-container",
@@ -66,29 +90,36 @@ export default function Checkout() {
 
         if (
           window.paypal &&
+          typeof window.paypal.Buttons === 'function' &&
           paypalContainer &&
           !paypalContainer.hasChildNodes()
         ) {
-          window.paypal
-            .Buttons({
-              createOrder: createPayPalOrder,
-              onApprove: handlePayPalApprove,
-              onCancel: () => {
-                console.log("PayPal payment cancelled");
-                setIsProcessing(false);
-              },
-              onError: (err: any) => {
-                console.error("PayPal SDK error:", err);
-                setIsProcessing(false);
-                alert("PayPal encountered an error. Please try again.");
-              },
-            })
-            .render("#paypal-button-container")
-            .catch((err: any) => {
-              console.error("PayPal render error:", err);
-            });
+          try {
+            window.paypal
+              .Buttons({
+                createOrder: createPayPalOrder,
+                onApprove: handlePayPalApprove,
+                onCancel: () => {
+                  console.log("PayPal payment cancelled");
+                  setIsProcessing(false);
+                },
+                onError: (err: any) => {
+                  console.error("PayPal SDK error:", err);
+                  setIsProcessing(false);
+                  alert("PayPal encountered an error. Please try again.");
+                },
+              })
+              .render("#paypal-button-container")
+              .catch((err: any) => {
+                console.error("PayPal render error:", err);
+                alert("Failed to load PayPal. Please refresh the page or try another payment method.");
+              });
+          } catch (error) {
+            console.error("PayPal initialization error:", error);
+            alert("PayPal is not available. Please try another payment method.");
+          }
         }
-      }, 1000);
+      }, 100);
     }
 
     return () => {
@@ -103,7 +134,7 @@ export default function Checkout() {
         paypalContainer.innerHTML = "";
       }
     };
-  }, [paymentMethod]);
+  }, [paymentMethod, paypalReady]);
 
   const initializePaymentProviders = async () => {
     // This function is now only used for other payment providers
