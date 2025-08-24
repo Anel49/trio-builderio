@@ -50,7 +50,7 @@ export const PrivacyContent = () => (
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground mb-4">
         <li>Profile name</li>
         <li>Profile picture (optional)</li>
-        <li>Defaul zip code (optional)</li>
+        <li>Default zip code (optional)</li>
         <li>User listings</li>
         <li>User reviews</li>
         <li>Submitted reviews</li>
