@@ -43,9 +43,8 @@ export const PrivacyContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Information We Collect</h3>
       <p className="text-muted-foreground mb-4">
-        We collect information you provide directly to us, such as when you
-        create an account, list a product, make a rental, or contact us for
-        support.
+        We collect information you provide directly to us, such as account 
+        information, listing information, and communications.
       </p>
       <p className="font-semibold mb-4">User Information</p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground mb-4">
