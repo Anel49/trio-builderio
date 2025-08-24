@@ -48,7 +48,7 @@ export const PrivacyContent = () => (
         support.
       </p>
       <p className="font-semibold mb-4">User Information</p>
-      <ul className="list-disc pl-6 space-y-2 text-muted-foreground mb-3">
+      <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
         <li>Display name</li>
         <li>Profile picture (optional)</li>
         <li>Defaul zip code (optional)</li>
