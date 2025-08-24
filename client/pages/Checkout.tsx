@@ -143,7 +143,8 @@ export default function Checkout() {
   }, [paymentMethod, paypalReady]);
 
   const initializePaymentProviders = async () => {
-    // This function is now only used for other payment providers
+    // Initialize other payment providers (Google Pay, Apple Pay, etc.)
+    // PayPal is handled separately with checkPayPalSDK
   };
 
   // Payment handlers
