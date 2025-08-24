@@ -297,6 +297,61 @@ export default function UploadProduct() {
     </Dialog>
   );
 
+  const ConfirmationModal = () => (
+    <Dialog open={showConfirmModal} onOpenChange={() => {}}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>Confirm Listing</DialogTitle>
+        </DialogHeader>
+        <div className="py-4">
+          <p className="text-muted-foreground">
+            Are you sure you want to list your product?
+          </p>
+        </div>
+        <div className="flex gap-4">
+          <Button
+            variant="outline"
+            className="flex-1"
+            onClick={handleCancelListing}
+          >
+            No
+          </Button>
+          <Button className="flex-1" onClick={confirmListProduct}>
+            Yes
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+
+  const SuccessModal = () => (
+    <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>Success!</DialogTitle>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-4 top-4"
+            onClick={() => setShowSuccessModal(false)}
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </DialogHeader>
+        <div className="py-4">
+          <p className="text-center text-muted-foreground">
+            Your product has been successfully listed!
+          </p>
+        </div>
+        <div className="flex justify-center">
+          <Button onClick={handleViewListing} className="w-full">
+            See listing
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+
   const PreviewModal = () => (
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
       <DialogContent className="max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh]">
