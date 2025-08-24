@@ -283,7 +283,7 @@ const TermsOfServiceContent = () => (
             and family-friendly. The following are strictly prohibited:
           </p>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-            <li>Offensive or abusive language — including insults, slurs,
+            <li><span>Offensive or abusive language</span> — including insults, slurs,
               harassment, or bullying.</li>
             <li>Vulgar, obscene, or sexually suggestive content — in any
               form, explicit or implied.</li>
