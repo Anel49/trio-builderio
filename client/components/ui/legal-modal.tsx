@@ -103,8 +103,8 @@ export const PrivacyContent = () => (
       <br/>
       <p className="text-muted-foreground">
         Despite our best attempts at secure transmission of data and privacy 
-        protection, we cannot guarantee certainty that your data is fully 
-        tamper proof as no internet transmission has absolute security.
+        protection, we cannot guarantee full certainty that your data will 
+        be safe as no data transmission is safe from hackers.
       </p>
     </section>
 
