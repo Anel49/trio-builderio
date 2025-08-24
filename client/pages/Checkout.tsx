@@ -29,6 +29,7 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState("paypal");
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
+  const [paypalReady, setPaypalReady] = useState(false);
 
   // Form states
 
