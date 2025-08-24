@@ -237,9 +237,25 @@ export default function UploadProduct() {
   };
 
   const handleListProduct = () => {
+    setShowConfirmModal(true);
+  };
+
+  const confirmListProduct = () => {
     // Product listing logic here
     setIsListed(true);
+    setShowConfirmModal(false);
+    setShowSuccessModal(true);
     console.log("Product listed successfully!");
+  };
+
+  const handleCancelListing = () => {
+    setShowConfirmModal(false);
+  };
+
+  const handleViewListing = () => {
+    setShowSuccessModal(false);
+    // Navigate to demo product listing (lawn mower)
+    window.location.href = "/product/1";
   };
 
   const mockHost = {
