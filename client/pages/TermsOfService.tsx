@@ -284,17 +284,26 @@ const TermsOfServiceContent = () => (
           </p>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
             <li><span className="font-semibold mb-4">Offensive or abusive
-              language</span> — including insults, slurs,
-              harassment, or bullying.</li>
-            <li><span className="font-semibold mb-4">Vulgar, obscene, or sexually suggestive content</span> — in any
-              form, explicit or implied.</li>
-            <li><span className="font-semibold mb-4">Discriminatory or hateful content</span> — targeting race,
-              ethnicity, gender, sexuality, religion, nationality, disability,
-              or any other protected status.</li>
-            <li><span className="font-semibold mb-4">Violent, graphic, or threatening material</span> — including
-              encouragement of self-harm or harm to others.</li>
-            <li><span className="font-semibold mb-4">Illegal or harmful activities</span> — including the promotion of
-              drugs, underage content, or criminal behavior.</li>>
+              language</span> — including insults, slurs, harassment, or
+              bullying.
+            </li>
+            <li><span className="font-semibold mb-4">Vulgar, obscene, or
+              sexually suggestive content</span> — in any form, explicit
+              or implied.
+            </li>
+            <li><span className="font-semibold mb-4">Discriminatory or
+              hateful content</span> — targeting race, ethnicity, gender,
+              sexuality, religion, nationality, disability, or any other
+              protected status.
+            </li>
+            <li><span className="font-semibold mb-4">Violent, graphic, or
+              threatening material</span> — including encouragement of
+              self-harm or harm to others.
+            </li>
+            <li><span className="font-semibold mb-4">Illegal or harmful
+              activities</span> — including the promotion of drugs, underage
+              content, or criminal behavior.
+            </li>
           </ul>
         </div>
         <div>
