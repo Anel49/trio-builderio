@@ -683,11 +683,13 @@ export default function Checkout() {
                         break;
                       case "paypal":
                         // PayPal handles its own button clicks
-                        console.log("PayPal should use its own buttons");
+                        if (!paypalReady) {
+                          alert("PayPal is still loading. Please wait a moment.");
+                        }
                         break;
                     }
                   }}
-                  disabled={isProcessing || paymentMethod === "paypal"}
+                  disabled={isProcessing || (paymentMethod === "paypal" && paypalReady)}
                   className="w-full"
                   size="lg"
                 >
@@ -698,7 +700,9 @@ export default function Checkout() {
                       : paymentMethod === "apple-pay"
                         ? "Pay with Apple Pay"
                         : paymentMethod === "paypal"
-                          ? "Use PayPal Button Above"
+                          ? paypalReady
+                            ? "Use PayPal Button Above"
+                            : "Loading PayPal..."
                           : `Pay $${booking.total}`}
                 </Button>
               </CardContent>
