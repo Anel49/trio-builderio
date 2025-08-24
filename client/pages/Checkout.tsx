@@ -571,11 +571,9 @@ export default function Checkout() {
                       <RadioGroupItem value="venmo" id="venmo" />
                       <Label htmlFor="venmo" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
-                          <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">
-                              V
-                            </span>
-                          </div>
+                          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#3b82f6">
+                            <path d="ADD_VENMO_PATH_HERE"/>
+                          </svg>
                           <span>Venmo</span>
                         </div>
                       </Label>
@@ -589,11 +587,9 @@ export default function Checkout() {
                         className="flex-1 cursor-pointer"
                       >
                         <div className="flex items-center space-x-3">
-                          <div className="w-6 h-6 bg-green-500 rounded flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">
-                              $
-                            </span>
-                          </div>
+                          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#22c55e">
+                            <path d="ADD_CASH_APP_PATH_HERE"/>
+                          </svg>
                           <span>Cash App</span>
                         </div>
                       </Label>
@@ -604,11 +600,9 @@ export default function Checkout() {
                       <RadioGroupItem value="zelle" id="zelle" />
                       <Label htmlFor="zelle" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
-                          <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">
-                              Z
-                            </span>
-                          </div>
+                          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#9333ea">
+                            <path d="ADD_ZELLE_PATH_HERE"/>
+                          </svg>
                           <span>Zelle</span>
                         </div>
                       </Label>
