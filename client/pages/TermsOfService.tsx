@@ -323,7 +323,7 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Accurate Information</h3>
           <p className="text-muted-foreground leading-relaxed">
             You agree to provide accurate, current, and complete information
-            during registration and to update such information as necessary to
+            on listings and to update such information as necessary to
             keep it accurate, current, and complete.
           </p>
         </div>
