@@ -94,18 +94,17 @@ export const PrivacyContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Data Security</h3>
       <p className="text-muted-foreground">
-        We implement appropriate security measures to protect your personal
-        information against unauthorized access, alteration, disclosure, or
-        destruction. However, no internet transmission is completely secure, and
-        we cannot guarantee absolute security.
-      </p>
-      <br/>
-      <p className="text-muted-foreground">
         We do not have access to your login credentials to your Google, Facebook, 
         Microsoft, or Apple account. We are given a temporary access token by the
         provider to create or log into your Trio account. After an account is created,
         we form an association between your provider account and your Trio account
         that is stored in our system.
+      </p>
+      <br/>
+      <p className="text-muted-foreground">
+        Despite our best attempts at secure transmission of data and privacy 
+        protection, we cannot guarantee certainty that your data is fully 
+        tamper proof as no internet transmission has absolute security.
       </p>
     </section>
 
