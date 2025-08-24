@@ -48,11 +48,15 @@ export const PrivacyContent = () => (
         support.
       </p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-        <li>Personal information (name, email, phone number)</li>
-        <li>Profile information and photos</li>
-        <li>Payment and billing information</li>
-        <li>Product listings and descriptions</li>
-        <li>Communication records and reviews</li>
+        <li>Display name</li>
+        <li>Profile picture (optional)</li>
+        <li>Defaul zip code (optional)</li>
+        <li>User listings</li>
+        <li>User reviews</li>
+        <li>Submitted reviews</li>
+        <li>Associated Google, Facebook, Microsoft, or Apple account</li>
+        <li>Direct messages</li>
+        <li>Support ticket details and content</li>
       </ul>
     </section>
 
