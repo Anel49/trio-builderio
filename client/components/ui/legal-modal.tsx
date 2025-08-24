@@ -59,7 +59,7 @@ export const PrivacyContent = () => (
         <li>Direct messages</li>
         <li>Support ticket details and content</li>
       </ul>
-      <h4 className="font-semibold">Listing Information</h4>
+      <p className="font-semibold mb-4">Listing Information</p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
         <li>Host</li>
         <li>Pictures</li>
