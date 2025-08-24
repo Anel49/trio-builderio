@@ -314,8 +314,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Account Security</h3>
           <p className="text-muted-foreground leading-relaxed">
-            You are responsible for maintaining the confidentiality of your
-            account credentials and for all activities that occur under your
+            You are responsible for all activities that occur under your
             account. You must immediately notify us of any unauthorized use of
             your account.
           </p>
