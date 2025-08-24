@@ -794,6 +794,8 @@ export default function UploadProduct() {
       </div>
 
       <DraftDialog />
+      <ConfirmationModal />
+      <SuccessModal />
       <PreviewModal />
       <LoginModal
         isOpen={isLoginModalOpen}
