@@ -259,7 +259,7 @@ const TermsOfServiceContent = () => (
       </h2>
       <div className="space-y-4">
         <div>
-          <h3 className="text-lg font-medium mb-2">Age and Eligibility</h3>
+          <h3 className="text-lg font-medium mb-2">Eligibility</h3>
           <p className="text-muted-foreground leading-relaxed">
             You must be at least 18 years old to use Trio. By creating an
             account, you represent that you are legally able to enter into
