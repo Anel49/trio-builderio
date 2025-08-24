@@ -36,7 +36,7 @@ export default function Checkout() {
     number: "",
     expiry: "",
     cvc: "",
-    name: ""
+    name: "",
   });
 
   // Mock booking data (would come from route params/state)
@@ -67,7 +67,7 @@ export default function Checkout() {
     const maxAttempts = 30; // 3 seconds max wait time
 
     const checkSDK = () => {
-      if (window.paypal && typeof window.paypal.Buttons === 'function') {
+      if (window.paypal && typeof window.paypal.Buttons === "function") {
         setPaypalReady(true);
         return;
       }
@@ -76,7 +76,7 @@ export default function Checkout() {
       if (attempts < maxAttempts) {
         setTimeout(checkSDK, 100);
       } else {
-        console.error('PayPal SDK failed to load');
+        console.error("PayPal SDK failed to load");
         setPaypalReady(false);
       }
     };
@@ -96,7 +96,7 @@ export default function Checkout() {
 
         if (
           window.paypal &&
-          typeof window.paypal.Buttons === 'function' &&
+          typeof window.paypal.Buttons === "function" &&
           paypalContainer &&
           !paypalContainer.hasChildNodes()
         ) {
@@ -118,11 +118,15 @@ export default function Checkout() {
               .render("#paypal-button-container")
               .catch((err: any) => {
                 console.error("PayPal render error:", err);
-                alert("Failed to load PayPal. Please refresh the page or try another payment method.");
+                alert(
+                  "Failed to load PayPal. Please refresh the page or try another payment method.",
+                );
               });
           } catch (error) {
             console.error("PayPal initialization error:", error);
-            alert("PayPal is not available. Please try another payment method.");
+            alert(
+              "PayPal is not available. Please try another payment method.",
+            );
           }
         }
       }, 100);
@@ -543,11 +547,20 @@ export default function Checkout() {
                             fill="none"
                             viewBox="0 0 48 48"
                           >
-                            <path fill="#001C64" d="M37.972 13.82c.107-5.565-4.485-9.837-10.799-9.837H14.115a1.278 1.278 0 0 0-1.262 1.079L7.62 37.758a1.038 1.038 0 0 0 1.025 1.2h7.737l-1.21 7.572a1.038 1.038 0 0 0 1.026 1.2H22.5c.305 0 .576-.11.807-.307.231-.198.269-.471.316-.772l1.85-10.885c.047-.3.2-.69.432-.888.231-.198.433-.306.737-.307H30.5c6.183 0 11.43-4.394 12.389-10.507.678-4.34-1.182-8.287-4.916-10.244Z" />
+                            <path
+                              fill="#001C64"
+                              d="M37.972 13.82c.107-5.565-4.485-9.837-10.799-9.837H14.115a1.278 1.278 0 0 0-1.262 1.079L7.62 37.758a1.038 1.038 0 0 0 1.025 1.2h7.737l-1.21 7.572a1.038 1.038 0 0 0 1.026 1.2H22.5c.305 0 .576-.11.807-.307.231-.198.269-.471.316-.772l1.85-10.885c.047-.3.2-.69.432-.888.231-.198.433-.306.737-.307H30.5c6.183 0 11.43-4.394 12.389-10.507.678-4.34-1.182-8.287-4.916-10.244Z"
+                            />
 
-                            <path fill="#0070E0" d="m18.056 26.9-1.927 12.22-1.21 7.664a1.038 1.038 0 0 0 1.026 1.2h6.67a1.278 1.278 0 0 0 1.261-1.079l1.758-11.14a1.277 1.277 0 0 1 1.261-1.078h3.927c6.183 0 11.429-4.51 12.388-10.623.68-4.339-1.504-8.286-5.238-10.244-.01.462-.05.923-.121 1.38-.959 6.112-6.206 10.623-12.389 10.623h-6.145a1.277 1.277 0 0 0-1.261 1.077Z" />
+                            <path
+                              fill="#0070E0"
+                              d="m18.056 26.9-1.927 12.22-1.21 7.664a1.038 1.038 0 0 0 1.026 1.2h6.67a1.278 1.278 0 0 0 1.261-1.079l1.758-11.14a1.277 1.277 0 0 1 1.261-1.078h3.927c6.183 0 11.429-4.51 12.388-10.623.68-4.339-1.504-8.286-5.238-10.244-.01.462-.05.923-.121 1.38-.959 6.112-6.206 10.623-12.389 10.623h-6.145a1.277 1.277 0 0 0-1.261 1.077Z"
+                            />
 
-                            <path fill="#003087" d="M16.128 39.12h-7.76a1.037 1.037 0 0 1-1.025-1.2l5.232-33.182a1.277 1.277 0 0 1 1.262-1.078h13.337c6.313 0 10.905 4.595 10.798 10.16-1.571-.824-3.417-1.295-5.44-1.295H21.413a1.278 1.278 0 0 0-1.261 1.078L18.057 26.9l-1.93 12.22Z" />
+                            <path
+                              fill="#003087"
+                              d="M16.128 39.12h-7.76a1.037 1.037 0 0 1-1.025-1.2l5.232-33.182a1.277 1.277 0 0 1 1.262-1.078h13.337c6.313 0 10.905 4.595 10.798 10.16-1.571-.824-3.417-1.295-5.44-1.295H21.413a1.278 1.278 0 0 0-1.261 1.078L18.057 26.9l-1.93 12.22Z"
+                            />
                           </svg>
                           <span>PayPal</span>
                         </div>
@@ -611,8 +624,19 @@ export default function Checkout() {
                       <Label htmlFor="venmo" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
                           <svg className="w-6 h-6" viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="20" height="20" rx="4" ry="4" fill="#3b82f6"/>
-                            <path d="M385.16-347c11.1 18.3 16.08 37.17 16.08 61 0 76-64.87 174.7-117.52 244H163.5l-48.2-288.35 105.3-10 25.6 205.17C270-174 299.43-235 299.43-276.56c0-22.77-3.9-38.25-10-51z" fill="white"/>
+                            <rect
+                              x="2"
+                              y="2"
+                              width="20"
+                              height="20"
+                              rx="4"
+                              ry="4"
+                              fill="#3b82f6"
+                            />
+                            <path
+                              d="M385.16-347c11.1 18.3 16.08 37.17 16.08 61 0 76-64.87 174.7-117.52 244H163.5l-48.2-288.35 105.3-10 25.6 205.17C270-174 299.43-235 299.43-276.56c0-22.77-3.9-38.25-10-51z"
+                              fill="white"
+                            />
                           </svg>
                           <span>Venmo</span>
                         </div>
@@ -628,8 +652,16 @@ export default function Checkout() {
                       >
                         <div className="flex items-center space-x-3">
                           <svg className="w-6 h-6" viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="20" height="20" rx="4" ry="4" fill="#22c55e"/>
-                            <path d="ADD_CASH_APP_PATH_HERE" fill="white"/>
+                            <rect
+                              x="2"
+                              y="2"
+                              width="20"
+                              height="20"
+                              rx="4"
+                              ry="4"
+                              fill="#22c55e"
+                            />
+                            <path d="ADD_CASH_APP_PATH_HERE" fill="white" />
                           </svg>
                           <span>Cash App</span>
                         </div>
@@ -642,8 +674,16 @@ export default function Checkout() {
                       <Label htmlFor="zelle" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
                           <svg className="w-6 h-6" viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="20" height="20" rx="4" ry="4" fill="#9333ea"/>
-                            <path d="ADD_ZELLE_PATH_HERE" fill="white"/>
+                            <rect
+                              x="2"
+                              y="2"
+                              width="20"
+                              height="20"
+                              rx="4"
+                              ry="4"
+                              fill="#9333ea"
+                            />
+                            <path d="ADD_ZELLE_PATH_HERE" fill="white" />
                           </svg>
                           <span>Zelle</span>
                         </div>
@@ -691,12 +731,16 @@ export default function Checkout() {
                       case "paypal":
                         // PayPal handles its own button clicks
                         if (!paypalReady) {
-                          alert("PayPal is still loading. Please wait a moment.");
+                          alert(
+                            "PayPal is still loading. Please wait a moment.",
+                          );
                         }
                         break;
                     }
                   }}
-                  disabled={isProcessing || (paymentMethod === "paypal" && paypalReady)}
+                  disabled={
+                    isProcessing || (paymentMethod === "paypal" && paypalReady)
+                  }
                   className="w-full"
                   size="lg"
                 >
