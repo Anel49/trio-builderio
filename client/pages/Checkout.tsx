@@ -32,6 +32,12 @@ export default function Checkout() {
   const [paypalReady, setPaypalReady] = useState(false);
 
   // Form states
+  const [cardForm] = useState({
+    number: "",
+    expiry: "",
+    cvc: "",
+    name: ""
+  });
 
   // Mock booking data (would come from route params/state)
   const booking = {
