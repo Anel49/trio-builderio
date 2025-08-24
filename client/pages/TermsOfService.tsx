@@ -269,9 +269,9 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Representation</h3>
           <p className="text-muted-foreground leading-relaxed">
-            You must be at least 18 years old to use Trio. By creating an
-            account, you represent that you are legally able to enter into
-            binding contracts.
+            Your display name must be your first name, a nickname, or 
+            your rental business name. Please do not include your last 
+            name.
           </p>
         </div>
         <div>
