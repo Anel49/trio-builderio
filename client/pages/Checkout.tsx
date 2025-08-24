@@ -764,7 +764,13 @@ export default function Checkout() {
                           ? paypalReady
                             ? "Use PayPal Button Above"
                             : "Loading PayPal..."
-                          : `Pay $${booking.total}`}
+                          : paymentMethod === "venmo"
+                            ? "Pay with Venmo"
+                            : paymentMethod === "cash-app"
+                              ? "Pay with Cash App"
+                              : paymentMethod === "zelle"
+                                ? "Pay with Zelle"
+                                : `Pay $${booking.total}`}
                 </Button>
               </CardContent>
             </Card>
