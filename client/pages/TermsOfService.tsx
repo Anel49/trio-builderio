@@ -270,11 +270,13 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Representation</h3>
           <p className="text-muted-foreground leading-relaxed">
             Your display name must be your first name, a nickname, or 
-            your rental business name. For your safety, please do not 
-            include your last name.
+            your rental business name. All profile names must be
+            family-friendly, free from offensive, vulgar, or suggestive
+            language, and should not include any discriminatory, violent,
+            or otherwise inappropriate content.
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            if
+            You are mu
           </p>
         </div>
         <div>
