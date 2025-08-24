@@ -287,7 +287,9 @@ const TermsOfServiceContent = () => (
               harassment, or bullying.</li>
             <li>Vulgar, obscene, or sexually suggestive content — in any
               form, explicit or implied.</li>
-            <li>Title</li>
+            <li>Discriminatory or hateful content — targeting race,
+              ethnicity, gender, sexuality, religion, nationality, disability,
+              or any other protected status.</li>
             <li>Zip code</li>
             <li>Price</li>
             <li>Description</li>
