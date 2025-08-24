@@ -274,7 +274,9 @@ const TermsOfServiceContent = () => (
             including your last name. All profile names must be free 
             of offensive, vulgar, or suggestive language and should 
             not include any discriminatory, violent, or otherwise 
-            inappropriate content.
+            inappropriate content. Failure to follow these rules will 
+            result in a renaming, suspension, or deletion of your 
+            account.
           </p>
         </div>
         <div>
