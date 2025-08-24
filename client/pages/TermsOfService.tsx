@@ -285,14 +285,14 @@ const TermsOfServiceContent = () => (
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
             <li><span className="font-semibold mb-4">Offensive or abusive language</span> — including insults, slurs,
               harassment, or bullying.</li>
-            <li>Vulgar, obscene, or sexually suggestive content — in any
+            <li><span className="font-semibold mb-4">Vulgar, obscene, or sexually suggestive content</span> — in any
               form, explicit or implied.</li>
-            <li>Discriminatory or hateful content — targeting race,
+            <li><span className="font-semibold mb-4">Discriminatory or hateful content</span> — targeting race,
               ethnicity, gender, sexuality, religion, nationality, disability,
               or any other protected status.</li>
-            <li>Violent, graphic, or threatening material — including
+            <li><span className="font-semibold mb-4">Violent, graphic, or threatening material</span> — including
               encouragement of self-harm or harm to others.</li>
-            <li>Illegal or harmful activities — including the promotion of
+            <li><span className="font-semibold mb-4">Illegal or harmful activities</span> — including the promotion of
               drugs, underage content, or criminal behavior.</li>>
           </ul>
         </div>
