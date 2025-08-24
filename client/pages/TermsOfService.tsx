@@ -278,7 +278,8 @@ const TermsOfServiceContent = () => (
             suggestive language and should not include any discriminatory,
             violent, or otherwise inappropriate content. Failure to
             follow these guidelines may result in a forced renaming,
-            suspension, or deletion of your account.</p>
+            suspension, or deletion of your account.
+          </p>
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Conduct</h3>
