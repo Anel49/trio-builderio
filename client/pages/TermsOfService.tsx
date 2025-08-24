@@ -278,7 +278,7 @@ const TermsOfServiceContent = () => (
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Conduct</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed mb-4">
             All chat messages must remain respectful, appropriate,
             and family-friendly. The following are strictly prohibited:
           </p>
