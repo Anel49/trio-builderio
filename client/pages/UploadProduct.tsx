@@ -329,14 +329,6 @@ export default function UploadProduct() {
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Success!</DialogTitle>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-4"
-            onClick={() => setShowSuccessModal(false)}
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </DialogHeader>
         <div className="py-4">
           <p className="text-center text-muted-foreground">
