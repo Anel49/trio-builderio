@@ -46,7 +46,7 @@ export const PrivacyContent = () => (
         We collect information you provide directly to us, such as account 
         information, listing information, and communications.
       </p>
-      <p className="font-semibold mb-4">User Information</p>
+      <p className="font-semibold mb-4">User Information</p> <!-- working -->
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground mb-4">
         <li>Profile name</li>
         <li>Profile picture (optional)</li>
