@@ -290,12 +290,10 @@ const TermsOfServiceContent = () => (
             <li>Discriminatory or hateful content — targeting race,
               ethnicity, gender, sexuality, religion, nationality, disability,
               or any other protected status.</li>
-            <li>Zip code</li>
-            <li>Price</li>
-            <li>Description</li>
-            <li>Tags</li>
-            <li>Availability</li>
-            <li>Reviews</li>
+            <li>Violent, graphic, or threatening material — including
+              encouragement of self-harm or harm to others.</li>
+            <li>Illegal or harmful activities — including the promotion of
+              drugs, underage content, or criminal behavior.</li>>
           </ul>
         </div>
         <div>
