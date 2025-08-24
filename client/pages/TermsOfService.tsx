@@ -273,6 +273,7 @@ const TermsOfServiceContent = () => (
             your rental business name. Please do not include your last 
             name.
           </p>
+          <p>If</p>
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Account Security</h3>
