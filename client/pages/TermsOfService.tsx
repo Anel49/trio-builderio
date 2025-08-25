@@ -545,7 +545,7 @@ const TermsOfServiceContent = () => (
         Your privacy is important to us. We collect, use, and protect your
         personal information in accordance with our Privacy Policy. By using
         Trio, you consent to the collection and use of your information as
-        described in our Privacy Policy, which is incorporated into these Terms
+        described in our Privacy Policy which is incorporated into these Terms
         of Service by reference.
       </p>
     </section>
