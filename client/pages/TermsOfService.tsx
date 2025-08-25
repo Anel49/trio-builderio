@@ -446,7 +446,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Restricted Items</h3>
           <p className="text-muted-foreground leading-relaxed mb-2">
-            The following non-exhaustive list are items prohibited on our platform:
+            The following is a non-exhaustive list of prohibited items:
           </p>
           <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-4">
             <li>Firearms and ammunition</li>
