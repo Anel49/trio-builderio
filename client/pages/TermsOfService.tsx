@@ -499,7 +499,7 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Insurance Coverage</h3>
           <p className="text-muted-foreground leading-relaxed">
             In the future, Trio will provide basic insurance on every rental,
-            but as we are just starting out, we will need some time to getxxx 
+            but as we are just starting out, we will need some time to secure 
             the necessary funding to do so. We humbly ask that you be patient
             in this matter.
           </p>
