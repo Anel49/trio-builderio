@@ -461,7 +461,7 @@ const TermsOfServiceContent = () => (
           </ul>
         </div>
         <div>
-          <h3 className="text-lg font-medium mb-2">Prohibited Activities</h3>
+          <h3 className="text-lg font-medium mb-2">Prohibited Services and Activities</h3>
           <p className="text-muted-foreground leading-relaxed">
             Users may not use the platform for fraudulent or unlawful activities,
             harassment, spam, or any illegal purposes. Violation of these terms
