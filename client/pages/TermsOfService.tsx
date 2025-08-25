@@ -449,7 +449,7 @@ const TermsOfServiceContent = () => (
             The following items are prohibited on our platform:
           </p>
           <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-4">
-            <li>Weapons, firearms, and ammunition</li>
+            <li>Firearms and ammunition</li>
             <li>Illegal drugs and controlled substances</li>
             <li>Unlawful activities or services</li>
             <li>Stolen, counterfeit, or unauthorized items</li>
