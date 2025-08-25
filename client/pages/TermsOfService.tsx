@@ -482,7 +482,7 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Renter Responsibility</h3>
           <p className="text-muted-foreground leading-relaxed">
             As a renter, you are responsible for returning items in the same
-            condition you received them, normal wear and tear excepted. You are
+            condition you received them, but normal wear and tear excepted. You are
             liable for any damage, loss, or theft that occurs while the item is
             in your possession.
           </p>
@@ -498,9 +498,10 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Insurance Coverage</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Trio provides basic protection for qualifying rentals, but this does
-            not replace the need for appropriate personal insurance. Users are
-            encouraged to review their existing insurance policies.
+            In the future, Trio will provide basic insurance on every rental,
+            but as we are just starting out, we will need some time to getxxx 
+            the necessary funding to do so. We humbly ask that you be patient
+            in this matter.
           </p>
         </div>
       </div>
