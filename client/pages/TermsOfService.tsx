@@ -456,7 +456,7 @@ const TermsOfServiceContent = () => (
             <li>Hazardous materials and chemicals</li>
             <li>Live animals or plants</li>
             <li>Obscene materials</li>
-            <li>Pirated software or </li>
+            <li>Pirated software</li>
             <li>
               Items requiring special licenses without proper documentation
             </li>
