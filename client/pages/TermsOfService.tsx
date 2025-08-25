@@ -455,7 +455,7 @@ const TermsOfServiceContent = () => (
             <li>Stolen, counterfeit, or unauthorized items</li>
             <li>Hazardous materials and chemicals</li>
             <li>Live animals or plants</li>
-            <li>Obscene material</li>
+            <li>Obscene materials</li>
             <li>
               Items requiring special licenses without proper documentation
             </li>
