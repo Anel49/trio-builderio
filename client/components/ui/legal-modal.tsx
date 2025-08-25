@@ -55,7 +55,7 @@ export const PrivacyContent = () => (
         <li>User reviews</li>
         <li>Submitted reviews</li>
         <li>Associated Google, Facebook, Microsoft, or Apple account</li>
-        <li>Direct messages</li>
+        <li>Chat messages</li>
         <li>Support ticket details and content</li>
       </ul>
       <p className="font-semibold mb-4">Listing Information</p>
