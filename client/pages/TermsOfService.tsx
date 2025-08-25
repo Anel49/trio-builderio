@@ -444,7 +444,7 @@ const TermsOfServiceContent = () => (
       </h2>
       <div className="space-y-4">
         <div>
-          <h3 className="text-lg font-medium mb-2">Restricted Items</h3>
+          <h3 className="text-lg font-medium mb-2">Prohibited Items</h3>
           <p className="text-muted-foreground leading-relaxed mb-2">
             The following is a non-exhaustive list of prohibited items:
           </p>
