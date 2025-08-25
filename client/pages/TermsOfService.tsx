@@ -501,9 +501,9 @@ const TermsOfServiceContent = () => (
           <p className="text-muted-foreground leading-relaxed">
             Our long-term vision at Trio is to provide basic insurance for
             every rental. As we are still in the early stages, we currently
-            cannot provide insurance and will need time to secure the necessary
-            funding to make this possible. We appreciate your patience and
-            understanding as we work towards this top priority.
+            cannot provide comprehensive coverage and will need time to secure 
+            the necessary funding to make this possible. We appreciate your
+            patience and understanding as we work towards this top priority.
           </p>
         </div>
       </div>
