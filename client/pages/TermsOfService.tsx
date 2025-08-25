@@ -451,7 +451,6 @@ const TermsOfServiceContent = () => (
           <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-4">
             <li>Firearms and ammunition</li>
             <li>Illegal drugs and controlled substances</li>
-            <li>Unlawful activities or services</li>
             <li>Stolen, counterfeit, or unauthorized items</li>
             <li>Hazardous materials and chemicals</li>
             <li>Live animals or plants</li>
@@ -464,9 +463,9 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Prohibited Activities</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Users may not use the platform for fraudulent activities,
+            Users may not use the platform for fraudulent or unlawful activities,
             harassment, spam, or any illegal purposes. Violation of these terms
-            may result in immediate account suspension.
+            may result in immediate account suspension or deletion.
           </p>
         </div>
       </div>
