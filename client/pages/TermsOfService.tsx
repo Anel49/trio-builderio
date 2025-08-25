@@ -451,6 +451,7 @@ const TermsOfServiceContent = () => (
           <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-4">
             <li>Weapons, firearms, and ammunition</li>
             <li>Illegal drugs and controlled substances</li>
+            <li>Unlawful activities or services</li>
             <li>Stolen, counterfeit, or unauthorized items</li>
             <li>Hazardous materials and chemicals</li>
             <li>Live animals or plants</li>
