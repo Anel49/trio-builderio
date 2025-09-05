@@ -788,46 +788,40 @@ export default function OrderHistory() {
 
                     </div>
 
-                    <div className="flex items-center lg:justify-end gap-2">
-                      {req.status === "pending" &&
-                        req.direction === "incoming" && (
-                          <>
-                            <Button size="sm" variant="outline">
-                              Decline
+                    <div className="flex flex-col gap-2 items-stretch lg:flex-row lg:items-center lg:justify-end">
+                      <div className="flex gap-2 flex-wrap">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => (window.location.href = `/messages`)}
+                        >
+                          <MessageCircle className="h-4 w-4 mr-1" />
+                          Message
+                        </Button>
+
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              <MoreVertical className="h-4 w-4" />
                             </Button>
-                            <Button size="sm">Approve</Button>
-                          </>
-                        )}
-
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => (window.location.href = `/messages`)}
-                      >
-                        <MessageCircle className="h-4 w-4 mr-1" />
-                        Message
-                      </Button>
-
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="sm">
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuRadioGroup>
-                            <DropdownMenuRadioItem value="view">
-                              View Details
-                            </DropdownMenuRadioItem>
-                            {req.status === "pending" &&
-                              req.direction === "outgoing" && (
-                                <DropdownMenuRadioItem value="withdraw">
-                                  Withdraw Request
-                                </DropdownMenuRadioItem>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuRadioGroup>
+                              <DropdownMenuRadioItem value="view">View Details</DropdownMenuRadioItem>
+                              {req.status === "pending" && req.direction === "outgoing" && (
+                                <DropdownMenuRadioItem value="withdraw">Withdraw Request</DropdownMenuRadioItem>
                               )}
-                          </DropdownMenuRadioGroup>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                            </DropdownMenuRadioGroup>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+
+                      {req.status === "pending" && req.direction === "incoming" && (
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">Decline</Button>
+                          <Button size="sm">Approve</Button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>
