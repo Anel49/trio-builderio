@@ -134,15 +134,15 @@ export default function Index() {
     },
     {
       icon: <Shield className="h-8 w-8 text-primary" />,
-      title: "Protection included",
+      title: "Protected",
       description:
         "Every rental includes comprehensive insurance coverage and live chat assistance.",
     },
     {
       icon: <Zap className="h-8 w-8 text-primary" />,
-      title: "Instant booking",
+      title: "American-Made",
       description:
-        "Book instantly with renters who have enabled Instant Book for immediate confirmation.",
+        "Profits from the platform go straight back into the U.S. economy.",
     },
   ];
 
