@@ -30,7 +30,7 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
       <CardContent>
         <div className="pr-2">
           <div className="max-h-[70vh]">
-            <ScrollArea className="max-h-[70vh] pr-2">
+            <ScrollArea className="h-[70vh] pr-2">
               <div className="space-y-4">
                   <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
                     <div className="flex items-start space-x-3">
