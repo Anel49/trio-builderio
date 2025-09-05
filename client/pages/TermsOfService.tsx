@@ -414,7 +414,7 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Meeting Guidelines</h3>
           <p className="text-muted-foreground leading-relaxed">
             For your safety, always meet in well-lit, public locations such
-            as active parking lots, public libraries, and outside police
+            as active parking lots, public libraries, or outside police
             stations. Avoid meeting at night or in private locations unless
             it is absolutely necessary to do so. Do not bring additional
             people unless it is agreed upon by all parties.
