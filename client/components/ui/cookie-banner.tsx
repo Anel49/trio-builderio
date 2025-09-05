@@ -65,7 +65,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <Card className="w-full md:w-3/5 lg:w-2/5 mx-auto">
+      <Card className="w-full md:w-3/5 lg:w-2/5 md:min-w-[512px] mx-auto">
         <CardHeader className="pb-4">
           <CardTitle className="text-lg font-semibold">
             Cookie Settings
