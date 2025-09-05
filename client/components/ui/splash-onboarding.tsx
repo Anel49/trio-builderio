@@ -85,7 +85,7 @@ export function SplashOnboarding() {
             <div className="h-full flex flex-col items-center">
               <h2 className="text-3xl font-bold mb-6">Terms of Service</h2>
               <div className="w-full max-w-5xl border rounded-lg">
-                <ScrollArea className="h[50vh] p-6">
+                <ScrollArea className="h-[50vh] p-6">
                   <div className="space-y-6">
                     <TermsContent />
                   </div>
