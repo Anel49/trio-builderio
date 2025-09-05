@@ -16,6 +16,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { currentUser } from "@/lib/user-profile";
+import { COMPANY_NAME, MARKETPLACE_NAME } from "@/lib/constants";
 
 declare global {
   interface Window {
