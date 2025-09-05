@@ -346,14 +346,14 @@ export default function OrderHistory() {
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="justify-between">
+                  <Button variant="outline" className="justify-start">
+                    <Filter className="h-4 w-4 mr-2" />
                     <span>
                       Status:{" "}
                       {statusFilter === "all"
                         ? "All"
                         : getStatusText(statusFilter as OrderStatus)}
                     </span>
-                    <Filter className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -382,7 +382,8 @@ export default function OrderHistory() {
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="justify-between">
+                  <Button variant="outline" className="justify-start">
+                    <Filter className="h-4 w-4 mr-2" />
                     <span>
                       Type:{" "}
                       {typeFilter === "all"
@@ -391,7 +392,6 @@ export default function OrderHistory() {
                           ? "Rented"
                           : "Hosted"}
                     </span>
-                    <Filter className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -623,11 +623,11 @@ export default function OrderHistory() {
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="justify-between">
+                      <Button variant="outline" className="justify-start">
+                        <Filter className="h-4 w-4 mr-2" />
                         <span>
                           Status: {requestStatusFilter === "all" ? "All" : requestStatusFilter.charAt(0).toUpperCase() + requestStatusFilter.slice(1)}
                         </span>
-                        <Filter className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -643,11 +643,11 @@ export default function OrderHistory() {
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="justify-between">
+                      <Button variant="outline" className="justify-start">
+                        <Filter className="h-4 w-4 mr-2" />
                         <span>
                           Requester: {requesterFilter === "all" ? "All" : requesterFilter === "outgoing" ? "My requests" : "Requests for me"}
                         </span>
-                        <Filter className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -661,9 +661,9 @@ export default function OrderHistory() {
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="justify-between">
+                      <Button variant="outline" className="justify-start">
+                        <Filter className="h-4 w-4 mr-2" />
                         <span>Sort: {requestSortBy === "recent" ? "Most recent" : "Oldest"}</span>
-                        <Filter className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
