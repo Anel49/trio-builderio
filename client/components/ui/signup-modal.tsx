@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { COMPANY_NAME } from "@/lib/constants";
 
 // OAuth Configuration - same as login page
 const GOOGLE_CLIENT_ID =
