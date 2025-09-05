@@ -260,7 +260,7 @@ export function SignUpModal({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center">
-            Join Trio
+            Join {COMPANY_NAME}
           </DialogTitle>
         </DialogHeader>
 
