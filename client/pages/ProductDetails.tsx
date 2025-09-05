@@ -401,7 +401,7 @@ export default function ProductDetails() {
               </div>
 
               <div className="text-right mb-6">
-                <div className="text-3xl font-bold text-primary">
+                <div className={cn("text-3xl font-bold text-primary", selectedDateRange.start && selectedDateRange.end && isDateRangeValid() && "underline")}>
                   {selectedDateRange.start && selectedDateRange.end && isDateRangeValid()
                     ? (() => {
                         const start = selectedDateRange.start as Date;
@@ -416,36 +416,6 @@ export default function ProductDetails() {
                 <div className="text-muted-foreground">
                   {selectedDateRange.start && selectedDateRange.end && isDateRangeValid() ? "total" : "per day"}
                 </div>
-                {selectedDateRange.start &&
-                  selectedDateRange.end &&
-                  isDateRangeValid() && (
-                    <div className="mt-2 p-3 bg-muted rounded-lg">
-                      <div className="text-sm text-muted-foreground">
-                        {(() => {
-                          const start = selectedDateRange.start;
-                          const end = selectedDateRange.end;
-                          const days =
-                            Math.ceil(
-                              (end.getTime() - start.getTime()) /
-                                (1000 * 60 * 60 * 24),
-                            ) + 1;
-                          const dailyRate = parseInt(
-                            product.price.replace("$", ""),
-                          );
-                          const total = days * dailyRate;
-                          return (
-                            <>
-                              {days} day{days > 1 ? "s" : ""} × {product.price}{" "}
-                              =
-                              <span className="font-semibold text-foreground ml-1">
-                                ${total}
-                              </span>
-                            </>
-                          );
-                        })()}
-                      </div>
-                    </div>
-                  )}
               </div>
 
               {/* Date Range Picker */}
