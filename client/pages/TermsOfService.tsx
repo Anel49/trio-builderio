@@ -510,13 +510,10 @@ const TermsOfServiceContent = () => (
             deny your claim for any reason.
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            Our long-term vision at Trio is to provide comprehensive insurance for
-            every rental. As we are still in the early stages, we can only provide
-            basic insurance. We are working diligently to secure the necessary funding 
-            to make comprehensive coverage possible. We appreciate your patience and
-            understanding as we work towards this goal. If you make an insurance
-            claim, please be advised that our representatives reserve the right to
-            deny your claim for any reason.
+            All insurance claims are subject to review and may be denied in cases of
+            fraud, misrepresentation, negligence, prohibited item listings, or violations
+            of platform policies. Claims may also be denied if documentation of loss or
+            damage is insufficient.
           </p>
         </div>
       </div>
