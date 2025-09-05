@@ -52,7 +52,7 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
       status: "pending",
     },
   ],
-  // Other listings would have their own reservations
+  // Other listings reservations
   "2": [
     {
       id: "res-101",
@@ -60,7 +60,51 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
       endDate: new Date("2025-06-20"),
       status: "confirmed",
     },
+    {
+      id: "res-102",
+      startDate: new Date("2025-07-10"),
+      endDate: new Date("2025-07-12"),
+      status: "completed",
+    },
   ],
+  "3": [
+    {
+      id: "res-201",
+      startDate: new Date("2025-08-05"),
+      endDate: new Date("2025-08-07"),
+      status: "confirmed",
+    },
+    {
+      id: "res-202",
+      startDate: new Date("2025-09-10"),
+      endDate: new Date("2025-09-12"),
+      status: "pending",
+    },
+  ],
+  "4": [
+    {
+      id: "res-301",
+      startDate: new Date("2025-10-01"),
+      endDate: new Date("2025-10-04"),
+      status: "confirmed",
+    },
+  ],
+  "5": [
+    {
+      id: "res-401",
+      startDate: new Date("2025-11-20"),
+      endDate: new Date("2025-11-22"),
+      status: "pending",
+    },
+    {
+      id: "res-402",
+      startDate: new Date("2025-12-05"),
+      endDate: new Date("2025-12-06"),
+      status: "confirmed",
+    },
+  ],
+  // Listing 6 intentionally has no reservations
+  "6": [],
 };
 
 export const getListingReservations = (
