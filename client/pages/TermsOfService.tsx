@@ -500,7 +500,7 @@ const TermsOfServiceContent = () => (
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Insurance Coverage</h3>
-          <p className="text-muted-foreground leading-relaxed mb-2">
+          <p className="text-muted-foreground leading-relaxed">
             Our long-term vision at Trio is to provide comprehensive insurance for
             every rental. As we are still in the early stages, we can only provide
             basic insurance. We are working diligently to secure the necessary funding
