@@ -383,7 +383,7 @@ export default function Messages() {
             className={`overflow-hidden transition-transform duration-300 ease-in-out ${
               // Desktop: always visible at 25% width with 30% opacity background
               // Mobile: curtain effect - always rendered but slides in/out from left edge
-              "absolute left-0 top-0 h-full w-80 z-50 bg-background md:relative md:w-1/4 md:bg-muted/30"
+              "absolute left-0 top-0 h-full w-80 z-[80] bg-background md:relative md:w-1/4 md:bg-muted/30"
             } ${
               leftSidebarOpen
                 ? "translate-x-0" // Slide in to normal position
@@ -572,7 +572,7 @@ export default function Messages() {
             className={`transition-transform duration-300 ease-in-out ${
               // Desktop: always visible at 20% width with 30% opacity background
               // Mobile: curtain effect - always rendered but slides in/out from right edge
-              "absolute right-0 top-0 h-full w-80 z-50 bg-background md:relative md:w-1/5 md:bg-muted/30"
+              "absolute right-0 top-0 h-full w-80 z-[80] bg-background md:relative md:w-1/5 md:bg-muted/30"
             } ${
               rightSidebarOpen
                 ? "translate-x-0" // Slide in to normal position
