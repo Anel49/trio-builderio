@@ -43,7 +43,7 @@ export const PrivacyContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Information We Collect</h3>
       <p className="text-muted-foreground mb-4">
-        We collect information you provide directly to us, such as account 
+        We collect information you provide directly to us, such as account
         information, listing information, and communications.
       </p>
       <p className="font-semibold mb-4">User Information</p>
@@ -106,17 +106,17 @@ export const PrivacyContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Data Security</h3>
       <p className="text-muted-foreground">
-        We do not have access to the login credentials for your Google, Facebook, 
-        Microsoft, or Apple account. We are given a temporary access token by the
-        provider to create or log into your Trio account. After an account is created,
-        we form an association between your provider account and your Trio account
-        that is stored in our system.
+        We do not have access to the login credentials for your Google,
+        Facebook, Microsoft, or Apple account. We are given a temporary access
+        token by the provider to create or log into your Trio account. After an
+        account is created, we form an association between your provider account
+        and your Trio account that is stored in our system.
       </p>
-      <br/>
+      <br />
       <p className="text-muted-foreground">
-        Despite our best attempts at secure transmission of data and privacy 
-        protection, we cannot guarantee full certainty that your data will 
-        be safe as no data transmission is safe from attackers.
+        Despite our best attempts at secure transmission of data and privacy
+        protection, we cannot guarantee full certainty that your data will be
+        safe as no data transmission is safe from attackers.
       </p>
     </section>
 
