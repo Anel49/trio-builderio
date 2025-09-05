@@ -368,7 +368,7 @@ export default function Checkout() {
         },
       ],
       application_context: {
-        brand_name: "Trio Rental Marketplace",
+        brand_name: MARKETPLACE_NAME,
         locale: "en-US",
         landing_page: "BILLING",
         shipping_preference: "NO_SHIPPING",
