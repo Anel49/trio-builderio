@@ -226,7 +226,7 @@ export function DateRangePicker({
                     <button
                       onClick={() => handleDateClick(date)}
                       disabled={isDisabled}
-                      title={isReserved ? `Reserved: ${reservation?.renterName || 'Unknown'} (${reservation?.status})` : ''}
+                      title={isReserved ? `Reserved (${reservation?.status})` : ''}
                       className={cn(
                         "w-full h-8 text-sm relative transition-colors",
                         "hover:bg-accent hover:text-accent-foreground",
