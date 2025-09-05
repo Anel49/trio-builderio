@@ -413,6 +413,7 @@ export default function BrowseListings() {
                       size="default"
                       onClick={() => {
                         setDateRange({ start: undefined, end: undefined });
+                        localStorage.removeItem("searchDateRange");
                       }}
                       className="w-full"
                     >
