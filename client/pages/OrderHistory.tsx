@@ -608,6 +608,74 @@ export default function OrderHistory() {
 
         {activeTab === "requests" && (
           <div className="space-y-4">
+            <Card className="mb-6">
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search requests..."
+                      value={requestSearchQuery}
+                      onChange={(e) => setRequestSearchQuery(e.target.value)}
+                      className="pl-9"
+                    />
+                  </div>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="justify-between">
+                        <span>
+                          Status: {requestStatusFilter === "all" ? "All" : requestStatusFilter.charAt(0).toUpperCase() + requestStatusFilter.slice(1)}
+                        </span>
+                        <Filter className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuRadioGroup value={requestStatusFilter} onValueChange={setRequestStatusFilter as any}>
+                        <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="pending">Pending</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="approved">Approved</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="rejected">Rejected</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="cancelled">Cancelled</DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="justify-between">
+                        <span>
+                          Requester: {requesterFilter === "all" ? "All" : requesterFilter === "outgoing" ? "My requests" : "Requests for me"}
+                        </span>
+                        <Filter className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuRadioGroup value={requesterFilter} onValueChange={setRequesterFilter as any}>
+                        <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="outgoing">My requests</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="incoming">Requests for me</DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="justify-between">
+                        <span>Sort: {requestSortBy === "recent" ? "Most recent" : "Oldest"}</span>
+                        <Filter className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuRadioGroup value={requestSortBy} onValueChange={setRequestSortBy as any}>
+                        <DropdownMenuRadioItem value="recent">Most recent</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="oldest">Oldest</DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </CardContent>
+            </Card>
             {sortedRequests.map((req) => (
               <Card key={req.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
