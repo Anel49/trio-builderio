@@ -259,7 +259,21 @@ export default function Index() {
                 </div>
               </div>
 
-              <Button size="lg" className="w-full mt-6 h-14 text-lg relative">
+              <Button
+                size="lg"
+                className="w-full mt-6 h-14 text-lg relative"
+                onClick={() => {
+                  if (dateRange.start && dateRange.end) {
+                    localStorage.setItem(
+                      "searchDateRange",
+                      JSON.stringify({ start: dateRange.start, end: dateRange.end }),
+                    );
+                  } else {
+                    localStorage.removeItem("searchDateRange");
+                  }
+                  window.location.href = "/browse";
+                }}
+              >
                 <span className="flex items-center justify-center w-full">
                   Search
                 </span>
