@@ -12,7 +12,7 @@ interface TermsPopupProps {
 
 export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
   return (
-    <Card className="w-full max-w-md mx-4 shadow-2xl">
+    <Card className="w-full max-w-md mx-auto shadow-2xl">
       <CardHeader className="text-center pb-4">
         <div className="flex justify-center mb-3">
           <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
