@@ -350,7 +350,14 @@ export default function BrowseListings() {
     }
 
     return filtered;
-  }, [listings, searchQuery, appliedFilters, sortBy, dateRange.start, dateRange.end]);
+  }, [
+    listings,
+    searchQuery,
+    appliedFilters,
+    sortBy,
+    dateRange.start,
+    dateRange.end,
+  ]);
 
   return (
     <div className="min-h-screen bg-background">
