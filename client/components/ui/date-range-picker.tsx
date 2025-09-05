@@ -209,37 +209,58 @@ export function DateRangePicker({
               {generateCalendarDays().map((date, index) => {
                 const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
                 const isDisabled = isDateDisabled(date);
-                const isReserved = isDateReserved(date);
+                const reservation = getReservationForDate(date);
+                const isReserved = reservation !== null;
                 const isInRange = isDateInRange(date);
                 const isRangeStart = isDateRangeStart(date);
                 const isRangeEnd = isDateRangeEnd(date);
                 const isToday = date.toDateString() === new Date().toDateString();
 
+                // Check if this date is start/end of a reservation period
+                const isReservationStart = reservation && date.toDateString() === reservation.startDate.toDateString();
+                const isReservationEnd = reservation && date.toDateString() === reservation.endDate.toDateString();
+                const isReservationMiddle = reservation && !isReservationStart && !isReservationEnd;
+
                 return (
-                  <button
-                    key={index}
-                    onClick={() => handleDateClick(date)}
-                    disabled={isDisabled}
-                    className={cn(
-                      "p-2 text-sm rounded-md relative transition-colors",
-                      "hover:bg-accent hover:text-accent-foreground",
-                      "focus:outline-none focus:ring-2 focus:ring-ring",
-                      "disabled:opacity-50 disabled:cursor-not-allowed",
-                      !isCurrentMonth && "text-muted-foreground",
-                      isToday && "font-bold",
-                      isInRange && !isRangeStart && !isRangeEnd && "bg-primary/20",
-                      (isRangeStart || isRangeEnd) && "bg-primary text-primary-foreground",
-                      isReserved && "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 line-through",
-                      isDisabled && "hover:bg-transparent hover:text-muted-foreground"
-                    )}
-                  >
-                    {date.getDate()}
+                  <div key={index} className="relative group">
+                    <button
+                      onClick={() => handleDateClick(date)}
+                      disabled={isDisabled}
+                      title={isReserved ? `Reserved: ${reservation?.renterName || 'Unknown'} (${reservation?.status})` : ''}
+                      className={cn(
+                        "w-full h-8 text-sm relative transition-colors",
+                        "hover:bg-accent hover:text-accent-foreground",
+                        "focus:outline-none focus:ring-2 focus:ring-ring",
+                        "disabled:opacity-75 disabled:cursor-not-allowed",
+                        !isCurrentMonth && "text-muted-foreground",
+                        isToday && "font-bold ring-2 ring-blue-500",
+                        // User selection styling
+                        isInRange && !isRangeStart && !isRangeEnd && "bg-primary/20",
+                        (isRangeStart || isRangeEnd) && "bg-primary text-primary-foreground",
+                        // Reservation styling
+                        isReserved && reservation?.status === 'confirmed' && "bg-red-500 text-white",
+                        isReserved && reservation?.status === 'pending' && "bg-orange-400 text-white",
+                        isReserved && reservation?.status === 'completed' && "bg-gray-400 text-white",
+                        // Rounded corners for reservation periods
+                        isReservationStart && !isReservationEnd && "rounded-l-md",
+                        isReservationEnd && !isReservationStart && "rounded-r-md",
+                        isReservationStart && isReservationEnd && "rounded-md",
+                        isReservationMiddle && "rounded-none",
+                        isDisabled && "hover:bg-transparent hover:text-muted-foreground"
+                      )}
+                    >
+                      {date.getDate()}
+                    </button>
+
+                    {/* Tooltip for reserved dates */}
                     {isReserved && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-1 h-1 bg-red-500 rounded-full"></div>
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                        {reservation?.renterName} • {reservation?.status}
+                        <br />
+                        {reservation?.startDate.toLocaleDateString()} - {reservation?.endDate.toLocaleDateString()}
                       </div>
                     )}
-                  </button>
+                  </div>
                 );
               })}
             </div>
