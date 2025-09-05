@@ -68,7 +68,7 @@ export function DateRangePicker({
   const isDateDisabled = (date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     if (date < today) return true;
     if (minDate && date < minDate) return true;
     if (maxDate && date > maxDate) return true;
@@ -122,7 +122,7 @@ export function DateRangePicker({
   const generateCalendarDays = () => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
-    
+
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const startDate = new Date(firstDay);
@@ -164,7 +164,7 @@ export function DateRangePicker({
       </Button>
 
       {isOpen && (
-        <Card className="absolute top-full left-0 right-0 z-50 mt-2">
+        <Card className="absolute bottom-full left-0 right-0 z-50 mb-2">
           <CardContent className="p-4">
             {/* Calendar Header */}
             <div className="flex items-center justify-between mb-4">
