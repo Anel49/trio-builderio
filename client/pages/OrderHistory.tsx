@@ -812,6 +812,31 @@ export default function OrderHistory() {
                           View
                         </Button>
                       )}
+
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => (window.location.href = `/messages`)}
+                      >
+                        <MessageCircle className="h-4 w-4 mr-1" />
+                        Message
+                      </Button>
+
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuRadioGroup>
+                            <DropdownMenuRadioItem value="view">View Details</DropdownMenuRadioItem>
+                            {req.status === "pending" && req.direction === "outgoing" && (
+                              <DropdownMenuRadioItem value="withdraw">Withdraw Request</DropdownMenuRadioItem>
+                            )}
+                          </DropdownMenuRadioGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </div>
                 </CardContent>
