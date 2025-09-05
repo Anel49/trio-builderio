@@ -788,7 +788,7 @@ export default function OrderHistory() {
 
                     </div>
 
-                    <div className="flex flex-col gap-2 items-stretch lg:flex-row lg:items-center lg:justify-end">
+                    <div className="flex flex-col gap-2 items-stretch md:flex-row md:items-center md:justify-end">
                       <div className="flex gap-2 flex-wrap">
                         <Button
                           variant="outline"
