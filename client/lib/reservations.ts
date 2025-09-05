@@ -17,43 +17,43 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
   '1': [
     {
       id: 'res-001',
-      startDate: new Date('2025-01-15'),
-      endDate: new Date('2025-01-17'),
+      startDate: new Date('2025-06-15'),
+      endDate: new Date('2025-06-17'),
       renterName: 'Mike Johnson',
       status: 'confirmed'
     },
     {
-      id: 'res-002', 
-      startDate: new Date('2025-01-22'),
-      endDate: new Date('2025-01-23'),
+      id: 'res-002',
+      startDate: new Date('2025-06-22'),
+      endDate: new Date('2025-06-23'),
       renterName: 'Sarah Davis',
       status: 'confirmed'
     },
     {
       id: 'res-003',
-      startDate: new Date('2025-02-05'),
-      endDate: new Date('2025-02-08'),
+      startDate: new Date('2025-07-05'),
+      endDate: new Date('2025-07-08'),
       renterName: 'John Smith',
       status: 'pending'
     },
     {
       id: 'res-004',
-      startDate: new Date('2025-02-14'),
-      endDate: new Date('2025-02-14'),
+      startDate: new Date('2025-07-14'),
+      endDate: new Date('2025-07-14'),
       renterName: 'Emma Wilson',
       status: 'confirmed'
     },
     {
       id: 'res-005',
-      startDate: new Date('2025-02-20'),
-      endDate: new Date('2025-02-22'),
+      startDate: new Date('2025-08-20'),
+      endDate: new Date('2025-08-22'),
       renterName: 'David Brown',
       status: 'confirmed'
     },
     {
       id: 'res-006',
-      startDate: new Date('2025-03-01'),
-      endDate: new Date('2025-03-03'),
+      startDate: new Date('2025-09-01'),
+      endDate: new Date('2025-09-03'),
       renterName: 'Lisa Anderson',
       status: 'pending'
     }
@@ -62,8 +62,8 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
   '2': [
     {
       id: 'res-101',
-      startDate: new Date('2025-01-18'),
-      endDate: new Date('2025-01-20'),
+      startDate: new Date('2025-06-18'),
+      endDate: new Date('2025-06-20'),
       renterName: 'Alex Turner',
       status: 'confirmed'
     }
@@ -93,13 +93,13 @@ export const getAllReservedDates = (listingId: string): Date[] => {
 
 export const isDateInReservation = (date: Date, listingId: string): ReservationPeriod | null => {
   const reservations = getListingReservations(listingId);
-  
+
   for (const reservation of reservations) {
     if (date >= reservation.startDate && date <= reservation.endDate) {
       return reservation;
     }
   }
-  
+
   return null;
 };
 
