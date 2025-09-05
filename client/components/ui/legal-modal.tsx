@@ -91,7 +91,7 @@ export const PrivacyContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Information Sharing</h3>
       <p className="text-muted-foreground mb-4">
-        We don't sell your personal information. We may share your information
+        We do not sell your personal information. We may share your information
         in the following circumstances:
       </p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
