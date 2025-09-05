@@ -425,7 +425,7 @@ export default function Profile() {
                   <Input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="text-2xl font-bold mb-2"
+                    className="text-2xl font-bold mb-2 text-center"
                   />
                 ) : (
                   <h1 className="text-2xl font-bold mb-2">
