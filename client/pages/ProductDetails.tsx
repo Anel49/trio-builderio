@@ -427,7 +427,7 @@ export default function ProductDetails() {
                 <DateRangePicker
                   value={selectedDateRange}
                   onChange={setSelectedDateRange}
-                  reservedDates={reservedDates}
+                  reservations={reservations}
                   className="w-full"
                 />
                 {selectedDateRange.start && selectedDateRange.end && !isDateRangeValid() && (
