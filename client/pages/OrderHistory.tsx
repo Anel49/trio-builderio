@@ -203,7 +203,7 @@ export default function OrderHistory() {
       requestedStart: "Feb 2, 2025",
       requestedEnd: "Feb 4, 2025",
       location: "94301",
-      status: "declined",
+      status: "rejected",
       direction: "incoming",
     },
   ];
