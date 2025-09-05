@@ -73,7 +73,7 @@ export function SplashOnboarding() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="max-h-[70vh] overflow-y-auto pr-2">
+              <ScrollArea className="h-[70vh] pr-2">
                 <div className="space-y-6 text-muted-foreground">
                   <div>
                     <h2 className="text-lg font-semibold mb-3 text-foreground">
@@ -109,7 +109,7 @@ export function SplashOnboarding() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </ScrollArea>
               <div className="mt-6 text-center">
                 <Button size="lg" onClick={() => setStep(3)}>
                   Next
