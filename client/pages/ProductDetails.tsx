@@ -28,6 +28,7 @@ import {
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ENABLE_FAVORITES } from "@/lib/constants";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import Header from "@/components/Header";
 import { Container } from "@/components/Container";
@@ -285,22 +286,24 @@ export default function ProductDetails() {
                 alt={product.name}
                 className="w-full h-96 object-cover rounded-lg"
               />
-              <Button
-                size="icon"
-                variant="ghost"
-                className="absolute top-4 right-4 bg-white/80 hover:bg-white heart-button-transition"
-                onMouseEnter={() => setIsHeartHovered(true)}
-                onMouseLeave={() => setIsHeartHovered(false)}
-                onClick={() => handleFavorite(product.name)}
-              >
-                <Heart
-                  className="h-5 w-5 heart-transition"
-                  style={{
-                    stroke: "#ff6f6f",
-                    fill: isHeartHovered ? "#ff6f6f" : "transparent",
-                  }}
-                />
-              </Button>
+              {ENABLE_FAVORITES && (
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="absolute top-4 right-4 bg-white/80 hover:bg-white heart-button-transition"
+                  onMouseEnter={() => setIsHeartHovered(true)}
+                  onMouseLeave={() => setIsHeartHovered(false)}
+                  onClick={() => handleFavorite(product.name)}
+                >
+                  <Heart
+                    className="h-5 w-5 heart-transition"
+                    style={{
+                      stroke: "#ff6f6f",
+                      fill: isHeartHovered ? "#ff6f6f" : "transparent",
+                    }}
+                  />
+                </Button>
+              )}
             </div>
 
             {/* Image Carousel */}
