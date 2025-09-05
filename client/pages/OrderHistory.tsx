@@ -788,11 +788,6 @@ export default function OrderHistory() {
                         </div>
                       </div>
 
-                      {req.message && (
-                        <div className="text-xs text-muted-foreground bg-muted/50 rounded p-2">
-                          {req.message}
-                        </div>
-                      )}
                     </div>
 
                     <div className="flex items-center lg:justify-end gap-2">
