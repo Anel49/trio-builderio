@@ -96,12 +96,12 @@ export default function Header() {
                 <MessageCircle className="h-5 w-5" />
               </Button>
 
-              {/* Order History Link */}
+              {/* Orders and Requests Link */}
               <Button
                 variant="ghost"
                 size="icon"
                 className="relative hidden sm:inline-flex"
-                title="Order History"
+                title="Orders and Requests"
                 onClick={() => (window.location.href = "/order-history")}
               >
                 <ClipboardList className="h-5 w-5" />
