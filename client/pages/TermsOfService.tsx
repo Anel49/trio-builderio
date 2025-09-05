@@ -509,7 +509,6 @@ const TermsOfServiceContent = () => (
             claim, please be advised that our representatives reserve the right to
             deny your claim for any reason.
           </p>
-        <div>
         </div>
       </div>
     </section>
