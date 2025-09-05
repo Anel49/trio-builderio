@@ -23,6 +23,7 @@ import {
   MessageCircle,
   User,
   Menu,
+  X,
   Search,
   SlidersHorizontal,
   ChevronLeft,
