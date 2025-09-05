@@ -295,6 +295,16 @@ export default function BrowseListings() {
         if (distance > parseInt(appliedFilters.maxDistance)) return false;
       }
 
+      // Availability filter: only when a date range is selected
+      if (dateRange.start && dateRange.end) {
+        const available = isDateRangeAvailable(
+          dateRange.start,
+          dateRange.end,
+          String(listing.id),
+        );
+        if (!available) return false;
+      }
+
       return true;
     });
 
@@ -339,7 +349,7 @@ export default function BrowseListings() {
     }
 
     return filtered;
-  }, [listings, searchQuery, appliedFilters, sortBy]);
+  }, [listings, searchQuery, appliedFilters, sortBy, dateRange.start, dateRange.end]);
 
   return (
     <div className="min-h-screen bg-background">
