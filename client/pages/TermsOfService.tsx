@@ -651,7 +651,7 @@ const TermsOfServiceContent = () => (
           href="mailto:support@triorentals.com"
           className="text-primary hover:underline"
         >
-          support@trio.com
+          support@triorentals.com
         </a>{" "}
         or through our in-app messaging system.
       </p>
