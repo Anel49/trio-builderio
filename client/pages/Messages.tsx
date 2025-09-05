@@ -169,7 +169,8 @@ export default function Messages() {
           id: 1,
           senderId: 0,
           senderName: "Support",
-          content: "Hi! This is Trio Support. Tell us what happened, or tap here to open a claim.",
+          content:
+            "Hi! This is Trio Support. Tell us what happened, or tap here to open a claim.",
           timestamp: "Now",
           isCurrentUser: false,
         },
@@ -459,7 +460,9 @@ export default function Messages() {
                     <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
                   </div>
                   <div className="flex-1 w-0">
-                    <div className="font-semibold text-sm truncate">Support Chat</div>
+                    <div className="font-semibold text-sm truncate">
+                      Support Chat
+                    </div>
                     <div className="text-xs text-muted-foreground truncate">
                       Open a claim or get help
                     </div>
@@ -520,51 +523,51 @@ export default function Messages() {
           >
             {/* Safety Banner */}
             {selectedChat !== SUPPORT_CHAT_ID && (
-            <div className={colors.ui.safetyBanner}>
-              <div className="p-4">
-                <div className={`text-sm ${colors.status.error.textLight}`}>
-                  <strong>Safety Notice:</strong> Avoid meeting at night or at
-                  private locations. It is safest to meet during the day in
-                  well-lit, public locations such as active parking lots, public
-                  libraries, and outside police stations. Do not bring
-                  additional people unless it is agreed upon by all parties.
-                </div>
+              <div className={colors.ui.safetyBanner}>
+                <div className="p-4">
+                  <div className={`text-sm ${colors.status.error.textLight}`}>
+                    <strong>Safety Notice:</strong> Avoid meeting at night or at
+                    private locations. It is safest to meet during the day in
+                    well-lit, public locations such as active parking lots,
+                    public libraries, and outside police stations. Do not bring
+                    additional people unless it is agreed upon by all parties.
+                  </div>
 
-                {/* Collapsible second part */}
-                <div className="mt-2">
-                  <button
-                    onClick={() =>
-                      setIsSafetyBannerExpanded(!isSafetyBannerExpanded)
-                    }
-                    className={`flex items-center text-xs ${colors.status.error.textMuted} ${colors.status.error.hover} transition-colors`}
-                  >
-                    {isSafetyBannerExpanded ? "Hide" : "Show"} privacy
-                    guidelines
-                    {isSafetyBannerExpanded ? (
-                      <ChevronUp className="ml-1 h-3 w-3" />
-                    ) : (
-                      <ChevronDown className="ml-1 h-3 w-3" />
-                    )}
-                  </button>
-
-                  {isSafetyBannerExpanded && (
-                    <div
-                      className={`mt-2 text-xs ${colors.status.error.textMuted} ${colors.status.error.backgroundAccent} p-3 rounded`}
+                  {/* Collapsible second part */}
+                  <div className="mt-2">
+                    <button
+                      onClick={() =>
+                        setIsSafetyBannerExpanded(!isSafetyBannerExpanded)
+                      }
+                      className={`flex items-center text-xs ${colors.status.error.textMuted} ${colors.status.error.hover} transition-colors`}
                     >
-                      <strong>Privacy Protection:</strong> Do not send any
-                      personal or identifiable information in your messages.
-                      This includes your last name, the names or information of
-                      family members or friends, phone numbers, living
-                      addresses, social security or passport numbers, credit or
-                      debit card numbers, bank account or routing numbers,
-                      medical information, work addresses or work information,
-                      etc. Keep your messages relevant to the rental item, the
-                      meetup location, and the time of the meetup.
-                    </div>
-                  )}
+                      {isSafetyBannerExpanded ? "Hide" : "Show"} privacy
+                      guidelines
+                      {isSafetyBannerExpanded ? (
+                        <ChevronUp className="ml-1 h-3 w-3" />
+                      ) : (
+                        <ChevronDown className="ml-1 h-3 w-3" />
+                      )}
+                    </button>
+
+                    {isSafetyBannerExpanded && (
+                      <div
+                        className={`mt-2 text-xs ${colors.status.error.textMuted} ${colors.status.error.backgroundAccent} p-3 rounded`}
+                      >
+                        <strong>Privacy Protection:</strong> Do not send any
+                        personal or identifiable information in your messages.
+                        This includes your last name, the names or information
+                        of family members or friends, phone numbers, living
+                        addresses, social security or passport numbers, credit
+                        or debit card numbers, bank account or routing numbers,
+                        medical information, work addresses or work information,
+                        etc. Keep your messages relevant to the rental item, the
+                        meetup location, and the time of the meetup.
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
             )}
 
             {/* Chat Messages */}
