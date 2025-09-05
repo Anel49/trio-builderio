@@ -30,8 +30,6 @@ export function DateRangePicker({
   className,
 }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectingEnd, setSelectingEnd] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,18 +45,11 @@ export function DateRangePicker({
 
   const formatDateRange = () => {
     if (!value.start && !value.end) return "Select dates";
-    if (value.start && !value.end) return `${formatDate(value.start)} - Select end date`;
+    if (value.start && !value.end) return `${format(value.start, "MMM dd")} - Select end date`;
     if (value.start && value.end) {
-      return `${formatDate(value.start)} - ${formatDate(value.end)}`;
+      return `${format(value.start, "MMM dd")} - ${format(value.end, "MMM dd")}`;
     }
     return "Select dates";
-  };
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
   };
 
   const getReservationForDate = (date: Date): ReservationPeriod | null => {
@@ -81,83 +72,52 @@ export function DateRangePicker({
     if (maxDate && date > maxDate) return true;
     if (isDateReserved(date)) return true;
 
-    // If selecting end date, disable dates before start date
-    if (selectingEnd && value.start && date < value.start) return true;
-
     return false;
   };
 
-  const isDateInRange = (date: Date) => {
-    if (!value.start || !value.end) return false;
-    return date >= value.start && date <= value.end;
-  };
+  const handleDateSelect = (range: any) => {
+    if (range?.from) {
+      onChange({
+        start: range.from,
+        end: range.to || null,
+      });
 
-  const isDateRangeStart = (date: Date) => {
-    return value.start && date.toDateString() === value.start.toDateString();
-  };
-
-  const isDateRangeEnd = (date: Date) => {
-    return value.end && date.toDateString() === value.end.toDateString();
-  };
-
-  const handleDateClick = (date: Date) => {
-    if (isDateDisabled(date)) return;
-
-    if (!value.start || selectingEnd) {
-      if (!value.start) {
-        onChange({ start: date, end: null });
-        setSelectingEnd(true);
-      } else {
-        // Selecting end date
-        if (date >= value.start) {
-          onChange({ start: value.start, end: date });
-          setSelectingEnd(false);
-          setIsOpen(false);
-        } else {
-          // If clicked date is before start, make it the new start
-          onChange({ start: date, end: null });
-          setSelectingEnd(true);
-        }
+      // Close picker when both dates are selected
+      if (range.to) {
+        setIsOpen(false);
       }
-    } else {
-      // Reset selection
-      onChange({ start: date, end: null });
-      setSelectingEnd(true);
     }
   };
 
-  const generateCalendarDays = () => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const startDate = new Date(firstDay);
-    startDate.setDate(startDate.getDate() - firstDay.getDay());
-
-    const days = [];
-    const current = new Date(startDate);
-
-    for (let i = 0; i < 42; i++) {
-      days.push(new Date(current));
-      current.setDate(current.getDate() + 1);
-    }
-
-    return days;
+  const modifiers = {
+    reserved_confirmed: (date: Date) => {
+      const reservation = getReservationForDate(date);
+      return reservation?.status === 'confirmed';
+    },
+    reserved_pending: (date: Date) => {
+      const reservation = getReservationForDate(date);
+      return reservation?.status === 'pending';
+    },
+    reserved_completed: (date: Date) => {
+      const reservation = getReservationForDate(date);
+      return reservation?.status === 'completed';
+    },
   };
 
-  const navigateMonth = (direction: 'prev' | 'next') => {
-    const newMonth = new Date(currentMonth);
-    newMonth.setMonth(newMonth.getMonth() + (direction === 'next' ? 1 : -1));
-    setCurrentMonth(newMonth);
+  const modifiersStyles = {
+    reserved_confirmed: {
+      backgroundColor: 'rgb(239 68 68)', // red-500
+      color: 'white',
+    },
+    reserved_pending: {
+      backgroundColor: 'rgb(251 146 60)', // orange-400
+      color: 'white',
+    },
+    reserved_completed: {
+      backgroundColor: 'rgb(156 163 175)', // gray-400
+      color: 'white',
+    },
   };
-
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-
-  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return (
     <div ref={containerRef} className={cn("relative", className)}>
