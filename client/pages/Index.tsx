@@ -130,7 +130,7 @@ export default function Index() {
       icon: <Users className="h-8 w-8 text-primary" />,
       title: "Community-based",
       description:
-        "Join thousands of members nationwide in our peer-to-peer sharing network.",
+        "Join us as we build the nation's largest peer-to-peer sharing network.",
     },
     {
       icon: <Shield className="h-8 w-8 text-primary" />,
