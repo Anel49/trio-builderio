@@ -529,7 +529,7 @@ export default function Messages() {
                     <strong>Safety Notice:</strong> Avoid meeting at night or at
                     private locations. It is safest to meet during the day in
                     well-lit, public locations such as active parking lots,
-                    public libraries, and outside police stations. Do not bring
+                    public libraries, or outside police stations. Do not bring
                     additional people unless it is agreed upon by all parties.
                   </div>
 
