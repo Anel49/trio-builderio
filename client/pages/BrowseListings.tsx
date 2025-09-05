@@ -78,7 +78,7 @@ export default function BrowseListings() {
   });
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       const saved = localStorage.getItem("searchDateRange");
       if (saved) {
