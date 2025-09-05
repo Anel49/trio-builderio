@@ -390,7 +390,6 @@ const TermsOfServiceContent = () => (
             a credit or debit card through PayPal.
           </p>
         </div>
-        <!--
         <div>
           <h3 className="text-lg font-medium mb-2">Security Deposits</h3>
           <p className="text-muted-foreground leading-relaxed">
@@ -398,7 +397,7 @@ const TermsOfServiceContent = () => (
             potential damages. This deposit will be refunded within 7 business
             days after the item is returned in its original condition.
           </p>
-        </div> -->
+        </div>
       </div>
     </section>
 
