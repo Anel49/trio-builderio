@@ -11,7 +11,7 @@ export function Footer() {
             <div>
               <div className="text-xl font-semibold mb-4">{COMPANY_NAME}</div>
               <p className="text-muted-foreground">
-                The nation's soon-to-be leader in peer-to-peer renting.
+                The nation's fastest growig peer-to-peer renting platform.
               </p>
             </div>
 
