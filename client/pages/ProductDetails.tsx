@@ -62,6 +62,10 @@ export default function ProductDetails() {
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
+  const [selectedDateRange, setSelectedDateRange] = useState<{
+    start: Date | null;
+    end: Date | null;
+  }>({ start: null, end: null });
 
   const handleFavorite = (listingName: string) => {
     setFavoritedListing(listingName);
