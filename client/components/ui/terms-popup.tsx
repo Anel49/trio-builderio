@@ -19,7 +19,9 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
             <FileText className="h-6 w-6 text-primary" />
           </div>
         </div>
-        <CardTitle className="text-xl font-bold">Welcome to {COMPANY_NAME}</CardTitle>
+        <CardTitle className="text-xl font-bold">
+          Welcome to {COMPANY_NAME}
+        </CardTitle>
         <p className="text-muted-foreground" style={{ fontSize: "17px" }}>
           Please review our Terms of Service before continuing
         </p>
@@ -34,10 +36,17 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
                     <div className="flex items-start space-x-3">
                       <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
                       <div className="text-sm">
-                        <p className="font-medium text-amber-800 dark:text-amber-200 mb-2">Important Safety Guidelines</p>
-                        <ul className="text-amber-700 dark:text-amber-300 space-y-1" style={{ fontSize: "15px" }}>
+                        <p className="font-medium text-amber-800 dark:text-amber-200 mb-2">
+                          Important Safety Guidelines
+                        </p>
+                        <ul
+                          className="text-amber-700 dark:text-amber-300 space-y-1"
+                          style={{ fontSize: "15px" }}
+                        >
                           <li>• Always meet in public, well-lit locations</li>
-                          <li>• Verify item condition before and after rental</li>
+                          <li>
+                            • Verify item condition before and after rental
+                          </li>
                           <li>• Never share personal financial information</li>
                           <li>• Report any suspicious activity immediately</li>
                         </ul>
@@ -45,17 +54,34 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
                     </div>
                   </div>
 
-                  <div className="space-y-3 text-muted-foreground" style={{ fontSize: "17px" }}>
+                  <div
+                    className="space-y-3 text-muted-foreground"
+                    style={{ fontSize: "17px" }}
+                  >
                     <p>
-                      By using {COMPANY_NAME}, you agree to our community standards and rental policies. Our platform connects people for safe, peer-to-peer item sharing.
+                      By using {COMPANY_NAME}, you agree to our community
+                      standards and rental policies. Our platform connects
+                      people for safe, peer-to-peer item sharing.
                     </p>
                     <div className="space-y-2">
-                      <h4 className="font-medium text-foreground">Key Points:</h4>
-                      <ul className="space-y-1 ml-2" style={{ fontSize: "15px" }}>
-                        <li>• You're responsible for items while renting them</li>
-                        <li>• Service fees apply to all completed transactions</li>
+                      <h4 className="font-medium text-foreground">
+                        Key Points:
+                      </h4>
+                      <ul
+                        className="space-y-1 ml-2"
+                        style={{ fontSize: "15px" }}
+                      >
+                        <li>
+                          • You're responsible for items while renting them
+                        </li>
+                        <li>
+                          • Service fees apply to all completed transactions
+                        </li>
                         <li>• Identity verification may be required</li>
-                        <li>• Prohibited items include weapons and illegal substances</li>
+                        <li>
+                          • Prohibited items include weapons and illegal
+                          substances
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -63,9 +89,17 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
                   <Separator />
 
                   <div className="text-center">
-                    <p className="text-muted-foreground mb-4" style={{ fontSize: "15px" }}>
-                      Please read our full {" "}
-                      <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">
+                    <p
+                      className="text-muted-foreground mb-4"
+                      style={{ fontSize: "15px" }}
+                    >
+                      Please read our full{" "}
+                      <a
+                        href="/terms-of-service"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline font-medium"
+                      >
                         Terms of Service here
                       </a>
                     </p>
@@ -74,8 +108,12 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
                     </Button>
                   </div>
 
-                  <p className="text-center text-muted-foreground" style={{ fontSize: "15px" }}>
-                    By clicking "Accept", you agree to be bound by our Terms of Service and Privacy Policy.
+                  <p
+                    className="text-center text-muted-foreground"
+                    style={{ fontSize: "15px" }}
+                  >
+                    By clicking "Accept", you agree to be bound by our Terms of
+                    Service and Privacy Policy.
                   </p>
                 </div>
               </div>

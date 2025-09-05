@@ -36,9 +36,9 @@ const App = () => {
     const hasAcceptedCookies = localStorage.getItem(
       `${COMPANY_NAME.toLowerCase()}-cookies-accepted`,
     );
-    const splashCompleted = localStorage.getItem(
-      `${COMPANY_NAME.toLowerCase()}-splash-completed`,
-    ) === "true";
+    const splashCompleted =
+      localStorage.getItem(`${COMPANY_NAME.toLowerCase()}-splash-completed`) ===
+      "true";
 
     if (!hasAcceptedTerms) {
       // Defer modal until after splash onboarding is completed
@@ -54,9 +54,15 @@ const App = () => {
       );
       if (cookiesAccepted !== "true") setShowCookieBanner(true);
     };
-    window.addEventListener("trio-terms-accepted", handleTermsAccepted as EventListener);
+    window.addEventListener(
+      "trio-terms-accepted",
+      handleTermsAccepted as EventListener,
+    );
     return () => {
-      window.removeEventListener("trio-terms-accepted", handleTermsAccepted as EventListener);
+      window.removeEventListener(
+        "trio-terms-accepted",
+        handleTermsAccepted as EventListener,
+      );
     };
   }, []);
 

@@ -25,8 +25,12 @@ export function SplashOnboarding() {
         <div className="w-full max-w-md mx-4">
           <Card className="w-full max-w-md mx-auto shadow-2xl">
             <CardHeader className="text-center pb-4">
-              <CardTitle className="text-xl font-bold">Welcome to {COMPANY_NAME}!</CardTitle>
-              <p className="text-muted-foreground">A simple, community-driven way to rent and share nearby.</p>
+              <CardTitle className="text-xl font-bold">
+                Welcome to {COMPANY_NAME}!
+              </CardTitle>
+              <p className="text-muted-foreground">
+                A simple, community-driven way to rent and share nearby.
+              </p>
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[70vh] pr-2">
@@ -51,7 +55,9 @@ export function SplashOnboarding() {
                 </div>
               </ScrollArea>
               <div className="mt-6 text-center">
-                <Button size="lg" onClick={() => setStep(2)}>Next</Button>
+                <Button size="lg" onClick={() => setStep(2)}>
+                  Next
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -62,24 +68,42 @@ export function SplashOnboarding() {
         <div className="w-full max-w-md mx-4">
           <Card className="w-full max-w-md mx-auto shadow-2xl">
             <CardHeader className="text-center pb-2">
-              <CardTitle className="text-xl font-bold">Before you continue</CardTitle>
+              <CardTitle className="text-xl font-bold">
+                Before you continue
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[70vh] pr-2">
                 <div className="space-y-6 text-muted-foreground">
                   <div>
-                    <h2 className="text-lg font-semibold mb-3 text-foreground">Hosts</h2>
+                    <h2 className="text-lg font-semibold mb-3 text-foreground">
+                      Hosts
+                    </h2>
                     <p className="leading-relaxed">
-                      Profits from listings incur a 12% platform usage fee. This rate is subject to change based on the platform’s performance and growth. Sales tax is charged separately.
+                      Profits from listings incur a 12% platform usage fee. This
+                      rate is subject to change based on the platform’s
+                      performance and growth. Sales tax is charged separately.
                     </p>
                   </div>
                   <Separator />
                   <div>
-                    <h2 className="text-lg font-semibold mb-3 text-foreground">Renters</h2>
+                    <h2 className="text-lg font-semibold mb-3 text-foreground">
+                      Renters
+                    </h2>
                     <div className="space-y-4 leading-relaxed">
-                      <p><strong className="text-foreground">Please take care of the items you rent as if they were your own.</strong></p>
                       <p>
-                        Item rentals incur a 10% fee of the item’s daily rental price to insure the renter throughout the rental period. This fee is not charged again with rental extensions. The renter's maximum out-of-pocket insurance payment is capped at $50. This coverage is subject to change based on the platform’s performance and growth.
+                        <strong className="text-foreground">
+                          Please take care of the items you rent as if they were
+                          your own.
+                        </strong>
+                      </p>
+                      <p>
+                        Item rentals incur a 10% fee of the item’s daily rental
+                        price to insure the renter throughout the rental period.
+                        This fee is not charged again with rental extensions.
+                        The renter's maximum out-of-pocket insurance payment is
+                        capped at $50. This coverage is subject to change based
+                        on the platform’s performance and growth.
                       </p>
                       <p>Listings providing a service do not incur this fee.</p>
                     </div>
@@ -87,7 +111,9 @@ export function SplashOnboarding() {
                 </div>
               </ScrollArea>
               <div className="mt-6 text-center">
-                <Button size="lg" onClick={() => setStep(3)}>Next</Button>
+                <Button size="lg" onClick={() => setStep(3)}>
+                  Next
+                </Button>
               </div>
             </CardContent>
           </Card>
