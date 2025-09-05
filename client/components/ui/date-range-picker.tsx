@@ -95,8 +95,6 @@ export function DateRangePicker({
     }
   };
 
-
-
   return (
     <div ref={containerRef} className={cn("relative", className)}>
       <style>{`
@@ -137,7 +135,6 @@ export function DateRangePicker({
                 numberOfMonths={1}
               />
             </div>
-
 
             {/* Action Buttons */}
             {value.start && (
