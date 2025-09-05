@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -53,6 +53,10 @@ export default function OrderHistory() {
   const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<OrderType | "all">("all");
   const [activeTab, setActiveTab] = useState<"orders" | "requests">("orders");
+
+  useEffect(() => {
+    document.title = "Orders and Requests";
+  }, []);
 
   const orders: Order[] = [
     {
