@@ -509,6 +509,15 @@ const TermsOfServiceContent = () => (
             claim, please be advised that our representatives reserve the right to
             deny your claim for any reason.
           </p>
+          <div>
+            <h3 className="text-lg font-medium mb-2">Claim Resolution</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              All insurance claims are subject to review and may be denied in cases of
+              fraud, misrepresentation, negligence, prohibited item listings, or violations
+              of platform policies. Claims may also be denied if documentation of loss or
+              damage is insufficient.
+            </p>
+        </div>
         </div>
       </div>
     </section>
