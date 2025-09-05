@@ -648,7 +648,7 @@ const TermsOfServiceContent = () => (
         If you have questions about these Terms of Service, please contact our
         support team at{" "}
         <a
-          href="mailto:support@trio.com"
+          href="mailto:support@triorentals.com"
           className="text-primary hover:underline"
         >
           support@trio.com
