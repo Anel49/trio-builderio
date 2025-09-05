@@ -452,12 +452,11 @@ const TermsOfServiceContent = () => (
             <li>Firearms and ammunition</li>
             <li>Illegal drugs and controlled substances</li>
             <li>Stolen, counterfeit, or unauthorized items</li>
+            <li>Vehicles requiring registration</li>
+            <li>Items requiring special licenses</li>
             <li>Hazardous materials and chemicals</li>
             <li>Live animals or plants</li>
-            <li>Obscene materials</li>
-            <li>
-              Items requiring special licenses without proper documentation
-            </li>
+            <li>Obscene materials</li>            
           </ul>
         </div>
         <div>
