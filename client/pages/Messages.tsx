@@ -455,7 +455,7 @@ export default function Messages() {
                 <div className="flex items-center space-x-3">
                   <div className="relative">
                     <Avatar className="h-12 w-12">
-                      <AvatarFallback>SC</AvatarFallback>
+                      <AvatarFallback>TS</AvatarFallback>
                     </Avatar>
                     <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
                   </div>
