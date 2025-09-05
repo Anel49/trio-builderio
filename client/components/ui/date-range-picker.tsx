@@ -121,110 +121,45 @@ export function DateRangePicker({
 
   return (
     <div ref={containerRef} className={cn("relative", className)}>
+      <style>{`
+        .calendar-with-reservation-styling .rdp-day_range_middle {
+          background-color: hsl(var(--primary)) !important;
+          color: hsl(var(--primary-foreground)) !important;
+        }
+
+        .calendar-with-reservation-styling .rdp-day_range_start,
+        .calendar-with-reservation-styling .rdp-day_range_end {
+          background-color: hsl(var(--primary)) !important;
+          color: hsl(var(--primary-foreground)) !important;
+        }
+      `}</style>
+
       <Button
         variant="outline"
         className="w-full justify-start text-left font-normal"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Calendar className="mr-2 h-4 w-4" />
+        <CalendarIcon className="mr-2 h-4 w-4" />
         {formatDateRange()}
       </Button>
 
       {isOpen && (
         <Card className="absolute bottom-full left-0 right-0 z-50 mb-2">
           <CardContent className="p-4">
-            {/* Calendar Header */}
-            <div className="flex items-center justify-between mb-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigateMonth('prev')}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <h3 className="font-semibold">
-                {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-              </h3>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigateMonth('next')}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {/* Week Days Header */}
-            <div className="grid grid-cols-7 gap-1 mb-2">
-              {weekDays.map((day) => (
-                <div
-                  key={day}
-                  className="p-2 text-xs font-medium text-muted-foreground text-center"
-                >
-                  {day}
-                </div>
-              ))}
-            </div>
-
-            {/* Calendar Days */}
-            <div className="grid grid-cols-7 gap-1">
-              {generateCalendarDays().map((date, index) => {
-                const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
-                const isDisabled = isDateDisabled(date);
-                const reservation = getReservationForDate(date);
-                const isReserved = reservation !== null;
-                const isInRange = isDateInRange(date);
-                const isRangeStart = isDateRangeStart(date);
-                const isRangeEnd = isDateRangeEnd(date);
-                const isToday = date.toDateString() === new Date().toDateString();
-
-                // Check if this date is start/end of a reservation period
-                const isReservationStart = reservation && date.toDateString() === reservation.startDate.toDateString();
-                const isReservationEnd = reservation && date.toDateString() === reservation.endDate.toDateString();
-                const isReservationMiddle = reservation && !isReservationStart && !isReservationEnd;
-
-                return (
-                  <div key={index} className="relative group">
-                    <button
-                      onClick={() => handleDateClick(date)}
-                      disabled={isDisabled}
-                      title={isReserved ? `Reserved (${reservation?.status})` : ''}
-                      className={cn(
-                        "w-full h-8 text-sm relative transition-colors",
-                        "hover:bg-accent hover:text-accent-foreground",
-                        "focus:outline-none focus:ring-2 focus:ring-ring",
-                        "disabled:opacity-75 disabled:cursor-not-allowed",
-                        !isCurrentMonth && "text-muted-foreground",
-                        isToday && "font-bold ring-2 ring-blue-500",
-                        // User selection styling
-                        isInRange && !isRangeStart && !isRangeEnd && "bg-primary/20",
-                        (isRangeStart || isRangeEnd) && "bg-primary text-primary-foreground",
-                        // Reservation styling
-                        isReserved && reservation?.status === 'confirmed' && "bg-red-500 text-white",
-                        isReserved && reservation?.status === 'pending' && "bg-orange-400 text-white",
-                        isReserved && reservation?.status === 'completed' && "bg-gray-400 text-white",
-                        // Rounded corners for reservation periods
-                        isReservationStart && !isReservationEnd && "rounded-l-md",
-                        isReservationEnd && !isReservationStart && "rounded-r-md",
-                        isReservationStart && isReservationEnd && "rounded-md",
-                        isReservationMiddle && "rounded-none",
-                        isDisabled && "hover:bg-transparent hover:text-muted-foreground"
-                      )}
-                    >
-                      {date.getDate()}
-                    </button>
-
-                    {/* Tooltip for reserved dates */}
-                    {isReserved && (
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
-                        Reserved ({reservation?.status})
-                        <br />
-                        {reservation?.startDate.toLocaleDateString()} - {reservation?.endDate.toLocaleDateString()}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+            <div className="calendar-with-reservation-styling">
+              <Calendar
+                mode="range"
+                selected={{
+                  from: value.start || undefined,
+                  to: value.end || undefined,
+                }}
+                onSelect={handleDateSelect}
+                disabled={isDateDisabled}
+                modifiers={modifiers}
+                modifiersStyles={modifiersStyles}
+                initialFocus
+                numberOfMonths={1}
+              />
             </div>
 
             {/* Legend */}
@@ -250,26 +185,18 @@ export function DateRangePicker({
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-2 mt-4 pt-3 border-t">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  onChange({ start: null, end: null });
-                  setSelectingEnd(false);
-                }}
-                className="flex-1"
-              >
-                Clear
-              </Button>
-              <Button
-                size="sm"
-                onClick={() => setIsOpen(false)}
-                className="flex-1"
-              >
-                Done
-              </Button>
-            </div>
+            {value.start && (
+              <div className="pt-3 border-t mt-4">
+                <Button
+                  variant="outline"
+                  size="default"
+                  onClick={() => onChange({ start: null, end: null })}
+                  className="w-full"
+                >
+                  Clear selection
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
