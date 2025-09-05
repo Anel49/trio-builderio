@@ -1067,7 +1067,9 @@ export default function Profile() {
               <div className="mb-4">
                 <div className="flex items-center justify-center space-x-2 text-muted-foreground">
                   <Calendar className="h-4 w-4" />
-                  <span className="text-sm">Joined {userProfile.dateJoined}</span>
+                  <span className="text-sm">
+                    Joined {userProfile.dateJoined}
+                  </span>
                 </div>
               </div>
 
@@ -1081,7 +1083,10 @@ export default function Profile() {
 
               {/* Action Buttons */}
               <div className="space-y-2">
-                <Button className="w-full" onClick={() => setIsEditingProfile((v) => !v)}>
+                <Button
+                  className="w-full"
+                  onClick={() => setIsEditingProfile((v) => !v)}
+                >
                   <Edit3 className="h-4 w-4 mr-2" />
                   {isEditingProfile ? "Save changes" : "Edit Profile"}
                 </Button>
