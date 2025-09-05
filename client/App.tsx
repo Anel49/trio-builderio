@@ -47,6 +47,17 @@ const App = () => {
       // Show cookie banner only after terms are accepted
       setShowCookieBanner(true);
     }
+
+    const handleTermsAccepted = () => {
+      const cookiesAccepted = localStorage.getItem(
+        `${COMPANY_NAME.toLowerCase()}-cookies-accepted`,
+      );
+      if (cookiesAccepted !== "true") setShowCookieBanner(true);
+    };
+    window.addEventListener("trio-terms-accepted", handleTermsAccepted as EventListener);
+    return () => {
+      window.removeEventListener("trio-terms-accepted", handleTermsAccepted as EventListener);
+    };
   }, []);
 
   const handleAcceptTerms = () => {
