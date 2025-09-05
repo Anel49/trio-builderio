@@ -141,7 +141,14 @@ export function ProductCard({
             )}
           </div>
           <div className="text-right ml-4">
-            <div className={combineTokens(typography.combinations.price, underlinePrice ? "underline" : "")}>{price}</div>
+            <div
+              className={combineTokens(
+                typography.combinations.price,
+                underlinePrice ? "underline" : "",
+              )}
+            >
+              {price}
+            </div>
             <div
               className={combineTokens(typography.size.sm, colors.text.muted)}
             >

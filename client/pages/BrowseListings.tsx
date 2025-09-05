@@ -394,7 +394,10 @@ export default function BrowseListings() {
                           if (range.to) {
                             localStorage.setItem(
                               "searchDateRange",
-                              JSON.stringify({ start: range.from, end: range.to }),
+                              JSON.stringify({
+                                start: range.from,
+                                end: range.to,
+                              }),
                             );
                           }
                           // Don't auto-close when end date is selected
@@ -603,13 +606,25 @@ export default function BrowseListings() {
               {filteredAndSortedListings.map((listing) => {
                 const hasRange = !!(dateRange.start && dateRange.end);
                 const display = (() => {
-                  if (!hasRange) return { price: listing.price, label: "/day", underline: false };
+                  if (!hasRange)
+                    return {
+                      price: listing.price,
+                      label: "/day",
+                      underline: false,
+                    };
                   const start = dateRange.start as Date;
                   const end = dateRange.end as Date;
-                  const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+                  const days =
+                    Math.ceil(
+                      (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
+                    ) + 1;
                   const dailyRate = parseInt(listing.price.replace("$", ""));
                   const total = days * dailyRate;
-                  return { price: `$${total}`, label: "total", underline: true };
+                  return {
+                    price: `$${total}`,
+                    label: "total",
+                    underline: true,
+                  };
                 })();
                 return (
                   <div key={listing.id} id={`listing-${listing.id}`}>

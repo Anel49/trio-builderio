@@ -266,7 +266,10 @@ export default function Index() {
                   if (dateRange.start && dateRange.end) {
                     localStorage.setItem(
                       "searchDateRange",
-                      JSON.stringify({ start: dateRange.start, end: dateRange.end }),
+                      JSON.stringify({
+                        start: dateRange.start,
+                        end: dateRange.end,
+                      }),
                     );
                   } else {
                     localStorage.removeItem("searchDateRange");
