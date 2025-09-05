@@ -53,7 +53,7 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
             style={{ fontSize: "17px" }}
           >
             <p>
-              By using Trio, you agree to our community standards and rental
+              By using {COMPANY_NAME}, you agree to our community standards and rental
               policies. Our platform connects people for safe, peer-to-peer item
               sharing.
             </p>
