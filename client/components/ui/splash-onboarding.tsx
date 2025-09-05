@@ -67,7 +67,7 @@ export function SplashOnboarding() {
               <div>
                 <h2 className="text-xl font-semibold mb-3">Renters</h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
-                  <p>Please take care of the items you rent as if they were your own.</p>
+                  <p><strong>Please take care of the items you rent as if they were your own.</strong></p>
                   <p>
                     Item rentals incur a 10% fee of the item’s daily rental price to insure the renter throughout the rental period. This fee is not charged again with rental extensions. The renter's maximum out-of-pocket insurance payment is capped at $50. This coverage is subject to change based on the platform’s performance and growth.
                   </p>
