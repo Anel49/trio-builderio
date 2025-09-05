@@ -22,7 +22,7 @@ interface DateRangePickerProps {
 export function DateRangePicker({
   value,
   onChange,
-  reservedDates = [],
+  reservations = [],
   minDate = new Date(),
   maxDate,
   className,
