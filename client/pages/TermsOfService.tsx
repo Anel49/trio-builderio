@@ -508,7 +508,7 @@ const TermsOfServiceContent = () => (
             understanding as we work towards this goal. If you make an insurance
             claim, please be advised that our representatives reserve the right to
             deny your claim for any reason.
-          </p
+          </p>
         </div>
       </div>
     </section>
