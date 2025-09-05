@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
+import { isDateRangeAvailable } from "@/lib/reservations";
 
 // CSS animation for price popup fade in effect and calendar range styling
 const fadeInStyle = `
