@@ -277,7 +277,6 @@ export default function Profile() {
     setActiveTab(tabs[nextIndex].id);
   };
 
-
   const calculateAvgItemRating = () => {
     const total = itemReviews.reduce((sum, review) => sum + review.rating, 0);
     return (total / itemReviews.length).toFixed(1);
@@ -429,7 +428,9 @@ export default function Profile() {
                     className="text-2xl font-bold mb-2"
                   />
                 ) : (
-                  <h1 className="text-2xl font-bold mb-2">{userProfile.name}</h1>
+                  <h1 className="text-2xl font-bold mb-2">
+                    {userProfile.name}
+                  </h1>
                 )}
 
                 {/* Zip Code */}
@@ -499,7 +500,10 @@ export default function Profile() {
 
                 {/* Action Buttons */}
                 <div className="space-y-2">
-                  <Button className="w-full" onClick={() => setIsEditingProfile((v) => !v)}>
+                  <Button
+                    className="w-full"
+                    onClick={() => setIsEditingProfile((v) => !v)}
+                  >
                     <Edit3 className="h-4 w-4 mr-2" />
                     {isEditingProfile ? "Save changes" : "Edit Profile"}
                   </Button>
