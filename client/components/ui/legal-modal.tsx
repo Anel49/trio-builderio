@@ -82,7 +82,6 @@ export const PrivacyContent = () => (
       </p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
         <li>Process rentals and facilitate transactions</li>
-        <li>Verify identity and prevent fraud</li>
         <li>Send important notifications and updates</li>
         <li>Provide customer support</li>
         <li>Improve our platform and develop new features</li>
