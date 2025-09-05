@@ -20,6 +20,7 @@ import {
 import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { ReportModal } from "@/components/ui/report-modal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
