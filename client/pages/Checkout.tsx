@@ -280,7 +280,7 @@ export default function Checkout() {
         supportedNetworks: ["visa", "masterCard", "amex", "discover"],
         merchantCapabilities: ["supports3DS"],
         total: {
-          label: "Trio Rental",
+          label: `${COMPANY_NAME} Rental`,
           amount: booking.total.toString(),
           type: "final",
         },
