@@ -519,6 +519,7 @@ export default function Messages() {
             }}
           >
             {/* Safety Banner */}
+            {selectedChat !== SUPPORT_CHAT_ID && (
             <div className={colors.ui.safetyBanner}>
               <div className="p-4">
                 <div className={`text-sm ${colors.status.error.textLight}`}>
@@ -564,6 +565,7 @@ export default function Messages() {
                 </div>
               </div>
             </div>
+            )}
 
             {/* Chat Messages */}
             <ScrollArea className="flex-1 px-4">
