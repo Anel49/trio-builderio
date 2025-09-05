@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { COMPANY_NAME } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { TermsCardContent } from "@/components/ui/terms-popup";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -33,7 +32,7 @@ export function SplashOnboarding() {
               </p>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="max-h-[70vh] pr-2">
+              <div className="max-h-[70vh] overflow-y-auto pr-2">
                 <div className="space-y-6">
                   <div>
                     <h2 className="text-lg font-semibold mb-3">Hosts</h2>
@@ -53,7 +52,7 @@ export function SplashOnboarding() {
                     </ol>
                   </div>
                 </div>
-              </ScrollArea>
+              </div>
               <div className="mt-6 text-center">
                 <Button size="lg" onClick={() => setStep(2)}>
                   Next
@@ -73,7 +72,7 @@ export function SplashOnboarding() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="max-h-[70vh] pr-2">
+              <div className="max-h-[70vh] overflow-y-auto pr-2">
                 <div className="space-y-6 text-muted-foreground">
                   <div>
                     <h2 className="text-lg font-semibold mb-3 text-foreground">
@@ -109,7 +108,7 @@ export function SplashOnboarding() {
                     </div>
                   </div>
                 </div>
-              </ScrollArea>
+              </div>
               <div className="mt-6 text-center">
                 <Button size="lg" onClick={() => setStep(3)}>
                   Next
