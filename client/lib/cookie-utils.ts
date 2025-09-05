@@ -37,8 +37,8 @@ export const canUsePreferences = (): boolean => {
  * Reset cookie preferences (for testing or user request)
  */
 export const resetCookiePreferences = (): void => {
-  localStorage.removeItem("trio-cookies-accepted");
-  localStorage.removeItem("trio-cookie-preferences");
+  localStorage.removeItem(`${COMPANY_NAME.toLowerCase()}-cookies-accepted`);
+  localStorage.removeItem(`${COMPANY_NAME.toLowerCase()}-cookie-preferences`);
 };
 
 /**
