@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+import { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -8,27 +9,39 @@ const ScrollArea = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root> & {
     enableShiftWheelX?: boolean;
   }
->(({ className, children, enableShiftWheelX = false, ...props }, ref) => (
-  <ScrollAreaPrimitive.Root
-    ref={ref}
-    className={cn("relative overflow-hidden", className)}
-    {...props}
-  >
-    <ScrollAreaPrimitive.Viewport
-      className="h-full w-full rounded-[inherit]"
-      onWheel={(e) => {
-        if (enableShiftWheelX && e.shiftKey) {
-          e.preventDefault();
-          e.currentTarget.scrollLeft += e.deltaY;
-        }
-      }}
+>(({ className, children, enableShiftWheelX = false, ...props }, ref) => {
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!enableShiftWheelX || !viewportRef.current) return;
+    const el = viewportRef.current;
+    const handler = (e: WheelEvent) => {
+      if (!e.shiftKey) return;
+      // Prevent vertical page scroll while enabling horizontal panning
+      e.preventDefault();
+      el.scrollLeft += e.deltaY !== 0 ? e.deltaY : e.deltaX;
+    };
+    el.addEventListener("wheel", handler, { passive: false });
+    return () => el.removeEventListener("wheel", handler as EventListener);
+  }, [enableShiftWheelX]);
+
+  return (
+    <ScrollAreaPrimitive.Root
+      ref={ref}
+      className={cn("relative overflow-hidden", className)}
+      {...props}
     >
-      {children}
-    </ScrollAreaPrimitive.Viewport>
-    <ScrollBar />
-    <ScrollAreaPrimitive.Corner />
-  </ScrollAreaPrimitive.Root>
-));
+      <ScrollAreaPrimitive.Viewport
+        ref={viewportRef}
+        className="h-full w-full rounded-[inherit]"
+      >
+        {children}
+      </ScrollAreaPrimitive.Viewport>
+      <ScrollBar />
+      <ScrollAreaPrimitive.Corner />
+    </ScrollAreaPrimitive.Root>
+  );
+});
 ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
 
 const ScrollBar = React.forwardRef<
