@@ -425,13 +425,41 @@ export default function ProductDetails() {
                 <div className="text-muted-foreground">per day</div>
               </div>
 
+              {/* Date Range Picker */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">
+                  Select rental dates
+                </label>
+                <DateRangePicker
+                  value={selectedDateRange}
+                  onChange={setSelectedDateRange}
+                  reservedDates={reservedDates}
+                  className="w-full"
+                />
+                {selectedDateRange.start && selectedDateRange.end && !isDateRangeValid() && (
+                  <p className="text-sm text-red-600 mt-2">
+                    Selected dates conflict with existing reservations. Please choose different dates.
+                  </p>
+                )}
+              </div>
+
               <Button
                 size="lg"
-                className="w-full mb-4"
-                onClick={() => (window.location.href = "/checkout")}
+                className={cn(
+                  "w-full mb-4 transition-opacity",
+                  !isDateRangeValid() && "opacity-50 cursor-not-allowed"
+                )}
+                disabled={!isDateRangeValid()}
+                onClick={() => {
+                  if (isDateRangeValid()) {
+                    // Pass selected dates to checkout page via URL params or localStorage
+                    localStorage.setItem('selectedDates', JSON.stringify(selectedDateRange));
+                    window.location.href = "/checkout";
+                  }
+                }}
               >
                 <Calendar className="mr-2 h-5 w-5" />
-                Reserve Now
+                {isDateRangeValid() ? "Reserve Now" : "Select dates to reserve"}
               </Button>
             </div>
 
