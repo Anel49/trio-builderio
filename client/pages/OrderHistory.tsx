@@ -787,10 +787,10 @@ export default function OrderHistory() {
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-end">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
                       {req.status === "pending" &&
                         req.direction === "incoming" && (
-                          <div className="order-2 md:order-1 flex gap-2 mt-2 md:mt-0 md:ml-2">
+                          <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
                             <Button size="sm" variant="outline">
                               Decline
                             </Button>
@@ -798,7 +798,7 @@ export default function OrderHistory() {
                           </div>
                         )}
 
-                      <div className="order-1 md:order-2 flex gap-2 flex-wrap md:flex-nowrap">
+                      <div className="order-1 sm:order-2 flex gap-2 flex-wrap sm:flex-nowrap">
                         <Button
                           variant="outline"
                           size="sm"
