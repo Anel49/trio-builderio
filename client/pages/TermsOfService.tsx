@@ -355,7 +355,7 @@ const TermsOfServiceContent = () => (
             logistics.
           </p>
         </div>
-        <div>
+        {/*<div>
           <h3 className="text-lg font-medium mb-2">Cancellation Policy</h3>
           <p className="text-muted-foreground leading-relaxed">
             Cancellations made more than 24 hours before the rental start time
@@ -363,7 +363,7 @@ const TermsOfServiceContent = () => (
             subject to fees as determined by the item owner's cancellation
             policy.
           </p>
-        </div>
+        </div>*/}
       </div>
     </section>
 
