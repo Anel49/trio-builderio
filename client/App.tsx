@@ -29,8 +29,8 @@ const App = () => {
 
   useEffect(() => {
     // Check if user has already accepted terms
-    const hasAcceptedTerms = localStorage.getItem("trio-terms-accepted");
-    const hasAcceptedCookies = localStorage.getItem("trio-cookies-accepted");
+    const hasAcceptedTerms = localStorage.getItem(`${COMPANY_NAME.toLowerCase()}-terms-accepted`);
+    const hasAcceptedCookies = localStorage.getItem(`${COMPANY_NAME.toLowerCase()}-cookies-accepted`);
 
     if (!hasAcceptedTerms) {
       setShowTermsPopup(true);
@@ -41,20 +41,20 @@ const App = () => {
   }, []);
 
   const handleAcceptTerms = () => {
-    localStorage.setItem("trio-terms-accepted", "true");
+    localStorage.setItem(`${COMPANY_NAME.toLowerCase()}-terms-accepted`, "true");
     setShowTermsPopup(false);
 
     // Check if cookies need approval after terms are accepted
-    const hasAcceptedCookies = localStorage.getItem("trio-cookies-accepted");
+    const hasAcceptedCookies = localStorage.getItem(`${COMPANY_NAME.toLowerCase()}-cookies-accepted`);
     if (!hasAcceptedCookies) {
       setShowCookieBanner(true);
     }
   };
 
   const handleCookiePreferences = (preferences: CookiePreferences) => {
-    localStorage.setItem("trio-cookies-accepted", "true");
+    localStorage.setItem(`${COMPANY_NAME.toLowerCase()}-cookies-accepted`, "true");
     localStorage.setItem(
-      "trio-cookie-preferences",
+      `${COMPANY_NAME.toLowerCase()}-cookie-preferences`,
       JSON.stringify(preferences),
     );
     setShowCookieBanner(false);
