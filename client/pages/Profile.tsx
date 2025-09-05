@@ -56,6 +56,8 @@ export default function Profile() {
   const [isEditingZipCode, setIsEditingZipCode] = useState(false);
   const [zipCode, setZipCode] = useState("94102");
   const [tempZipCode, setTempZipCode] = useState("");
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [name, setName] = useState(currentUser.name);
 
   // Item reviews search and filter state
   const [itemReviewSearchQuery, setItemReviewSearchQuery] = useState("");
@@ -84,6 +86,7 @@ export default function Profile() {
   // Use centralized user profile data
   const userProfile = {
     ...currentUser,
+    name,
     zipCode: zipCode,
     avgRating: currentUser.rating,
     dateJoined: `March ${currentUser.joinedDate}`,
@@ -436,46 +439,68 @@ export default function Profile() {
                 </div>
 
                 {/* Name */}
-                <h1 className="text-2xl font-bold mb-2">{userProfile.name}</h1>
+                {isEditingProfile ? (
+                  <Input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="text-2xl font-bold mb-2"
+                  />
+                ) : (
+                  <h1 className="text-2xl font-bold mb-2">{userProfile.name}</h1>
+                )}
 
-                {/* Zip Code - Editable on Hover */}
+                {/* Zip Code */}
                 <div className="mb-4">
-                  {isEditingZipCode ? (
+                  {isEditingProfile ? (
                     <div className="flex items-center justify-center space-x-2">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
                       <Input
-                        value={tempZipCode}
-                        onChange={(e) => setTempZipCode(e.target.value)}
-                        className="w-20 text-center"
+                        value={zipCode}
+                        onChange={(e) => setZipCode(e.target.value)}
+                        className="w-24 text-center"
                         maxLength={5}
                       />
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={handleZipCodeSave}
-                        className="h-6 w-6 p-0"
-                      >
-                        <Check className="h-4 w-4 text-green-600" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={handleZipCodeCancel}
-                        className="h-6 w-6 p-0"
-                      >
-                        <X className="h-4 w-4 text-red-600" />
-                      </Button>
                     </div>
                   ) : (
-                    <div
-                      className="group flex items-center justify-center space-x-1 cursor-pointer hover:bg-accent/50 rounded px-2 py-1"
-                      onClick={handleZipCodeEdit}
-                    >
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">
-                        {userProfile.zipCode}
-                      </span>
-                      <Edit3 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
+                    <>
+                      {isEditingZipCode ? (
+                        <div className="flex items-center justify-center space-x-2">
+                          <Input
+                            value={tempZipCode}
+                            onChange={(e) => setTempZipCode(e.target.value)}
+                            className="w-20 text-center"
+                            maxLength={5}
+                          />
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={handleZipCodeSave}
+                            className="h-6 w-6 p-0"
+                          >
+                            <Check className="h-4 w-4 text-green-600" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={handleZipCodeCancel}
+                            className="h-6 w-6 p-0"
+                          >
+                            <X className="h-4 w-4 text-red-600" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div
+                          className="group flex items-center justify-center space-x-1 cursor-pointer hover:bg-accent/50 rounded px-2 py-1"
+                          onClick={handleZipCodeEdit}
+                        >
+                          <MapPin className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-muted-foreground">
+                            {userProfile.zipCode}
+                          </span>
+                          <Edit3 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
 
@@ -524,9 +549,9 @@ export default function Profile() {
 
                 {/* Action Buttons */}
                 <div className="space-y-2">
-                  <Button className="w-full">
+                  <Button className="w-full" onClick={() => setIsEditingProfile((v) => !v)}>
                     <Edit3 className="h-4 w-4 mr-2" />
-                    Edit Profile
+                    {isEditingProfile ? "Save changes" : "Edit Profile"}
                   </Button>
                   <Button variant="outline" className="w-full hidden">
                     <Heart className="h-4 w-4 mr-2" />
