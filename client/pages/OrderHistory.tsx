@@ -146,7 +146,7 @@ export default function OrderHistory() {
     },
   ];
 
-  type RequestStatus = "pending" | "approved" | "declined";
+  type RequestStatus = "pending" | "approved" | "rejected" | "cancelled";
   interface RequestItem {
     id: string;
     itemName: string;
