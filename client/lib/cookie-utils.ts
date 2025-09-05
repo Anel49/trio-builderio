@@ -7,7 +7,9 @@ import { COMPANY_NAME } from "./constants";
 
 export const getCookiePreferences = (): CookiePreferences | null => {
   try {
-    const preferences = localStorage.getItem(`${COMPANY_NAME.toLowerCase()}-cookie-preferences`);
+    const preferences = localStorage.getItem(
+      `${COMPANY_NAME.toLowerCase()}-cookie-preferences`,
+    );
     return preferences ? JSON.parse(preferences) : null;
   } catch {
     return null;
@@ -15,7 +17,10 @@ export const getCookiePreferences = (): CookiePreferences | null => {
 };
 
 export const hasCookieConsent = (): boolean => {
-  return localStorage.getItem(`${COMPANY_NAME.toLowerCase()}-cookies-accepted`) === "true";
+  return (
+    localStorage.getItem(`${COMPANY_NAME.toLowerCase()}-cookies-accepted`) ===
+    "true"
+  );
 };
 
 export const canUseStatistics = (): boolean => {

@@ -22,7 +22,9 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
               <FileText className="h-6 w-6 text-primary" />
             </div>
           </div>
-          <CardTitle className="text-xl font-bold">Welcome to {COMPANY_NAME}</CardTitle>
+          <CardTitle className="text-xl font-bold">
+            Welcome to {COMPANY_NAME}
+          </CardTitle>
           <p className="text-muted-foreground" style={{ fontSize: "17px" }}>
             Please review our Terms of Service before continuing
           </p>
@@ -53,9 +55,9 @@ export function TermsPopup({ isOpen, onAccept }: TermsPopupProps) {
             style={{ fontSize: "17px" }}
           >
             <p>
-              By using {COMPANY_NAME}, you agree to our community standards and rental
-              policies. Our platform connects people for safe, peer-to-peer item
-              sharing.
+              By using {COMPANY_NAME}, you agree to our community standards and
+              rental policies. Our platform connects people for safe,
+              peer-to-peer item sharing.
             </p>
 
             <div className="space-y-2">
