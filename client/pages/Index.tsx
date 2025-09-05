@@ -369,17 +369,17 @@ export default function Index() {
               size="lg"
               variant="secondary"
               className="text-lg px-8"
-              asChild
+              onClick={() => setIsLoginModalOpen(true)}
             >
-              <a href="/browse">Browse listings</a>
+              Log in
             </Button>
             <Button
               size="lg"
               variant="outline"
               className="text-lg px-8 bg-transparent border-white text-white hover:bg-white hover:text-primary"
-              asChild
+              onClick={() => setIsSignUpModalOpen(true)}
             >
-              <a href="/upload">Rent your item</a>
+              Sign up
             </Button>
           </div>
         </div>
