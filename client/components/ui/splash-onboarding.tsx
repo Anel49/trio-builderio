@@ -3,6 +3,8 @@ import { COMPANY_NAME } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TermsCardContent } from "@/components/ui/terms-popup";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 export function SplashOnboarding() {
   const STORAGE_KEY = `${COMPANY_NAME.toLowerCase()}-splash-completed`;
@@ -18,62 +20,77 @@ export function SplashOnboarding() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm overflow-y-auto p-4">
       {step === 1 && (
-        <div className="w-full max-w-3xl mx-4 bg-background rounded-lg shadow-2xl p-6">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 text-center">Welcome to {COMPANY_NAME}!</h1>
-          <p className="text-muted-foreground text-base md:text-lg mb-6 text-center max-w-2xl mx-auto">
-            A simple, community-driven way to rent and share items and services nearby.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-start">
-            <div>
-              <h2 className="text-xl font-semibold mb-3">Hosts</h2>
-              <ol className="list-decimal pl-6 space-y-2 text-muted-foreground">
-                <li>Choose an item or service</li>
-                <li>Enter listing details</li>
-                <li>Post</li>
-              </ol>
-            </div>
-            <div className="hidden md:block h-full w-px bg-border mx-auto" aria-hidden />
-            <div>
-              <h2 className="text-xl font-semibold mb-3">Renters</h2>
-              <ol className="list-decimal pl-6 space-y-2 text-muted-foreground">
-                <li>Search for an item or service</li>
-                <li>Add a date range (optional)</li>
-                <li>Reserve</li>
-              </ol>
-            </div>
-          </div>
-          <div className="mt-8 text-center">
-            <Button size="lg" onClick={() => setStep(2)}>Next</Button>
-          </div>
+        <div className="w-full max-w-md mx-4">
+          <Card className="w-full max-w-md mx-auto shadow-2xl">
+            <CardHeader className="text-center pb-4">
+              <CardTitle className="text-xl font-bold">Welcome to {COMPANY_NAME}!</CardTitle>
+              <p className="text-muted-foreground">A simple, community-driven way to rent and share nearby.</p>
+            </CardHeader>
+            <CardContent>
+              <ScrollArea className="max-h-[70vh] pr-2">
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-lg font-semibold mb-3">Hosts</h2>
+                    <ol className="list-decimal pl-6 space-y-2 text-muted-foreground">
+                      <li>Choose an item or service</li>
+                      <li>Enter listing details</li>
+                      <li>Post</li>
+                    </ol>
+                  </div>
+                  <Separator />
+                  <div>
+                    <h2 className="text-lg font-semibold mb-3">Renters</h2>
+                    <ol className="list-decimal pl-6 space-y-2 text-muted-foreground">
+                      <li>Search for an item or service</li>
+                      <li>Add a date range (optional)</li>
+                      <li>Reserve</li>
+                    </ol>
+                  </div>
+                </div>
+              </ScrollArea>
+              <div className="mt-6 text-center">
+                <Button size="lg" onClick={() => setStep(2)}>Next</Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )}
 
       {step === 2 && (
-        <div className="w-full max-w-3xl mx-4 bg-background rounded-lg shadow-2xl p-6">
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-start">
-            <div>
-              <h2 className="text-xl font-semibold mb-3">Hosts</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Profits from listings incur a 12% platform usage fee. This rate is subject to change based on the platform’s performance and growth. Sales tax is charged separately.
-              </p>
-            </div>
-            <div className="hidden md:block h-full w-px bg-border mx-auto" aria-hidden />
-            <div>
-              <h2 className="text-xl font-semibold mb-3">Renters</h2>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p><strong>Please take care of the items you rent as if they were your own.</strong></p>
-                <p>
-                  Item rentals incur a 10% fee of the item’s daily rental price to insure the renter throughout the rental period. This fee is not charged again with rental extensions. The renter's maximum out-of-pocket insurance payment is capped at $50. This coverage is subject to change based on the platform’s performance and growth.
-                </p>
-                <p>Listings providing a service do not incur this fee.</p>
+        <div className="w-full max-w-md mx-4">
+          <Card className="w-full max-w-md mx-auto shadow-2xl">
+            <CardHeader className="text-center pb-2">
+              <CardTitle className="text-xl font-bold">Before you continue</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ScrollArea className="max-h-[70vh] pr-2">
+                <div className="space-y-6 text-muted-foreground">
+                  <div>
+                    <h2 className="text-lg font-semibold mb-3 text-foreground">Hosts</h2>
+                    <p className="leading-relaxed">
+                      Profits from listings incur a 12% platform usage fee. This rate is subject to change based on the platform’s performance and growth. Sales tax is charged separately.
+                    </p>
+                  </div>
+                  <Separator />
+                  <div>
+                    <h2 className="text-lg font-semibold mb-3 text-foreground">Renters</h2>
+                    <div className="space-y-4 leading-relaxed">
+                      <p><strong className="text-foreground">Please take care of the items you rent as if they were your own.</strong></p>
+                      <p>
+                        Item rentals incur a 10% fee of the item’s daily rental price to insure the renter throughout the rental period. This fee is not charged again with rental extensions. The renter's maximum out-of-pocket insurance payment is capped at $50. This coverage is subject to change based on the platform’s performance and growth.
+                      </p>
+                      <p>Listings providing a service do not incur this fee.</p>
+                    </div>
+                  </div>
+                </div>
+              </ScrollArea>
+              <div className="mt-6 text-center">
+                <Button size="lg" onClick={() => setStep(3)}>Next</Button>
               </div>
-            </div>
-          </div>
-          <div className="mt-8 text-center">
-            <Button size="lg" onClick={() => setStep(3)}>Next</Button>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       )}
 
