@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { ReservationPeriod } from "@/lib/reservations";
 
 interface DateRange {
   start: Date | null;
@@ -12,7 +13,7 @@ interface DateRange {
 interface DateRangePickerProps {
   value: DateRange;
   onChange: (range: DateRange) => void;
-  reservedDates?: Date[];
+  reservations?: ReservationPeriod[];
   minDate?: Date;
   maxDate?: Date;
   className?: string;
