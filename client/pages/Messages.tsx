@@ -461,7 +461,7 @@ export default function Messages() {
                   </div>
                   <div className="flex-1 w-0">
                     <div className="font-semibold text-sm truncate">
-                      Trio Chat
+                      Trio Support
                     </div>
                     <div className="text-xs text-muted-foreground truncate">
                       Open a claim or get help
