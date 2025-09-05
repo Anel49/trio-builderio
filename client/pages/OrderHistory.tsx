@@ -785,16 +785,18 @@ export default function OrderHistory() {
                           <span className="text-sm">{req.requester}</span>
                         </div>
                       </div>
-
                     </div>
 
                     <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-end">
-                      {req.status === "pending" && req.direction === "incoming" && (
-                        <div className="order-2 md:order-1 flex gap-2 mt-2 md:mt-0 md:ml-2">
-                          <Button size="sm" variant="outline">Decline</Button>
-                          <Button size="sm">Approve</Button>
-                        </div>
-                      )}
+                      {req.status === "pending" &&
+                        req.direction === "incoming" && (
+                          <div className="order-2 md:order-1 flex gap-2 mt-2 md:mt-0 md:ml-2">
+                            <Button size="sm" variant="outline">
+                              Decline
+                            </Button>
+                            <Button size="sm">Approve</Button>
+                          </div>
+                        )}
 
                       <div className="order-1 md:order-2 flex gap-2 flex-wrap md:flex-nowrap">
                         <Button
@@ -814,10 +816,15 @@ export default function OrderHistory() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuRadioGroup>
-                              <DropdownMenuRadioItem value="view">View Details</DropdownMenuRadioItem>
-                              {req.status === "pending" && req.direction === "outgoing" && (
-                                <DropdownMenuRadioItem value="withdraw">Withdraw Request</DropdownMenuRadioItem>
-                              )}
+                              <DropdownMenuRadioItem value="view">
+                                View Details
+                              </DropdownMenuRadioItem>
+                              {req.status === "pending" &&
+                                req.direction === "outgoing" && (
+                                  <DropdownMenuRadioItem value="withdraw">
+                                    Withdraw Request
+                                  </DropdownMenuRadioItem>
+                                )}
                             </DropdownMenuRadioGroup>
                           </DropdownMenuContent>
                         </DropdownMenu>
