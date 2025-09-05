@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { AlertTriangle, FileText } from "lucide-react";
+import { COMPANY_NAME } from "@/lib/constants";
 
 interface TermsPopupProps {
   isOpen: boolean;
