@@ -415,7 +415,7 @@ const TermsOfServiceContent = () => (
           <p className="text-muted-foreground leading-relaxed">
             For your safety, always meet in well-lit, public locations such as
             active parking lots, public libraries, or outside police stations. 
-            Avoid meeting at night or in private residences unless absolutely
+            Avoid meeting at night or in private locations unless absolutely
             necessary and agreed upon by both parties.
           </p>
         </div>
