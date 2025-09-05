@@ -9,7 +9,7 @@ export function Footer() {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="text-xl font-semibold mb-4">Trio</div>
+              <div className="text-xl font-semibold mb-4">{COMPANY_NAME}</div>
               <p className="text-muted-foreground">
                 The nation's largest rental marketplace.
               </p>
