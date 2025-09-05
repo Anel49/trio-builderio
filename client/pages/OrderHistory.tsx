@@ -787,7 +787,7 @@ export default function OrderHistory() {
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+                    <div className="flex flex-col gap-2 items-end sm:flex-row sm:items-center sm:justify-end">
                       {req.status === "pending" &&
                         req.direction === "incoming" && (
                           <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
