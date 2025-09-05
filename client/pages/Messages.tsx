@@ -170,7 +170,7 @@ export default function Messages() {
           senderId: 0,
           senderName: "Support",
           content:
-            "Hi! This is Trio Support. Tell us what happened, or tap here to open a claim.",
+            "Hello! This is Trio Support. Tell us what happened.",
           timestamp: "Now",
           isCurrentUser: false,
         },
