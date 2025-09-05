@@ -304,7 +304,7 @@ export default function ProductDetails() {
             </div>
 
             {/* Image Carousel */}
-            <ScrollArea className="w-full">
+            <ScrollArea className="w-full" enableShiftWheelX>
               <div className="flex space-x-3 pb-4">
                 {productImages.map((image, index) => (
                   <button
