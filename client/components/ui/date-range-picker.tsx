@@ -59,11 +59,15 @@ export function DateRangePicker({
     });
   };
 
+  const getReservationForDate = (date: Date): ReservationPeriod | null => {
+    return reservations.find(
+      (reservation) =>
+        date >= reservation.startDate && date <= reservation.endDate
+    ) || null;
+  };
+
   const isDateReserved = (date: Date) => {
-    return reservedDates.some(
-      (reservedDate) =>
-        reservedDate.toDateString() === date.toDateString()
-    );
+    return getReservationForDate(date) !== null;
   };
 
   const isDateDisabled = (date: Date) => {
