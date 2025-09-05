@@ -1008,7 +1008,15 @@ export default function Profile() {
               </div>
 
               {/* Name and Member Since */}
-              <h1 className="text-xl font-bold mb-1">{userProfile.name}</h1>
+              {isEditingProfile ? (
+                <Input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="text-xl font-bold mb-1 text-center"
+                />
+              ) : (
+                <h1 className="text-xl font-bold mb-1">{userProfile.name}</h1>
+              )}
               <p className="text-sm text-muted-foreground mb-4">
                 <Calendar className="inline h-4 w-4 mr-1" />
                 Member since {userProfile.memberSince}
@@ -1016,12 +1024,24 @@ export default function Profile() {
 
               {/* Location */}
               <div className="mb-4">
-                <div className="flex items-center justify-center space-x-1">
-                  <MapPin className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">
-                    {userProfile.zipCode}
-                  </span>
-                </div>
+                {isEditingProfile ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <Input
+                      value={zipCode}
+                      onChange={(e) => setZipCode(e.target.value)}
+                      className="w-24 text-center"
+                      maxLength={5}
+                    />
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center space-x-1">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground">
+                      {userProfile.zipCode}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Average Review Rating */}
@@ -1057,11 +1077,11 @@ export default function Profile() {
 
               {/* Action Buttons */}
               <div className="space-y-2">
-                <Button className="w-full">
+                <Button className="w-full" onClick={() => setIsEditingProfile((v) => !v)}>
                   <Edit3 className="h-4 w-4 mr-2" />
-                  Edit Profile
+                  {isEditingProfile ? "Save changes" : "Edit Profile"}
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full hidden">
                   <Heart className="h-4 w-4 mr-2" />
                   Favorites
                 </Button>
