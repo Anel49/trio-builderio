@@ -29,7 +29,7 @@ export function SplashOnboarding() {
               <p className="text-muted-foreground">A simple, community-driven way to rent and share nearby.</p>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="max-h-[70vh] pr-2">
+              <ScrollArea className="h-[70vh] pr-2">
                 <div className="space-y-6">
                   <div>
                     <h2 className="text-lg font-semibold mb-3">Hosts</h2>
@@ -65,7 +65,7 @@ export function SplashOnboarding() {
               <CardTitle className="text-xl font-bold">Before you continue</CardTitle>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="max-h-[70vh] pr-2">
+              <ScrollArea className="h-[70vh] pr-2">
                 <div className="space-y-6 text-muted-foreground">
                   <div>
                     <h2 className="text-lg font-semibold mb-3 text-foreground">Hosts</h2>
