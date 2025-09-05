@@ -269,6 +269,24 @@ export default function OrderHistory() {
     return matchesSearch && matchesStatus && matchesType;
   });
 
+  const filteredRequests = requests.filter((req) => {
+    const matchesSearch =
+      req.itemName.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
+      req.requester.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
+      (req.message && req.message.toLowerCase().includes(requestSearchQuery.toLowerCase()));
+    const matchesStatus =
+      requestStatusFilter === "all" || req.status === requestStatusFilter;
+    const matchesRequester =
+      requesterFilter === "all" || req.direction === requesterFilter;
+    return matchesSearch && matchesStatus && matchesRequester;
+  });
+
+  const sortedRequests = [...filteredRequests].sort((a, b) => {
+    const aDate = new Date(a.requestedStart).getTime();
+    const bDate = new Date(b.requestedStart).getTime();
+    return requestSortBy === "recent" ? bDate - aDate : aDate - bDate;
+  });
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
