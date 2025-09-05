@@ -79,22 +79,7 @@ export default function ProductDetails() {
       return false;
     }
 
-    // Check if any date in the range conflicts with reserved dates
-    const start = new Date(selectedDateRange.start);
-    const end = new Date(selectedDateRange.end);
-    const currentDate = new Date(start);
-
-    while (currentDate <= end) {
-      const isReserved = reservedDates.some(
-        (reservedDate) => reservedDate.toDateString() === currentDate.toDateString()
-      );
-      if (isReserved) {
-        return false;
-      }
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-
-    return true;
+    return isDateRangeAvailable(selectedDateRange.start, selectedDateRange.end, listingId);
   };
 
   const productImages = [
