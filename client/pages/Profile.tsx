@@ -528,7 +528,7 @@ export default function Profile() {
                     <Edit3 className="h-4 w-4 mr-2" />
                     Edit Profile
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full hidden">
                     <Heart className="h-4 w-4 mr-2" />
                     Favorites
                   </Button>
