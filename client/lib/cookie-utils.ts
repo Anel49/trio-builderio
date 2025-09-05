@@ -1,4 +1,5 @@
 import { CookiePreferences } from "@/components/ui/cookie-banner";
+import { COMPANY_NAME } from "./constants";
 
 /**
  * Utility functions for managing cookie preferences
