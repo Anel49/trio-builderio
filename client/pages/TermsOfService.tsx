@@ -485,9 +485,8 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Renter Responsibility</h3>
           <p className="text-muted-foreground leading-relaxed">
             As a renter, you are responsible for returning items in the same
-            condition you received them, but normal wear and tear excepted. You are
-            liable for any damage, loss, or theft that occurs while the item is
-            in your possession.
+            condition you received them, with the exception of reasonable wear
+            and tear.
           </p>
         </div>
         <div>
