@@ -20,6 +20,7 @@ import NotFound from "./pages/NotFound";
 import { TermsPopup } from "@/components/ui/terms-popup";
 import { CookieBanner, CookiePreferences } from "@/components/ui/cookie-banner";
 import { COMPANY_NAME } from "@/lib/constants";
+import SplashOnboarding from "@/components/ui/splash-onboarding";
 
 const queryClient = new QueryClient();
 
@@ -35,9 +36,13 @@ const App = () => {
     const hasAcceptedCookies = localStorage.getItem(
       `${COMPANY_NAME.toLowerCase()}-cookies-accepted`,
     );
+    const splashCompleted = localStorage.getItem(
+      `${COMPANY_NAME.toLowerCase()}-splash-completed`,
+    ) === "true";
 
     if (!hasAcceptedTerms) {
-      setShowTermsPopup(true);
+      // Defer modal until after splash onboarding is completed
+      if (splashCompleted) setShowTermsPopup(true);
     } else if (!hasAcceptedCookies) {
       // Show cookie banner only after terms are accepted
       setShowCookieBanner(true);
@@ -81,6 +86,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <SplashOnboarding />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/browse" element={<BrowseListings />} />
