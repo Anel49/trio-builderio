@@ -20,7 +20,7 @@ export function SplashOnboarding() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm overflow-y-auto p-4">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm overflow-y-auto p-4">
       {step === 1 && (
         <div className="w-full max-w-md mx-4">
           <Card className="w-full max-w-md mx-auto shadow-2xl">
