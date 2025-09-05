@@ -209,7 +209,7 @@ export default function Checkout() {
           },
           merchantInfo: {
             merchantId: "12345678901234567890", // Replace with your merchant ID
-            merchantName: "Trio Rental Marketplace",
+            merchantName: MARKETPLACE_NAME,
           },
         };
 
