@@ -53,6 +53,10 @@ export default function OrderHistory() {
   const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<OrderType | "all">("all");
   const [activeTab, setActiveTab] = useState<"orders" | "requests">("orders");
+  const [requestSearchQuery, setRequestSearchQuery] = useState("");
+  const [requestStatusFilter, setRequestStatusFilter] = useState<RequestStatus | "all">("all");
+  const [requesterFilter, setRequesterFilter] = useState<"all" | "incoming" | "outgoing">("all");
+  const [requestSortBy, setRequestSortBy] = useState<"recent" | "oldest">("recent");
 
   useEffect(() => {
     document.title = "Orders and Requests";
