@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { AlertTriangle, FileText } from "lucide-react";
 import { COMPANY_NAME } from "@/lib/constants";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface TermsPopupProps {
   isOpen: boolean;
