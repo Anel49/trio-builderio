@@ -653,7 +653,7 @@ const TermsOfServiceContent = () => (
         >
           support@triorentals.com
         </a>{" "}
-        or through our in-app messaging system.
+        or through the pinned support chat in your messages.
       </p>
     </section>
 
