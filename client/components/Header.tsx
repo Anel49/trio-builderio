@@ -7,6 +7,7 @@ import { LoginModal } from "./ui/login-modal";
 import { SignUpModal } from "./ui/signup-modal";
 import { MobileMenu } from "./ui/mobile-menu";
 import { currentUser } from "@/lib/user-profile";
+import { COMPANY_NAME } from "@/lib/constants";
 import {
   spacing,
   typography,
