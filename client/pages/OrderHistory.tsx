@@ -13,6 +13,7 @@ import {
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 import Header from "@/components/Header";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   ArrowLeft,
   Search,
@@ -51,6 +52,7 @@ export default function OrderHistory() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<OrderType | "all">("all");
+  const [activeTab, setActiveTab] = useState<"orders" | "requests">("orders");
 
   const orders: Order[] = [
     {
@@ -140,6 +142,81 @@ export default function OrderHistory() {
     },
   ];
 
+  type RequestStatus = "pending" | "approved" | "declined";
+  interface RequestItem {
+    id: string;
+    itemName: string;
+    itemImage: string;
+    requester: string;
+    requesterAvatar: string;
+    requestedStart: string;
+    requestedEnd: string;
+    location: string;
+    message?: string;
+    status: RequestStatus;
+    direction: "incoming" | "outgoing";
+  }
+
+  const requests: RequestItem[] = [
+    {
+      id: "REQ-1001",
+      itemName: "Party Sound System",
+      itemImage:
+        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=200&fit=crop&auto=format",
+      requester: "Emily",
+      requesterAvatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
+      requestedStart: "Jan 12, 2025",
+      requestedEnd: "Jan 14, 2025",
+      location: "94607",
+      message: "Need it for a birthday party this weekend.",
+      status: "pending",
+      direction: "incoming",
+    },
+    {
+      id: "REQ-1002",
+      itemName: "Professional Camera Kit",
+      itemImage:
+        "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=300&h=200&fit=crop&auto=format",
+      requester: "You",
+      requesterAvatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&auto=format",
+      requestedStart: "Jan 20, 2025",
+      requestedEnd: "Jan 22, 2025",
+      location: "94102",
+      message: "Shooting an event downtown.",
+      status: "approved",
+      direction: "outgoing",
+    },
+    {
+      id: "REQ-1003",
+      itemName: "Complete Tool Set",
+      itemImage:
+        "https://images.pexels.com/photos/6790973/pexels-photo-6790973.jpeg?w=300&h=200&fit=crop&auto=format",
+      requester: "David",
+      requesterAvatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
+      requestedStart: "Feb 2, 2025",
+      requestedEnd: "Feb 4, 2025",
+      location: "94301",
+      status: "declined",
+      direction: "incoming",
+    },
+  ];
+
+  const getRequestStatusBadge = (status: RequestStatus) => {
+    switch (status) {
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+      case "approved":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+      case "declined":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+    }
+  };
+
   const getStatusColor = (status: OrderStatus) => {
     switch (status) {
       case "completed":
@@ -211,12 +288,21 @@ export default function OrderHistory() {
         </div>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Order History</h1>
-          <p className="text-muted-foreground">
-            Track your rental transactions and manage your orders
-          </p>
+          <h1 className="text-3xl font-bold mb-2">Orders and Requests</h1>
+          <p className="text-muted-foreground">Review orders or manage rental requests</p>
         </div>
 
+        {/* Tabs */}
+        <div className="mb-6">
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="orders">Order History</TabsTrigger>
+              <TabsTrigger value="requests">Requests</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+
+        <div className={activeTab === "orders" ? "block" : "hidden"}>
         {/* Filters */}
         <Card className="mb-6">
           <CardContent className="p-6">
@@ -489,6 +575,77 @@ export default function OrderHistory() {
             <Button variant="outline" size="lg">
               Load More Orders
             </Button>
+          </div>
+        )}
+        </div>
+
+        {activeTab === "requests" && (
+          <div className="space-y-4">
+            {requests.map((req) => (
+              <Card key={req.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div className="lg:col-span-2">
+                      <div className="flex space-x-4">
+                        <img src={req.itemImage} alt={req.itemName} className="w-20 h-20 object-cover rounded-lg" />
+                        <div className="flex-1">
+                          <div className="flex items-start justify-between mb-2">
+                            <h3 className="font-semibold text-lg">{req.itemName}</h3>
+                            <Badge className={getRequestStatusBadge(req.status)}>
+                              {req.status.charAt(0).toUpperCase() + req.status.slice(1)}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-1">Request #{req.id}</p>
+                          <div className="flex items-center text-sm text-muted-foreground mb-2">
+                            <MapPin className="h-4 w-4 mr-1" />
+                            {req.location}
+                          </div>
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <Calendar className="h-4 w-4 mr-1" />
+                            {req.requestedStart} - {req.requestedEnd}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-sm font-medium mb-2">{req.direction === "incoming" ? "Requester" : "You requested"}</p>
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={req.requesterAvatar} alt={req.requester} />
+                            <AvatarFallback>{req.requester.split(" ").map((n) => n[0]).join("")}</AvatarFallback>
+                          </Avatar>
+                          <span className="text-sm">{req.requester}</span>
+                        </div>
+                      </div>
+
+                      {req.message && (
+                        <div className="text-xs text-muted-foreground bg-muted/50 rounded p-2">{req.message}</div>
+                      )}
+                    </div>
+
+                    <div className="flex items-center lg:justify-end gap-2">
+                      {req.status === "pending" && req.direction === "incoming" && (
+                        <>
+                          <Button size="sm" variant="outline">Decline</Button>
+                          <Button size="sm">Approve</Button>
+                        </>
+                      )}
+                      {req.status !== "pending" && (
+                        <Button size="sm" variant="outline">View</Button>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+
+            {requests.length > 0 && (
+              <div className="mt-8 text-center">
+                <Button variant="outline" size="lg">Load More Requests</Button>
+              </div>
+            )}
           </div>
         )}
       </div>
