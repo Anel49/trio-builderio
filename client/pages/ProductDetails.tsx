@@ -96,6 +96,23 @@ export default function ProductDetails() {
 
   const host = currentUser;
 
+  // Mock reserved dates for this listing
+  const reservedDates = [
+    new Date("2025-01-15"),
+    new Date("2025-01-16"),
+    new Date("2025-01-17"), // 3-day rental
+    new Date("2025-01-22"),
+    new Date("2025-01-23"), // 2-day rental
+    new Date("2025-02-05"),
+    new Date("2025-02-06"),
+    new Date("2025-02-07"),
+    new Date("2025-02-08"), // 4-day rental
+    new Date("2025-02-14"), // Valentine's Day rental
+    new Date("2025-02-20"),
+    new Date("2025-02-21"),
+    new Date("2025-02-22"), // Weekend rental
+  ];
+
   const reviews = [
     {
       id: 1,
