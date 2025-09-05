@@ -19,6 +19,7 @@ import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 import { TermsPopup } from "@/components/ui/terms-popup";
 import { CookieBanner, CookiePreferences } from "@/components/ui/cookie-banner";
+import { COMPANY_NAME } from "@/lib/constants";
 
 const queryClient = new QueryClient();
 
