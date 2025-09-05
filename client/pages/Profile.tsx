@@ -1017,10 +1017,6 @@ export default function Profile() {
               ) : (
                 <h1 className="text-xl font-bold mb-1">{userProfile.name}</h1>
               )}
-              <p className="text-sm text-muted-foreground mb-4">
-                <Calendar className="inline h-4 w-4 mr-1" />
-                Member since {userProfile.memberSince}
-              </p>
 
               {/* Location */}
               <div className="mb-4">
@@ -1064,6 +1060,14 @@ export default function Profile() {
                   <span className="text-sm text-muted-foreground">
                     ({userProfile.totalReviews} reviews)
                   </span>
+                </div>
+              </div>
+
+              {/* Date Joined */}
+              <div className="mb-4">
+                <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+                  <Calendar className="h-4 w-4" />
+                  <span className="text-sm">Joined {userProfile.dateJoined}</span>
                 </div>
               </div>
 
