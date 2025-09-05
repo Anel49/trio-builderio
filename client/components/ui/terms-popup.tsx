@@ -30,9 +30,8 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
       <CardContent>
         <div className="pr-2">
           <div className="max-h-[70vh]">
-            <div className="relative">
-              <div className="overflow-y-auto max-h-[70vh] pr-2">
-                <div className="space-y-4">
+            <ScrollArea className="max-h-[70vh] pr-2">
+              <div className="space-y-4">
                   <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
                     <div className="flex items-start space-x-3">
                       <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
@@ -117,8 +116,7 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
                     Service and Privacy Policy.
                   </p>
                 </div>
-              </div>
-            </div>
+            </ScrollArea>
           </div>
         </div>
       </CardContent>
