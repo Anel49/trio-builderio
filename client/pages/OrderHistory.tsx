@@ -798,11 +798,6 @@ export default function OrderHistory() {
                             <Button size="sm">Approve</Button>
                           </>
                         )}
-                      {req.status !== "pending" && (
-                        <Button size="sm" variant="outline">
-                          View
-                        </Button>
-                      )}
 
                       <Button
                         variant="outline"
