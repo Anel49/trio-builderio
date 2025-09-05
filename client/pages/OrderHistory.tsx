@@ -183,7 +183,6 @@ export default function OrderHistory() {
       requestedStart: "Jan 12, 2025",
       requestedEnd: "Jan 14, 2025",
       location: "94607",
-      message: "Need it for a birthday party this weekend.",
       status: "pending",
       direction: "incoming",
     },
