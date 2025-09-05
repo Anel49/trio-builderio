@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, Heart, MapPin } from "lucide-react";
 import { colors, combineColors } from "@/lib/colors";
+import { ENABLE_FAVORITES } from "@/lib/constants";
 import {
   animations,
   spacing,
@@ -77,34 +78,36 @@ export function ProductCard({
             spacing.dimensions.productImage,
           )}
         />
-        <Button
-          size="icon"
-          variant="ghost"
-          className={combineTokens(
-            layouts.absolute.topRight,
-            "bg-white/80 hover:bg-white",
-            animations.combinations.heartButton,
-          )}
-          onMouseEnter={() => setIsHeartHovered(true)}
-          onMouseLeave={() => setIsHeartHovered(false)}
-          onClick={(e) => {
-            e.stopPropagation();
-            if (onFavorite) {
-              onFavorite(name);
-            }
-          }}
-        >
-          <Heart
+        {ENABLE_FAVORITES && (
+          <Button
+            size="icon"
+            variant="ghost"
             className={combineTokens(
-              spacing.dimensions.icon.sm,
-              "heart-transition",
+              layouts.absolute.topRight,
+              "bg-white/80 hover:bg-white",
+              animations.combinations.heartButton,
             )}
-            style={{
-              stroke: "#ff6f6f",
-              fill: isHeartHovered ? "#ff6f6f" : "transparent",
+            onMouseEnter={() => setIsHeartHovered(true)}
+            onMouseLeave={() => setIsHeartHovered(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onFavorite) {
+                onFavorite(name);
+              }
             }}
-          />
-        </Button>
+          >
+            <Heart
+              className={combineTokens(
+                spacing.dimensions.icon.sm,
+                "heart-transition",
+              )}
+              style={{
+                stroke: "#ff6f6f",
+                fill: isHeartHovered ? "#ff6f6f" : "transparent",
+              }}
+            />
+          </Button>
+        )}
         <Badge
           className={combineTokens(
             layouts.absolute.bottomLeft,
