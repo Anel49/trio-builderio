@@ -72,6 +72,30 @@ export default function ProductDetails() {
     setIsFavoritesModalOpen(true);
   };
 
+  // Check if selected dates are valid for reservation
+  const isDateRangeValid = () => {
+    if (!selectedDateRange.start || !selectedDateRange.end) {
+      return false;
+    }
+
+    // Check if any date in the range conflicts with reserved dates
+    const start = new Date(selectedDateRange.start);
+    const end = new Date(selectedDateRange.end);
+    const currentDate = new Date(start);
+
+    while (currentDate <= end) {
+      const isReserved = reservedDates.some(
+        (reservedDate) => reservedDate.toDateString() === currentDate.toDateString()
+      );
+      if (isReserved) {
+        return false;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return true;
+  };
+
   const productImages = [
     "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
     "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop&auto=format",
