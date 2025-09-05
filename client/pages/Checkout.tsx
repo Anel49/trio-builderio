@@ -50,7 +50,6 @@ export default function Checkout() {
     dailyRate: 45,
     subtotal: 135,
     serviceFee: 20,
-    taxes: 12,
     total: 167,
     image:
       "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=300&h=200&fit=crop&auto=format",
@@ -290,11 +289,7 @@ export default function Checkout() {
             amount: booking.subtotal.toString(),
           },
           {
-            label: "Service Fee",
-            amount: booking.serviceFee.toString(),
-          },
-          {
-            label: "Taxes",
+            label: "Sales tax",
             amount: booking.taxes.toString(),
           },
         ],
@@ -510,7 +505,7 @@ export default function Checkout() {
                     <span>${booking.serviceFee}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Taxes</span>
+                    <span>Sales tax</span>
                     <span>${booking.taxes}</span>
                   </div>
                   <Separator />
