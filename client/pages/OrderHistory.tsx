@@ -736,7 +736,7 @@ export default function OrderHistory() {
               </Card>
             ))}
 
-            {requests.length > 0 && (
+            {sortedRequests.length > 0 && (
               <div className="mt-8 text-center">
                 <Button variant="outline" size="lg">Load More Requests</Button>
               </div>
