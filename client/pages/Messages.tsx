@@ -364,23 +364,19 @@ export default function Messages() {
       <div className="h-[calc(100vh-4rem)]">
         <div className="h-full flex overflow-hidden shadow-sm relative">
           {/* Mobile Edge Tab Strips - Only visible on tablet/mobile */}
-          {!leftSidebarOpen && (
-            <div
-              onClick={toggleLeftSidebar}
-              className="fixed left-0 top-1/2 -translate-y-1/2 h-32 w-3 bg-primary hover:bg-primary/80 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-r-md shadow-lg"
-            >
-              <div className="w-1 h-8 bg-white rounded-full"></div>
-            </div>
-          )}
+          <div
+            onClick={toggleLeftSidebar}
+            className="fixed left-0 top-1/2 -translate-y-1/2 h-32 w-3 bg-primary hover:bg-primary/80 transition-colors z-[60] md:hidden flex items-center justify-center cursor-pointer rounded-r-md shadow-lg"
+          >
+            <div className="w-1 h-8 bg-white rounded-full"></div>
+          </div>
 
-          {!rightSidebarOpen && (
-            <div
-              onClick={toggleRightSidebar}
-              className="fixed right-0 top-1/2 -translate-y-1/2 h-32 w-3 bg-primary hover:bg-primary/80 transition-colors z-20 md:hidden flex items-center justify-center cursor-pointer rounded-l-md shadow-lg"
-            >
-              <div className="w-1 h-8 bg-white rounded-full"></div>
-            </div>
-          )}
+          <div
+            onClick={toggleRightSidebar}
+            className="fixed right-0 top-1/2 -translate-y-1/2 h-32 w-3 bg-primary hover:bg-primary/80 transition-colors z-[60] md:hidden flex items-center justify-center cursor-pointer rounded-l-md shadow-lg"
+          >
+            <div className="w-1 h-8 bg-white rounded-full"></div>
+          </div>
 
           {/* Left Sidebar - Chat List */}
           <div
