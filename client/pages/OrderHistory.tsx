@@ -789,7 +789,14 @@ export default function OrderHistory() {
                     </div>
 
                     <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-end">
-                      <div className="flex gap-2 flex-wrap md:flex-nowrap">
+                      {req.status === "pending" && req.direction === "incoming" && (
+                        <div className="order-2 md:order-1 flex gap-2 mt-2 md:mt-0 md:ml-2">
+                          <Button size="sm" variant="outline">Decline</Button>
+                          <Button size="sm">Approve</Button>
+                        </div>
+                      )}
+
+                      <div className="order-1 md:order-2 flex gap-2 flex-wrap md:flex-nowrap">
                         <Button
                           variant="outline"
                           size="sm"
@@ -815,13 +822,6 @@ export default function OrderHistory() {
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
-
-                      {req.status === "pending" && req.direction === "incoming" && (
-                        <div className="flex gap-2 mt-2 md:mt-0 md:ml-2">
-                          <Button size="sm" variant="outline">Decline</Button>
-                          <Button size="sm">Approve</Button>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </CardContent>
