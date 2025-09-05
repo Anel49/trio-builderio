@@ -29,7 +29,7 @@ export function LegalModal({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <ScrollArea className="h-[60vh] pr-4">
+        <ScrollArea className="max-h-[60vh] pr-4">
           <div className="space-y-6">{children}</div>
         </ScrollArea>
       </DialogContent>
