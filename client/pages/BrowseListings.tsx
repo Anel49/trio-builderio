@@ -78,6 +78,20 @@ export default function BrowseListings() {
   });
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("searchDateRange");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const start = parsed.start ? new Date(parsed.start) : undefined;
+        const end = parsed.end ? new Date(parsed.end) : undefined;
+        if (start && end) {
+          setDateRange({ start, end });
+        }
+      }
+    } catch {}
+  }, []);
+
   // Filter state
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
@@ -373,11 +387,16 @@ export default function BrowseListings() {
                     onSelect={(range) => {
                       if (range?.from) {
                         if (!dateRange.start || range.to) {
-                          // First click or both dates selected
                           setDateRange({
                             start: range.from,
                             end: range.to,
                           });
+                          if (range.to) {
+                            localStorage.setItem(
+                              "searchDateRange",
+                              JSON.stringify({ start: range.from, end: range.to }),
+                            );
+                          }
                           // Don't auto-close when end date is selected
                         }
                       }
@@ -580,34 +599,48 @@ export default function BrowseListings() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
-              {filteredAndSortedListings.map((listing) => (
-                <div key={listing.id} id={`listing-${listing.id}`}>
-                  <ProductCard
-                    id={listing.id}
-                    name={listing.name}
-                    price={listing.price}
-                    rating={listing.rating}
-                    reviews={listing.reviews}
-                    image={listing.image}
-                    host={listing.host}
-                    type={listing.type}
-                    distance={listing.distance}
-                    listedTime={listing.listedTime}
-                    onFavorite={handleFavorite}
-                    className={cn(
-                      selectedListing === listing.id &&
-                        "ring-2 ring-primary scale-105",
-                      hoveredListing === listing.id && "scale-105",
-                    )}
-                    onMouseEnter={() => setHoveredListing(listing.id)}
-                    onMouseLeave={() => setHoveredListing(null)}
-                    onClick={() => {
-                      setSelectedListing(listing.id);
-                      window.location.href = `/product/${listing.id}`;
-                    }}
-                  />
-                </div>
-              ))}
+              {filteredAndSortedListings.map((listing) => {
+                const hasRange = !!(dateRange.start && dateRange.end);
+                const display = (() => {
+                  if (!hasRange) return { price: listing.price, label: "/day", underline: false };
+                  const start = dateRange.start as Date;
+                  const end = dateRange.end as Date;
+                  const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+                  const dailyRate = parseInt(listing.price.replace("$", ""));
+                  const total = days * dailyRate;
+                  return { price: `$${total}`, label: "total", underline: true };
+                })();
+                return (
+                  <div key={listing.id} id={`listing-${listing.id}`}>
+                    <ProductCard
+                      id={listing.id}
+                      name={listing.name}
+                      price={display.price}
+                      rating={listing.rating}
+                      reviews={listing.reviews}
+                      image={listing.image}
+                      host={listing.host}
+                      type={listing.type}
+                      distance={listing.distance}
+                      listedTime={listing.listedTime}
+                      onFavorite={handleFavorite}
+                      className={cn(
+                        selectedListing === listing.id &&
+                          "ring-2 ring-primary scale-105",
+                        hoveredListing === listing.id && "scale-105",
+                      )}
+                      onMouseEnter={() => setHoveredListing(listing.id)}
+                      onMouseLeave={() => setHoveredListing(null)}
+                      onClick={() => {
+                        setSelectedListing(listing.id);
+                        window.location.href = `/product/${listing.id}`;
+                      }}
+                      priceUnitLabel={display.label}
+                      underlinePrice={display.underline}
+                    />
+                  </div>
+                );
+              })}
             </div>
 
             {/* Load More Button */}
