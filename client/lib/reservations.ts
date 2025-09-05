@@ -17,37 +17,37 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
   "1": [
     {
       id: "res-001",
-      startDate: new Date("2025-06-15"),
+      startDate: new Date("2025-10-15"),
       endDate: new Date("2025-06-17"),
       status: "confirmed",
     },
     {
       id: "res-002",
-      startDate: new Date("2025-06-22"),
+      startDate: new Date("2025-09-22"),
       endDate: new Date("2025-06-28"),
       status: "confirmed",
     },
     {
       id: "res-003",
-      startDate: new Date("2025-07-05"),
+      startDate: new Date("2025-11-05"),
       endDate: new Date("2025-07-08"),
       status: "pending",
     },
     {
       id: "res-004",
-      startDate: new Date("2025-07-14"),
+      startDate: new Date("2025-12-14"),
       endDate: new Date("2025-07-23"),
       status: "confirmed",
     },
     {
       id: "res-005",
-      startDate: new Date("2025-08-20"),
+      startDate: new Date("2025-12-20"),
       endDate: new Date("2025-08-24"),
       status: "confirmed",
     },
     {
       id: "res-006",
-      startDate: new Date("2025-09-01"),
+      startDate: new Date("2025-12-01"),
       endDate: new Date("2025-09-03"),
       status: "pending",
     },
