@@ -23,8 +23,6 @@ import {
   MessageCircle,
   User,
   Menu,
-  Check,
-  X,
   Search,
   SlidersHorizontal,
   ChevronLeft,
@@ -53,9 +51,7 @@ import {
 export default function Profile() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isEditingZipCode, setIsEditingZipCode] = useState(false);
   const [zipCode, setZipCode] = useState("94102");
-  const [tempZipCode, setTempZipCode] = useState("");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [name, setName] = useState(currentUser.name);
 
@@ -280,20 +276,6 @@ export default function Profile() {
     setActiveTab(tabs[nextIndex].id);
   };
 
-  const handleZipCodeEdit = () => {
-    setTempZipCode(zipCode);
-    setIsEditingZipCode(true);
-  };
-
-  const handleZipCodeSave = () => {
-    setZipCode(tempZipCode);
-    setIsEditingZipCode(false);
-  };
-
-  const handleZipCodeCancel = () => {
-    setTempZipCode("");
-    setIsEditingZipCode(false);
-  };
 
   const calculateAvgItemRating = () => {
     const total = itemReviews.reduce((sum, review) => sum + review.rating, 0);
@@ -462,45 +444,12 @@ export default function Profile() {
                       />
                     </div>
                   ) : (
-                    <>
-                      {isEditingZipCode ? (
-                        <div className="flex items-center justify-center space-x-2">
-                          <Input
-                            value={tempZipCode}
-                            onChange={(e) => setTempZipCode(e.target.value)}
-                            className="w-20 text-center"
-                            maxLength={5}
-                          />
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={handleZipCodeSave}
-                            className="h-6 w-6 p-0"
-                          >
-                            <Check className="h-4 w-4 text-green-600" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={handleZipCodeCancel}
-                            className="h-6 w-6 p-0"
-                          >
-                            <X className="h-4 w-4 text-red-600" />
-                          </Button>
-                        </div>
-                      ) : (
-                        <div
-                          className="group flex items-center justify-center space-x-1 cursor-pointer hover:bg-accent/50 rounded px-2 py-1"
-                          onClick={handleZipCodeEdit}
-                        >
-                          <MapPin className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-muted-foreground">
-                            {userProfile.zipCode}
-                          </span>
-                          <Edit3 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </div>
-                      )}
-                    </>
+                    <div className="flex items-center justify-center space-x-1">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-muted-foreground">
+                        {userProfile.zipCode}
+                      </span>
+                    </div>
                   )}
                 </div>
 
