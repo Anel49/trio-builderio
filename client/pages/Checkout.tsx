@@ -50,6 +50,7 @@ export default function Checkout() {
     dailyRate: 45,
     subtotal: 135,
     serviceFee: 20,
+    taxes: 12,
     total: 167,
     image:
       "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=300&h=200&fit=crop&auto=format",
