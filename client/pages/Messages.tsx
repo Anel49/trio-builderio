@@ -46,6 +46,17 @@ export default function Messages() {
     setRightSidebarOpen(!rightSidebarOpen);
   };
 
+  // Support Chat (pinned)
+  const SUPPORT_CHAT_ID = 0;
+  const supportChat = {
+    id: SUPPORT_CHAT_ID,
+    name: "Support Chat",
+    avatar: "",
+    lastMessage: "Open a claim or get help",
+    lastActivity: "Online",
+    isOnline: true,
+  };
+
   // Mock chat data
   const chats = [
     {
@@ -153,6 +164,16 @@ export default function Messages() {
   // Mock messages for different chats
   const getMessagesForChat = (chatId: number) => {
     const chatMessages: { [key: number]: any[] } = {
+      0: [
+        {
+          id: 1,
+          senderId: 0,
+          senderName: "Support",
+          content: "Hi! This is Trio Support. Tell us what happened, or tap here to open a claim.",
+          timestamp: "Now",
+          isCurrentUser: false,
+        },
+      ],
       1: [
         // Sarah Martinez - Lawn Mower
         {
@@ -322,7 +343,10 @@ export default function Messages() {
 
   const messages = getMessagesForChat(selectedChat);
 
-  const selectedChatData = chats.find((chat) => chat.id === selectedChat);
+  const selectedChatData =
+    selectedChat === SUPPORT_CHAT_ID
+      ? supportChat
+      : chats.find((chat) => chat.id === selectedChat);
 
   const filteredChats = chats.filter(
     (chat) =>
@@ -418,6 +442,31 @@ export default function Messages() {
 
             {/* Chat List */}
             <ScrollArea className="h-full">
+              {/* Pinned Support Chat */}
+              <div
+                onClick={() => setSelectedChat(SUPPORT_CHAT_ID)}
+                className={`p-2 ml-2 mr-4 my-0 rounded-lg cursor-pointer transition-colors overflow-hidden border ${
+                  selectedChat === SUPPORT_CHAT_ID
+                    ? "bg-amber-200/70 dark:bg-amber-900/50 border-amber-300 dark:border-amber-700"
+                    : "bg-amber-100/70 dark:bg-amber-900/30 hover:bg-amber-200/60 dark:hover:bg-amber-900/40 border-amber-200 dark:border-amber-800"
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="relative">
+                    <Avatar className="h-12 w-12">
+                      <AvatarFallback>SC</AvatarFallback>
+                    </Avatar>
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
+                  </div>
+                  <div className="flex-1 w-0">
+                    <div className="font-semibold text-sm truncate">Support Chat</div>
+                    <div className="text-xs text-muted-foreground truncate">
+                      Open a claim or get help
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {filteredChats.map((chat) => (
                 <div
                   key={chat.id}
