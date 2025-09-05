@@ -423,6 +423,25 @@ export default function ProductDetails() {
                   {product.price}
                 </div>
                 <div className="text-muted-foreground">per day</div>
+                {selectedDateRange.start && selectedDateRange.end && isDateRangeValid() && (
+                  <div className="mt-2 p-3 bg-muted rounded-lg">
+                    <div className="text-sm text-muted-foreground">
+                      {(() => {
+                        const start = selectedDateRange.start;
+                        const end = selectedDateRange.end;
+                        const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+                        const dailyRate = parseInt(product.price.replace('$', ''));
+                        const total = days * dailyRate;
+                        return (
+                          <>
+                            {days} day{days > 1 ? 's' : ''} × {product.price} =
+                            <span className="font-semibold text-foreground ml-1">${total}</span>
+                          </>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Date Range Picker */}
