@@ -50,7 +50,7 @@ export default function Messages() {
   const SUPPORT_CHAT_ID = 0;
   const supportChat = {
     id: SUPPORT_CHAT_ID,
-    name: "Support Chat",
+    name: "Trio Chat",
     avatar: "",
     lastMessage: "Open a claim or get help",
     lastActivity: "Online",
