@@ -608,7 +608,7 @@ export default function OrderHistory() {
 
         {activeTab === "requests" && (
           <div className="space-y-4">
-            {requests.map((req) => (
+            {sortedRequests.map((req) => (
               <Card key={req.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
                   <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
