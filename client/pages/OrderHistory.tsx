@@ -197,7 +197,6 @@ export default function OrderHistory() {
       requestedStart: "Jan 20, 2025",
       requestedEnd: "Jan 22, 2025",
       location: "94102",
-      message: "Shooting an event downtown.",
       status: "approved",
       direction: "outgoing",
     },
