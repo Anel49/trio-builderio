@@ -136,7 +136,7 @@ export default function Index() {
       icon: <Shield className="h-8 w-8 text-primary" />,
       title: "Protected",
       description:
-        "Every rental includes insurance coverage.",
+        "Every rental comes with insurance coverage for added peace of mind.",
     },
     {
       icon: <Star className="h-8 w-8 text-primary" />,
