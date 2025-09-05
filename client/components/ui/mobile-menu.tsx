@@ -52,7 +52,7 @@ export function MobileMenu({ isOpen, onOpenChange }: MobileMenuProps) {
             onClick={() => handleNavigation("/order-history")}
           >
             <ClipboardList className="h-5 w-5 mr-3" />
-            Order History
+            Orders and Requests
           </Button>
         </div>
       </SheetContent>
