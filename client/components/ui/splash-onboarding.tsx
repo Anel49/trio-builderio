@@ -28,7 +28,7 @@ export function SplashOnboarding() {
                 A simple, community-driven way to rent and share items and services nearby.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl items-start">
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 w-full max-w-5xl items-start">
                 <div>
                   <h2 className="text-2xl font-semibold mb-3">Hosts</h2>
                   <ol className="list-decimal pl-6 space-y-2 text-muted-foreground">
@@ -38,7 +38,7 @@ export function SplashOnboarding() {
                   </ol>
                 </div>
                 <div className="hidden md:block h-full w-px bg-border mx-auto" aria-hidden />
-                <div className="md:col-start-2">
+                <div >
                   <h2 className="text-2xl font-semibold mb-3">Renters</h2>
                   <ol className="list-decimal pl-6 space-y-2 text-muted-foreground">
                     <li>Search for an item or service</li>
@@ -56,7 +56,7 @@ export function SplashOnboarding() {
 
           {step === 2 && (
             <div className="h-full flex flex-col items-center justify-center">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl items-start">
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 w-full max-w-5xl items-start">
                 <div>
                   <h2 className="text-2xl font-semibold mb-3">Hosts</h2>
                   <p className="text-muted-foreground leading-relaxed">
@@ -64,7 +64,7 @@ export function SplashOnboarding() {
                   </p>
                 </div>
                 <div className="hidden md:block h-full w-px bg-border mx-auto" aria-hidden />
-                <div className="md:col-start-2">
+                <div >
                   <h2 className="text-2xl font-semibold mb-3">Renters</h2>
                   <div className="space-y-4 text-muted-foreground leading-relaxed">
                     <p>Please take care of the items you rent as if they were your own.</p>
