@@ -494,9 +494,8 @@ const TermsOfServiceContent = () => (
           <p className="text-muted-foreground leading-relaxed">
             If an item is damaged, the owner must provide evidence of the damage
             and a reasonable repair estimate. This is best resolved by photographing
-            the item immediately before it is handed to the renter and
-            immediately after the item is received from the renter. A Trio staff member has the right to deny
-            covered if anything seems suspicious.
+            the item immediately before and after the item is given to and received
+            from the renter.
           </p>
         </div>
         <div>
