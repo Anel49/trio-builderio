@@ -278,9 +278,7 @@ export default function OrderHistory() {
   const filteredRequests = requests.filter((req) => {
     const matchesSearch =
       req.itemName.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
-      req.requester.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
-      (req.message &&
-        req.message.toLowerCase().includes(requestSearchQuery.toLowerCase()));
+      req.requester.toLowerCase().includes(requestSearchQuery.toLowerCase());
     const matchesStatus =
       requestStatusFilter === "all" || req.status === requestStatusFilter;
     const matchesRequester =
