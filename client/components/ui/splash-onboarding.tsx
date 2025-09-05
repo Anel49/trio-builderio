@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { COMPANY_NAME } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { TermsCardContent } from "@/components/ui/terms-popup";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
