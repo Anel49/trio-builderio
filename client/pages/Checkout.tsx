@@ -317,9 +317,9 @@ export default function Checkout() {
             expiresAt: Date.now() + 300000,
             merchantSessionIdentifier: "mock_session_id",
             nonce: "mock_nonce",
-            merchantIdentifier: "merchant.com.trio.rental",
+            merchantIdentifier: `merchant.com.${COMPANY_NAME.toLowerCase()}.rental`,
             domainName: window.location.hostname,
-            displayName: "Trio Rental Marketplace",
+            displayName: MARKETPLACE_NAME,
           };
 
           session.completeMerchantValidation(mockMerchantSession);
