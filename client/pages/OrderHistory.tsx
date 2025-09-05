@@ -54,9 +54,15 @@ export default function OrderHistory() {
   const [typeFilter, setTypeFilter] = useState<OrderType | "all">("all");
   const [activeTab, setActiveTab] = useState<"orders" | "requests">("orders");
   const [requestSearchQuery, setRequestSearchQuery] = useState("");
-  const [requestStatusFilter, setRequestStatusFilter] = useState<RequestStatus | "all">("all");
-  const [requesterFilter, setRequesterFilter] = useState<"all" | "incoming" | "outgoing">("all");
-  const [requestSortBy, setRequestSortBy] = useState<"recent" | "oldest">("recent");
+  const [requestStatusFilter, setRequestStatusFilter] = useState<
+    RequestStatus | "all"
+  >("all");
+  const [requesterFilter, setRequesterFilter] = useState<
+    "all" | "incoming" | "outgoing"
+  >("all");
+  const [requestSortBy, setRequestSortBy] = useState<"recent" | "oldest">(
+    "recent",
+  );
 
   useEffect(() => {
     document.title = "Orders and Requests";
@@ -273,7 +279,8 @@ export default function OrderHistory() {
     const matchesSearch =
       req.itemName.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
       req.requester.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
-      (req.message && req.message.toLowerCase().includes(requestSearchQuery.toLowerCase()));
+      (req.message &&
+        req.message.toLowerCase().includes(requestSearchQuery.toLowerCase()));
     const matchesStatus =
       requestStatusFilter === "all" || req.status === requestStatusFilter;
     const matchesRequester =
@@ -316,7 +323,9 @@ export default function OrderHistory() {
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Orders and Requests</h1>
-          <p className="text-muted-foreground">Review orders or manage rental requests</p>
+          <p className="text-muted-foreground">
+            Review orders or manage rental requests
+          </p>
         </div>
 
         {/* Tabs */}
@@ -330,280 +339,280 @@ export default function OrderHistory() {
         </div>
 
         <div className={activeTab === "orders" ? "block" : "hidden"}>
-        {/* Filters */}
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search orders..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9"
-                />
-              </div>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="justify-start">
-                    <Filter className="h-4 w-4 mr-2" />
-                    <span>
-                      Status:{" "}
-                      {statusFilter === "all"
-                        ? "All"
-                        : getStatusText(statusFilter as OrderStatus)}
-                    </span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuRadioGroup
-                    value={statusFilter}
-                    onValueChange={setStatusFilter}
-                  >
-                    <DropdownMenuRadioItem value="all">
-                      All Statuses
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="completed">
-                      Completed
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="active">
-                      Active
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="upcoming">
-                      Upcoming
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="cancelled">
-                      Cancelled
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="justify-start">
-                    <Filter className="h-4 w-4 mr-2" />
-                    <span>
-                      Type:{" "}
-                      {typeFilter === "all"
-                        ? "All"
-                        : typeFilter === "rented"
-                          ? "Rented"
-                          : "Hosted"}
-                    </span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuRadioGroup
-                    value={typeFilter}
-                    onValueChange={setTypeFilter}
-                  >
-                    <DropdownMenuRadioItem value="all">
-                      All Types
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="rented">
-                      Items I Rented
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="hosted">
-                      Items I Hosted
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <div className="text-sm text-muted-foreground flex items-center">
-                Showing {filteredOrders.length} of {orders.length} orders
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Orders List */}
-        <div className="space-y-4">
-          {filteredOrders.length === 0 ? (
-            <Card>
-              <CardContent className="p-12 text-center">
-                <div className="text-muted-foreground mb-4">
-                  <Calendar className="h-12 w-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">
-                    No orders found
-                  </h3>
-                  <p>Try adjusting your search criteria or filters</p>
+          {/* Filters */}
+          <Card className="mb-6">
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search orders..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-9"
+                  />
                 </div>
-                <Button onClick={() => (window.location.href = "/browse")}>
-                  Start Browsing
-                </Button>
-              </CardContent>
-            </Card>
-          ) : (
-            filteredOrders.map((order) => (
-              <Card
-                key={order.id}
-                className="hover:shadow-md transition-shadow"
-              >
-                <CardContent className="p-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    {/* Item Info */}
-                    <div className="lg:col-span-2">
-                      <div className="flex space-x-4">
-                        <img
-                          src={order.itemImage}
-                          alt={order.itemName}
-                          className="w-20 h-20 object-cover rounded-lg"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between mb-2">
-                            <h3 className="font-semibold text-lg">
-                              {order.itemName}
-                            </h3>
-                            <Badge className={getStatusColor(order.status)}>
-                              {getStatusText(order.status)}
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-1">
-                            Order #{order.id}
-                          </p>
-                          <div className="flex items-center text-sm text-muted-foreground mb-2">
-                            <MapPin className="h-4 w-4 mr-1" />
-                            {order.location}
-                          </div>
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Calendar className="h-4 w-4 mr-1" />
-                            {order.startDate} - {order.endDate}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
-                    {/* People Info */}
-                    <div className="space-y-3">
-                      {order.type === "rented" ? (
-                        <div>
-                          <p className="text-sm font-medium mb-2">Host</p>
-                          <div className="flex items-center space-x-2">
-                            <Avatar className="h-8 w-8">
-                              <AvatarImage
-                                src={order.hostAvatar}
-                                alt={order.host}
-                              />
-                              <AvatarFallback>
-                                {order.host
-                                  .split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
-                              </AvatarFallback>
-                            </Avatar>
-                            <span className="text-sm">{order.host}</span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div>
-                          <p className="text-sm font-medium mb-2">Renter</p>
-                          <div className="flex items-center space-x-2">
-                            <Avatar className="h-8 w-8">
-                              <AvatarImage
-                                src={order.renterAvatar}
-                                alt={order.renter}
-                              />
-                              <AvatarFallback>
-                                {order.renter
-                                  ?.split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
-                              </AvatarFallback>
-                            </Avatar>
-                            <span className="text-sm">{order.renter}</span>
-                          </div>
-                        </div>
-                      )}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="justify-start">
+                      <Filter className="h-4 w-4 mr-2" />
+                      <span>
+                        Status:{" "}
+                        {statusFilter === "all"
+                          ? "All"
+                          : getStatusText(statusFilter as OrderStatus)}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuRadioGroup
+                      value={statusFilter}
+                      onValueChange={setStatusFilter}
+                    >
+                      <DropdownMenuRadioItem value="all">
+                        All Statuses
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="completed">
+                        Completed
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="active">
+                        Active
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="upcoming">
+                        Upcoming
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="cancelled">
+                        Cancelled
+                      </DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
-                      {/* Rating for completed orders */}
-                      {order.status === "completed" && order.rating && (
-                        <div className="flex items-center space-x-1">
-                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                          <span className="text-sm font-medium">
-                            {order.rating}
-                          </span>
-                        </div>
-                      )}
-                    </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="justify-start">
+                      <Filter className="h-4 w-4 mr-2" />
+                      <span>
+                        Type:{" "}
+                        {typeFilter === "all"
+                          ? "All"
+                          : typeFilter === "rented"
+                            ? "Rented"
+                            : "Hosted"}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuRadioGroup
+                      value={typeFilter}
+                      onValueChange={setTypeFilter}
+                    >
+                      <DropdownMenuRadioItem value="all">
+                        All Types
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="rented">
+                        Items I Rented
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="hosted">
+                        Items I Hosted
+                      </DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
-                    {/* Actions & Amount */}
-                    <div className="flex flex-col justify-between">
-                      <div className="text-right mb-4">
-                        <p className="text-2xl font-bold">${order.amount}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {order.type === "rented" ? "Paid" : "Earned"}
-                        </p>
-                      </div>
+                <div className="text-sm text-muted-foreground flex items-center">
+                  Showing {filteredOrders.length} of {orders.length} orders
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-                      <div className="flex gap-2 lg:justify-end">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => (window.location.href = `/messages`)}
-                        >
-                          <MessageCircle className="h-4 w-4 mr-1" />
-                          Message
-                        </Button>
-
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuRadioGroup>
-                              <DropdownMenuRadioItem value="view">
-                                View Details
-                              </DropdownMenuRadioItem>
-                              <DropdownMenuRadioItem value="receipt">
-                                Download Receipt
-                              </DropdownMenuRadioItem>
-                              {order.status === "completed" &&
-                                order.type === "rented" &&
-                                !order.rating && (
-                                  <DropdownMenuRadioItem value="review">
-                                    Leave Review
-                                  </DropdownMenuRadioItem>
-                                )}
-                              {order.status === "upcoming" && (
-                                <DropdownMenuRadioItem value="cancel">
-                                  Cancel Order
-                                </DropdownMenuRadioItem>
-                              )}
-                            </DropdownMenuRadioGroup>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    </div>
+          {/* Orders List */}
+          <div className="space-y-4">
+            {filteredOrders.length === 0 ? (
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <div className="text-muted-foreground mb-4">
+                    <Calendar className="h-12 w-12 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">
+                      No orders found
+                    </h3>
+                    <p>Try adjusting your search criteria or filters</p>
                   </div>
-
-                  {/* Review Text for completed orders */}
-                  {order.reviewText && (
-                    <>
-                      <Separator className="my-4" />
-                      <div className="bg-muted/50 p-3 rounded-lg">
-                        <p className="text-sm italic">"{order.reviewText}"</p>
-                      </div>
-                    </>
-                  )}
+                  <Button onClick={() => (window.location.href = "/browse")}>
+                    Start Browsing
+                  </Button>
                 </CardContent>
               </Card>
-            ))
-          )}
-        </div>
+            ) : (
+              filteredOrders.map((order) => (
+                <Card
+                  key={order.id}
+                  className="hover:shadow-md transition-shadow"
+                >
+                  <CardContent className="p-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                      {/* Item Info */}
+                      <div className="lg:col-span-2">
+                        <div className="flex space-x-4">
+                          <img
+                            src={order.itemImage}
+                            alt={order.itemName}
+                            className="w-20 h-20 object-cover rounded-lg"
+                          />
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between mb-2">
+                              <h3 className="font-semibold text-lg">
+                                {order.itemName}
+                              </h3>
+                              <Badge className={getStatusColor(order.status)}>
+                                {getStatusText(order.status)}
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-1">
+                              Order #{order.id}
+                            </p>
+                            <div className="flex items-center text-sm text-muted-foreground mb-2">
+                              <MapPin className="h-4 w-4 mr-1" />
+                              {order.location}
+                            </div>
+                            <div className="flex items-center text-sm text-muted-foreground">
+                              <Calendar className="h-4 w-4 mr-1" />
+                              {order.startDate} - {order.endDate}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-        {/* Load More */}
-        {filteredOrders.length > 0 && (
-          <div className="mt-8 text-center">
-            <Button variant="outline" size="lg">
-              Load More Orders
-            </Button>
+                      {/* People Info */}
+                      <div className="space-y-3">
+                        {order.type === "rented" ? (
+                          <div>
+                            <p className="text-sm font-medium mb-2">Host</p>
+                            <div className="flex items-center space-x-2">
+                              <Avatar className="h-8 w-8">
+                                <AvatarImage
+                                  src={order.hostAvatar}
+                                  alt={order.host}
+                                />
+                                <AvatarFallback>
+                                  {order.host
+                                    .split(" ")
+                                    .map((n) => n[0])
+                                    .join("")}
+                                </AvatarFallback>
+                              </Avatar>
+                              <span className="text-sm">{order.host}</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div>
+                            <p className="text-sm font-medium mb-2">Renter</p>
+                            <div className="flex items-center space-x-2">
+                              <Avatar className="h-8 w-8">
+                                <AvatarImage
+                                  src={order.renterAvatar}
+                                  alt={order.renter}
+                                />
+                                <AvatarFallback>
+                                  {order.renter
+                                    ?.split(" ")
+                                    .map((n) => n[0])
+                                    .join("")}
+                                </AvatarFallback>
+                              </Avatar>
+                              <span className="text-sm">{order.renter}</span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Rating for completed orders */}
+                        {order.status === "completed" && order.rating && (
+                          <div className="flex items-center space-x-1">
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                            <span className="text-sm font-medium">
+                              {order.rating}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Actions & Amount */}
+                      <div className="flex flex-col justify-between">
+                        <div className="text-right mb-4">
+                          <p className="text-2xl font-bold">${order.amount}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {order.type === "rented" ? "Paid" : "Earned"}
+                          </p>
+                        </div>
+
+                        <div className="flex gap-2 lg:justify-end">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => (window.location.href = `/messages`)}
+                          >
+                            <MessageCircle className="h-4 w-4 mr-1" />
+                            Message
+                          </Button>
+
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="outline" size="sm">
+                                <MoreVertical className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuRadioGroup>
+                                <DropdownMenuRadioItem value="view">
+                                  View Details
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="receipt">
+                                  Download Receipt
+                                </DropdownMenuRadioItem>
+                                {order.status === "completed" &&
+                                  order.type === "rented" &&
+                                  !order.rating && (
+                                    <DropdownMenuRadioItem value="review">
+                                      Leave Review
+                                    </DropdownMenuRadioItem>
+                                  )}
+                                {order.status === "upcoming" && (
+                                  <DropdownMenuRadioItem value="cancel">
+                                    Cancel Order
+                                  </DropdownMenuRadioItem>
+                                )}
+                              </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Review Text for completed orders */}
+                    {order.reviewText && (
+                      <>
+                        <Separator className="my-4" />
+                        <div className="bg-muted/50 p-3 rounded-lg">
+                          <p className="text-sm italic">"{order.reviewText}"</p>
+                        </div>
+                      </>
+                    )}
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
-        )}
+
+          {/* Load More */}
+          {filteredOrders.length > 0 && (
+            <div className="mt-8 text-center">
+              <Button variant="outline" size="lg">
+                Load More Orders
+              </Button>
+            </div>
+          )}
         </div>
 
         {activeTab === "requests" && (
@@ -626,17 +635,34 @@ export default function OrderHistory() {
                       <Button variant="outline" className="justify-start">
                         <Filter className="h-4 w-4 mr-2" />
                         <span>
-                          Status: {requestStatusFilter === "all" ? "All" : requestStatusFilter.charAt(0).toUpperCase() + requestStatusFilter.slice(1)}
+                          Status:{" "}
+                          {requestStatusFilter === "all"
+                            ? "All"
+                            : requestStatusFilter.charAt(0).toUpperCase() +
+                              requestStatusFilter.slice(1)}
                         </span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuRadioGroup value={requestStatusFilter} onValueChange={setRequestStatusFilter as any}>
-                        <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="pending">Pending</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="approved">Approved</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="rejected">Rejected</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="cancelled">Cancelled</DropdownMenuRadioItem>
+                      <DropdownMenuRadioGroup
+                        value={requestStatusFilter}
+                        onValueChange={setRequestStatusFilter as any}
+                      >
+                        <DropdownMenuRadioItem value="all">
+                          All
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="pending">
+                          Pending
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="approved">
+                          Approved
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="rejected">
+                          Rejected
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="cancelled">
+                          Cancelled
+                        </DropdownMenuRadioItem>
                       </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -646,15 +672,29 @@ export default function OrderHistory() {
                       <Button variant="outline" className="justify-start">
                         <Filter className="h-4 w-4 mr-2" />
                         <span>
-                          Requester: {requesterFilter === "all" ? "All" : requesterFilter === "outgoing" ? "My requests" : "Requests for me"}
+                          Requester:{" "}
+                          {requesterFilter === "all"
+                            ? "All"
+                            : requesterFilter === "outgoing"
+                              ? "My requests"
+                              : "Requests for me"}
                         </span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuRadioGroup value={requesterFilter} onValueChange={setRequesterFilter as any}>
-                        <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="outgoing">My requests</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="incoming">Requests for me</DropdownMenuRadioItem>
+                      <DropdownMenuRadioGroup
+                        value={requesterFilter}
+                        onValueChange={setRequesterFilter as any}
+                      >
+                        <DropdownMenuRadioItem value="all">
+                          All
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="outgoing">
+                          My requests
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="incoming">
+                          Requests for me
+                        </DropdownMenuRadioItem>
                       </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -663,13 +703,25 @@ export default function OrderHistory() {
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" className="justify-start">
                         <Filter className="h-4 w-4 mr-2" />
-                        <span>Sort: {requestSortBy === "recent" ? "Most recent" : "Oldest"}</span>
+                        <span>
+                          Sort:{" "}
+                          {requestSortBy === "recent"
+                            ? "Most recent"
+                            : "Oldest"}
+                        </span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuRadioGroup value={requestSortBy} onValueChange={setRequestSortBy as any}>
-                        <DropdownMenuRadioItem value="recent">Most recent</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="oldest">Oldest</DropdownMenuRadioItem>
+                      <DropdownMenuRadioGroup
+                        value={requestSortBy}
+                        onValueChange={setRequestSortBy as any}
+                      >
+                        <DropdownMenuRadioItem value="recent">
+                          Most recent
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="oldest">
+                          Oldest
+                        </DropdownMenuRadioItem>
                       </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -682,15 +734,26 @@ export default function OrderHistory() {
                   <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div className="lg:col-span-2">
                       <div className="flex space-x-4">
-                        <img src={req.itemImage} alt={req.itemName} className="w-20 h-20 object-cover rounded-lg" />
+                        <img
+                          src={req.itemImage}
+                          alt={req.itemName}
+                          className="w-20 h-20 object-cover rounded-lg"
+                        />
                         <div className="flex-1">
                           <div className="flex items-start justify-between mb-2">
-                            <h3 className="font-semibold text-lg">{req.itemName}</h3>
-                            <Badge className={getRequestStatusBadge(req.status)}>
-                              {req.status.charAt(0).toUpperCase() + req.status.slice(1)}
+                            <h3 className="font-semibold text-lg">
+                              {req.itemName}
+                            </h3>
+                            <Badge
+                              className={getRequestStatusBadge(req.status)}
+                            >
+                              {req.status.charAt(0).toUpperCase() +
+                                req.status.slice(1)}
                             </Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground mb-1">Request #{req.id}</p>
+                          <p className="text-sm text-muted-foreground mb-1">
+                            Request #{req.id}
+                          </p>
                           <div className="flex items-center text-sm text-muted-foreground mb-2">
                             <MapPin className="h-4 w-4 mr-1" />
                             {req.location}
@@ -705,30 +768,49 @@ export default function OrderHistory() {
 
                     <div className="space-y-3">
                       <div>
-                        <p className="text-sm font-medium mb-2">{req.direction === "incoming" ? "Requester" : "You requested"}</p>
+                        <p className="text-sm font-medium mb-2">
+                          {req.direction === "incoming"
+                            ? "Requester"
+                            : "You requested"}
+                        </p>
                         <div className="flex items-center space-x-2">
                           <Avatar className="h-8 w-8">
-                            <AvatarImage src={req.requesterAvatar} alt={req.requester} />
-                            <AvatarFallback>{req.requester.split(" ").map((n) => n[0]).join("")}</AvatarFallback>
+                            <AvatarImage
+                              src={req.requesterAvatar}
+                              alt={req.requester}
+                            />
+                            <AvatarFallback>
+                              {req.requester
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                            </AvatarFallback>
                           </Avatar>
                           <span className="text-sm">{req.requester}</span>
                         </div>
                       </div>
 
                       {req.message && (
-                        <div className="text-xs text-muted-foreground bg-muted/50 rounded p-2">{req.message}</div>
+                        <div className="text-xs text-muted-foreground bg-muted/50 rounded p-2">
+                          {req.message}
+                        </div>
                       )}
                     </div>
 
                     <div className="flex items-center lg:justify-end gap-2">
-                      {req.status === "pending" && req.direction === "incoming" && (
-                        <>
-                          <Button size="sm" variant="outline">Decline</Button>
-                          <Button size="sm">Approve</Button>
-                        </>
-                      )}
+                      {req.status === "pending" &&
+                        req.direction === "incoming" && (
+                          <>
+                            <Button size="sm" variant="outline">
+                              Decline
+                            </Button>
+                            <Button size="sm">Approve</Button>
+                          </>
+                        )}
                       {req.status !== "pending" && (
-                        <Button size="sm" variant="outline">View</Button>
+                        <Button size="sm" variant="outline">
+                          View
+                        </Button>
                       )}
                     </div>
                   </div>
@@ -738,7 +820,9 @@ export default function OrderHistory() {
 
             {sortedRequests.length > 0 && (
               <div className="mt-8 text-center">
-                <Button variant="outline" size="lg">Load More Requests</Button>
+                <Button variant="outline" size="lg">
+                  Load More Requests
+                </Button>
               </div>
             )}
           </div>
