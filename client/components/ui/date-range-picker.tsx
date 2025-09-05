@@ -34,7 +34,10 @@ export function DateRangePicker({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -45,7 +48,8 @@ export function DateRangePicker({
 
   const formatDateRange = () => {
     if (!value.start && !value.end) return "Select dates";
-    if (value.start && !value.end) return `${format(value.start, "MMM dd")} - Select end date`;
+    if (value.start && !value.end)
+      return `${format(value.start, "MMM dd")} - Select end date`;
     if (value.start && value.end) {
       return `${format(value.start, "MMM dd")} - ${format(value.end, "MMM dd")}`;
     }
@@ -53,10 +57,12 @@ export function DateRangePicker({
   };
 
   const getReservationForDate = (date: Date): ReservationPeriod | null => {
-    return reservations.find(
-      (reservation) =>
-        date >= reservation.startDate && date <= reservation.endDate
-    ) || null;
+    return (
+      reservations.find(
+        (reservation) =>
+          date >= reservation.startDate && date <= reservation.endDate,
+      ) || null
+    );
   };
 
   const isDateReserved = (date: Date) => {
@@ -92,30 +98,30 @@ export function DateRangePicker({
   const modifiers = {
     reserved_confirmed: (date: Date) => {
       const reservation = getReservationForDate(date);
-      return reservation?.status === 'confirmed';
+      return reservation?.status === "confirmed";
     },
     reserved_pending: (date: Date) => {
       const reservation = getReservationForDate(date);
-      return reservation?.status === 'pending';
+      return reservation?.status === "pending";
     },
     reserved_completed: (date: Date) => {
       const reservation = getReservationForDate(date);
-      return reservation?.status === 'completed';
+      return reservation?.status === "completed";
     },
   };
 
   const modifiersStyles = {
     reserved_confirmed: {
-      backgroundColor: 'rgb(239 68 68)', // red-500
-      color: 'white',
+      backgroundColor: "rgb(239 68 68)", // red-500
+      color: "white",
     },
     reserved_pending: {
-      backgroundColor: 'rgb(251 146 60)', // orange-400
-      color: 'white',
+      backgroundColor: "rgb(251 146 60)", // orange-400
+      color: "white",
     },
     reserved_completed: {
-      backgroundColor: 'rgb(156 163 175)', // gray-400
-      color: 'white',
+      backgroundColor: "rgb(156 163 175)", // gray-400
+      color: "white",
     },
   };
 

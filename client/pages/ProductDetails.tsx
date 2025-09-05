@@ -21,7 +21,10 @@ import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { ReportModal } from "@/components/ui/report-modal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { getListingReservations, isDateRangeAvailable } from "@/lib/reservations";
+import {
+  getListingReservations,
+  isDateRangeAvailable,
+} from "@/lib/reservations";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -79,7 +82,11 @@ export default function ProductDetails() {
       return false;
     }
 
-    return isDateRangeAvailable(selectedDateRange.start, selectedDateRange.end, listingId);
+    return isDateRangeAvailable(
+      selectedDateRange.start,
+      selectedDateRange.end,
+      listingId,
+    );
   };
 
   const productImages = [
@@ -398,25 +405,36 @@ export default function ProductDetails() {
                   {product.price}
                 </div>
                 <div className="text-muted-foreground">per day</div>
-                {selectedDateRange.start && selectedDateRange.end && isDateRangeValid() && (
-                  <div className="mt-2 p-3 bg-muted rounded-lg">
-                    <div className="text-sm text-muted-foreground">
-                      {(() => {
-                        const start = selectedDateRange.start;
-                        const end = selectedDateRange.end;
-                        const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-                        const dailyRate = parseInt(product.price.replace('$', ''));
-                        const total = days * dailyRate;
-                        return (
-                          <>
-                            {days} day{days > 1 ? 's' : ''} × {product.price} =
-                            <span className="font-semibold text-foreground ml-1">${total}</span>
-                          </>
-                        );
-                      })()}
+                {selectedDateRange.start &&
+                  selectedDateRange.end &&
+                  isDateRangeValid() && (
+                    <div className="mt-2 p-3 bg-muted rounded-lg">
+                      <div className="text-sm text-muted-foreground">
+                        {(() => {
+                          const start = selectedDateRange.start;
+                          const end = selectedDateRange.end;
+                          const days =
+                            Math.ceil(
+                              (end.getTime() - start.getTime()) /
+                                (1000 * 60 * 60 * 24),
+                            ) + 1;
+                          const dailyRate = parseInt(
+                            product.price.replace("$", ""),
+                          );
+                          const total = days * dailyRate;
+                          return (
+                            <>
+                              {days} day{days > 1 ? "s" : ""} × {product.price}{" "}
+                              =
+                              <span className="font-semibold text-foreground ml-1">
+                                ${total}
+                              </span>
+                            </>
+                          );
+                        })()}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
 
               {/* Date Range Picker */}
@@ -430,24 +448,30 @@ export default function ProductDetails() {
                   reservations={reservations}
                   className="w-full"
                 />
-                {selectedDateRange.start && selectedDateRange.end && !isDateRangeValid() && (
-                  <p className="text-sm text-red-600 mt-2">
-                    Selected dates conflict with existing reservations. Please choose different dates.
-                  </p>
-                )}
+                {selectedDateRange.start &&
+                  selectedDateRange.end &&
+                  !isDateRangeValid() && (
+                    <p className="text-sm text-red-600 mt-2">
+                      Selected dates conflict with existing reservations. Please
+                      choose different dates.
+                    </p>
+                  )}
               </div>
 
               <Button
                 size="lg"
                 className={cn(
                   "w-full mb-4 transition-opacity",
-                  !isDateRangeValid() && "opacity-50 cursor-not-allowed"
+                  !isDateRangeValid() && "opacity-50 cursor-not-allowed",
                 )}
                 disabled={!isDateRangeValid()}
                 onClick={() => {
                   if (isDateRangeValid()) {
                     // Pass selected dates to checkout page via URL params or localStorage
-                    localStorage.setItem('selectedDates', JSON.stringify(selectedDateRange));
+                    localStorage.setItem(
+                      "selectedDates",
+                      JSON.stringify(selectedDateRange),
+                    );
                     window.location.href = "/checkout";
                   }
                 }}

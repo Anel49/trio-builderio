@@ -3,7 +3,7 @@ export interface ReservationPeriod {
   startDate: Date;
   endDate: Date;
   renterName?: string;
-  status: 'confirmed' | 'pending' | 'completed';
+  status: "confirmed" | "pending" | "completed";
 }
 
 export interface ListingReservations {
@@ -14,56 +14,58 @@ export interface ListingReservations {
 // Mock reservations data for different listings
 const mockReservations: Record<string, ReservationPeriod[]> = {
   // Lawn mower listing reservations
-  '1': [
+  "1": [
     {
-      id: 'res-001',
-      startDate: new Date('2025-06-15'),
-      endDate: new Date('2025-06-17'),
-      status: 'confirmed'
+      id: "res-001",
+      startDate: new Date("2025-06-15"),
+      endDate: new Date("2025-06-17"),
+      status: "confirmed",
     },
     {
-      id: 'res-002',
-      startDate: new Date('2025-06-22'),
-      endDate: new Date('2025-06-28'),
-      status: 'confirmed'
+      id: "res-002",
+      startDate: new Date("2025-06-22"),
+      endDate: new Date("2025-06-28"),
+      status: "confirmed",
     },
     {
-      id: 'res-003',
-      startDate: new Date('2025-07-05'),
-      endDate: new Date('2025-07-08'),
-      status: 'pending'
+      id: "res-003",
+      startDate: new Date("2025-07-05"),
+      endDate: new Date("2025-07-08"),
+      status: "pending",
     },
     {
-      id: 'res-004',
-      startDate: new Date('2025-07-14'),
-      endDate: new Date('2025-07-23'),
-      status: 'confirmed'
+      id: "res-004",
+      startDate: new Date("2025-07-14"),
+      endDate: new Date("2025-07-23"),
+      status: "confirmed",
     },
     {
-      id: 'res-005',
-      startDate: new Date('2025-08-20'),
-      endDate: new Date('2025-08-24'),
-      status: 'confirmed'
+      id: "res-005",
+      startDate: new Date("2025-08-20"),
+      endDate: new Date("2025-08-24"),
+      status: "confirmed",
     },
     {
-      id: 'res-006',
-      startDate: new Date('2025-09-01'),
-      endDate: new Date('2025-09-03'),
-      status: 'pending'
-    }
+      id: "res-006",
+      startDate: new Date("2025-09-01"),
+      endDate: new Date("2025-09-03"),
+      status: "pending",
+    },
   ],
   // Other listings would have their own reservations
-  '2': [
+  "2": [
     {
-      id: 'res-101',
-      startDate: new Date('2025-06-18'),
-      endDate: new Date('2025-06-20'),
-      status: 'confirmed'
-    }
-  ]
+      id: "res-101",
+      startDate: new Date("2025-06-18"),
+      endDate: new Date("2025-06-20"),
+      status: "confirmed",
+    },
+  ],
 };
 
-export const getListingReservations = (listingId: string): ReservationPeriod[] => {
+export const getListingReservations = (
+  listingId: string,
+): ReservationPeriod[] => {
   return mockReservations[listingId] || [];
 };
 
@@ -71,7 +73,7 @@ export const getAllReservedDates = (listingId: string): Date[] => {
   const reservations = getListingReservations(listingId);
   const reservedDates: Date[] = [];
 
-  reservations.forEach(reservation => {
+  reservations.forEach((reservation) => {
     const currentDate = new Date(reservation.startDate);
     const endDate = new Date(reservation.endDate);
 
@@ -84,7 +86,10 @@ export const getAllReservedDates = (listingId: string): Date[] => {
   return reservedDates;
 };
 
-export const isDateInReservation = (date: Date, listingId: string): ReservationPeriod | null => {
+export const isDateInReservation = (
+  date: Date,
+  listingId: string,
+): ReservationPeriod | null => {
   const reservations = getListingReservations(listingId);
 
   for (const reservation of reservations) {
@@ -96,13 +101,18 @@ export const isDateInReservation = (date: Date, listingId: string): ReservationP
   return null;
 };
 
-export const isDateRangeAvailable = (startDate: Date, endDate: Date, listingId: string): boolean => {
+export const isDateRangeAvailable = (
+  startDate: Date,
+  endDate: Date,
+  listingId: string,
+): boolean => {
   const reservedDates = getAllReservedDates(listingId);
   const currentDate = new Date(startDate);
 
   while (currentDate <= endDate) {
     const isReserved = reservedDates.some(
-      reservedDate => reservedDate.toDateString() === currentDate.toDateString()
+      (reservedDate) =>
+        reservedDate.toDateString() === currentDate.toDateString(),
     );
     if (isReserved) {
       return false;
@@ -113,11 +123,14 @@ export const isDateRangeAvailable = (startDate: Date, endDate: Date, listingId: 
   return true;
 };
 
-export const addReservation = (listingId: string, reservation: Omit<ReservationPeriod, 'id'>): string => {
+export const addReservation = (
+  listingId: string,
+  reservation: Omit<ReservationPeriod, "id">,
+): string => {
   const newId = `res-${Date.now()}`;
   const newReservation: ReservationPeriod = {
     ...reservation,
-    id: newId
+    id: newId,
   };
 
   if (!mockReservations[listingId]) {
