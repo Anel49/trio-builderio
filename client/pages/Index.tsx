@@ -362,7 +362,7 @@ export default function Index() {
             Ready to get started?
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Be part of the community choosing Trio for their peer-to-peer rental needs.
+            Be part of the community choosing Trio for their rental needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
