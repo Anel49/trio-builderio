@@ -52,7 +52,7 @@ export default function Header() {
                     animations.combinations.button,
                   )}
                 >
-                  Trio
+                  {COMPANY_NAME}
                 </a>
               </div>
               <nav className="hidden md:flex space-x-8 mt-[1px] ml-8">
