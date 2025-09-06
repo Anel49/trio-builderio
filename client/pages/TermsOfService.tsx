@@ -385,9 +385,9 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Payment Processing</h3>
           <p className="text-muted-foreground leading-relaxed">
             All payments are processed securely through third-party payment
-            providers. Payments can be made using PayPal, Apple Pay, Google 
-            Pay, Venmo, Cash App, or Zelle. Additionally, you can pay using
-            a credit or debit card through PayPal.
+            providers. Payments can be made using PayPal, Apple Pay, Google
+            Pay, or Venmo. Additionally, you can pay using a credit or debit
+            card through PayPal.
           </p>
         </div>
         {/*}
