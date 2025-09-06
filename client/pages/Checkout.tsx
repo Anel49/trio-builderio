@@ -638,7 +638,7 @@ export default function Checkout() {
                     </div>
 
                     {/* Cash App */}
-                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                    <div className="hidden">
                       <RadioGroupItem value="cash-app" id="cash-app" />
                       <Label
                         htmlFor="cash-app"
@@ -662,7 +662,7 @@ export default function Checkout() {
                     </div>
 
                     {/* Zelle */}
-                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                    <div className="hidden">
                       <RadioGroupItem value="zelle" id="zelle" />
                       <Label htmlFor="zelle" className="flex-1 cursor-pointer">
                         <div className="flex items-center space-x-3">
@@ -763,11 +763,7 @@ export default function Checkout() {
                             : "Loading PayPal..."
                           : paymentMethod === "venmo"
                             ? "Pay with Venmo"
-                            : paymentMethod === "cash-app"
-                              ? "Pay with Cash App"
-                              : paymentMethod === "zelle"
-                                ? "Pay with Zelle"
-                                : `Pay $${booking.total}`}
+                            : `Pay $${booking.total}`}
                 </Button>
               </CardContent>
             </Card>
