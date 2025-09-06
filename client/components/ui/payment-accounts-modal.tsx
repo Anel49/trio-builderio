@@ -129,49 +129,7 @@ export function PaymentAccountsModal({
                   </div>
                 </Button>
 
-                <Button
-                  variant="outline"
-                  className="w-full justify-start h-12"
-                  onClick={() => handlePaymentConnect("Cash App")}
-                >
-                  <div className="flex items-center space-x-3">
-                    <svg className="w-6 h-6" viewBox="0 0 24 24">
-                      <rect
-                        x="2"
-                        y="2"
-                        width="20"
-                        height="20"
-                        rx="4"
-                        ry="4"
-                        fill="#22c55e"
-                      />
-                      <path d="ADD_CASH_APP_PATH_HERE" fill="white" />
-                    </svg>
-                    <span>Cash App</span>
-                  </div>
-                </Button>
 
-                <Button
-                  variant="outline"
-                  className="w-full justify-start h-12"
-                  onClick={() => handlePaymentConnect("Zelle")}
-                >
-                  <div className="flex items-center space-x-3">
-                    <svg className="w-6 h-6" viewBox="0 0 24 24">
-                      <rect
-                        x="2"
-                        y="2"
-                        width="20"
-                        height="20"
-                        rx="4"
-                        ry="4"
-                        fill="#9333ea"
-                      />
-                      <path d="ADD_ZELLE_PATH_HERE" fill="white" />
-                    </svg>
-                    <span>Zelle</span>
-                  </div>
-                </Button>
               </div>
             </div>
           </div>
