@@ -70,7 +70,8 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
                       </li>
                       <li>
                         • Prohibited items include weapons and illegal
-                        substances
+                        items and services. Please view the full Terms
+                        of Service for a complete list of prohibit items.
                       </li>
                     </ul>
                   </div>
