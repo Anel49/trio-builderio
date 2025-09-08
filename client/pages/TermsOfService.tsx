@@ -381,7 +381,7 @@ const TermsOfServiceContent = () => (
             from the host. This fee covers platform maintenance, customer support, 
             and payment processing. Sales tax is charged separately. 
           </p>
-          <p className="text-muted-foreground leading-relaxed mb-2">
+          <p className="text-muted-foreground leading-relaxed mb-4">
             Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental price,
             charged from the renter. This fee is to insure the renter throughout the
             rental period. This fee is not charged again with rental extensions.
