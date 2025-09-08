@@ -100,7 +100,9 @@ export function SplashOnboarding() {
                       <p>
                         Item rentals incur a 10% fee of the item’s daily rental
                         price to insure the renter throughout the rental period.
-                        This fee is not charged again with rental extensions.</p><p>
+                        This fee is not charged again with rental extensions.
+                      </p>
+                      <p>
                         The renter's maximum out-of-pocket insurance payment is
                         capped at $50. This coverage is subject to change based
                         on the platform’s performance and growth.
