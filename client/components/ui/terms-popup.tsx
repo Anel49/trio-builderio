@@ -68,7 +68,6 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
                       <li>
                         • Service fees apply to all completed transactions
                       </li>
-                      <li>• Identity verification may be required</li>
                       <li>
                         • Prohibited items include weapons and illegal
                         substances
