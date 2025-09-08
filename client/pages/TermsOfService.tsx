@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
 import { ArrowLeft, FileText, Shield, Cookie } from "lucide-react";
 import { PrivacyContent, CookiesContent } from "@/components/ui/legal-modal";
-import { COMPANY_NAME } from "@/lib/constants";
+import { COMPANY_NAME, SERVICE_FEE } from "@/lib/constants";
 
 type PolicyType = "terms" | "privacy" | "cookies";
 
@@ -377,7 +377,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Service Fees</h3>
           <p className="text-muted-foreground leading-relaxed">
-            {COMPANY_NAME} charges a service fee on each completed rental transaction.
+            {COMPANY_NAME} charges a {SERVICE_FEE} service fee on each completed rental transaction.
             This fee covers platform maintenance, customer support, payment
             processing, and safety features.
           </p>
