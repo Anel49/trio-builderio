@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { COMPANY_NAME } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { TermsCardContent } from "@/components/ui/terms-popup";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +9,7 @@ export function SplashOnboarding() {
   const STORAGE_KEY = `${COMPANY_NAME.toLowerCase()}-splash-completed`;
   const TERMS_KEY = `${COMPANY_NAME.toLowerCase()}-terms-accepted`;
   const [visible, setVisible] = useState(false);
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2>(1);
 
   useEffect(() => {
     const completed = localStorage.getItem(STORAGE_KEY) === "true";
@@ -65,65 +64,8 @@ export function SplashOnboarding() {
         </div>
       )}
 
-      {step === 2 && (
-        <div className="w-full max-w-md mx-4">
-          <Card className="w-full max-w-md mx-auto shadow-2xl">
-            <CardHeader className="text-center pb-2">
-              <CardTitle className="text-xl font-bold">
-                Before you continue
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ScrollArea className="h-[70vh] pr-2">
-                <div className="space-y-6 text-muted-foreground">
-                  <div>
-                    <h2 className="text-lg font-semibold mb-3 text-foreground">
-                      Hosts
-                    </h2>
-                    <p className="leading-relaxed">
-                      Profits from listings incur a 12% platform usage fee. This
-                      rate is subject to change based on the platform’s
-                      performance and growth. Sales tax is charged separately.
-                    </p>
-                  </div>
-                  <Separator />
-                  <div>
-                    <h2 className="text-lg font-semibold mb-3 text-foreground">
-                      Renters
-                    </h2>
-                    <div className="space-y-4 leading-relaxed">
-                      <p>
-                        <strong className="text-foreground">
-                          Please take care of the items you rent as if they were
-                          your own.
-                        </strong>
-                      </p>
-                      <p>
-                        Item rentals incur a 10% fee of the item’s daily rental
-                        price to insure the renter throughout the rental period.
-                        This fee is not charged again with rental extensions.
-                      </p>
-                      <p>
-                        The renter's maximum out-of-pocket insurance payment is
-                        capped at $50. This coverage is subject to change based
-                        on the platform’s performance and growth.
-                      </p>
-                      <p>Listings providing a service do not incur this fee.</p>
-                    </div>
-                  </div>
-                </div>
-              </ScrollArea>
-              <div className="mt-6 text-center">
-                <Button size="lg" onClick={() => setStep(3)}>
-                  Next
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
 
-      {step === 3 && (
+      {step === 2 && (
         <div className="w-full max-w-md mx-4">
           <TermsCardContent
             onAccept={() => {
