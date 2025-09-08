@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { COMPANY_NAME } from "@/lib/constants";
 import {
   Dialog,
   DialogContent,
@@ -266,7 +267,7 @@ export function LoginModal({
         <div className="space-y-6 p-2">
           <div className="text-center">
             <p className="text-muted-foreground">
-              Sign in to your Trio account
+              Sign in to your {COMPANY_NAME} account
             </p>
           </div>
 
