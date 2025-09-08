@@ -422,7 +422,7 @@ export default function Index() {
 
           <div className="relative">
             {/* Left Arrow */}
-            { /* will show only when can go back */ }
+            {/* will show only when can go back */}
             {canScrollLeft && (
               <button
                 aria-label="Previous"
@@ -439,7 +439,10 @@ export default function Index() {
               className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory pb-2 no-scrollbar"
             >
               {featuredCars.map((car) => (
-                <div key={car.id} className="snap-start min-w-[280px] sm:min-w-[320px]">
+                <div
+                  key={car.id}
+                  className="snap-start min-w-[280px] sm:min-w-[320px]"
+                >
                   <ProductCard
                     id={car.id}
                     name={car.name}
@@ -451,7 +454,9 @@ export default function Index() {
                     distance={car.distance}
                     onFavorite={handleFavorite}
                     className="h-full"
-                    onClick={() => (window.location.href = `/product/${car.id}`)}
+                    onClick={() =>
+                      (window.location.href = `/product/${car.id}`)
+                    }
                   />
                 </div>
               ))}

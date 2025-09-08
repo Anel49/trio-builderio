@@ -63,7 +63,6 @@ const App = () => {
     };
   }, []);
 
-
   const handleCookiePreferences = (preferences: CookiePreferences) => {
     localStorage.setItem(
       `${COMPANY_NAME.toLowerCase()}-cookies-accepted`,
