@@ -377,12 +377,12 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Service Fees</h3>
           <p className="text-muted-foreground leading-relaxed mb-2">
-            Profits from listings incur a {SERVICE_FEE} platform usage fee, charged
+            Profits from listings incur a {SERVICE_FEE}% platform usage fee, charged
             from the host. This fee covers platform maintenance, customer support, 
             and payment processing. Sales tax is charged separately. 
           </p>
           <p className="text-muted-foreground leading-relaxed mb-2">
-            Item rentals incur a {INSURANCE_FEE} fee of the item’s daily rental price,
+            Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental price,
             charged from the renter. This fee is to insure the renter throughout the
             rental period. This fee is not charged again with rental extensions.
           </p>
