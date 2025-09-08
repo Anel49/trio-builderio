@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
 import { ArrowLeft, FileText, Shield, Cookie } from "lucide-react";
 import { PrivacyContent, CookiesContent } from "@/components/ui/legal-modal";
+import { COMPANY_NAME } from "@/lib/constants";
 
 type PolicyType = "terms" | "privacy" | "cookies";
 
@@ -237,15 +238,15 @@ const TermsOfServiceContent = () => (
         Introduction and Platform Overview
       </h2>
       <p className="text-muted-foreground leading-relaxed mb-4">
-        Welcome to Trio, a peer-to-peer rental marketplace that connects people
+        Welcome to {COMPANY_NAME}, a peer-to-peer rental marketplace that connects people
         who want to rent items with those who want to share them. By using our
         platform, you agree to these Terms of Service, which govern your
-        relationship with Trio and other users.
+        relationship with {COMPANY_NAME} and other users.
       </p>
       <p className="text-muted-foreground leading-relaxed">
-        Trio operates as a platform that facilitates transactions between
+        {COMPANY_NAME} operates as a platform that facilitates transactions between
         independent users. We do not own, operate, provide, control, manage,
-        offer, deliver, or supply any rental items. Trio is not a party to the
+        offer, deliver, or supply any rental items. {COMPANY_NAME} is not a party to the
         rental agreements between users.
       </p>
     </section>
@@ -261,7 +262,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Eligibility</h3>
           <p className="text-muted-foreground leading-relaxed">
-            You must be at least 18 years old to use Trio. By creating an
+            You must be at least 18 years old to use {COMPANY_NAME}. By creating an
             account, you represent that you are legally able to enter into
             binding contracts.
           </p>
@@ -376,7 +377,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Service Fees</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Trio charges a service fee on each completed rental transaction.
+            {COMPANY_NAME} charges a service fee on each completed rental transaction.
             This fee covers platform maintenance, customer support, payment
             processing, and safety features.
           </p>
@@ -501,7 +502,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Insurance Coverage</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Our long-term vision at Trio is to provide comprehensive insurance for
+            Our long-term vision at {COMPANY_NAME} is to provide comprehensive insurance for
             every rental. As we are still in the early stages, we can only provide
             basic insurance. We are working diligently to secure the necessary funding
             to make comprehensive coverage possible. We appreciate your patience and
@@ -533,7 +534,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Resolution Process</h3>
           <p className="text-muted-foreground leading-relaxed">
-            If disputes arise between users, Trio will facilitate communication
+            If disputes arise between users, {COMPANY_NAME} will facilitate communication
             and mediation. Our support team will review evidence from both
             parties and make fair determinations based on our policies.
           </p>
@@ -557,7 +558,7 @@ const TermsOfServiceContent = () => (
       <p className="text-muted-foreground leading-relaxed">
         Your privacy is important to us. We collect, use, and protect your
         personal information in accordance with our Privacy Policy. By using
-        Trio, you consent to the collection and use of your information as
+        {COMPANY_NAME}, you consent to the collection and use of your information as
         described in our Privacy Policy which is incorporated into these Terms
         of Service by reference.
       </p>
@@ -598,7 +599,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Platform Liability</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Trio acts solely as an intermediary platform. We are not responsible
+            {COMPANY_NAME} acts solely as an intermediary platform. We are not responsible
             for the quality, safety, legality, or availability of items listed
             by users, nor are we responsible for the actions or inactions of
             users.
@@ -607,7 +608,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Limitation of Liability</h3>
           <p className="text-muted-foreground leading-relaxed">
-            To the fullest extent permitted by law, Trio's liability for any
+            To the fullest extent permitted by law, {COMPANY_NAME}'s liability for any
             claims related to the use of our platform is limited to the amount
             of fees paid to us in connection with the specific transaction
             giving rise to the claim.
@@ -617,7 +618,7 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Governing Law</h3>
           <p className="text-muted-foreground leading-relaxed">
             These Terms of Service are governed by the laws of the jurisdiction
-            in which Trio operates, without regard to conflict of law
+            in which {COMPANY_NAME} operates, without regard to conflict of law
             principles.
           </p>
         </div>
@@ -634,7 +635,7 @@ const TermsOfServiceContent = () => (
       <p className="text-muted-foreground leading-relaxed">
         We may modify these Terms of Service from time to time. When we make
         changes, we will notify users via email or through prominent notices on
-        our platform. Your continued use of Trio after such modifications
+        our platform. Your continued use of {COMPANY_NAME} after such modifications
         constitutes acceptance of the updated terms.
       </p>
     </section>
@@ -661,7 +662,7 @@ const TermsOfServiceContent = () => (
 
     <div className="text-center pt-8">
       <p className="text-sm text-muted-foreground">
-        By using Trio, you acknowledge that you have read, understood, and agree
+        By using {COMPANY_NAME}, you acknowledge that you have read, understood, and agree
         to be bound by these Terms of Service.
       </p>
     </div>
