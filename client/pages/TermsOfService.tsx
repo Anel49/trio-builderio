@@ -378,8 +378,8 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Service Fees</h3>
           <p className="text-muted-foreground leading-relaxed">
             Profits from listings incur a {SERVICE_FEE} platform usage fee. This
-            fee covers platform maintenance, customer support, payment processing,
-            and safety features. This rate is subject to change based on the platform’s
+            fee covers platform maintenance, customer support, and payment processing,
+            This rate is subject to change based on the platform’s
             performance and growth. Sales tax is charged separately. 
           </p>
         </div>
