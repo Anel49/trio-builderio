@@ -26,7 +26,7 @@ export function SplashOnboarding() {
           <Card className="w-full max-w-md mx-auto shadow-2xl">
             <CardHeader className="text-center pb-4">
               <CardTitle className="text-xl font-bold">
-                Welcome to {COMPANY_NAME}!
+                Welcome to {COMPANY_NAME}
               </CardTitle>
               <p className="text-muted-foreground">
                 {COMPANY_NAME} is a safe and reliable way to rent with peers.
