@@ -382,7 +382,16 @@ const TermsOfServiceContent = () => (
             and payment processing. Sales tax is charged separately. 
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            Item rentals incur a {INSURANCE_FEE} fee of the item’s daily rental price to insure the renter throughout the rental period. This fee is not charged again with rental extensions.
+            Item rentals incur a {INSURANCE_FEE} fee of the item’s daily rental price,
+            charged from the renter. This fee is to insure the renter throughout the
+            rental period. This fee is not charged again with rental extensions.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            The renter's maximum out-of-pocket insurance payment is capped at $50. This
+            coverage is subject to change based on the platform’s performance and growth.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Listings providing a service do not incur this fee.
           </p>
         </div>
         <div>
