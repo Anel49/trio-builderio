@@ -20,9 +20,9 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
   const [cookiePreferences, setCookiePreferences] = useState<CookiePreferences>(
     {
       necessary: true, // Always required
-      preferences: false,
-      statistics: false,
-      marketing: false,
+      preferences: true,
+      statistics: true,
+      marketing: true,
     },
   );
 
