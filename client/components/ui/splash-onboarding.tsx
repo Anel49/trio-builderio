@@ -13,7 +13,12 @@ export function SplashOnboarding() {
 
   useEffect(() => {
     const completed = localStorage.getItem(STORAGE_KEY) === "true";
-    if (!completed) setVisible(true);
+    const acceptedTerms = localStorage.getItem(TERMS_KEY) === "true";
+
+    if (!acceptedTerms) {
+      setVisible(true);
+      if (completed) setStep(2);
+    }
   }, []);
 
   if (!visible) return null;
