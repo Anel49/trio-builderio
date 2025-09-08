@@ -426,7 +426,7 @@ export default function Index() {
             {canScrollLeft && (
               <button
                 aria-label="Previous"
-                className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 border rounded-full shadow p-2"
+                className="flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 border rounded-full shadow p-2"
                 onClick={() => scrollByPage(-1)}
               >
                 <ChevronLeft className="h-5 w-5" />
@@ -465,7 +465,7 @@ export default function Index() {
             {/* Right Arrow */}
             <button
               aria-label="Next"
-              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 border rounded-full shadow p-2"
+              className="flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 border rounded-full shadow p-2"
               onClick={() => scrollByPage(1)}
             >
               <ChevronRight className="h-5 w-5" />
