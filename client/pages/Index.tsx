@@ -436,7 +436,7 @@ export default function Index() {
             {/* Cards Row */}
             <div
               ref={listRef}
-              className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2"
+              className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory pb-2 no-scrollbar"
             >
               {featuredCars.map((car) => (
                 <div key={car.id} className="snap-start min-w-[280px] sm:min-w-[320px]">
