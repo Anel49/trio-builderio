@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { COMPANY_NAME } from "@/lib/constants";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import Header from "@/components/Header";
 import { MobileMenu } from "@/components/ui/mobile-menu";
@@ -252,7 +253,7 @@ export default function Login() {
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
             <p className="text-muted-foreground">
-              Sign in to your Trio account
+              Sign in to your {COMPANY_NAME} account
             </p>
           </CardHeader>
 
