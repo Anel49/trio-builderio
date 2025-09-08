@@ -17,7 +17,6 @@ import Checkout from "./pages/Checkout";
 import OrderHistory from "./pages/OrderHistory";
 import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
-import { TermsPopup } from "@/components/ui/terms-popup";
 import { CookieBanner, CookiePreferences } from "@/components/ui/cookie-banner";
 import { COMPANY_NAME } from "@/lib/constants";
 import SplashOnboarding from "@/components/ui/splash-onboarding";
@@ -25,7 +24,6 @@ import SplashOnboarding from "@/components/ui/splash-onboarding";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [showTermsPopup, setShowTermsPopup] = useState(false);
   const [showCookieBanner, setShowCookieBanner] = useState(false);
 
   useEffect(() => {
@@ -41,8 +39,7 @@ const App = () => {
       "true";
 
     if (!hasAcceptedTerms) {
-      // Defer modal until after splash onboarding is completed
-      if (splashCompleted) setShowTermsPopup(true);
+      // SplashOnboarding will handle showing Terms of Service
     } else if (!hasAcceptedCookies) {
       // Show cookie banner only after terms are accepted
       setShowCookieBanner(true);
@@ -66,21 +63,6 @@ const App = () => {
     };
   }, []);
 
-  const handleAcceptTerms = () => {
-    localStorage.setItem(
-      `${COMPANY_NAME.toLowerCase()}-terms-accepted`,
-      "true",
-    );
-    setShowTermsPopup(false);
-
-    // Check if cookies need approval after terms are accepted
-    const hasAcceptedCookies = localStorage.getItem(
-      `${COMPANY_NAME.toLowerCase()}-cookies-accepted`,
-    );
-    if (!hasAcceptedCookies) {
-      setShowCookieBanner(true);
-    }
-  };
 
   const handleCookiePreferences = (preferences: CookiePreferences) => {
     localStorage.setItem(
@@ -119,7 +101,6 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-        <TermsPopup isOpen={showTermsPopup} onAccept={handleAcceptTerms} />
         <CookieBanner
           isOpen={showCookieBanner}
           onAccept={handleCookiePreferences}
