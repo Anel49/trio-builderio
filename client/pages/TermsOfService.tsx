@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
 import { ArrowLeft, FileText, Shield, Cookie } from "lucide-react";
 import { PrivacyContent, CookiesContent } from "@/components/ui/legal-modal";
-import { COMPANY_NAME, SERVICE_FEE } from "@/lib/constants";
+import { COMPANY_NAME, SERVICE_FEE, INSURANCE_FEE } from "@/lib/constants";
 
 type PolicyType = "terms" | "privacy" | "cookies";
 
@@ -377,10 +377,12 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Service Fees</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Profits from listings incur a {SERVICE_FEE} platform usage fee. This
-            fee covers platform maintenance, customer support, and payment processing,
-            This rate is subject to change based on the platform’s performance and 
-            growth. Sales tax is charged separately. 
+            Profits from listings incur a {SERVICE_FEE} platform usage fee, charged
+            from the host. This fee covers platform maintenance, customer support, 
+            and payment processing. Sales tax is charged separately. 
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Item rentals incur a {INSURANCE_FEE} fee of the item’s daily rental price to insure the renter throughout the rental period. This fee is not charged again with rental extensions.
           </p>
         </div>
         <div>
