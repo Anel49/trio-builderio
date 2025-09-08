@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LoginModal } from "@/components/ui/login-modal";
+import { COMPANY_NAME } from "@/lib/constants";
 import Header from "@/components/Header";
 import { colors } from "@/lib/colors";
 import { SignUpModal } from "@/components/ui/signup-modal";
@@ -50,7 +51,7 @@ export default function Messages() {
   const SUPPORT_CHAT_ID = 0;
   const supportChat = {
     id: SUPPORT_CHAT_ID,
-    name: "Trio Support",
+    name: `${COMPANY_NAME} Support`,
     avatar: "",
     lastMessage: "Open a claim or get help",
     lastActivity: "Online",
@@ -170,7 +171,7 @@ export default function Messages() {
           senderId: 0,
           senderName: "Support",
           content:
-            "Hello! This is Trio Support. Please provide us with the order ID and date of the rental you are messaging us about.",
+            `Hello! This is ${COMPANY_NAME} Support. Please provide us with the order ID and date of the rental you are messaging us about.`,
           timestamp: "Now",
           isCurrentUser: false,
         },
@@ -461,7 +462,7 @@ export default function Messages() {
                   </div>
                   <div className="flex-1 w-0">
                     <div className="font-semibold text-sm truncate">
-                      Trio Support
+                      {`${COMPANY_NAME} Support`}
                     </div>
                     <div className="text-xs text-muted-foreground truncate">
                       Open a claim or get help
