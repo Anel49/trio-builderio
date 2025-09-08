@@ -6,6 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { COMPANY_NAME, PRIVACY_EMAIL } from "@/lib/constants";
 
 interface LegalModalProps {
   isOpen: boolean;
@@ -107,9 +108,9 @@ export const PrivacyContent = () => (
       <p className="text-muted-foreground">
         We do not have access to the login credentials for your Google,
         Facebook, Microsoft, or Apple account. We are given a temporary access
-        token by the provider to create or log into your Trio account. After an
+        token by the provider to create or log into your {COMPANY_NAME} account. After an
         account is created, we form an association between your provider account
-        and your Trio account that is stored in our system.
+        and your {COMPANY_NAME} account that is stored in our system.
       </p>
       <br />
       <p className="text-muted-foreground">
@@ -137,7 +138,7 @@ export const PrivacyContent = () => (
       <h3 className="text-lg font-semibold mb-3">Contact Us</h3>
       <p className="text-muted-foreground">
         If you have any questions about this Privacy Policy, please contact us
-        at privacy@trio.com or through our support channels.
+        at {PRIVACY_EMAIL} or through our support channels.
       </p>
     </section>
   </>
@@ -149,7 +150,7 @@ export const TermsContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Acceptance of Terms</h3>
       <p className="text-muted-foreground">
-        By accessing and using Trio, you accept and agree to be bound by these
+        By accessing and using {COMPANY_NAME}, you accept and agree to be bound by these
         Terms of Service. If you do not agree to these terms, please do not use
         our platform.
       </p>
@@ -158,7 +159,7 @@ export const TermsContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Description of Service</h3>
       <p className="text-muted-foreground mb-4">
-        Trio is a peer-to-peer marketplace that allows users to rent and lend
+        {COMPANY_NAME} is a peer-to-peer marketplace that allows users to rent and lend
         items to each other. We provide the platform to facilitate these
         transactions but are not a party to the rental agreements.
       </p>
@@ -167,7 +168,7 @@ export const TermsContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">User Responsibilities</h3>
       <p className="text-muted-foreground mb-4">
-        As a user of Trio, you agree to:
+        As a user of {COMPANY_NAME}, you agree to:
       </p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
         <li>Provide accurate and up-to-date information</li>
@@ -195,7 +196,7 @@ export const TermsContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Payment and Fees</h3>
       <p className="text-muted-foreground">
-        Trio charges service fees for successful rentals. Fees are clearly
+        {COMPANY_NAME} charges service fees for successful rentals. Fees are clearly
         displayed before you complete a transaction. All payments are processed
         securely through our payment partners.
       </p>
@@ -204,7 +205,7 @@ export const TermsContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Limitation of Liability</h3>
       <p className="text-muted-foreground">
-        Trio is not liable for damages arising from rentals, disputes between
+        {COMPANY_NAME} is not liable for damages arising from rentals, disputes between
         users, or loss of items. Users participate at their own risk and are
         encouraged to use our insurance options.
       </p>
