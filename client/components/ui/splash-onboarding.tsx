@@ -29,7 +29,7 @@ export function SplashOnboarding() {
                 Welcome to {COMPANY_NAME}
               </CardTitle>
               <p className="text-muted-foreground">
-                Discover a smarter, safer way to rent the things you need, and profit from the things you own.
+                Discover a smarter, safer way to rent the things you need—and profit from the things you own.
               </p>
             </CardHeader>
             <CardContent>
