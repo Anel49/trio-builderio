@@ -363,8 +363,8 @@ export default function Index() {
             Ready to get started?
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Become a member of the community choosing {COMPANY_NAME} for their rental
-            needs.
+            Become a member of the community choosing {COMPANY_NAME} for their
+            rental needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button

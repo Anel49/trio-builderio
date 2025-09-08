@@ -238,16 +238,16 @@ const TermsOfServiceContent = () => (
         Introduction and Platform Overview
       </h2>
       <p className="text-muted-foreground leading-relaxed mb-4">
-        Welcome to {COMPANY_NAME}, a peer-to-peer rental marketplace that connects people
-        who want to rent items with those who want to share them. By using our
-        platform, you agree to these Terms of Service, which govern your
-        relationship with {COMPANY_NAME} and other users.
+        Welcome to {COMPANY_NAME}, a peer-to-peer rental marketplace that
+        connects people who want to rent items with those who want to share
+        them. By using our platform, you agree to these Terms of Service, which
+        govern your relationship with {COMPANY_NAME} and other users.
       </p>
       <p className="text-muted-foreground leading-relaxed">
-        {COMPANY_NAME} operates as a platform that facilitates transactions between
-        independent users. We do not own, operate, provide, control, manage,
-        offer, deliver, or supply any rental items. {COMPANY_NAME} is not a party to the
-        rental agreements between users.
+        {COMPANY_NAME} operates as a platform that facilitates transactions
+        between independent users. We do not own, operate, provide, control,
+        manage, offer, deliver, or supply any rental items. {COMPANY_NAME} is
+        not a party to the rental agreements between users.
       </p>
     </section>
 
@@ -262,53 +262,64 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Eligibility</h3>
           <p className="text-muted-foreground leading-relaxed">
-            You must be at least 18 years old to use {COMPANY_NAME}. By creating an
-            account, you represent that you are legally able to enter into
+            You must be at least 18 years old to use {COMPANY_NAME}. By creating
+            an account, you represent that you are legally able to enter into
             binding contracts.
           </p>
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Representation</h3>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Your profile name must be your name, a nickname, or 
-            your rental business name. For your safety, please avoid 
-            including your last name. 
+            Your profile name must be your name, a nickname, or your rental
+            business name. For your safety, please avoid including your last
+            name.
           </p>
-          <p className="text-muted-foreground leading-relaxed">All
-            profile names must be free of offensive, vulgar, or
-            suggestive language and should not include any discriminatory,
-            violent, or otherwise inappropriate content. Failure to
-            follow these guidelines may result in a forced renaming,
-            suspension, or deletion of your account.
+          <p className="text-muted-foreground leading-relaxed">
+            All profile names must be free of offensive, vulgar, or suggestive
+            language and should not include any discriminatory, violent, or
+            otherwise inappropriate content. Failure to follow these guidelines
+            may result in a forced renaming, suspension, or deletion of your
+            account.
           </p>
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Conduct</h3>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            All chat messages must remain respectful and considerate.
-            The following conduct is strictly prohibited:
+            All chat messages must remain respectful and considerate. The
+            following conduct is strictly prohibited:
           </p>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-            <li><span className="font-semibold mb-4">Offensive or abusive
-              language</span> — including insults, slurs, harassment, or
-              bullying.
+            <li>
+              <span className="font-semibold mb-4">
+                Offensive or abusive language
+              </span>{" "}
+              — including insults, slurs, harassment, or bullying.
             </li>
-            <li><span className="font-semibold mb-4">Vulgar, obscene, or
-              sexually suggestive content</span> — in any form, explicit
-              or implied.
+            <li>
+              <span className="font-semibold mb-4">
+                Vulgar, obscene, or sexually suggestive content
+              </span>{" "}
+              — in any form, explicit or implied.
             </li>
-            <li><span className="font-semibold mb-4">Discriminatory or
-              hateful content</span> — targeting race, ethnicity, gender,
-              sexuality, religion, nationality, disability, or any other
-              protected status.
+            <li>
+              <span className="font-semibold mb-4">
+                Discriminatory or hateful content
+              </span>{" "}
+              — targeting race, ethnicity, gender, sexuality, religion,
+              nationality, disability, or any other protected status.
             </li>
-            <li><span className="font-semibold mb-4">Violent, graphic, or
-              threatening material</span> — including encouragement of
-              self-harm or harm to others.
+            <li>
+              <span className="font-semibold mb-4">
+                Violent, graphic, or threatening material
+              </span>{" "}
+              — including encouragement of self-harm or harm to others.
             </li>
-            <li><span className="font-semibold mb-4">Illegal or harmful
-              activities</span> — including the promotion of drugs, underage
-              content, or criminal behavior.
+            <li>
+              <span className="font-semibold mb-4">
+                Illegal or harmful activities
+              </span>{" "}
+              — including the promotion of drugs, underage content, or criminal
+              behavior.
             </li>
           </ul>
         </div>
@@ -323,9 +334,9 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Accurate Information</h3>
           <p className="text-muted-foreground leading-relaxed">
-            You agree to provide accurate, current, and complete information
-            on listings and to update such information as necessary to
-            keep it accurate, current, and complete.
+            You agree to provide accurate, current, and complete information on
+            listings and to update such information as necessary to keep it
+            accurate, current, and complete.
           </p>
         </div>
       </div>
@@ -377,18 +388,21 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Service Fees</h3>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Profits from listings incur a {SERVICE_FEE}% platform usage fee, charged
-            from the host. This fee covers platform maintenance, customer support, 
-            and payment processing. Sales tax is charged separately. 
+            Profits from listings incur a {SERVICE_FEE}% platform usage fee,
+            charged from the host. This fee covers platform maintenance,
+            customer support, and payment processing. Sales tax is charged
+            separately.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental price,
-            charged from the renter. This fee is to insure the renter throughout the
-            rental period. This fee is not charged again with rental extensions.
+            Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental
+            price, charged from the renter. This fee is to insure the renter
+            throughout the rental period. This fee is not charged again with
+            rental extensions.
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            The renter's maximum out-of-pocket insurance payment is capped at $50. This
-            coverage is subject to change based on the platform’s performance and growth.
+            The renter's maximum out-of-pocket insurance payment is capped at
+            $50. This coverage is subject to change based on the platform’s
+            performance and growth.
           </p>
           <p className="text-muted-foreground leading-relaxed">
             Listings providing a service do not incur this fee.
@@ -398,9 +412,9 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Payment Processing</h3>
           <p className="text-muted-foreground leading-relaxed">
             All payments are processed securely through third-party payment
-            providers. Payments can be made using PayPal, Apple Pay, Google
-            Pay, or Venmo. Additionally, you can pay using a credit or debit
-            card through PayPal.
+            providers. Payments can be made using PayPal, Apple Pay, Google Pay,
+            or Venmo. Additionally, you can pay using a credit or debit card
+            through PayPal.
           </p>
         </div>
         {/*}
@@ -426,11 +440,11 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Meeting Guidelines</h3>
           <p className="text-muted-foreground leading-relaxed">
-            For your safety, always meet in well-lit, public locations such
-            as active parking lots, public libraries, or outside police
-            stations. Avoid meeting at night or in private locations unless
-            it is absolutely necessary to do so. Do not bring additional
-            people unless it is agreed upon by all parties.
+            For your safety, always meet in well-lit, public locations such as
+            active parking lots, public libraries, or outside police stations.
+            Avoid meeting at night or in private locations unless it is
+            absolutely necessary to do so. Do not bring additional people unless
+            it is agreed upon by all parties.
           </p>
         </div>
         <div>
@@ -472,15 +486,17 @@ const TermsOfServiceContent = () => (
             <li>Items requiring special licenses</li>
             <li>Hazardous materials and chemicals</li>
             <li>Live animals or plants</li>
-            <li>Obscene materials</li>            
+            <li>Obscene materials</li>
           </ul>
         </div>
         <div>
-          <h3 className="text-lg font-medium mb-2">Prohibited Services and Activities</h3>
+          <h3 className="text-lg font-medium mb-2">
+            Prohibited Services and Activities
+          </h3>
           <p className="text-muted-foreground leading-relaxed">
-            Users may not use the platform for fraudulent or unlawful activities,
-            harassment, spam, or any illegal purposes. Violation of these terms
-            may result in immediate account suspension or deletion.
+            Users may not use the platform for fraudulent or unlawful
+            activities, harassment, spam, or any illegal purposes. Violation of
+            these terms may result in immediate account suspension or deletion.
           </p>
         </div>
       </div>
@@ -506,28 +522,29 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Damage Assessment</h3>
           <p className="text-muted-foreground leading-relaxed">
             If an item is damaged, the owner must provide evidence of the damage
-            and a reasonable repair estimate. This is best resolved by photographing
-            the item immediately before and after the item is given to and received
-            from the renter.
+            and a reasonable repair estimate. This is best resolved by
+            photographing the item immediately before and after the item is
+            given to and received from the renter.
           </p>
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Insurance Coverage</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Our long-term vision at {COMPANY_NAME} is to provide comprehensive insurance for
-            every rental. As we are still in the early stages, we can only provide
-            basic insurance. We are working diligently to secure the necessary funding
-            to make comprehensive coverage possible. We appreciate your patience and
-            understanding as we work towards this goal.
+            Our long-term vision at {COMPANY_NAME} is to provide comprehensive
+            insurance for every rental. As we are still in the early stages, we
+            can only provide basic insurance. We are working diligently to
+            secure the necessary funding to make comprehensive coverage
+            possible. We appreciate your patience and understanding as we work
+            towards this goal.
           </p>
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Claim Resolution</h3>
           <p className="text-muted-foreground leading-relaxed">
-            All insurance claims are subject to review and may be denied in cases of
-            fraud, misrepresentation, negligence, prohibited item listings, or violations
-            of platform policies. Claims may also be denied if documentation of loss or
-            damage is insufficient.
+            All insurance claims are subject to review and may be denied in
+            cases of fraud, misrepresentation, negligence, prohibited item
+            listings, or violations of platform policies. Claims may also be
+            denied if documentation of loss or damage is insufficient.
           </p>
         </div>
       </div>
@@ -544,9 +561,10 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Resolution Process</h3>
           <p className="text-muted-foreground leading-relaxed">
-            If disputes arise between users, {COMPANY_NAME} will facilitate communication
-            and mediation. Our support team will review evidence from both
-            parties and make fair determinations based on our policies.
+            If disputes arise between users, {COMPANY_NAME} will facilitate
+            communication and mediation. Our support team will review evidence
+            from both parties and make fair determinations based on our
+            policies.
           </p>
         </div>
         <div>
@@ -568,9 +586,9 @@ const TermsOfServiceContent = () => (
       <p className="text-muted-foreground leading-relaxed">
         Your privacy is important to us. We collect, use, and protect your
         personal information in accordance with our Privacy Policy. By using
-        {COMPANY_NAME}, you consent to the collection and use of your information as
-        described in our Privacy Policy which is incorporated into these Terms
-        of Service by reference.
+        {COMPANY_NAME}, you consent to the collection and use of your
+        information as described in our Privacy Policy which is incorporated
+        into these Terms of Service by reference.
       </p>
     </section>
 
@@ -609,19 +627,19 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Platform Liability</h3>
           <p className="text-muted-foreground leading-relaxed">
-            {COMPANY_NAME} acts solely as an intermediary platform. We are not responsible
-            for the quality, safety, legality, or availability of items listed
-            by users, nor are we responsible for the actions or inactions of
-            users.
+            {COMPANY_NAME} acts solely as an intermediary platform. We are not
+            responsible for the quality, safety, legality, or availability of
+            items listed by users, nor are we responsible for the actions or
+            inactions of users.
           </p>
         </div>
         <div>
           <h3 className="text-lg font-medium mb-2">Limitation of Liability</h3>
           <p className="text-muted-foreground leading-relaxed">
-            To the fullest extent permitted by law, {COMPANY_NAME}'s liability for any
-            claims related to the use of our platform is limited to the amount
-            of fees paid to us in connection with the specific transaction
-            giving rise to the claim.
+            To the fullest extent permitted by law, {COMPANY_NAME}'s liability
+            for any claims related to the use of our platform is limited to the
+            amount of fees paid to us in connection with the specific
+            transaction giving rise to the claim.
           </p>
         </div>
         <div>
@@ -645,8 +663,8 @@ const TermsOfServiceContent = () => (
       <p className="text-muted-foreground leading-relaxed">
         We may modify these Terms of Service from time to time. When we make
         changes, we will notify users via email or through prominent notices on
-        our platform. Your continued use of {COMPANY_NAME} after such modifications
-        constitutes acceptance of the updated terms.
+        our platform. Your continued use of {COMPANY_NAME} after such
+        modifications constitutes acceptance of the updated terms.
       </p>
     </section>
 
@@ -672,8 +690,8 @@ const TermsOfServiceContent = () => (
 
     <div className="text-center pt-8">
       <p className="text-sm text-muted-foreground">
-        By using {COMPANY_NAME}, you acknowledge that you have read, understood, and agree
-        to be bound by these Terms of Service.
+        By using {COMPANY_NAME}, you acknowledge that you have read, understood,
+        and agree to be bound by these Terms of Service.
       </p>
     </div>
   </>

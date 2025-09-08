@@ -108,9 +108,10 @@ export const PrivacyContent = () => (
       <p className="text-muted-foreground">
         We do not have access to the login credentials for your Google,
         Facebook, Microsoft, or Apple account. We are given a temporary access
-        token by the provider to create or log into your {COMPANY_NAME} account. After an
-        account is created, we form an association between your provider account
-        and your {COMPANY_NAME} account that is stored in our system.
+        token by the provider to create or log into your {COMPANY_NAME} account.
+        After an account is created, we form an association between your
+        provider account and your {COMPANY_NAME} account that is stored in our
+        system.
       </p>
       <br />
       <p className="text-muted-foreground">
@@ -150,18 +151,18 @@ export const TermsContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Acceptance of Terms</h3>
       <p className="text-muted-foreground">
-        By accessing and using {COMPANY_NAME}, you accept and agree to be bound by these
-        Terms of Service. If you do not agree to these terms, please do not use
-        our platform.
+        By accessing and using {COMPANY_NAME}, you accept and agree to be bound
+        by these Terms of Service. If you do not agree to these terms, please do
+        not use our platform.
       </p>
     </section>
 
     <section>
       <h3 className="text-lg font-semibold mb-3">Description of Service</h3>
       <p className="text-muted-foreground mb-4">
-        {COMPANY_NAME} is a peer-to-peer marketplace that allows users to rent and lend
-        items to each other. We provide the platform to facilitate these
-        transactions but are not a party to the rental agreements.
+        {COMPANY_NAME} is a peer-to-peer marketplace that allows users to rent
+        and lend items to each other. We provide the platform to facilitate
+        these transactions but are not a party to the rental agreements.
       </p>
     </section>
 
@@ -196,18 +197,18 @@ export const TermsContent = () => (
     <section>
       <h3 className="text-lg font-semibold mb-3">Payment and Fees</h3>
       <p className="text-muted-foreground">
-        {COMPANY_NAME} charges service fees for successful rentals. Fees are clearly
-        displayed before you complete a transaction. All payments are processed
-        securely through our payment partners.
+        {COMPANY_NAME} charges service fees for successful rentals. Fees are
+        clearly displayed before you complete a transaction. All payments are
+        processed securely through our payment partners.
       </p>
     </section>
 
     <section>
       <h3 className="text-lg font-semibold mb-3">Limitation of Liability</h3>
       <p className="text-muted-foreground">
-        {COMPANY_NAME} is not liable for damages arising from rentals, disputes between
-        users, or loss of items. Users participate at their own risk and are
-        encouraged to use our insurance options.
+        {COMPANY_NAME} is not liable for damages arising from rentals, disputes
+        between users, or loss of items. Users participate at their own risk and
+        are encouraged to use our insurance options.
       </p>
     </section>
 

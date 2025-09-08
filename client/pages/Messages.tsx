@@ -170,8 +170,7 @@ export default function Messages() {
           id: 1,
           senderId: 0,
           senderName: "Support",
-          content:
-            `Hello! This is ${COMPANY_NAME} Support. Please provide us with the order ID and date of the rental you are messaging us about.`,
+          content: `Hello! This is ${COMPANY_NAME} Support. Please provide us with the order ID and date of the rental you are messaging us about.`,
           timestamp: "Now",
           isCurrentUser: false,
         },

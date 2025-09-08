@@ -66,9 +66,9 @@ export function TermsCardContent({ onAccept }: { onAccept: () => void }) {
                         • Service fees apply to all completed transactions
                       </li>
                       <li>
-                        • Prohibited items include weapons and illegal
-                        items and services. Please view the full Terms
-                        of Service for a complete list of prohibited items.
+                        • Prohibited items include weapons and illegal items and
+                        services. Please view the full Terms of Service for a
+                        complete list of prohibited items.
                       </li>
                     </ul>
                   </div>
