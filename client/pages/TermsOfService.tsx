@@ -376,7 +376,7 @@ const TermsOfServiceContent = () => (
       <div className="space-y-4">
         <div>
           <h3 className="text-lg font-medium mb-2">Service Fees</h3>
-          <p className="text-muted-foreground leading-relaxed mb-2">
+          <p className="text-muted-foreground leading-relaxed mb-4">
             Profits from listings incur a {SERVICE_FEE}% platform usage fee, charged
             from the host. This fee covers platform maintenance, customer support, 
             and payment processing. Sales tax is charged separately. 
