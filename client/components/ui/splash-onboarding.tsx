@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TermsCardContent } from "@/components/ui/terms-popup";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { COMPANY_NAME } from "@/lib/constants";
 import { Separator } from "@/components/ui/separator";
 
 export function SplashOnboarding() {
@@ -29,7 +30,7 @@ export function SplashOnboarding() {
                 Welcome to {COMPANY_NAME}!
               </CardTitle>
               <p className="text-muted-foreground">
-                Trio is a safe and reliable way to rent with peers.
+                {COMPANY_NAME} is a safe and reliable way to rent with peers.
               </p>
             </CardHeader>
             <CardContent>
