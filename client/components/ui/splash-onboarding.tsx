@@ -64,7 +64,6 @@ export function SplashOnboarding() {
         </div>
       )}
 
-
       {step === 2 && (
         <div className="w-full max-w-md mx-4">
           <TermsCardContent
