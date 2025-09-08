@@ -144,3 +144,12 @@
     visibility 0.15s ease-in-out !important;
   transform-origin: center !important;
 }
+
+/* Utility to hide native scrollbars while preserving scroll behavior */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
