@@ -27,6 +27,7 @@ import { CookiesModal } from "@/components/ui/cookies-modal";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
 import { cn } from "@/lib/utils";
+import { apiFetch } from "@/lib/api";
 import { format } from "date-fns";
 import {
   Calendar as CalendarIcon,
@@ -198,10 +199,10 @@ export default function Index() {
   const [cars, setCars] = useState(featuredCars);
 
   useEffect(() => {
-    fetch('/api/db/setup', { method: 'POST' })
+    apiFetch('db/setup', { method: 'POST' })
       .catch(() => {})
       .finally(() => {
-        fetch('/api/listings')
+        apiFetch('listings')
           .then((r) => r.json())
           .then((d) => {
             if (d && d.ok && Array.isArray(d.listings)) {
