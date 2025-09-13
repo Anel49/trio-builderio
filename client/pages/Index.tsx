@@ -195,6 +195,21 @@ export default function Index() {
     },
   ];
 
+  const [cars, setCars] = useState(featuredCars);
+
+  useEffect(() => {
+    fetch('/api/listings')
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && d.ok && Array.isArray(d.listings)) {
+          setCars(d.listings);
+        }
+      })
+      .catch(() => {
+        /* ignore and keep fallback */
+      });
+  }, []);
+
   const categories = [
     { name: "Landscaping", icon: "🌻", count: "500+" },
     { name: "Clothing", icon: "👗", count: "300+" },
@@ -438,7 +453,7 @@ export default function Index() {
               ref={listRef}
               className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory pb-2 no-scrollbar ml-[55px] mr-[55px]"
             >
-              {featuredCars.map((car) => (
+              {cars.map((car) => (
                 <div
                   key={car.id}
                   className="snap-start min-w-[280px] sm:min-w-[320px]"
