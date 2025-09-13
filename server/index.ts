@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { dbHealth, dbSchema, dbSetup } from "./routes/db";
+import { listListings, createListing } from "./routes/listings";
 
 export function createServer() {
   const app = express();
@@ -21,10 +22,8 @@ export function createServer() {
   app.get("/api/db/health", dbHealth);
   app.get("/api/db/schema", dbSchema);
   app.post("/api/db/setup", dbSetup);
-  app.post("/api/db/setup", dbSetup);
 
   // Listings
-  const { listListings, createListing } = require("./routes/listings");
   app.get("/api/listings", listListings);
   app.post("/api/listings", createListing);
 
