@@ -137,7 +137,7 @@ export default function BrowseListings() {
     }
   };
 
-  const listings = [
+  const initialListings = [
     {
       id: 1,
       name: "Professional Lawn Mower",
@@ -235,6 +235,39 @@ export default function BrowseListings() {
       listedTime: "1 day ago",
     },
   ];
+
+  const [listings, setListings] = useState(initialListings);
+
+  React.useEffect(() => {
+    fetch('/api/db/setup', { method: 'POST' }).catch(() => {})
+      .finally(() => {
+        fetch('/api/listings')
+          .then((r) => r.json())
+          .then((d) => {
+            if (d && d.ok && Array.isArray(d.listings)) {
+              const mapped = d.listings.map((l: any, idx: number) => ({
+                id: l.id,
+                name: l.name,
+                price: l.price,
+                rating: typeof l.rating === 'number' ? l.rating : 0,
+                reviews: undefined,
+                image: l.image,
+                host: l.host,
+                type: l.type,
+                location: '',
+                distance: l.distance,
+                lat: 0,
+                lng: 0,
+                listedTime: undefined,
+              }));
+              setListings(mapped);
+            }
+          })
+          .catch(() => {
+            // keep demo data
+          });
+      });
+  }, []);
 
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
   const [hoveredListing, setHoveredListing] = useState<number | null>(null);
