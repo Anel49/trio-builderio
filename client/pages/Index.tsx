@@ -198,15 +198,19 @@ export default function Index() {
   const [cars, setCars] = useState(featuredCars);
 
   useEffect(() => {
-    fetch('/api/listings')
-      .then((r) => r.json())
-      .then((d) => {
-        if (d && d.ok && Array.isArray(d.listings)) {
-          setCars(d.listings);
-        }
-      })
-      .catch(() => {
-        /* ignore and keep fallback */
+    fetch('/api/db/setup', { method: 'POST' })
+      .catch(() => {})
+      .finally(() => {
+        fetch('/api/listings')
+          .then((r) => r.json())
+          .then((d) => {
+            if (d && d.ok && Array.isArray(d.listings)) {
+              setCars(d.listings);
+            }
+          })
+          .catch(() => {
+            /* ignore and keep fallback */
+          });
       });
   }, []);
 
