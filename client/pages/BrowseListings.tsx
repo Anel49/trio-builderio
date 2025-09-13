@@ -43,6 +43,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
 import { isDateRangeAvailable } from "@/lib/reservations";
+import { apiFetch } from "@/lib/api";
 
 // CSS animation for price popup fade in effect and calendar range styling
 const fadeInStyle = `
@@ -239,13 +240,13 @@ export default function BrowseListings() {
   const [listings, setListings] = useState(initialListings);
 
   React.useEffect(() => {
-    fetch('/api/db/setup', { method: 'POST' }).catch(() => {})
+    apiFetch('db/setup', { method: 'POST' }).catch(() => {})
       .finally(() => {
-        fetch('/api/listings')
+        apiFetch('listings')
           .then((r) => r.json())
           .then((d) => {
             if (d && d.ok && Array.isArray(d.listings)) {
-              const mapped = d.listings.map((l: any, idx: number) => ({
+              const mapped = d.listings.map((l: any) => ({
                 id: l.id,
                 name: l.name,
                 price: l.price,
