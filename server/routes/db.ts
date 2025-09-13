@@ -8,6 +8,8 @@ export const pool = new Pool({
   ssl: connectionString && connectionString.includes("sslmode=require")
     ? { rejectUnauthorized: false }
     : undefined,
+  connectionTimeoutMillis: 5000,
+  idleTimeoutMillis: 10000,
 });
 
 export async function dbHealth(_req: Request, res: Response) {
