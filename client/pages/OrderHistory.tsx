@@ -364,7 +364,7 @@ export default function OrderHistory() {
                   <DropdownMenuContent>
                     <DropdownMenuRadioGroup
                       value={statusFilter}
-                      onValueChange={setStatusFilter}
+                      onValueChange={(v) => setStatusFilter(v as OrderStatus | "all")}
                     >
                       <DropdownMenuRadioItem value="all">
                         All Statuses
@@ -402,7 +402,7 @@ export default function OrderHistory() {
                   <DropdownMenuContent>
                     <DropdownMenuRadioGroup
                       value={typeFilter}
-                      onValueChange={setTypeFilter}
+                      onValueChange={(v) => setTypeFilter(v as OrderType | "all")}
                     >
                       <DropdownMenuRadioItem value="all">
                         All Types
