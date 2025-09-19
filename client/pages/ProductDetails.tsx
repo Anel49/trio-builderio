@@ -490,7 +490,7 @@ export default function ProductDetails() {
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar className="h-16 w-16">
-                    <AvatarImage src={host.image} alt={host.name} />
+                    <AvatarImage src={host.profileImage} alt={host.name} />
                     <AvatarFallback>
                       {host.name
                         .split(" ")
