@@ -995,7 +995,7 @@ export default function Profile() {
               <div className="relative inline-block group mb-4">
                 <Avatar className="h-24 w-24 mx-auto">
                   <AvatarImage
-                    src={userProfile.avatarUrl}
+                    src={userProfile.profileImage}
                     alt={userProfile.name}
                   />
                   <AvatarFallback>
