@@ -1,4 +1,6 @@
 let cachedBase: string | null = null;
+let lastResolveFailAt = 0;
+const RESOLVE_COOLDOWN_MS = 15_000;
 
 function cleanJoin(base: string, path: string) {
   if (!base) return path.startsWith("/") ? path : `/${path}`;
@@ -7,36 +9,87 @@ function cleanJoin(base: string, path: string) {
   return `${b}/${p}`;
 }
 
-export async function apiFetch(path: string, init?: RequestInit) {
-  const tried: string[] = [];
-  const candidates = [
-    (import.meta as any).env?.VITE_API_BASE_URL as string | undefined,
-    "/api",
-    "/.netlify/functions/api",
-  ].filter(Boolean) as string[];
+function uniq<T>(arr: T[]) {
+  return Array.from(new Set(arr.filter(Boolean))) as T[];
+}
 
-  if (cachedBase) {
-    const url = cleanJoin(cachedBase, path);
-    const res = await fetch(url, init);
-    if (res.ok) return res;
-    tried.push(cachedBase);
-    cachedBase = null;
+async function tryFetch(url: string, init?: RequestInit, timeoutMs = 3000): Promise<Response | null> {
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeoutMs);
+    const res = await fetch(url, { ...init, signal: controller.signal });
+    clearTimeout(id);
+    return res;
+  } catch {
+    return null;
   }
+}
+
+async function resolveApiBase(): Promise<string | null> {
+  if (cachedBase) return cachedBase;
+  const now = Date.now();
+  if (now - lastResolveFailAt < RESOLVE_COOLDOWN_MS) return null;
+
+  const envBase = (import.meta as any).env?.VITE_API_BASE_URL as string | undefined;
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+
+  const candidates = uniq<string>([
+    envBase,
+    "/.netlify/functions/api",
+    "/api",
+    origin ? `${origin}/.netlify/functions/api` : "",
+    origin ? `${origin}/api` : "",
+  ]);
 
   for (const base of candidates) {
-    if (tried.includes(base)) continue;
-    try {
-      const url = cleanJoin(base, path);
-      const res = await fetch(url, init);
-      if (res.ok) {
-        cachedBase = base;
-        return res;
-      }
-    } catch {}
+    const pingUrl = cleanJoin(base, "ping");
+    const res = await tryFetch(pingUrl, { method: "GET" }, 2000);
+    if (res && res.ok) {
+      cachedBase = base;
+      return cachedBase;
+    }
   }
 
-  // Last attempt: relative path as-is
-  const res = await fetch(path, init);
-  if (res.ok) return res;
-  throw new Error(`API request failed for ${path} (tried: ${[...tried, ...candidates].join(", ")})`);
+  lastResolveFailAt = Date.now();
+  return null;
+}
+
+export async function apiFetch(path: string, init?: RequestInit) {
+  // Absolute URL passthrough
+  if (/^https?:\/\//i.test(path)) {
+    const res = await tryFetch(path, init);
+    if (res) return res;
+    return new Response(JSON.stringify({ ok: false, error: `Network error for ${path}` }), {
+      status: 503,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  let base = cachedBase;
+  if (!base) base = await resolveApiBase();
+
+  if (base) {
+    const url = cleanJoin(base, path);
+    const res = await tryFetch(url, init);
+    if (res) return res;
+    // Invalidate base and try to resolve once more
+    cachedBase = null;
+    base = await resolveApiBase();
+    if (base) {
+      const retryUrl = cleanJoin(base, path);
+      const retryRes = await tryFetch(retryUrl, init);
+      if (retryRes) return retryRes;
+    }
+  }
+
+  // Graceful fallback to avoid noisy unhandled errors in environments without a backend
+  return new Response(
+    JSON.stringify({
+      ok: false,
+      error: "API unreachable",
+      hint:
+        "Set VITE_API_BASE_URL to your API base (e.g. https://<your-site>.netlify.app/.netlify/functions/api) or deploy the backend.",
+    }),
+    { status: 503, headers: { "Content-Type": "application/json" } }
+  );
 }
