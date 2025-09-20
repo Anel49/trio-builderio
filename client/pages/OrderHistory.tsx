@@ -424,7 +424,7 @@ export default function OrderHistory() {
         <div className="mb-6">
           <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="orders">Order History</TabsTrigger>
+              <TabsTrigger value="orders">Rental History</TabsTrigger>
               <TabsTrigger value="requests">Requests</TabsTrigger>
             </TabsList>
           </Tabs>
