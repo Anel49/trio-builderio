@@ -107,7 +107,7 @@ export default function OrderHistory() {
   }, [hideCompleted]);
 
   useEffect(() => {
-    document.title = "Orders and Requests";
+    document.title = "Rentals and Requests";
   }, []);
 
   const orders: Order[] = [
