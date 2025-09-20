@@ -68,7 +68,7 @@ export default function OrderHistory() {
   );
 
   // Local state for orders so we can mutate (e.g., cancel)
-  const [ordersState, setOrdersState] = useState<Order[]>(orders);
+  const [ordersState, setOrdersState] = useState<Order[]>([]);
 
   // Date range filters
   const [orderDateRange, setOrderDateRange] = useState<{ start?: Date; end?: Date }>({});
