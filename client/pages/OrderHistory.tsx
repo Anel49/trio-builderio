@@ -249,47 +249,69 @@ export default function OrderHistory() {
   };
 
   const getStatusColor = (status: OrderStatus) => {
-    switch (status) {
-      case "completed":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-      case "active":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
-      case "upcoming":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
-      case "cancelled":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
-    }
-  };
+  switch (status) {
+    case "completed":
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+    case "active":
+      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+    case "upcoming":
+    case "pending":
+      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+    case "cancelled":
+      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+    default:
+      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+  }
+};
 
-  const getStatusText = (status: OrderStatus) => {
-    switch (status) {
-      case "completed":
-        return "Completed";
-      case "active":
-        return "Active";
-      case "upcoming":
-        return "Upcoming";
-      case "cancelled":
-        return "Cancelled";
-      default:
-        return status;
-    }
-  };
+const getStatusText = (status: OrderStatus) => {
+  switch (status) {
+    case "completed":
+      return "Completed";
+    case "active":
+      return "Active";
+    case "upcoming":
+      return "Upcoming";
+    case "pending":
+      return "Pending";
+    case "cancelled":
+      return "Cancelled";
+    default:
+      return status;
+  }
+};
 
-  const filteredOrders = orders.filter((order) => {
-    const matchesSearch =
-      order.itemName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.host.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (order.renter &&
-        order.renter.toLowerCase().includes(searchQuery.toLowerCase()));
-    const matchesStatus =
-      statusFilter === "all" || order.status === statusFilter;
-    const matchesType = typeFilter === "all" || order.type === typeFilter;
+function parseDateSafe(s: string): Date | null {
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : d;
+}
+function overlapsRange(aStart: Date | null, aEnd: Date | null, fStart?: Date, fEnd?: Date) {
+  if (!fStart || !fEnd) return true;
+  if (!aStart || !aEnd) return false;
+  return aStart <= fEnd && aEnd >= fStart;
+}
+function canCancelOrder(order: Order) {
+  const now = new Date();
+  const s = parseDateSafe(order.startDate);
+  return (order.status === "upcoming" || order.status === "pending") && (!!s && s > now);
+}
 
-    return matchesSearch && matchesStatus && matchesType;
-  });
+const filteredOrders = ordersState.filter((order) => {
+  const matchesSearch =
+    order.itemName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    order.host.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (order.renter &&
+      order.renter.toLowerCase().includes(searchQuery.toLowerCase()));
+  const matchesStatus =
+    statusFilter === "all" || order.status === statusFilter;
+  const matchesType = typeFilter === "all" || order.type === typeFilter;
+  const notCompletedHidden = !hideCompleted || order.status !== "completed";
+  const oStart = parseDateSafe(order.startDate);
+  const oEnd = parseDateSafe(order.endDate);
+  const matchesDate = overlapsRange(oStart, oEnd, orderDateRange.start, orderDateRange.end);
+
+  return matchesSearch && matchesStatus && matchesType && notCompletedHidden && matchesDate;
+});
 
   const filteredRequests = requests.filter((req) => {
     const matchesSearch =
