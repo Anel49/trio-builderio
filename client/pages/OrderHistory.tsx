@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
+import { Calendar as DatePicker } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Header from "@/components/Header";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { format } from "date-fns";
 import {
   ArrowLeft,
   Search,
@@ -27,7 +30,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 
-type OrderStatus = "completed" | "active" | "cancelled" | "upcoming";
+type OrderStatus = "completed" | "active" | "cancelled" | "upcoming" | "pending";
 type OrderType = "rented" | "hosted";
 
 interface Order {
