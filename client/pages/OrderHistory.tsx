@@ -414,7 +414,7 @@ export default function OrderHistory() {
         </div>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Orders and Requests</h1>
+          <h1 className="text-3xl font-bold mb-2">Rentals and Requests</h1>
           <p className="text-muted-foreground">
             Review orders or manage rental requests
           </p>
