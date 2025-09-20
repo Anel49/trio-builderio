@@ -421,6 +421,9 @@ const filteredOrders = ordersState.filter((order) => {
                       <DropdownMenuRadioItem value="upcoming">
                         Upcoming
                       </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="pending">
+                        Pending
+                      </DropdownMenuRadioItem>
                       <DropdownMenuRadioItem value="cancelled">
                         Cancelled
                       </DropdownMenuRadioItem>
