@@ -708,7 +708,7 @@ export default function OrderHistory() {
                               onClick={() => {
                                 if (
                                   confirm(
-                                    "Are you sure you want to cancel this order?",
+                                    "Are you sure you want to cancel this rental?",
                                   )
                                 ) {
                                   setOrdersState((prev) =>
