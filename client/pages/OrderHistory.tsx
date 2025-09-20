@@ -757,7 +757,7 @@ export default function OrderHistory() {
                                 {(order.status === "upcoming" ||
                                   order.status === "pending") && (
                                   <DropdownMenuRadioItem value="cancel">
-                                    Cancel Order
+                                    Cancel Rental
                                   </DropdownMenuRadioItem>
                                 )}
                               </DropdownMenuRadioGroup>
