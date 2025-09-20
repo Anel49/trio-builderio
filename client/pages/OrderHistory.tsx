@@ -460,8 +460,52 @@ const filteredOrders = ordersState.filter((order) => {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <div className="text-sm text-muted-foreground flex items-center">
-                  Showing {filteredOrders.length} of {orders.length} orders
+                <div className="flex flex-col gap-2">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="justify-start">
+                        <Calendar className="h-4 w-4 mr-2" />
+                        <span>
+                          {orderDateRange.start && orderDateRange.end
+                            ? `${format(orderDateRange.start, "MMM dd")} - ${format(orderDateRange.end, "MMM dd")}`
+                            : "Date: When"}
+                        </span>
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <DatePicker
+                        mode="range"
+                        selected={{ from: orderDateRange.start, to: orderDateRange.end } as any}
+                        onSelect={(range: any) => {
+                          setOrderDateRange({ start: range?.from, end: range?.to });
+                        }}
+                        numberOfMonths={1}
+                        disabled={(date) => false}
+                        initialFocus
+                      />
+                      {(orderDateRange.start || orderDateRange.end) && (
+                        <div className="p-2 border-t">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setOrderDateRange({})}
+                            className="w-full"
+                          >
+                            Clear
+                          </Button>
+                        </div>
+                      )}
+                    </PopoverContent>
+                  </Popover>
+
+                  <label className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <input
+                      type="checkbox"
+                      checked={hideCompleted}
+                      onChange={(e) => setHideCompleted(e.target.checked)}
+                    />
+                    Hide Completed
+                  </label>
                 </div>
               </div>
             </CardContent>
