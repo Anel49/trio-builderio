@@ -589,7 +589,7 @@ export default function OrderHistory() {
                   <div className="text-muted-foreground mb-4">
                     <Calendar className="h-12 w-12 mx-auto mb-4" />
                     <h3 className="text-lg font-semibold mb-2">
-                      No orders found
+                      No rentals found
                     </h3>
                     <p>Try adjusting your search criteria or filters</p>
                   </div>
