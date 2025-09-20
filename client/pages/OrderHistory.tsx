@@ -505,19 +505,22 @@ const filteredOrders = ordersState.filter((order) => {
                     </PopoverContent>
                   </Popover>
 
-                  <label className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <input
-                      type="checkbox"
-                      checked={hideCompleted}
-                      onChange={(e) => setHideCompleted(e.target.checked)}
-                    />
-                    Hide Completed
-                  </label>
                 </div>
 
               </div>
             </CardContent>
           </Card>
+
+          <div className="mb-6">
+            <label className="flex items-center gap-2 text-sm text-muted-foreground">
+              <input
+                type="checkbox"
+                checked={hideCompleted}
+                onChange={(e) => setHideCompleted(e.target.checked)}
+              />
+              Hide Completed
+            </label>
+          </div>
 
           {/* Orders List */}
           <div className="space-y-4">
