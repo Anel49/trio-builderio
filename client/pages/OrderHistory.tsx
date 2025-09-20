@@ -6,7 +6,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Calendar as DatePicker } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,7 +34,12 @@ import {
   RefreshCw,
 } from "lucide-react";
 
-type OrderStatus = "completed" | "active" | "cancelled" | "upcoming" | "pending";
+type OrderStatus =
+  | "completed"
+  | "active"
+  | "cancelled"
+  | "upcoming"
+  | "pending";
 type OrderType = "rented" | "hosted";
 
 interface Order {
@@ -71,15 +80,30 @@ export default function OrderHistory() {
   const [ordersState, setOrdersState] = useState<Order[]>([]);
 
   // Date range filters
-  const [orderDateRange, setOrderDateRange] = useState<{ start?: Date; end?: Date }>({});
-  const [requestDateRange, setRequestDateRange] = useState<{ start?: Date; end?: Date }>({});
+  const [orderDateRange, setOrderDateRange] = useState<{
+    start?: Date;
+    end?: Date;
+  }>({});
+  const [requestDateRange, setRequestDateRange] = useState<{
+    start?: Date;
+    end?: Date;
+  }>({});
 
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
-    try { return localStorage.getItem("orderHistoryHideCompleted") === "1"; } catch { return false; }
+    try {
+      return localStorage.getItem("orderHistoryHideCompleted") === "1";
+    } catch {
+      return false;
+    }
   });
   useEffect(() => {
-    try { localStorage.setItem("orderHistoryHideCompleted", hideCompleted ? "1" : "0"); } catch {}
+    try {
+      localStorage.setItem(
+        "orderHistoryHideCompleted",
+        hideCompleted ? "1" : "0",
+      );
+    } catch {}
   }, [hideCompleted]);
 
   useEffect(() => {
@@ -253,83 +277,108 @@ export default function OrderHistory() {
   };
 
   const getStatusColor = (status: OrderStatus) => {
-  switch (status) {
-    case "completed":
-      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-    case "active":
-      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
-    case "upcoming":
-    case "pending":
-      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
-    case "cancelled":
-      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
-    default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+    switch (status) {
+      case "completed":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+      case "active":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+      case "upcoming":
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+      case "cancelled":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+    }
+  };
+
+  const getStatusText = (status: OrderStatus) => {
+    switch (status) {
+      case "completed":
+        return "Completed";
+      case "active":
+        return "Active";
+      case "upcoming":
+        return "Upcoming";
+      case "pending":
+        return "Pending";
+      case "cancelled":
+        return "Cancelled";
+      default:
+        return status;
+    }
+  };
+
+  function parseDateSafe(s: string): Date | null {
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? null : d;
   }
-};
-
-const getStatusText = (status: OrderStatus) => {
-  switch (status) {
-    case "completed":
-      return "Completed";
-    case "active":
-      return "Active";
-    case "upcoming":
-      return "Upcoming";
-    case "pending":
-      return "Pending";
-    case "cancelled":
-      return "Cancelled";
-    default:
-      return status;
+  function overlapsRange(
+    aStart: Date | null,
+    aEnd: Date | null,
+    fStart?: Date,
+    fEnd?: Date,
+  ) {
+    if (!fStart || !fEnd) return true;
+    if (!aStart || !aEnd) return false;
+    return aStart <= fEnd && aEnd >= fStart;
   }
-};
+  function canCancelOrder(order: Order) {
+    const now = new Date();
+    const s = parseDateSafe(order.startDate);
+    return (
+      (order.status === "upcoming" || order.status === "pending") &&
+      !!s &&
+      s > now
+    );
+  }
 
-function parseDateSafe(s: string): Date | null {
-  const d = new Date(s);
-  return isNaN(d.getTime()) ? null : d;
-}
-function overlapsRange(aStart: Date | null, aEnd: Date | null, fStart?: Date, fEnd?: Date) {
-  if (!fStart || !fEnd) return true;
-  if (!aStart || !aEnd) return false;
-  return aStart <= fEnd && aEnd >= fStart;
-}
-function canCancelOrder(order: Order) {
-  const now = new Date();
-  const s = parseDateSafe(order.startDate);
-  return (order.status === "upcoming" || order.status === "pending") && (!!s && s > now);
-}
+  const filteredOrders = ordersState.filter((order) => {
+    const matchesSearch =
+      order.itemName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.host.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (order.renter &&
+        order.renter.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesStatus =
+      statusFilter === "all" || order.status === statusFilter;
+    const matchesType = typeFilter === "all" || order.type === typeFilter;
+    const notCompletedHidden = !hideCompleted || order.status !== "completed";
+    const oStart = parseDateSafe(order.startDate);
+    const oEnd = parseDateSafe(order.endDate);
+    const matchesDate = overlapsRange(
+      oStart,
+      oEnd,
+      orderDateRange.start,
+      orderDateRange.end,
+    );
 
-const filteredOrders = ordersState.filter((order) => {
-  const matchesSearch =
-    order.itemName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    order.host.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (order.renter &&
-      order.renter.toLowerCase().includes(searchQuery.toLowerCase()));
-  const matchesStatus =
-    statusFilter === "all" || order.status === statusFilter;
-  const matchesType = typeFilter === "all" || order.type === typeFilter;
-  const notCompletedHidden = !hideCompleted || order.status !== "completed";
-  const oStart = parseDateSafe(order.startDate);
-  const oEnd = parseDateSafe(order.endDate);
-  const matchesDate = overlapsRange(oStart, oEnd, orderDateRange.start, orderDateRange.end);
-
-  return matchesSearch && matchesStatus && matchesType && notCompletedHidden && matchesDate;
-});
+    return (
+      matchesSearch &&
+      matchesStatus &&
+      matchesType &&
+      notCompletedHidden &&
+      matchesDate
+    );
+  });
 
   const filteredRequests = requests.filter((req) => {
-  const matchesSearch =
-    req.itemName.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
-    req.requester.toLowerCase().includes(requestSearchQuery.toLowerCase());
-  const matchesStatus =
-    requestStatusFilter === "all" || req.status === requestStatusFilter;
-  const matchesRequester =
-    requesterFilter === "all" || req.direction === requesterFilter;
-  const rStart = parseDateSafe(req.requestedStart);
-  const rEnd = parseDateSafe(req.requestedEnd);
-  const matchesDate = overlapsRange(rStart, rEnd, requestDateRange.start, requestDateRange.end);
-  return matchesSearch && matchesStatus && matchesRequester && matchesDate;
-});
+    const matchesSearch =
+      req.itemName.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
+      req.requester.toLowerCase().includes(requestSearchQuery.toLowerCase());
+    const matchesStatus =
+      requestStatusFilter === "all" || req.status === requestStatusFilter;
+    const matchesRequester =
+      requesterFilter === "all" || req.direction === requesterFilter;
+    const rStart = parseDateSafe(req.requestedStart);
+    const rEnd = parseDateSafe(req.requestedEnd);
+    const matchesDate = overlapsRange(
+      rStart,
+      rEnd,
+      requestDateRange.start,
+      requestDateRange.end,
+    );
+    return matchesSearch && matchesStatus && matchesRequester && matchesDate;
+  });
 
   const sortedRequests = [...filteredRequests].sort((a, b) => {
     const aDate = new Date(a.requestedStart).getTime();
@@ -411,7 +460,9 @@ const filteredOrders = ordersState.filter((order) => {
                   <DropdownMenuContent>
                     <DropdownMenuRadioGroup
                       value={statusFilter}
-                      onValueChange={(v) => setStatusFilter(v as OrderStatus | "all")}
+                      onValueChange={(v) =>
+                        setStatusFilter(v as OrderStatus | "all")
+                      }
                     >
                       <DropdownMenuRadioItem value="all">
                         All Statuses
@@ -452,7 +503,9 @@ const filteredOrders = ordersState.filter((order) => {
                   <DropdownMenuContent>
                     <DropdownMenuRadioGroup
                       value={typeFilter}
-                      onValueChange={(v) => setTypeFilter(v as OrderType | "all")}
+                      onValueChange={(v) =>
+                        setTypeFilter(v as OrderType | "all")
+                      }
                     >
                       <DropdownMenuRadioItem value="all">
                         All Types
@@ -482,9 +535,17 @@ const filteredOrders = ordersState.filter((order) => {
                     <PopoverContent className="w-auto p-0" align="start">
                       <DatePicker
                         mode="range"
-                        selected={{ from: orderDateRange.start, to: orderDateRange.end } as any}
+                        selected={
+                          {
+                            from: orderDateRange.start,
+                            to: orderDateRange.end,
+                          } as any
+                        }
                         onSelect={(range: any) => {
-                          setOrderDateRange({ start: range?.from, end: range?.to });
+                          setOrderDateRange({
+                            start: range?.from,
+                            end: range?.to,
+                          });
                         }}
                         numberOfMonths={1}
                         disabled={() => false}
@@ -504,9 +565,7 @@ const filteredOrders = ordersState.filter((order) => {
                       )}
                     </PopoverContent>
                   </Popover>
-
                 </div>
-
               </div>
             </CardContent>
           </Card>
@@ -647,8 +706,18 @@ const filteredOrders = ordersState.filter((order) => {
                               variant="destructive"
                               size="sm"
                               onClick={() => {
-                                if (confirm("Are you sure you want to cancel this order?")) {
-                                  setOrdersState((prev) => prev.map((o) => o.id === order.id ? { ...o, status: "cancelled" } : o));
+                                if (
+                                  confirm(
+                                    "Are you sure you want to cancel this order?",
+                                  )
+                                ) {
+                                  setOrdersState((prev) =>
+                                    prev.map((o) =>
+                                      o.id === order.id
+                                        ? { ...o, status: "cancelled" }
+                                        : o,
+                                    ),
+                                  );
                                 }
                               }}
                             >
@@ -685,7 +754,8 @@ const filteredOrders = ordersState.filter((order) => {
                                       Leave Review
                                     </DropdownMenuRadioItem>
                                   )}
-                                {(order.status === "upcoming" || order.status === "pending") && (
+                                {(order.status === "upcoming" ||
+                                  order.status === "pending") && (
                                   <DropdownMenuRadioItem value="cancel">
                                     Cancel Order
                                   </DropdownMenuRadioItem>
@@ -812,7 +882,10 @@ const filteredOrders = ordersState.filter((order) => {
                         <Button variant="outline" className="justify-start">
                           <Filter className="h-4 w-4 mr-2" />
                           <span>
-                            Sort: {requestSortBy === "recent" ? "Most recent" : "Oldest"}
+                            Sort:{" "}
+                            {requestSortBy === "recent"
+                              ? "Most recent"
+                              : "Oldest"}
                           </span>
                         </Button>
                       </DropdownMenuTrigger>
@@ -845,9 +918,17 @@ const filteredOrders = ordersState.filter((order) => {
                       <PopoverContent className="w-auto p-0" align="start">
                         <DatePicker
                           mode="range"
-                          selected={{ from: requestDateRange.start, to: requestDateRange.end } as any}
+                          selected={
+                            {
+                              from: requestDateRange.start,
+                              to: requestDateRange.end,
+                            } as any
+                          }
                           onSelect={(range: any) => {
-                            setRequestDateRange({ start: range?.from, end: range?.to });
+                            setRequestDateRange({
+                              start: range?.from,
+                              end: range?.to,
+                            });
                           }}
                           numberOfMonths={1}
                           disabled={() => false}
