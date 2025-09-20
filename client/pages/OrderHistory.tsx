@@ -67,6 +67,21 @@ export default function OrderHistory() {
     "recent",
   );
 
+  // Local state for orders so we can mutate (e.g., cancel)
+  const [ordersState, setOrdersState] = useState<Order[]>(orders);
+
+  // Date range filters
+  const [orderDateRange, setOrderDateRange] = useState<{ start?: Date; end?: Date }>({});
+  const [requestDateRange, setRequestDateRange] = useState<{ start?: Date; end?: Date }>({});
+
+  // Persistent hide completed
+  const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
+    try { return localStorage.getItem("orderHistoryHideCompleted") === "1"; } catch { return false; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem("orderHistoryHideCompleted", hideCompleted ? "1" : "0"); } catch {}
+  }, [hideCompleted]);
+
   useEffect(() => {
     document.title = "Orders and Requests";
   }, []);
