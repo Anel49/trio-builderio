@@ -798,32 +798,68 @@ const filteredOrders = ordersState.filter((order) => {
                     </DropdownMenuContent>
                   </DropdownMenu>
 
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="justify-start">
-                        <Filter className="h-4 w-4 mr-2" />
-                        <span>
-                          Sort:{" "}
-                          {requestSortBy === "recent"
-                            ? "Most recent"
-                            : "Oldest"}
-                        </span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuRadioGroup
-                        value={requestSortBy}
-                        onValueChange={setRequestSortBy as any}
-                      >
-                        <DropdownMenuRadioItem value="recent">
-                          Most recent
-                        </DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="oldest">
-                          Oldest
-                        </DropdownMenuRadioItem>
-                      </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <div className="flex flex-col gap-2">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="justify-start">
+                          <Filter className="h-4 w-4 mr-2" />
+                          <span>
+                            Sort: {requestSortBy === "recent" ? "Most recent" : "Oldest"}
+                          </span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuRadioGroup
+                          value={requestSortBy}
+                          onValueChange={setRequestSortBy as any}
+                        >
+                          <DropdownMenuRadioItem value="recent">
+                            Most recent
+                          </DropdownMenuRadioItem>
+                          <DropdownMenuRadioItem value="oldest">
+                            Oldest
+                          </DropdownMenuRadioItem>
+                        </DropdownMenuRadioGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" className="justify-start">
+                          <Calendar className="h-4 w-4 mr-2" />
+                          <span>
+                            {requestDateRange.start && requestDateRange.end
+                              ? `${format(requestDateRange.start, "MMM dd")} - ${format(requestDateRange.end, "MMM dd")}`
+                              : "Date: When"}
+                          </span>
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <DatePicker
+                          mode="range"
+                          selected={{ from: requestDateRange.start, to: requestDateRange.end } as any}
+                          onSelect={(range: any) => {
+                            setRequestDateRange({ start: range?.from, end: range?.to });
+                          }}
+                          numberOfMonths={1}
+                          disabled={() => false}
+                          initialFocus
+                        />
+                        {(requestDateRange.start || requestDateRange.end) && (
+                          <div className="p-2 border-t">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setRequestDateRange({})}
+                              className="w-full"
+                            >
+                              Clear
+                            </Button>
+                          </div>
+                        )}
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                 </div>
               </CardContent>
             </Card>
