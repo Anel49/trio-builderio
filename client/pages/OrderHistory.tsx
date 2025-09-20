@@ -174,6 +174,10 @@ export default function OrderHistory() {
     },
   ];
 
+  useEffect(() => {
+    setOrdersState(orders);
+  }, []);
+
   type RequestStatus = "pending" | "approved" | "rejected" | "cancelled";
   interface RequestItem {
     id: string;
