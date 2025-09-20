@@ -631,6 +631,19 @@ const filteredOrders = ordersState.filter((order) => {
                         </div>
 
                         <div className="flex gap-2 lg:justify-end">
+                          {canCancelOrder(order) && (
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => {
+                                if (confirm("Are you sure you want to cancel this order?")) {
+                                  setOrdersState((prev) => prev.map((o) => o.id === order.id ? { ...o, status: "cancelled" } : o));
+                                }
+                              }}
+                            >
+                              Cancel
+                            </Button>
+                          )}
                           <Button
                             variant="outline"
                             size="sm"
@@ -661,7 +674,7 @@ const filteredOrders = ordersState.filter((order) => {
                                       Leave Review
                                     </DropdownMenuRadioItem>
                                   )}
-                                {order.status === "upcoming" && (
+                                {(order.status === "upcoming" || order.status === "pending") && (
                                   <DropdownMenuRadioItem value="cancel">
                                     Cancel Order
                                   </DropdownMenuRadioItem>
