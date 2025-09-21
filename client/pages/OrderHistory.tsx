@@ -665,6 +665,7 @@ export default function OrderHistory() {
                           <div>
                             <p className="text-sm font-medium mb-2">Host</p>
                             <div className="flex items-center space-x-2">
+                              <a href="/profile" aria-label="Open profile">
                               <Avatar className="h-8 w-8">
                                 <AvatarImage
                                   src={order.hostAvatar}
@@ -677,6 +678,7 @@ export default function OrderHistory() {
                                     .join("")}
                                 </AvatarFallback>
                               </Avatar>
+                            </a>
                               <span className="text-sm">{order.host}</span>
                             </div>
                           </div>
@@ -1031,18 +1033,20 @@ export default function OrderHistory() {
                             : "You requested"}
                         </p>
                         <div className="flex items-center space-x-2">
-                          <Avatar className="h-8 w-8">
-                            <AvatarImage
-                              src={req.requesterAvatar}
-                              alt={req.requester}
-                            />
-                            <AvatarFallback>
-                              {req.requester
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")}
-                            </AvatarFallback>
-                          </Avatar>
+                          <a href="/profile" aria-label="Open profile">
+                            <Avatar className="h-8 w-8">
+                              <AvatarImage
+                                src={req.requesterAvatar}
+                                alt={req.requester}
+                              />
+                              <AvatarFallback>
+                                {req.requester
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")}
+                              </AvatarFallback>
+                            </Avatar>
+                          </a>
                           <span className="text-sm">{req.requester}</span>
                         </div>
                       </div>
