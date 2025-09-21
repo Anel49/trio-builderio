@@ -672,6 +672,26 @@ export default function Checkout() {
                   </div>
                 )}
 
+                {/* Stripe Card Element */}
+                {paymentMethod === "card" && (
+                  <div className="p-4">
+                    {publishableKey && stripePromise ? (
+                      <Elements stripe={stripePromise} options={{}}>
+                        <div className="space-y-4">
+                          <CardElement options={{ hidePostalCode: false }} />
+                          <p className="text-xs text-muted-foreground">
+                            Card details are securely encrypted by Stripe.
+                          </p>
+                        </div>
+                      </Elements>
+                    ) : (
+                      <div className="text-sm text-muted-foreground">
+                        Set VITE_STRIPE_PUBLISHABLE_KEY to enable card payments.
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Security Badge */}
                 <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                   <Shield className="h-4 w-4" />
