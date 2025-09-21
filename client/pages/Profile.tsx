@@ -633,6 +633,10 @@ export default function Profile() {
                         distance={item.distance}
                         hideHostInfo={true}
                         onFavorite={handleFavorite}
+                        onDeleteClick={() => {
+                          setItemToDelete(item);
+                          setIsDeleteModalOpen(true);
+                        }}
                         onClick={() => {
                           window.location.href = `/product/${item.id}`;
                         }}
