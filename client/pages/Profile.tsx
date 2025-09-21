@@ -995,9 +995,6 @@ export default function Profile() {
             </Button>
             <Button
               onClick={() => {
-                if (itemToDelete) {
-                  setListedItems((prev) => prev.filter((li) => li.id !== itemToDelete.id));
-                }
                 setIsDeleteModalOpen(false);
                 setItemToDelete(null);
               }}
