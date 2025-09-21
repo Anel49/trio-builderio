@@ -64,7 +64,8 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-neutral-950/80 dark:bg-neutral-950/80 backdrop-blur-sm">
+      <div className="w-full p-4">
       <Card className="w-full md:w-3/5 lg:w-2/5 md:min-w-[512px] mx-auto">
         <CardHeader className="pb-4">
           <CardTitle className="text-lg font-semibold">
@@ -207,6 +208,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
           </Tabs>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }
