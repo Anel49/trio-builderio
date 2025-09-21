@@ -192,6 +192,8 @@ export default function Profile() {
     },
   ];
 
+  const [listedItems, setListedItems] = useState<ListedItem[]>(listedItemsState);
+
   // Mock item reviews
   const itemReviews = [
     {
