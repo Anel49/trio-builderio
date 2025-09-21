@@ -11,7 +11,13 @@ import Header from "@/components/Header";
 import { colors } from "@/lib/colors";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Search,
   Send,
@@ -685,7 +691,12 @@ export default function Messages() {
 
                   {selectedChat === SUPPORT_CHAT_ID && (
                     <div className="mb-6">
-                      <Button onClick={() => { setSupportModalOpen(true); setRightSidebarOpen(false); }}>
+                      <Button
+                        onClick={() => {
+                          setSupportModalOpen(true);
+                          setRightSidebarOpen(false);
+                        }}
+                      >
                         Contact Support
                       </Button>
                     </div>
@@ -745,7 +756,10 @@ export default function Messages() {
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setSupportModalOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setSupportModalOpen(false)}
+            >
               No
             </Button>
             <Button onClick={() => setSupportModalOpen(false)}>Yes</Button>

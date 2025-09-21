@@ -666,19 +666,19 @@ export default function OrderHistory() {
                             <p className="text-sm font-medium mb-2">Host</p>
                             <div className="flex items-center space-x-2">
                               <a href="/profile" aria-label="Open profile">
-                              <Avatar className="h-8 w-8">
-                                <AvatarImage
-                                  src={order.hostAvatar}
-                                  alt={order.host}
-                                />
-                                <AvatarFallback>
-                                  {order.host
-                                    .split(" ")
-                                    .map((n) => n[0])
-                                    .join("")}
-                                </AvatarFallback>
-                              </Avatar>
-                            </a>
+                                <Avatar className="h-8 w-8">
+                                  <AvatarImage
+                                    src={order.hostAvatar}
+                                    alt={order.host}
+                                  />
+                                  <AvatarFallback>
+                                    {order.host
+                                      .split(" ")
+                                      .map((n) => n[0])
+                                      .join("")}
+                                  </AvatarFallback>
+                                </Avatar>
+                              </a>
                               <span className="text-sm">{order.host}</span>
                             </div>
                           </div>
