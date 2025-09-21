@@ -105,7 +105,7 @@ export default function Profile() {
   };
 
   // Mock listed items
-  const listedItems = [
+  const listedItemsState: ListedItem[] = [
     {
       id: 1,
       name: "Professional Lawn Mower",
