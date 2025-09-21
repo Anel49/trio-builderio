@@ -652,18 +652,20 @@ export default function Messages() {
                 <div className="p-6 text-center md:pt-6">
                   {/* md:pt-6 to keep original padding on desktop */}
                   <div className="relative inline-block mb-4">
-                    <Avatar className="h-20 w-20">
-                      <AvatarImage
-                        src={selectedChatData.avatar}
-                        alt={selectedChatData.name}
-                      />
-                      <AvatarFallback className="text-lg">
-                        {selectedChatData.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
+                    <a href="/profile" aria-label="Open profile">
+                      <Avatar className="h-20 w-20">
+                        <AvatarImage
+                          src={selectedChatData.avatar}
+                          alt={selectedChatData.name}
+                        />
+                        <AvatarFallback className="text-lg">
+                          {selectedChatData.name
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </AvatarFallback>
+                      </Avatar>
+                    </a>
                     {selectedChatData.isOnline && (
                       <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background"></div>
                     )}
