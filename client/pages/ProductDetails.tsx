@@ -275,6 +275,17 @@ export default function ProductDetails() {
     <div className="min-h-screen bg-background">
       <Header />
 
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <Button
+          variant="ghost"
+          onClick={() => window.history.back()}
+          className="mr-4"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
+        </Button>
+      </div>
+
       {/* Main Product Section - 60/40 Split */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
