@@ -1089,6 +1089,56 @@ export default function OrderHistory() {
           </div>
         )}
       </div>
+
+      {/* Cancel Rental Modal */}
+      <Dialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Cancel Rental</DialogTitle>
+            <DialogDescription>
+              What is your reason for cancelling this rental?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Textarea
+              rows={5}
+              placeholder="Type your reason here..."
+              value={cancelReason}
+              onChange={(e) => setCancelReason(e.target.value)}
+            />
+            <div className="flex justify-end">
+              <Button
+                disabled={!cancelReason.trim()}
+                onClick={() => {
+                  if (!orderToCancel) return;
+                  setOrdersState((prev) =>
+                    prev.map((o) =>
+                      o.id === orderToCancel.id ? { ...o, status: "cancelled" } : o,
+                    ),
+                  );
+                  setCancelDialogOpen(false);
+                  setConfirmDialogOpen(true);
+                }}
+              >
+                Cancel Rental
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Confirmation Modal */}
+      <Dialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">
+              {orderToCancel
+                ? `${orderToCancel.itemName} rental cancelled.`
+                : "Rental cancelled."}
+            </DialogTitle>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
