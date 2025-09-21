@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface CookieBannerProps {
   isOpen: boolean;
@@ -65,12 +64,13 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
   if (!isOpen) return null;
 
   return (
-    <Dialog open>
-      <DialogContent className="max-w-3xl w-[calc(100%-2rem)] md:w-[calc(100%-3rem)]">
-        <DialogHeader className="pb-2">
-          <DialogTitle className="text-lg font-semibold">Cookie Settings</DialogTitle>
-        </DialogHeader>
-        <div>
+    <div className="fixed inset-0 z-[210] flex items-center justify-center pointer-events-none">
+      <div className="w-full max-w-3xl px-4 md:px-6 pointer-events-auto">
+        <Card className="w-full md:min-w-[512px] mx-auto">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-lg font-semibold">Cookie Settings</CardTitle>
+          </CardHeader>
+          <CardContent>
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
@@ -204,8 +204,9 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
               </div>
             </TabsContent>
           </Tabs>
-        </div>
-      </DialogContent>
-    </Dialog>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }
