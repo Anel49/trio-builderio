@@ -781,12 +781,14 @@ export default function OrderHistory() {
                                 <DropdownMenuRadioItem value="receipt">
                                   Download Receipt
                                 </DropdownMenuRadioItem>
-                                {order.status === "completed" && order.type === "rented" && (
-                                  <DropdownMenuRadioItem value="post_review">
-                                    Post Review
-                                  </DropdownMenuRadioItem>
-                                )}
-                                {(order.status === "upcoming" || order.status === "pending") && (
+                                {order.status === "completed" &&
+                                  order.type === "rented" && (
+                                    <DropdownMenuRadioItem value="post_review">
+                                      Post Review
+                                    </DropdownMenuRadioItem>
+                                  )}
+                                {(order.status === "upcoming" ||
+                                  order.status === "pending") && (
                                   <DropdownMenuRadioItem value="cancel">
                                     Cancel Rental
                                   </DropdownMenuRadioItem>
@@ -1199,7 +1201,9 @@ export default function OrderHistory() {
                   if (!reviewOrder || !reviewRating) return;
                   setOrdersState((prev) =>
                     prev.map((o) =>
-                      o.id === reviewOrder.id ? { ...o, rating: reviewRating, reviewText } : o,
+                      o.id === reviewOrder.id
+                        ? { ...o, rating: reviewRating, reviewText }
+                        : o,
                     ),
                   );
                   setReviewDialogOpen(false);
