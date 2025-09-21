@@ -90,6 +90,12 @@ export default function OrderHistory() {
   const [orderToCancel, setOrderToCancel] = useState<Order | null>(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
+  // Post review modal state
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
+  const [reviewOrder, setReviewOrder] = useState<Order | null>(null);
+  const [reviewRating, setReviewRating] = useState<number | null>(null);
+  const [reviewText, setReviewText] = useState("");
+
   // Local state for orders so we can mutate (e.g., cancel)
   const [ordersState, setOrdersState] = useState<Order[]>([]);
 
@@ -760,6 +766,11 @@ export default function OrderHistory() {
                                     setOrderToCancel(order);
                                     setCancelReason("");
                                     setCancelDialogOpen(true);
+                                  } else if (v === "post_review") {
+                                    setReviewOrder(order);
+                                    setReviewRating(null);
+                                    setReviewText("");
+                                    setReviewDialogOpen(true);
                                   }
                                 }}
                               >
@@ -769,15 +780,12 @@ export default function OrderHistory() {
                                 <DropdownMenuRadioItem value="receipt">
                                   Download Receipt
                                 </DropdownMenuRadioItem>
-                                {order.status === "completed" &&
-                                  order.type === "rented" &&
-                                  !order.rating && (
-                                    <DropdownMenuRadioItem value="review">
-                                      Leave Review
-                                    </DropdownMenuRadioItem>
-                                  )}
-                                {(order.status === "upcoming" ||
-                                  order.status === "pending") && (
+                                {order.status === "completed" && order.type === "rented" && (
+                                  <DropdownMenuRadioItem value="post_review">
+                                    Post Review
+                                  </DropdownMenuRadioItem>
+                                )}
+                                {(order.status === "upcoming" || order.status === "pending") && (
                                   <DropdownMenuRadioItem value="cancel">
                                     Cancel Rental
                                   </DropdownMenuRadioItem>
@@ -1145,6 +1153,61 @@ export default function OrderHistory() {
                 : "Rental cancelled."}
             </DialogTitle>
           </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      {/* Post Review Modal */}
+      <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>
+              {reviewOrder ? `Review for ${reviewOrder.itemName}` : "Review"}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  aria-label={`${n} star`}
+                  onClick={() => setReviewRating(n)}
+                  className="p-1"
+                >
+                  <Star
+                    className={cn(
+                      "h-6 w-6",
+                      reviewRating && reviewRating >= n
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "text-muted-foreground",
+                    )}
+                  />
+                </button>
+              ))}
+            </div>
+            <Textarea
+              rows={5}
+              placeholder="Share your experience (optional)"
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+            />
+            <div className="flex justify-end">
+              <Button
+                disabled={!reviewRating}
+                onClick={() => {
+                  if (!reviewOrder || !reviewRating) return;
+                  setOrdersState((prev) =>
+                    prev.map((o) =>
+                      o.id === reviewOrder.id ? { ...o, rating: reviewRating, reviewText } : o,
+                    ),
+                  );
+                  setReviewDialogOpen(false);
+                }}
+              >
+                Submit Review
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
