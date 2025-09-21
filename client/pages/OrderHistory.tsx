@@ -93,7 +93,6 @@ export default function OrderHistory() {
   // Local state for orders so we can mutate (e.g., cancel)
   const [ordersState, setOrdersState] = useState<Order[]>([]);
 
-
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
     try {
@@ -338,12 +337,7 @@ export default function OrderHistory() {
       statusFilter === "all" || order.status === statusFilter;
     const matchesType = typeFilter === "all" || order.type === typeFilter;
     const notCompletedHidden = !hideCompleted || order.status !== "completed";
-    return (
-      matchesSearch &&
-      matchesStatus &&
-      matchesType &&
-      notCompletedHidden
-    );
+    return matchesSearch && matchesStatus && matchesType && notCompletedHidden;
   });
 
   const filteredRequests = requests.filter((req) => {
@@ -496,7 +490,6 @@ export default function OrderHistory() {
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
-
               </div>
             </CardContent>
           </Card>
@@ -850,7 +843,6 @@ export default function OrderHistory() {
                         </DropdownMenuRadioGroup>
                       </DropdownMenuContent>
                     </DropdownMenu>
-
                   </div>
                 </div>
               </CardContent>
