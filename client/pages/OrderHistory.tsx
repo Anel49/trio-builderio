@@ -318,16 +318,6 @@ export default function OrderHistory() {
     const d = new Date(s);
     return isNaN(d.getTime()) ? null : d;
   }
-  function overlapsRange(
-    aStart: Date | null,
-    aEnd: Date | null,
-    fStart?: Date,
-    fEnd?: Date,
-  ) {
-    if (!fStart || !fEnd) return true;
-    if (!aStart || !aEnd) return false;
-    return aStart <= fEnd && aEnd >= fStart;
-  }
   function canCancelOrder(order: Order) {
     const now = new Date();
     const s = parseDateSafe(order.startDate);
