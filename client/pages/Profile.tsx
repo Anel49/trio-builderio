@@ -973,6 +973,42 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      {/* Delete Listing Modal */}
+      <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Delete Listing</DialogTitle>
+            <DialogDescription>
+              {`Are you sure you want to delete ${itemToDelete?.name ?? "this listing"}?`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsDeleteModalOpen(false);
+                setItemToDelete(null);
+              }}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                if (itemToDelete) {
+                  setListedItems((prev) => prev.filter((li) => li.id !== itemToDelete.id));
+                }
+                setIsDeleteModalOpen(false);
+                setItemToDelete(null);
+              }}
+              className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white"
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Mobile Profile Floating Button - Only visible on mobile/tablet */}
       <Button
         onClick={() => setIsMobileProfileOpen(!isMobileProfileOpen)}
