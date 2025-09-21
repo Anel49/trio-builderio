@@ -354,15 +354,7 @@ export default function OrderHistory() {
       requestStatusFilter === "all" || req.status === requestStatusFilter;
     const matchesRequester =
       requesterFilter === "all" || req.direction === requesterFilter;
-    const rStart = parseDateSafe(req.requestedStart);
-    const rEnd = parseDateSafe(req.requestedEnd);
-    const matchesDate = overlapsRange(
-      rStart,
-      rEnd,
-      requestDateRange.start,
-      requestDateRange.end,
-    );
-    return matchesSearch && matchesStatus && matchesRequester && matchesDate;
+    return matchesSearch && matchesStatus && matchesRequester;
   });
 
   const sortedRequests = [...filteredRequests].sort((a, b) => {
