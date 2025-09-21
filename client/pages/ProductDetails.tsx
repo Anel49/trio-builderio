@@ -501,15 +501,17 @@ export default function ProductDetails() {
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4 mb-4">
-                  <Avatar className="h-16 w-16">
-                    <AvatarImage src={host.profileImage} alt={host.name} />
-                    <AvatarFallback>
-                      {host.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
+                  <a href="/profile" aria-label="Open profile">
+                    <Avatar className="h-16 w-16">
+                      <AvatarImage src={host.profileImage} alt={host.name} />
+                      <AvatarFallback>
+                        {host.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                  </a>
                   <div>
                     <h3 className="font-semibold text-lg">{host.name}</h3>
                     <div className="flex items-center mt-1">
