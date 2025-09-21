@@ -88,10 +88,14 @@ export default function Profile() {
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<ListedItem | null>(null);
-  const [profileImageUrl, setProfileImageUrl] = useState<string>(currentUser.profileImage);
+  const [profileImageUrl, setProfileImageUrl] = useState<string>(
+    currentUser.profileImage,
+  );
   const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
   const openAvatarFilePicker = () => avatarFileInputRef.current?.click();
-  const handleAvatarUpload: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleAvatarUpload: React.ChangeEventHandler<HTMLInputElement> = (
+    e,
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
