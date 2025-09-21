@@ -53,6 +53,7 @@ import {
   SlidersHorizontal,
   Flag,
   MessageCircle,
+  ArrowLeft,
 } from "lucide-react";
 
 export default function ProductDetails() {
