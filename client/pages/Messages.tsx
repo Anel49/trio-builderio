@@ -635,7 +635,7 @@ export default function Messages() {
               rightSidebarOpen
                 ? "translate-x-0" // Slide in to normal position
                 : "translate-x-full md:translate-x-0" // Off-screen on mobile, normal on desktop
-            }`}
+            } ${supportModalOpen ? "hidden lg:block" : ""}`}
             onClick={(e) => e.stopPropagation()}
           >
             {selectedChatData && (
