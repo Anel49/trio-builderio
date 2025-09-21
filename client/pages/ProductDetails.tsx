@@ -627,15 +627,17 @@ export default function ProductDetails() {
               <Card key={review.id}>
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
-                    <Avatar>
-                      <AvatarImage src={review.avatar} alt={review.user} />
-                      <AvatarFallback>
-                        {review.user
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
+                    <a href="/profile" aria-label="Open profile">
+                      <Avatar>
+                        <AvatarImage src={review.avatar} alt={review.user} />
+                        <AvatarFallback>
+                          {review.user
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </AvatarFallback>
+                      </Avatar>
+                    </a>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold">{review.user}</h4>
