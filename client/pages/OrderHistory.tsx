@@ -78,6 +78,12 @@ export default function OrderHistory() {
     "recent",
   );
 
+  // Cancel rental modal state
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
+  const [orderToCancel, setOrderToCancel] = useState<Order | null>(null);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+
   // Local state for orders so we can mutate (e.g., cancel)
   const [ordersState, setOrdersState] = useState<Order[]>([]);
 
