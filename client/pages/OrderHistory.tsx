@@ -18,7 +18,13 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import Header from "@/components/Header";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -1113,7 +1119,9 @@ export default function OrderHistory() {
                   if (!orderToCancel) return;
                   setOrdersState((prev) =>
                     prev.map((o) =>
-                      o.id === orderToCancel.id ? { ...o, status: "cancelled" } : o,
+                      o.id === orderToCancel.id
+                        ? { ...o, status: "cancelled" }
+                        : o,
                     ),
                   );
                   setCancelDialogOpen(false);
