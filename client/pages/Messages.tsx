@@ -480,15 +480,17 @@ export default function Messages() {
                 >
                   <div className="flex items-center space-x-3">
                     <div className="relative">
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage src={chat.avatar} alt={chat.name} />
-                        <AvatarFallback>
-                          {chat.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
+                      <a href="/profile" aria-label="Open profile">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={chat.avatar} alt={chat.name} />
+                          <AvatarFallback>
+                            {chat.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                      </a>
                       {chat.isOnline && (
                         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
                       )}
