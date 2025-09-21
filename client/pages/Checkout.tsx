@@ -30,6 +30,8 @@ declare global {
 
 export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState("paypal");
+  const publishableKey = (import.meta as any).env?.VITE_STRIPE_PUBLISHABLE_KEY as string | undefined;
+  const stripePromise = useMemo(() => (publishableKey ? loadStripe(publishableKey) : null), [publishableKey]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [paypalReady, setPaypalReady] = useState(false);
