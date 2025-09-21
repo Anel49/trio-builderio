@@ -41,6 +41,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+
+type ListedItem = {
+  id: number;
+  name: string;
+  price: string;
+  rating: number;
+  trips: number;
+  image: string;
+  host: string;
+  type: string;
+  distance: string;
+};
 import {
   Select,
   SelectContent,
