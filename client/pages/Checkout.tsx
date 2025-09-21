@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { currentUser } from "@/lib/user-profile";
 import { COMPANY_NAME, MARKETPLACE_NAME } from "@/lib/constants";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
 declare global {
   interface Window {
