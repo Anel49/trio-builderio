@@ -11,6 +11,7 @@ import Header from "@/components/Header";
 import { colors } from "@/lib/colors";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   Search,
   Send,
@@ -35,6 +36,7 @@ export default function Messages() {
   // Mobile sidebar states
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
+  const [supportModalOpen, setSupportModalOpen] = useState(false);
 
   // Mobile sidebar toggle functions
   const toggleLeftSidebar = () => {
@@ -675,11 +677,19 @@ export default function Messages() {
                     {selectedChatData.name}
                   </h3>
 
-                  <p className="text-sm text-muted-foreground mb-6">
+                  <p className="text-sm text-muted-foreground mb-4">
                     {selectedChatData.isOnline
                       ? "Online"
                       : `Last seen ${selectedChatData.lastActivity}`}
                   </p>
+
+                  {selectedChat === SUPPORT_CHAT_ID && (
+                    <div className="mb-6">
+                      <Button onClick={() => setSupportModalOpen(true)}>
+                        Contact Support
+                      </Button>
+                    </div>
+                  )}
 
                   {/* Chat Deletion Notice */}
                   <div className="border-t border-border pt-6">
@@ -724,6 +734,24 @@ export default function Messages() {
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
       />
+
+      {/* Contact Support Modal */}
+      <Dialog open={supportModalOpen} onOpenChange={setSupportModalOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Contact Support</DialogTitle>
+            <DialogDescription>
+              Do you want to open a support ticket?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setSupportModalOpen(false)}>
+              No
+            </Button>
+            <Button onClick={() => setSupportModalOpen(false)}>Yes</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
