@@ -86,6 +86,8 @@ export default function Profile() {
   const [favoritedListing, setFavoritedListing] = useState("");
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<ListedItem | null>(null);
 
   const handleFavorite = (listingName: string) => {
     setFavoritedListing(listingName);
