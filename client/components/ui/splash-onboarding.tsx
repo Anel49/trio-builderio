@@ -127,8 +127,15 @@ export function SplashOnboarding() {
       setWaitingForCookies(false);
       setVisible(false);
     };
-    window.addEventListener("trio-cookies-accepted", onCookiesAccepted as EventListener);
-    return () => window.removeEventListener("trio-cookies-accepted", onCookiesAccepted as EventListener);
+    window.addEventListener(
+      "trio-cookies-accepted",
+      onCookiesAccepted as EventListener,
+    );
+    return () =>
+      window.removeEventListener(
+        "trio-cookies-accepted",
+        onCookiesAccepted as EventListener,
+      );
   }, []);
 
   if (!visible) return null;
