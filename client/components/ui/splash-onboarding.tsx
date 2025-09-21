@@ -112,6 +112,7 @@ export function SplashOnboarding() {
   const TERMS_KEY = `${COMPANY_NAME.toLowerCase()}-terms-accepted`;
   const [visible, setVisible] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
+  const [waitingForCookies, setWaitingForCookies] = useState(false);
 
   useEffect(() => {
     const completed = localStorage.getItem(STORAGE_KEY) === "true";
@@ -121,13 +122,20 @@ export function SplashOnboarding() {
       setVisible(true);
       if (completed) setStep(2);
     }
+
+    const onCookiesAccepted = () => {
+      setWaitingForCookies(false);
+      setVisible(false);
+    };
+    window.addEventListener("trio-cookies-accepted", onCookiesAccepted as EventListener);
+    return () => window.removeEventListener("trio-cookies-accepted", onCookiesAccepted as EventListener);
   }, []);
 
   if (!visible) return null;
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm overflow-y-auto p-4">
-      {step === 1 && (
+      {!waitingForCookies && step === 1 && (
         <div className="w-full max-w-md mx-4">
           <Card className="w-full max-w-md mx-auto shadow-2xl">
             <CardHeader className="text-center pb-4">
@@ -171,13 +179,13 @@ export function SplashOnboarding() {
         </div>
       )}
 
-      {step === 2 && (
+      {!waitingForCookies && step === 2 && (
         <div className="w-full max-w-md mx-4">
           <TermsCardContent
             onAccept={() => {
               localStorage.setItem(STORAGE_KEY, "true");
               localStorage.setItem(TERMS_KEY, "true");
-              setVisible(false);
+              setWaitingForCookies(true);
               window.dispatchEvent(new CustomEvent("trio-terms-accepted"));
             }}
           />
