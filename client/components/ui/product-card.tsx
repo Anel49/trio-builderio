@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Star, Heart, MapPin } from "lucide-react";
+import { Star, Heart, MapPin, X as XIcon } from "lucide-react";
 import { colors, combineColors } from "@/lib/colors";
 import { ENABLE_FAVORITES } from "@/lib/constants";
 import {
@@ -33,6 +33,7 @@ interface ProductCardProps {
   className?: string;
   priceUnitLabel?: string;
   underlinePrice?: boolean;
+  onDeleteClick?: () => void;
 }
 
 export function ProductCard({
@@ -54,6 +55,7 @@ export function ProductCard({
   className,
   priceUnitLabel = "/day",
   underlinePrice = false,
+  onDeleteClick,
 }: ProductCardProps) {
   const [isHeartHovered, setIsHeartHovered] = useState(false);
 
@@ -106,6 +108,25 @@ export function ProductCard({
                 fill: isHeartHovered ? "#ff6f6f" : "transparent",
               }}
             />
+          </Button>
+        )}
+        {onDeleteClick && (
+          <Button
+            size="icon"
+            variant="outline"
+            className={combineTokens(
+              layouts.absolute.topRight,
+              "border-red-300 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600",
+              "mr-0 mt-0",
+            )}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteClick();
+            }}
+            aria-label="Delete listing"
+            title="Delete listing"
+          >
+            <XIcon className={combineTokens(spacing.dimensions.icon.sm)} />
           </Button>
         )}
         <Badge
