@@ -685,7 +685,7 @@ export default function Messages() {
 
                   {selectedChat === SUPPORT_CHAT_ID && (
                     <div className="mb-6">
-                      <Button onClick={() => setSupportModalOpen(true)}>
+                      <Button onClick={() => { setSupportModalOpen(true); setRightSidebarOpen(false); }}>
                         Contact Support
                       </Button>
                     </div>
