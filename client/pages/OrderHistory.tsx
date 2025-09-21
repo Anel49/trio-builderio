@@ -338,21 +338,11 @@ export default function OrderHistory() {
       statusFilter === "all" || order.status === statusFilter;
     const matchesType = typeFilter === "all" || order.type === typeFilter;
     const notCompletedHidden = !hideCompleted || order.status !== "completed";
-    const oStart = parseDateSafe(order.startDate);
-    const oEnd = parseDateSafe(order.endDate);
-    const matchesDate = overlapsRange(
-      oStart,
-      oEnd,
-      orderDateRange.start,
-      orderDateRange.end,
-    );
-
     return (
       matchesSearch &&
       matchesStatus &&
       matchesType &&
-      notCompletedHidden &&
-      matchesDate
+      notCompletedHidden
     );
   });
 
