@@ -748,7 +748,15 @@ export default function OrderHistory() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuRadioGroup>
+                              <DropdownMenuRadioGroup
+                                onValueChange={(v) => {
+                                  if (v === "cancel") {
+                                    setOrderToCancel(order);
+                                    setCancelReason("");
+                                    setCancelDialogOpen(true);
+                                  }
+                                }}
+                              >
                                 <DropdownMenuRadioItem value="view">
                                   View Details
                                 </DropdownMenuRadioItem>
