@@ -686,18 +686,20 @@ export default function OrderHistory() {
                           <div>
                             <p className="text-sm font-medium mb-2">Renter</p>
                             <div className="flex items-center space-x-2">
-                              <Avatar className="h-8 w-8">
-                                <AvatarImage
-                                  src={order.renterAvatar}
-                                  alt={order.renter}
-                                />
-                                <AvatarFallback>
-                                  {order.renter
-                                    ?.split(" ")
-                                    .map((n) => n[0])
-                                    .join("")}
-                                </AvatarFallback>
-                              </Avatar>
+                              <a href="/profile" aria-label="Open profile">
+                                <Avatar className="h-8 w-8">
+                                  <AvatarImage
+                                    src={order.renterAvatar}
+                                    alt={order.renter}
+                                  />
+                                  <AvatarFallback>
+                                    {order.renter
+                                      ?.split(" ")
+                                      .map((n) => n[0])
+                                      .join("")}
+                                  </AvatarFallback>
+                                </Avatar>
+                              </a>
                               <span className="text-sm">{order.renter}</span>
                             </div>
                           </div>
