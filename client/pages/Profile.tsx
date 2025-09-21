@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -88,6 +88,18 @@ export default function Profile() {
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<ListedItem | null>(null);
+  const [profileImageUrl, setProfileImageUrl] = useState<string>(currentUser.profileImage);
+  const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
+  const openAvatarFilePicker = () => avatarFileInputRef.current?.click();
+  const handleAvatarUpload: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setProfileImageUrl(url);
+    }
+    // reset so same file re-triggers change
+    e.currentTarget.value = "";
+  };
 
   const handleFavorite = (listingName: string) => {
     setFavoritedListing(listingName);
@@ -98,6 +110,7 @@ export default function Profile() {
   const userProfile = {
     ...currentUser,
     name,
+    profileImage: profileImageUrl,
     zipCode: zipCode,
     avgRating: currentUser.rating,
     dateJoined: `March ${currentUser.joinedDate}`,
@@ -410,6 +423,14 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <input
+        ref={avatarFileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleAvatarUpload}
+        aria-hidden="true"
+      />
 
       {/* Main Content - 30/70 Split */}
       <div className="h-[calc(100vh-4rem)]">
@@ -432,7 +453,12 @@ export default function Profile() {
                         .join("")}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                  <div
+                    className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                    onClick={openAvatarFilePicker}
+                    role="button"
+                    aria-label="Change profile photo"
+                  >
                     <Edit3 className="h-6 w-6 text-white" />
                   </div>
                 </div>
@@ -1059,6 +1085,14 @@ export default function Profile() {
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
+                <div
+                  className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                  onClick={openAvatarFilePicker}
+                  role="button"
+                  aria-label="Change profile photo"
+                >
+                  <Edit3 className="h-5 w-5 text-white" />
+                </div>
               </div>
 
               {/* Name and Member Since */}
