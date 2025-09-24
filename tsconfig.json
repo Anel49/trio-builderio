@@ -28,12 +28,12 @@
     
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./client/*"],
+      "@/*": ["./frontend/*"],
       "@shared/*": ["./shared/*"]
     }
   },
   "include": [
-    "client/**/*",
+    "frontend/**/*",
     "server/**/*",
     "backend/**/*",
     "shared/**/*",
