@@ -12,6 +12,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "backend:dev": "tsx backend/index.ts",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
