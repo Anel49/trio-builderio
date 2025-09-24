@@ -28,7 +28,9 @@ const App = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await (await import("@/lib/api")).apiFetch("db/setup", { method: "POST" });
+        const res = await (
+          await import("@/lib/api")
+        ).apiFetch("db/setup", { method: "POST" });
         if (!res.ok) {
           console.warn("DB setup response:", await res.text());
         }
