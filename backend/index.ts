@@ -9,7 +9,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/api/ping", (_req, res) => res.json({ message: "Hello from Backend!" }));
+app.get("/api/ping", (_req, res) =>
+  res.json({ message: "Hello from Backend!" }),
+);
 app.get("/ping", (_req, res) => res.json({ message: "Hello from Backend!" }));
 
 // DB

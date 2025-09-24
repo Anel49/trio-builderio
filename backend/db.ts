@@ -60,15 +60,7 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     const count: number = countRes.rows[0]?.count ?? 0;
     if (count === 0) {
-      const rows: [
-        string,
-        number,
-        number,
-        string,
-        string,
-        string,
-        string,
-      ][] = [
+      const rows: [string, number, number, string, string, string, string][] = [
         [
           "Riding Lawn Mower",
           4500,
