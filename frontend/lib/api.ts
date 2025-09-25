@@ -39,8 +39,12 @@ async function resolveApiBase(): Promise<string | null> {
     | undefined;
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
+  if (envBase) {
+    cachedBase = envBase;
+    return cachedBase;
+  }
+
   const candidates = uniq<string>([
-    envBase,
     "/.netlify/functions/api",
     "/api",
     origin ? `${origin}/.netlify/functions/api` : "",
