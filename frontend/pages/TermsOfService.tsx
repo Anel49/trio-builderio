@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
 import { ArrowLeft, FileText, Shield, Cookie } from "lucide-react";
 import { PrivacyContent, CookiesContent } from "@/components/ui/legal-modal";
-import { COMPANY_NAME, SERVICE_FEE, INSURANCE_FEE } from "@/lib/constants";
+import { COMPANY_NAME, SERVICE_FEE, INSURANCE_FEE, COMPANY_EMAIL } from "@/lib/constants";
 
 type PolicyType = "terms" | "privacy" | "cookies";
 
@@ -677,10 +677,10 @@ const TermsOfServiceContent = () => (
         If you have questions about these Terms of Service, please contact our
         support team at{" "}
         <a
-          href="mailto:support@lenditrentals.com"
+          href={`mailto:${COMPANY_EMAIL}`}
           className="text-primary hover:underline"
         >
-          support@lenditrentals.com
+          {COMPANY_EMAIL}
         </a>{" "}
         or through our support chat found in your messages.
       </p>

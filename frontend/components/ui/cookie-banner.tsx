@@ -59,7 +59,7 @@ export function CookieBanner({ isOpen, onAccept }: CookieBannerProps) {
 
   const handleSavePreferences = () => {
     onAccept(cookiePreferences);
-    window.dispatchEvent(new CustomEvent("trio-cookies-accepted"));
+    window.dispatchEvent(new CustomEvent("lendit-cookies-accepted"));
   };
 
   if (!isOpen) return null;

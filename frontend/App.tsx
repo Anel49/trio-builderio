@@ -52,12 +52,12 @@ const App = () => {
       if (cookiesAccepted !== "true") setShowCookieBanner(true);
     };
     window.addEventListener(
-      "trio-terms-accepted",
+      "lendit-terms-accepted",
       handleTermsAccepted as EventListener,
     );
     return () => {
       window.removeEventListener(
-        "trio-terms-accepted",
+        "lendit-terms-accepted",
         handleTermsAccepted as EventListener,
       );
     };

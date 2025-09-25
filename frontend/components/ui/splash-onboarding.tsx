@@ -128,12 +128,12 @@ export function SplashOnboarding() {
       setVisible(false);
     };
     window.addEventListener(
-      "trio-cookies-accepted",
+      "lendit-cookies-accepted",
       onCookiesAccepted as EventListener,
     );
     return () =>
       window.removeEventListener(
-        "trio-cookies-accepted",
+        "lendit-cookies-accepted",
         onCookiesAccepted as EventListener,
       );
   }, []);
@@ -193,7 +193,7 @@ export function SplashOnboarding() {
               localStorage.setItem(STORAGE_KEY, "true");
               localStorage.setItem(TERMS_KEY, "true");
               setWaitingForCookies(true);
-              window.dispatchEvent(new CustomEvent("trio-terms-accepted"));
+              window.dispatchEvent(new CustomEvent("lendit-terms-accepted"));
             }}
           />
         </div>
