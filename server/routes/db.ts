@@ -5,9 +5,8 @@ const connectionString = process.env.DATABASE_URL;
 
 export const pool = new Pool({
   connectionString,
-  ssl: connectionString && connectionString.includes("sslmode=require")
-    ? { rejectUnauthorized: false }
-    : undefined,
+  // Force SSL with no cert verification to avoid self-signed chain issues in dev/demo
+  ssl: connectionString ? { rejectUnauthorized: false } : undefined,
   connectionTimeoutMillis: 5000,
   idleTimeoutMillis: 10000,
 });
