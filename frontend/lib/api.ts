@@ -13,7 +13,7 @@ function uniq<T>(arr: T[]) {
   return Array.from(new Set(arr.filter(Boolean))) as T[];
 }
 
-async function tryFetch(url: string, init?: RequestInit, timeoutMs = 3000): Promise<Response | null> {
+async function tryFetch(url: string, init?: RequestInit, timeoutMs = 10000): Promise<Response | null> {
   try {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeoutMs);
