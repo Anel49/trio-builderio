@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { currentUser } from "@/lib/user-profile";
 import { COMPANY_NAME, MARKETPLACE_NAME } from "@/lib/constants";
+import { apiFetch } from "@/lib/api";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement } from "@stripe/react-stripe-js";
 
