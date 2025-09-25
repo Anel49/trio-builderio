@@ -47,6 +47,14 @@ async function resolveApiBase(): Promise<string | null> {
     }
   }
 
+  const isDev = Boolean((import.meta as any).env?.DEV);
+
+  // In production, avoid probing random candidates (prevents noisy Failed to fetch logs)
+  if (!isDev) {
+    lastResolveFailAt = Date.now();
+    return null;
+  }
+
   const candidates = uniq<string>([
     "/.netlify/functions/api",
     "/api",
@@ -56,7 +64,7 @@ async function resolveApiBase(): Promise<string | null> {
 
   for (const base of candidates) {
     const pingUrl = cleanJoin(base, "ping");
-    const res = await tryFetch(pingUrl, { method: "GET" }, 2000);
+    const res = await tryFetch(pingUrl, { method: "GET" }, 1500);
     if (res && res.ok) {
       cachedBase = base;
       return cachedBase;
