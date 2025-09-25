@@ -677,10 +677,10 @@ const TermsOfServiceContent = () => (
         If you have questions about these Terms of Service, please contact our
         support team at{" "}
         <a
-          href="mailto:support@triorentals.com"
+          href="mailto:support@lenditrentals.com"
           className="text-primary hover:underline"
         >
-          support@triorentals.com
+          support@lenditrentals.com
         </a>{" "}
         or through our support chat found in your messages.
       </p>
