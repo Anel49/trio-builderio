@@ -198,19 +198,15 @@ export default function Index() {
   const [listings, setListings] = useState(featuredListings);
 
   useEffect(() => {
-    apiFetch('db/setup', { method: 'POST' })
-      .catch(() => {})
-      .finally(() => {
-        apiFetch('listings')
-          .then((r) => r.json())
-          .then((d) => {
-            if (d && d.ok && Array.isArray(d.listings)) {
-              setListings(d.listings);
-            }
-          })
-          .catch(() => {
-            /* ignore and keep fallback */
-          });
+    apiFetch('listings')
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => {
+        if (d && d.ok && Array.isArray(d.listings)) {
+          setListings(d.listings);
+        }
+      })
+      .catch(() => {
+        // keep local featuredListings fallback silently
       });
   }, []);
 
