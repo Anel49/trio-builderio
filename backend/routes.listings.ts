@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { pool } from "../db";
+import { pool } from "./db";
 
 function formatPrice(price_cents: number) {
   if (price_cents % 100 === 0) return `$${(price_cents / 100).toFixed(0)}`;
