@@ -1,6 +1,7 @@
 let cachedBase: string | null = null;
 let lastResolveFailAt = 0;
 const RESOLVE_COOLDOWN_MS = 15_000;
+const DISABLE_NETWORK = String((import.meta as any).env?.VITE_DISABLE_NETWORK ?? "true").toLowerCase() !== "false";
 
 function cleanJoin(base: string, path: string) {
   if (!base) return path.startsWith("/") ? path : `/${path}`;
@@ -30,6 +31,7 @@ async function tryFetch(
 }
 
 async function resolveApiBase(): Promise<string | null> {
+  if (DISABLE_NETWORK) return null;
   if (cachedBase) return cachedBase;
   const now = Date.now();
   if (now - lastResolveFailAt < RESOLVE_COOLDOWN_MS) return null;
@@ -76,6 +78,27 @@ async function resolveApiBase(): Promise<string | null> {
 }
 
 export async function apiFetch(path: string, init?: RequestInit) {
+  // Offline mode: never perform network calls
+  if (DISABLE_NETWORK) {
+    const p = String(path || "");
+    if (/ping$/.test(p)) {
+      return new Response(
+        JSON.stringify({ ok: true, message: "offline" }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    }
+    if (/listings$/.test(p)) {
+      return new Response(
+        JSON.stringify({ ok: true, listings: [] }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    }
+    return new Response(
+      JSON.stringify({ ok: false, offline: true }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   // Absolute URL passthrough
   if (/^https?:\/\//i.test(path)) {
     const res = await tryFetch(path, init);
