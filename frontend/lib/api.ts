@@ -13,7 +13,11 @@ function uniq<T>(arr: T[]) {
   return Array.from(new Set(arr.filter(Boolean))) as T[];
 }
 
-async function tryFetch(url: string, init?: RequestInit, timeoutMs = 10000): Promise<Response | null> {
+async function tryFetch(
+  url: string,
+  init?: RequestInit,
+  timeoutMs = 10000,
+): Promise<Response | null> {
   try {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeoutMs);
@@ -30,7 +34,9 @@ async function resolveApiBase(): Promise<string | null> {
   const now = Date.now();
   if (now - lastResolveFailAt < RESOLVE_COOLDOWN_MS) return null;
 
-  const envBase = (import.meta as any).env?.VITE_API_BASE_URL as string | undefined;
+  const envBase = (import.meta as any).env?.VITE_API_BASE_URL as
+    | string
+    | undefined;
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   const candidates = uniq<string>([
@@ -59,10 +65,13 @@ export async function apiFetch(path: string, init?: RequestInit) {
   if (/^https?:\/\//i.test(path)) {
     const res = await tryFetch(path, init);
     if (res) return res;
-    return new Response(JSON.stringify({ ok: false, error: `Network error for ${path}` }), {
-      status: 503,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ ok: false, error: `Network error for ${path}` }),
+      {
+        status: 503,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 
   let base = cachedBase;
@@ -87,9 +96,8 @@ export async function apiFetch(path: string, init?: RequestInit) {
     JSON.stringify({
       ok: false,
       error: "API unreachable",
-      hint:
-        "Set VITE_API_BASE_URL to your API base (e.g. https://<your-site>.netlify.app/.netlify/functions/api) or deploy the backend.",
+      hint: "Set VITE_API_BASE_URL to your API base (e.g. https://<your-site>.netlify.app/.netlify/functions/api) or deploy the backend.",
     }),
-    { status: 503, headers: { "Content-Type": "application/json" } }
+    { status: 503, headers: { "Content-Type": "application/json" } },
   );
 }

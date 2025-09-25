@@ -239,9 +239,10 @@ export default function BrowseListings() {
   const [listings, setListings] = useState(initialListings);
 
   React.useEffect(() => {
-    apiFetch('db/setup', { method: 'POST' }).catch(() => {})
+    apiFetch("db/setup", { method: "POST" })
+      .catch(() => {})
       .finally(() => {
-        apiFetch('listings')
+        apiFetch("listings")
           .then((r) => r.json())
           .then((d) => {
             if (d && d.ok && Array.isArray(d.listings)) {
@@ -249,12 +250,12 @@ export default function BrowseListings() {
                 id: l.id,
                 name: l.name,
                 price: l.price,
-                rating: typeof l.rating === 'number' ? l.rating : 0,
+                rating: typeof l.rating === "number" ? l.rating : 0,
                 reviews: undefined,
                 image: l.image,
                 host: l.host,
                 type: l.type,
-                location: '',
+                location: "",
                 distance: l.distance,
                 lat: 0,
                 lng: 0,

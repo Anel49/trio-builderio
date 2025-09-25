@@ -198,7 +198,7 @@ export default function Index() {
   const [listings, setListings] = useState(featuredListings);
 
   useEffect(() => {
-    apiFetch('listings')
+    apiFetch("listings")
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d) => {
         if (d && d.ok && Array.isArray(d.listings)) {
