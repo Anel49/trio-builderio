@@ -408,7 +408,7 @@ export default function Checkout() {
     setIsProcessing(true);
     try {
       // Mock Stripe API call
-      const response = await fetch("/api/stripe/create-payment-intent", {
+      const response = await apiFetch("stripe/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
