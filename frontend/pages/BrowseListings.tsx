@@ -21,7 +21,6 @@ import {
   SlidersHorizontal,
   Search,
   Menu,
-  Car,
   MessageCircle,
   Calendar as CalendarIcon,
   Map,
