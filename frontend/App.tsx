@@ -25,20 +25,6 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const [showCookieBanner, setShowCookieBanner] = useState(false);
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await (
-          await import("@/lib/api")
-        ).apiFetch("db/setup", { method: "POST" });
-        if (!res.ok) {
-          console.warn("DB setup response:", await res.text());
-        }
-      } catch (e) {
-        console.warn("DB setup failed:", e);
-      }
-    })();
-  }, []);
 
   useEffect(() => {
     // Check if user has already accepted terms
