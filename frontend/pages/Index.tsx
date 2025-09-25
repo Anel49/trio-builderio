@@ -83,7 +83,7 @@ export default function Index() {
     setIsFavoritesModalOpen(true);
   };
 
-  const featuredCars = [
+  const featuredListings = [
     {
       id: 1,
       name: "Riding Lawn Mower",
@@ -196,7 +196,7 @@ export default function Index() {
     },
   ];
 
-  const [cars, setCars] = useState(featuredCars);
+  const [listings, setListings] = useState(featuredListings);
 
   useEffect(() => {
     apiFetch('db/setup', { method: 'POST' })
@@ -206,7 +206,7 @@ export default function Index() {
           .then((r) => r.json())
           .then((d) => {
             if (d && d.ok && Array.isArray(d.listings)) {
-              setCars(d.listings);
+              setListings(d.listings);
             }
           })
           .catch(() => {
@@ -458,24 +458,24 @@ export default function Index() {
               ref={listRef}
               className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory pb-2 no-scrollbar ml-[55px] mr-[55px]"
             >
-              {cars.map((car) => (
+              {listings.map((listing) => (
                 <div
-                  key={car.id}
+                  key={listing.id}
                   className="snap-start min-w-[280px] sm:min-w-[320px]"
                 >
                   <ProductCard
-                    id={car.id}
-                    name={car.name}
-                    price={car.price}
-                    rating={car.rating}
-                    image={car.image}
-                    host={car.host}
-                    type={car.type}
-                    distance={car.distance}
+                    id={listing.id}
+                    name={listing.name}
+                    price={listing.price}
+                    rating={listing.rating}
+                    image={listing.image}
+                    host={listing.host}
+                    type={listing.type}
+                    distance={listing.distance}
                     onFavorite={handleFavorite}
                     className="h-full"
                     onClick={() =>
-                      (window.location.href = `/product/${car.id}`)
+                      (window.location.href = `/product/${listing.id}`)
                     }
                   />
                 </div>
