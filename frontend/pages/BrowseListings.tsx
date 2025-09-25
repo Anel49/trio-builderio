@@ -239,34 +239,30 @@ export default function BrowseListings() {
   const [listings, setListings] = useState(initialListings);
 
   React.useEffect(() => {
-    apiFetch("db/setup", { method: "POST" })
-      .catch(() => {})
-      .finally(() => {
-        apiFetch("listings")
-          .then((r) => r.json())
-          .then((d) => {
-            if (d && d.ok && Array.isArray(d.listings)) {
-              const mapped = d.listings.map((l: any) => ({
-                id: l.id,
-                name: l.name,
-                price: l.price,
-                rating: typeof l.rating === "number" ? l.rating : 0,
-                reviews: undefined,
-                image: l.image,
-                host: l.host,
-                type: l.type,
-                location: "",
-                distance: l.distance,
-                lat: 0,
-                lng: 0,
-                listedTime: undefined,
-              }));
-              setListings(mapped);
-            }
-          })
-          .catch(() => {
-            // keep demo data
-          });
+    apiFetch("listings")
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => {
+        if (d && d.ok && Array.isArray(d.listings)) {
+          const mapped = d.listings.map((l: any) => ({
+            id: l.id,
+            name: l.name,
+            price: l.price,
+            rating: typeof l.rating === "number" ? l.rating : 0,
+            reviews: undefined,
+            image: l.image,
+            host: l.host,
+            type: l.type,
+            location: "",
+            distance: l.distance,
+            lat: 0,
+            lng: 0,
+            listedTime: undefined,
+          }));
+          setListings(mapped);
+        }
+      })
+      .catch(() => {
+        // keep demo data
       });
   }, []);
 
