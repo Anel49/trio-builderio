@@ -1,6 +1,6 @@
 # Design Tokens System
 
-This document explains how to use the centralized design tokens system to maintain consistency across the Trio application.
+This document explains how to use the centralized design tokens system to maintain consistency across the LendIt application.
 
 ## Overview
 
