@@ -1,7 +1,10 @@
 let cachedBase: string | null = null;
 let lastResolveFailAt = 0;
 const RESOLVE_COOLDOWN_MS = 15_000;
-const DISABLE_NETWORK = String((import.meta as any).env?.VITE_DISABLE_NETWORK ?? "true").toLowerCase() !== "false";
+const DISABLE_NETWORK =
+  String(
+    (import.meta as any).env?.VITE_DISABLE_NETWORK ?? "true",
+  ).toLowerCase() !== "false";
 
 function cleanJoin(base: string, path: string) {
   if (!base) return path.startsWith("/") ? path : `/${path}`;
@@ -42,7 +45,11 @@ async function resolveApiBase(): Promise<string | null> {
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   if (envBase) {
-    const test = await tryFetch(cleanJoin(envBase, "ping"), { method: "GET" }, 2000);
+    const test = await tryFetch(
+      cleanJoin(envBase, "ping"),
+      { method: "GET" },
+      2000,
+    );
     if (test && test.ok) {
       cachedBase = envBase;
       return cachedBase;
@@ -82,10 +89,10 @@ export async function apiFetch(path: string, init?: RequestInit) {
   if (DISABLE_NETWORK) {
     const p = String(path || "");
     if (/ping$/.test(p)) {
-      return new Response(
-        JSON.stringify({ ok: true, message: "offline" }),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ ok: true, message: "offline" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
     }
     if (/listings$/.test(p)) {
       const { demoListings } = await import("@/lib/demo-listings");
@@ -94,10 +101,10 @@ export async function apiFetch(path: string, init?: RequestInit) {
         { status: 200, headers: { "Content-Type": "application/json" } },
       );
     }
-    return new Response(
-      JSON.stringify({ ok: false, offline: true }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    return new Response(JSON.stringify({ ok: false, offline: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   // Absolute URL passthrough

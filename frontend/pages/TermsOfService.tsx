@@ -5,7 +5,12 @@ import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
 import { ArrowLeft, FileText, Shield, Cookie } from "lucide-react";
 import { PrivacyContent, CookiesContent } from "@/components/ui/legal-modal";
-import { COMPANY_NAME, SERVICE_FEE, INSURANCE_FEE, COMPANY_EMAIL } from "@/lib/constants";
+import {
+  COMPANY_NAME,
+  SERVICE_FEE,
+  INSURANCE_FEE,
+  COMPANY_EMAIL,
+} from "@/lib/constants";
 
 type PolicyType = "terms" | "privacy" | "cookies";
 
