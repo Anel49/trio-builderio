@@ -88,8 +88,9 @@ export async function apiFetch(path: string, init?: RequestInit) {
       );
     }
     if (/listings$/.test(p)) {
+      const { demoListings } = await import("@/lib/demo-listings");
       return new Response(
-        JSON.stringify({ ok: true, listings: [] }),
+        JSON.stringify({ ok: true, listings: demoListings }),
         { status: 200, headers: { "Content-Type": "application/json" } },
       );
     }
