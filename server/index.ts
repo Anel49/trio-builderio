@@ -35,9 +35,11 @@ export function createServer() {
   // Listings
   app.get("/api/listings", listListings);
   app.post("/api/listings", createListing);
+  app.delete("/api/listings/:id", deleteListing);
   // Alias routes
   app.get("/listings", listListings);
   app.post("/listings", createListing);
+  app.delete("/listings/:id", deleteListing);
 
   return app;
 }
