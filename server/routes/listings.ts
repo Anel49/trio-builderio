@@ -47,3 +47,16 @@ export async function createListing(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function deleteListing(req: Request, res: Response) {
+  try {
+    const id = Number((req.params as any)?.id);
+    if (!id || Number.isNaN(id)) {
+      return res.status(400).json({ ok: false, error: "invalid id" });
+    }
+    const result = await pool.query("delete from listings where id = $1", [id]);
+    res.json({ ok: true, deleted: result.rowCount || 0 });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
