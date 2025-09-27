@@ -8,6 +8,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import Header from "@/components/Header";
+import { apiFetch } from "@/lib/api";
+import { currentUser } from "@/lib/user-profile";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
@@ -241,12 +243,32 @@ export default function UploadProduct() {
     setShowConfirmModal(true);
   };
 
-  const confirmListProduct = () => {
-    // Product listing logic here
-    setIsListed(true);
-    setShowConfirmModal(false);
-    setShowSuccessModal(true);
-    console.log("Product listed successfully!");
+  const confirmListProduct = async () => {
+    try {
+      const priceCents = Math.round(Number(price.replace(/[^0-9.]/g, "")) * 100) || 0;
+      const payload = {
+        name: title || "Untitled",
+        price_cents: priceCents,
+        rating: null,
+        image: uploadedImages[0] || "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format",
+        host: currentUser.name,
+        type: selectedTags[0] || "General",
+        distance: "0 miles",
+      };
+      const res = await apiFetch("listings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error("Failed to create listing");
+      setIsListed(true);
+      setShowConfirmModal(false);
+      setShowSuccessModal(true);
+    } catch (e) {
+      setShowConfirmModal(false);
+      alert("Failed to list product. Please try again.");
+    }
   };
 
   const handleCancelListing = () => {
