@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { dbHealth, dbSchema, dbSetup } from "./routes/db";
-import { listListings, createListing } from "./routes/listings";
+import { listListings, createListing, deleteListing } from "./routes/listings";
 
 export function createServer() {
   const app = express();
