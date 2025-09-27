@@ -4,4 +4,4 @@ export const PRIVACY_EMAIL = "privacy@lendit.com";
 export const MARKETPLACE_NAME = `${COMPANY_NAME} Rental Marketplace`;
 export const SERVICE_FEE = 12;
 export const INSURANCE_FEE = 10;
-export const ENABLE_FAVORITES = false;
+export const ENABLE_FAVORITES = true;
