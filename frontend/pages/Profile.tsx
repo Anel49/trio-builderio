@@ -210,8 +210,31 @@ export default function Profile() {
     },
   ];
 
-  const [listedItems, setListedItems] =
-    useState<ListedItem[]>(listedItemsState);
+  const [listedItems, setListedItems] = useState<ListedItem[]>(listedItemsState);
+
+  useEffect(() => {
+    apiFetch("listings")
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => {
+        if (d && d.ok && Array.isArray(d.listings)) {
+          const mapped: ListedItem[] = d.listings.map((l: any) => ({
+            id: l.id,
+            name: l.name,
+            price: l.price,
+            rating: typeof l.rating === "number" ? l.rating : 0,
+            trips: 0,
+            image: l.image,
+            host: l.host || "You",
+            type: l.type || "General",
+            distance: l.distance || "0 miles",
+          }));
+          setListedItems(mapped);
+        }
+      })
+      .catch(() => {
+        // keep mock data
+      });
+  }, []);
 
   // Mock item reviews
   const itemReviews = [
