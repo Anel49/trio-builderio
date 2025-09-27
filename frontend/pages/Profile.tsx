@@ -1050,17 +1050,22 @@ export default function Profile() {
             </Button>
             <Button
               onClick={async () => {
+                let ok = false;
                 try {
                   if (itemToDelete?.id != null) {
                     const res = await apiFetch(`listings/${itemToDelete.id}`, {
                       method: "DELETE",
                     });
-                    // Optimistically update UI regardless of response
-                    setListedItems((prev) =>
-                      prev.filter((i) => i.id !== itemToDelete.id),
-                    );
+                    const data = await res.json().catch(() => ({} as any));
+                    ok = Boolean(res.ok && data && data.ok);
+                    if (ok) {
+                      setListedItems((prev) =>
+                        prev.filter((i) => i.id !== itemToDelete.id),
+                      );
+                    }
                   }
                 } catch {}
+                if (!ok) alert("Failed to delete listing on server. Please try again.");
                 setIsDeleteModalOpen(false);
                 setItemToDelete(null);
               }}
