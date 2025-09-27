@@ -51,7 +51,45 @@ export async function dbSetup(_req: Request, res: Response) {
         category text,
         distance text,
         created_at timestamptz default now()
-      )
+      );
+      create table if not exists users (
+        id serial primary key,
+        name text,
+        email text unique,
+        avatar_url text,
+        created_at timestamptz default now()
+      );
+      create table if not exists reservations (
+        id serial primary key,
+        listing_id integer not null references listings(id) on delete cascade,
+        renter text,
+        start_date date not null,
+        end_date date not null,
+        status text default 'pending',
+        created_at timestamptz default now()
+      );
+      create table if not exists favorites (
+        user_id text not null,
+        listing_id integer not null references listings(id) on delete cascade,
+        created_at timestamptz default now(),
+        primary key (user_id, listing_id)
+      );
+      create table if not exists messages (
+        id serial primary key,
+        thread_id text,
+        from_name text,
+        to_name text,
+        body text,
+        created_at timestamptz default now()
+      );
+      create table if not exists reviews (
+        id serial primary key,
+        listing_id integer not null references listings(id) on delete cascade,
+        reviewer text,
+        rating numeric(2,1),
+        comment text,
+        created_at timestamptz default now()
+      );
     `);
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
