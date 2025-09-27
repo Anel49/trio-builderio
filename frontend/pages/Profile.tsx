@@ -1025,7 +1025,14 @@ export default function Profile() {
               Cancel
             </Button>
             <Button
-              onClick={() => {
+              onClick={async () => {
+                try {
+                  if (itemToDelete?.id != null) {
+                    const res = await apiFetch(`listings/${itemToDelete.id}`, { method: "DELETE" });
+                    // Optimistically update UI regardless of response
+                    setListedItems(prev => prev.filter(i => i.id !== itemToDelete.id));
+                  }
+                } catch {}
                 setIsDeleteModalOpen(false);
                 setItemToDelete(null);
               }}
