@@ -1,4 +1,4 @@
-export const COMPANY_NAME = "LendIt";
+export const COMPANY_NAME = "Lend It";
 export const COMPANY_EMAIL = "support@lendit.com";
 export const PRIVACY_EMAIL = "privacy@lendit.com";
 export const MARKETPLACE_NAME = `${COMPANY_NAME} Rental Marketplace`;
