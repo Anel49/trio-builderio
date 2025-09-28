@@ -254,7 +254,7 @@ export default function BrowseListings() {
                 ? l.images[0]
                 : l.image,
             host: l.host,
-            type: l.type || "General",
+            type: Array.isArray(l.categories) && l.categories.length ? l.categories[0] : (l.type || "General"),
             location: "",
             distance:
               typeof l.distance === "string"
