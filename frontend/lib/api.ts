@@ -90,15 +90,6 @@ export async function apiFetch(path: string, init?: RequestInit) {
     );
   }
   if (
-    /^listings$/.test(p) &&
-    (init?.method || "GET").toUpperCase() === "POST"
-  ) {
-    return new Response(JSON.stringify({ ok: true, id: 9999 }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-  if (
     /^listings\/\d+$/.test(p) &&
     (init?.method || "GET").toUpperCase() === "DELETE"
   ) {
@@ -116,12 +107,11 @@ export async function apiFetch(path: string, init?: RequestInit) {
         headers: { "Content-Type": "application/json" },
       });
     }
-    if (/listings$/.test(p)) {
-      const { demoListings } = await import("@/lib/demo-listings");
-      return new Response(
-        JSON.stringify({ ok: true, listings: demoListings }),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      );
+    if (/^listings$/.test(p)) {
+      return new Response(JSON.stringify({ ok: true, listings: [] }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
     }
     return new Response(JSON.stringify({ ok: false, offline: true }), {
       status: 200,
