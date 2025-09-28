@@ -122,8 +122,10 @@ export default function Profile() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await apiFetch(`users?email=${encodeURIComponent(currentUser.email)}`);
-        const data = await res.json().catch(() => ({} as any));
+        const res = await apiFetch(
+          `users?email=${encodeURIComponent(currentUser.email)}`,
+        );
+        const data = await res.json().catch(() => ({}) as any);
         let user = data?.user ?? null;
         if (!user) {
           const up = await apiFetch("users", {
@@ -138,12 +140,16 @@ export default function Profile() {
               ambassador: true,
             }),
           });
-          const upData = await up.json().catch(() => ({} as any));
+          const upData = await up.json().catch(() => ({}) as any);
           user = upData?.user ?? null;
         }
         if (user) {
-          const fs = Boolean((user as any).foundingSupporter ?? (user as any).founding_supporter);
-          const tr = Boolean((user as any).topReferrer ?? (user as any).top_referrer);
+          const fs = Boolean(
+            (user as any).foundingSupporter ?? (user as any).founding_supporter,
+          );
+          const tr = Boolean(
+            (user as any).topReferrer ?? (user as any).top_referrer,
+          );
           const am = Boolean((user as any).ambassador);
           if (!(fs && tr && am)) {
             try {
@@ -157,9 +163,13 @@ export default function Profile() {
                   ambassador: true,
                 }),
               });
-              const updData = await upd.json().catch(() => ({} as any));
+              const updData = await upd.json().catch(() => ({}) as any);
               if (updData?.user) {
-                setBadges({ foundingSupporter: true, topReferrer: true, ambassador: true });
+                setBadges({
+                  foundingSupporter: true,
+                  topReferrer: true,
+                  ambassador: true,
+                });
                 return;
               }
             } catch {}
@@ -183,7 +193,11 @@ export default function Profile() {
   const earnedBadges = useMemo(() => {
     const arr: { key: string; title: string; color: string }[] = [];
     if (badges.foundingSupporter)
-      arr.push({ key: "founding", title: "Founding Supporter", color: "#38bdf8" });
+      arr.push({
+        key: "founding",
+        title: "Founding Supporter",
+        color: "#38bdf8",
+      });
     if (badges.topReferrer)
       arr.push({ key: "referrer", title: "Top Referrer", color: "#7c3aed" });
     if (badges.ambassador)
@@ -620,7 +634,9 @@ export default function Profile() {
               <div className="text-center">
                 {/* Profile Picture with Edit on Hover */}
                 <div className="relative inline-block group mb-4">
-                  <Avatar className={cn("h-32 w-32 mx-auto", avatarOutlineClass)}>
+                  <Avatar
+                    className={cn("h-32 w-32 mx-auto", avatarOutlineClass)}
+                  >
                     <AvatarImage
                       src={userProfile.profileImage}
                       alt={userProfile.name}
@@ -665,7 +681,11 @@ export default function Profile() {
                         title={b.title}
                         aria-label={b.title}
                       >
-                        <Shield className="h-3 w-3" fill="currentColor" style={{ color: b.color }} />
+                        <Shield
+                          className="h-3 w-3"
+                          fill="currentColor"
+                          style={{ color: b.color }}
+                        />
                       </span>
                     ))}
                   </div>
@@ -1331,7 +1351,11 @@ export default function Profile() {
                       title={b.title}
                       aria-label={b.title}
                     >
-                      <Shield className="h-3 w-3" fill="currentColor" style={{ color: b.color }} />
+                      <Shield
+                        className="h-3 w-3"
+                        fill="currentColor"
+                        style={{ color: b.color }}
+                      />
                     </span>
                   ))}
                 </div>
