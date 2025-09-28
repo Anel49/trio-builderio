@@ -59,6 +59,35 @@ export async function createListing(req: Request, res: Response) {
   }
 }
 
+export async function getListingById(req: Request, res: Response) {
+  try {
+    const id = Number((req.params as any)?.id);
+    if (!id || Number.isNaN(id)) {
+      return res.status(400).json({ ok: false, error: "invalid id" });
+    }
+    const result = await pool.query(
+      `select id, name, price_cents, rating, image_url, host, category, distance
+       from listings where id = $1`,
+      [id],
+    );
+    if (result.rowCount === 0) return res.status(404).json({ ok: false, error: "not found" });
+    const r: any = result.rows[0];
+    const listing = {
+      id: r.id,
+      name: r.name,
+      price: formatPrice(r.price_cents),
+      rating: r.rating ? Number(r.rating) : null,
+      image: r.image_url,
+      host: r.host,
+      type: r.category,
+      distance: r.distance,
+    };
+    res.json({ ok: true, listing });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function deleteListing(req: Request, res: Response) {
   try {
     const id = Number((req.params as any)?.id);
