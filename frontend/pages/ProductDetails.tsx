@@ -514,7 +514,7 @@ export default function ProductDetails() {
                 </div>
               )}
               {product.description && (
-                <p className="text-muted-foreground mb-4">
+                <p className="text-muted-foreground mb-4 whitespace-pre-line">
                   {product.description}
                 </p>
               )}
