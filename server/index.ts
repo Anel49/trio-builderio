@@ -37,11 +37,13 @@ export function createServer() {
   app.get("/api/listings/:id", getListingById);
   app.post("/api/listings", createListing);
   app.delete("/api/listings/:id", deleteListing);
+  app.get("/api/listings/:id/reviews", listListingReviews);
   // Alias routes
   app.get("/listings", listListings);
   app.get("/listings/:id", getListingById);
   app.post("/listings", createListing);
   app.delete("/listings/:id", deleteListing);
+  app.get("/listings/:id/reviews", listListingReviews);
 
   return app;
 }
