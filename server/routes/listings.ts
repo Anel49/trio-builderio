@@ -30,7 +30,7 @@ export async function listListings(_req: Request, res: Response) {
       );
     } catch {
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, distance, description, zip_code, created_at
+        `select id, name, price_cents, rating, image_url, host, category, distance, description, created_at
          from listings
          order by created_at desc
          limit 50`,
@@ -172,7 +172,7 @@ export async function getListingById(req: Request, res: Response) {
       );
     } catch {
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, distance, description, zip_code, created_at
+        `select id, name, price_cents, rating, image_url, host, category, distance, description, created_at
          from listings where id = $1`,
         [id],
       );
