@@ -661,6 +661,7 @@ export default function Profile() {
                         name={item.name}
                         price={item.price}
                         rating={item.rating}
+                        reviews={item.reviews}
                         image={item.image}
                         host={item.host}
                         type={item.type}
