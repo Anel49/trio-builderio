@@ -18,7 +18,7 @@ interface ProductCardProps {
   id: number;
   name: string;
   price: string;
-  rating: number;
+  rating: number | null;
   reviews?: number;
   image: string;
   host: string;
@@ -195,12 +195,14 @@ export function ProductCard({
               className={combineTokens(
                 spacing.dimensions.icon.sm,
                 "mr-1",
-                colors.rating.star,
+                rating == null ? colors.rating.starEmpty : colors.rating.star,
               )}
             />
-            {rating}
+            {rating == null ? "Not yet rated" : rating}
           </div>
-          {reviews && <div>({reviews} reviews)</div>}
+          {typeof reviews === "number" && reviews > 0 && (
+            <div>({reviews} reviews)</div>
+          )}
         </div>
 
         {!hideHostInfo ? (
