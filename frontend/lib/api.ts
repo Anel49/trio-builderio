@@ -47,8 +47,12 @@ async function resolveApiBase(): Promise<string | null> {
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   if (envBase) {
-    cachedBase = envBase;
-    return cachedBase;
+    const pingUrl = cleanJoin(envBase, "ping");
+    const res = await tryFetch(pingUrl, { method: "GET" }, 1200);
+    if (res && res.ok) {
+      cachedBase = envBase;
+      return cachedBase;
+    }
   }
 
   const candidates = uniq<string>([
