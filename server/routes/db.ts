@@ -50,8 +50,10 @@ export async function dbSetup(_req: Request, res: Response) {
         host text,
         category text,
         distance text,
+        description text,
         created_at timestamptz default now()
       );
+      alter table listings add column if not exists description text;
       create table if not exists users (
         id serial primary key,
         name text,

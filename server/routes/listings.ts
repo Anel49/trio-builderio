@@ -66,7 +66,7 @@ export async function getListingById(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
     const result = await pool.query(
-      `select id, name, price_cents, rating, image_url, host, category, distance
+      `select id, name, price_cents, rating, image_url, host, category, distance, description
        from listings where id = $1`,
       [id],
     );

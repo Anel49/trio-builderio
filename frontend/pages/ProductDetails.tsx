@@ -105,18 +105,16 @@ export default function ProductDetails() {
     "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=600&h=400&fit=crop&auto=format",
   ];
 
-  const [product, setProduct] = useState({
-    name: "Professional Riding Lawn Mower",
-    price: "$45",
-    categories: ["Landscaping", "Garden Equipment", "Outdoor"],
-    description:
-      "High-performance riding lawn mower perfect for large yards and commercial use. Features a powerful 24HP engine, 54-inch cutting deck, and comfortable seating for extended use. Includes mulching kit and side discharge chute. Regularly maintained and serviced for optimal performance.",
-    rating: 4.9,
-    totalReviews: 142,
-    location: "2.3 miles away",
-    image:
-      "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
-  });
+  const [product, setProduct] = useState<null | {
+    name: string;
+    price: string;
+    categories: string[];
+    description: string;
+    rating: number;
+    totalReviews: number;
+    location: string;
+    image?: string;
+  }>(null);
 
   const host = currentUser;
 
@@ -137,18 +135,20 @@ export default function ProductDetails() {
         if (d && d.ok && d.listing) {
           const l = d.listing;
           setProduct({
-            name: l.name || product.name,
-            price: l.price || product.price,
+            name: l.name ?? "",
+            price: l.price ?? "",
             categories: [l.type || "General"],
-            description: product.description,
-            rating: typeof l.rating === "number" ? l.rating : product.rating,
-            totalReviews: product.totalReviews,
-            location: l.distance || product.location,
-            image: l.image || product.image,
+            description: l.description ?? "",
+            rating: typeof l.rating === "number" ? l.rating : 0,
+            totalReviews: 0,
+            location: l.distance || "",
+            image: l.image || undefined,
           });
+        } else {
+          setProduct(null);
         }
       })
-      .catch(() => {});
+      .catch(() => setProduct(null));
   }, [params.id]);
 
   // Get reservations for this listing
@@ -303,6 +303,20 @@ export default function ProductDetails() {
 
     return filtered;
   }, [reviews, reviewSearchQuery, reviewSortBy, reviewRatingFilter]);
+
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 w-48 bg-muted rounded" />
+            <div className="h-64 bg-muted rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">

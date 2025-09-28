@@ -258,6 +258,7 @@ export default function UploadProduct() {
         host: currentUser.name,
         type: selectedTags[0] || "General",
         distance: "0 miles",
+        description,
       };
       const res = await apiFetch("listings", {
         method: "POST",
