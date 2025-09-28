@@ -665,7 +665,7 @@ export default function Profile() {
                         title={b.title}
                         aria-label={b.title}
                       >
-                        <Shield className="h-5 w-5" style={{ color: b.color }} />
+                        <Shield className="h-3 w-3" fill="currentColor" style={{ color: b.color }} />
                       </span>
                     ))}
                   </div>
@@ -1331,7 +1331,7 @@ export default function Profile() {
                       title={b.title}
                       aria-label={b.title}
                     >
-                      <Shield className="h-5 w-5" style={{ color: b.color }} />
+                      <Shield className="h-3 w-3" fill="currentColor" style={{ color: b.color }} />
                     </span>
                   ))}
                 </div>
