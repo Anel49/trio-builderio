@@ -68,6 +68,22 @@ export async function dbSetup(_req: Request, res: Response) {
         and not exists (
           select 1 from listing_images li where li.listing_id = l.id
         );
+      create table if not exists listing_categories (
+        id serial primary key,
+        listing_id integer not null references listings(id) on delete cascade,
+        category text not null,
+        position integer,
+        created_at timestamptz default now()
+      );
+      -- Backfill categories from listings.category for existing rows
+      insert into listing_categories (listing_id, category, position)
+      select id, category, 1
+      from listings l
+      where l.category is not null
+        and not exists (
+          select 1 from listing_categories lc where lc.listing_id = l.id
+        );
+
       create table if not exists users (
         id serial primary key,
         name text,
@@ -216,6 +232,11 @@ export async function dbSetup(_req: Request, res: Response) {
           `insert into listing_images (listing_id, url, position) values ($1, $2, $3)
            on conflict do nothing`,
           [listingId, r[3], 1],
+        );
+        await pool.query(
+          `insert into listing_categories (listing_id, category, position) values ($1, $2, 1)
+           on conflict do nothing`,
+          [listingId, r[5]],
         );
       }
     }
