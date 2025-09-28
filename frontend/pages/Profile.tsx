@@ -133,17 +133,38 @@ export default function Profile() {
               email: currentUser.email,
               name: currentUser.name,
               avatar_url: currentUser.profileImage,
+              founding_supporter: true,
+              top_referrer: true,
+              ambassador: true,
             }),
           });
           const upData = await up.json().catch(() => ({} as any));
           user = upData?.user ?? null;
         }
         if (user) {
-          setBadges({
-            foundingSupporter: Boolean((user as any).foundingSupporter ?? (user as any).founding_supporter),
-            topReferrer: Boolean((user as any).topReferrer ?? (user as any).top_referrer),
-            ambassador: Boolean((user as any).ambassador),
-          });
+          const fs = Boolean((user as any).foundingSupporter ?? (user as any).founding_supporter);
+          const tr = Boolean((user as any).topReferrer ?? (user as any).top_referrer);
+          const am = Boolean((user as any).ambassador);
+          if (!(fs && tr && am)) {
+            try {
+              const upd = await apiFetch("users", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({
+                  email: currentUser.email,
+                  founding_supporter: true,
+                  top_referrer: true,
+                  ambassador: true,
+                }),
+              });
+              const updData = await upd.json().catch(() => ({} as any));
+              if (updData?.user) {
+                setBadges({ foundingSupporter: true, topReferrer: true, ambassador: true });
+                return;
+              }
+            } catch {}
+          }
+          setBadges({ foundingSupporter: fs, topReferrer: tr, ambassador: am });
         }
       } catch {}
     })();
