@@ -473,7 +473,7 @@ export default function UploadProduct() {
                   </div>
                 )}
 
-                <p className="text-muted-foreground mb-4">
+                <p className="text-muted-foreground mb-4 whitespace-pre-line">
                   {description ||
                     "Your product description will appear here..."}
                 </p>
