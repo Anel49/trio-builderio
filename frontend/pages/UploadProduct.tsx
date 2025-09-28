@@ -271,10 +271,7 @@ export default function UploadProduct() {
       setIsListed(true);
       setShowConfirmModal(false);
       setShowSuccessModal(true);
-      // Optionally refresh Profile/Browse after creation
-      try {
-        await apiFetch("listings", { method: "GET" });
-      } catch {}
+      // Skip immediate refresh to avoid redundant network calls; pages load fresh on navigation
     } catch (e) {
       setShowConfirmModal(false);
       alert("Failed to list product. Please try again.");
