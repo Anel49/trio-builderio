@@ -264,6 +264,7 @@ export default function UploadProduct() {
         categories: selectedTags,
         distance: "0 miles",
         description,
+        zip_code: (location || userProfile.defaultLocation || "00000").toString(),
       };
       const res = await apiFetch("listings", {
         method: "POST",
