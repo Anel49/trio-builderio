@@ -167,7 +167,7 @@ export default function ProductDetails() {
   useEffect(() => {
     if (!params.id) return;
     apiFetch(`listings/${params.id}/reservations`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then(async (r) => (r.ok ? r.json() : { ok: true, reservations: [] }))
       .then((d) => {
         if (d && d.ok && Array.isArray(d.reservations)) {
           const mapped: ReservationPeriod[] = d.reservations.map((r: any) => ({
@@ -178,6 +178,8 @@ export default function ProductDetails() {
             status: r.status,
           }));
           setReservations(mapped);
+        } else {
+          setReservations([]);
         }
       })
       .catch(() => setReservations([]));
