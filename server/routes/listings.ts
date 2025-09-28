@@ -40,8 +40,8 @@ export async function createListing(req: Request, res: Response) {
         .json({ ok: false, error: "name and price_cents are required" });
     }
     const result = await pool.query(
-      `insert into listings (name, price_cents, rating, image_url, host, category, distance)
-       values ($1,$2,$3,$4,$5,$6,$7)
+      `insert into listings (name, price_cents, rating, image_url, host, category, distance, description)
+       values ($1,$2,$3,$4,$5,$6,$7,$8)
        returning id`,
       [
         name,
@@ -51,6 +51,7 @@ export async function createListing(req: Request, res: Response) {
         host ?? null,
         type ?? null,
         distance ?? null,
+        description ?? null,
       ],
     );
     res.json({ ok: true, id: result.rows[0].id });
