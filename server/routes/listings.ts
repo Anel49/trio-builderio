@@ -81,6 +81,7 @@ export async function getListingById(req: Request, res: Response) {
       host: r.host,
       type: r.category,
       distance: r.distance,
+      description: r.description ?? null,
     };
     res.json({ ok: true, listing });
   } catch (error: any) {
