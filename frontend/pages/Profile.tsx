@@ -135,9 +135,6 @@ export default function Profile() {
               email: currentUser.email,
               name: currentUser.name,
               avatar_url: currentUser.profileImage,
-              founding_supporter: true,
-              top_referrer: true,
-              ambassador: true,
             }),
           });
           const upData = await up.json().catch(() => ({}) as any);
