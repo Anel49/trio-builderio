@@ -116,14 +116,7 @@ export async function apiFetch(path: string, init?: RequestInit) {
     const url = cleanJoin(base, path);
     const res = await tryFetch(url, init);
     if (res) return res;
-    // Invalidate base and try to resolve once more
-    cachedBase = null;
-    base = await resolveApiBase();
-    if (base) {
-      const retryUrl = cleanJoin(base, path);
-      const retryRes = await tryFetch(retryUrl, init);
-      if (retryRes) return retryRes;
-    }
+    lastResolveFailAt = Date.now();
   }
 
   // Graceful fallback to avoid noisy unhandled errors in environments without a backend
