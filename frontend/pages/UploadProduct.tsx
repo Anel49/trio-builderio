@@ -259,6 +259,7 @@ export default function UploadProduct() {
         images: imgs,
         host: currentUser.name,
         type: selectedTags[0] || "General",
+        categories: selectedTags,
         distance: "0 miles",
         description,
       };
