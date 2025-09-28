@@ -656,7 +656,7 @@ export default function Profile() {
                         aria-label={b.title}
                       >
                         <Shield
-                          className="h-3 w-3"
+                          className="h-[13.2px] w-[13.2px]"
                           fill="currentColor"
                           style={{ color: b.color }}
                         />
@@ -1317,7 +1317,7 @@ export default function Profile() {
                       aria-label={b.title}
                     >
                       <Shield
-                        className="h-3 w-3"
+                        className="h-[13.2px] w-[13.2px]"
                         fill="currentColor"
                         style={{ color: b.color }}
                       />
