@@ -14,25 +14,56 @@ function rowToUser(r: any) {
   };
 }
 
+async function ensureBadgeColumns() {
+  try {
+    await pool.query(
+      `alter table users add column if not exists founding_supporter boolean default false;
+       alter table users add column if not exists top_referrer boolean default false;
+       alter table users add column if not exists ambassador boolean default false;`,
+    );
+  } catch {}
+}
+
 export async function getUserByEmail(req: Request, res: Response) {
   try {
     const email = String((req.query as any)?.email || "").trim();
     if (!email) {
       return res.status(400).json({ ok: false, error: "email is required" });
     }
-    const result = await pool.query(
-      `select id, name, email, avatar_url, created_at,
-              coalesce(founding_supporter,false) as founding_supporter,
-              coalesce(top_referrer,false) as top_referrer,
-              coalesce(ambassador,false) as ambassador
-       from users where email = $1 limit 1`,
-      [email],
-    );
-    if (result.rowCount === 0) {
-      return res.json({ ok: true, user: null });
+    try {
+      const result = await pool.query(
+        `select id, name, email, avatar_url, created_at,
+                coalesce(founding_supporter,false) as founding_supporter,
+                coalesce(top_referrer,false) as top_referrer,
+                coalesce(ambassador,false) as ambassador
+         from users where email = $1 limit 1`,
+        [email],
+      );
+      if (result.rowCount === 0) {
+        return res.json({ ok: true, user: null });
+      }
+      const user = rowToUser(result.rows[0]);
+      return res.json({ ok: true, user });
+    } catch {
+      // Columns might not exist yet
+      const result = await pool.query(
+        `select id, name, email, avatar_url, created_at from users where email = $1 limit 1`,
+        [email],
+      );
+      if (result.rowCount === 0) return res.json({ ok: true, user: null });
+      const base = result.rows[0];
+      const user = {
+        id: base.id,
+        name: base.name || null,
+        email: base.email || null,
+        avatarUrl: base.avatar_url || null,
+        createdAt: base.created_at,
+        foundingSupporter: false,
+        topReferrer: false,
+        ambassador: false,
+      };
+      return res.json({ ok: true, user });
     }
-    const user = rowToUser(result.rows[0]);
-    res.json({ ok: true, user });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
@@ -53,6 +84,8 @@ export async function upsertUser(req: Request, res: Response) {
     if (!emailStr) {
       return res.status(400).json({ ok: false, error: "email is required" });
     }
+
+    await ensureBadgeColumns();
 
     const result = await pool.query(
       `insert into users (name, email, avatar_url, founding_supporter, top_referrer, ambassador)
