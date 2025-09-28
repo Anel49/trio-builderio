@@ -96,7 +96,7 @@ export async function upsertUser(req: Request, res: Response) {
        on conflict (email) do update set
          name = coalesce(excluded.name, users.name),
          avatar_url = coalesce(excluded.avatar_url, users.avatar_url),
-         zip_code = coalesce(excluded.zip_code, users.zip_code),
+         zip_code = excluded.zip_code,
          founding_supporter = coalesce(excluded.founding_supporter, users.founding_supporter),
          top_referrer = coalesce(excluded.top_referrer, users.top_referrer),
          ambassador = coalesce(excluded.ambassador, users.ambassador)
