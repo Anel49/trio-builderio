@@ -54,6 +54,7 @@ import {
   MessageCircle,
   ArrowLeft,
 } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export default function ProductDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
