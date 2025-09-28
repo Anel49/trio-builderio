@@ -120,11 +120,31 @@ export async function listListingReviews(req: Request, res: Response) {
       const count = desiredCounts[id] ?? 0;
       if (count > 0) {
         const samples = [
-          { reviewer: "Mike", rating: 5, comment: "Excellent quality and easy pickup." },
-          { reviewer: "Jennifer", rating: 4, comment: "Great value. Would rent again." },
-          { reviewer: "David", rating: 5, comment: "As described. Smooth communication." },
-          { reviewer: "Lisa", rating: 3, comment: "Worked fine with minor wear." },
-          { reviewer: "Robert", rating: 5, comment: "Perfect for my needs. Highly recommend." },
+          {
+            reviewer: "Mike",
+            rating: 5,
+            comment: "Excellent quality and easy pickup.",
+          },
+          {
+            reviewer: "Jennifer",
+            rating: 4,
+            comment: "Great value. Would rent again.",
+          },
+          {
+            reviewer: "David",
+            rating: 5,
+            comment: "As described. Smooth communication.",
+          },
+          {
+            reviewer: "Lisa",
+            rating: 3,
+            comment: "Worked fine with minor wear.",
+          },
+          {
+            reviewer: "Robert",
+            rating: 5,
+            comment: "Perfect for my needs. Highly recommend.",
+          },
           { reviewer: "Emma", rating: 4, comment: "Good overall experience." },
         ];
         const now = Date.now();

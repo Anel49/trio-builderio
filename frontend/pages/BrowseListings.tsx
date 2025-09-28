@@ -253,7 +253,12 @@ export default function BrowseListings() {
             host: l.host,
             type: l.type || "General",
             location: "",
-            distance: typeof l.distance === "string" ? l.distance : (l.distance ? String(l.distance) : ""),
+            distance:
+              typeof l.distance === "string"
+                ? l.distance
+                : l.distance
+                  ? String(l.distance)
+                  : "",
             lat: 0,
             lng: 0,
             createdAt: l.createdAt ?? l.created_at ?? undefined,
@@ -284,7 +289,8 @@ export default function BrowseListings() {
       return Number.isFinite(n) ? n : Number.MAX_SAFE_INTEGER;
     }
     if (s.includes("hour")) {
-      const n = parseInt(s.replace(" hours ago", "").replace(" hour ago", "")) * 60;
+      const n =
+        parseInt(s.replace(" hours ago", "").replace(" hour ago", "")) * 60;
       return Number.isFinite(n) ? n : Number.MAX_SAFE_INTEGER;
     }
     if (s.includes("day")) {
@@ -323,7 +329,9 @@ export default function BrowseListings() {
 
       // Distance filter (simplified - in real app would calculate based on zip code)
       if (appliedFilters.maxDistance && appliedFilters.zipCode) {
-        const distance = parseFloat(String(listing.distance ?? "").replace(" miles", ""));
+        const distance = parseFloat(
+          String(listing.distance ?? "").replace(" miles", ""),
+        );
         if (!Number.isFinite(distance)) return false;
         if (distance > parseInt(appliedFilters.maxDistance)) return false;
       }
@@ -355,25 +363,41 @@ export default function BrowseListings() {
       filtered.sort((a, b) => {
         switch (sortBy) {
           case "distance-asc":
-            const da = parseFloat(String(a.distance ?? "").replace(" miles", ""));
-            const db = parseFloat(String(b.distance ?? "").replace(" miles", ""));
-            return (Number.isFinite(da) ? da : Number.MAX_SAFE_INTEGER) -
-              (Number.isFinite(db) ? db : Number.MAX_SAFE_INTEGER);
+            const da = parseFloat(
+              String(a.distance ?? "").replace(" miles", ""),
+            );
+            const db = parseFloat(
+              String(b.distance ?? "").replace(" miles", ""),
+            );
+            return (
+              (Number.isFinite(da) ? da : Number.MAX_SAFE_INTEGER) -
+              (Number.isFinite(db) ? db : Number.MAX_SAFE_INTEGER)
+            );
           case "distance-desc":
-            const da2 = parseFloat(String(a.distance ?? "").replace(" miles", ""));
-            const db2 = parseFloat(String(b.distance ?? "").replace(" miles", ""));
-            return (Number.isFinite(db2) ? db2 : Number.MAX_SAFE_INTEGER) -
-              (Number.isFinite(da2) ? da2 : Number.MAX_SAFE_INTEGER);
+            const da2 = parseFloat(
+              String(a.distance ?? "").replace(" miles", ""),
+            );
+            const db2 = parseFloat(
+              String(b.distance ?? "").replace(" miles", ""),
+            );
+            return (
+              (Number.isFinite(db2) ? db2 : Number.MAX_SAFE_INTEGER) -
+              (Number.isFinite(da2) ? da2 : Number.MAX_SAFE_INTEGER)
+            );
           case "price-asc":
             const pa = parseInt(String(a.price ?? "").replace("$", ""));
             const pb = parseInt(String(b.price ?? "").replace("$", ""));
-            return (Number.isFinite(pa) ? pa : Number.MAX_SAFE_INTEGER) -
-              (Number.isFinite(pb) ? pb : Number.MAX_SAFE_INTEGER);
+            return (
+              (Number.isFinite(pa) ? pa : Number.MAX_SAFE_INTEGER) -
+              (Number.isFinite(pb) ? pb : Number.MAX_SAFE_INTEGER)
+            );
           case "price-desc":
             const pa2 = parseInt(String(a.price ?? "").replace("$", ""));
             const pb2 = parseInt(String(b.price ?? "").replace("$", ""));
-            return (Number.isFinite(pb2) ? pb2 : Number.MAX_SAFE_INTEGER) -
-              (Number.isFinite(pa2) ? pa2 : Number.MAX_SAFE_INTEGER);
+            return (
+              (Number.isFinite(pb2) ? pb2 : Number.MAX_SAFE_INTEGER) -
+              (Number.isFinite(pa2) ? pa2 : Number.MAX_SAFE_INTEGER)
+            );
           case "time-asc": {
             // Recently Listed: newest first
             const ta = getCreatedAtMs(a);
