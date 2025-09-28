@@ -183,37 +183,6 @@ export async function apiFetch(path: string, init?: RequestInit) {
     });
   }
 
-  // Short-circuit user profile endpoints to avoid network errors in read-only demos
-  if (/^users(\?|$)/.test(p) && (init?.method || "GET").toUpperCase() === "GET") {
-    return new Response(JSON.stringify({ ok: true, user: null }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-  if (/^users$/.test(p) && (init?.method || "GET").toUpperCase() === "POST") {
-    try {
-      const body = typeof init?.body === "string" ? JSON.parse(init.body) : {};
-      const user = {
-        id: 0,
-        name: body?.name ?? null,
-        email: body?.email ?? null,
-        avatarUrl: body?.avatar_url ?? null,
-        createdAt: new Date().toISOString(),
-        foundingSupporter: Boolean(body?.founding_supporter),
-        topReferrer: Boolean(body?.top_referrer),
-        ambassador: Boolean(body?.ambassador),
-      };
-      return new Response(JSON.stringify({ ok: true, user }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
-    } catch {
-      return new Response(JSON.stringify({ ok: true, user: null }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-  }
 
   // Absolute URL passthrough
   if (/^https?:\/\//i.test(path)) {
