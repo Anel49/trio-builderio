@@ -54,6 +54,20 @@ export async function dbSetup(_req: Request, res: Response) {
         created_at timestamptz default now()
       );
       alter table listings add column if not exists description text;
+      create table if not exists listing_images (
+        id serial primary key,
+        listing_id integer not null references listings(id) on delete cascade,
+        url text not null,
+        position integer,
+        created_at timestamptz default now()
+      );
+      insert into listing_images (listing_id, url, position)
+      select l.id, l.image_url, 1
+      from listings l
+      where l.image_url is not null
+        and not exists (
+          select 1 from listing_images li where li.listing_id = l.id
+        );
       create table if not exists users (
         id serial primary key,
         name text,
@@ -191,10 +205,17 @@ export async function dbSetup(_req: Request, res: Response) {
         ],
       ];
       for (const r of rows) {
-        await pool.query(
+        const ins = await pool.query(
           `insert into listings (name, price_cents, rating, image_url, host, category, distance)
-           values ($1,$2,$3,$4,$5,$6,$7)`,
+           values ($1,$2,$3,$4,$5,$6,$7)
+           returning id`,
           r,
+        );
+        const listingId = ins.rows[0].id;
+        await pool.query(
+          `insert into listing_images (listing_id, url, position) values ($1, $2, $3)
+           on conflict do nothing`,
+          [listingId, r[3], 1],
         );
       }
     }

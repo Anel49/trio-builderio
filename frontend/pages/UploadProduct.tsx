@@ -248,13 +248,15 @@ export default function UploadProduct() {
     try {
       const priceCents =
         Math.round(Number(price.replace(/[^0-9.]/g, "")) * 100) || 0;
+      const defaultImage =
+        "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format";
+      const imgs = uploadedImages.length > 0 ? uploadedImages : [defaultImage];
       const payload = {
         name: title || "Untitled",
         price_cents: priceCents,
         rating: null,
-        image:
-          uploadedImages[0] ||
-          "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format",
+        image: imgs[0],
+        images: imgs,
         host: currentUser.name,
         type: selectedTags[0] || "General",
         distance: "0 miles",

@@ -113,6 +113,7 @@ export default function ProductDetails() {
     totalReviews: number;
     location: string;
     image?: string;
+    images?: string[];
   }>(null);
 
   const host = currentUser;
@@ -120,15 +121,18 @@ export default function ProductDetails() {
   const params = useParams();
   const listingId = String(params.id || "1");
 
-  const primaryImage = product?.image;
-  const images = useMemo(
-    () => (primaryImage ? [primaryImage] : productImages),
-    [primaryImage],
-  );
+  const images = useMemo(() => {
+    const imgs = product?.images && product.images.length > 0
+      ? product.images
+      : product?.image
+        ? [product.image]
+        : productImages;
+    return imgs;
+  }, [product?.images, product?.image]);
 
   useEffect(() => {
     setCurrentImageIndex(0);
-  }, [params.id, product?.image]);
+  }, [params.id, product?.image, product?.images]);
 
   useEffect(() => {
     if (!params.id) return;
@@ -146,6 +150,7 @@ export default function ProductDetails() {
             totalReviews: 0,
             location: l.distance || "",
             image: l.image || undefined,
+            images: Array.isArray(l.images) ? l.images : undefined,
           });
         } else {
           setProduct(null);

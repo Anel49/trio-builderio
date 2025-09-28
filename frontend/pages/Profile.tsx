@@ -224,7 +224,7 @@ export default function Profile() {
             price: l.price,
             rating: typeof l.rating === "number" ? l.rating : null,
             trips: 0,
-            image: l.image,
+            image: Array.isArray(l.images) && l.images.length ? l.images[0] : l.image,
             host: l.host || "You",
             type: l.type || "General",
             distance: l.distance || "0 miles",

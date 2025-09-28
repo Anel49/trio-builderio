@@ -249,7 +249,7 @@ export default function BrowseListings() {
             price: l.price,
             rating: typeof l.rating === "number" ? l.rating : null,
             reviews: undefined,
-            image: l.image,
+            image: Array.isArray(l.images) && l.images.length ? l.images[0] : l.image,
             host: l.host,
             type: l.type || "General",
             location: "",
