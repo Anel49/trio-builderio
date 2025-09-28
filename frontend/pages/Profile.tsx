@@ -47,12 +47,13 @@ type ListedItem = {
   id: number;
   name: string;
   price: string;
-  rating: number;
+  rating: number | null;
   trips: number;
   image: string;
   host: string;
   type: string;
   distance: string;
+  reviews?: number;
 };
 import {
   Select,
