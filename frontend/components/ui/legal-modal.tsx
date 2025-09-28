@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +24,20 @@ export function LegalModal({
   description,
   children,
 }: LegalModalProps) {
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const body = document.body;
+    const prevOverflow = body.style.overflow;
+    if (isOpen) {
+      body.style.overflow = "hidden";
+    } else {
+      body.style.overflow = prevOverflow || "";
+    }
+    return () => {
+      body.style.overflow = prevOverflow || "";
+    };
+  }, [isOpen]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[80vh]">
