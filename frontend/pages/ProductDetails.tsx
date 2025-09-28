@@ -430,6 +430,42 @@ export default function ProductDetails() {
                 <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-gray-400 dark:bg-gray-500" />
               </ScrollBar>
             </ScrollArea>
+
+            <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
+              <DialogContent className="max-w-screen-xl w-[95vw] h-[90vh] p-0 bg-black">
+                <div
+                  className="relative w-full h-full flex items-center justify-center select-none"
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  <button
+                    aria-label="Previous image"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/20 hover:bg-white/30 text-white p-2"
+                    onClick={() =>
+                      setCurrentImageIndex((i) => (i - 1 + images.length) % images.length)
+                    }
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
+
+                  <img
+                    src={images[currentImageIndex]}
+                    alt={`${product.name} ${currentImageIndex + 1}`}
+                    className="max-w-full max-h-full object-contain"
+                  />
+
+                  <button
+                    aria-label="Next image"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/20 hover:bg-white/30 text-white p-2"
+                    onClick={() =>
+                      setCurrentImageIndex((i) => (i + 1) % images.length)
+                    }
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Right Column - Product Info & Host (40%) */}
