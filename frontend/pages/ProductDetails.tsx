@@ -432,12 +432,12 @@ export default function ProductDetails() {
             </ScrollArea>
 
             <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
-              <DialogContent className="w-[92vw] max-w-5xl h-[75vh] md:h-[80vh] p-0 bg-black rounded-lg">
+              <DialogContent className="w-[92vw] max-w-5xl p-0 bg-transparent rounded-lg">
                 <DialogHeader>
                   <DialogTitle className="sr-only">Image viewer</DialogTitle>
                 </DialogHeader>
                 <div
-                  className="relative w-full h-full flex items-center justify-center select-none"
+                  className="relative w-full flex items-center justify-center select-none bg-black rounded-lg"
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
                 >
@@ -454,7 +454,7 @@ export default function ProductDetails() {
                   <img
                     src={images[currentImageIndex]}
                     alt={`${product.name} ${currentImageIndex + 1}`}
-                    className="max-w-full max-h-full object-contain"
+                    className="max-w-[92vw] max-h-[80vh] w-auto h-auto object-contain"
                   />
 
                   <button
