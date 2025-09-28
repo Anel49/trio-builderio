@@ -123,6 +123,12 @@ export default function ProductDetails() {
   const params = useParams();
   const listingId = String(params.id || "1");
 
+  const images = useMemo(() => (product.image ? [product.image] : productImages), [product.image]);
+
+  useEffect(() => {
+    setCurrentImageIndex(0);
+  }, [params.id, product.image]);
+
   useEffect(() => {
     if (!params.id) return;
     apiFetch(`listings/${params.id}`)
