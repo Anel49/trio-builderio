@@ -89,15 +89,6 @@ export async function apiFetch(path: string, init?: RequestInit) {
       },
     );
   }
-  if (
-    /^listings\/\d+$/.test(p) &&
-    (init?.method || "GET").toUpperCase() === "DELETE"
-  ) {
-    return new Response(JSON.stringify({ ok: true, deleted: 1 }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
 
   // Offline mode (forced or temporary): never perform network calls
   if (DISABLE_NETWORK || Date.now() < offlineUntil) {
