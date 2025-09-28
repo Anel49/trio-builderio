@@ -3,6 +3,9 @@ let lastResolveFailAt = 0;
 const RESOLVE_COOLDOWN_MS = 15_000;
 let offlineUntil = 0;
 const TEMP_OFFLINE_MS = 60_000;
+let lastPingOkAt = 0;
+let lastPingCheckAt = 0;
+const PING_TTL_MS = 15_000;
 const DISABLE_NETWORK =
   String(
     (import.meta as any).env?.VITE_DISABLE_NETWORK ?? "false",
