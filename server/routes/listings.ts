@@ -32,7 +32,7 @@ export async function listListings(_req: Request, res: Response) {
 
 export async function createListing(req: Request, res: Response) {
   try {
-    const { name, price_cents, rating, image, host, type, distance } =
+    const { name, price_cents, rating, image, host, type, distance, description } =
       req.body || {};
     if (!name || typeof price_cents !== "number") {
       return res
