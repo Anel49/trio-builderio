@@ -67,7 +67,7 @@ import {
 export default function Profile() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [zipCode, setZipCode] = useState("94102");
+  const [zipCode, setZipCode] = useState("");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [name, setName] = useState(currentUser.name);
 
