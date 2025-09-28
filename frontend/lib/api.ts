@@ -159,9 +159,32 @@ export async function apiFetch(path: string, init?: RequestInit) {
       p,
     );
   if (base) {
-    const url = cleanJoin(base, path);
-    const res = await tryFetch(url, init, isDataEndpoint ? 15000 : 8000);
-    if (res) return res;
+    // For data endpoints, ensure backend is responsive recently; otherwise avoid failing fetches
+    if (isDataEndpoint) {
+      const now = Date.now();
+      if (now - lastPingOkAt > PING_TTL_MS && now - lastPingCheckAt > 1000) {
+        lastPingCheckAt = now;
+        const ok = await pingBase(base);
+        if (ok) lastPingOkAt = Date.now();
+        if (!ok) {
+          lastResolveFailAt = Date.now();
+          offlineUntil = Date.now() + TEMP_OFFLINE_MS;
+          // fall through to stubs below without attempting the failing fetch
+        } else {
+          const url = cleanJoin(base, path);
+          const res = await tryFetch(url, init, 15000);
+          if (res) return res;
+        }
+      } else {
+        const url = cleanJoin(base, path);
+        const res = await tryFetch(url, init, 15000);
+        if (res) return res;
+      }
+    } else {
+      const url = cleanJoin(base, path);
+      const res = await tryFetch(url, init, 8000);
+      if (res) return res;
+    }
   }
   // Mark temporary offline to avoid spamming network with failing calls
   lastResolveFailAt = Date.now();
