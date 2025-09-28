@@ -236,39 +236,16 @@ export default function Profile() {
       });
   }, []);
 
-  // Item reviews from DB (none loaded here)
-  const itemReviews: { id: number; itemName: string; reviewer: string; rating: number; date: string; dateValue: Date; comment: string }[] = [
-    {
-      id: 1,
-      itemName: "Professional Lawn Mower",
-      reviewer: "Mike",
-      rating: 5,
-      date: "2 weeks ago",
-      dateValue: new Date("2024-12-01"),
-      comment:
-        "Excellent mower! Cut my 2-acre property with ease. Sarah was very helpful and the pickup/drop-off was smooth.",
-    },
-    {
-      id: 2,
-      itemName: "Designer Tool Set",
-      reviewer: "Jennifer",
-      rating: 5,
-      date: "1 month ago",
-      dateValue: new Date("2024-11-15"),
-      comment:
-        "Perfect tools for my home renovation project. All tools were in great condition and very well maintained.",
-    },
-    {
-      id: 3,
-      itemName: "Party Sound System",
-      reviewer: "David",
-      rating: 4,
-      date: "2 months ago",
-      dateValue: new Date("2024-10-20"),
-      comment:
-        "Great sound quality for our outdoor party. Easy setup and Sarah provided clear instructions.",
-    },
-  ];
+  // Item reviews from DB
+  const [itemReviews, setItemReviews] = useState<{
+    id: number;
+    itemName: string;
+    reviewer: string;
+    rating: number;
+    date: string;
+    dateValue: Date;
+    comment: string;
+  }[]>([]);
 
   // Seller reviews from DB (none loaded here)
   const sellerReviews: { id: number; reviewer: string; rating: number; date: string; dateValue: Date; comment: string }[] = [
