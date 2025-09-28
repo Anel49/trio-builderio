@@ -12,13 +12,19 @@ export async function listListings(_req: Request, res: Response) {
     try {
       result = await pool.query(
         `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.created_at,
-                coalesce(img.images, '{}') as images
+                coalesce(img.images, '{}') as images,
+                coalesce(cats.categories, '{}') as categories
          from listings l
          left join lateral (
            select array_agg(url order by position nulls last, id) as images
            from listing_images
            where listing_id = l.id
          ) img on true
+         left join lateral (
+           select array_agg(category order by position nulls last, id) as categories
+           from listing_categories
+           where listing_id = l.id
+         ) cats on true
          order by l.created_at desc
          limit 50`,
       );
@@ -30,20 +36,23 @@ export async function listListings(_req: Request, res: Response) {
          limit 50`,
       );
     }
-    const listings = result.rows.map((r: any) => ({
-      id: r.id,
-      name: r.name,
-      price: formatPrice(r.price_cents),
-      rating: r.rating ? Number(r.rating) : null,
-      images: Array.isArray(r.images) ? r.images : [],
-      image:
-        r.image_url ||
-        (Array.isArray(r.images) && r.images.length > 0 ? r.images[0] : null),
-      host: r.host,
-      type: r.category,
-      distance: r.distance,
-      createdAt: r.created_at,
-    }));
+    const listings = result.rows.map((r: any) => {
+      const images = Array.isArray(r.images) ? r.images : [];
+      const categories = Array.isArray(r.categories) ? r.categories : [];
+      return {
+        id: r.id,
+        name: r.name,
+        price: formatPrice(r.price_cents),
+        rating: r.rating ? Number(r.rating) : null,
+        images,
+        image: r.image_url || (images.length > 0 ? images[0] : null),
+        host: r.host,
+        type: r.category || (categories.length ? categories[0] : null),
+        categories,
+        distance: r.distance,
+        createdAt: r.created_at,
+      };
+    });
     res.json({ ok: true, listings });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
@@ -62,6 +71,7 @@ export async function createListing(req: Request, res: Response) {
       type,
       distance,
       description,
+      categories,
     } = req.body || {};
     if (!name || typeof price_cents !== "number") {
       return res
@@ -74,6 +84,10 @@ export async function createListing(req: Request, res: Response) {
         ? [image]
         : [];
     const primaryImage = imgs[0] ?? null;
+    const cats: string[] = Array.isArray(categories)
+      ? (categories as any[]).filter((c) => typeof c === "string" && c.trim())
+      : (typeof type === "string" && type.trim() ? [type] : []);
+    const primaryCategory = cats[0] ?? null;
     const result = await pool.query(
       `insert into listings (name, price_cents, rating, image_url, host, category, distance, description)
        values ($1,$2,$3,$4,$5,$6,$7,$8)
@@ -84,7 +98,7 @@ export async function createListing(req: Request, res: Response) {
         rating ?? null,
         primaryImage,
         host ?? null,
-        type ?? null,
+        primaryCategory,
         distance ?? null,
         description ?? null,
       ],
@@ -100,9 +114,19 @@ export async function createListing(req: Request, res: Response) {
             [newId, url, i + 1],
           );
         }
-      } catch {
-        // ignore if listing_images table not yet created
-      }
+      } catch {}
+    }
+    if (cats.length > 0) {
+      try {
+        for (let i = 0; i < cats.length; i++) {
+          const c = cats[i];
+          await pool.query(
+            `insert into listing_categories (listing_id, category, position) values ($1,$2,$3)
+             on conflict do nothing`,
+            [newId, c, i + 1],
+          );
+        }
+      } catch {}
     }
     res.json({ ok: true, id: result.rows[0].id });
   } catch (error: any) {
@@ -120,13 +144,19 @@ export async function getListingById(req: Request, res: Response) {
     try {
       result = await pool.query(
         `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.description, l.created_at,
-                coalesce(img.images, '{}') as images
+                coalesce(img.images, '{}') as images,
+                coalesce(cats.categories, '{}') as categories
          from listings l
          left join lateral (
            select array_agg(url order by position nulls last, id) as images
            from listing_images
            where listing_id = l.id
          ) img on true
+         left join lateral (
+           select array_agg(category order by position nulls last, id) as categories
+           from listing_categories
+           where listing_id = l.id
+         ) cats on true
          where l.id = $1`,
         [id],
       );
@@ -140,17 +170,18 @@ export async function getListingById(req: Request, res: Response) {
     if (result.rowCount === 0)
       return res.status(404).json({ ok: false, error: "not found" });
     const r: any = result.rows[0];
+    const images = Array.isArray(r.images) ? r.images : [];
+    const categories = Array.isArray(r.categories) ? r.categories : [];
     const listing = {
       id: r.id,
       name: r.name,
       price: formatPrice(r.price_cents),
       rating: r.rating ? Number(r.rating) : null,
-      images: Array.isArray(r.images) ? r.images : [],
-      image:
-        r.image_url ||
-        (Array.isArray(r.images) && r.images.length > 0 ? r.images[0] : null),
+      images,
+      image: r.image_url || (images.length > 0 ? images[0] : null),
       host: r.host,
-      type: r.category,
+      type: r.category || (categories.length ? categories[0] : null),
+      categories,
       distance: r.distance,
       description: r.description ?? null,
       createdAt: r.created_at,
