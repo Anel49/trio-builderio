@@ -236,7 +236,7 @@ export default function BrowseListings() {
     },
   ];
 
-  const [listings, setListings] = useState(initialListings);
+  const [listings, setListings] = useState<any[]>([]);
 
   React.useEffect(() => {
     apiFetch("listings")
