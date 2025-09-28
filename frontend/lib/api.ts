@@ -187,6 +187,13 @@ export async function apiFetch(path: string, init?: RequestInit) {
       headers: { "Content-Type": "application/json" },
     });
   }
+  const m3 = p.match(/^listings\/(\d+)\/reservations$/);
+  if (m3) {
+    return new Response(JSON.stringify({ ok: true, reservations: [] }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   return new Response(
     JSON.stringify({
