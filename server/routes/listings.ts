@@ -86,7 +86,9 @@ export async function createListing(req: Request, res: Response) {
     const primaryImage = imgs[0] ?? null;
     const cats: string[] = Array.isArray(categories)
       ? (categories as any[]).filter((c) => typeof c === "string" && c.trim())
-      : (typeof type === "string" && type.trim() ? [type] : []);
+      : typeof type === "string" && type.trim()
+        ? [type]
+        : [];
     const primaryCategory = cats[0] ?? null;
     const result = await pool.query(
       `insert into listings (name, price_cents, rating, image_url, host, category, distance, description)

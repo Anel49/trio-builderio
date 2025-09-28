@@ -154,7 +154,12 @@ export default function ProductDetails() {
           setProduct({
             name: l.name ?? "",
             price: l.price ?? "",
-            categories: Array.isArray(l.categories) && l.categories.length > 0 ? l.categories : (l.type ? [l.type] : []),
+            categories:
+              Array.isArray(l.categories) && l.categories.length > 0
+                ? l.categories
+                : l.type
+                  ? [l.type]
+                  : [],
             description: l.description ?? "",
             rating: typeof l.rating === "number" ? l.rating : null,
             totalReviews: 0,

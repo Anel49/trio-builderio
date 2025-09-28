@@ -859,7 +859,8 @@ export default function UploadProduct() {
             <DialogTitle>Pricing guidance</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground mb-4">
-            Stuck on what to price your item? Here are our recommended daily rates.
+            Stuck on what to price your item? Here are our recommended daily
+            rates.
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -873,22 +874,34 @@ export default function UploadProduct() {
               <tbody className="divide-y">
                 <tr>
                   <td className="font-semibold py-2 pr-3">Low-wear items</td>
-                  <td className="py-2 pr-3">Cameras, projectors, GoPros, microphones, clothing</td>
+                  <td className="py-2 pr-3">
+                    Cameras, projectors, GoPros, microphones, clothing
+                  </td>
                   <td className="py-2">1%-3% MSRP per day</td>
                 </tr>
                 <tr>
                   <td className="font-semibold py-2 pr-3">Medium-wear items</td>
-                  <td className="py-2 pr-3">Power drills, lawn mowers, camping tents, kayaks, paddleboards</td>
+                  <td className="py-2 pr-3">
+                    Power drills, lawn mowers, camping tents, kayaks,
+                    paddleboards
+                  </td>
                   <td className="py-2">3%-5% MSRP per day</td>
                 </tr>
                 <tr>
                   <td className="font-semibold py-2 pr-3">High-wear items</td>
-                  <td className="py-2 pr-3">Chainsaws, bouncy houses, trampolines, generators</td>
+                  <td className="py-2 pr-3">
+                    Chainsaws, bouncy houses, trampolines, generators
+                  </td>
                   <td className="py-2">5%-8% MSRP per day</td>
                 </tr>
                 <tr>
-                  <td className="font-semibold py-2 pr-3">Expensive or brand-name items</td>
-                  <td className="py-2 pr-3">Advanced telescopes, drones, sound systems, e-bikes, lighting rigs</td>
+                  <td className="font-semibold py-2 pr-3">
+                    Expensive or brand-name items
+                  </td>
+                  <td className="py-2 pr-3">
+                    Advanced telescopes, drones, sound systems, e-bikes,
+                    lighting rigs
+                  </td>
                   <td className="py-2">5%-10% MSRP per day</td>
                 </tr>
               </tbody>

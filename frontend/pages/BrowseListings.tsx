@@ -244,7 +244,12 @@ export default function BrowseListings() {
       .then((d) => {
         if (d && d.ok && Array.isArray(d.listings)) {
           const mapped = d.listings.map((l: any) => {
-            const categories = Array.isArray(l.categories) && l.categories.length ? l.categories : (l.type ? [l.type] : []);
+            const categories =
+              Array.isArray(l.categories) && l.categories.length
+                ? l.categories
+                : l.type
+                  ? [l.type]
+                  : [];
             return {
               id: l.id,
               name: l.name,
@@ -334,7 +339,9 @@ export default function BrowseListings() {
         const cats = Array.isArray((listing as any).categories)
           ? ((listing as any).categories as string[])
           : [];
-        const matches = listing.type === appliedFilters.category || cats.includes(appliedFilters.category);
+        const matches =
+          listing.type === appliedFilters.category ||
+          cats.includes(appliedFilters.category);
         if (!matches) return false;
       }
 
