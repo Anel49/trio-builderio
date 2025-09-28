@@ -86,6 +86,14 @@ export async function apiFetch(path: string, init?: RequestInit) {
   const pRaw = String(path || "");
   const p = pRaw.replace(/^\//, "");
 
+  // Always short-circuit ping without network
+  if (/^ping$/.test(p)) {
+    return new Response(
+      JSON.stringify({ ok: true, message: "local-ping" }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   // Demo-only endpoints: short-circuit without network to prevent failures in read-only environments
   if (
     /^stripe\/create-payment-intent$/.test(p) &&
