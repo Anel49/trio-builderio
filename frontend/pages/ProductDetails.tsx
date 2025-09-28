@@ -31,6 +31,8 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ENABLE_FAVORITES } from "@/lib/constants";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import Header from "@/components/Header";
+import { useParams } from "react-router-dom";
+import { apiFetch } from "@/lib/api";
 import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
 import { Footer } from "@/components/Footer";
@@ -102,7 +104,7 @@ export default function ProductDetails() {
     "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=600&h=400&fit=crop&auto=format",
   ];
 
-  const product = {
+  const [product, setProduct] = useState({
     name: "Professional Riding Lawn Mower",
     price: "$45",
     categories: ["Landscaping", "Garden Equipment", "Outdoor"],
@@ -111,12 +113,36 @@ export default function ProductDetails() {
     rating: 4.9,
     totalReviews: 142,
     location: "2.3 miles away",
-  };
+    image:
+      "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
+  });
 
   const host = currentUser;
 
-  // Get listing ID from URL params (assuming it's in the URL)
-  const listingId = "1"; // For demo purposes, using "1" for the lawn mower
+  const params = useParams();
+  const listingId = String(params.id || "1");
+
+  useEffect(() => {
+    if (!params.id) return;
+    apiFetch(`listings/${params.id}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => {
+        if (d && d.ok && d.listing) {
+          const l = d.listing;
+          setProduct({
+            name: l.name || product.name,
+            price: l.price || product.price,
+            categories: [l.type || "General"],
+            description: product.description,
+            rating: typeof l.rating === "number" ? l.rating : product.rating,
+            totalReviews: product.totalReviews,
+            location: l.distance || product.location,
+            image: l.image || product.image,
+          });
+        }
+      })
+      .catch(() => {});
+  }, [params.id]);
 
   // Get reservations for this listing
   const reservations = getListingReservations(listingId);
