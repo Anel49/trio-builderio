@@ -49,6 +49,9 @@ export function createServer() {
   app.delete("/api/listings/:id", deleteListing);
   app.get("/api/listings/:id/reviews", listListingReviews);
   app.get("/api/listings/:id/reservations", listListingReservations);
+  // Users
+  app.get("/api/users", getUserByEmail); // query: email
+  app.post("/api/users", upsertUser);
   // Alias routes
   app.get("/listings", listListings);
   app.get("/listings/:id", getListingById);
@@ -56,6 +59,8 @@ export function createServer() {
   app.delete("/listings/:id", deleteListing);
   app.get("/listings/:id/reviews", listListingReviews);
   app.get("/listings/:id/reservations", listListingReservations);
+  app.get("/users", getUserByEmail);
+  app.post("/users", upsertUser);
 
   return app;
 }
