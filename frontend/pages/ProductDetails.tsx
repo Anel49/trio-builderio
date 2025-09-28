@@ -121,11 +121,12 @@ export default function ProductDetails() {
   const params = useParams();
   const listingId = String(params.id || "1");
 
-  const images = useMemo(() => (product.image ? [product.image] : productImages), [product.image]);
+  const primaryImage = product?.image;
+  const images = useMemo(() => (primaryImage ? [primaryImage] : productImages), [primaryImage]);
 
   useEffect(() => {
     setCurrentImageIndex(0);
-  }, [params.id, product.image]);
+  }, [params.id, product?.image]);
 
   useEffect(() => {
     if (!params.id) return;
