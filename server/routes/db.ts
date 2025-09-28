@@ -219,6 +219,30 @@ export async function dbSetup(_req: Request, res: Response) {
         );
       }
     }
+
+    // Ensure a handful of listings have multiple images for testing the gallery UI
+    await pool.query(`
+      insert into listing_images (listing_id, url, position)
+      select l.id, v.url, v.position
+      from (
+        values
+          ('Riding Lawn Mower', 'https://images.unsplash.com/photo-1508898578281-774ac4893bd0?w=600&h=400&fit=crop&auto=format', 2),
+          ('Riding Lawn Mower', 'https://images.unsplash.com/photo-1529429612778-cf6435cdae84?w=600&h=400&fit=crop&auto=format', 3),
+          ('Pro Camera Kit', 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop&auto=format', 2),
+          ('Pro Camera Kit', 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=400&fit=crop&auto=format', 3),
+          ('Mountain Bike', 'https://images.unsplash.com/photo-1509395062183-67c5ad6faff9?w=600&h=400&fit=crop&auto=format', 2),
+          ('Mountain Bike', 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=400&fit=crop&auto=format', 3),
+          ('Acoustic Guitar', 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=400&fit=crop&auto=format', 2),
+          ('Acoustic Guitar', 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=600&h=400&fit=crop&auto=format', 3),
+          ('Pressure Washer', 'https://images.unsplash.com/photo-1518773553398-650c184e0bb3?w=600&h=400&fit=crop&auto=format', 2),
+          ('Pressure Washer', 'https://images.unsplash.com/photo-1551646332-90688fae07f1?w=600&h=400&fit=crop&auto=format', 3)
+      ) as v(name, url, position)
+      join listings l on l.name = v.name
+      where not exists (
+        select 1 from listing_images li where li.listing_id = l.id and li.url = v.url
+      );
+    `);
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
