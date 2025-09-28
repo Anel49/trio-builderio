@@ -266,8 +266,11 @@ export default function UploadProduct() {
         body: JSON.stringify(payload),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.ok) throw new Error("Failed to create listing");
-      setCreatedListingId(Number(data.id) || null);
+      const newId = Number(data?.id);
+      if (!res.ok || !data?.ok || !Number.isFinite(newId)) {
+        throw new Error("Failed to create listing");
+      }
+      setCreatedListingId(newId);
       setIsListed(true);
       setShowConfirmModal(false);
       setShowSuccessModal(true);
@@ -283,9 +286,9 @@ export default function UploadProduct() {
   };
 
   const handleViewListing = () => {
+    if (!createdListingId) return;
     setShowSuccessModal(false);
-    const id = createdListingId ?? 1;
-    window.location.href = `/product/${id}`;
+    window.location.href = `/product/${createdListingId}`;
   };
 
   const mockHost = {
@@ -365,10 +368,23 @@ export default function UploadProduct() {
             Your product has been successfully listed!
           </p>
         </div>
-        <div className="flex justify-center">
-          <Button onClick={handleViewListing} className="w-full">
+        <div className="flex justify-center gap-3">
+          <Button
+            onClick={handleViewListing}
+            className="w-full"
+            disabled={!createdListingId}
+          >
             See listing
           </Button>
+          {!createdListingId && (
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => setShowSuccessModal(false)}
+            >
+              Close
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>
