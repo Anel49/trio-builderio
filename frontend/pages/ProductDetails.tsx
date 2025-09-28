@@ -183,6 +183,46 @@ export default function ProductDetails() {
       .catch(() => setReservations([]));
   }, [params.id]);
 
+  // Lightbox: keyboard and swipe navigation
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setCurrentImageIndex((i) => (i + 1) % images.length);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setCurrentImageIndex((i) => (i - 1 + images.length) % images.length);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isLightboxOpen, images.length]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isLightboxOpen) return;
+    const t = e.touches[0];
+    touchStartX.current = t.clientX;
+    touchStartY.current = t.clientY;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!isLightboxOpen) return;
+    if (touchStartX.current == null || touchStartY.current == null) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStartX.current;
+    const dy = t.clientY - touchStartY.current;
+    const SWIPE_THRESHOLD = 50;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > SWIPE_THRESHOLD) {
+      if (dx < 0) {
+        setCurrentImageIndex((i) => (i + 1) % images.length);
+      } else {
+        setCurrentImageIndex((i) => (i - 1 + images.length) % images.length);
+      }
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
   type Review = {
     id: number;
     user: string;
