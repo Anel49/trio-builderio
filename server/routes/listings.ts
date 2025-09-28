@@ -8,18 +8,28 @@ function formatPrice(price_cents: number) {
 
 export async function listListings(_req: Request, res: Response) {
   try {
-    const result = await pool.query(
-      `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.created_at,
-              coalesce(img.images, '{}') as images
-       from listings l
-       left join lateral (
-         select array_agg(url order by position nulls last, id) as images
-         from listing_images
-         where listing_id = l.id
-       ) img on true
-       order by l.created_at desc
-       limit 50`,
-    );
+    let result: any;
+    try {
+      result = await pool.query(
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.created_at,
+                coalesce(img.images, '{}') as images
+         from listings l
+         left join lateral (
+           select array_agg(url order by position nulls last, id) as images
+           from listing_images
+           where listing_id = l.id
+         ) img on true
+         order by l.created_at desc
+         limit 50`,
+      );
+    } catch {
+      result = await pool.query(
+        `select id, name, price_cents, rating, image_url, host, category, distance, created_at
+         from listings
+         order by created_at desc
+         limit 50`,
+      );
+    }
     const listings = result.rows.map((r: any) => ({
       id: r.id,
       name: r.name,
@@ -100,18 +110,27 @@ export async function getListingById(req: Request, res: Response) {
     if (!id || Number.isNaN(id)) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
-    const result = await pool.query(
-      `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.description, l.created_at,
-              coalesce(img.images, '{}') as images
-       from listings l
-       left join lateral (
-         select array_agg(url order by position nulls last, id) as images
-         from listing_images
-         where listing_id = l.id
-       ) img on true
-       where l.id = $1`,
-      [id],
-    );
+    let result: any;
+    try {
+      result = await pool.query(
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.description, l.created_at,
+                coalesce(img.images, '{}') as images
+         from listings l
+         left join lateral (
+           select array_agg(url order by position nulls last, id) as images
+           from listing_images
+           where listing_id = l.id
+         ) img on true
+         where l.id = $1`,
+        [id],
+      );
+    } catch {
+      result = await pool.query(
+        `select id, name, price_cents, rating, image_url, host, category, distance, description, created_at
+         from listings where id = $1`,
+        [id],
+      );
+    }
     if (result.rowCount === 0)
       return res.status(404).json({ ok: false, error: "not found" });
     const r: any = result.rows[0];
