@@ -269,7 +269,7 @@ export async function listListingReservations(req: Request, res: Response) {
       startDate: new Date(r.start_date).toISOString(),
       endDate: new Date(r.end_date).toISOString(),
       renterName: r.renter || undefined,
-      status: String(r.status || 'confirmed') as any,
+      status: String(r.status || "confirmed") as any,
     }));
     res.json({ ok: true, reservations });
   } catch (error: any) {
