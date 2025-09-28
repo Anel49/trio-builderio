@@ -58,7 +58,6 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
-
 export default function ProductDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [reviewSearchQuery, setReviewSearchQuery] = useState("");
@@ -122,7 +121,10 @@ export default function ProductDetails() {
   const listingId = String(params.id || "1");
 
   const primaryImage = product?.image;
-  const images = useMemo(() => (primaryImage ? [primaryImage] : productImages), [primaryImage]);
+  const images = useMemo(
+    () => (primaryImage ? [primaryImage] : productImages),
+    [primaryImage],
+  );
 
   useEffect(() => {
     setCurrentImageIndex(0);
@@ -428,7 +430,9 @@ export default function ProductDetails() {
                 </div>
               )}
               {product.description && (
-                <p className="text-muted-foreground mb-4">{product.description}</p>
+                <p className="text-muted-foreground mb-4">
+                  {product.description}
+                </p>
               )}
 
               <div className="flex items-center space-x-4 mb-4">

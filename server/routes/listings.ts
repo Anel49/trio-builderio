@@ -32,8 +32,16 @@ export async function listListings(_req: Request, res: Response) {
 
 export async function createListing(req: Request, res: Response) {
   try {
-    const { name, price_cents, rating, image, host, type, distance, description } =
-      req.body || {};
+    const {
+      name,
+      price_cents,
+      rating,
+      image,
+      host,
+      type,
+      distance,
+      description,
+    } = req.body || {};
     if (!name || typeof price_cents !== "number") {
       return res
         .status(400)
@@ -71,7 +79,8 @@ export async function getListingById(req: Request, res: Response) {
        from listings where id = $1`,
       [id],
     );
-    if (result.rowCount === 0) return res.status(404).json({ ok: false, error: "not found" });
+    if (result.rowCount === 0)
+      return res.status(404).json({ ok: false, error: "not found" });
     const r: any = result.rows[0];
     const listing = {
       id: r.id,

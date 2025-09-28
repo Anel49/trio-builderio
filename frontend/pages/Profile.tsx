@@ -210,7 +210,8 @@ export default function Profile() {
     },
   ];
 
-  const [listedItems, setListedItems] = useState<ListedItem[]>(listedItemsState);
+  const [listedItems, setListedItems] =
+    useState<ListedItem[]>(listedItemsState);
 
   useEffect(() => {
     apiFetch("listings")
@@ -1056,7 +1057,7 @@ export default function Profile() {
                     const res = await apiFetch(`listings/${itemToDelete.id}`, {
                       method: "DELETE",
                     });
-                    const data = await res.json().catch(() => ({} as any));
+                    const data = await res.json().catch(() => ({}) as any);
                     ok = Boolean(res.ok && data && data.ok);
                     if (ok) {
                       setListedItems((prev) =>
@@ -1065,7 +1066,10 @@ export default function Profile() {
                     }
                   }
                 } catch {}
-                if (!ok) alert("Failed to delete listing on server. Please try again.");
+                if (!ok)
+                  alert(
+                    "Failed to delete listing on server. Please try again.",
+                  );
                 setIsDeleteModalOpen(false);
                 setItemToDelete(null);
               }}

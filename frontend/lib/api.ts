@@ -4,7 +4,9 @@ const RESOLVE_COOLDOWN_MS = 15_000;
 let offlineUntil = 0;
 const TEMP_OFFLINE_MS = 20_000;
 const DISABLE_NETWORK =
-  String((import.meta as any).env?.VITE_DISABLE_NETWORK ?? "false").toLowerCase() === "true";
+  String(
+    (import.meta as any).env?.VITE_DISABLE_NETWORK ?? "false",
+  ).toLowerCase() === "true";
 
 function cleanJoin(base: string, path: string) {
   if (!base) return path.startsWith("/") ? path : `/${path}`;
@@ -44,7 +46,6 @@ async function resolveApiBase(): Promise<string | null> {
     | undefined;
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
-
   const candidates = uniq<string>([
     // Prefer same-origin candidates first to avoid CORS/network blockers
     "/api",
@@ -64,7 +65,11 @@ async function resolveApiBase(): Promise<string | null> {
 
   // As a last resort, try the explicit env base if provided
   if (envBase) {
-    const test = await tryFetch(cleanJoin(envBase, "ping"), { method: "GET" }, 1500);
+    const test = await tryFetch(
+      cleanJoin(envBase, "ping"),
+      { method: "GET" },
+      1500,
+    );
     if (test && test.ok) {
       cachedBase = envBase;
       return cachedBase;
@@ -80,19 +85,31 @@ export async function apiFetch(path: string, init?: RequestInit) {
   const p = pRaw.replace(/^\//, "");
 
   // Demo-only endpoints: short-circuit without network to prevent failures in read-only environments
-  if (/^stripe\/create-payment-intent$/.test(p) && (init?.method || "GET").toUpperCase() === "POST") {
-    return new Response(JSON.stringify({ ok: true, clientSecret: "demo_secret" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+  if (
+    /^stripe\/create-payment-intent$/.test(p) &&
+    (init?.method || "GET").toUpperCase() === "POST"
+  ) {
+    return new Response(
+      JSON.stringify({ ok: true, clientSecret: "demo_secret" }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
-  if (/^listings$/.test(p) && (init?.method || "GET").toUpperCase() === "POST") {
+  if (
+    /^listings$/.test(p) &&
+    (init?.method || "GET").toUpperCase() === "POST"
+  ) {
     return new Response(JSON.stringify({ ok: true, id: 9999 }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   }
-  if (/^listings\/\d+$/.test(p) && (init?.method || "GET").toUpperCase() === "DELETE") {
+  if (
+    /^listings\/\d+$/.test(p) &&
+    (init?.method || "GET").toUpperCase() === "DELETE"
+  ) {
     return new Response(JSON.stringify({ ok: true, deleted: 1 }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
@@ -138,7 +155,8 @@ export async function apiFetch(path: string, init?: RequestInit) {
 
   if (base) {
     const url = cleanJoin(base, path);
-    const isDataEndpoint = /^(listings($|\/\d+)|stripe\/create-payment-intent)/.test(p);
+    const isDataEndpoint =
+      /^(listings($|\/\d+)|stripe\/create-payment-intent)/.test(p);
     const res = await tryFetch(url, init, isDataEndpoint ? 10000 : 6000);
     if (res) return res;
     // Mark temporary offline to avoid spamming network with failing calls
@@ -148,23 +166,32 @@ export async function apiFetch(path: string, init?: RequestInit) {
 
   // Graceful fallback to avoid noisy unhandled errors in environments without a backend
   if (/^ping$/.test(p)) {
-    return new Response(JSON.stringify({ ok: true, message: "unreachable-fallback" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ ok: true, message: "unreachable-fallback" }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
   if (/^listings$/.test(p)) {
     const { demoListings } = await import("@/lib/demo-listings");
-    return new Response(
-      JSON.stringify({ ok: true, listings: demoListings }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    );
-  }
-  if (/^stripe\/create-payment-intent$/.test(p) && (init?.method || "GET").toUpperCase() === "POST") {
-    return new Response(JSON.stringify({ ok: true, clientSecret: "demo_secret" }), {
+    return new Response(JSON.stringify({ ok: true, listings: demoListings }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
+  }
+  if (
+    /^stripe\/create-payment-intent$/.test(p) &&
+    (init?.method || "GET").toUpperCase() === "POST"
+  ) {
+    return new Response(
+      JSON.stringify({ ok: true, clientSecret: "demo_secret" }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
   const m = p.match(/^listings\/(\d+)$/);
   if (m) {
@@ -182,10 +209,10 @@ export async function apiFetch(path: string, init?: RequestInit) {
       distance: found.distance,
       description: "",
     };
-    return new Response(
-      JSON.stringify({ ok: true, listing }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    return new Response(JSON.stringify({ ok: true, listing }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   return new Response(
