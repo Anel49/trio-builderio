@@ -104,6 +104,27 @@ export async function apiFetch(path: string, init?: RequestInit) {
         headers: { "Content-Type": "application/json" },
       });
     }
+    const mId = p.match(/^listings\/(\d+)$/);
+    if (mId) {
+      return new Response(JSON.stringify({ ok: false, listing: null }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    const mRev = p.match(/^listings\/(\d+)\/reviews$/);
+    if (mRev) {
+      return new Response(JSON.stringify({ ok: true, reviews: [] }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    const mRes = p.match(/^listings\/(\d+)\/reservations$/);
+    if (mRes) {
+      return new Response(JSON.stringify({ ok: true, reservations: [] }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
     const mRes = p.match(/^listings\/(\d+)\/reservations$/);
     if (mRes) {
       return new Response(JSON.stringify({ ok: true, reservations: [] }), {
@@ -134,7 +155,7 @@ export async function apiFetch(path: string, init?: RequestInit) {
   if (!base) base = await resolveApiBase();
 
   const isDataEndpoint =
-    /^(listings($|\/\d+)|stripe\/create-payment-intent)/.test(p);
+    /^(listings($|\/\d+(?:\/(?:reviews|reservations))?)|stripe\/create-payment-intent)/.test(p);
   if (base) {
     const url = cleanJoin(base, path);
     const res = await tryFetch(url, init, isDataEndpoint ? 15000 : 8000);
