@@ -28,11 +28,20 @@ async function tryFetch(
   timeoutMs = 12000,
 ): Promise<Response | null> {
   try {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeoutMs);
-    const res = await fetch(url, { ...init, signal: controller.signal });
-    clearTimeout(id);
-    return res;
+    let settled = false;
+    const timeout = new Promise<Response | null>((resolve) => {
+      setTimeout(() => {
+        if (!settled) resolve(null);
+      }, timeoutMs);
+    });
+    const res = await Promise.race([
+      fetch(url, init).then((r) => {
+        settled = true;
+        return r;
+      }),
+      timeout,
+    ]);
+    return (res as Response) || null;
   } catch {
     return null;
   }
