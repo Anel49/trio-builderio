@@ -1,6 +1,8 @@
 let cachedBase: string | null = null;
 let lastResolveFailAt = 0;
 const RESOLVE_COOLDOWN_MS = 15_000;
+let offlineUntil = 0;
+const TEMP_OFFLINE_MS = 20_000;
 const DISABLE_NETWORK =
   String((import.meta as any).env?.VITE_DISABLE_NETWORK ?? "false").toLowerCase() === "true";
 
@@ -74,8 +76,8 @@ async function resolveApiBase(): Promise<string | null> {
 }
 
 export async function apiFetch(path: string, init?: RequestInit) {
-  // Offline mode: never perform network calls
-  if (DISABLE_NETWORK) {
+  // Offline mode (forced or temporary): never perform network calls
+  if (DISABLE_NETWORK || Date.now() < offlineUntil) {
     const p = String(path || "");
     if (/ping$/.test(p)) {
       return new Response(JSON.stringify({ ok: true, message: "offline" }), {
@@ -116,7 +118,9 @@ export async function apiFetch(path: string, init?: RequestInit) {
     const url = cleanJoin(base, path);
     const res = await tryFetch(url, init);
     if (res) return res;
+    // Mark temporary offline to avoid spamming network with failing calls
     lastResolveFailAt = Date.now();
+    offlineUntil = Date.now() + TEMP_OFFLINE_MS;
   }
 
   // Graceful fallback to avoid noisy unhandled errors in environments without a backend
@@ -133,6 +137,12 @@ export async function apiFetch(path: string, init?: RequestInit) {
       JSON.stringify({ ok: true, listings: demoListings }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
+  }
+  if (/^stripe\/create-payment-intent$/.test(p) && (init?.method || "GET").toUpperCase() === "POST") {
+    return new Response(JSON.stringify({ ok: true, clientSecret: "demo_secret" }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   }
   const m = p.match(/^listings\/(\d+)$/);
   if (m) {
