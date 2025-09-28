@@ -1404,7 +1404,24 @@ export default function Profile() {
               <div className="space-y-2">
                 <Button
                   className="w-full"
-                  onClick={() => setIsEditingProfile((v) => !v)}
+                  onClick={async () => {
+                    if (isEditingProfile) {
+                      try {
+                        const body: any = {
+                          email: currentUser.email,
+                          name,
+                          avatar_url: profileImageUrl,
+                          zip_code: zipCode && zipCode.trim() ? zipCode.trim() : null,
+                        };
+                        await apiFetch("users", {
+                          method: "POST",
+                          headers: { "content-type": "application/json" },
+                          body: JSON.stringify(body),
+                        });
+                      } catch {}
+                    }
+                    setIsEditingProfile((v) => !v);
+                  }}
                 >
                   <Edit3 className="h-4 w-4 mr-2" />
                   {isEditingProfile ? "Save changes" : "Edit Profile"}
