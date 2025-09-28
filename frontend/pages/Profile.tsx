@@ -224,7 +224,10 @@ export default function Profile() {
             price: l.price,
             rating: typeof l.rating === "number" ? l.rating : null,
             trips: 0,
-            image: Array.isArray(l.images) && l.images.length ? l.images[0] : l.image,
+            image:
+              Array.isArray(l.images) && l.images.length
+                ? l.images[0]
+                : l.image,
             host: l.host || "You",
             type: l.type || "General",
             distance: l.distance || "0 miles",
@@ -236,7 +239,7 @@ export default function Profile() {
             mapped.map(async (it) => {
               try {
                 const res = await apiFetch(`listings/${it.id}/reviews`);
-                const data = await res.json().catch(() => ({} as any));
+                const data = await res.json().catch(() => ({}) as any);
                 const arr = Array.isArray(data?.reviews) ? data.reviews : [];
                 const count = arr.length;
                 const avg =
@@ -260,7 +263,10 @@ export default function Profile() {
             .map((r: any) => (r.status === "fulfilled" ? r.value : r.value))
             .filter(Boolean) as any[];
 
-          const countMap = new Map<number, { count: number; avg: number | null }>();
+          const countMap = new Map<
+            number,
+            { count: number; avg: number | null }
+          >();
           let combined: {
             id: number;
             itemName: string;
@@ -271,7 +277,10 @@ export default function Profile() {
             comment: string;
           }[] = [];
           results.forEach((r) => {
-            countMap.set((r as any).id, { count: (r as any).count, avg: (r as any).avg });
+            countMap.set((r as any).id, {
+              count: (r as any).count,
+              avg: (r as any).avg,
+            });
           });
           results.forEach((r) => {
             const listing = mapped.find((it) => it.id === (r as any).id);
@@ -295,7 +304,11 @@ export default function Profile() {
             prev.map((it) => {
               const entry = countMap.get(it.id);
               return entry
-                ? { ...it, reviews: entry.count, rating: it.rating ?? entry.avg }
+                ? {
+                    ...it,
+                    reviews: entry.count,
+                    rating: it.rating ?? entry.avg,
+                  }
                 : it;
             }),
           );
@@ -305,18 +318,27 @@ export default function Profile() {
   }, []);
 
   // Item reviews from DB
-  const [itemReviews, setItemReviews] = useState<{
+  const [itemReviews, setItemReviews] = useState<
+    {
+      id: number;
+      itemName: string;
+      reviewer: string;
+      rating: number;
+      date: string;
+      dateValue: Date;
+      comment: string;
+    }[]
+  >([]);
+
+  // Seller reviews from DB (none loaded here)
+  const sellerReviews: {
     id: number;
-    itemName: string;
     reviewer: string;
     rating: number;
     date: string;
     dateValue: Date;
     comment: string;
-  }[]>([]);
-
-  // Seller reviews from DB (none loaded here)
-  const sellerReviews: { id: number; reviewer: string; rating: number; date: string; dateValue: Date; comment: string }[] = [
+  }[] = [
     {
       id: 1,
       reviewer: "Emily",

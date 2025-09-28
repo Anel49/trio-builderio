@@ -122,11 +122,12 @@ export default function ProductDetails() {
   const listingId = String(params.id || "1");
 
   const images = useMemo(() => {
-    const imgs = product?.images && product.images.length > 0
-      ? product.images
-      : product?.image
-        ? [product.image]
-        : productImages;
+    const imgs =
+      product?.images && product.images.length > 0
+        ? product.images
+        : product?.image
+          ? [product.image]
+          : productImages;
     return imgs;
   }, [product?.images, product?.image]);
 
@@ -416,7 +417,8 @@ export default function ProductDetails() {
                       key={i}
                       className={cn(
                         "h-4 w-4",
-                        typeof product.rating === "number" && i < Math.floor(product.rating)
+                        typeof product.rating === "number" &&
+                          i < Math.floor(product.rating)
                           ? "fill-yellow-400 text-yellow-400"
                           : "text-gray-300",
                       )}

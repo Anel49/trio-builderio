@@ -36,7 +36,9 @@ export async function listListings(_req: Request, res: Response) {
       price: formatPrice(r.price_cents),
       rating: r.rating ? Number(r.rating) : null,
       images: Array.isArray(r.images) ? r.images : [],
-      image: r.image_url || (Array.isArray(r.images) && r.images.length > 0 ? r.images[0] : null),
+      image:
+        r.image_url ||
+        (Array.isArray(r.images) && r.images.length > 0 ? r.images[0] : null),
       host: r.host,
       type: r.category,
       distance: r.distance,
@@ -144,7 +146,9 @@ export async function getListingById(req: Request, res: Response) {
       price: formatPrice(r.price_cents),
       rating: r.rating ? Number(r.rating) : null,
       images: Array.isArray(r.images) ? r.images : [],
-      image: r.image_url || (Array.isArray(r.images) && r.images.length > 0 ? r.images[0] : null),
+      image:
+        r.image_url ||
+        (Array.isArray(r.images) && r.images.length > 0 ? r.images[0] : null),
       host: r.host,
       type: r.category,
       distance: r.distance,

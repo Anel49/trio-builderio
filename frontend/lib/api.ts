@@ -126,7 +126,8 @@ export async function apiFetch(path: string, init?: RequestInit) {
   let base = cachedBase;
   if (!base) base = await resolveApiBase();
 
-  const isDataEndpoint = /^(listings($|\/\d+)|stripe\/create-payment-intent)/.test(p);
+  const isDataEndpoint =
+    /^(listings($|\/\d+)|stripe\/create-payment-intent)/.test(p);
   if (base) {
     const url = cleanJoin(base, path);
     const res = await tryFetch(url, init, isDataEndpoint ? 15000 : 8000);
