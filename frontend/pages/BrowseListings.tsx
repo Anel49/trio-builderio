@@ -251,9 +251,9 @@ export default function BrowseListings() {
             reviews: undefined,
             image: l.image,
             host: l.host,
-            type: l.type,
+            type: l.type || "General",
             location: "",
-            distance: l.distance,
+            distance: typeof l.distance === "string" ? l.distance : (l.distance ? String(l.distance) : ""),
             lat: 0,
             lng: 0,
             listedTime: undefined,
@@ -276,22 +276,23 @@ export default function BrowseListings() {
   const [isMobileMapOpen, setIsMobileMapOpen] = useState(false);
 
   // Helper function to convert time strings to minutes for sorting
-  const getTimeInMinutes = (timeStr: string): number => {
-    if (timeStr.includes("mins")) {
-      return parseInt(timeStr.replace(" mins ago", ""));
-    } else if (timeStr.includes("hour")) {
-      return (
-        parseInt(timeStr.replace(" hours ago", "").replace(" hour ago", "")) *
-        60
-      );
-    } else if (timeStr.includes("day")) {
-      return (
-        parseInt(timeStr.replace(" days ago", "").replace(" day ago", "")) *
-        24 *
-        60
-      );
+  const getTimeInMinutes = (timeStr?: string): number => {
+    if (!timeStr || typeof timeStr !== "string") return Number.MAX_SAFE_INTEGER;
+    const s = timeStr.toLowerCase();
+    if (s.includes("mins")) {
+      const n = parseInt(s.replace(" mins ago", ""));
+      return Number.isFinite(n) ? n : Number.MAX_SAFE_INTEGER;
     }
-    return 0;
+    if (s.includes("hour")) {
+      const n = parseInt(s.replace(" hours ago", "").replace(" hour ago", "")) * 60;
+      return Number.isFinite(n) ? n : Number.MAX_SAFE_INTEGER;
+    }
+    if (s.includes("day")) {
+      const n =
+        parseInt(s.replace(" days ago", "").replace(" day ago", "")) * 24 * 60;
+      return Number.isFinite(n) ? n : Number.MAX_SAFE_INTEGER;
+    }
+    return Number.MAX_SAFE_INTEGER;
   };
 
   // Filter and sort listings
@@ -322,7 +323,8 @@ export default function BrowseListings() {
 
       // Distance filter (simplified - in real app would calculate based on zip code)
       if (appliedFilters.maxDistance && appliedFilters.zipCode) {
-        const distance = parseFloat(listing.distance.replace(" miles", ""));
+        const distance = parseFloat(String(listing.distance ?? "").replace(" miles", ""));
+        if (!Number.isFinite(distance)) return false;
         if (distance > parseInt(appliedFilters.maxDistance)) return false;
       }
 
@@ -344,25 +346,25 @@ export default function BrowseListings() {
       filtered.sort((a, b) => {
         switch (sortBy) {
           case "distance-asc":
-            return (
-              parseFloat(a.distance.replace(" miles", "")) -
-              parseFloat(b.distance.replace(" miles", ""))
-            );
+            const da = parseFloat(String(a.distance ?? "").replace(" miles", ""));
+            const db = parseFloat(String(b.distance ?? "").replace(" miles", ""));
+            return (Number.isFinite(da) ? da : Number.MAX_SAFE_INTEGER) -
+              (Number.isFinite(db) ? db : Number.MAX_SAFE_INTEGER);
           case "distance-desc":
-            return (
-              parseFloat(b.distance.replace(" miles", "")) -
-              parseFloat(a.distance.replace(" miles", ""))
-            );
+            const da2 = parseFloat(String(a.distance ?? "").replace(" miles", ""));
+            const db2 = parseFloat(String(b.distance ?? "").replace(" miles", ""));
+            return (Number.isFinite(db2) ? db2 : Number.MAX_SAFE_INTEGER) -
+              (Number.isFinite(da2) ? da2 : Number.MAX_SAFE_INTEGER);
           case "price-asc":
-            return (
-              parseInt(a.price.replace("$", "")) -
-              parseInt(b.price.replace("$", ""))
-            );
+            const pa = parseInt(String(a.price ?? "").replace("$", ""));
+            const pb = parseInt(String(b.price ?? "").replace("$", ""));
+            return (Number.isFinite(pa) ? pa : Number.MAX_SAFE_INTEGER) -
+              (Number.isFinite(pb) ? pb : Number.MAX_SAFE_INTEGER);
           case "price-desc":
-            return (
-              parseInt(b.price.replace("$", "")) -
-              parseInt(a.price.replace("$", ""))
-            );
+            const pa2 = parseInt(String(a.price ?? "").replace("$", ""));
+            const pb2 = parseInt(String(b.price ?? "").replace("$", ""));
+            return (Number.isFinite(pb2) ? pb2 : Number.MAX_SAFE_INTEGER) -
+              (Number.isFinite(pa2) ? pa2 : Number.MAX_SAFE_INTEGER);
           case "time-asc":
             // Recently listed first - parse time strings
             return (
