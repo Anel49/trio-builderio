@@ -107,11 +107,40 @@ export async function listListingReviews(req: Request, res: Response) {
     if (!id || Number.isNaN(id)) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
-    const result = await pool.query(
+    let result = await pool.query(
       `select id, reviewer as user, rating, comment as text, created_at
        from reviews where listing_id = $1 order by created_at desc limit 200`,
       [id],
     );
+
+    // Seed a few demo reviews for the first 9 listings if none exist yet
+    if (result.rowCount === 0 && id <= 9) {
+      const samples = [
+        { reviewer: "Mike", rating: 5, comment: "Excellent quality and easy pickup." },
+        { reviewer: "Jennifer", rating: 4, comment: "Great value. Would rent again." },
+        { reviewer: "David", rating: 5, comment: "As described. Smooth communication." },
+        { reviewer: "Lisa", rating: 3, comment: "Worked fine with minor wear." },
+        { reviewer: "Robert", rating: 5, comment: "Perfect for my needs. Highly recommend." },
+        { reviewer: "Emma", rating: 4, comment: "Good overall experience." },
+      ];
+      const now = Date.now();
+      for (let i = 0; i < samples.length; i++) {
+        const s = samples[i % samples.length];
+        const daysAgo = (i + id) * 3; // vary by listing and index
+        const createdAt = new Date(now - daysAgo * 24 * 60 * 60 * 1000);
+        await pool.query(
+          `insert into reviews (listing_id, reviewer, rating, comment, created_at)
+           values ($1,$2,$3,$4,$5)`,
+          [id, s.reviewer, s.rating, s.comment, createdAt],
+        );
+      }
+      result = await pool.query(
+        `select id, reviewer as user, rating, comment as text, created_at
+         from reviews where listing_id = $1 order by created_at desc limit 200`,
+        [id],
+      );
+    }
+
     const reviews = result.rows.map((r: any) => ({
       id: r.id,
       user: r.user || "",
