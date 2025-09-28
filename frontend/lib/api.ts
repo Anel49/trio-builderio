@@ -165,6 +165,7 @@ export async function apiFetch(path: string, init?: RequestInit) {
           name: body?.name ?? null,
           email: body?.email ?? null,
           avatarUrl: body?.avatar_url ?? null,
+          zipCode: body?.zip_code ?? null,
           createdAt: new Date().toISOString(),
           foundingSupporter: Boolean(body?.founding_supporter),
           topReferrer: Boolean(body?.top_referrer),
