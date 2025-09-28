@@ -53,6 +53,10 @@ export async function dbSetup(_req: Request, res: Response) {
         description text,
         created_at timestamptz default now()
       );
+      alter table listings add column if not exists zip_code text;
+      update listings set zip_code = coalesce(zip_code, '00000');
+      alter table listings alter column zip_code set not null;
+      alter table listings alter column zip_code set default '00000';
       alter table listings add column if not exists description text;
       create table if not exists listing_images (
         id serial primary key,
@@ -94,6 +98,7 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table users add column if not exists founding_supporter boolean default false;
       alter table users add column if not exists top_referrer boolean default false;
       alter table users add column if not exists ambassador boolean default false;
+      alter table users add column if not exists zip_code text;
       create table if not exists reservations (
         id serial primary key,
         listing_id integer not null references listings(id) on delete cascade,
