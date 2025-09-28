@@ -34,10 +34,12 @@ export function createServer() {
 
   // Listings
   app.get("/api/listings", listListings);
+  app.get("/api/listings/:id", getListingById);
   app.post("/api/listings", createListing);
   app.delete("/api/listings/:id", deleteListing);
   // Alias routes
   app.get("/listings", listListings);
+  app.get("/listings/:id", getListingById);
   app.post("/listings", createListing);
   app.delete("/listings/:id", deleteListing);
 
