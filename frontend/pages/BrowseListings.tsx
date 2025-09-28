@@ -247,7 +247,7 @@ export default function BrowseListings() {
             id: l.id,
             name: l.name,
             price: l.price,
-            rating: typeof l.rating === "number" ? l.rating : 0,
+            rating: typeof l.rating === "number" ? l.rating : null,
             reviews: undefined,
             image: l.image,
             host: l.host,
