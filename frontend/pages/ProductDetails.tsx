@@ -58,6 +58,8 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
+import { useEffect, useState } from "react";
+
 export default function ProductDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [reviewSearchQuery, setReviewSearchQuery] = useState("");
