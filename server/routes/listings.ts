@@ -81,7 +81,8 @@ export async function createListing(req: Request, res: Response) {
         .status(400)
         .json({ ok: false, error: "name and price_cents are required" });
     }
-    const zip = typeof zip_code === "string" && zip_code.trim() ? zip_code.trim() : null;
+    const zip =
+      typeof zip_code === "string" && zip_code.trim() ? zip_code.trim() : null;
     if (!zip) {
       return res.status(400).json({ ok: false, error: "zip_code is required" });
     }

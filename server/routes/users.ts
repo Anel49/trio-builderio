@@ -108,7 +108,9 @@ export async function upsertUser(req: Request, res: Response) {
         typeof name === "string" ? name : null,
         emailStr,
         typeof avatar_url === "string" ? avatar_url : null,
-        typeof zip_code === "string" && zip_code.trim() ? zip_code.trim() : null,
+        typeof zip_code === "string" && zip_code.trim()
+          ? zip_code.trim()
+          : null,
         Boolean(founding_supporter),
         Boolean(top_referrer),
         Boolean(ambassador),
