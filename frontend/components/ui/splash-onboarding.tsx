@@ -138,6 +138,16 @@ export function SplashOnboarding() {
       );
   }, []);
 
+  useEffect(() => {
+    if (!visible) return;
+    const body = document.body;
+    const prev = body.style.overflow;
+    body.style.overflow = "hidden";
+    return () => {
+      body.style.overflow = prev || "";
+    };
+  }, [visible]);
+
   if (!visible) return null;
 
   return (
