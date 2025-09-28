@@ -216,7 +216,7 @@ export default function Profile() {
   useEffect(() => {
     apiFetch("listings")
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d) => {
+      .then(async (d) => {
         if (d && d.ok && Array.isArray(d.listings)) {
           const mapped: ListedItem[] = d.listings.map((l: any) => ({
             id: l.id,
