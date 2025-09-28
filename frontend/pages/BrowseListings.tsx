@@ -243,29 +243,33 @@ export default function BrowseListings() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d) => {
         if (d && d.ok && Array.isArray(d.listings)) {
-          const mapped = d.listings.map((l: any) => ({
-            id: l.id,
-            name: l.name,
-            price: l.price,
-            rating: typeof l.rating === "number" ? l.rating : null,
-            reviews: undefined,
-            image:
-              Array.isArray(l.images) && l.images.length
-                ? l.images[0]
-                : l.image,
-            host: l.host,
-            type: Array.isArray(l.categories) && l.categories.length ? l.categories[0] : (l.type || "General"),
-            location: "",
-            distance:
-              typeof l.distance === "string"
-                ? l.distance
-                : l.distance
-                  ? String(l.distance)
-                  : "",
-            lat: 0,
-            lng: 0,
-            createdAt: l.createdAt ?? l.created_at ?? undefined,
-          }));
+          const mapped = d.listings.map((l: any) => {
+            const categories = Array.isArray(l.categories) && l.categories.length ? l.categories : (l.type ? [l.type] : []);
+            return {
+              id: l.id,
+              name: l.name,
+              price: l.price,
+              rating: typeof l.rating === "number" ? l.rating : null,
+              reviews: undefined,
+              image:
+                Array.isArray(l.images) && l.images.length
+                  ? l.images[0]
+                  : l.image,
+              host: l.host,
+              type: categories[0] || "General",
+              categories,
+              location: "",
+              distance:
+                typeof l.distance === "string"
+                  ? l.distance
+                  : l.distance
+                    ? String(l.distance)
+                    : "",
+              lat: 0,
+              lng: 0,
+              createdAt: l.createdAt ?? l.created_at ?? undefined,
+            };
+          });
           setListings(mapped);
         }
       })
@@ -325,9 +329,13 @@ export default function BrowseListings() {
         if (price > parseInt(appliedFilters.maxPrice)) return false;
       }
 
-      // Category filter
-      if (appliedFilters.category && listing.type !== appliedFilters.category) {
-        return false;
+      // Category filter (match any assigned category)
+      if (appliedFilters.category) {
+        const cats = Array.isArray((listing as any).categories)
+          ? ((listing as any).categories as string[])
+          : [];
+        const matches = listing.type === appliedFilters.category || cats.includes(appliedFilters.category);
+        if (!matches) return false;
       }
 
       // Distance filter (simplified - in real app would calculate based on zip code)
