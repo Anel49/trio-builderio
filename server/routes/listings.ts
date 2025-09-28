@@ -89,13 +89,17 @@ export async function createListing(req: Request, res: Response) {
     );
     const newId = result.rows[0].id;
     if (imgs.length > 0) {
-      for (let i = 0; i < imgs.length; i++) {
-        const url = imgs[i];
-        await pool.query(
-          `insert into listing_images (listing_id, url, position) values ($1,$2,$3)
-           on conflict do nothing`,
-          [newId, url, i + 1],
-        );
+      try {
+        for (let i = 0; i < imgs.length; i++) {
+          const url = imgs[i];
+          await pool.query(
+            `insert into listing_images (listing_id, url, position) values ($1,$2,$3)
+             on conflict do nothing`,
+            [newId, url, i + 1],
+          );
+        }
+      } catch {
+        // ignore if listing_images table not yet created
       }
     }
     res.json({ ok: true, id: result.rows[0].id });
