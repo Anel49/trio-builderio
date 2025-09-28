@@ -433,6 +433,9 @@ export default function ProductDetails() {
 
             <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
               <DialogContent className="max-w-screen-xl w-[95vw] h-[90vh] p-0 bg-black">
+                <DialogHeader>
+                  <DialogTitle className="sr-only">Image viewer</DialogTitle>
+                </DialogHeader>
                 <div
                   className="relative w-full h-full flex items-center justify-center select-none"
                   onTouchStart={handleTouchStart}
