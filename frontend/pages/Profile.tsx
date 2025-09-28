@@ -160,7 +160,7 @@ export default function Profile() {
     if (badges.topReferrer)
       return "ring-4 ring-purple-500 ring-offset-2 ring-offset-background";
     if (badges.ambassador)
-      return "ring-4 ring-[#800000] ring-offset-2 ring-offset-background";
+      return "ring-4 ring-[rgb(168,64,64)] ring-offset-2 ring-offset-background";
     return "";
   }, [badges]);
 
@@ -175,7 +175,7 @@ export default function Profile() {
     if (badges.topReferrer)
       arr.push({ key: "referrer", title: "Top Referrer", color: "#7c3aed" });
     if (badges.ambassador)
-      arr.push({ key: "ambassador", title: "Ambassador", color: "#800000" });
+      arr.push({ key: "ambassador", title: "Ambassador", color: "rgb(168 64 64)" });
     return arr;
   }, [badges]);
 
