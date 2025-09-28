@@ -230,11 +230,78 @@ export default function Profile() {
             distance: l.distance || "0 miles",
           }));
           setListedItems(mapped);
+
+          // Fetch reviews per listing, resilient to failures
+          const settled = await Promise.allSettled(
+            mapped.map(async (it) => {
+              try {
+                const res = await apiFetch(`listings/${it.id}/reviews`);
+                const data = await res.json().catch(() => ({} as any));
+                const arr = Array.isArray(data?.reviews) ? data.reviews : [];
+                const count = arr.length;
+                const avg =
+                  count > 0
+                    ? Number(
+                        (
+                          arr.reduce(
+                            (s: number, r: any) => s + (Number(r.rating) || 0),
+                            0,
+                          ) / count
+                        ).toFixed(1),
+                      )
+                    : null;
+                return { id: it.id, count, avg, reviews: arr };
+              } catch {
+                return { id: it.id, count: 0, avg: null, reviews: [] };
+              }
+            }),
+          );
+          const results = settled
+            .map((r: any) => (r.status === "fulfilled" ? r.value : r.value))
+            .filter(Boolean) as any[];
+
+          const countMap = new Map<number, { count: number; avg: number | null }>();
+          let combined: {
+            id: number;
+            itemName: string;
+            reviewer: string;
+            rating: number;
+            date: string;
+            dateValue: Date;
+            comment: string;
+          }[] = [];
+          results.forEach((r) => {
+            countMap.set((r as any).id, { count: (r as any).count, avg: (r as any).avg });
+          });
+          results.forEach((r) => {
+            const listing = mapped.find((it) => it.id === (r as any).id);
+            if (!listing) return;
+            const name = listing.name;
+            const arr = (r as any).reviews as any[];
+            arr.forEach((rev: any) => {
+              combined.push({
+                id: rev.id,
+                itemName: name,
+                reviewer: rev.user || "",
+                rating: Number(rev.rating) || 0,
+                date: rev.date || new Date().toLocaleDateString(),
+                dateValue: new Date(rev.dateValue || Date.now()),
+                comment: rev.text || "",
+              });
+            });
+          });
+          setItemReviews(combined);
+          setListedItems((prev) =>
+            prev.map((it) => {
+              const entry = countMap.get(it.id);
+              return entry
+                ? { ...it, reviews: entry.count, rating: it.rating ?? entry.avg }
+                : it;
+            }),
+          );
         }
       })
-      .catch(() => {
-        // keep mock data
-      });
+      .catch(() => {});
   }, []);
 
   // Item reviews from DB
