@@ -417,16 +417,18 @@ export default function ProductDetails() {
                   </Tooltip>
                 </TooltipProvider>
               </div>
-              <div className="flex flex-wrap gap-2 mb-3">
-                {product.categories.map((category) => (
-                  <Badge key={category} variant="secondary">
-                    {category}
-                  </Badge>
-                ))}
-              </div>
-              <p className="text-muted-foreground mb-4">
-                {product.description}
-              </p>
+              {product.categories.filter(Boolean).length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {product.categories.filter(Boolean).map((category) => (
+                    <Badge key={category} variant="secondary">
+                      {category}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+              {product.description && (
+                <p className="text-muted-foreground mb-4">{product.description}</p>
+              )}
 
               <div className="flex items-center space-x-4 mb-4">
                 <div className="flex items-center">
