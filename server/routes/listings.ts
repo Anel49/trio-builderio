@@ -113,32 +113,37 @@ export async function listListingReviews(req: Request, res: Response) {
       [id],
     );
 
-    // Seed a few demo reviews for the first 9 listings if none exist yet
-    if (result.rowCount === 0 && id <= 9) {
-      const samples = [
-        { reviewer: "Mike", rating: 5, comment: "Excellent quality and easy pickup." },
-        { reviewer: "Jennifer", rating: 4, comment: "Great value. Would rent again." },
-        { reviewer: "David", rating: 5, comment: "As described. Smooth communication." },
-        { reviewer: "Lisa", rating: 3, comment: "Worked fine with minor wear." },
-        { reviewer: "Robert", rating: 5, comment: "Perfect for my needs. Highly recommend." },
-        { reviewer: "Emma", rating: 4, comment: "Good overall experience." },
-      ];
-      const now = Date.now();
-      for (let i = 0; i < samples.length; i++) {
-        const s = samples[i % samples.length];
-        const daysAgo = (i + id) * 3; // vary by listing and index
-        const createdAt = new Date(now - daysAgo * 24 * 60 * 60 * 1000);
-        await pool.query(
-          `insert into reviews (listing_id, reviewer, rating, comment, created_at)
-           values ($1,$2,$3,$4,$5)`,
-          [id, s.reviewer, s.rating, s.comment, createdAt],
+    // Seed varying review counts for first 9 listings if none exist yet
+    if (result.rowCount === 0 && id >= 1 && id <= 9) {
+      const desiredCounts = [0, 3, 2, 0, 1, 4, 2, 5, 0, 3];
+      // index by listing id; desiredCounts[1] => listing 1 count, etc.
+      const count = desiredCounts[id] ?? 0;
+      if (count > 0) {
+        const samples = [
+          { reviewer: "Mike", rating: 5, comment: "Excellent quality and easy pickup." },
+          { reviewer: "Jennifer", rating: 4, comment: "Great value. Would rent again." },
+          { reviewer: "David", rating: 5, comment: "As described. Smooth communication." },
+          { reviewer: "Lisa", rating: 3, comment: "Worked fine with minor wear." },
+          { reviewer: "Robert", rating: 5, comment: "Perfect for my needs. Highly recommend." },
+          { reviewer: "Emma", rating: 4, comment: "Good overall experience." },
+        ];
+        const now = Date.now();
+        for (let i = 0; i < count; i++) {
+          const s = samples[i % samples.length];
+          const daysAgo = (i + id) * 2; // vary by listing and index
+          const createdAt = new Date(now - daysAgo * 24 * 60 * 60 * 1000);
+          await pool.query(
+            `insert into reviews (listing_id, reviewer, rating, comment, created_at)
+             values ($1,$2,$3,$4,$5)`,
+            [id, s.reviewer, s.rating, s.comment, createdAt],
+          );
+        }
+        result = await pool.query(
+          `select id, reviewer as user, rating, comment as text, created_at
+           from reviews where listing_id = $1 order by created_at desc limit 200`,
+          [id],
         );
       }
-      result = await pool.query(
-        `select id, reviewer as user, rating, comment as text, created_at
-         from reviews where listing_id = $1 order by created_at desc limit 200`,
-        [id],
-      );
     }
 
     const reviews = result.rows.map((r: any) => ({
