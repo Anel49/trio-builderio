@@ -91,6 +91,9 @@ export async function dbSetup(_req: Request, res: Response) {
         avatar_url text,
         created_at timestamptz default now()
       );
+      alter table users add column if not exists founding_supporter boolean default false;
+      alter table users add column if not exists top_referrer boolean default false;
+      alter table users add column if not exists ambassador boolean default false;
       create table if not exists reservations (
         id serial primary key,
         listing_id integer not null references listings(id) on delete cascade,
