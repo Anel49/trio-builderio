@@ -135,6 +135,7 @@ export default function Profile() {
               email: currentUser.email,
               name: currentUser.name,
               avatar_url: currentUser.profileImage,
+              zip_code: zipCode && zipCode.trim() ? zipCode.trim() : null,
             }),
           });
           const upData = await up.json().catch(() => ({}) as any);
