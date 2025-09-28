@@ -109,7 +109,7 @@ export default function ProductDetails() {
     price: string;
     categories: string[];
     description: string;
-    rating: number;
+    rating: number | null;
     totalReviews: number;
     location: string;
     image?: string;
@@ -142,7 +142,7 @@ export default function ProductDetails() {
             price: l.price ?? "",
             categories: [l.type || "General"],
             description: l.description ?? "",
-            rating: typeof l.rating === "number" ? l.rating : 0,
+            rating: typeof l.rating === "number" ? l.rating : null,
             totalReviews: 0,
             location: l.distance || "",
             image: l.image || undefined,
@@ -411,14 +411,14 @@ export default function ProductDetails() {
                       key={i}
                       className={cn(
                         "h-4 w-4",
-                        i < Math.floor(product.rating)
+                        typeof product.rating === "number" && i < Math.floor(product.rating)
                           ? "fill-yellow-400 text-yellow-400"
                           : "text-gray-300",
                       )}
                     />
                   ))}
                   <span className="ml-2 text-sm font-medium">
-                    {product.rating}
+                    {product.rating == null ? "Not yet rated" : product.rating}
                   </span>
                 </div>
                 <button
