@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -58,7 +58,6 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
-import { useEffect, useState } from "react";
 
 export default function ProductDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
