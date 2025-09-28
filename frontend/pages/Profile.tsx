@@ -210,8 +210,7 @@ export default function Profile() {
     },
   ];
 
-  const [listedItems, setListedItems] =
-    useState<ListedItem[]>(listedItemsState);
+  const [listedItems, setListedItems] = useState<ListedItem[]>([]);
 
   useEffect(() => {
     apiFetch("listings")
@@ -237,8 +236,8 @@ export default function Profile() {
       });
   }, []);
 
-  // Mock item reviews
-  const itemReviews = [
+  // Item reviews from DB (none loaded here)
+  const itemReviews: { id: number; itemName: string; reviewer: string; rating: number; date: string; dateValue: Date; comment: string }[] = [
     {
       id: 1,
       itemName: "Professional Lawn Mower",
@@ -271,8 +270,8 @@ export default function Profile() {
     },
   ];
 
-  // Mock seller reviews
-  const sellerReviews = [
+  // Seller reviews from DB (none loaded here)
+  const sellerReviews: { id: number; reviewer: string; rating: number; date: string; dateValue: Date; comment: string }[] = [
     {
       id: 1,
       reviewer: "Emily",
@@ -337,11 +336,13 @@ export default function Profile() {
   };
 
   const calculateAvgItemRating = () => {
+    if (itemReviews.length === 0) return "0.0";
     const total = itemReviews.reduce((sum, review) => sum + review.rating, 0);
     return (total / itemReviews.length).toFixed(1);
   };
 
   const calculateAvgSellerRating = () => {
+    if (sellerReviews.length === 0) return "0.0";
     const total = sellerReviews.reduce((sum, review) => sum + review.rating, 0);
     return (total / sellerReviews.length).toFixed(1);
   };
