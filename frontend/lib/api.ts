@@ -214,6 +214,24 @@ export async function apiFetch(path: string, init?: RequestInit) {
       headers: { "Content-Type": "application/json" },
     });
   }
+  const m2 = p.match(/^listings\/(\d+)\/reviews$/);
+  if (m2) {
+    const id = Number(m2[1]);
+    const reviewers = ["Mike", "Jennifer", "David", "Lisa", "Robert", "Emma"];
+    const reviews = Array.from({ length: 4 }).map((_, i) => ({
+      id: i + 1,
+      user: reviewers[i % reviewers.length],
+      avatar: undefined,
+      rating: 5 - (i % 3),
+      date: new Date(Date.now() - (i + id) * 86400000).toLocaleDateString(),
+      dateValue: new Date(Date.now() - (i + id) * 86400000),
+      text: "Demo review",
+    }));
+    return new Response(JSON.stringify({ ok: true, reviews }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   return new Response(
     JSON.stringify({
