@@ -79,6 +79,9 @@ export default function ProductDetails() {
   };
 
   const [reservations, setReservations] = useState<ReservationPeriod[]>([]);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
   // Check if selected dates are valid for reservation
   const isDateRangeValid = () => {
     if (!selectedDateRange.start || !selectedDateRange.end) {
