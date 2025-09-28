@@ -147,7 +147,7 @@ export default function ProductDetails() {
   useEffect(() => {
     if (!params.id) return;
     apiFetch(`listings/${params.id}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then(async (r) => (r.ok ? r.json() : { ok: false }))
       .then((d) => {
         if (d && d.ok && d.listing) {
           const l = d.listing;
@@ -244,7 +244,7 @@ export default function ProductDetails() {
   useEffect(() => {
     if (!params.id) return;
     apiFetch(`listings/${params.id}/reviews`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then(async (r) => (r.ok ? r.json() : { ok: true, reviews: [] }))
       .then((d) => {
         if (d && d.ok && Array.isArray(d.reviews)) {
           const mapped: Review[] = d.reviews.map((r: any) => ({
