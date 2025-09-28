@@ -120,6 +120,42 @@ export async function apiFetch(path: string, init?: RequestInit) {
   }
 
   // Graceful fallback to avoid noisy unhandled errors in environments without a backend
+  const p = String(path || "").replace(/^\//, "");
+  if (/^ping$/.test(p)) {
+    return new Response(JSON.stringify({ ok: true, message: "unreachable-fallback" }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  if (/^listings$/.test(p)) {
+    const { demoListings } = await import("@/lib/demo-listings");
+    return new Response(
+      JSON.stringify({ ok: true, listings: demoListings }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  }
+  const m = p.match(/^listings\/(\d+)$/);
+  if (m) {
+    const id = Number(m[1]);
+    const { demoListings } = await import("@/lib/demo-listings");
+    const found = demoListings.find((l) => l.id === id) || demoListings[0];
+    const listing = {
+      id: found.id,
+      name: found.name,
+      price: found.price,
+      rating: found.rating,
+      image: found.image,
+      host: found.host,
+      type: found.type,
+      distance: found.distance,
+      description: "",
+    };
+    return new Response(
+      JSON.stringify({ ok: true, listing }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   return new Response(
     JSON.stringify({
       ok: false,
