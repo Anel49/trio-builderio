@@ -32,6 +32,7 @@ import {
   Heart,
   LogOut,
   User as UserIcon,
+  Shield,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -111,6 +112,63 @@ export default function Profile() {
     setFavoritedListing(listingName);
     setIsFavoritesModalOpen(true);
   };
+
+  // Badges state loaded from server
+  const [badges, setBadges] = useState({
+    foundingSupporter: false,
+    topReferrer: false,
+    ambassador: false,
+  });
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await apiFetch(`users?email=${encodeURIComponent(currentUser.email)}`);
+        const data = await res.json().catch(() => ({} as any));
+        let user = data?.user ?? null;
+        if (!user) {
+          const up = await apiFetch("users", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              email: currentUser.email,
+              name: currentUser.name,
+              avatar_url: currentUser.profileImage,
+            }),
+          });
+          const upData = await up.json().catch(() => ({} as any));
+          user = upData?.user ?? null;
+        }
+        if (user) {
+          setBadges({
+            foundingSupporter: Boolean((user as any).foundingSupporter ?? (user as any).founding_supporter),
+            topReferrer: Boolean((user as any).topReferrer ?? (user as any).top_referrer),
+            ambassador: Boolean((user as any).ambassador),
+          });
+        }
+      } catch {}
+    })();
+  }, []);
+
+  const avatarOutlineClass = useMemo(() => {
+    if (badges.foundingSupporter)
+      return "ring-2 ring-green-500 ring-offset-2 ring-offset-background";
+    if (badges.topReferrer)
+      return "ring-2 ring-purple-500 ring-offset-2 ring-offset-background";
+    if (badges.ambassador)
+      return "ring-2 ring-[#800000] ring-offset-2 ring-offset-background";
+    return "";
+  }, [badges]);
+
+  const earnedBadges = useMemo(() => {
+    const arr: { key: string; title: string; color: string }[] = [];
+    if (badges.foundingSupporter)
+      arr.push({ key: "founding", title: "Founding Supporter", color: "#10b981" });
+    if (badges.topReferrer)
+      arr.push({ key: "referrer", title: "Top Referrer", color: "#7c3aed" });
+    if (badges.ambassador)
+      arr.push({ key: "ambassador", title: "Ambassador", color: "#800000" });
+    return arr;
+  }, [badges]);
 
   // Use centralized user profile data
   const userProfile = {
@@ -541,7 +599,7 @@ export default function Profile() {
               <div className="text-center">
                 {/* Profile Picture with Edit on Hover */}
                 <div className="relative inline-block group mb-4">
-                  <Avatar className="h-32 w-32 mx-auto">
+                  <Avatar className={cn("h-32 w-32 mx-auto", avatarOutlineClass)}>
                     <AvatarImage
                       src={userProfile.profileImage}
                       alt={userProfile.name}
@@ -574,6 +632,22 @@ export default function Profile() {
                   <h1 className="text-2xl font-bold mb-2">
                     {userProfile.name}
                   </h1>
+                )}
+
+                {/* Badges */}
+                {earnedBadges.length > 0 && (
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    {earnedBadges.map((b) => (
+                      <span
+                        key={b.key}
+                        className="inline-flex items-center"
+                        title={b.title}
+                        aria-label={b.title}
+                      >
+                        <Shield className="h-5 w-5" style={{ color: b.color }} />
+                      </span>
+                    ))}
+                  </div>
                 )}
 
                 {/* Zip Code */}
@@ -1193,7 +1267,7 @@ export default function Profile() {
             <div className="text-center">
               {/* Profile Picture */}
               <div className="relative inline-block group mb-4">
-                <Avatar className="h-24 w-24 mx-auto">
+                <Avatar className={cn("h-24 w-24 mx-auto", avatarOutlineClass)}>
                   <AvatarImage
                     src={userProfile.profileImage}
                     alt={userProfile.name}
@@ -1224,6 +1298,22 @@ export default function Profile() {
                 />
               ) : (
                 <h1 className="text-xl font-bold mb-1">{userProfile.name}</h1>
+              )}
+
+              {/* Badges */}
+              {earnedBadges.length > 0 && (
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  {earnedBadges.map((b) => (
+                    <span
+                      key={b.key}
+                      className="inline-flex items-center"
+                      title={b.title}
+                      aria-label={b.title}
+                    >
+                      <Shield className="h-5 w-5" style={{ color: b.color }} />
+                    </span>
+                  ))}
+                </div>
               )}
 
               {/* Location */}
