@@ -26,6 +26,7 @@ import {
   Flag,
   Save,
   MessageCircle,
+  Info,
 } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ENABLE_FAVORITES } from "@/lib/constants";
@@ -64,6 +65,7 @@ export default function UploadProduct() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isPriceInfoOpen, setIsPriceInfoOpen] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
@@ -744,9 +746,17 @@ export default function UploadProduct() {
                 <div>
                   <label
                     htmlFor="price"
-                    className="block text-sm font-medium mb-2"
+                    className="block text-sm font-medium mb-2 flex items-center"
                   >
-                    Price per day
+                    <span>Price per day</span>
+                    <button
+                      type="button"
+                      aria-label="Pricing guidance"
+                      className="ml-2 text-muted-foreground hover:text-primary"
+                      onClick={() => setIsPriceInfoOpen(true)}
+                    >
+                      <Info className="h-4 w-4" />
+                    </button>
                   </label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
@@ -842,6 +852,50 @@ export default function UploadProduct() {
       <ConfirmationModal />
       <SuccessModal />
       <PreviewModal />
+
+      <Dialog open={isPriceInfoOpen} onOpenChange={setIsPriceInfoOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Pricing guidance</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-muted-foreground mb-4">
+            Stuck on what to price your item? Here are our recommended daily rates.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="sr-only">
+                <tr>
+                  <th>Type</th>
+                  <th>Examples</th>
+                  <th>Suggested rate</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                <tr>
+                  <td className="font-semibold py-2 pr-3">Low-wear items</td>
+                  <td className="py-2 pr-3">Cameras, projectors, GoPros, microphones, clothing</td>
+                  <td className="py-2">1%-3% MSRP per day</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold py-2 pr-3">Medium-wear items</td>
+                  <td className="py-2 pr-3">Power drills, lawn mowers, camping tents, kayaks, paddleboards</td>
+                  <td className="py-2">3%-5% MSRP per day</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold py-2 pr-3">High-wear items</td>
+                  <td className="py-2 pr-3">Chainsaws, bouncy houses, trampolines, generators</td>
+                  <td className="py-2">5%-8% MSRP per day</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold py-2 pr-3">Expensive or brand-name items</td>
+                  <td className="py-2 pr-3">Advanced telescopes, drones, sound systems, e-bikes, lighting rigs</td>
+                  <td className="py-2">5%-10% MSRP per day</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </DialogContent>
+      </Dialog>
       <LoginModal
         isOpen={isLoginModalOpen}
         onOpenChange={setIsLoginModalOpen}
