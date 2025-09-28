@@ -74,11 +74,16 @@ export async function createListing(req: Request, res: Response) {
       distance,
       description,
       categories,
+      zip_code,
     } = req.body || {};
     if (!name || typeof price_cents !== "number") {
       return res
         .status(400)
         .json({ ok: false, error: "name and price_cents are required" });
+    }
+    const zip = typeof zip_code === "string" && zip_code.trim() ? zip_code.trim() : null;
+    if (!zip) {
+      return res.status(400).json({ ok: false, error: "zip_code is required" });
     }
     const imgs: string[] = Array.isArray(images)
       ? (images as any[]).filter((u) => typeof u === "string" && u.trim())
@@ -93,8 +98,8 @@ export async function createListing(req: Request, res: Response) {
         : [];
     const primaryCategory = cats[0] ?? null;
     const result = await pool.query(
-      `insert into listings (name, price_cents, rating, image_url, host, category, distance, description)
-       values ($1,$2,$3,$4,$5,$6,$7,$8)
+      `insert into listings (name, price_cents, rating, image_url, host, category, distance, description, zip_code)
+       values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
        returning id`,
       [
         name,
@@ -105,6 +110,7 @@ export async function createListing(req: Request, res: Response) {
         primaryCategory,
         distance ?? null,
         description ?? null,
+        zip,
       ],
     );
     const newId = result.rows[0].id;
@@ -147,7 +153,7 @@ export async function getListingById(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.description, l.created_at,
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.description, l.zip_code, l.created_at,
                 coalesce(img.images, '{}') as images,
                 coalesce(cats.categories, '{}') as categories
          from listings l
@@ -166,7 +172,7 @@ export async function getListingById(req: Request, res: Response) {
       );
     } catch {
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, distance, description, created_at
+        `select id, name, price_cents, rating, image_url, host, category, distance, description, zip_code, created_at
          from listings where id = $1`,
         [id],
       );
@@ -188,6 +194,7 @@ export async function getListingById(req: Request, res: Response) {
       categories,
       distance: r.distance,
       description: r.description ?? null,
+      zipCode: r.zip_code || null,
       createdAt: r.created_at,
     };
     res.json({ ok: true, listing });
