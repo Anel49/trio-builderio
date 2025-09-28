@@ -20,7 +20,7 @@ function uniq<T>(arr: T[]) {
 async function tryFetch(
   url: string,
   init?: RequestInit,
-  timeoutMs = 3500,
+  timeoutMs = 8000,
 ): Promise<Response | null> {
   try {
     const controller = new AbortController();
@@ -138,7 +138,8 @@ export async function apiFetch(path: string, init?: RequestInit) {
 
   if (base) {
     const url = cleanJoin(base, path);
-    const res = await tryFetch(url, init);
+    const isDataEndpoint = /^(listings($|\/\d+)|stripe\/create-payment-intent)/.test(p);
+    const res = await tryFetch(url, init, isDataEndpoint ? 10000 : 6000);
     if (res) return res;
     // Mark temporary offline to avoid spamming network with failing calls
     lastResolveFailAt = Date.now();
