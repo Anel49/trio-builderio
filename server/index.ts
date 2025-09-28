@@ -33,10 +33,12 @@ export function createServer() {
   app.get("/api/db/health", dbHealth);
   app.get("/api/db/schema", dbSchema);
   app.post("/api/db/setup", dbSetup);
+  app.get("/api/db/setup/run", dbSetup);
   // Alias routes
   app.get("/db/health", dbHealth);
   app.get("/db/schema", dbSchema);
   app.post("/db/setup", dbSetup);
+  app.get("/db/setup/run", dbSetup);
 
   // Listings
   app.get("/api/listings", listListings);
