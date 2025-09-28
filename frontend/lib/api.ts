@@ -126,24 +126,11 @@ export async function apiFetch(path: string, init?: RequestInit) {
   let base = cachedBase;
   if (!base) base = await resolveApiBase();
 
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const attemptBases = uniq<string>([
-    base || "",
-    (import.meta as any).env?.VITE_API_BASE_URL || "",
-    "/api",
-    "/.netlify/functions/api",
-    origin ? `${origin}/api` : "",
-    origin ? `${origin}/.netlify/functions/api` : "",
-  ]).filter(Boolean);
-
   const isDataEndpoint = /^(listings($|\/\d+)|stripe\/create-payment-intent)/.test(p);
-  for (const b of attemptBases) {
-    const url = cleanJoin(b, path);
-    const res = await tryFetch(url, init, isDataEndpoint ? 10000 : 6000);
-    if (res) {
-      cachedBase = b;
-      return res;
-    }
+  if (base) {
+    const url = cleanJoin(base, path);
+    const res = await tryFetch(url, init, isDataEndpoint ? 8000 : 5000);
+    if (res) return res;
   }
   // Mark temporary offline to avoid spamming network with failing calls
   lastResolveFailAt = Date.now();
