@@ -2,7 +2,7 @@ let cachedBase: string | null = null;
 let lastResolveFailAt = 0;
 const RESOLVE_COOLDOWN_MS = 15_000;
 let offlineUntil = 0;
-const TEMP_OFFLINE_MS = 20_000;
+const TEMP_OFFLINE_MS = 60_000;
 const DISABLE_NETWORK =
   String(
     (import.meta as any).env?.VITE_DISABLE_NETWORK ?? "false",
@@ -167,8 +167,8 @@ export async function apiFetch(path: string, init?: RequestInit) {
     );
   }
   if (/^listings$/.test(p)) {
-    const { demoListings } = await import("@/lib/demo-listings");
-    return new Response(JSON.stringify({ ok: true, listings: demoListings }), {
+    // Do not return demo data; prefer empty to avoid confusion
+    return new Response(JSON.stringify({ ok: true, listings: [] }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
@@ -187,39 +187,14 @@ export async function apiFetch(path: string, init?: RequestInit) {
   }
   const m = p.match(/^listings\/(\d+)$/);
   if (m) {
-    const id = Number(m[1]);
-    const { demoListings } = await import("@/lib/demo-listings");
-    const found = demoListings.find((l) => l.id === id) || demoListings[0];
-    const listing = {
-      id: found.id,
-      name: found.name,
-      price: found.price,
-      rating: found.rating,
-      image: found.image,
-      host: found.host,
-      type: found.type,
-      distance: found.distance,
-      description: "",
-    };
-    return new Response(JSON.stringify({ ok: true, listing }), {
-      status: 200,
+    return new Response(JSON.stringify({ ok: false, error: "unreachable" }), {
+      status: 503,
       headers: { "Content-Type": "application/json" },
     });
   }
   const m2 = p.match(/^listings\/(\d+)\/reviews$/);
   if (m2) {
-    const id = Number(m2[1]);
-    const reviewers = ["Mike", "Jennifer", "David", "Lisa", "Robert", "Emma"];
-    const reviews = Array.from({ length: 4 }).map((_, i) => ({
-      id: i + 1,
-      user: reviewers[i % reviewers.length],
-      avatar: undefined,
-      rating: 5 - (i % 3),
-      date: new Date(Date.now() - (i + id) * 86400000).toLocaleDateString(),
-      dateValue: new Date(Date.now() - (i + id) * 86400000),
-      text: "Demo review",
-    }));
-    return new Response(JSON.stringify({ ok: true, reviews }), {
+    return new Response(JSON.stringify({ ok: true, reviews: [] }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
