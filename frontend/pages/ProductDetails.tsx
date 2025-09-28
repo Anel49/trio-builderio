@@ -157,68 +157,37 @@ export default function ProductDetails() {
   // Get reservations for this listing
   const reservations = getListingReservations(listingId);
 
-  const reviews = [
-    {
-      id: 1,
-      user: "Mike",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&auto=format",
-      rating: 5,
-      date: "2 weeks ago",
-      dateValue: new Date("2024-12-01"),
-      text: "Excellent mower! Cut my 2-acre property with ease. Sarah was very helpful and the pickup/drop-off was smooth.",
-    },
-    {
-      id: 2,
-      user: "Jennifer",
-      avatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&auto=format",
-      rating: 5,
-      date: "1 month ago",
-      dateValue: new Date("2024-11-15"),
-      text: "Perfect for my large yard. The mower was in great condition and very easy to operate. Will definitely rent again!",
-    },
-    {
-      id: 3,
-      user: "David",
-      avatar:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&h=48&fit=crop&auto=format",
-      rating: 4,
-      date: "2 months ago",
-      dateValue: new Date("2024-10-20"),
-      text: "Good quality equipment. Minor wear but works perfectly. Host was responsive and accommodating with timing.",
-    },
-    {
-      id: 4,
-      user: "Lisa",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=48&h=48&fit=crop&auto=format",
-      rating: 3,
-      date: "3 months ago",
-      dateValue: new Date("2024-09-10"),
-      text: "Decent mower but had some starting issues. Overall got the job done but could use better maintenance.",
-    },
-    {
-      id: 5,
-      user: "Robert",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&auto=format",
-      rating: 5,
-      date: "4 months ago",
-      dateValue: new Date("2024-08-05"),
-      text: "Amazing service! The lawn mower worked flawlessly and saved me so much time. Highly recommend for large properties.",
-    },
-    {
-      id: 6,
-      user: "Emma",
-      avatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&auto=format",
-      rating: 2,
-      date: "5 months ago",
-      dateValue: new Date("2024-07-12"),
-      text: "Had some mechanical problems during rental. Host was responsive but the equipment needs better upkeep.",
-    },
-  ];
+  type Review = {
+    id: number;
+    user: string;
+    avatar?: string;
+    rating: number;
+    date: string;
+    dateValue: Date;
+    text: string;
+  };
+  const [reviews, setReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    if (!params.id) return;
+    apiFetch(`listings/${params.id}/reviews`)
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => {
+        if (d && d.ok && Array.isArray(d.reviews)) {
+          const mapped: Review[] = d.reviews.map((r: any) => ({
+            id: r.id,
+            user: r.user,
+            avatar: r.avatar,
+            rating: typeof r.rating === "number" ? r.rating : 0,
+            date: r.date,
+            dateValue: new Date(r.dateValue || r.date || Date.now()),
+            text: r.text,
+          }));
+          setReviews(mapped);
+        }
+      })
+      .catch(() => setReviews([]));
+  }, [params.id]);
 
   const similarProducts = [
     {
@@ -460,7 +429,7 @@ export default function ProductDetails() {
                       ?.scrollIntoView({ behavior: "smooth" })
                   }
                 >
-                  ({product.totalReviews} reviews)
+                  ({reviews.length} reviews)
                 </button>
               </div>
 
@@ -613,7 +582,7 @@ export default function ProductDetails() {
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-8"
       >
         <h2 className="text-2xl font-bold mb-6">
-          Reviews ({product.totalReviews})
+          Reviews ({reviews.length})
         </h2>
 
         {/* Review Filters and Controls */}
