@@ -746,15 +746,6 @@ export default function Profile() {
                   </div>
                 </div>
 
-                {/* Average Response Time */}
-                <div className="mb-6">
-                  <div className="flex items-center justify-center space-x-2 text-muted-foreground">
-                    <Clock className="h-4 w-4" />
-                    <span className="text-sm">
-                      Responds {userProfile.avgResponseTime}
-                    </span>
-                  </div>
-                </div>
 
                 {/* Action Buttons */}
                 <div className="space-y-2">
@@ -1416,13 +1407,6 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-1 gap-2 text-sm text-muted-foreground mb-6">
-                <div className="flex items-center justify-center space-x-1">
-                  <Clock className="h-4 w-4" />
-                  <span>Responds {userProfile.avgResponseTime}</span>
-                </div>
-              </div>
 
               {/* Action Buttons */}
               <div className="space-y-2">
