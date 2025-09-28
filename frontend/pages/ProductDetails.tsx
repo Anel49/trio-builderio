@@ -21,10 +21,7 @@ import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { ReportModal } from "@/components/ui/report-modal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import {
-  getListingReservations,
-  isDateRangeAvailable,
-} from "@/lib/reservations";
+import { ReservationPeriod } from "@/lib/reservations";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -80,17 +77,20 @@ export default function ProductDetails() {
     setIsFavoritesModalOpen(true);
   };
 
+  const [reservations, setReservations] = useState<ReservationPeriod[]>([]);
   // Check if selected dates are valid for reservation
   const isDateRangeValid = () => {
     if (!selectedDateRange.start || !selectedDateRange.end) {
       return false;
     }
-
-    return isDateRangeAvailable(
-      selectedDateRange.start,
-      selectedDateRange.end,
-      listingId,
-    );
+    const start = selectedDateRange.start;
+    const end = selectedDateRange.end;
+    for (const r of reservations) {
+      const rs = new Date(r.startDate);
+      const re = new Date(r.endDate);
+      if (start <= re && end >= rs) return false;
+    }
+    return true;
   };
 
   const productImages = [
@@ -160,8 +160,24 @@ export default function ProductDetails() {
       .catch(() => setProduct(null));
   }, [params.id]);
 
-  // Get reservations for this listing
-  const reservations = getListingReservations(listingId);
+  useEffect(() => {
+    if (!params.id) return;
+    apiFetch(`listings/${params.id}/reservations`)
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => {
+        if (d && d.ok && Array.isArray(d.reservations)) {
+          const mapped: ReservationPeriod[] = d.reservations.map((r: any) => ({
+            id: String(r.id),
+            startDate: new Date(r.startDate),
+            endDate: new Date(r.endDate),
+            renterName: r.renterName,
+            status: r.status,
+          }));
+          setReservations(mapped);
+        }
+      })
+      .catch(() => setReservations([]));
+  }, [params.id]);
 
   type Review = {
     id: number;

@@ -243,6 +243,26 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     `);
 
+    // Seed reservations for the first 3 listings (by name) to replace demo data
+    await pool.query(`
+      insert into reservations (listing_id, renter, start_date, end_date, status)
+      select l.id, r.renter, r.start_date::date, r.end_date::date, r.status
+      from (
+        values
+          ('Riding Lawn Mower', 'Alice', '2025-10-15', '2025-10-17', 'confirmed'),
+          ('Riding Lawn Mower', 'Bob',   '2025-09-22', '2025-09-28', 'confirmed'),
+          ('Designer Dress',   'Cara',  '2025-06-18', '2025-06-20', 'confirmed'),
+          ('Designer Dress',   'Dan',   '2025-07-10', '2025-07-12', 'completed'),
+          ('Professional Tool Set', 'Eve', '2025-08-05', '2025-08-07', 'confirmed'),
+          ('Professional Tool Set', 'Frank','2025-09-10', '2025-09-12', 'pending')
+      ) as r(name, renter, start_date, end_date, status)
+      join listings l on l.name = r.name
+      where not exists (
+        select 1 from reservations x
+        where x.listing_id = l.id and x.start_date = r.start_date::date and x.end_date = r.end_date::date
+      );
+    `);
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });

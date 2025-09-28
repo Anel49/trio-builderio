@@ -253,3 +253,26 @@ export async function deleteListing(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function listListingReservations(req: Request, res: Response) {
+  try {
+    const id = Number((req.params as any)?.id);
+    if (!id || Number.isNaN(id)) {
+      return res.status(400).json({ ok: false, error: "invalid id" });
+    }
+    const result = await pool.query(
+      `select id, start_date, end_date, renter, status from reservations where listing_id = $1 order by start_date asc limit 500`,
+      [id],
+    );
+    const reservations = result.rows.map((r: any) => ({
+      id: String(r.id),
+      startDate: new Date(r.start_date).toISOString(),
+      endDate: new Date(r.end_date).toISOString(),
+      renterName: r.renter || undefined,
+      status: String(r.status || 'confirmed') as any,
+    }));
+    res.json({ ok: true, reservations });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}

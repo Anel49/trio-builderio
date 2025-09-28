@@ -46,12 +46,14 @@ export function createServer() {
   app.post("/api/listings", createListing);
   app.delete("/api/listings/:id", deleteListing);
   app.get("/api/listings/:id/reviews", listListingReviews);
+  app.get("/api/listings/:id/reservations", listListingReservations);
   // Alias routes
   app.get("/listings", listListings);
   app.get("/listings/:id", getListingById);
   app.post("/listings", createListing);
   app.delete("/listings/:id", deleteListing);
   app.get("/listings/:id/reviews", listListingReviews);
+  app.get("/listings/:id/reservations", listListingReservations);
 
   return app;
 }
