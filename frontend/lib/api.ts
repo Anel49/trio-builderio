@@ -64,10 +64,8 @@ async function resolveApiBase(): Promise<string | null> {
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   if (envBase) {
-    if (await pingBase(envBase)) {
-      cachedBase = envBase;
-      return cachedBase;
-    }
+    cachedBase = envBase;
+    return cachedBase;
   }
 
   const candidates = uniq<string>([
