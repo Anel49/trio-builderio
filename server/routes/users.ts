@@ -7,6 +7,7 @@ function rowToUser(r: any) {
     name: r.name || null,
     email: r.email || null,
     avatarUrl: r.avatar_url || null,
+    zipCode: r.zip_code || null,
     createdAt: r.created_at,
     foundingSupporter: Boolean(r.founding_supporter),
     topReferrer: Boolean(r.top_referrer),
