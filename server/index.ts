@@ -8,6 +8,7 @@ import {
   deleteListing,
   getListingById,
   listListingReviews,
+  listListingReservations,
 } from "./routes/listings";
 
 export function createServer() {
