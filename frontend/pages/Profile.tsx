@@ -175,7 +175,11 @@ export default function Profile() {
     if (badges.topReferrer)
       arr.push({ key: "referrer", title: "Top Referrer", color: "#7c3aed" });
     if (badges.ambassador)
-      arr.push({ key: "ambassador", title: "Ambassador", color: "rgb(168 64 64)" });
+      arr.push({
+        key: "ambassador",
+        title: "Ambassador",
+        color: "rgb(168 64 64)",
+      });
     return arr;
   }, [badges]);
 
@@ -719,7 +723,6 @@ export default function Profile() {
                     </span>
                   </div>
                 </div>
-
 
                 {/* Action Buttons */}
                 <div className="space-y-2">
@@ -1380,7 +1383,6 @@ export default function Profile() {
                   </span>
                 </div>
               </div>
-
 
               {/* Action Buttons */}
               <div className="space-y-2">

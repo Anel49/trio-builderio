@@ -147,7 +147,10 @@ export async function apiFetch(path: string, init?: RequestInit) {
         headers: { "Content-Type": "application/json" },
       });
     }
-    if (/^users(\?|$)/.test(p) && (init?.method || "GET").toUpperCase() === "GET") {
+    if (
+      /^users(\?|$)/.test(p) &&
+      (init?.method || "GET").toUpperCase() === "GET"
+    ) {
       return new Response(JSON.stringify({ ok: true, user: null }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -155,7 +158,8 @@ export async function apiFetch(path: string, init?: RequestInit) {
     }
     if (/^users$/.test(p) && (init?.method || "GET").toUpperCase() === "POST") {
       try {
-        const body = typeof init?.body === "string" ? JSON.parse(init.body) : {};
+        const body =
+          typeof init?.body === "string" ? JSON.parse(init.body) : {};
         const user = {
           id: 0,
           name: body?.name ?? null,
@@ -182,7 +186,6 @@ export async function apiFetch(path: string, init?: RequestInit) {
       headers: { "Content-Type": "application/json" },
     });
   }
-
 
   // Absolute URL passthrough
   if (/^https?:\/\//i.test(path)) {
@@ -286,7 +289,10 @@ export async function apiFetch(path: string, init?: RequestInit) {
       headers: { "Content-Type": "application/json" },
     });
   }
-  if (/^users(\?|$)/.test(p) && (init?.method || "GET").toUpperCase() === "GET") {
+  if (
+    /^users(\?|$)/.test(p) &&
+    (init?.method || "GET").toUpperCase() === "GET"
+  ) {
     return new Response(JSON.stringify({ ok: true, user: null }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
