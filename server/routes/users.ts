@@ -33,11 +33,11 @@ export async function getUserByEmail(req: Request, res: Response) {
     }
     try {
       const result = await pool.query(
-        `select id, name, email, avatar_url, created_at,
-                coalesce(founding_supporter,false) as founding_supporter,
-                coalesce(top_referrer,false) as top_referrer,
-                coalesce(ambassador,false) as ambassador
-         from users where email = $1 limit 1`,
+        `select id, name, email, avatar_url, zip_code, created_at,
+              coalesce(founding_supporter,false) as founding_supporter,
+              coalesce(top_referrer,false) as top_referrer,
+              coalesce(ambassador,false) as ambassador
+       from users where email = $1 limit 1`,
         [email],
       );
       if (result.rowCount === 0) {
@@ -48,7 +48,7 @@ export async function getUserByEmail(req: Request, res: Response) {
     } catch {
       // Columns might not exist yet
       const result = await pool.query(
-        `select id, name, email, avatar_url, created_at from users where email = $1 limit 1`,
+        `select id, name, email, avatar_url, zip_code, created_at from users where email = $1 limit 1`,
         [email],
       );
       if (result.rowCount === 0) return res.json({ ok: true, user: null });
@@ -58,6 +58,7 @@ export async function getUserByEmail(req: Request, res: Response) {
         name: base.name || null,
         email: base.email || null,
         avatarUrl: base.avatar_url || null,
+        zipCode: base.zip_code || null,
         createdAt: base.created_at,
         foundingSupporter: false,
         topReferrer: false,
@@ -76,6 +77,7 @@ export async function upsertUser(req: Request, res: Response) {
       name,
       email,
       avatar_url,
+      zip_code,
       founding_supporter,
       top_referrer,
       ambassador,
@@ -89,15 +91,16 @@ export async function upsertUser(req: Request, res: Response) {
     await ensureBadgeColumns();
 
     const result = await pool.query(
-      `insert into users (name, email, avatar_url, founding_supporter, top_referrer, ambassador)
-       values ($1,$2,$3,$4,$5,$6)
+      `insert into users (name, email, avatar_url, zip_code, founding_supporter, top_referrer, ambassador)
+       values ($1,$2,$3,$4,$5,$6,$7)
        on conflict (email) do update set
          name = coalesce(excluded.name, users.name),
          avatar_url = coalesce(excluded.avatar_url, users.avatar_url),
+         zip_code = coalesce(excluded.zip_code, users.zip_code),
          founding_supporter = coalesce(excluded.founding_supporter, users.founding_supporter),
          top_referrer = coalesce(excluded.top_referrer, users.top_referrer),
          ambassador = coalesce(excluded.ambassador, users.ambassador)
-       returning id, name, email, avatar_url, created_at,
+       returning id, name, email, avatar_url, zip_code, created_at,
                  coalesce(founding_supporter,false) as founding_supporter,
                  coalesce(top_referrer,false) as top_referrer,
                  coalesce(ambassador,false) as ambassador`,
@@ -105,6 +108,7 @@ export async function upsertUser(req: Request, res: Response) {
         typeof name === "string" ? name : null,
         emailStr,
         typeof avatar_url === "string" ? avatar_url : null,
+        typeof zip_code === "string" && zip_code.trim() ? zip_code.trim() : null,
         Boolean(founding_supporter),
         Boolean(top_referrer),
         Boolean(ambassador),
