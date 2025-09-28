@@ -155,12 +155,9 @@ export default function Profile() {
   }, []);
 
   const avatarOutlineClass = useMemo(() => {
-    if (badges.foundingSupporter)
-      return "ring-4 ring-sky-400 ring-offset-2 ring-offset-background";
-    if (badges.topReferrer)
-      return "ring-4 ring-purple-500 ring-offset-2 ring-offset-background";
-    if (badges.ambassador)
-      return "ring-4 ring-[rgb(168,64,64)] ring-offset-2 ring-offset-background";
+    if (badges.foundingSupporter) return "ring-4 ring-sky-400";
+    if (badges.topReferrer) return "ring-4 ring-purple-500";
+    if (badges.ambassador) return "ring-4 ring-[rgb(168,64,64)]";
     return "";
   }, [badges]);
 
