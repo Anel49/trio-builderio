@@ -104,29 +104,19 @@ export async function apiFetch(path: string, init?: RequestInit) {
         headers: { "Content-Type": "application/json" },
       });
     }
-    const mId = p.match(/^listings\/(\d+)$/);
-    if (mId) {
+    if (/^listings\/\d+$/.test(p)) {
       return new Response(JSON.stringify({ ok: false, listing: null }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
-    const mRev = p.match(/^listings\/(\d+)\/reviews$/);
-    if (mRev) {
+    if (/^listings\/\d+\/reviews$/.test(p)) {
       return new Response(JSON.stringify({ ok: true, reviews: [] }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
-    const mRes = p.match(/^listings\/(\d+)\/reservations$/);
-    if (mRes) {
-      return new Response(JSON.stringify({ ok: true, reservations: [] }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-    const mRes = p.match(/^listings\/(\d+)\/reservations$/);
-    if (mRes) {
+    if (/^listings\/\d+\/reservations$/.test(p)) {
       return new Response(JSON.stringify({ ok: true, reservations: [] }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
