@@ -229,7 +229,7 @@ export default function Profile() {
                 ? l.images[0]
                 : l.image,
             host: l.host || "You",
-            type: l.type || "General",
+            type: Array.isArray(l.categories) && l.categories.length ? l.categories[0] : (l.type || "General"),
             distance: l.distance || "0 miles",
           }));
           setListedItems(mapped);
