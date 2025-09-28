@@ -45,6 +45,7 @@ import {
 } from "@/components/ui/tooltip";
 
 export default function UploadProduct() {
+  const [createdListingId, setCreatedListingId] = useState<number | null>(null);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [location, setLocation] = useState("");
@@ -265,6 +266,7 @@ export default function UploadProduct() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error("Failed to create listing");
+      setCreatedListingId(Number(data.id) || null);
       setIsListed(true);
       setShowConfirmModal(false);
       setShowSuccessModal(true);
@@ -282,8 +284,8 @@ export default function UploadProduct() {
 
   const handleViewListing = () => {
     setShowSuccessModal(false);
-    // Navigate to demo product listing (lawn mower)
-    window.location.href = "/product/1";
+    const id = createdListingId ?? 1;
+    window.location.href = `/product/${id}`;
   };
 
   const mockHost = {
