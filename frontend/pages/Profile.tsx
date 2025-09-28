@@ -685,7 +685,9 @@ export default function Profile() {
                     <div className="flex items-center justify-center space-x-1">
                       <MapPin className="h-4 w-4 text-muted-foreground" />
                       <span className="text-muted-foreground">
-                        {userProfile.zipCode}
+                        {userProfile.zipCode && String(userProfile.zipCode).trim()
+                          ? userProfile.zipCode
+                          : "Add a zip code"}
                       </span>
                     </div>
                   )}
