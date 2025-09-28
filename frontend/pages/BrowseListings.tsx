@@ -256,7 +256,7 @@ export default function BrowseListings() {
             distance: typeof l.distance === "string" ? l.distance : (l.distance ? String(l.distance) : ""),
             lat: 0,
             lng: 0,
-            listedTime: undefined,
+            createdAt: l.createdAt ?? l.created_at ?? undefined,
           }));
           setListings(mapped);
         }
@@ -343,6 +343,15 @@ export default function BrowseListings() {
 
     // Sort listings
     if (sortBy) {
+      const getCreatedAtMs = (x: any) => {
+        const v = (x && (x as any).createdAt) as any;
+        if (typeof v === "number") return v;
+        if (typeof v === "string") {
+          const t = Date.parse(v);
+          return Number.isFinite(t) ? t : NaN;
+        }
+        return NaN;
+      };
       filtered.sort((a, b) => {
         switch (sortBy) {
           case "distance-asc":
@@ -365,16 +374,22 @@ export default function BrowseListings() {
             const pb2 = parseInt(String(b.price ?? "").replace("$", ""));
             return (Number.isFinite(pb2) ? pb2 : Number.MAX_SAFE_INTEGER) -
               (Number.isFinite(pa2) ? pa2 : Number.MAX_SAFE_INTEGER);
-          case "time-asc":
-            // Recently listed first - parse time strings
-            return (
-              getTimeInMinutes(a.listedTime) - getTimeInMinutes(b.listedTime)
-            );
-          case "time-desc":
-            // Oldest listed first
-            return (
-              getTimeInMinutes(b.listedTime) - getTimeInMinutes(a.listedTime)
-            );
+          case "time-asc": {
+            // Recently Listed: newest first
+            const ta = getCreatedAtMs(a);
+            const tb = getCreatedAtMs(b);
+            const va = Number.isFinite(ta) ? ta : -Infinity;
+            const vb = Number.isFinite(tb) ? tb : -Infinity;
+            return vb - va;
+          }
+          case "time-desc": {
+            // Oldest Listed: oldest first
+            const ta = getCreatedAtMs(a);
+            const tb = getCreatedAtMs(b);
+            const va = Number.isFinite(ta) ? ta : Infinity;
+            const vb = Number.isFinite(tb) ? tb : Infinity;
+            return va - vb;
+          }
           default:
             return 0;
         }
