@@ -50,6 +50,8 @@ export async function listListings(_req: Request, res: Response) {
         type: r.category || (categories.length ? categories[0] : null),
         categories,
         distance: r.distance,
+        description: r.description ?? null,
+        zipCode: r.zip_code || null,
         createdAt: r.created_at,
       };
     });
