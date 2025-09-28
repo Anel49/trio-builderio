@@ -46,6 +46,11 @@ async function resolveApiBase(): Promise<string | null> {
     | undefined;
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
+  if (envBase) {
+    cachedBase = envBase;
+    return cachedBase;
+  }
+
   const candidates = uniq<string>([
     // Prefer same-origin candidates first to avoid CORS/network blockers
     "/api",
@@ -59,19 +64,6 @@ async function resolveApiBase(): Promise<string | null> {
     const res = await tryFetch(pingUrl, { method: "GET" }, 1200);
     if (res && res.ok) {
       cachedBase = base;
-      return cachedBase;
-    }
-  }
-
-  // As a last resort, try the explicit env base if provided
-  if (envBase) {
-    const test = await tryFetch(
-      cleanJoin(envBase, "ping"),
-      { method: "GET" },
-      1500,
-    );
-    if (test && test.ok) {
-      cachedBase = envBase;
       return cachedBase;
     }
   }
