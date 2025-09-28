@@ -172,7 +172,7 @@ export default function Profile() {
 
   const avatarOutlineClass = useMemo(() => {
     if (badges.foundingSupporter)
-      return "ring-4 ring-green-500 ring-offset-2 ring-offset-background";
+      return "ring-4 ring-sky-400 ring-offset-2 ring-offset-background";
     if (badges.topReferrer)
       return "ring-4 ring-purple-500 ring-offset-2 ring-offset-background";
     if (badges.ambassador)
@@ -183,7 +183,7 @@ export default function Profile() {
   const earnedBadges = useMemo(() => {
     const arr: { key: string; title: string; color: string }[] = [];
     if (badges.foundingSupporter)
-      arr.push({ key: "founding", title: "Founding Supporter", color: "#10b981" });
+      arr.push({ key: "founding", title: "Founding Supporter", color: "#38bdf8" });
     if (badges.topReferrer)
       arr.push({ key: "referrer", title: "Top Referrer", color: "#7c3aed" });
     if (badges.ambassador)
