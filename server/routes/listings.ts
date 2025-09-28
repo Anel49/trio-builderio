@@ -88,6 +88,32 @@ export async function getListingById(req: Request, res: Response) {
   }
 }
 
+export async function listListingReviews(req: Request, res: Response) {
+  try {
+    const id = Number((req.params as any)?.id);
+    if (!id || Number.isNaN(id)) {
+      return res.status(400).json({ ok: false, error: "invalid id" });
+    }
+    const result = await pool.query(
+      `select id, reviewer as user, rating, comment as text, created_at
+       from reviews where listing_id = $1 order by created_at desc limit 200`,
+      [id],
+    );
+    const reviews = result.rows.map((r: any) => ({
+      id: r.id,
+      user: r.user || "",
+      avatar: undefined,
+      rating: r.rating ? Number(r.rating) : 0,
+      date: new Date(r.created_at).toLocaleDateString(),
+      dateValue: new Date(r.created_at),
+      text: r.text || "",
+    }));
+    res.json({ ok: true, reviews });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function deleteListing(req: Request, res: Response) {
   try {
     const id = Number((req.params as any)?.id);
