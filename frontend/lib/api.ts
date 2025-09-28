@@ -2,9 +2,7 @@ let cachedBase: string | null = null;
 let lastResolveFailAt = 0;
 const RESOLVE_COOLDOWN_MS = 15_000;
 const DISABLE_NETWORK =
-  String(
-    (import.meta as any).env?.VITE_DISABLE_NETWORK ?? "true",
-  ).toLowerCase() !== "false";
+  String((import.meta as any).env?.VITE_DISABLE_NETWORK ?? "false").toLowerCase() === "true";
 
 function cleanJoin(base: string, path: string) {
   if (!base) return path.startsWith("/") ? path : `/${path}`;
