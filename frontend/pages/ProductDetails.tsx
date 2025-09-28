@@ -54,7 +54,12 @@ import {
   MessageCircle,
   ArrowLeft,
 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function ProductDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -447,7 +452,9 @@ export default function ProductDetails() {
                     aria-label="Previous image"
                     className="absolute left-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/20 hover:bg-white/30 text-white p-2"
                     onClick={() =>
-                      setCurrentImageIndex((i) => (i - 1 + images.length) % images.length)
+                      setCurrentImageIndex(
+                        (i) => (i - 1 + images.length) % images.length,
+                      )
                     }
                   >
                     <ChevronLeft className="h-6 w-6" />
