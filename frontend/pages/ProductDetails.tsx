@@ -327,7 +327,7 @@ export default function ProductDetails() {
             {/* Main Image */}
             <div className="relative mb-4">
               <img
-                src={productImages[currentImageIndex]}
+                src={images[currentImageIndex]}
                 alt={product.name}
                 className="w-full h-96 object-cover rounded-lg"
               />
