@@ -55,9 +55,7 @@ async function resolveApiBase(): Promise<string | null> {
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   if (envBase) {
-    const pingUrl = cleanJoin(envBase, "ping");
-    const res = await tryFetch(pingUrl, { method: "GET" }, 1200);
-    if (res && res.ok) {
+    if (await pingBase(envBase)) {
       cachedBase = envBase;
       return cachedBase;
     }
