@@ -38,6 +38,11 @@ async function tryFetch(
   }
 }
 
+async function pingBase(base: string): Promise<boolean> {
+  const res = await tryFetch(cleanJoin(base, "ping"), { method: "GET" }, 800);
+  return !!(res && res.ok);
+}
+
 async function resolveApiBase(): Promise<string | null> {
   if (DISABLE_NETWORK) return null;
   if (cachedBase) return cachedBase;
