@@ -222,7 +222,7 @@ export default function Profile() {
             id: l.id,
             name: l.name,
             price: l.price,
-            rating: typeof l.rating === "number" ? l.rating : 0,
+            rating: typeof l.rating === "number" ? l.rating : null,
             trips: 0,
             image: l.image,
             host: l.host || "You",
