@@ -9,7 +9,7 @@ function formatPrice(price_cents: number) {
 export async function listListings(_req: Request, res: Response) {
   try {
     const result = await pool.query(
-      `select id, name, price_cents, rating, image_url, host, category, distance
+      `select id, name, price_cents, rating, image_url, host, category, distance, created_at
        from listings
        order by created_at desc
        limit 50`,
@@ -23,6 +23,7 @@ export async function listListings(_req: Request, res: Response) {
       host: r.host,
       type: r.category,
       distance: r.distance,
+      createdAt: r.created_at,
     }));
     res.json({ ok: true, listings });
   } catch (error: any) {
@@ -75,7 +76,7 @@ export async function getListingById(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
     const result = await pool.query(
-      `select id, name, price_cents, rating, image_url, host, category, distance, description
+      `select id, name, price_cents, rating, image_url, host, category, distance, description, created_at
        from listings where id = $1`,
       [id],
     );
@@ -92,6 +93,7 @@ export async function getListingById(req: Request, res: Response) {
       type: r.category,
       distance: r.distance,
       description: r.description ?? null,
+      createdAt: r.created_at,
     };
     res.json({ ok: true, listing });
   } catch (error: any) {
