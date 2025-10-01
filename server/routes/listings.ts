@@ -217,11 +217,12 @@ export async function listListingReviews(req: Request, res: Response) {
     );
 
     // Seed varying review counts for first 9 listings if none exist yet
-    if (result.rowCount === 0 && id >= 1 && id <= 9) {
-      const desiredCounts = [0, 3, 2, 0, 1, 4, 2, 5, 0, 3];
+    const existingCount = result.rowCount;
+    if (id >= 1 && id <= 9) {
+      const desiredCounts = [0, 14, 2, 0, 1, 4, 2, 5, 0, 3];
       // index by listing id; desiredCounts[1] => listing 1 count, etc.
       const count = desiredCounts[id] ?? 0;
-      if (count > 0) {
+      if (count > existingCount) {
         const samples = [
           {
             reviewer: "Mike",
@@ -251,7 +252,7 @@ export async function listListingReviews(req: Request, res: Response) {
           { reviewer: "Emma", rating: 4, comment: "Good overall experience." },
         ];
         const now = Date.now();
-        for (let i = 0; i < count; i++) {
+        for (let i = existingCount; i < count; i++) {
           const s = samples[i % samples.length];
           const daysAgo = (i + id) * 2; // vary by listing and index
           const createdAt = new Date(now - daysAgo * 24 * 60 * 60 * 1000);
