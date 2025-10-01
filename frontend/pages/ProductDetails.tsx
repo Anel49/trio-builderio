@@ -61,11 +61,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+const REVIEWS_PER_PAGE = 8;
+
 export default function ProductDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [reviewSearchQuery, setReviewSearchQuery] = useState("");
   const [reviewSortBy, setReviewSortBy] = useState("newest");
   const [reviewRatingFilter, setReviewRatingFilter] = useState("all");
+  const [currentReviewPage, setCurrentReviewPage] = useState(1);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -316,7 +319,7 @@ export default function ProductDetails() {
 
   // Filter and sort reviews
   const filteredAndSortedReviews = useMemo(() => {
-    let filtered = reviews;
+    let filtered = [...reviews];
 
     // Filter by search query
     if (reviewSearchQuery) {
@@ -353,6 +356,35 @@ export default function ProductDetails() {
 
     return filtered;
   }, [reviews, reviewSearchQuery, reviewSortBy, reviewRatingFilter]);
+
+  useEffect(() => {
+    setCurrentReviewPage(1);
+  }, [reviewSearchQuery, reviewSortBy, reviewRatingFilter, reviews.length]);
+
+  useEffect(() => {
+    const totalPages = Math.ceil(filteredAndSortedReviews.length / REVIEWS_PER_PAGE);
+    if (totalPages === 0 && currentReviewPage !== 1) {
+      setCurrentReviewPage(1);
+    } else if (totalPages > 0 && currentReviewPage > totalPages) {
+      setCurrentReviewPage(totalPages);
+    }
+  }, [filteredAndSortedReviews.length, currentReviewPage]);
+
+  const totalReviewPages = Math.max(
+    1,
+    Math.ceil(filteredAndSortedReviews.length / REVIEWS_PER_PAGE),
+  );
+
+  const paginatedReviews = useMemo(() => {
+    if (filteredAndSortedReviews.length === 0) {
+      return [];
+    }
+    const startIndex = (currentReviewPage - 1) * REVIEWS_PER_PAGE;
+    return filteredAndSortedReviews.slice(
+      startIndex,
+      startIndex + REVIEWS_PER_PAGE,
+    );
+  }, [filteredAndSortedReviews, currentReviewPage]);
 
   if (!product) {
     return (
@@ -758,14 +790,14 @@ export default function ProductDetails() {
 
           {/* Results Count */}
           <div className="text-sm text-muted-foreground">
-            Showing {filteredAndSortedReviews.length} of {reviews.length}{" "}
+            Showing {paginatedReviews.length} of {filteredAndSortedReviews.length}{" "}
             reviews
           </div>
         </div>
 
         <div className="space-y-6">
           {filteredAndSortedReviews.length > 0 ? (
-            filteredAndSortedReviews.map((review) => (
+            paginatedReviews.map((review) => (
               <Card key={review.id}>
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
@@ -822,9 +854,35 @@ export default function ProductDetails() {
           )}
         </div>
 
-        {filteredAndSortedReviews.length > 0 && (
-          <div className="text-center mt-8">
-            <Button variant="outline">Load more reviews</Button>
+        {filteredAndSortedReviews.length > 0 && totalReviewPages > 1 && (
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Previous reviews"
+              disabled={currentReviewPage === 1}
+              onClick={() =>
+                setCurrentReviewPage((page) => Math.max(1, page - 1))
+              }
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <span className="text-sm text-muted-foreground">
+              {currentReviewPage} of {totalReviewPages}
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Next reviews"
+              disabled={currentReviewPage === totalReviewPages}
+              onClick={() =>
+                setCurrentReviewPage((page) =>
+                  Math.min(totalReviewPages, page + 1),
+                )
+              }
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
           </div>
         )}
       </section>
