@@ -14,6 +14,13 @@ import { MobileMenu } from "@/components/ui/mobile-menu";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { cn } from "@/lib/utils";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   MapPin,
   Star,
   Heart,
@@ -113,6 +120,30 @@ export default function BrowseListings() {
   // Sort state
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState("");
+
+  const CATEGORY_OPTIONS = [
+    "Appliance",
+    "Automotive",
+    "Baby",
+    "Child",
+    "Clothing",
+    "Crafts",
+    "Fitness",
+    "Furniture",
+    "Game",
+    "Garden",
+    "Home",
+    "Instrument",
+    "Literature",
+    "Miscellaneous",
+    "Party",
+    "Pet",
+    "Service",
+    "Sports",
+    "Tech",
+    "Tool",
+    "Toy",
+  ];
 
   const handleFavorite = (listingName: string) => {
     setFavoritedListing(listingName);
@@ -609,36 +640,31 @@ export default function BrowseListings() {
                   {/* Category Filter */}
                   <div>
                     <Label className="text-sm font-medium">Category</Label>
-                    <select
-                      value={filters.category}
-                      onChange={(e) =>
-                        setFilters({ ...filters, category: e.target.value })
+                    <Select
+                      value={filters.category || "all"}
+                      onValueChange={(value) =>
+                        setFilters({
+                          ...filters,
+                          category: value === "all" ? "" : value,
+                        })
                       }
-                      className="w-full mt-2 p-2 border border-input rounded-md bg-background"
                     >
-                      <option value="">All Categories</option>
-                      <option value="Appliance">Appliance</option>
-                      <option value="Automotive">Automotive</option>
-                      <option value="Baby">Baby</option>
-                      <option value="Child">Child</option>
-                      <option value="Clothing">Clothing</option>
-                      <option value="Crafts">Crafts</option>
-                      <option value="Fitness">Fitness</option>
-                      <option value="Furniture">Furniture</option>
-                      <option value="Game">Game</option>
-                      <option value="Garden">Garden</option>
-                      <option value="Home">Home</option>
-                      <option value="Instrument">Instrument</option>
-                      <option value="Literature">Literature</option>
-                      <option value="Miscellaneous">Miscellaneous</option>
-                      <option value="Party">Party</option>
-                      <option value="Pet">Pet</option>
-                      <option value="Service">Service</option>
-                      <option value="Sports">Sports</option>
-                      <option value="Tech">Tech</option>
-                      <option value="Tool">Tool</option>
-                      <option value="Toy">Toy</option>
-                    </select>
+                      <SelectTrigger className="w-full mt-2 h-10 text-sm">
+                        <SelectValue placeholder="All Categories" />
+                      </SelectTrigger>
+                      <SelectContent
+                        side="bottom"
+                        className="max-h-48 overflow-y-auto text-sm"
+                        position="popper"
+                      >
+                        <SelectItem value="all">All Categories</SelectItem>
+                        {CATEGORY_OPTIONS.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* Apply Button */}
