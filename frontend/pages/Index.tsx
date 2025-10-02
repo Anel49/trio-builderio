@@ -252,25 +252,19 @@ export default function Index() {
     return () => el.removeEventListener("scroll", onScroll as any);
   }, []);
 
-  const scrollByPage = useCallback(
-    (dir: 1 | -1) => {
-      const el = listRef.current;
-      if (!el) return;
-      const amount = el.clientWidth * 0.9;
-      const maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
-
-      if (dir > 0) {
-        if (el.scrollLeft + el.clientWidth >= maxScrollLeft - 5) {
-          smoothScrollCarousel(el, 0);
-        } else {
-          smoothScrollCarousel(el, el.scrollLeft + amount);
-        }
-      } else {
-        smoothScrollCarousel(el, el.scrollLeft - amount);
-      }
-    },
-    [smoothScrollCarousel],
-  );
+  const scrollByPage = useCallback((dir: 1 | -1) => {
+    const el = listRef.current;
+    if (!el) return;
+    const amount = el.clientWidth * 0.9;
+    const maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
+    let target =
+      dir > 0 ? el.scrollLeft + amount : el.scrollLeft - amount;
+    if (dir > 0 && el.scrollLeft + el.clientWidth >= maxScrollLeft - 5) {
+      target = 0;
+    }
+    target = Math.max(0, Math.min(target, maxScrollLeft));
+    el.scrollTo({ left: target, behavior: "smooth" });
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
