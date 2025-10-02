@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
@@ -241,6 +241,8 @@ export default function Index() {
   ];
 
   const listRef = useRef<HTMLDivElement | null>(null);
+  const supportsNativeSmoothScroll = useRef(false);
+  const activeScrollAnimation = useRef<number | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
 
   useEffect(() => {
@@ -252,20 +254,74 @@ export default function Index() {
     return () => el.removeEventListener("scroll", onScroll as any);
   }, []);
 
-  const scrollByPage = (dir: 1 | -1) => {
-    const el = listRef.current;
-    if (!el) return;
-    const amount = el.clientWidth * 0.9;
-    if (dir > 0) {
-      if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 5) {
-        el.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        el.scrollBy({ left: amount, behavior: "smooth" });
-      }
-    } else {
-      el.scrollBy({ left: -amount, behavior: "smooth" });
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      supportsNativeSmoothScroll.current =
+        "scrollBehavior" in document.documentElement.style;
     }
-  };
+    return () => {
+      if (activeScrollAnimation.current !== null) {
+        cancelAnimationFrame(activeScrollAnimation.current);
+        activeScrollAnimation.current = null;
+      }
+    };
+  }, []);
+
+  const smoothScrollCarousel = useCallback((el: HTMLDivElement, target: number) => {
+    const maxTarget = Math.max(0, el.scrollWidth - el.clientWidth);
+    const clamped = Math.max(0, Math.min(target, maxTarget));
+
+    if (supportsNativeSmoothScroll.current) {
+      el.scrollTo({ left: clamped, behavior: "smooth" });
+      return;
+    }
+
+    if (activeScrollAnimation.current !== null) {
+      cancelAnimationFrame(activeScrollAnimation.current);
+      activeScrollAnimation.current = null;
+    }
+
+    const start = el.scrollLeft;
+    const change = clamped - start;
+    if (change === 0) return;
+    const duration = 400;
+    const startTime = performance.now();
+
+    const ease = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+
+    const step = (timestamp: number) => {
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      el.scrollLeft = start + change * ease(progress);
+      if (progress < 1) {
+        activeScrollAnimation.current = requestAnimationFrame(step);
+      } else {
+        activeScrollAnimation.current = null;
+      }
+    };
+
+    activeScrollAnimation.current = requestAnimationFrame(step);
+  }, []);
+
+  const scrollByPage = useCallback(
+    (dir: 1 | -1) => {
+      const el = listRef.current;
+      if (!el) return;
+      const amount = el.clientWidth * 0.9;
+      const maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
+
+      if (dir > 0) {
+        if (el.scrollLeft + el.clientWidth >= maxScrollLeft - 5) {
+          smoothScrollCarousel(el, 0);
+        } else {
+          smoothScrollCarousel(el, el.scrollLeft + amount);
+        }
+      } else {
+        smoothScrollCarousel(el, el.scrollLeft - amount);
+      }
+    },
+    [smoothScrollCarousel],
+  );
 
   return (
     <div className="min-h-screen bg-background">
