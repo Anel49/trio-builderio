@@ -115,22 +115,45 @@ export async function createListing(req: Request, res: Response) {
         ? [type]
         : [];
     const primaryCategory = cats[0] ?? null;
-    const result = await pool.query(
-      `insert into listings (name, price_cents, rating, image_url, host, category, distance, description, zip_code)
-       values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-       returning id`,
-      [
-        name,
-        price_cents,
-        rating ?? null,
-        primaryImage,
-        host ?? null,
-        primaryCategory,
-        distance ?? null,
-        description ?? null,
-        zip,
-      ],
-    );
+    const rentalPeriodValue = normalizeRentalPeriod(rental_period);
+
+    let result;
+    try {
+      result = await pool.query(
+        `insert into listings (name, price_cents, rating, image_url, host, category, rental_period, distance, description, zip_code)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+         returning id`,
+        [
+          name,
+          price_cents,
+          rating ?? null,
+          primaryImage,
+          host ?? null,
+          primaryCategory,
+          rentalPeriodValue,
+          distance ?? null,
+          description ?? null,
+          zip,
+        ],
+      );
+    } catch {
+      result = await pool.query(
+        `insert into listings (name, price_cents, rating, image_url, host, category, distance, description, zip_code)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+         returning id`,
+        [
+          name,
+          price_cents,
+          rating ?? null,
+          primaryImage,
+          host ?? null,
+          primaryCategory,
+          distance ?? null,
+          description ?? null,
+          zip,
+        ],
+      );
+    }
     const newId = result.rows[0].id;
     if (imgs.length > 0) {
       try {
