@@ -774,23 +774,34 @@ export default function BrowseListings() {
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
               {filteredAndSortedListings.map((listing) => {
                 const hasRange = !!(dateRange.start && dateRange.end);
+                const rentalPeriod = normalizeRentalPeriod(
+                  (listing as any).rentalPeriod,
+                );
                 const display = (() => {
-                  if (!hasRange)
+                  if (!hasRange || rentalPeriod !== "Daily") {
                     return {
                       price: listing.price,
-                      label: "/day",
+                      label: `per ${RENTAL_UNIT_LABELS[rentalPeriod]}`,
                       underline: false,
                     };
+                  }
                   const start = dateRange.start as Date;
                   const end = dateRange.end as Date;
                   const days =
                     Math.ceil(
                       (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
                     ) + 1;
-                  const dailyRate = parseInt(listing.price.replace("$", ""));
-                  const total = days * dailyRate;
+                  const baseRate = Number(listing.price.replace(/[^0-9.]/g, ""));
+                  if (!Number.isFinite(baseRate)) {
+                    return {
+                      price: listing.price,
+                      label: `per ${RENTAL_UNIT_LABELS[rentalPeriod]}`,
+                      underline: false,
+                    };
+                  }
+                  const total = baseRate * days;
                   return {
-                    price: `$${total}`,
+                    price: `$${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}`,
                     label: "total",
                     underline: true,
                   };
