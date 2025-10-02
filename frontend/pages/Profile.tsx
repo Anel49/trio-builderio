@@ -64,6 +64,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const REVIEWS_PER_PAGE = 8;
+
 export default function Profile() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -75,12 +77,14 @@ export default function Profile() {
   const [itemReviewSearchQuery, setItemReviewSearchQuery] = useState("");
   const [itemReviewSortBy, setItemReviewSortBy] = useState("newest");
   const [itemReviewRatingFilter, setItemReviewRatingFilter] = useState("all");
+  const [currentItemReviewPage, setCurrentItemReviewPage] = useState(1);
 
   // Seller reviews search and filter state
   const [sellerReviewSearchQuery, setSellerReviewSearchQuery] = useState("");
   const [sellerReviewSortBy, setSellerReviewSortBy] = useState("newest");
   const [sellerReviewRatingFilter, setSellerReviewRatingFilter] =
     useState("all");
+  const [currentSellerReviewPage, setCurrentSellerReviewPage] = useState(1);
 
   // Mobile tabs navigation
   const [activeTab, setActiveTab] = useState("listings");
