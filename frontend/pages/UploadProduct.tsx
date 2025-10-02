@@ -893,8 +893,7 @@ export default function UploadProduct() {
             <DialogTitle>Pricing guidance</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground mb-4">
-            Stuck on what to price your item? Here are our recommended daily
-            rates.
+            Stumped on a pricing rate for your item? These are our recommended rates.
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
