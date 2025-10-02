@@ -157,6 +157,12 @@ export default function Profile() {
             : "";
       const normalizedZip =
         typeof resolvedZip === "string" ? resolvedZip.trim() : "";
+      const resolvedId =
+        typeof user.id === "number"
+          ? user.id
+          : typeof user.id === "string" && user.id.trim()
+            ? Number(user.id)
+            : null;
       const founding = Boolean(
         user.foundingSupporter ?? user.founding_supporter,
       );
