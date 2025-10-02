@@ -362,7 +362,9 @@ export default function ProductDetails() {
   }, [reviewSearchQuery, reviewSortBy, reviewRatingFilter, reviews.length]);
 
   useEffect(() => {
-    const totalPages = Math.ceil(filteredAndSortedReviews.length / REVIEWS_PER_PAGE);
+    const totalPages = Math.ceil(
+      filteredAndSortedReviews.length / REVIEWS_PER_PAGE,
+    );
     if (totalPages === 0 && currentReviewPage !== 1) {
       setCurrentReviewPage(1);
     } else if (totalPages > 0 && currentReviewPage > totalPages) {
@@ -790,8 +792,8 @@ export default function ProductDetails() {
 
           {/* Results Count */}
           <div className="text-sm text-muted-foreground">
-            Showing {paginatedReviews.length} of {filteredAndSortedReviews.length}{" "}
-            reviews
+            Showing {paginatedReviews.length} of{" "}
+            {filteredAndSortedReviews.length} reviews
           </div>
         </div>
 
