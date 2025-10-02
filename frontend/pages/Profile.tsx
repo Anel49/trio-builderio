@@ -1665,11 +1665,17 @@ export default function Profile() {
                           zip_code:
                             zipCode && zipCode.trim() ? zipCode.trim() : null,
                         };
-                        await apiFetch("users", {
+                        const response = await apiFetch("users", {
                           method: "POST",
                           headers: { "content-type": "application/json" },
                           body: JSON.stringify(body),
                         });
+                        const responseData = await response
+                          .json()
+                          .catch(() => ({} as any));
+                        if (responseData?.user) {
+                          applyUserData(responseData.user);
+                        }
                       } catch {}
                     }
                     setIsEditingProfile((v) => !v);
