@@ -194,7 +194,7 @@ export async function getListingById(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.description, l.zip_code, l.created_at,
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.description, l.zip_code, l.created_at, l.rental_period,
                 coalesce(img.images, '{}') as images,
                 coalesce(cats.categories, '{}') as categories
          from listings l
