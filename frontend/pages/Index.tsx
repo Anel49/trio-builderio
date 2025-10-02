@@ -252,43 +252,6 @@ export default function Index() {
     return () => el.removeEventListener("scroll", onScroll as any);
   }, []);
 
-  useEffect(() => {
-    const cancelAnimation = () => {
-      if (activeScrollAnimation.current !== null) {
-        cancelAnimationFrame(activeScrollAnimation.current);
-        activeScrollAnimation.current = null;
-      }
-      if (restoreSnapRef.current) {
-        restoreSnapRef.current();
-      }
-    };
-
-    if (typeof window !== "undefined" && "matchMedia" in window) {
-      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
-        prefersReducedMotion.current = event.matches;
-      };
-      handleChange(mediaQuery);
-
-      if (typeof mediaQuery.addEventListener === "function") {
-        mediaQuery.addEventListener("change", handleChange as any);
-        return () => {
-          mediaQuery.removeEventListener("change", handleChange as any);
-          cancelAnimation();
-        };
-      }
-      if (typeof mediaQuery.addListener === "function") {
-        mediaQuery.addListener(handleChange as any);
-        return () => {
-          mediaQuery.removeListener(handleChange as any);
-          cancelAnimation();
-        };
-      }
-    }
-
-    return cancelAnimation;
-  }, []);
-
   const smoothScrollCarousel = useCallback(
     (el: HTMLDivElement, target: number) => {
       if (prefersReducedMotion.current) {
