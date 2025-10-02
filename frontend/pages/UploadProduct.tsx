@@ -130,6 +130,8 @@ export default function UploadProduct() {
     uploadedImages,
   ]);
 
+  const defaultCategory = "Miscellaneous";
+
   const recommendedTags = [
     "Appliance",
     "Automotive",
@@ -273,8 +275,8 @@ export default function UploadProduct() {
         image: imgs[0],
         images: imgs,
         host: currentUser.name,
-        type: selectedTags[0] || "General",
-        categories: selectedTags,
+        type: selectedTags[0] || defaultCategory,
+        categories: selectedTags.length > 0 ? selectedTags : [defaultCategory],
         distance: "0 miles",
         description,
         zip_code: (
@@ -891,7 +893,8 @@ export default function UploadProduct() {
             <DialogTitle>Pricing guidance</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground mb-4">
-            Stumped on a pricing rate for your item? These are our recommended rates.
+            Stuck on what to price your item? Here are our recommended daily
+            rates.
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
