@@ -222,20 +222,11 @@ export default function Profile() {
           user = upData?.user ?? null;
         }
         if (user) {
-          const fs = Boolean(
-            (user as any).foundingSupporter ?? (user as any).founding_supporter,
-          );
-          const tr = Boolean(
-            (user as any).topReferrer ?? (user as any).top_referrer,
-          );
-          const am = Boolean((user as any).ambassador);
-          const zc = (user as any).zipCode ?? (user as any).zip_code ?? "";
-          if (typeof zc === "string") setZipCode(zc);
-          setBadges({ foundingSupporter: fs, topReferrer: tr, ambassador: am });
+          applyUserData(user);
         }
       } catch {}
     })();
-  }, []);
+  }, [applyUserData]);
 
   const avatarOutlineClass = useMemo(() => {
     if (badges.foundingSupporter) return "ring-4 ring-sky-400";
