@@ -131,6 +131,67 @@ export default function Profile() {
     setIsFavoritesModalOpen(true);
   };
 
+  const applyUserData = useCallback(
+    (user: any) => {
+      if (!user) return;
+      const extractedAvatar =
+        typeof user.avatarUrl === "string" && user.avatarUrl.trim()
+          ? user.avatarUrl
+          : typeof user.avatar_url === "string" && user.avatar_url.trim()
+            ? user.avatar_url
+            : null;
+      const resolvedName =
+        typeof user.name === "string" && user.name.trim() ? user.name : null;
+      const resolvedZip =
+        typeof user.zipCode === "string"
+          ? user.zipCode
+          : typeof user.zip_code === "string"
+            ? user.zip_code
+            : "";
+      const founding = Boolean(
+        user.foundingSupporter ?? user.founding_supporter,
+      );
+      const referrer = Boolean(user.topReferrer ?? user.top_referrer);
+      const ambassador = Boolean(user.ambassador);
+
+      if (resolvedName) {
+        setName(resolvedName);
+      }
+      if (extractedAvatar) {
+        setProfileImageUrl(extractedAvatar);
+      }
+      setZipCode(typeof resolvedZip === "string" ? resolvedZip : "");
+      setBadges({
+        foundingSupporter: founding,
+        topReferrer: referrer,
+        ambassador,
+      });
+      setUserRecord({
+        id: typeof user.id === "number" ? user.id : Number(user.id) || null,
+        name: resolvedName,
+        email:
+          typeof user.email === "string" && user.email.trim()
+            ? user.email
+            : null,
+        avatarUrl: extractedAvatar,
+        zipCode:
+          typeof resolvedZip === "string" && resolvedZip.trim()
+            ? resolvedZip
+            : null,
+        createdAt:
+          typeof user.createdAt === "string"
+            ? user.createdAt
+            : typeof user.created_at === "string"
+              ? user.created_at
+              : null,
+        foundingSupporter: founding,
+        topReferrer: referrer,
+        ambassador,
+      });
+    },
+    [],
+  );
+
   // Badges state loaded from server
   const [badges, setBadges] = useState({
     foundingSupporter: false,
