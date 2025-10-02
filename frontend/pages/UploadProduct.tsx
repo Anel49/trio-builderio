@@ -298,6 +298,7 @@ export default function UploadProduct() {
         categories: selectedTags.length > 0 ? selectedTags : [defaultCategory],
         distance: "0 miles",
         description,
+        rental_period: rentalPeriod,
         zip_code: (
           location ||
           userProfile.defaultLocation ||
@@ -578,7 +579,7 @@ export default function UploadProduct() {
                         })()
                       : "0"}
                   </div>
-                  <div className="text-muted-foreground">per day</div>
+                  <div className="text-muted-foreground">per {priceUnit}</div>
                 </div>
 
                 <Button size="lg" className="w-full mb-4">
@@ -795,13 +796,39 @@ export default function UploadProduct() {
                   />
                 </div>
 
+                {/* Rental Period */}
+                <div>
+                  <span className="block text-sm font-medium mb-2">
+                    Rental period
+                  </span>
+                  <div
+                    role="radiogroup"
+                    aria-label="Rental period"
+                    className="flex flex-wrap gap-2"
+                  >
+                    {rentalPeriods.map((period) => (
+                      <Button
+                        key={period}
+                        type="button"
+                        role="radio"
+                        aria-checked={rentalPeriod === period}
+                        variant={rentalPeriod === period ? "default" : "outline"}
+                        className="flex-1 min-w-[120px]"
+                        onClick={() => setRentalPeriod(period)}
+                      >
+                        {period}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Price */}
                 <div>
                   <label
                     htmlFor="price"
                     className="block text-sm font-medium mb-2 flex items-center"
                   >
-                    <span>Price per day</span>
+                    <span>{priceLabel}</span>
                     <button
                       type="button"
                       aria-label="Pricing guidance"
@@ -827,7 +854,8 @@ export default function UploadProduct() {
                           setPrice(value);
                         }
                       }}
-                      placeholder="35"
+                      placeholder={pricePlaceholder}
+                      aria-label={priceLabel}
                       className="w-full pl-8"
                     />
                   </div>
