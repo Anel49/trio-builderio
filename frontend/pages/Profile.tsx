@@ -1255,6 +1255,40 @@ export default function Profile() {
                       </Card>
                     ))}
                   </div>
+
+                  {filteredAndSortedSellerReviews.length > 0 && totalSellerReviewPages > 1 && (
+                    <div className="flex items-center justify-center gap-4 mt-8">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-[20px]"
+                        aria-label="Previous seller reviews"
+                        disabled={currentSellerReviewPage === 1}
+                        onClick={() =>
+                          setCurrentSellerReviewPage((page) => Math.max(1, page - 1))
+                        }
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                      </Button>
+                      <span className="text-sm text-muted-foreground">
+                        {currentSellerReviewPage} of {totalSellerReviewPages}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-[20px]"
+                        aria-label="Next seller reviews"
+                        disabled={currentSellerReviewPage === totalSellerReviewPages}
+                        onClick={() =>
+                          setCurrentSellerReviewPage((page) =>
+                            Math.min(totalSellerReviewPages, page + 1),
+                          )
+                        }
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
