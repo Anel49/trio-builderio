@@ -1,6 +1,18 @@
 import type { Request, Response } from "express";
 import { pool } from "./db";
 
+const VALID_RENTAL_PERIODS = ["Hourly", "Daily", "Weekly", "Monthly"];
+const DEFAULT_RENTAL_PERIOD = "Daily";
+
+function normalizeRentalPeriod(value: any): string {
+  if (typeof value !== "string") return DEFAULT_RENTAL_PERIOD;
+  const lower = value.trim().toLowerCase();
+  const match = VALID_RENTAL_PERIODS.find(
+    (period) => period.toLowerCase() === lower,
+  );
+  return match ?? DEFAULT_RENTAL_PERIOD;
+}
+
 function formatPrice(price_cents: number) {
   if (price_cents % 100 === 0) return `$${(price_cents / 100).toFixed(0)}`;
   return `$${(price_cents / 100).toFixed(2)}`;
