@@ -147,7 +147,7 @@ export default function BrowseListings() {
       image:
         "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Sarah M.",
-      type: "Landscaping",
+      type: "Tool",
       location: "San Francisco, CA",
       distance: "2.3 miles",
       lat: 37.7749,
@@ -179,7 +179,7 @@ export default function BrowseListings() {
       image:
         "https://images.pexels.com/photos/6790973/pexels-photo-6790973.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Alex K.",
-      type: "Tools",
+      type: "Tool",
       location: "Berkeley, CA",
       distance: "8.7 miles",
       lat: 37.8715,
@@ -227,7 +227,7 @@ export default function BrowseListings() {
       image:
         "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=250&fit=crop&auto=format",
       host: "Jessica T.",
-      type: "Instruments",
+      type: "Instrument",
       location: "Fremont, CA",
       distance: "18.9 miles",
       lat: 37.5485,
