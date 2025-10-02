@@ -1216,8 +1216,8 @@ export default function Profile() {
 
                     {/* Results Count */}
                     <div className="text-sm text-muted-foreground">
-                      Showing {filteredAndSortedSellerReviews.length} of{" "}
-                      {sellerReviews.length} reviews
+                      Showing {paginatedSellerReviews.length} of{" "}
+                      {filteredAndSortedSellerReviews.length} reviews
                     </div>
                   </div>
 
