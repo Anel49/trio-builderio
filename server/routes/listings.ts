@@ -90,6 +90,7 @@ export async function createListing(req: Request, res: Response) {
       distance,
       description,
       categories,
+      rental_period,
       zip_code,
     } = req.body || {};
     if (!name || typeof price_cents !== "number") {
