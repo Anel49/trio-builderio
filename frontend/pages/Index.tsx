@@ -241,9 +241,6 @@ export default function Index() {
   ];
 
   const listRef = useRef<HTMLDivElement | null>(null);
-  const activeScrollAnimation = useRef<number | null>(null);
-  const restoreSnapRef = useRef<(() => void) | null>(null);
-  const prefersReducedMotion = useRef(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
 
   useEffect(() => {
