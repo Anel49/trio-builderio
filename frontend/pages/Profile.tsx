@@ -276,9 +276,9 @@ export default function Profile() {
     ...currentUser,
     name,
     profileImage: profileImageUrl,
-    zipCode: zipCode,
+    zipCode,
     avgRating: currentUser.rating,
-    dateJoined: `March ${currentUser.joinedDate}`,
+    dateJoined: dateJoinedDisplay || "—",
     avgResponseTime: currentUser.responseTime,
   };
 
