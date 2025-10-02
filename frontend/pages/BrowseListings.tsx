@@ -617,12 +617,27 @@ export default function BrowseListings() {
                       className="w-full mt-2 p-2 border border-input rounded-md bg-background"
                     >
                       <option value="">All Categories</option>
-                      <option value="Landscaping">Landscaping</option>
+                      <option value="Appliance">Appliance</option>
+                      <option value="Automotive">Automotive</option>
+                      <option value="Baby">Baby</option>
+                      <option value="Child">Child</option>
                       <option value="Clothing">Clothing</option>
-                      <option value="Tools">Tools</option>
-                      <option value="Electronics">Electronics</option>
+                      <option value="Crafts">Crafts</option>
+                      <option value="Fitness">Fitness</option>
+                      <option value="Furniture">Furniture</option>
+                      <option value="Game">Game</option>
+                      <option value="Garden">Garden</option>
+                      <option value="Home">Home</option>
+                      <option value="Instrument">Instrument</option>
+                      <option value="Literature">Literature</option>
+                      <option value="Miscellaneous">Miscellaneous</option>
+                      <option value="Party">Party</option>
+                      <option value="Pet">Pet</option>
+                      <option value="Service">Service</option>
                       <option value="Sports">Sports</option>
-                      <option value="Instruments">Instruments</option>
+                      <option value="Tech">Tech</option>
+                      <option value="Tool">Tool</option>
+                      <option value="Toy">Toy</option>
                     </select>
                   </div>
 
