@@ -1,4 +1,10 @@
-import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useMemo,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -73,19 +79,17 @@ export default function Profile() {
   const [zipCode, setZipCode] = useState("");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [name, setName] = useState(currentUser.name);
-  const [userRecord, setUserRecord] = useState<
-    null | {
-      id: number | null;
-      name: string | null;
-      email: string | null;
-      avatarUrl: string | null;
-      zipCode: string | null;
-      createdAt: string | null;
-      foundingSupporter: boolean;
-      topReferrer: boolean;
-      ambassador: boolean;
-    }
-  >(null);
+  const [userRecord, setUserRecord] = useState<null | {
+    id: number | null;
+    name: string | null;
+    email: string | null;
+    avatarUrl: string | null;
+    zipCode: string | null;
+    createdAt: string | null;
+    foundingSupporter: boolean;
+    topReferrer: boolean;
+    ambassador: boolean;
+  }>(null);
 
   // Item reviews search and filter state
   const [itemReviewSearchQuery, setItemReviewSearchQuery] = useState("");
@@ -138,71 +142,64 @@ export default function Profile() {
     ambassador: false,
   });
 
-  const applyUserData = useCallback(
-    (user: any) => {
-      if (!user) return;
-      const extractedAvatar =
-        typeof user.avatarUrl === "string" && user.avatarUrl.trim()
-          ? user.avatarUrl
-          : typeof user.avatar_url === "string" && user.avatar_url.trim()
-            ? user.avatar_url
-            : null;
-      const resolvedName =
-        typeof user.name === "string" && user.name.trim() ? user.name : null;
-      const resolvedZip =
-        typeof user.zipCode === "string"
-          ? user.zipCode
-          : typeof user.zip_code === "string"
-            ? user.zip_code
-            : "";
-      const normalizedZip =
-        typeof resolvedZip === "string" ? resolvedZip.trim() : "";
-      const resolvedId =
-        typeof user.id === "number"
-          ? user.id
-          : typeof user.id === "string" && user.id.trim()
-            ? Number(user.id)
-            : null;
-      const founding = Boolean(
-        user.foundingSupporter ?? user.founding_supporter,
-      );
-      const referrer = Boolean(user.topReferrer ?? user.top_referrer);
-      const ambassador = Boolean(user.ambassador);
+  const applyUserData = useCallback((user: any) => {
+    if (!user) return;
+    const extractedAvatar =
+      typeof user.avatarUrl === "string" && user.avatarUrl.trim()
+        ? user.avatarUrl
+        : typeof user.avatar_url === "string" && user.avatar_url.trim()
+          ? user.avatar_url
+          : null;
+    const resolvedName =
+      typeof user.name === "string" && user.name.trim() ? user.name : null;
+    const resolvedZip =
+      typeof user.zipCode === "string"
+        ? user.zipCode
+        : typeof user.zip_code === "string"
+          ? user.zip_code
+          : "";
+    const normalizedZip =
+      typeof resolvedZip === "string" ? resolvedZip.trim() : "";
+    const resolvedId =
+      typeof user.id === "number"
+        ? user.id
+        : typeof user.id === "string" && user.id.trim()
+          ? Number(user.id)
+          : null;
+    const founding = Boolean(user.foundingSupporter ?? user.founding_supporter);
+    const referrer = Boolean(user.topReferrer ?? user.top_referrer);
+    const ambassador = Boolean(user.ambassador);
 
-      if (resolvedName) {
-        setName(resolvedName);
-      }
-      if (extractedAvatar) {
-        setProfileImageUrl(extractedAvatar);
-      }
-      setZipCode(normalizedZip);
-      setBadges({
-        foundingSupporter: founding,
-        topReferrer: referrer,
-        ambassador,
-      });
-      setUserRecord({
-        id: resolvedId,
-        name: resolvedName,
-        email:
-          typeof user.email === "string" && user.email.trim()
-            ? user.email
+    if (resolvedName) {
+      setName(resolvedName);
+    }
+    if (extractedAvatar) {
+      setProfileImageUrl(extractedAvatar);
+    }
+    setZipCode(normalizedZip);
+    setBadges({
+      foundingSupporter: founding,
+      topReferrer: referrer,
+      ambassador,
+    });
+    setUserRecord({
+      id: resolvedId,
+      name: resolvedName,
+      email:
+        typeof user.email === "string" && user.email.trim() ? user.email : null,
+      avatarUrl: extractedAvatar,
+      zipCode: normalizedZip || null,
+      createdAt:
+        typeof user.createdAt === "string"
+          ? user.createdAt
+          : typeof user.created_at === "string"
+            ? user.created_at
             : null,
-        avatarUrl: extractedAvatar,
-        zipCode: normalizedZip || null,
-        createdAt:
-          typeof user.createdAt === "string"
-            ? user.createdAt
-            : typeof user.created_at === "string"
-              ? user.created_at
-              : null,
-        foundingSupporter: founding,
-        topReferrer: referrer,
-        ambassador,
-      });
-    },
-    [],
-  );
+      foundingSupporter: founding,
+      topReferrer: referrer,
+      ambassador,
+    });
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -913,7 +910,7 @@ export default function Profile() {
                           });
                           const responseData = await response
                             .json()
-                            .catch(() => ({} as any));
+                            .catch(() => ({}) as any);
                           if (responseData?.user) {
                             applyUserData(responseData.user);
                           }
@@ -1677,7 +1674,7 @@ export default function Profile() {
                         });
                         const responseData = await response
                           .json()
-                          .catch(() => ({} as any));
+                          .catch(() => ({}) as any);
                         if (responseData?.user) {
                           applyUserData(responseData.user);
                         }

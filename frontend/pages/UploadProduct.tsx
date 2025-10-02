@@ -814,7 +814,9 @@ export default function UploadProduct() {
                         type="button"
                         role="radio"
                         aria-checked={rentalPeriod === period}
-                        variant={rentalPeriod === period ? "default" : "outline"}
+                        variant={
+                          rentalPeriod === period ? "default" : "outline"
+                        }
                         className="flex-1 min-w-[120px]"
                         onClick={() => setRentalPeriod(period)}
                       >
@@ -942,7 +944,8 @@ export default function UploadProduct() {
             <DialogTitle>Pricing guidance</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground mb-4">
-            Stumped on a pricing rate for your item? These are our recommended rates.
+            Stumped on a pricing rate for your item? These are our recommended
+            rates.
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
