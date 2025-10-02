@@ -859,6 +859,7 @@ export default function ProductDetails() {
             <Button
               variant="outline"
               size="icon"
+              className="rounded-[20px]"
               aria-label="Previous reviews"
               disabled={currentReviewPage === 1}
               onClick={() =>
@@ -873,6 +874,7 @@ export default function ProductDetails() {
             <Button
               variant="outline"
               size="icon"
+              className="rounded-[20px]"
               aria-label="Next reviews"
               disabled={currentReviewPage === totalReviewPages}
               onClick={() =>
