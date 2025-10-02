@@ -1222,7 +1222,7 @@ export default function Profile() {
                   </div>
 
                   <div className="space-y-4">
-                    {filteredAndSortedSellerReviews.map((review) => (
+                    {paginatedSellerReviews.map((review) => (
                       <Card key={review.id}>
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between mb-3">
