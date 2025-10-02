@@ -182,17 +182,14 @@ export default function Profile() {
         ambassador,
       });
       setUserRecord({
-        id: typeof user.id === "number" ? user.id : Number(user.id) || null,
+        id: resolvedId,
         name: resolvedName,
         email:
           typeof user.email === "string" && user.email.trim()
             ? user.email
             : null,
         avatarUrl: extractedAvatar,
-        zipCode:
-          typeof resolvedZip === "string" && resolvedZip.trim()
-            ? resolvedZip
-            : null,
+        zipCode: normalizedZip || null,
         createdAt:
           typeof user.createdAt === "string"
             ? user.createdAt
