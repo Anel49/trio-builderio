@@ -237,6 +237,10 @@ export async function getListingById(req: Request, res: Response) {
       description: r.description ?? null,
       zipCode: r.zip_code || null,
       createdAt: r.created_at,
+      rentalPeriod:
+        r.rental_period && typeof r.rental_period === "string"
+          ? normalizeRentalPeriod(r.rental_period)
+          : DEFAULT_RENTAL_PERIOD,
     };
     res.json({ ok: true, listing });
   } catch (error: any) {
