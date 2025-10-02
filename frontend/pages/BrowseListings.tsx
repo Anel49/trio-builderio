@@ -322,6 +322,9 @@ export default function BrowseListings() {
               lat: 0,
               lng: 0,
               createdAt: l.createdAt ?? l.created_at ?? undefined,
+              rentalPeriod: normalizeRentalPeriod(
+                l.rentalPeriod ?? l.rental_period,
+              ),
             };
           });
           setListings(mapped);
