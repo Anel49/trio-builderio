@@ -105,7 +105,8 @@ export default function UploadProduct() {
       location.trim() !== "" ||
       description.trim() !== "" ||
       selectedTags.length > 0 ||
-      uploadedImages.length > 0
+      uploadedImages.length > 0 ||
+      rentalPeriod !== "Daily"
     );
   };
 
@@ -147,6 +148,7 @@ export default function UploadProduct() {
     description,
     selectedTags,
     uploadedImages,
+    rentalPeriod,
   ]);
 
   const defaultCategory = "Miscellaneous";
