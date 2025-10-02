@@ -242,6 +242,7 @@ export default function Index() {
 
   const listRef = useRef<HTMLDivElement | null>(null);
   const activeScrollAnimation = useRef<number | null>(null);
+  const restoreSnapRef = useRef<(() => void) | null>(null);
   const prefersReducedMotion = useRef(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
 
@@ -259,6 +260,9 @@ export default function Index() {
       if (activeScrollAnimation.current !== null) {
         cancelAnimationFrame(activeScrollAnimation.current);
         activeScrollAnimation.current = null;
+      }
+      if (restoreSnapRef.current) {
+        restoreSnapRef.current();
       }
     };
 
@@ -290,6 +294,9 @@ export default function Index() {
 
   const smoothScrollCarousel = useCallback((el: HTMLDivElement, target: number) => {
     if (prefersReducedMotion.current) {
+      if (restoreSnapRef.current) {
+        restoreSnapRef.current();
+      }
       const maxTargetInstant = Math.max(0, el.scrollWidth - el.clientWidth);
       el.scrollLeft = Math.max(0, Math.min(target, maxTargetInstant));
       return;
@@ -302,10 +309,22 @@ export default function Index() {
       cancelAnimationFrame(activeScrollAnimation.current);
       activeScrollAnimation.current = null;
     }
+    if (restoreSnapRef.current) {
+      restoreSnapRef.current();
+    }
 
     const start = el.scrollLeft;
     const change = clamped - start;
-    if (change === 0) return;
+    if (change === 0) {
+      return;
+    }
+
+    const previousInlineSnap = el.style.scrollSnapType;
+    el.style.scrollSnapType = "none";
+    restoreSnapRef.current = () => {
+      el.style.scrollSnapType = previousInlineSnap;
+      restoreSnapRef.current = null;
+    };
     const duration = 450;
     const startTime =
       typeof performance !== "undefined" ? performance.now() : Date.now();
@@ -320,6 +339,13 @@ export default function Index() {
         activeScrollAnimation.current = requestAnimationFrame(step);
       } else {
         activeScrollAnimation.current = null;
+        if (restoreSnapRef.current) {
+          const restore = restoreSnapRef.current;
+          restoreSnapRef.current = null;
+          requestAnimationFrame(() => {
+            restore();
+          });
+        }
       }
     };
 
