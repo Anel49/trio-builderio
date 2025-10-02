@@ -186,6 +186,7 @@ export default function ProductDetails() {
             rating: typeof l.rating === "number" ? l.rating : null,
             totalReviews: 0,
             location: l.distance || "",
+            rentalPeriod: normalizeRentalPeriod(l.rentalPeriod ?? l.rental_period),
             image: l.image || undefined,
             images: Array.isArray(l.images) ? l.images : undefined,
           });
