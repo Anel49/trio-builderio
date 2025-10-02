@@ -73,6 +73,19 @@ export default function Profile() {
   const [zipCode, setZipCode] = useState("");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [name, setName] = useState(currentUser.name);
+  const [userRecord, setUserRecord] = useState<
+    null | {
+      id: number | null;
+      name: string | null;
+      email: string | null;
+      avatarUrl: string | null;
+      zipCode: string | null;
+      createdAt: string | null;
+      foundingSupporter: boolean;
+      topReferrer: boolean;
+      ambassador: boolean;
+    }
+  >(null);
 
   // Item reviews search and filter state
   const [itemReviewSearchQuery, setItemReviewSearchQuery] = useState("");
