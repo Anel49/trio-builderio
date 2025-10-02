@@ -637,38 +637,12 @@ export default function ProductDetails() {
                 <div
                   className={cn(
                     "text-3xl font-bold text-primary",
-                    selectedDateRange.start &&
-                      selectedDateRange.end &&
-                      isDateRangeValid() &&
-                      "underline",
+                    showTotalPrice && "underline",
                   )}
                 >
-                  {selectedDateRange.start &&
-                  selectedDateRange.end &&
-                  isDateRangeValid()
-                    ? (() => {
-                        const start = selectedDateRange.start as Date;
-                        const end = selectedDateRange.end as Date;
-                        const days =
-                          Math.ceil(
-                            (end.getTime() - start.getTime()) /
-                              (1000 * 60 * 60 * 24),
-                          ) + 1;
-                        const dailyRate = parseInt(
-                          product.price.replace("$", ""),
-                        );
-                        const total = days * dailyRate;
-                        return `$${total}`;
-                      })()
-                    : product.price}
+                  {displayedPrice}
                 </div>
-                <div className="text-muted-foreground">
-                  {selectedDateRange.start &&
-                  selectedDateRange.end &&
-                  isDateRangeValid()
-                    ? "total"
-                    : "per day"}
-                </div>
+                <div className="text-muted-foreground">{priceSubLabel}</div>
               </div>
 
               {/* Date Range Picker */}
