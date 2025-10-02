@@ -46,6 +46,21 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+const rentalPeriods = ["Hourly", "Daily", "Weekly", "Monthly"] as const;
+type RentalPeriod = (typeof rentalPeriods)[number];
+const priceUnitLabels: Record<RentalPeriod, string> = {
+  Hourly: "hour",
+  Daily: "day",
+  Weekly: "week",
+  Monthly: "month",
+};
+const pricePlaceholderByPeriod: Record<RentalPeriod, string> = {
+  Hourly: "15",
+  Daily: "35",
+  Weekly: "150",
+  Monthly: "400",
+};
+
 export default function UploadProduct() {
   const [createdListingId, setCreatedListingId] = useState<number | null>(null);
   const [title, setTitle] = useState("");
@@ -54,6 +69,7 @@ export default function UploadProduct() {
   const [description, setDescription] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>("Daily");
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isListed, setIsListed] = useState(false);
@@ -71,6 +87,9 @@ export default function UploadProduct() {
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
+  const priceUnit = priceUnitLabels[rentalPeriod];
+  const priceLabel = `Price per ${priceUnit}`;
+  const pricePlaceholder = pricePlaceholderByPeriod[rentalPeriod];
 
   // Mock user profile data - in real app this would come from context/API
   const userProfile = {
