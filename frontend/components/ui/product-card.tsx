@@ -53,7 +53,7 @@ export function ProductCard({
   onMouseLeave,
   onFavorite,
   className,
-  priceUnitLabel = "/day",
+  priceUnitLabel = "per day",
   underlinePrice = false,
   onDeleteClick,
 }: ProductCardProps) {
