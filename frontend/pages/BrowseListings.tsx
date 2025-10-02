@@ -51,6 +51,24 @@ import { format } from "date-fns";
 import { isDateRangeAvailable } from "@/lib/reservations";
 import { apiFetch } from "@/lib/api";
 
+const RENTAL_PERIODS = ["Hourly", "Daily", "Weekly", "Monthly"] as const;
+type RentalPeriod = (typeof RENTAL_PERIODS)[number];
+const DEFAULT_RENTAL_PERIOD: RentalPeriod = "Daily";
+const RENTAL_UNIT_LABELS: Record<RentalPeriod, string> = {
+  Hourly: "hour",
+  Daily: "day",
+  Weekly: "week",
+  Monthly: "month",
+};
+const normalizeRentalPeriod = (value: unknown): RentalPeriod => {
+  if (typeof value !== "string") return DEFAULT_RENTAL_PERIOD;
+  const lower = value.trim().toLowerCase();
+  const match = RENTAL_PERIODS.find(
+    (period) => period.toLowerCase() === lower,
+  );
+  return match ?? DEFAULT_RENTAL_PERIOD;
+};
+
 // CSS animation for price popup fade in effect and calendar range styling
 const fadeInStyle = `
   @keyframes fadeIn {
