@@ -545,6 +545,42 @@ export default function Profile() {
     itemReviewRatingFilter,
   ]);
 
+  useEffect(() => {
+    setCurrentItemReviewPage(1);
+  }, [
+    itemReviewSearchQuery,
+    itemReviewSortBy,
+    itemReviewRatingFilter,
+    itemReviews.length,
+  ]);
+
+  useEffect(() => {
+    const totalPages = Math.ceil(
+      filteredAndSortedItemReviews.length / REVIEWS_PER_PAGE,
+    );
+    if (totalPages === 0 && currentItemReviewPage !== 1) {
+      setCurrentItemReviewPage(1);
+    } else if (totalPages > 0 && currentItemReviewPage > totalPages) {
+      setCurrentItemReviewPage(totalPages);
+    }
+  }, [filteredAndSortedItemReviews.length, currentItemReviewPage]);
+
+  const totalItemReviewPages = Math.max(
+    1,
+    Math.ceil(filteredAndSortedItemReviews.length / REVIEWS_PER_PAGE),
+  );
+
+  const paginatedItemReviews = useMemo(() => {
+    if (filteredAndSortedItemReviews.length === 0) {
+      return [];
+    }
+    const startIndex = (currentItemReviewPage - 1) * REVIEWS_PER_PAGE;
+    return filteredAndSortedItemReviews.slice(
+      startIndex,
+      startIndex + REVIEWS_PER_PAGE,
+    );
+  }, [filteredAndSortedItemReviews, currentItemReviewPage]);
+
   // Filter and sort seller reviews
   const filteredAndSortedSellerReviews = useMemo(() => {
     let filtered = sellerReviews;
@@ -594,6 +630,42 @@ export default function Profile() {
     sellerReviewSortBy,
     sellerReviewRatingFilter,
   ]);
+
+  useEffect(() => {
+    setCurrentSellerReviewPage(1);
+  }, [
+    sellerReviewSearchQuery,
+    sellerReviewSortBy,
+    sellerReviewRatingFilter,
+    sellerReviews.length,
+  ]);
+
+  useEffect(() => {
+    const totalPages = Math.ceil(
+      filteredAndSortedSellerReviews.length / REVIEWS_PER_PAGE,
+    );
+    if (totalPages === 0 && currentSellerReviewPage !== 1) {
+      setCurrentSellerReviewPage(1);
+    } else if (totalPages > 0 && currentSellerReviewPage > totalPages) {
+      setCurrentSellerReviewPage(totalPages);
+    }
+  }, [filteredAndSortedSellerReviews.length, currentSellerReviewPage]);
+
+  const totalSellerReviewPages = Math.max(
+    1,
+    Math.ceil(filteredAndSortedSellerReviews.length / REVIEWS_PER_PAGE),
+  );
+
+  const paginatedSellerReviews = useMemo(() => {
+    if (filteredAndSortedSellerReviews.length === 0) {
+      return [];
+    }
+    const startIndex = (currentSellerReviewPage - 1) * REVIEWS_PER_PAGE;
+    return filteredAndSortedSellerReviews.slice(
+      startIndex,
+      startIndex + REVIEWS_PER_PAGE,
+    );
+  }, [filteredAndSortedSellerReviews, currentSellerReviewPage]);
 
   return (
     <div className="min-h-screen bg-background">
