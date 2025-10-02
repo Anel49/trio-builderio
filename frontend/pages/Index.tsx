@@ -241,8 +241,8 @@ export default function Index() {
   ];
 
   const listRef = useRef<HTMLDivElement | null>(null);
-  const supportsNativeSmoothScroll = useRef(false);
   const activeScrollAnimation = useRef<number | null>(null);
+  const prefersReducedMotion = useRef(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
 
   useEffect(() => {
@@ -255,26 +255,48 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      supportsNativeSmoothScroll.current =
-        "scrollBehavior" in document.documentElement.style;
-    }
-    return () => {
+    const cancelAnimation = () => {
       if (activeScrollAnimation.current !== null) {
         cancelAnimationFrame(activeScrollAnimation.current);
         activeScrollAnimation.current = null;
       }
     };
+
+    if (typeof window !== "undefined" && "matchMedia" in window) {
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+        prefersReducedMotion.current = event.matches;
+      };
+      handleChange(mediaQuery);
+
+      if (typeof mediaQuery.addEventListener === "function") {
+        mediaQuery.addEventListener("change", handleChange as any);
+        return () => {
+          mediaQuery.removeEventListener("change", handleChange as any);
+          cancelAnimation();
+        };
+      }
+      if (typeof mediaQuery.addListener === "function") {
+        mediaQuery.addListener(handleChange as any);
+        return () => {
+          mediaQuery.removeListener(handleChange as any);
+          cancelAnimation();
+        };
+      }
+    }
+
+    return cancelAnimation;
   }, []);
 
   const smoothScrollCarousel = useCallback((el: HTMLDivElement, target: number) => {
-    const maxTarget = Math.max(0, el.scrollWidth - el.clientWidth);
-    const clamped = Math.max(0, Math.min(target, maxTarget));
-
-    if (supportsNativeSmoothScroll.current) {
-      el.scrollTo({ left: clamped, behavior: "smooth" });
+    if (prefersReducedMotion.current) {
+      const maxTargetInstant = Math.max(0, el.scrollWidth - el.clientWidth);
+      el.scrollLeft = Math.max(0, Math.min(target, maxTargetInstant));
       return;
     }
+
+    const maxTarget = Math.max(0, el.scrollWidth - el.clientWidth);
+    const clamped = Math.max(0, Math.min(target, maxTarget));
 
     if (activeScrollAnimation.current !== null) {
       cancelAnimationFrame(activeScrollAnimation.current);
@@ -284,8 +306,9 @@ export default function Index() {
     const start = el.scrollLeft;
     const change = clamped - start;
     if (change === 0) return;
-    const duration = 400;
-    const startTime = performance.now();
+    const duration = 450;
+    const startTime =
+      typeof performance !== "undefined" ? performance.now() : Date.now();
 
     const ease = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
 
