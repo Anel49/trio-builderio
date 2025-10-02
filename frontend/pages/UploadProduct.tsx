@@ -27,6 +27,7 @@ import {
   Save,
   MessageCircle,
   Info,
+  Loader2,
 } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ENABLE_FAVORITES } from "@/lib/constants";
@@ -66,6 +67,7 @@ export default function UploadProduct() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isPriceInfoOpen, setIsPriceInfoOpen] = useState(false);
+  const [isSubmittingListing, setIsSubmittingListing] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
@@ -247,6 +249,8 @@ export default function UploadProduct() {
   };
 
   const confirmListProduct = async () => {
+    if (isSubmittingListing) return;
+    setIsSubmittingListing(true);
     try {
       const priceCents =
         Math.round(Number(price.replace(/[^0-9.]/g, "")) * 100) || 0;
@@ -288,6 +292,8 @@ export default function UploadProduct() {
     } catch (e) {
       setShowConfirmModal(false);
       alert("Failed to list product. Please try again.");
+    } finally {
+      setIsSubmittingListing(false);
     }
   };
 
@@ -352,13 +358,25 @@ export default function UploadProduct() {
           </p>
         </div>
         <div className="flex gap-4">
-          <Button className="flex-1" onClick={confirmListProduct}>
-            Yes
+          <Button
+            className="flex-1"
+            onClick={confirmListProduct}
+            disabled={isSubmittingListing}
+          >
+            {isSubmittingListing ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Listing...
+              </>
+            ) : (
+              "Yes"
+            )}
           </Button>
           <Button
             variant="outline"
             className="flex-1"
             onClick={handleCancelListing}
+            disabled={isSubmittingListing}
           >
             No
           </Button>
