@@ -142,6 +142,7 @@ export default function ProductDetails() {
     rating: number | null;
     totalReviews: number;
     location: string;
+    rentalPeriod: RentalPeriod;
     image?: string;
     images?: string[];
   }>(null);
