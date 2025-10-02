@@ -235,6 +235,23 @@ export default function Profile() {
     return "";
   }, [badges]);
 
+  const dateJoinedDisplay = useMemo(() => {
+    if (userRecord?.createdAt) {
+      try {
+        return format(new Date(userRecord.createdAt), "MMMM yyyy");
+      } catch {
+        return "";
+      }
+    }
+    if (
+      typeof currentUser.joinedDate === "string" &&
+      currentUser.joinedDate.trim()
+    ) {
+      return currentUser.joinedDate.trim();
+    }
+    return "";
+  }, [userRecord?.createdAt]);
+
   const earnedBadges = useMemo(() => {
     const arr: { key: string; title: string; color: string }[] = [];
     if (badges.foundingSupporter)
