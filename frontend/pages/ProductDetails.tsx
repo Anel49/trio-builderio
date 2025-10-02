@@ -422,6 +422,26 @@ export default function ProductDetails() {
     );
   }
 
+  const hasSelectedValidRange =
+    Boolean(selectedDateRange.start && selectedDateRange.end) &&
+    isDateRangeValid();
+  const showTotalPrice = product.rentalPeriod === "Daily" && hasSelectedValidRange;
+  const rentalUnitLabel = RENTAL_UNIT_LABELS[product.rentalPeriod];
+  const displayedPrice = showTotalPrice
+    ? (() => {
+        if (!selectedDateRange.start || !selectedDateRange.end) return product.price;
+        const start = selectedDateRange.start as Date;
+        const end = selectedDateRange.end as Date;
+        const days =
+          Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        const numericRate = Number(product.price.replace(/[^0-9.]/g, ""));
+        if (!Number.isFinite(numericRate)) return product.price;
+        const total = numericRate * days;
+        return `$${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}`;
+      })()
+    : product.price;
+  const priceSubLabel = showTotalPrice ? "total" : `per ${rentalUnitLabel}`;
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
