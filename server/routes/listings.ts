@@ -219,7 +219,7 @@ export async function listListingReviews(req: Request, res: Response) {
     // Seed varying review counts for first 9 listings if none exist yet
     const existingCount = result.rowCount;
     if (id >= 1 && id <= 9) {
-      const desiredCounts = [0, 15, 2, 0, 1, 4, 2, 5, 0, 3];
+      const desiredCounts = [0, 17, 2, 0, 1, 4, 2, 5, 0, 3];
       // index by listing id; desiredCounts[1] => listing 1 count, etc.
       const count = desiredCounts[id] ?? 0;
       if (count > existingCount) {
