@@ -155,6 +155,8 @@ export default function Profile() {
           : typeof user.zip_code === "string"
             ? user.zip_code
             : "";
+      const normalizedZip =
+        typeof resolvedZip === "string" ? resolvedZip.trim() : "";
       const founding = Boolean(
         user.foundingSupporter ?? user.founding_supporter,
       );
@@ -167,7 +169,7 @@ export default function Profile() {
       if (extractedAvatar) {
         setProfileImageUrl(extractedAvatar);
       }
-      setZipCode(typeof resolvedZip === "string" ? resolvedZip : "");
+      setZipCode(normalizedZip);
       setBadges({
         foundingSupporter: founding,
         topReferrer: referrer,
