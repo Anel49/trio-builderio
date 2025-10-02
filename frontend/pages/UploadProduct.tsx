@@ -131,18 +131,27 @@ export default function UploadProduct() {
   ]);
 
   const recommendedTags = [
-    "Landscaping",
-    "Clothing",
-    "Tools",
-    "Tech",
-    "Party",
-    "Instruments",
-    "Sports",
-    "Home",
+    "Appliance",
     "Automotive",
-    "Electronics",
-    "Books",
+    "Baby",
+    "Child",
+    "Clothing",
+    "Crafts",
+    "Fitness",
     "Furniture",
+    "Game",
+    "Garden",
+    "Home",
+    "Instrument",
+    "Literature",
+    "Miscellaneous",
+    "Party",
+    "Pet",
+    "Service",
+    "Sports",
+    "Tech",
+    "Tool",
+    "Toy",
   ];
 
   const handleTagToggle = (tag: string) => {
