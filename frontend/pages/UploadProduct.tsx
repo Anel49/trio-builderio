@@ -93,7 +93,7 @@ export default function UploadProduct() {
 
   // Mock user profile data - in real app this would come from context/API
   const userProfile = {
-    defaultLocation: "94102", // San Francisco zip code
+    defaultLocation: "20175",
     hasLocation: true,
   };
 
