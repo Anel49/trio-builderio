@@ -531,8 +531,8 @@ export default function Messages() {
               if (rightSidebarOpen) setRightSidebarOpen(false);
             }}
           >
-            {/* Safety Banner */}
-            {selectedChat !== SUPPORT_CHAT_ID && (
+            {/* Safety Banner (temporarily disabled) */}
+            {false && selectedChat !== SUPPORT_CHAT_ID && (
               <div className={colors.ui.safetyBanner}>
                 <div className="p-4">
                   <div className={`text-sm ${colors.status.error.textLight}`}>
