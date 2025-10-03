@@ -290,69 +290,80 @@ export default function BrowseListings() {
   const [listings, setListings] = useState<any[]>([]);
 
   React.useEffect(() => {
-    const userZip = getCurrentUserZipCode();
-    const path = userZip ? `listings?user_zip=${userZip}` : "listings";
-    apiFetch(path)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d) => {
-        if (d && d.ok && Array.isArray(d.listings)) {
-          const mapped = d.listings.map((l: any) => {
-            const categories =
-              Array.isArray(l.categories) && l.categories.length
-                ? l.categories
-                : l.type
-                  ? [l.type]
-                  : [];
-            const distanceMilesRaw =
-              typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
-                ? Number(l.distanceMiles)
-                : typeof l.distance_miles === "number" &&
-                    Number.isFinite(l.distance_miles)
-                  ? Number(l.distance_miles)
-                  : null;
-            const hasDistance = distanceMilesRaw != null;
-            const distanceLabel = hasDistance
-              ? typeof l.distance === "string" && l.distance.trim()
-                ? l.distance.trim()
-                : `${distanceMilesRaw.toFixed(1)} miles`
-              : null;
+    let cancelled = false;
+    (async () => {
+      try {
+        await ensureCurrentUserProfile();
+        if (cancelled) return;
+        const userZip = getCurrentUserZipCode();
+        const path = userZip ? `listings?user_zip=${userZip}` : "listings";
+        const response = await apiFetch(path);
+        if (!response.ok || cancelled) return;
+        const d = await response.json().catch(() => null);
+        if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
+        const mapped = d.listings.map((l: any) => {
+          const categories =
+            Array.isArray(l.categories) && l.categories.length
+              ? l.categories
+              : l.type
+                ? [l.type]
+                : [];
+          const distanceMilesRaw =
+            typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+              ? Number(l.distanceMiles)
+              : typeof l.distance_miles === "number" &&
+                  Number.isFinite(l.distance_miles)
+                ? Number(l.distance_miles)
+                : null;
+          const hasDistance = distanceMilesRaw != null;
+          const distanceLabel = hasDistance
+            ? typeof l.distance === "string" && l.distance.trim()
+              ? l.distance.trim()
+              : `${distanceMilesRaw.toFixed(1)} miles`
+            : null;
 
-            return {
-              id: l.id,
-              name: l.name,
-              price: l.price,
-              rating: typeof l.rating === "number" ? l.rating : null,
-              reviews: undefined,
-              image:
-                Array.isArray(l.images) && l.images.length
-                  ? l.images[0]
-                  : l.image,
-              host: l.host,
-              type: categories[0] || "General",
-              categories,
-              location: "",
-              distance: distanceLabel,
-              distanceMiles: distanceMilesRaw,
-              zipCode:
-                typeof l.zipCode === "string"
-                  ? l.zipCode
-                  : typeof l.zip_code === "string"
-                    ? l.zip_code
-                    : null,
-              lat: 0,
-              lng: 0,
-              createdAt: l.createdAt ?? l.created_at ?? undefined,
-              rentalPeriod: normalizeRentalPeriod(
-                l.rentalPeriod ?? l.rental_period,
-              ),
-            };
-          });
+          return {
+            id: l.id,
+            name: l.name,
+            price: l.price,
+            rating: typeof l.rating === "number" ? l.rating : null,
+            reviews: undefined,
+            image:
+              Array.isArray(l.images) && l.images.length
+                ? l.images[0]
+                : l.image,
+            host: l.host,
+            type: categories[0] || "General",
+            categories,
+            location: "",
+            distance: distanceLabel,
+            distanceMiles: distanceMilesRaw,
+            zipCode:
+              typeof l.zipCode === "string"
+                ? l.zipCode
+                : typeof l.zip_code === "string"
+                  ? l.zip_code
+                  : null,
+            lat: 0,
+            lng: 0,
+            createdAt: l.createdAt ?? l.created_at ?? undefined,
+            rentalPeriod: normalizeRentalPeriod(
+              l.rentalPeriod ?? l.rental_period,
+            ),
+          };
+        });
+        if (!cancelled) {
           setListings(mapped);
         }
-      })
-      .catch(() => {
-        // keep demo data
-      });
+      } catch {
+        if (!cancelled) {
+          // keep demo data
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
