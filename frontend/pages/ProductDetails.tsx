@@ -171,29 +171,41 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (!params.id) return;
-    const userZip = getCurrentUserZipCode();
-    const path = userZip
-      ? `listings/${params.id}?user_zip=${userZip}`
-      : `listings/${params.id}`;
-    apiFetch(path)
-      .then(async (r) => (r.ok ? r.json() : { ok: false }))
-      .then((d) => {
-        if (d && d.ok && d.listing) {
-          const l = d.listing;
-          const distanceMiles =
-            typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
-              ? Number(l.distanceMiles)
-              : typeof l.distance_miles === "number" &&
-                  Number.isFinite(l.distance_miles)
-                ? Number(l.distance_miles)
-                : null;
-          const hasDistance = distanceMiles != null;
-          const distanceLabel = hasDistance
-            ? typeof l.distance === "string" && l.distance.trim()
-              ? l.distance.trim()
-              : `${distanceMiles.toFixed(1)} miles`
-            : null;
+    let cancelled = false;
+    (async () => {
+      try {
+        await ensureCurrentUserProfile();
+        if (cancelled) return;
+        const userZip = getCurrentUserZipCode();
+        const path = userZip
+          ? `listings/${params.id}?user_zip=${userZip}`
+          : `listings/${params.id}`;
+        const response = await apiFetch(path);
+        if (!response.ok || cancelled) {
+          if (!cancelled) setProduct(null);
+          return;
+        }
+        const d = await response.json().catch(() => null);
+        if (!d || !d.ok || !d.listing || cancelled) {
+          if (!cancelled) setProduct(null);
+          return;
+        }
+        const l = d.listing;
+        const distanceMiles =
+          typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+            ? Number(l.distanceMiles)
+            : typeof l.distance_miles === "number" &&
+                Number.isFinite(l.distance_miles)
+              ? Number(l.distance_miles)
+              : null;
+        const hasDistance = distanceMiles != null;
+        const distanceLabel = hasDistance
+          ? typeof l.distance === "string" && l.distance.trim()
+            ? l.distance.trim()
+            : `${distanceMiles.toFixed(1)} miles`
+          : null;
 
+        if (!cancelled) {
           setProduct({
             name: l.name ?? "",
             price: l.price ?? "",
@@ -214,11 +226,14 @@ export default function ProductDetails() {
             image: l.image || undefined,
             images: Array.isArray(l.images) ? l.images : undefined,
           });
-        } else {
-          setProduct(null);
         }
-      })
-      .catch(() => setProduct(null));
+      } catch {
+        if (!cancelled) setProduct(null);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [params.id]);
 
   useEffect(() => {
