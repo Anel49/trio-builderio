@@ -252,6 +252,8 @@ export async function getListingById(req: Request, res: Response) {
     if (!id || Number.isNaN(id)) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
+    const userZip = extractUserZip(req);
+    const userCoords = userZip ? await getZipCoordinates(userZip) : null;
     let result: any;
     try {
       result = await pool.query(
