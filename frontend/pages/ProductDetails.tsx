@@ -656,7 +656,7 @@ export default function ProductDetails() {
                 <span className="text-sm">
                   {product.location && product.location.trim()
                     ? product.location
-                    : "Enter your ZIP to see distance"}
+                    : "Distance unavailable"}
                 </span>
               </div>
 
