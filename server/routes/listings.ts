@@ -105,11 +105,7 @@ export async function listListings(req: Request, res: Response) {
       }
 
       const distanceLabel =
-        distanceMiles != null
-          ? `${distanceMiles.toFixed(1)} miles`
-          : typeof r.distance === "string" && r.distance.trim()
-            ? r.distance
-            : null;
+        distanceMiles != null ? `${distanceMiles.toFixed(1)} miles` : null;
 
       return {
         id: r.id,
