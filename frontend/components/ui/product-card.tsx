@@ -23,7 +23,7 @@ interface ProductCardProps {
   image: string;
   host: string;
   type: string;
-  distance: string;
+  distance: string | null;
   listedTime?: string;
   hideHostInfo?: boolean;
   onClick?: () => void;
