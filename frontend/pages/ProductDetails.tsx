@@ -653,7 +653,11 @@ export default function ProductDetails() {
 
               <div className="flex items-center text-muted-foreground mb-6">
                 <MapPin className="h-4 w-4 mr-1" />
-                <span className="text-sm">{product.location}</span>
+                <span className="text-sm">
+                  {product.location && product.location.trim()
+                    ? product.location
+                    : "Enter your ZIP to see distance"}
+                </span>
               </div>
 
               <div className="text-right mb-6">
