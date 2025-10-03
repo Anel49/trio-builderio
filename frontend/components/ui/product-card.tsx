@@ -58,6 +58,9 @@ export function ProductCard({
   onDeleteClick,
 }: ProductCardProps) {
   const [isHeartHovered, setIsHeartHovered] = useState(false);
+  const distanceText =
+    typeof distance === "string" && distance.trim() ? distance.trim() : null;
+  const resolvedDistance = distanceText ?? "Distance unavailable";
 
   return (
     <Card
