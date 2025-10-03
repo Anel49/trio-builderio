@@ -263,7 +263,7 @@ export default function Index() {
       target = 0;
     }
     target = Math.max(0, Math.min(target, maxScrollLeft));
-    el.scrollLeft = target;
+    el.scrollTo({ left: target, behavior: "smooth" });
   }, []);
 
   return (
