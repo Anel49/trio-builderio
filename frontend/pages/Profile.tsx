@@ -60,7 +60,7 @@ type ListedItem = {
   image: string;
   host: string;
   type: string;
-  distance: string;
+  distance: string | null;
   distanceMiles?: number | null;
   reviews?: number;
 };
@@ -390,12 +390,12 @@ export default function Profile() {
                     Number.isFinite(l.distance_miles)
                   ? Number(l.distance_miles)
                   : null;
-            const distanceLabel =
-              typeof l.distance === "string" && l.distance.trim()
+            const hasDistance = distanceMiles != null;
+            const distanceLabel = hasDistance
+              ? typeof l.distance === "string" && l.distance.trim()
                 ? l.distance.trim()
-                : distanceMiles != null
-                  ? `${distanceMiles.toFixed(1)} miles`
-                  : "Distance unavailable";
+                : `${distanceMiles.toFixed(1)} miles`
+              : null;
 
             return {
               id: l.id,
