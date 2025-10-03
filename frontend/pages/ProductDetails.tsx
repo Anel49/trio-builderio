@@ -37,7 +37,7 @@ import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
-import { currentUser } from "@/lib/user-profile";
+import { currentUser, getCurrentUserZipCode } from "@/lib/user-profile";
 import {
   Star,
   Heart,
