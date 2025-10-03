@@ -42,7 +42,7 @@ export async function listListings(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.description, l.zip_code, l.created_at, l.rental_period,
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period,
                 coalesce(img.images, '{}') as images,
                 coalesce(cats.categories, '{}') as categories
          from listings l
@@ -61,7 +61,7 @@ export async function listListings(req: Request, res: Response) {
       );
     } catch {
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, distance, description, zip_code, created_at
+        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at
          from listings
          order by created_at desc
          limit 50`,
@@ -250,7 +250,7 @@ export async function getListingById(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.distance, l.description, l.zip_code, l.created_at, l.rental_period,
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period,
                 coalesce(img.images, '{}') as images,
                 coalesce(cats.categories, '{}') as categories
          from listings l
@@ -269,7 +269,7 @@ export async function getListingById(req: Request, res: Response) {
       );
     } catch {
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, distance, description, zip_code, created_at
+        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at
          from listings where id = $1`,
         [id],
       );
