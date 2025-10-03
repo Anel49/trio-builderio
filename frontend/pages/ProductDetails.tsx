@@ -140,6 +140,7 @@ export default function ProductDetails() {
     rating: number | null;
     totalReviews: number;
     location: string;
+    distanceMiles: number | null;
     rentalPeriod: RentalPeriod;
     image?: string;
     images?: string[];
