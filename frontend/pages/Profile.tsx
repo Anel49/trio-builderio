@@ -395,7 +395,8 @@ export default function Profile() {
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
         const mapped: ListedItem[] = d.listings.map((l: any) => {
           const distanceMiles =
-            typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+            typeof l.distanceMiles === "number" &&
+            Number.isFinite(l.distanceMiles)
               ? Number(l.distanceMiles)
               : typeof l.distance_miles === "number" &&
                   Number.isFinite(l.distance_miles)

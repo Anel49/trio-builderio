@@ -192,7 +192,8 @@ export default function ProductDetails() {
         }
         const l = d.listing;
         const distanceMiles =
-          typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+          typeof l.distanceMiles === "number" &&
+          Number.isFinite(l.distanceMiles)
             ? Number(l.distanceMiles)
             : typeof l.distance_miles === "number" &&
                 Number.isFinite(l.distance_miles)

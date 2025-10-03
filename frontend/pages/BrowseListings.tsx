@@ -309,7 +309,8 @@ export default function BrowseListings() {
                 ? [l.type]
                 : [];
           const distanceMilesRaw =
-            typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+            typeof l.distanceMiles === "number" &&
+            Number.isFinite(l.distanceMiles)
               ? Number(l.distanceMiles)
               : typeof l.distance_miles === "number" &&
                   Number.isFinite(l.distance_miles)
@@ -436,7 +437,8 @@ export default function BrowseListings() {
             ? listing.distanceMiles
             : NaN;
         if (!Number.isFinite(distanceValue)) return false;
-        if (distanceValue > parseFloat(appliedFilters.maxDistance)) return false;
+        if (distanceValue > parseFloat(appliedFilters.maxDistance))
+          return false;
       }
 
       // Availability filter: only when a date range is selected

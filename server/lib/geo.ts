@@ -9,13 +9,18 @@ const ZIP_CODE_REGEX = /^\d{5}$/;
 const CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 hours
 const RETRY_DELAYS_MS = [0, 250, 750];
 
-const coordinateCache = new Map<string, { expiresAt: number; coords: Coordinates }>();
+const coordinateCache = new Map<
+  string,
+  { expiresAt: number; coords: Coordinates }
+>();
 
 function isValidZipCode(zip: string | null | undefined): zip is string {
   return typeof zip === "string" && ZIP_CODE_REGEX.test(zip.trim());
 }
 
-export function normalizeZipCode(zip: string | null | undefined): string | null {
+export function normalizeZipCode(
+  zip: string | null | undefined,
+): string | null {
   if (!isValidZipCode(zip)) return null;
   return zip.trim();
 }
@@ -40,24 +45,32 @@ function writeCache(zip: string, coords: Coordinates) {
   coordinateCache.set(key, { expiresAt: Date.now() + CACHE_TTL_MS, coords });
 }
 
-async function fetchCoordinatesFromZippopotam(zip: string): Promise<Coordinates | null> {
+async function fetchCoordinatesFromZippopotam(
+  zip: string,
+): Promise<Coordinates | null> {
   const endpoint = `https://api.zippopotam.us/us/${encodeURIComponent(zip)}`;
-  const res = await fetch(endpoint, { headers: { Accept: "application/json" } });
+  const res = await fetch(endpoint, {
+    headers: { Accept: "application/json" },
+  });
   if (!res.ok) return null;
-  const data = await res.json().catch(() => null) as any;
+  const data = (await res.json().catch(() => null)) as any;
   if (!data || !Array.isArray(data.places) || data.places.length === 0) {
     return null;
   }
   const place = data.places[0];
-  const lat = typeof place?.latitude === "string" ? parseFloat(place.latitude) : NaN;
-  const lon = typeof place?.longitude === "string" ? parseFloat(place.longitude) : NaN;
+  const lat =
+    typeof place?.latitude === "string" ? parseFloat(place.latitude) : NaN;
+  const lon =
+    typeof place?.longitude === "string" ? parseFloat(place.longitude) : NaN;
   if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
     return null;
   }
   return { latitude: lat, longitude: lon };
 }
 
-export async function getZipCoordinates(zip: string): Promise<Coordinates | null> {
+export async function getZipCoordinates(
+  zip: string,
+): Promise<Coordinates | null> {
   if (!isValidZipCode(zip)) return null;
   const normalizedZip = zip.trim();
   const cached = readCache(normalizedZip);
