@@ -312,7 +312,7 @@ export default function BrowseListings() {
                 ? l.distance.trim()
                 : distanceMilesRaw != null
                   ? `${distanceMilesRaw.toFixed(1)} miles`
-                  : "";
+                  : "Distance unavailable";
 
             return {
               id: l.id,
