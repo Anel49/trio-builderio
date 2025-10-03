@@ -61,6 +61,7 @@ type ListedItem = {
   host: string;
   type: string;
   distance: string;
+  distanceMiles?: number | null;
   reviews?: number;
 };
 import {
