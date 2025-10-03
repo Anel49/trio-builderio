@@ -139,7 +139,7 @@ export default function ProductDetails() {
     description: string;
     rating: number | null;
     totalReviews: number;
-    location: string;
+    location: string | null;
     distanceMiles: number | null;
     rentalPeriod: RentalPeriod;
     image?: string;
