@@ -416,11 +416,12 @@ export default function BrowseListings() {
 
       // Distance filter (simplified - in real app would calculate based on zip code)
       if (appliedFilters.maxDistance && appliedFilters.zipCode) {
-        const distance = parseFloat(
-          String(listing.distance ?? "").replace(" miles", ""),
-        );
-        if (!Number.isFinite(distance)) return false;
-        if (distance > parseInt(appliedFilters.maxDistance)) return false;
+        const distanceValue =
+          typeof listing.distanceMiles === "number"
+            ? listing.distanceMiles
+            : parseFloat(String(listing.distance ?? "").replace(/[^0-9.]/g, ""));
+        if (!Number.isFinite(distanceValue)) return false;
+        if (distanceValue > parseFloat(appliedFilters.maxDistance)) return false;
       }
 
       // Availability filter: only when a date range is selected
