@@ -6,7 +6,7 @@ export type DemoListing = {
   image: string;
   host: string;
   type: string;
-  distance: string;
+  distance: string | null;
 };
 
 export const demoListings: DemoListing[] = [
