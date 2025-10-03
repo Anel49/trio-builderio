@@ -167,7 +167,11 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (!params.id) return;
-    apiFetch(`listings/${params.id}`)
+    const userZip = getCurrentUserZipCode();
+    const path = userZip
+      ? `listings/${params.id}?user_zip=${userZip}`
+      : `listings/${params.id}`;
+    apiFetch(path)
       .then(async (r) => (r.ok ? r.json() : { ok: false }))
       .then((d) => {
         if (d && d.ok && d.listing) {
