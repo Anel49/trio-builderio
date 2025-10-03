@@ -1,6 +1,8 @@
 /**
  * Centralized user profile data to ensure consistency across the application
  */
+import { apiFetch } from "./api";
+
 export const currentUser = {
   name: "Sarah",
   initials: "S",
