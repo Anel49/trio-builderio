@@ -183,12 +183,12 @@ export default function ProductDetails() {
                   Number.isFinite(l.distance_miles)
                 ? Number(l.distance_miles)
                 : null;
-          const distanceLabel =
-            typeof l.distance === "string" && l.distance.trim()
+          const hasDistance = distanceMiles != null;
+          const distanceLabel = hasDistance
+            ? typeof l.distance === "string" && l.distance.trim()
               ? l.distance.trim()
-              : distanceMiles != null
-                ? `${distanceMiles.toFixed(1)} miles`
-                : "Distance unavailable";
+              : `${distanceMiles.toFixed(1)} miles`
+            : null;
 
           setProduct({
             name: l.name ?? "",
