@@ -50,7 +50,10 @@ import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
 import { isDateRangeAvailable } from "@/lib/reservations";
 import { apiFetch } from "@/lib/api";
-import { getCurrentUserZipCode } from "@/lib/user-profile";
+import {
+  ensureCurrentUserProfile,
+  getCurrentUserZipCode,
+} from "@/lib/user-profile";
 
 const RENTAL_PERIODS = ["Hourly", "Daily", "Weekly", "Monthly"] as const;
 type RentalPeriod = (typeof RENTAL_PERIODS)[number];
