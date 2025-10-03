@@ -19,9 +19,19 @@ export const currentUser = {
 
 const ZIP_CODE_REGEX = /^\d{5}$/;
 
-export function getCurrentUserZipCode(): string | null {
-  const zip = (currentUser as any)?.zipCode;
-  if (typeof zip !== "string") return null;
-  const trimmed = zip.trim();
+let cachedZipCode: string | null = normalizeZip((currentUser as any)?.zipCode);
+
+function normalizeZip(candidate: unknown): string | null {
+  if (typeof candidate !== "string") return null;
+  const trimmed = candidate.trim();
   return ZIP_CODE_REGEX.test(trimmed) ? trimmed : null;
+}
+
+export function getCurrentUserZipCode(): string | null {
+  return cachedZipCode;
+}
+
+export function setCurrentUserZipCode(zip: unknown) {
+  cachedZipCode = normalizeZip(zip);
+  (currentUser as any).zipCode = cachedZipCode;
 }
