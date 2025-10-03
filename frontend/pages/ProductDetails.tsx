@@ -176,6 +176,20 @@ export default function ProductDetails() {
       .then((d) => {
         if (d && d.ok && d.listing) {
           const l = d.listing;
+          const distanceMiles =
+            typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+              ? Number(l.distanceMiles)
+              : typeof l.distance_miles === "number" &&
+                  Number.isFinite(l.distance_miles)
+                ? Number(l.distance_miles)
+                : null;
+          const distanceLabel =
+            typeof l.distance === "string" && l.distance.trim()
+              ? l.distance.trim()
+              : distanceMiles != null
+                ? `${distanceMiles.toFixed(1)} miles`
+                : "Distance unavailable";
+
           setProduct({
             name: l.name ?? "",
             price: l.price ?? "",
@@ -188,7 +202,8 @@ export default function ProductDetails() {
             description: l.description ?? "",
             rating: typeof l.rating === "number" ? l.rating : null,
             totalReviews: 0,
-            location: l.distance || "",
+            location: distanceLabel,
+            distanceMiles,
             rentalPeriod: normalizeRentalPeriod(
               l.rentalPeriod ?? l.rental_period,
             ),
