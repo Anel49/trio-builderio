@@ -35,8 +35,10 @@ function formatPrice(price_cents: number) {
   return `$${(price_cents / 100).toFixed(2)}`;
 }
 
-export async function listListings(_req: Request, res: Response) {
+export async function listListings(req: Request, res: Response) {
   try {
+    const userZip = extractUserZip(req);
+    const userCoords = userZip ? await getZipCoordinates(userZip) : null;
     let result: any;
     try {
       result = await pool.query(
