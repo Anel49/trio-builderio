@@ -19,6 +19,17 @@ function normalizeRentalPeriod(value: any): string {
   return match ?? DEFAULT_RENTAL_PERIOD;
 }
 
+function extractUserZip(req: Request): string | null {
+  const query = (req.query ?? {}) as Record<string, unknown>;
+  const raw =
+    typeof query.user_zip === "string"
+      ? (query.user_zip as string)
+      : typeof query.userZip === "string"
+        ? (query.userZip as string)
+        : null;
+  return normalizeZipCode(raw);
+}
+
 function formatPrice(price_cents: number) {
   if (price_cents % 100 === 0) return `$${(price_cents / 100).toFixed(0)}`;
   return `$${(price_cents / 100).toFixed(2)}`;
