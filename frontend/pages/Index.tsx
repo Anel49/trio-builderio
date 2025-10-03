@@ -257,8 +257,7 @@ export default function Index() {
     if (!el) return;
     const amount = el.clientWidth * 0.9;
     const maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
-    let target =
-      dir > 0 ? el.scrollLeft + amount : el.scrollLeft - amount;
+    let target = dir > 0 ? el.scrollLeft + amount : el.scrollLeft - amount;
     if (dir > 0 && el.scrollLeft + el.clientWidth >= maxScrollLeft - 5) {
       target = 0;
     }

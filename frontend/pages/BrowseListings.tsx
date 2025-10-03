@@ -63,9 +63,7 @@ const RENTAL_UNIT_LABELS: Record<RentalPeriod, string> = {
 const normalizeRentalPeriod = (value: unknown): RentalPeriod => {
   if (typeof value !== "string") return DEFAULT_RENTAL_PERIOD;
   const lower = value.trim().toLowerCase();
-  const match = RENTAL_PERIODS.find(
-    (period) => period.toLowerCase() === lower,
-  );
+  const match = RENTAL_PERIODS.find((period) => period.toLowerCase() === lower);
   return match ?? DEFAULT_RENTAL_PERIOD;
 };
 
@@ -791,7 +789,9 @@ export default function BrowseListings() {
                     Math.ceil(
                       (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
                     ) + 1;
-                  const baseRate = Number(listing.price.replace(/[^0-9.]/g, ""));
+                  const baseRate = Number(
+                    listing.price.replace(/[^0-9.]/g, ""),
+                  );
                   if (!Number.isFinite(baseRate)) {
                     return {
                       price: listing.price,

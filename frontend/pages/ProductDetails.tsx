@@ -73,9 +73,7 @@ const RENTAL_UNIT_LABELS: Record<RentalPeriod, string> = {
 const normalizeRentalPeriod = (value: unknown): RentalPeriod => {
   if (typeof value !== "string") return DEFAULT_RENTAL_PERIOD;
   const lower = value.trim().toLowerCase();
-  const match = RENTAL_PERIODS.find(
-    (period) => period.toLowerCase() === lower,
-  );
+  const match = RENTAL_PERIODS.find((period) => period.toLowerCase() === lower);
   return match ?? DEFAULT_RENTAL_PERIOD;
 };
 
@@ -186,7 +184,9 @@ export default function ProductDetails() {
             rating: typeof l.rating === "number" ? l.rating : null,
             totalReviews: 0,
             location: l.distance || "",
-            rentalPeriod: normalizeRentalPeriod(l.rentalPeriod ?? l.rental_period),
+            rentalPeriod: normalizeRentalPeriod(
+              l.rentalPeriod ?? l.rental_period,
+            ),
             image: l.image || undefined,
             images: Array.isArray(l.images) ? l.images : undefined,
           });
@@ -425,15 +425,18 @@ export default function ProductDetails() {
   const hasSelectedValidRange =
     Boolean(selectedDateRange.start && selectedDateRange.end) &&
     isDateRangeValid();
-  const showTotalPrice = product.rentalPeriod === "Daily" && hasSelectedValidRange;
+  const showTotalPrice =
+    product.rentalPeriod === "Daily" && hasSelectedValidRange;
   const rentalUnitLabel = RENTAL_UNIT_LABELS[product.rentalPeriod];
   const displayedPrice = showTotalPrice
     ? (() => {
-        if (!selectedDateRange.start || !selectedDateRange.end) return product.price;
+        if (!selectedDateRange.start || !selectedDateRange.end)
+          return product.price;
         const start = selectedDateRange.start as Date;
         const end = selectedDateRange.end as Date;
         const days =
-          Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+          Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) +
+          1;
         const numericRate = Number(product.price.replace(/[^0-9.]/g, ""));
         if (!Number.isFinite(numericRate)) return product.price;
         const total = numericRate * days;
