@@ -20,7 +20,11 @@ import { MobileMenu } from "@/components/ui/mobile-menu";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
-import { currentUser, getCurrentUserZipCode } from "@/lib/user-profile";
+import {
+  currentUser,
+  getCurrentUserZipCode,
+  setCurrentUserZipCode,
+} from "@/lib/user-profile";
 import {
   Star,
   Edit3,
