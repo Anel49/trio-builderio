@@ -205,7 +205,28 @@ export default function Index() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d) => {
         if (d && d.ok && Array.isArray(d.listings)) {
-          setListings(d.listings);
+          const mapped = d.listings.map((l: any) => {
+            const distanceMiles =
+              typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+                ? Number(l.distanceMiles)
+                : typeof l.distance_miles === "number" &&
+                    Number.isFinite(l.distance_miles)
+                  ? Number(l.distance_miles)
+                  : null;
+            const distanceLabel =
+              typeof l.distance === "string" && l.distance.trim()
+                ? l.distance.trim()
+                : distanceMiles != null
+                  ? `${distanceMiles.toFixed(1)} miles`
+                  : "Distance unavailable";
+
+            return {
+              ...l,
+              distance: distanceLabel,
+              distanceMiles,
+            };
+          });
+          setListings(mapped);
         }
       })
       .catch(() => {
