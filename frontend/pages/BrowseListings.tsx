@@ -300,6 +300,20 @@ export default function BrowseListings() {
                 : l.type
                   ? [l.type]
                   : [];
+            const distanceMilesRaw =
+              typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+                ? Number(l.distanceMiles)
+                : typeof l.distance_miles === "number" &&
+                    Number.isFinite(l.distance_miles)
+                  ? Number(l.distance_miles)
+                  : null;
+            const distanceLabel =
+              typeof l.distance === "string" && l.distance.trim()
+                ? l.distance.trim()
+                : distanceMilesRaw != null
+                  ? `${distanceMilesRaw.toFixed(1)} miles`
+                  : "";
+
             return {
               id: l.id,
               name: l.name,
@@ -314,12 +328,14 @@ export default function BrowseListings() {
               type: categories[0] || "General",
               categories,
               location: "",
-              distance:
-                typeof l.distance === "string"
-                  ? l.distance
-                  : l.distance
-                    ? String(l.distance)
-                    : "",
+              distance: distanceLabel,
+              distanceMiles: distanceMilesRaw,
+              zipCode:
+                typeof l.zipCode === "string"
+                  ? l.zipCode
+                  : typeof l.zip_code === "string"
+                    ? l.zip_code
+                    : null,
               lat: 0,
               lng: 0,
               createdAt: l.createdAt ?? l.created_at ?? undefined,
