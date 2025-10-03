@@ -144,7 +144,6 @@ export async function createListing(req: Request, res: Response) {
       images,
       host,
       type,
-      distance,
       description,
       categories,
       rental_period,
@@ -177,25 +176,7 @@ export async function createListing(req: Request, res: Response) {
     let result;
     try {
       result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, category, rental_period, distance, description, zip_code)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-         returning id`,
-        [
-          name,
-          price_cents,
-          rating ?? null,
-          primaryImage,
-          host ?? null,
-          primaryCategory,
-          rentalPeriodValue,
-          distance ?? null,
-          description ?? null,
-          zip,
-        ],
-      );
-    } catch {
-      result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, category, distance, description, zip_code)
+        `insert into listings (name, price_cents, rating, image_url, host, category, rental_period, description, zip_code)
          values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
          returning id`,
         [
@@ -205,7 +186,23 @@ export async function createListing(req: Request, res: Response) {
           primaryImage,
           host ?? null,
           primaryCategory,
-          distance ?? null,
+          rentalPeriodValue,
+          description ?? null,
+          zip,
+        ],
+      );
+    } catch {
+      result = await pool.query(
+        `insert into listings (name, price_cents, rating, image_url, host, category, description, zip_code)
+         values ($1,$2,$3,$4,$5,$6,$7,$8)
+         returning id`,
+        [
+          name,
+          price_cents,
+          rating ?? null,
+          primaryImage,
+          host ?? null,
+          primaryCategory,
           description ?? null,
           zip,
         ],
