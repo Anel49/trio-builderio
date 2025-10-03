@@ -293,11 +293,7 @@ export async function getListingById(req: Request, res: Response) {
     }
 
     const distanceLabel =
-      distanceMiles != null
-        ? `${distanceMiles.toFixed(1)} miles`
-        : typeof r.distance === "string" && r.distance.trim()
-          ? r.distance
-          : null;
+      distanceMiles != null ? `${distanceMiles.toFixed(1)} miles` : null;
 
     const listing = {
       id: r.id,
