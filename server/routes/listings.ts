@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { pool } from "./db";
+import type { Coordinates } from "../lib/geo";
 import {
   calculateDistanceMiles,
   getZipCoordinates,
