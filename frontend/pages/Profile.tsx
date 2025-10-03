@@ -375,7 +375,9 @@ export default function Profile() {
   const [listedItems, setListedItems] = useState<ListedItem[]>([]);
 
   useEffect(() => {
-    apiFetch("listings")
+    const userZip = getCurrentUserZipCode();
+    const path = userZip ? `listings?user_zip=${userZip}` : "listings";
+    apiFetch(path)
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then(async (d) => {
         if (d && d.ok && Array.isArray(d.listings)) {
