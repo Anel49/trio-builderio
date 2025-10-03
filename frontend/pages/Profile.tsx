@@ -382,129 +382,141 @@ export default function Profile() {
   const [listedItems, setListedItems] = useState<ListedItem[]>([]);
 
   useEffect(() => {
-    const userZip = getCurrentUserZipCode();
-    const path = userZip ? `listings?user_zip=${userZip}` : "listings";
-    apiFetch(path)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then(async (d) => {
-        if (d && d.ok && Array.isArray(d.listings)) {
-          const mapped: ListedItem[] = d.listings.map((l: any) => {
-            const distanceMiles =
-              typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
-                ? Number(l.distanceMiles)
-                : typeof l.distance_miles === "number" &&
-                    Number.isFinite(l.distance_miles)
-                  ? Number(l.distance_miles)
+    let cancelled = false;
+    (async () => {
+      try {
+        await ensureCurrentUserProfile();
+        if (cancelled) return;
+        const userZip = getCurrentUserZipCode();
+        const path = userZip ? `listings?user_zip=${userZip}` : "listings";
+        const response = await apiFetch(path);
+        if (!response.ok || cancelled) return;
+        const d = await response.json().catch(() => null);
+        if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
+        const mapped: ListedItem[] = d.listings.map((l: any) => {
+          const distanceMiles =
+            typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+              ? Number(l.distanceMiles)
+              : typeof l.distance_miles === "number" &&
+                  Number.isFinite(l.distance_miles)
+                ? Number(l.distance_miles)
+                : null;
+          const hasDistance = distanceMiles != null;
+          const distanceLabel = hasDistance
+            ? typeof l.distance === "string" && l.distance.trim()
+              ? l.distance.trim()
+              : `${distanceMiles.toFixed(1)} miles`
+            : null;
+
+          return {
+            id: l.id,
+            name: l.name,
+            price: l.price,
+            rating: typeof l.rating === "number" ? l.rating : null,
+            trips: 0,
+            image:
+              Array.isArray(l.images) && l.images.length
+                ? l.images[0]
+                : l.image,
+            host: l.host || "You",
+            type:
+              Array.isArray(l.categories) && l.categories.length
+                ? l.categories[0]
+                : l.type || "General",
+            distance: distanceLabel,
+            distanceMiles,
+          };
+        });
+        if (cancelled) return;
+        setListedItems(mapped);
+
+        const settled = await Promise.allSettled(
+          mapped.map(async (it) => {
+            try {
+              const res = await apiFetch(`listings/${it.id}/reviews`);
+              const data = await res.json().catch(() => ({}) as any);
+              const arr = Array.isArray(data?.reviews) ? data.reviews : [];
+              const count = arr.length;
+              const avg =
+                count > 0
+                  ? Number(
+                      (
+                        arr.reduce(
+                          (s: number, r: any) => s + (Number(r.rating) || 0),
+                          0,
+                        ) / count
+                      ).toFixed(1),
+                    )
                   : null;
-            const hasDistance = distanceMiles != null;
-            const distanceLabel = hasDistance
-              ? typeof l.distance === "string" && l.distance.trim()
-                ? l.distance.trim()
-                : `${distanceMiles.toFixed(1)} miles`
-              : null;
+              return { id: it.id, count, avg, reviews: arr };
+            } catch {
+              return { id: it.id, count: 0, avg: null, reviews: [] };
+            }
+          }),
+        );
+        const results = settled
+          .map((r: any) => (r.status === "fulfilled" ? r.value : r.value))
+          .filter(Boolean) as any[];
 
-            return {
-              id: l.id,
-              name: l.name,
-              price: l.price,
-              rating: typeof l.rating === "number" ? l.rating : null,
-              trips: 0,
-              image:
-                Array.isArray(l.images) && l.images.length
-                  ? l.images[0]
-                  : l.image,
-              host: l.host || "You",
-              type:
-                Array.isArray(l.categories) && l.categories.length
-                  ? l.categories[0]
-                  : l.type || "General",
-              distance: distanceLabel,
-              distanceMiles,
-            };
+        const countMap = new Map<
+          number,
+          { count: number; avg: number | null }
+        >();
+        let combined: {
+          id: number;
+          itemName: string;
+          reviewer: string;
+          rating: number;
+          date: string;
+          dateValue: Date;
+          comment: string;
+        }[] = [];
+        results.forEach((r) => {
+          countMap.set((r as any).id, {
+            count: (r as any).count,
+            avg: (r as any).avg,
           });
-          setListedItems(mapped);
-
-          // Fetch reviews per listing, resilient to failures
-          const settled = await Promise.allSettled(
-            mapped.map(async (it) => {
-              try {
-                const res = await apiFetch(`listings/${it.id}/reviews`);
-                const data = await res.json().catch(() => ({}) as any);
-                const arr = Array.isArray(data?.reviews) ? data.reviews : [];
-                const count = arr.length;
-                const avg =
-                  count > 0
-                    ? Number(
-                        (
-                          arr.reduce(
-                            (s: number, r: any) => s + (Number(r.rating) || 0),
-                            0,
-                          ) / count
-                        ).toFixed(1),
-                      )
-                    : null;
-                return { id: it.id, count, avg, reviews: arr };
-              } catch {
-                return { id: it.id, count: 0, avg: null, reviews: [] };
-              }
-            }),
-          );
-          const results = settled
-            .map((r: any) => (r.status === "fulfilled" ? r.value : r.value))
-            .filter(Boolean) as any[];
-
-          const countMap = new Map<
-            number,
-            { count: number; avg: number | null }
-          >();
-          let combined: {
-            id: number;
-            itemName: string;
-            reviewer: string;
-            rating: number;
-            date: string;
-            dateValue: Date;
-            comment: string;
-          }[] = [];
-          results.forEach((r) => {
-            countMap.set((r as any).id, {
-              count: (r as any).count,
-              avg: (r as any).avg,
+        });
+        results.forEach((r) => {
+          const listing = mapped.find((it) => it.id === (r as any).id);
+          if (!listing) return;
+          const name = listing.name;
+          const arr = (r as any).reviews as any[];
+          arr.forEach((rev: any) => {
+            combined.push({
+              id: rev.id,
+              itemName: name,
+              reviewer: rev.user || "",
+              rating: Number(rev.rating) || 0,
+              date: rev.date || new Date().toLocaleDateString(),
+              dateValue: new Date(rev.dateValue || Date.now()),
+              comment: rev.text || "",
             });
           });
-          results.forEach((r) => {
-            const listing = mapped.find((it) => it.id === (r as any).id);
-            if (!listing) return;
-            const name = listing.name;
-            const arr = (r as any).reviews as any[];
-            arr.forEach((rev: any) => {
-              combined.push({
-                id: rev.id,
-                itemName: name,
-                reviewer: rev.user || "",
-                rating: Number(rev.rating) || 0,
-                date: rev.date || new Date().toLocaleDateString(),
-                dateValue: new Date(rev.dateValue || Date.now()),
-                comment: rev.text || "",
-              });
-            });
-          });
-          setItemReviews(combined);
-          setListedItems((prev) =>
-            prev.map((it) => {
-              const entry = countMap.get(it.id);
-              return entry
-                ? {
-                    ...it,
-                    reviews: entry.count,
-                    rating: it.rating ?? entry.avg,
-                  }
-                : it;
-            }),
-          );
+        });
+        if (cancelled) return;
+        setItemReviews(combined);
+        setListedItems((prev) =>
+          prev.map((it) => {
+            const entry = countMap.get(it.id);
+            return entry
+              ? {
+                  ...it,
+                  reviews: entry.count,
+                  rating: it.rating ?? entry.avg,
+                }
+              : it;
+          }),
+        );
+      } catch {
+        if (!cancelled) {
+          // ignore; keep existing
         }
-      })
-      .catch(() => {});
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Item reviews from DB
