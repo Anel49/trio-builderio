@@ -9,7 +9,7 @@ function formatPrice(price_cents: number) {
 export async function listListings(_req: Request, res: Response) {
   try {
     const result = await pool.query(
-      `select id, name, price_cents, rating, image_url, host, category, distance
+      `select id, name, price_cents, rating, image_url, host, category
        from listings
        order by created_at desc
        limit 50`,
@@ -22,7 +22,7 @@ export async function listListings(_req: Request, res: Response) {
       image: r.image_url,
       host: r.host,
       type: r.category,
-      distance: r.distance,
+      distance: null,
     }));
     res.json({ ok: true, listings });
   } catch (error: any) {
@@ -32,16 +32,15 @@ export async function listListings(_req: Request, res: Response) {
 
 export async function createListing(req: Request, res: Response) {
   try {
-    const { name, price_cents, rating, image, host, type, distance } =
-      req.body || {};
+    const { name, price_cents, rating, image, host, type } = req.body || {};
     if (!name || typeof price_cents !== "number") {
       return res
         .status(400)
         .json({ ok: false, error: "name and price_cents are required" });
     }
     const result = await pool.query(
-      `insert into listings (name, price_cents, rating, image_url, host, category, distance)
-       values ($1,$2,$3,$4,$5,$6,$7)
+      `insert into listings (name, price_cents, rating, image_url, host, category)
+       values ($1,$2,$3,$4,$5,$6)
        returning id`,
       [
         name,
@@ -50,7 +49,6 @@ export async function createListing(req: Request, res: Response) {
         image ?? null,
         host ?? null,
         type ?? null,
-        distance ?? null,
       ],
     );
     res.json({ ok: true, id: result.rows[0].id });
