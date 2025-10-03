@@ -72,7 +72,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=400&h=250&fit=crop&auto=format",
           "Sarah",
           "Landscaping",
-          "2.3 miles",
+          "20176",
         ],
         [
           "Designer Dress",
@@ -81,12 +81,12 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.pexels.com/photos/5418926/pexels-photo-5418926.jpeg?w=400&h=250&fit=crop&auto=format",
           "Michael",
           "Clothing",
-          "1.8 miles",
+          "20175",
         ],
       ];
       for (const r of rows) {
         await pool.query(
-          `insert into listings (name, price_cents, rating, image_url, host, category, distance)
+          `insert into listings (name, price_cents, rating, image_url, host, category, zip_code)
            values ($1,$2,$3,$4,$5,$6,$7)`,
           r,
         );
