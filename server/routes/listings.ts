@@ -286,6 +286,23 @@ export async function getListingById(req: Request, res: Response) {
     const r: any = result.rows[0];
     const images = Array.isArray(r.images) ? r.images : [];
     const categories = Array.isArray(r.categories) ? r.categories : [];
+    const normalizedZip = normalizeZipCode(r.zip_code);
+
+    let distanceMiles: number | null = null;
+    if (userCoords && normalizedZip) {
+      const coords = await getZipCoordinates(normalizedZip).catch(() => null);
+      if (coords) {
+        distanceMiles = calculateDistanceMiles(userCoords, coords);
+      }
+    }
+
+    const distanceLabel =
+      distanceMiles != null
+        ? `${distanceMiles.toFixed(1)} miles`
+        : typeof r.distance === "string" && r.distance.trim()
+          ? r.distance
+          : null;
+
     const listing = {
       id: r.id,
       name: r.name,
@@ -296,9 +313,10 @@ export async function getListingById(req: Request, res: Response) {
       host: r.host,
       type: r.category || (categories.length ? categories[0] : null),
       categories,
-      distance: r.distance,
+      distance: distanceLabel,
+      distanceMiles,
       description: r.description ?? null,
-      zipCode: r.zip_code || null,
+      zipCode: normalizedZip,
       createdAt: r.created_at,
       rentalPeriod:
         r.rental_period && typeof r.rental_period === "string"
