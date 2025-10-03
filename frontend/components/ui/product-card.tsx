@@ -215,14 +215,14 @@ export function ProductCard({
             </span>
             <div className={`flex items-center text-sm ${colors.text.muted}`}>
               <MapPin className="h-3 w-3 mr-1" />
-              {distance}
+              {resolvedDistance}
             </div>
           </div>
         ) : (
           <div className="flex items-center justify-end">
             <div className={`flex items-center text-sm ${colors.text.muted}`}>
               <MapPin className="h-3 w-3 mr-1" />
-              {distance}
+              {resolvedDistance}
             </div>
           </div>
         )}
