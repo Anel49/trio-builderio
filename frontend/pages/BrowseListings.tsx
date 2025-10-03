@@ -307,12 +307,12 @@ export default function BrowseListings() {
                     Number.isFinite(l.distance_miles)
                   ? Number(l.distance_miles)
                   : null;
-            const distanceLabel =
-              typeof l.distance === "string" && l.distance.trim()
+            const hasDistance = distanceMilesRaw != null;
+            const distanceLabel = hasDistance
+              ? typeof l.distance === "string" && l.distance.trim()
                 ? l.distance.trim()
-                : distanceMilesRaw != null
-                  ? `${distanceMilesRaw.toFixed(1)} miles`
-                  : "Distance unavailable";
+                : `${distanceMilesRaw.toFixed(1)} miles`
+              : null;
 
             return {
               id: l.id,
@@ -417,9 +417,10 @@ export default function BrowseListings() {
       // Distance filter (simplified - in real app would calculate based on zip code)
       if (appliedFilters.maxDistance && appliedFilters.zipCode) {
         const distanceValue =
-          typeof listing.distanceMiles === "number"
+          typeof listing.distanceMiles === "number" &&
+          Number.isFinite(listing.distanceMiles)
             ? listing.distanceMiles
-            : parseFloat(String(listing.distance ?? "").replace(/[^0-9.]/g, ""));
+            : NaN;
         if (!Number.isFinite(distanceValue)) return false;
         if (distanceValue > parseFloat(appliedFilters.maxDistance)) return false;
       }
@@ -450,28 +451,32 @@ export default function BrowseListings() {
       };
       filtered.sort((a, b) => {
         switch (sortBy) {
-          case "distance-asc":
-            const da = parseFloat(
-              String(a.distance ?? "").replace(" miles", ""),
-            );
-            const db = parseFloat(
-              String(b.distance ?? "").replace(" miles", ""),
-            );
-            return (
-              (Number.isFinite(da) ? da : Number.MAX_SAFE_INTEGER) -
-              (Number.isFinite(db) ? db : Number.MAX_SAFE_INTEGER)
-            );
-          case "distance-desc":
-            const da2 = parseFloat(
-              String(a.distance ?? "").replace(" miles", ""),
-            );
-            const db2 = parseFloat(
-              String(b.distance ?? "").replace(" miles", ""),
-            );
-            return (
-              (Number.isFinite(db2) ? db2 : Number.MAX_SAFE_INTEGER) -
-              (Number.isFinite(da2) ? da2 : Number.MAX_SAFE_INTEGER)
-            );
+          case "distance-asc": {
+            const da =
+              typeof (a as any).distanceMiles === "number" &&
+              Number.isFinite((a as any).distanceMiles)
+                ? (a as any).distanceMiles
+                : Number.MAX_SAFE_INTEGER;
+            const db =
+              typeof (b as any).distanceMiles === "number" &&
+              Number.isFinite((b as any).distanceMiles)
+                ? (b as any).distanceMiles
+                : Number.MAX_SAFE_INTEGER;
+            return da - db;
+          }
+          case "distance-desc": {
+            const da =
+              typeof (a as any).distanceMiles === "number" &&
+              Number.isFinite((a as any).distanceMiles)
+                ? (a as any).distanceMiles
+                : Number.MAX_SAFE_INTEGER;
+            const db =
+              typeof (b as any).distanceMiles === "number" &&
+              Number.isFinite((b as any).distanceMiles)
+                ? (b as any).distanceMiles
+                : Number.MAX_SAFE_INTEGER;
+            return db - da;
+          }
           case "price-asc":
             const pa = parseInt(String(a.price ?? "").replace("$", ""));
             const pb = parseInt(String(b.price ?? "").replace("$", ""));
