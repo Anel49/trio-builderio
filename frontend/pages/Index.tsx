@@ -202,39 +202,50 @@ export default function Index() {
   const [listings, setListings] = useState(featuredListings);
 
   useEffect(() => {
-    const userZip = getCurrentUserZipCode();
-    const path = userZip ? `listings?user_zip=${userZip}` : "listings";
-    apiFetch(path)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d) => {
-        if (d && d.ok && Array.isArray(d.listings)) {
-          const mapped = d.listings.map((l: any) => {
-            const distanceMiles =
-              typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
-                ? Number(l.distanceMiles)
-                : typeof l.distance_miles === "number" &&
-                    Number.isFinite(l.distance_miles)
-                  ? Number(l.distance_miles)
-                  : null;
-            const hasDistance = distanceMiles != null;
-            const distanceLabel = hasDistance
-              ? typeof l.distance === "string" && l.distance.trim()
-                ? l.distance.trim()
-                : `${distanceMiles.toFixed(1)} miles`
-              : null;
+    let cancelled = false;
+    (async () => {
+      try {
+        await ensureCurrentUserProfile();
+        if (cancelled) return;
+        const userZip = getCurrentUserZipCode();
+        const path = userZip ? `listings?user_zip=${userZip}` : "listings";
+        const response = await apiFetch(path);
+        if (!response.ok || cancelled) return;
+        const d = await response.json().catch(() => null);
+        if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
+        const mapped = d.listings.map((l: any) => {
+          const distanceMiles =
+            typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+              ? Number(l.distanceMiles)
+              : typeof l.distance_miles === "number" &&
+                  Number.isFinite(l.distance_miles)
+                ? Number(l.distance_miles)
+                : null;
+          const hasDistance = distanceMiles != null;
+          const distanceLabel = hasDistance
+            ? typeof l.distance === "string" && l.distance.trim()
+              ? l.distance.trim()
+              : `${distanceMiles.toFixed(1)} miles`
+            : null;
 
-            return {
-              ...l,
-              distance: distanceLabel,
-              distanceMiles,
-            };
-          });
+          return {
+            ...l,
+            distance: distanceLabel,
+            distanceMiles,
+          };
+        });
+        if (!cancelled) {
           setListings(mapped);
         }
-      })
-      .catch(() => {
-        // keep local featuredListings fallback silently
-      });
+      } catch {
+        if (!cancelled) {
+          // keep local featuredListings fallback silently
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const categories = [
