@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
 import {
   currentUser,
+  ensureCurrentUserProfile,
   getCurrentUserZipCode,
   setCurrentUserZipCode,
 } from "@/lib/user-profile";
