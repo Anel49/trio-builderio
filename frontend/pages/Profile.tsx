@@ -382,23 +382,40 @@ export default function Profile() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then(async (d) => {
         if (d && d.ok && Array.isArray(d.listings)) {
-          const mapped: ListedItem[] = d.listings.map((l: any) => ({
-            id: l.id,
-            name: l.name,
-            price: l.price,
-            rating: typeof l.rating === "number" ? l.rating : null,
-            trips: 0,
-            image:
-              Array.isArray(l.images) && l.images.length
-                ? l.images[0]
-                : l.image,
-            host: l.host || "You",
-            type:
-              Array.isArray(l.categories) && l.categories.length
-                ? l.categories[0]
-                : l.type || "General",
-            distance: l.distance || "0 miles",
-          }));
+          const mapped: ListedItem[] = d.listings.map((l: any) => {
+            const distanceMiles =
+              typeof l.distanceMiles === "number" && Number.isFinite(l.distanceMiles)
+                ? Number(l.distanceMiles)
+                : typeof l.distance_miles === "number" &&
+                    Number.isFinite(l.distance_miles)
+                  ? Number(l.distance_miles)
+                  : null;
+            const distanceLabel =
+              typeof l.distance === "string" && l.distance.trim()
+                ? l.distance.trim()
+                : distanceMiles != null
+                  ? `${distanceMiles.toFixed(1)} miles`
+                  : "Distance unavailable";
+
+            return {
+              id: l.id,
+              name: l.name,
+              price: l.price,
+              rating: typeof l.rating === "number" ? l.rating : null,
+              trips: 0,
+              image:
+                Array.isArray(l.images) && l.images.length
+                  ? l.images[0]
+                  : l.image,
+              host: l.host || "You",
+              type:
+                Array.isArray(l.categories) && l.categories.length
+                  ? l.categories[0]
+                  : l.type || "General",
+              distance: distanceLabel,
+              distanceMiles,
+            };
+          });
           setListedItems(mapped);
 
           // Fetch reviews per listing, resilient to failures
