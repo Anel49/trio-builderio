@@ -298,7 +298,6 @@ export default function UploadProduct() {
         host: currentUser.name,
         type: selectedTags[0] || defaultCategory,
         categories: selectedTags.length > 0 ? selectedTags : [defaultCategory],
-        distance: "0 miles",
         description,
         rental_period: rentalPeriod,
         zip_code: (
