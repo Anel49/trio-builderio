@@ -182,6 +182,7 @@ export default function Profile() {
       setProfileImageUrl(extractedAvatar);
     }
     setZipCode(normalizedZip);
+    setCurrentUserZipCode(normalizedZip || null);
     setBadges({
       foundingSupporter: founding,
       topReferrer: referrer,
