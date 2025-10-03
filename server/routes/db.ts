@@ -144,7 +144,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=400&h=250&fit=crop&auto=format",
           "Sarah",
           "Landscaping",
-          "2.3 miles",
+          "20176",
         ],
         [
           "Designer Dress",
@@ -153,7 +153,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.pexels.com/photos/5418926/pexels-photo-5418926.jpeg?w=400&h=250&fit=crop&auto=format",
           "Michael",
           "Clothing",
-          "1.8 miles",
+          "20175",
         ],
         [
           "Professional Tool Set",
@@ -162,7 +162,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.pexels.com/photos/6790973/pexels-photo-6790973.jpeg?w=400&h=250&fit=crop&auto=format",
           "Alex",
           "Tools",
-          "3.1 miles",
+          "20147",
         ],
         [
           "Pro Camera Kit",
@@ -171,7 +171,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=400&h=250&fit=crop&auto=format",
           "Emma",
           "Tech",
-          "4.5 miles",
+          "20148",
         ],
         [
           "Party Sound System",
@@ -180,7 +180,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=250&fit=crop&auto=format",
           "David",
           "Party",
-          "5.2 miles",
+          "20164",
         ],
         [
           "Mountain Bike",
@@ -189,7 +189,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.unsplash.com/photo-1518655048521-f130df041f66?w=400&h=250&fit=crop&auto=format",
           "Liam",
           "Outdoors",
-          "1.2 miles",
+          "22102",
         ],
         [
           "Acoustic Guitar",
@@ -198,7 +198,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=250&fit=crop&auto=format",
           "Noah",
           "Instruments",
-          "2.9 miles",
+          "20001",
         ],
         [
           "Pressure Washer",
@@ -207,7 +207,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.unsplash.com/photo-1581578017422-3eaf2b6f62b7?w=400&h=250&fit=crop&auto=format",
           "Olivia",
           "Tools",
-          "3.6 miles",
+          "20190",
         ],
         [
           "Tuxedo Rental",
@@ -216,7 +216,7 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.unsplash.com/photo-1542060748-10c28b62716a?w=400&h=250&fit=crop&auto=format",
           "Mason",
           "Clothing",
-          "6.1 miles",
+          "22201",
         ],
         [
           "Camping Tent",
@@ -225,12 +225,12 @@ export async function dbSetup(_req: Request, res: Response) {
           "https://images.unsplash.com/photo-1504280390368-3971e38c98e8?w=400&h=250&fit=crop&auto=format",
           "Ava",
           "Outdoors",
-          "7.4 miles",
+          "22030",
         ],
       ];
       for (const r of rows) {
         const ins = await pool.query(
-          `insert into listings (name, price_cents, rating, image_url, host, category, distance)
+          `insert into listings (name, price_cents, rating, image_url, host, category, zip_code)
            values ($1,$2,$3,$4,$5,$6,$7)
            returning id`,
           r,
