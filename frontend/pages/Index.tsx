@@ -28,7 +28,10 @@ import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
-import { getCurrentUserZipCode } from "@/lib/user-profile";
+import {
+  ensureCurrentUserProfile,
+  getCurrentUserZipCode,
+} from "@/lib/user-profile";
 import { format } from "date-fns";
 import {
   Calendar as CalendarIcon,
