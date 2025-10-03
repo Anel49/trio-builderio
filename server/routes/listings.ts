@@ -1,5 +1,10 @@
 import type { Request, Response } from "express";
 import { pool } from "./db";
+import {
+  calculateDistanceMiles,
+  getZipCoordinates,
+  normalizeZipCode,
+} from "../lib/geo";
 
 const VALID_RENTAL_PERIODS = ["Hourly", "Daily", "Weekly", "Monthly"];
 const DEFAULT_RENTAL_PERIOD = "Daily";
