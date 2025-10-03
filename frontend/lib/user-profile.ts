@@ -37,3 +37,41 @@ export function setCurrentUserZipCode(zip: unknown) {
   cachedZipCode = normalizeZip(zip);
   (currentUser as any).zipCode = cachedZipCode;
 }
+
+let profileHydration: Promise<void> | null = null;
+let profileHydrated = false;
+
+export async function ensureCurrentUserProfile() {
+  if (profileHydrated) return;
+  if (!profileHydration) {
+    profileHydration = (async () => {
+      try {
+        const email =
+          typeof currentUser.email === "string" && currentUser.email.trim()
+            ? currentUser.email.trim()
+            : "";
+        if (!email) {
+          setCurrentUserZipCode((currentUser as any)?.zipCode ?? null);
+          return;
+        }
+        const res = await apiFetch(`users?email=${encodeURIComponent(email)}`);
+        if (!res.ok) {
+          setCurrentUserZipCode((currentUser as any)?.zipCode ?? null);
+          return;
+        }
+        const data = await res.json().catch(() => null);
+        if (data && data.ok && data.user) {
+          const user = data.user;
+          setCurrentUserZipCode(user.zipCode ?? user.zip_code ?? null);
+        } else {
+          setCurrentUserZipCode((currentUser as any)?.zipCode ?? null);
+        }
+      } catch {
+        setCurrentUserZipCode((currentUser as any)?.zipCode ?? null);
+      } finally {
+        profileHydrated = true;
+      }
+    })();
+  }
+  return profileHydration;
+}
