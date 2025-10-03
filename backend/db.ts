@@ -49,9 +49,15 @@ export async function dbSetup(_req: Request, res: Response) {
         image_url text,
         host text,
         category text,
-        distance text,
+        description text,
+        zip_code text,
+        rental_period text,
         created_at timestamptz default now()
-      )
+      );
+      alter table listings drop column if exists distance;
+      alter table listings add column if not exists zip_code text;
+      alter table listings add column if not exists rental_period text;
+      alter table listings add column if not exists description text;
     `);
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
