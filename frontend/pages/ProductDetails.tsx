@@ -177,10 +177,13 @@ export default function ProductDetails() {
       try {
         await ensureCurrentUserProfile();
         if (cancelled) return;
+        const coords = getCurrentUserCoordinates();
         const userZip = getCurrentUserZipCode();
-        const path = userZip
-          ? `listings/${params.id}?user_zip=${userZip}`
-          : `listings/${params.id}`;
+        const path = coords
+          ? `listings/${params.id}?user_lat=${coords.latitude}&user_lng=${coords.longitude}`
+          : userZip
+            ? `listings/${params.id}?user_zip=${userZip}`
+            : `listings/${params.id}`;
         const response = await apiFetch(path);
         if (!response.ok || cancelled) {
           if (!cancelled) setProduct(null);
