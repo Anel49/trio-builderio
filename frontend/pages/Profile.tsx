@@ -1723,22 +1723,24 @@ export default function Profile() {
               {/* Location */}
               <div className="mb-4">
                 {isEditingProfile ? (
-                  <div className="flex items-center justify-center space-x-2">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
-                    <Input
-                      value={zipCode}
-                      onChange={(e) => setZipCode(e.target.value)}
-                      className="w-24 text-center"
-                      maxLength={10}
-                    />
-                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full justify-center gap-2"
+                    onClick={() => setIsLocationModalOpen(true)}
+                  >
+                    <MapPin className="h-4 w-4" />
+                    <span className="text-sm">
+                      {typeof locationCity === "string" && locationCity.trim()
+                        ? locationCity.trim()
+                        : "Add a location"}
+                    </span>
+                  </Button>
                 ) : (
                   <div className="flex items-center justify-center space-x-1">
                     <MapPin className="h-4 w-4 text-muted-foreground" />
                     <span className="text-muted-foreground">
-                      {userProfile.zipCode && String(userProfile.zipCode).trim()
-                        ? userProfile.zipCode
-                        : "Add a zip code"}
+                      {locationDisplay ?? "Add a location"}
                     </span>
                   </div>
                 )}
