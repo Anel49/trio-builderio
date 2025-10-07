@@ -119,7 +119,9 @@ export default function Header() {
                 />
                 <AvatarFallback>{currentUser.initials}</AvatarFallback>
               </Avatar>
-              <ThemeToggle />
+              <div className="hidden md:block">
+                <ThemeToggle />
+              </div>
               <Button
                 variant="ghost"
                 size="icon"
