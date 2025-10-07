@@ -399,16 +399,20 @@ export default function Messages() {
           {/* Mobile Edge Tab Strips - Only visible on tablet/mobile */}
           <div
             onClick={toggleLeftSidebar}
-            className="fixed left-0 top-1/2 -translate-y-1/2 h-32 w-3 bg-primary hover:bg-primary/80 transition-colors z-[60] md:hidden flex items-center justify-center cursor-pointer rounded-r-md shadow-lg"
+            className="group fixed left-0 top-1/2 -translate-y-1/2 h-32 w-12 z-[60] md:hidden flex items-center justify-start cursor-pointer"
           >
-            <div className="w-1 h-8 bg-white rounded-full"></div>
+            <div className="flex h-full w-3 items-center justify-center rounded-r-md bg-primary shadow-lg transition-colors group-hover:bg-primary/80">
+              <div className="h-8 w-1 rounded-full bg-white"></div>
+            </div>
           </div>
 
           <div
             onClick={toggleRightSidebar}
-            className="fixed right-0 top-1/2 -translate-y-1/2 h-32 w-3 bg-primary hover:bg-primary/80 transition-colors z-[60] md:hidden flex items-center justify-center cursor-pointer rounded-l-md shadow-lg"
+            className="group fixed right-0 top-1/2 -translate-y-1/2 h-32 w-12 z-[60] md:hidden flex items-center justify-end cursor-pointer"
           >
-            <div className="w-1 h-8 bg-white rounded-full"></div>
+            <div className="flex h-full w-3 items-center justify-center rounded-l-md bg-primary shadow-lg transition-colors group-hover:bg-primary/80">
+              <div className="h-8 w-1 rounded-full bg-white"></div>
+            </div>
           </div>
 
           {/* Left Sidebar - Chat List */}
