@@ -8,6 +8,11 @@ function rowToUser(r: any) {
     email: r.email || null,
     avatarUrl: r.avatar_url || null,
     zipCode: r.zip_code || null,
+    locationLatitude:
+      typeof r.location_latitude === "number" ? r.location_latitude : null,
+    locationLongitude:
+      typeof r.location_longitude === "number" ? r.location_longitude : null,
+    locationCity: r.location_city || null,
     createdAt: r.created_at,
     foundingSupporter: Boolean(r.founding_supporter),
     topReferrer: Boolean(r.top_referrer),
