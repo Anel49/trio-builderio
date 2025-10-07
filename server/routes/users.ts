@@ -64,8 +64,7 @@ export async function getUserByEmail(req: Request, res: Response) {
     } catch {
       // Columns might not exist yet
       const result = await pool.query(
-        `select id, name, email, avatar_url, zip_code, created_at,
-                location_latitude, location_longitude, location_city
+        `select id, name, email, avatar_url, zip_code, created_at
          from users where email = $1 limit 1`,
         [email],
       );
