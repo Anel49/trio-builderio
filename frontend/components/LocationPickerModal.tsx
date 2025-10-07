@@ -20,7 +20,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-interface LocationSelection {
+export interface LocationSelection {
   latitude: number;
   longitude: number;
   city: string | null;
