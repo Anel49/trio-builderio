@@ -273,7 +273,10 @@ export async function getListingById(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
     const userZip = extractUserZip(req);
-    const userCoords = userZip ? await getZipCoordinates(userZip) : null;
+    let userCoords = extractUserCoordinates(req);
+    if (!userCoords && userZip) {
+      userCoords = await getZipCoordinates(userZip);
+    }
     let result: any;
     try {
       result = await pool.query(
