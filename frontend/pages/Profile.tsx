@@ -1557,22 +1557,14 @@ export default function Profile() {
 
       {/* Mobile Profile Popup - Slides up from bottom */}
       <div
-        className={`fixed inset-x-0 top-16 bottom-0 z-20 bg-background border-t lg:hidden transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-x-0 top-24 bottom-0 z-20 bg-background border-t lg:hidden transition-transform duration-300 ease-in-out ${
           isMobileProfileOpen
             ? "translate-y-0" // Slide up to visible position
-            : "translate-y-full" // Slide down to hidden position
+            : "translate-y-[115%]" // Slide down past viewport when hidden
         }`}
       >
-        {/* Drag Handle Tab */}
-        <div
-          className="flex justify-center py-3 cursor-pointer"
-          onClick={() => setIsMobileProfileOpen(false)}
-        >
-          <div className="w-12 h-1 bg-muted-foreground/30 rounded-full"></div>
-        </div>
-
         {/* Profile Header */}
-        <div className="px-4 pb-4">
+        <div className="px-4 pb-4 pt-4">
           <h3 className="text-lg font-semibold">Profile</h3>
         </div>
 
