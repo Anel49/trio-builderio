@@ -20,6 +20,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
+const MapContainerAny = MapContainer as unknown as ComponentType<any>;
+
 export interface LocationSelection {
   latitude: number;
   longitude: number;
