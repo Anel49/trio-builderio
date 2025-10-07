@@ -43,6 +43,7 @@ export function createServer() {
   app.get("/db/schema", dbSchema);
   app.post("/db/setup", dbSetup);
   app.get("/db/setup/run", dbSetup);
+  app.post("/geocode/reverse", reverseGeocode);
 
   // Listings
   app.get("/api/listings", listListings);
