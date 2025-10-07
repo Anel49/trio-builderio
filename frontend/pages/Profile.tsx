@@ -104,6 +104,9 @@ export default function Profile() {
     email: string | null;
     avatarUrl: string | null;
     zipCode: string | null;
+    locationCity: string | null;
+    locationLatitude: number | null;
+    locationLongitude: number | null;
     createdAt: string | null;
     foundingSupporter: boolean;
     topReferrer: boolean;
