@@ -158,12 +158,8 @@ export async function upsertUser(req: Request, res: Response) {
         typeof zip_code === "string" && zip_code.trim()
           ? zip_code.trim()
           : null,
-        Number.isFinite(Number(location_latitude))
-          ? Number(location_latitude)
-          : null,
-        Number.isFinite(Number(location_longitude))
-          ? Number(location_longitude)
-          : null,
+        Number.isFinite(latValue) ? latValue : null,
+        Number.isFinite(lonValue) ? lonValue : null,
         typeof location_city === "string" && location_city.trim()
           ? location_city.trim()
           : null,
