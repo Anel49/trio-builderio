@@ -30,7 +30,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { ENABLE_FAVORITES } from "@/lib/constants";
+import { ENABLE_UPLOAD_PREVIEW_FAVORITES } from "@/lib/constants";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import {
   Dialog,
@@ -470,7 +470,7 @@ export default function UploadProduct() {
                   alt={title || "Product preview"}
                   className="w-full h-96 object-cover rounded-lg"
                 />
-                {ENABLE_FAVORITES && (
+                {ENABLE_UPLOAD_PREVIEW_FAVORITES && (
                   <Button
                     size="icon"
                     variant="ghost"
