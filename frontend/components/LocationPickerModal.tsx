@@ -105,6 +105,26 @@ export function LocationPickerModal({
     return DEFAULT_CENTER;
   }, [selectedLat, selectedLng, initialLocation.latitude, initialLocation.longitude]);
 
+  const zoomLevel = useMemo(() => {
+    if (
+      typeof selectedLat === "number" &&
+      Number.isFinite(selectedLat) &&
+      typeof selectedLng === "number" &&
+      Number.isFinite(selectedLng)
+    ) {
+      return 12;
+    }
+    if (
+      typeof initialLocation.latitude === "number" &&
+      Number.isFinite(initialLocation.latitude) &&
+      typeof initialLocation.longitude === "number" &&
+      Number.isFinite(initialLocation.longitude)
+    ) {
+      return 10;
+    }
+    return 5;
+  }, [selectedLat, selectedLng, initialLocation.latitude, initialLocation.longitude]);
+
   const handleConfirm = useCallback(async () => {
     if (
       typeof selectedLat !== "number" ||
