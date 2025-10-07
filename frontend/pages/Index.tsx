@@ -208,8 +208,13 @@ export default function Index() {
       try {
         await ensureCurrentUserProfile();
         if (cancelled) return;
+        const coords = getCurrentUserCoordinates();
         const userZip = getCurrentUserZipCode();
-        const path = userZip ? `listings?user_zip=${userZip}` : "listings";
+        const path = coords
+          ? `listings?user_lat=${coords.latitude}&user_lng=${coords.longitude}`
+          : userZip
+            ? `listings?user_zip=${userZip}`
+            : "listings";
         const response = await apiFetch(path);
         if (!response.ok || cancelled) return;
         const d = await response.json().catch(() => null);
