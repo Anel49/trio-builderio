@@ -128,7 +128,7 @@ export function setCurrentUserLocation(update: LocationUpdate) {
 }
 
 export function setCurrentUserZipCode(zip: unknown) {
-  applyLocationUpdate({ postalCode: zip });
+  applyLocationUpdate({ postalCode: normalizePostal(zip) });
 }
 
 let profileHydration: Promise<void> | null = null;
