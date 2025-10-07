@@ -53,6 +53,7 @@ import { apiFetch } from "@/lib/api";
 import {
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
+  getCurrentUserCoordinates,
 } from "@/lib/user-profile";
 
 const RENTAL_PERIODS = ["Hourly", "Daily", "Weekly", "Monthly"] as const;
