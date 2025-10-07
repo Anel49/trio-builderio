@@ -31,6 +31,7 @@ import { apiFetch } from "@/lib/api";
 import {
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
+  getCurrentUserCoordinates,
 } from "@/lib/user-profile";
 import { format } from "date-fns";
 import {
