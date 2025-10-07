@@ -47,6 +47,14 @@ function ClickCapture({ onSelect }: { onSelect: (lat: number, lng: number) => vo
   return null;
 }
 
+function Recenter({ center }: { center: LatLngExpression }) {
+  const map = useMap();
+  useEffect(() => {
+    map.setView(center);
+  }, [center, map]);
+  return null;
+}
+
 export function LocationPickerModal({
   open,
   onOpenChange,
