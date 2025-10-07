@@ -77,6 +77,15 @@ export async function getUserByEmail(req: Request, res: Response) {
         email: base.email || null,
         avatarUrl: base.avatar_url || null,
         zipCode: base.zip_code || null,
+        locationLatitude:
+          typeof base.location_latitude === "number"
+            ? base.location_latitude
+            : null,
+        locationLongitude:
+          typeof base.location_longitude === "number"
+            ? base.location_longitude
+            : null,
+        locationCity: base.location_city || null,
         createdAt: base.created_at,
         foundingSupporter: false,
         topReferrer: false,
