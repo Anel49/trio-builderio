@@ -180,11 +180,13 @@ export function LocationPickerModal({
             {isClient ? (
               <MapContainer
                 center={mapCenter}
-                zoom={selectedLat && selectedLng ? 12 : 5}
+                zoom={zoomLevel}
                 className="h-full w-full"
+                scrollWheelZoom
               >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 <ClickCapture onSelect={handleSelect} />
+                <Recenter center={mapCenter} />
                 {typeof selectedLat === "number" &&
                   Number.isFinite(selectedLat) &&
                   typeof selectedLng === "number" &&
