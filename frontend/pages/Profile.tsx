@@ -277,6 +277,7 @@ export default function Profile() {
         const data = await res.json().catch(() => ({}) as any);
         let user = data?.user ?? null;
         if (!user) {
+          const snapshot = getCurrentUserLocation();
           const up = await apiFetch("users", {
             method: "POST",
             headers: { "content-type": "application/json" },
@@ -284,7 +285,10 @@ export default function Profile() {
               email: currentUser.email,
               name: currentUser.name,
               avatar_url: currentUser.profileImage,
-              zip_code: zipCode && zipCode.trim() ? zipCode.trim() : null,
+              zip_code: snapshot.postalCode,
+              location_city: snapshot.city,
+              location_latitude: snapshot.latitude,
+              location_longitude: snapshot.longitude,
             }),
           });
           const upData = await up.json().catch(() => ({}) as any);
