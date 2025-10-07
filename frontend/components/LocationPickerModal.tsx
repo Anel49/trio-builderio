@@ -180,7 +180,7 @@ export function LocationPickerModal({
           </p>
           <div className="h-[420px] w-full overflow-hidden rounded-lg border border-border">
             {isClient ? (
-              <MapContainer
+              <MapContainerAny
                 center={mapCenter}
                 zoom={zoomLevel}
                 className="h-full w-full"
@@ -195,7 +195,7 @@ export function LocationPickerModal({
                   Number.isFinite(selectedLng) && (
                     <Marker position={[selectedLat, selectedLng]} />
                   )}
-              </MapContainer>
+              </MapContainerAny>
             ) : null}
           </div>
           {typeof selectedLat === "number" && typeof selectedLng === "number" ? (
