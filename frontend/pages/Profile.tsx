@@ -26,6 +26,7 @@ import {
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
   getCurrentUserLocation,
+  getCurrentUserCoordinates,
   setCurrentUserLocation,
 } from "@/lib/user-profile";
 import {
