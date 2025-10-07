@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   Sheet,
   SheetContent,
@@ -54,6 +55,15 @@ export function MobileMenu({ isOpen, onOpenChange }: MobileMenuProps) {
             <ClipboardList className="h-5 w-5 mr-3" />
             Orders and Requests
           </Button>
+        </div>
+
+        <div className="mt-10 border-t border-border pt-6">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-muted-foreground">
+              Appearance
+            </span>
+            <ThemeToggle />
+          </div>
         </div>
       </SheetContent>
     </Sheet>
