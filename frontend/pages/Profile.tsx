@@ -175,14 +175,46 @@ export default function Profile() {
           : null;
     const resolvedName =
       typeof user.name === "string" && user.name.trim() ? user.name : null;
-    const resolvedZip =
+    const resolvedCityRaw =
+      typeof user.locationCity === "string" && user.locationCity.trim()
+        ? user.locationCity.trim()
+        : typeof user.location_city === "string" && user.location_city.trim()
+          ? user.location_city.trim()
+          : null;
+    const resolvedPostalRaw =
       typeof user.zipCode === "string"
         ? user.zipCode
         : typeof user.zip_code === "string"
           ? user.zip_code
           : "";
-    const normalizedZip =
-      typeof resolvedZip === "string" ? resolvedZip.trim() : "";
+    const normalizedPostal =
+      typeof resolvedPostalRaw === "string" && resolvedPostalRaw.trim()
+        ? resolvedPostalRaw.trim()
+        : null;
+
+    const rawLat =
+      typeof user.locationLatitude === "number"
+        ? user.locationLatitude
+        : typeof user.location_latitude === "number"
+          ? user.location_latitude
+          : typeof user.location_latitude === "string" &&
+              user.location_latitude.trim()
+            ? Number.parseFloat(user.location_latitude)
+            : null;
+    const rawLon =
+      typeof user.locationLongitude === "number"
+        ? user.locationLongitude
+        : typeof user.location_longitude === "number"
+          ? user.location_longitude
+          : typeof user.location_longitude === "string" &&
+              user.location_longitude.trim()
+            ? Number.parseFloat(user.location_longitude)
+            : null;
+    const latValue =
+      typeof rawLat === "number" && Number.isFinite(rawLat) ? rawLat : null;
+    const lonValue =
+      typeof rawLon === "number" && Number.isFinite(rawLon) ? rawLon : null;
+
     const resolvedId =
       typeof user.id === "number"
         ? user.id
@@ -199,8 +231,16 @@ export default function Profile() {
     if (extractedAvatar) {
       setProfileImageUrl(extractedAvatar);
     }
-    setZipCode(normalizedZip);
-    setCurrentUserZipCode(normalizedZip || null);
+    setLocationCity(resolvedCityRaw);
+    setLocationLatitude(latValue);
+    setLocationLongitude(lonValue);
+    setLocationPostalCode(normalizedPostal);
+    setCurrentUserLocation({
+      city: resolvedCityRaw,
+      latitude: latValue,
+      longitude: lonValue,
+      postalCode: normalizedPostal,
+    });
     setBadges({
       foundingSupporter: founding,
       topReferrer: referrer,
@@ -212,7 +252,10 @@ export default function Profile() {
       email:
         typeof user.email === "string" && user.email.trim() ? user.email : null,
       avatarUrl: extractedAvatar,
-      zipCode: normalizedZip || null,
+      zipCode: normalizedPostal,
+      locationCity: resolvedCityRaw,
+      locationLatitude: latValue,
+      locationLongitude: lonValue,
       createdAt:
         typeof user.createdAt === "string"
           ? user.createdAt
