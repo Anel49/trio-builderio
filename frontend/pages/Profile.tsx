@@ -83,7 +83,19 @@ const REVIEWS_PER_PAGE = 8;
 export default function Profile() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [zipCode, setZipCode] = useState("");
+  const initialLocation = getCurrentUserLocation();
+  const [locationCity, setLocationCity] = useState<string | null>(
+    initialLocation.city,
+  );
+  const [locationLatitude, setLocationLatitude] = useState<number | null>(
+    initialLocation.latitude,
+  );
+  const [locationLongitude, setLocationLongitude] = useState<number | null>(
+    initialLocation.longitude,
+  );
+  const [locationPostalCode, setLocationPostalCode] = useState<string | null>(
+    initialLocation.postalCode,
+  );
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [name, setName] = useState(currentUser.name);
   const [userRecord, setUserRecord] = useState<null | {
