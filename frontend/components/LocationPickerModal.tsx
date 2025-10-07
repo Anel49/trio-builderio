@@ -1,0 +1,210 @@
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { apiFetch } from "@/lib/api";
+import { Loader2, MapPin } from "lucide-react";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import type { LatLngExpression, LeafletMouseEvent } from "leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+const DEFAULT_CENTER: LatLngExpression = [38.9072, -77.0369]; // Washington, D.C. as neutral US center
+
+// Configure default marker assets once
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+interface LocationSelection {
+  latitude: number;
+  longitude: number;
+  city: string | null;
+  postalCode: string | null;
+}
+
+interface LocationPickerModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  initialLocation: {
+    latitude: number | null;
+    longitude: number | null;
+    city: string | null;
+  };
+  onConfirm: (selection: LocationSelection) => void;
+}
+
+function ClickCapture({ onSelect }: { onSelect: (lat: number, lng: number) => void }) {
+  useMapEvents({
+    click(e: LeafletMouseEvent) {
+      onSelect(e.latlng.lat, e.latlng.lng);
+    },
+  });
+  return null;
+}
+
+export function LocationPickerModal({
+  open,
+  onOpenChange,
+  initialLocation,
+  onConfirm,
+}: LocationPickerModalProps) {
+  const [isClient, setIsClient] = useState(false);
+  const [selectedLat, setSelectedLat] = useState<number | null>(null);
+  const [selectedLng, setSelectedLng] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (open) {
+      setSelectedLat(initialLocation.latitude ?? null);
+      setSelectedLng(initialLocation.longitude ?? null);
+      setError(null);
+    }
+  }, [open, initialLocation.latitude, initialLocation.longitude]);
+
+  const handleSelect = useCallback((lat: number, lng: number) => {
+    setSelectedLat(lat);
+    setSelectedLng(lng);
+    setError(null);
+  }, []);
+
+  const mapCenter = useMemo((): LatLngExpression => {
+    if (
+      typeof selectedLat === "number" &&
+      Number.isFinite(selectedLat) &&
+      typeof selectedLng === "number" &&
+      Number.isFinite(selectedLng)
+    ) {
+      return [selectedLat, selectedLng];
+    }
+    if (
+      typeof initialLocation.latitude === "number" &&
+      Number.isFinite(initialLocation.latitude) &&
+      typeof initialLocation.longitude === "number" &&
+      Number.isFinite(initialLocation.longitude)
+    ) {
+      return [initialLocation.latitude, initialLocation.longitude];
+    }
+    return DEFAULT_CENTER;
+  }, [selectedLat, selectedLng, initialLocation.latitude, initialLocation.longitude]);
+
+  const handleConfirm = useCallback(async () => {
+    if (
+      typeof selectedLat !== "number" ||
+      !Number.isFinite(selectedLat) ||
+      typeof selectedLng !== "number" ||
+      !Number.isFinite(selectedLng)
+    ) {
+      setError("Select a location on the map to continue.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      const response = await apiFetch("geocode/reverse", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ latitude: selectedLat, longitude: selectedLng }),
+      });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.ok) {
+        throw new Error(
+          (payload && payload.error) || "Unable to resolve city for this location.",
+        );
+      }
+
+      onConfirm({
+        latitude: selectedLat,
+        longitude: selectedLng,
+        city: payload.city ?? initialLocation.city ?? null,
+        postalCode: payload.postalCode ?? null,
+      });
+      onOpenChange(false);
+    } catch (err: any) {
+      setError(String(err?.message || err || "Unexpected error"));
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [selectedLat, selectedLng, initialLocation.city, onConfirm, onOpenChange]);
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-3xl">
+        <DialogHeader>
+          <DialogTitle>Select your city</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            Tap or click anywhere on the map to drop the pin. When you save, we’ll
+            convert the coordinates into the closest city name.
+          </p>
+          <div className="h-[420px] w-full overflow-hidden rounded-lg border border-border">
+            {isClient ? (
+              <MapContainer
+                center={mapCenter}
+                zoom={selectedLat && selectedLng ? 12 : 5}
+                className="h-full w-full"
+              >
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <ClickCapture onSelect={handleSelect} />
+                {typeof selectedLat === "number" &&
+                  Number.isFinite(selectedLat) &&
+                  typeof selectedLng === "number" &&
+                  Number.isFinite(selectedLng) && (
+                    <Marker position={[selectedLat, selectedLng]} />
+                  )}
+              </MapContainer>
+            ) : null}
+          </div>
+          {typeof selectedLat === "number" && typeof selectedLng === "number" ? (
+            <div className="flex items-start gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 mt-[2px]" />
+              <div>
+                <div>
+                  Latitude: {selectedLat.toFixed(5)}, Longitude: {selectedLng.toFixed(5)}
+                </div>
+                <div className="text-xs">
+                  We’ll match these coordinates to the nearest city when you save.
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-sm text-muted-foreground">
+              No location selected yet.
+            </div>
+          )}
+          {error ? <div className="text-sm text-destructive">{error}</div> : null}
+        </div>
+        <DialogFooter className="gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={isSubmitting}
+          >
+            Cancel
+          </Button>
+          <Button type="button" onClick={handleConfirm} disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving
+              </>
+            ) : (
+              "Save location"
+            )}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
