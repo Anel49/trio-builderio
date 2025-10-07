@@ -37,6 +37,7 @@ export function createServer() {
   app.get("/api/db/schema", dbSchema);
   app.post("/api/db/setup", dbSetup);
   app.get("/api/db/setup/run", dbSetup);
+  app.post("/api/geocode/reverse", reverseGeocode);
   // Alias routes
   app.get("/db/health", dbHealth);
   app.get("/db/schema", dbSchema);
