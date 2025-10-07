@@ -62,7 +62,10 @@ function formatPrice(price_cents: number) {
 export async function listListings(req: Request, res: Response) {
   try {
     const userZip = extractUserZip(req);
-    const userCoords = userZip ? await getZipCoordinates(userZip) : null;
+    let userCoords = extractUserCoordinates(req);
+    if (!userCoords && userZip) {
+      userCoords = await getZipCoordinates(userZip);
+    }
     let result: any;
     try {
       result = await pool.query(
