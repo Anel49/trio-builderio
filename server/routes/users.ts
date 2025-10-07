@@ -119,18 +119,22 @@ export async function upsertUser(req: Request, res: Response) {
     }
 
     await ensureBadgeColumns();
+    await ensureLocationColumns();
 
     const result = await pool.query(
-      `insert into users (name, email, avatar_url, zip_code, founding_supporter, top_referrer, ambassador)
-       values ($1,$2,$3,$4,$5,$6,$7)
+      `insert into users (name, email, avatar_url, zip_code, location_latitude, location_longitude, location_city, founding_supporter, top_referrer, ambassador)
+       values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
        on conflict (email) do update set
          name = coalesce(excluded.name, users.name),
          avatar_url = coalesce(excluded.avatar_url, users.avatar_url),
          zip_code = excluded.zip_code,
+         location_latitude = excluded.location_latitude,
+         location_longitude = excluded.location_longitude,
+         location_city = excluded.location_city,
          founding_supporter = coalesce(excluded.founding_supporter, users.founding_supporter),
          top_referrer = coalesce(excluded.top_referrer, users.top_referrer),
          ambassador = coalesce(excluded.ambassador, users.ambassador)
-       returning id, name, email, avatar_url, zip_code, created_at,
+       returning id, name, email, avatar_url, zip_code, location_latitude, location_longitude, location_city, created_at,
                  coalesce(founding_supporter,false) as founding_supporter,
                  coalesce(top_referrer,false) as top_referrer,
                  coalesce(ambassador,false) as ambassador`,
@@ -140,6 +144,15 @@ export async function upsertUser(req: Request, res: Response) {
         typeof avatar_url === "string" ? avatar_url : null,
         typeof zip_code === "string" && zip_code.trim()
           ? zip_code.trim()
+          : null,
+        Number.isFinite(Number(location_latitude))
+          ? Number(location_latitude)
+          : null,
+        Number.isFinite(Number(location_longitude))
+          ? Number(location_longitude)
+          : null,
+        typeof location_city === "string" && location_city.trim()
+          ? location_city.trim()
           : null,
         Boolean(founding_supporter),
         Boolean(top_referrer),
