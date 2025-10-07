@@ -121,6 +121,19 @@ export async function upsertUser(req: Request, res: Response) {
     await ensureBadgeColumns();
     await ensureLocationColumns();
 
+    const latValue =
+      typeof location_latitude === "number"
+        ? location_latitude
+        : typeof location_latitude === "string" && location_latitude.trim()
+          ? Number.parseFloat(location_latitude)
+          : NaN;
+    const lonValue =
+      typeof location_longitude === "number"
+        ? location_longitude
+        : typeof location_longitude === "string" && location_longitude.trim()
+          ? Number.parseFloat(location_longitude)
+          : NaN;
+
     const result = await pool.query(
       `insert into users (name, email, avatar_url, zip_code, location_latitude, location_longitude, location_city, founding_supporter, top_referrer, ambassador)
        values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
