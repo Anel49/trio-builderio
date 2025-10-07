@@ -269,6 +269,32 @@ export default function Profile() {
     });
   }, []);
 
+  const handleLocationConfirm = useCallback(
+    ({
+      city,
+      latitude,
+      longitude,
+      postalCode,
+    }: {
+      city: string | null;
+      latitude: number;
+      longitude: number;
+      postalCode: string | null;
+    }) => {
+      setLocationCity(city);
+      setLocationLatitude(latitude);
+      setLocationLongitude(longitude);
+      setLocationPostalCode(postalCode);
+      setCurrentUserLocation({
+        city,
+        latitude,
+        longitude,
+        postalCode,
+      });
+    },
+    [],
+  );
+
   useEffect(() => {
     (async () => {
       try {
