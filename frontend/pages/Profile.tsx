@@ -24,7 +24,8 @@ import {
   currentUser,
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
-  setCurrentUserZipCode,
+  getCurrentUserLocation,
+  setCurrentUserLocation,
 } from "@/lib/user-profile";
 import {
   Star,
