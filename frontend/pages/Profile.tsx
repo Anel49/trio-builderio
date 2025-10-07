@@ -1582,6 +1582,16 @@ export default function Profile() {
         onOpenChange={setIsFavoritesModalOpen}
         listingTitle={favoritedListing}
       />
+      <LocationPickerModal
+        open={isLocationModalOpen}
+        onOpenChange={setIsLocationModalOpen}
+        initialLocation={{
+          city: locationCity,
+          latitude: locationLatitude,
+          longitude: locationLongitude,
+        }}
+        onConfirm={handleLocationConfirm}
+      />
 
       {/* Logout Confirmation Modal */}
       <Dialog open={isLogoutModalOpen} onOpenChange={setIsLogoutModalOpen}>
