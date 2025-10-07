@@ -1019,8 +1019,20 @@ export default function Profile() {
                             email: currentUser.email,
                             name,
                             avatar_url: profileImageUrl,
-                            zip_code:
-                              zipCode && zipCode.trim() ? zipCode.trim() : null,
+                            zip_code: locationPostalCode ?? null,
+                            location_city:
+                              typeof locationCity === "string" &&
+                              locationCity.trim()
+                                ? locationCity.trim()
+                                : null,
+                            location_latitude:
+                              typeof locationLatitude === "number"
+                                ? locationLatitude
+                                : null,
+                            location_longitude:
+                              typeof locationLongitude === "number"
+                                ? locationLongitude
+                                : null,
                           };
                           const response = await apiFetch("users", {
                             method: "POST",
