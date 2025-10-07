@@ -292,7 +292,7 @@ export default function Profile() {
         postalCode,
       });
     },
-    [],
+    [setCurrentUserLocation],
   );
 
   useEffect(() => {
