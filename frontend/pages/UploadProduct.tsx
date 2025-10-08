@@ -98,11 +98,6 @@ export default function UploadProduct() {
   const pricePlaceholder = pricePlaceholderByPeriod[rentalPeriod];
 
   // Mock user profile data - in real app this would come from context/API
-  const userProfile = {
-    defaultLocation: "20175",
-    hasLocation: true,
-  };
-
   const hasListingCoordinates =
     typeof listingLocation.latitude === "number" &&
     Number.isFinite(listingLocation.latitude) &&
