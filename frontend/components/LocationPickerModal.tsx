@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api";
 import { Loader2, MapPin } from "lucide-react";
@@ -11,8 +17,14 @@ const markerIconRetinaUrl = new URL(
   "leaflet/dist/images/marker-icon-2x.png",
   import.meta.url,
 ).href;
-const markerIconUrl = new URL("leaflet/dist/images/marker-icon.png", import.meta.url).href;
-const markerShadowUrl = new URL("leaflet/dist/images/marker-shadow.png", import.meta.url).href;
+const markerIconUrl = new URL(
+  "leaflet/dist/images/marker-icon.png",
+  import.meta.url,
+).href;
+const markerShadowUrl = new URL(
+  "leaflet/dist/images/marker-shadow.png",
+  import.meta.url,
+).href;
 
 const DEFAULT_CENTER: LatLngExpression = [38.9072, -77.0369]; // Washington, D.C. as neutral US center
 
@@ -91,12 +103,14 @@ function InteractiveMap({
       attributionControl: true,
     });
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-      attribution:
-        "© OpenStreetMap contributors © CARTO",
-      subdomains: "abcd",
-      maxZoom: 19,
-    }).addTo(map);
+    L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      {
+        attribution: "© OpenStreetMap contributors © CARTO",
+        subdomains: "abcd",
+        maxZoom: 19,
+      },
+    ).addTo(map);
 
     const handleClick = (event: LeafletMouseEvent) => {
       if (!isActiveRef.current) {
@@ -217,7 +231,12 @@ export function LocationPickerModal({
       return [initialLocation.latitude, initialLocation.longitude];
     }
     return DEFAULT_CENTER;
-  }, [selectedLat, selectedLng, initialLocation.latitude, initialLocation.longitude]);
+  }, [
+    selectedLat,
+    selectedLng,
+    initialLocation.latitude,
+    initialLocation.longitude,
+  ]);
 
   const zoomLevel = useMemo(() => {
     if (
@@ -237,7 +256,12 @@ export function LocationPickerModal({
       return 10;
     }
     return 5;
-  }, [selectedLat, selectedLng, initialLocation.latitude, initialLocation.longitude]);
+  }, [
+    selectedLat,
+    selectedLng,
+    initialLocation.latitude,
+    initialLocation.longitude,
+  ]);
 
   const handleConfirm = useCallback(async () => {
     if (
@@ -261,7 +285,8 @@ export function LocationPickerModal({
       const payload = await response.json().catch(() => null);
       if (!response.ok || !payload?.ok) {
         throw new Error(
-          (payload && payload.error) || "Unable to resolve city for this location.",
+          (payload && payload.error) ||
+            "Unable to resolve city for this location.",
         );
       }
 
@@ -287,35 +312,39 @@ export function LocationPickerModal({
         </DialogHeader>
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Tap or click anywhere on the map to drop the pin. When you save, we’ll
-            convert the coordinates into the closest city name.
+            Tap or click anywhere on the map to drop the pin. When you save,
+            we’ll convert the coordinates into the closest city name.
           </p>
           <div className="h-[420px] w-full overflow-hidden rounded-lg border border-border">
             {isClient ? (
               <InteractiveMap
                 center={mapCenter}
                 zoom={zoomLevel}
-                selectedPosition=
-                  {typeof selectedLat === "number" &&
+                selectedPosition={
+                  typeof selectedLat === "number" &&
                   Number.isFinite(selectedLat) &&
                   typeof selectedLng === "number" &&
                   Number.isFinite(selectedLng)
                     ? [selectedLat, selectedLng]
-                    : null}
+                    : null
+                }
                 onSelect={handleSelect}
                 active={open}
               />
             ) : null}
           </div>
-          {typeof selectedLat === "number" && typeof selectedLng === "number" ? (
+          {typeof selectedLat === "number" &&
+          typeof selectedLng === "number" ? (
             <div className="flex items-start gap-2 text-sm text-muted-foreground">
               <MapPin className="h-4 w-4 mt-[2px]" />
               <div>
                 <div>
-                  Latitude: {selectedLat.toFixed(5)}, Longitude: {selectedLng.toFixed(5)}
+                  Latitude: {selectedLat.toFixed(5)}, Longitude:{" "}
+                  {selectedLng.toFixed(5)}
                 </div>
                 <div className="text-xs">
-                  We’ll match these coordinates to the nearest city when you save.
+                  We’ll match these coordinates to the nearest city when you
+                  save.
                 </div>
               </div>
             </div>
@@ -324,7 +353,9 @@ export function LocationPickerModal({
               No location selected yet.
             </div>
           )}
-          {error ? <div className="text-sm text-destructive">{error}</div> : null}
+          {error ? (
+            <div className="text-sm text-destructive">{error}</div>
+          ) : null}
         </div>
         <DialogFooter className="gap-2">
           <Button

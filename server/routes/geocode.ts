@@ -11,10 +11,10 @@ function formatCityLabel(address: Record<string, any> | null | undefined) {
     address.locality ||
     address.neighbourhood;
   const state = address.state || address.region || null;
-  const cityPart = typeof cityLike === "string" && cityLike.trim()
-    ? cityLike.trim()
-    : null;
-  const statePart = typeof state === "string" && state.trim() ? state.trim() : null;
+  const cityPart =
+    typeof cityLike === "string" && cityLike.trim() ? cityLike.trim() : null;
+  const statePart =
+    typeof state === "string" && state.trim() ? state.trim() : null;
   if (cityPart && statePart) return `${cityPart}, ${statePart}`;
   return cityPart || statePart || null;
 }

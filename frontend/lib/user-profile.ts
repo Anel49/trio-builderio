@@ -70,9 +70,10 @@ export function getCurrentUserLocation(): UserLocation {
   return { ...cachedLocation };
 }
 
-export function getCurrentUserCoordinates():
-  | { latitude: number; longitude: number }
-  | null {
+export function getCurrentUserCoordinates(): {
+  latitude: number;
+  longitude: number;
+} | null {
   if (
     typeof cachedLocation.latitude === "number" &&
     Number.isFinite(cachedLocation.latitude) &&
