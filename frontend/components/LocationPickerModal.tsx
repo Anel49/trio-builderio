@@ -126,19 +126,6 @@ function InteractiveMap({
     }
   }, [active, selectedPosition]);
 
-  useEffect(() => {
-    if (!active) {
-      return;
-    }
-
-    const element = containerRef.current;
-    return () => {
-      if (!mapRef.current && element) {
-        element.innerHTML = "";
-      }
-    };
-  }, [active]);
-
   return <div ref={containerRef} className="h-full w-full" />;
 }
 
