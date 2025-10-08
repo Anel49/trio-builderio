@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api";
@@ -7,13 +8,20 @@ import type { LatLngExpression, LeafletMouseEvent } from "leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+const markerIconRetinaUrl = new URL(
+  "leaflet/dist/images/marker-icon-2x.png",
+  import.meta.url,
+).href;
+const markerIconUrl = new URL("leaflet/dist/images/marker-icon.png", import.meta.url).href;
+const markerShadowUrl = new URL("leaflet/dist/images/marker-shadow.png", import.meta.url).href;
+
 const DEFAULT_CENTER: LatLngExpression = [38.9072, -77.0369]; // Washington, D.C. as neutral US center
 
 // Configure default marker assets once
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "/leaflet/marker-icon-2x.png",
-  iconUrl: "/leaflet/marker-icon.png",
-  shadowUrl: "/leaflet/marker-shadow.png",
+  iconRetinaUrl: markerIconRetinaUrl,
+  iconUrl: markerIconUrl,
+  shadowUrl: markerShadowUrl,
 });
 
 export interface LocationSelection {
