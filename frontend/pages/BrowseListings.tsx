@@ -347,8 +347,8 @@ export default function BrowseListings() {
                 : typeof l.zip_code === "string"
                   ? l.zip_code
                   : null,
-            lat: listingCoords?.latitude ?? 0,
-            lng: listingCoords?.longitude ?? 0,
+            lat: listingCoords?.latitude ?? null,
+            lng: listingCoords?.longitude ?? null,
             createdAt: l.createdAt ?? l.created_at ?? undefined,
             rentalPeriod: normalizeRentalPeriod(
               l.rentalPeriod ?? l.rental_period,
