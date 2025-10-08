@@ -79,7 +79,6 @@ function InteractiveMap({
   const selectHandlerRef = useRef(onSelect);
   const isActiveRef = useRef(active);
   const hasUserZoomedRef = useRef(false);
-  const lastCenterRef = useRef<L.LatLng | null>(null);
 
   useEffect(() => {
     selectHandlerRef.current = onSelect;
@@ -143,26 +142,34 @@ function InteractiveMap({
     }
     const map = mapRef.current;
     const target = L.latLng(center);
-    const lastCenter = lastCenterRef.current;
     const currentCenter = map.getCenter();
-    const centerChanged =
-      !lastCenter || lastCenter.distanceTo(target) > 0.5;
+    const centerChanged = currentCenter.distanceTo(target) > 0.5;
 
     if (centerChanged) {
-      map.setView(
-        target,
-        hasUserZoomedRef.current ? map.getZoom() : zoom,
-        { animate: false },
-      );
-      lastCenterRef.current = target;
-    } else if (!hasUserZoomedRef.current) {
-      const currentZoom = map.getZoom();
-      if (Math.abs(currentZoom - zoom) > 0.1) {
-        map.setZoom(zoom);
-      }
+      map.panTo(target, { animate: true });
     }
-    map.invalidateSize();
-  }, [active, center, zoom]);
+  }, [active, center]);
+
+  useEffect(() => {
+    if (!mapRef.current || !active) {
+      return;
+    }
+    if (hasUserZoomedRef.current) {
+      return;
+    }
+    const map = mapRef.current;
+    const currentZoom = map.getZoom();
+    if (Math.abs(currentZoom - zoom) > 0.1) {
+      map.setZoom(zoom);
+    }
+  }, [active, zoom]);
+
+  useEffect(() => {
+    if (!mapRef.current || !active) {
+      return;
+    }
+    mapRef.current.invalidateSize();
+  }, [active]);
 
   useEffect(() => {
     if (!mapRef.current) {
