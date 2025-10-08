@@ -117,7 +117,7 @@ export default function UploadProduct() {
   const listingLocationPreviewLabel =
     listingLocation.city ??
     coordinateLabel ??
-    (userProfile.hasLocation ? userProfile.defaultLocation : "Your location");
+    "Your location";
 
   // Check if form has content that should be saved
   const hasContent = () => {
