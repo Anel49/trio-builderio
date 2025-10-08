@@ -126,22 +126,33 @@ function InteractiveMap({
 
     const handleMoveStart = () => {
       hasUserZoomedRef.current = true;
+      isDraggingRef.current = true;
+    };
+
+    const handleMoveEnd = () => {
+      requestAnimationFrame(() => {
+        isDraggingRef.current = false;
+      });
     };
 
     map.on("click", handleClick);
     map.on("zoomstart", handleZoomStart);
     map.on("movestart", handleMoveStart);
+    map.on("moveend", handleMoveEnd);
     mapRef.current = map;
 
     return () => {
       map.off("click", handleClick);
       map.off("zoomstart", handleZoomStart);
       map.off("movestart", handleMoveStart);
+      map.off("moveend", handleMoveEnd);
       map.remove();
       mapRef.current = null;
       markerRef.current = null;
     };
   }, []);
+
+  const isDraggingRef = useRef(false);
 
   useEffect(() => {
     if (!mapRef.current || !active) {
@@ -152,7 +163,7 @@ function InteractiveMap({
     const currentCenter = map.getCenter();
     const centerChanged = currentCenter.distanceTo(target) > 0.5;
 
-    if (centerChanged) {
+    if (centerChanged && !isDraggingRef.current) {
       const id = requestAnimationFrame(() => {
         map.stop();
         map.setView(target, map.getZoom(), { animate: false });
@@ -170,7 +181,7 @@ function InteractiveMap({
     }
     const map = mapRef.current;
     const currentZoom = map.getZoom();
-    if (Math.abs(currentZoom - zoom) > 0.1) {
+    if (!isDraggingRef.current && Math.abs(currentZoom - zoom) > 0.1) {
       const id = requestAnimationFrame(() => {
         map.stop();
         map.setZoom(zoom, { animate: false });
