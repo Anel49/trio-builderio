@@ -323,6 +323,13 @@ export default function UploadProduct() {
       const defaultImage =
         "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format";
       const imgs = uploadedImages.length > 0 ? uploadedImages : [defaultImage];
+      const fallbackZip =
+        listingLocation.postalCode ??
+        (() => {
+          const candidate = String(userProfile.defaultLocation ?? "").trim();
+          return /^\d{5}$/.test(candidate) ? candidate : "00000";
+        })();
+
       const payload = {
         name: title || "Untitled",
         price_cents: priceCents,
@@ -334,11 +341,12 @@ export default function UploadProduct() {
         categories: selectedTags.length > 0 ? selectedTags : [defaultCategory],
         description,
         rental_period: rentalPeriod,
-        zip_code: (
-          location ||
-          userProfile.defaultLocation ||
-          "00000"
-        ).toString(),
+        zip_code: fallbackZip,
+        location_city: listingLocation.city,
+        location_latitude: listingLocation.latitude,
+        location_longitude: listingLocation.longitude,
+        latitude: listingLocation.latitude,
+        longitude: listingLocation.longitude,
       };
       const res = await apiFetch("listings", {
         method: "POST",
