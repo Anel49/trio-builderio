@@ -65,8 +65,7 @@ export function extractCoordinates(record: any): Coordinates | null {
 export function calculateDistanceMiles(
   from: Coordinates,
   to: Coordinates,
-): number |
-  null {
+): number | null {
   const lat1 = (from.latitude * Math.PI) / 180;
   const lon1 = (from.longitude * Math.PI) / 180;
   const lat2 = (to.latitude * Math.PI) / 180;
