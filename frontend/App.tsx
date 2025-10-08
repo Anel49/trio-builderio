@@ -7,19 +7,20 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
-import Index from "./pages/Index";
-import BrowseListings from "./pages/BrowseListings";
-import ProductDetails from "./pages/ProductDetails";
-import UploadProduct from "./pages/UploadProduct";
-import Profile from "./pages/Profile";
-import Messages from "./pages/Messages";
-import Checkout from "./pages/Checkout";
-import OrderHistory from "./pages/OrderHistory";
-import TermsOfService from "./pages/TermsOfService";
-import NotFound from "./pages/NotFound";
 import { CookieBanner, CookiePreferences } from "@/components/ui/cookie-banner";
 import { COMPANY_NAME } from "@/lib/constants";
 import SplashOnboarding from "@/components/ui/splash-onboarding";
+
+const Index = lazy(() => import("./pages/Index"));
+const BrowseListings = lazy(() => import("./pages/BrowseListings"));
+const ProductDetails = lazy(() => import("./pages/ProductDetails"));
+const UploadProduct = lazy(() => import("./pages/UploadProduct"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Messages = lazy(() => import("./pages/Messages"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const OrderHistory = lazy(() => import("./pages/OrderHistory"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
