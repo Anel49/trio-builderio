@@ -44,6 +44,11 @@ import {
   getCurrentUserCoordinates,
 } from "@/lib/user-profile";
 import {
+  computeDistanceMiles,
+  extractCoordinates,
+  formatDistanceLabel,
+} from "@/lib/geo";
+import {
   Star,
   Heart,
   MapPin,
