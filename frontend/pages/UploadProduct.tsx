@@ -157,7 +157,7 @@ export default function UploadProduct() {
     isListed,
     title,
     price,
-    location,
+    listingLocation,
     description,
     selectedTags,
     uploadedImages,
