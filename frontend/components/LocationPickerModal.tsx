@@ -94,7 +94,7 @@ function InteractiveMap({
         markerRef.current = null;
       }
     };
-  }, [active, zoom]);
+  }, [active]);
 
   useEffect(() => {
     if (!mapRef.current || !active) {
