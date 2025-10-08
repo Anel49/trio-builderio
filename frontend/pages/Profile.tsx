@@ -1773,7 +1773,7 @@ export default function Profile() {
                     className="w-full justify-center gap-2"
                     onClick={() => setIsLocationModalOpen(true)}
                   >
-                    <MapPin className="h-4 w-4" />
+                    <Pencil className="h-4 w-4" />
                     <span className="text-sm">
                       {typeof locationCity === "string" && locationCity.trim()
                         ? locationCity.trim()
