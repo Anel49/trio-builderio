@@ -102,7 +102,7 @@ export default function Index() {
         "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Sarah",
       type: "Landscaping",
-      distance: "2.3 miles",
+      distance: null,
     },
     {
       id: 2,
