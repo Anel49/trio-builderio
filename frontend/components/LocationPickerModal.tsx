@@ -92,13 +92,19 @@ function InteractiveMap({
         markerRef.current = null;
       }
     };
-  }, [center, zoom]);
+  }, []);
 
   useEffect(() => {
     if (!mapRef.current) {
       return;
     }
     mapRef.current.setView(center, zoom);
+  }, [center, zoom]);
+
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.invalidateSize();
+    }
   }, [center, zoom]);
 
   useEffect(() => {
