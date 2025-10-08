@@ -89,10 +89,7 @@ function InteractiveMap({
       map.off("click", handleClick);
       map.remove();
       mapRef.current = null;
-      if (markerRef.current) {
-        markerRef.current.remove();
-        markerRef.current = null;
-      }
+      markerRef.current = null;
     };
   }, [active]);
 
