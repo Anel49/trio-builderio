@@ -94,7 +94,7 @@ function InteractiveMap({
         markerRef.current = null;
       }
     };
-  }, [active, center, zoom]);
+  }, [active, zoom]);
 
   useEffect(() => {
     if (!mapRef.current || !active) {
@@ -264,7 +264,7 @@ export function LocationPickerModal({
             convert the coordinates into the closest city name.
           </p>
           <div className="h-[420px] w-full overflow-hidden rounded-lg border border-border">
-            {isClient ? (
+            {isClient && open ? (
               <InteractiveMap
                 center={mapCenter}
                 zoom={zoomLevel}
