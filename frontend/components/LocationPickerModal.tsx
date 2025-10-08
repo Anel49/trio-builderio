@@ -56,10 +56,15 @@ function InteractiveMap({
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
   const selectHandlerRef = useRef(onSelect);
+  const isActiveRef = useRef(active);
 
   useEffect(() => {
     selectHandlerRef.current = onSelect;
   }, [onSelect]);
+
+  useEffect(() => {
+    isActiveRef.current = active;
+  }, [active]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) {
@@ -79,6 +84,9 @@ function InteractiveMap({
     }).addTo(map);
 
     const handleClick = (event: LeafletMouseEvent) => {
+      if (!isActiveRef.current) {
+        return;
+      }
       selectHandlerRef.current(event.latlng.lat, event.latlng.lng);
     };
 
@@ -91,23 +99,24 @@ function InteractiveMap({
       mapRef.current = null;
       markerRef.current = null;
     };
-  }, [active]);
+  }, []);
 
   useEffect(() => {
-    if (!mapRef.current || !active) {
+    if (!mapRef.current) {
       return;
     }
     mapRef.current.setView(center, zoom);
-  }, [active, center, zoom]);
+  }, [center, zoom]);
 
   useEffect(() => {
-    if (mapRef.current && active) {
-      mapRef.current.invalidateSize();
+    if (!mapRef.current) {
+      return;
     }
-  }, [active, center, zoom]);
+    mapRef.current.invalidateSize();
+  }, [center, zoom, active]);
 
   useEffect(() => {
-    if (!mapRef.current || !active) {
+    if (!mapRef.current) {
       return;
     }
 
@@ -121,7 +130,7 @@ function InteractiveMap({
       markerRef.current.remove();
       markerRef.current = null;
     }
-  }, [active, selectedPosition]);
+  }, [selectedPosition]);
 
   return <div ref={containerRef} className="h-full w-full" />;
 }
@@ -248,7 +257,7 @@ export function LocationPickerModal({
             convert the coordinates into the closest city name.
           </p>
           <div className="h-[420px] w-full overflow-hidden rounded-lg border border-border">
-            {isClient && open ? (
+            {isClient ? (
               <InteractiveMap
                 center={mapCenter}
                 zoom={zoomLevel}
