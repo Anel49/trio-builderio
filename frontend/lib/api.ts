@@ -321,6 +321,12 @@ export async function apiFetch(path: string, init?: RequestInit) {
       },
     );
   }
+  if (
+    /^geocode\/reverse$/.test(p) &&
+    (init?.method || "GET").toUpperCase() === "POST"
+  ) {
+    return buildFallbackGeocodeResponse(init);
+  }
   const m = p.match(/^listings\/(\d+)$/);
   if (m) {
     return new Response(JSON.stringify({ ok: false, error: "unreachable" }), {
