@@ -49,6 +49,7 @@ import {
   User as UserIcon,
   Shield,
 } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
