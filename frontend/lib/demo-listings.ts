@@ -30,7 +30,7 @@ export const demoListings: DemoListing[] = [
       "https://images.pexels.com/photos/5418926/pexels-photo-5418926.jpeg?w=400&h=250&fit=crop&auto=format",
     host: "Michael",
     type: "Clothing",
-    distance: "1.8 miles",
+    distance: null,
   },
   {
     id: 3,
