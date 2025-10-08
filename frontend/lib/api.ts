@@ -29,9 +29,7 @@ function buildFallbackGeocodeResponse(init?: RequestInit) {
   if (init?.body) {
     try {
       const rawBody =
-        typeof init.body === "string"
-          ? JSON.parse(init.body)
-          : init.body;
+        typeof init.body === "string" ? JSON.parse(init.body) : init.body;
       const latValue = rawBody?.latitude;
       const lonValue = rawBody?.longitude;
 
