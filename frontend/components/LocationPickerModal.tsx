@@ -163,7 +163,10 @@ function InteractiveMap({
     const map = mapRef.current;
     const currentZoom = map.getZoom();
     if (Math.abs(currentZoom - zoom) > 0.1) {
-      map.setZoom(zoom);
+      const id = requestAnimationFrame(() => {
+        map.setZoom(zoom, { animate: false });
+      });
+      return () => cancelAnimationFrame(id);
     }
   }, [active, zoom]);
 
