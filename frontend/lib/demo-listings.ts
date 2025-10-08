@@ -118,7 +118,7 @@ export const demoListings: DemoListing[] = [
       "https://images.unsplash.com/photo-1504280390368-3971e38c98e8?w=400&h=250&fit=crop&auto=format",
     host: "Ava",
     type: "Outdoors",
-    distance: "7.4 miles",
+    distance: null,
   },
   {
     id: 11,
