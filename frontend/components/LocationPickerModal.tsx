@@ -146,7 +146,10 @@ function InteractiveMap({
     const centerChanged = currentCenter.distanceTo(target) > 0.5;
 
     if (centerChanged) {
-      map.panTo(target, { animate: true });
+      const id = requestAnimationFrame(() => {
+        map.setView(target, map.getZoom(), { animate: false });
+      });
+      return () => cancelAnimationFrame(id);
     }
   }, [active, center]);
 
