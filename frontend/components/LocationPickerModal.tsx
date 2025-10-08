@@ -66,6 +66,7 @@ function InteractiveMap({
   const markerRef = useRef<L.Marker | null>(null);
   const selectHandlerRef = useRef(onSelect);
   const isActiveRef = useRef(active);
+  const hasUserZoomedRef = useRef(false);
 
   useEffect(() => {
     selectHandlerRef.current = onSelect;
@@ -73,6 +74,9 @@ function InteractiveMap({
 
   useEffect(() => {
     isActiveRef.current = active;
+    if (!active) {
+      hasUserZoomedRef.current = false;
+    }
   }, [active]);
 
   useEffect(() => {
@@ -101,11 +105,17 @@ function InteractiveMap({
       selectHandlerRef.current(event.latlng.lat, event.latlng.lng);
     };
 
+    const handleZoomStart = () => {
+      hasUserZoomedRef.current = true;
+    };
+
     map.on("click", handleClick);
+    map.on("zoomstart", handleZoomStart);
     mapRef.current = map;
 
     return () => {
       map.off("click", handleClick);
+      map.off("zoomstart", handleZoomStart);
       map.remove();
       mapRef.current = null;
       markerRef.current = null;
@@ -113,18 +123,31 @@ function InteractiveMap({
   }, []);
 
   useEffect(() => {
-    if (!mapRef.current) {
+    if (!mapRef.current || !active) {
       return;
     }
-    mapRef.current.setView(center, zoom);
-  }, [center, zoom]);
+    mapRef.current.panTo(center);
+  }, [active, center]);
 
   useEffect(() => {
-    if (!mapRef.current) {
+    if (!mapRef.current || !active) {
+      return;
+    }
+    if (hasUserZoomedRef.current) {
+      return;
+    }
+    const currentZoom = mapRef.current.getZoom();
+    if (Math.abs(currentZoom - zoom) > 0.1) {
+      mapRef.current.setZoom(zoom);
+    }
+  }, [active, zoom]);
+
+  useEffect(() => {
+    if (!mapRef.current || !active) {
       return;
     }
     mapRef.current.invalidateSize();
-  }, [center, zoom, active]);
+  }, [active]);
 
   useEffect(() => {
     if (!mapRef.current) {
