@@ -103,6 +103,27 @@ export default function UploadProduct() {
     hasLocation: true,
   };
 
+  const hasListingCoordinates =
+    typeof listingLocation.latitude === "number" &&
+    Number.isFinite(listingLocation.latitude) &&
+    typeof listingLocation.longitude === "number" &&
+    Number.isFinite(listingLocation.longitude);
+
+  const coordinateLabel =
+    hasListingCoordinates &&
+    listingLocation.latitude != null &&
+    listingLocation.longitude != null
+      ? `${listingLocation.latitude.toFixed(3)}, ${listingLocation.longitude.toFixed(3)}`
+      : null;
+
+  const listingLocationButtonLabel =
+    listingLocation.city ?? coordinateLabel ?? "Add a location";
+
+  const listingLocationPreviewLabel =
+    listingLocation.city ??
+    coordinateLabel ??
+    (userProfile.hasLocation ? userProfile.defaultLocation : "Your location");
+
   // Check if form has content that should be saved
   const hasContent = () => {
     const initialLocation = initialListingLocationRef.current;
