@@ -55,6 +55,11 @@ import {
   getCurrentUserZipCode,
   getCurrentUserCoordinates,
 } from "@/lib/user-profile";
+import {
+  computeDistanceMiles,
+  extractCoordinates,
+  formatDistanceLabel,
+} from "@/lib/geo";
 
 const RENTAL_PERIODS = ["Hourly", "Daily", "Weekly", "Monthly"] as const;
 type RentalPeriod = (typeof RENTAL_PERIODS)[number];
