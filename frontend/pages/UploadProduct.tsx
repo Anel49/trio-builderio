@@ -819,21 +819,16 @@ export default function UploadProduct() {
 
                 {/* Location */}
                 <div>
-                  <label
-                    htmlFor="location"
-                    className="block text-sm font-medium mb-2"
+                  <span className="block text-sm font-medium mb-2">Location</span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full justify-center gap-2"
+                    onClick={() => setIsLocationModalOpen(true)}
                   >
-                    Location
-                  </label>
-                  <Input
-                    id="location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    placeholder={
-                      userProfile.hasLocation ? userProfile.defaultLocation : ""
-                    }
-                    className="w-full"
-                  />
+                    <MapPin className="h-4 w-4" />
+                    <span className="text-sm">{listingLocationButtonLabel}</span>
+                  </Button>
                 </div>
 
                 {/* Rental Period */}
