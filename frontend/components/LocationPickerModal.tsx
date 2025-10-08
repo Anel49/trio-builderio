@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useMemo, useState, type ComponentType } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api";
 import { Loader2, MapPin } from "lucide-react";
-import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import type { LatLngExpression, LeafletMouseEvent } from "leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -19,8 +18,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
 });
-
-const MapContainerAny = MapContainer as unknown as ComponentType<any>;
 
 export interface LocationSelection {
   latitude: number;
@@ -40,21 +37,88 @@ interface LocationPickerModalProps {
   onConfirm: (selection: LocationSelection) => void;
 }
 
-function ClickCapture({ onSelect }: { onSelect: (lat: number, lng: number) => void }) {
-  useMapEvents({
-    click(e: LeafletMouseEvent) {
-      onSelect(e.latlng.lat, e.latlng.lng);
-    },
-  });
-  return null;
-}
+type LatLngTuple = [number, number];
 
-function Recenter({ center }: { center: LatLngExpression }) {
-  const map = useMap();
+function InteractiveMap({
+  center,
+  zoom,
+  selectedPosition,
+  onSelect,
+}: {
+  center: LatLngExpression;
+  zoom: number;
+  selectedPosition: LatLngTuple | null;
+  onSelect: (lat: number, lng: number) => void;
+}) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const markerRef = useRef<L.Marker | null>(null);
+  const selectHandlerRef = useRef(onSelect);
+
   useEffect(() => {
-    map.setView(center);
-  }, [center, map]);
-  return null;
+    selectHandlerRef.current = onSelect;
+  }, [onSelect]);
+
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current) {
+      return;
+    }
+
+    const map = L.map(containerRef.current, {
+      center,
+      zoom,
+      zoomControl: true,
+      attributionControl: true,
+    });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors",
+      maxZoom: 19,
+    }).addTo(map);
+
+    const handleClick = (event: LeafletMouseEvent) => {
+      selectHandlerRef.current(event.latlng.lat, event.latlng.lng);
+    };
+
+    map.on("click", handleClick);
+    mapRef.current = map;
+
+    return () => {
+      map.off("click", handleClick);
+      map.remove();
+      mapRef.current = null;
+      if (markerRef.current) {
+        markerRef.current.remove();
+        markerRef.current = null;
+      }
+    };
+  }, [center, zoom]);
+
+  useEffect(() => {
+    if (!mapRef.current) {
+      return;
+    }
+    mapRef.current.setView(center, zoom);
+  }, [center, zoom]);
+
+  useEffect(() => {
+    if (!mapRef.current) {
+      return;
+    }
+
+    if (selectedPosition) {
+      if (!markerRef.current) {
+        markerRef.current = L.marker(selectedPosition).addTo(mapRef.current);
+      } else {
+        markerRef.current.setLatLng(selectedPosition);
+      }
+    } else if (markerRef.current) {
+      markerRef.current.remove();
+      markerRef.current = null;
+    }
+  }, [selectedPosition]);
+
+  return <div ref={containerRef} className="h-full w-full" />;
 }
 
 export function LocationPickerModal({
@@ -179,23 +243,19 @@ export function LocationPickerModal({
             convert the coordinates into the closest city name.
           </p>
           <div className="h-[420px] w-full overflow-hidden rounded-lg border border-border">
-            {isClient ? (
-              <MapContainerAny
+            {isClient && open ? (
+              <InteractiveMap
                 center={mapCenter}
                 zoom={zoomLevel}
-                className="h-full w-full"
-                scrollWheelZoom
-              >
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <ClickCapture onSelect={handleSelect} />
-                <Recenter center={mapCenter} />
-                {typeof selectedLat === "number" &&
+                selectedPosition=
+                  {typeof selectedLat === "number" &&
                   Number.isFinite(selectedLat) &&
                   typeof selectedLng === "number" &&
-                  Number.isFinite(selectedLng) && (
-                    <Marker position={[selectedLat, selectedLng]} />
-                  )}
-              </MapContainerAny>
+                  Number.isFinite(selectedLng)
+                    ? [selectedLat, selectedLng]
+                    : null}
+                onSelect={handleSelect}
+              />
             ) : null}
           </div>
           {typeof selectedLat === "number" && typeof selectedLng === "number" ? (
