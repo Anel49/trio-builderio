@@ -157,7 +157,7 @@ export default function Index() {
         "https://images.unsplash.com/photo-1518655048521-f130df041f66?w=400&h=250&fit=crop&auto=format",
       host: "Liam",
       type: "Outdoors",
-      distance: "1.2 miles",
+      distance: null,
     },
     {
       id: 7,
