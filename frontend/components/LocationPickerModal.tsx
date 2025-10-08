@@ -101,6 +101,7 @@ function InteractiveMap({
       zoom,
       zoomControl: true,
       attributionControl: true,
+      inertia: false,
     });
 
     L.tileLayer(
