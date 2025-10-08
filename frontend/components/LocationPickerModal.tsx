@@ -62,7 +62,7 @@ function InteractiveMap({
   }, [onSelect]);
 
   useEffect(() => {
-    if (!active || !containerRef.current || mapRef.current) {
+    if (!containerRef.current || mapRef.current) {
       return;
     }
 
