@@ -33,6 +33,11 @@ import {
   getCurrentUserZipCode,
   getCurrentUserCoordinates,
 } from "@/lib/user-profile";
+import {
+  computeDistanceMiles,
+  extractCoordinates,
+  formatDistanceLabel,
+} from "@/lib/geo";
 import { format } from "date-fns";
 import {
   Calendar as CalendarIcon,
