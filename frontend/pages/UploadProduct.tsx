@@ -66,7 +66,12 @@ export default function UploadProduct() {
   const [createdListingId, setCreatedListingId] = useState<number | null>(null);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [location, setLocation] = useState("");
+  const initialListingLocation = useMemo(() => getCurrentUserLocation(), []);
+  const initialListingLocationRef = useRef<UserLocation>(initialListingLocation);
+  const [listingLocation, setListingLocation] = useState<UserLocation>(
+    initialListingLocationRef.current,
+  );
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [description, setDescription] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
