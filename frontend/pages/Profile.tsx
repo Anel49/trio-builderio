@@ -420,6 +420,8 @@ export default function Profile() {
       host: "You",
       type: "Landscaping",
       distance: "Distance unavailable",
+      latitude: null,
+      longitude: null,
     },
     {
       id: 2,
@@ -432,6 +434,8 @@ export default function Profile() {
       host: "You",
       type: "Tools",
       distance: "Distance unavailable",
+      latitude: null,
+      longitude: null,
     },
     {
       id: 3,
@@ -444,6 +448,8 @@ export default function Profile() {
       host: "You",
       type: "Party",
       distance: "Distance unavailable",
+      latitude: null,
+      longitude: null,
     },
     {
       id: 4,
@@ -456,6 +462,8 @@ export default function Profile() {
       host: "You",
       type: "Electronics",
       distance: "Distance unavailable",
+      latitude: null,
+      longitude: null,
     },
     {
       id: 5,
@@ -468,6 +476,8 @@ export default function Profile() {
       host: "You",
       type: "Clothing",
       distance: "Distance unavailable",
+      latitude: null,
+      longitude: null,
     },
     {
       id: 6,
@@ -480,6 +490,8 @@ export default function Profile() {
       host: "You",
       type: "Instruments",
       distance: "Distance unavailable",
+      latitude: null,
+      longitude: null,
     },
     {
       id: 7,
@@ -492,6 +504,8 @@ export default function Profile() {
       host: "You",
       type: "Sports",
       distance: "Distance unavailable",
+      latitude: null,
+      longitude: null,
     },
   ];
 
