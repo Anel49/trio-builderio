@@ -200,20 +200,10 @@ export default function ProductDetails() {
           return;
         }
         const l = d.listing;
-        const distanceMiles =
-          typeof l.distanceMiles === "number" &&
-          Number.isFinite(l.distanceMiles)
-            ? Number(l.distanceMiles)
-            : typeof l.distance_miles === "number" &&
-                Number.isFinite(l.distance_miles)
-              ? Number(l.distance_miles)
-              : null;
-        const hasDistance = distanceMiles != null;
-        const distanceLabel = hasDistance
-          ? typeof l.distance === "string" && l.distance.trim()
-            ? l.distance.trim()
-            : `${distanceMiles.toFixed(1)} miles`
-          : null;
+        const listingCoords = extractCoordinates(l);
+        const userCoords = coords ?? getCurrentUserCoordinates();
+        const distanceMiles = computeDistanceMiles(userCoords, listingCoords);
+        const distanceLabel = formatDistanceLabel(distanceMiles);
 
         if (!cancelled) {
           setProduct({
