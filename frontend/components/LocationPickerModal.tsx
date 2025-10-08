@@ -17,11 +17,16 @@ const markerShadowUrl = new URL("leaflet/dist/images/marker-shadow.png", import.
 const DEFAULT_CENTER: LatLngExpression = [38.9072, -77.0369]; // Washington, D.C. as neutral US center
 
 // Configure default marker assets once
-L.Icon.Default.mergeOptions({
+const defaultIcon = L.icon({
   iconRetinaUrl: markerIconRetinaUrl,
   iconUrl: markerIconUrl,
   shadowUrl: markerShadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
 });
+L.Marker.prototype.options.icon = defaultIcon;
 
 export interface LocationSelection {
   latitude: number;
