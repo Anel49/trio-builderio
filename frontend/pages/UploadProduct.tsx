@@ -603,10 +603,7 @@ export default function UploadProduct() {
                 <div className="flex items-center text-muted-foreground mb-6">
                   <MapPin className="h-4 w-4 mr-1" />
                   <span className="text-sm">
-                    {location ||
-                      (userProfile.hasLocation
-                        ? userProfile.defaultLocation
-                        : "Your location")}
+                    {listingLocationPreviewLabel}
                   </span>
                 </div>
 
