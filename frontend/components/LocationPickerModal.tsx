@@ -124,13 +124,19 @@ function InteractiveMap({
       hasUserZoomedRef.current = true;
     };
 
+    const handleMoveStart = () => {
+      hasUserZoomedRef.current = true;
+    };
+
     map.on("click", handleClick);
     map.on("zoomstart", handleZoomStart);
+    map.on("movestart", handleMoveStart);
     mapRef.current = map;
 
     return () => {
       map.off("click", handleClick);
       map.off("zoomstart", handleZoomStart);
+      map.off("movestart", handleMoveStart);
       map.remove();
       mapRef.current = null;
       markerRef.current = null;
@@ -148,6 +154,7 @@ function InteractiveMap({
 
     if (centerChanged) {
       const id = requestAnimationFrame(() => {
+        map.stop();
         map.setView(target, map.getZoom(), { animate: false });
       });
       return () => cancelAnimationFrame(id);
@@ -165,6 +172,7 @@ function InteractiveMap({
     const currentZoom = map.getZoom();
     if (Math.abs(currentZoom - zoom) > 0.1) {
       const id = requestAnimationFrame(() => {
+        map.stop();
         map.setZoom(zoom, { animate: false });
       });
       return () => cancelAnimationFrame(id);
