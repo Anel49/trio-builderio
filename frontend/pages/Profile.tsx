@@ -417,7 +417,7 @@ export default function Profile() {
         "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "You",
       type: "Landscaping",
-      distance: "0 miles",
+      distance: "Distance unavailable",
     },
     {
       id: 2,
@@ -429,7 +429,7 @@ export default function Profile() {
         "https://images.pexels.com/photos/6790973/pexels-photo-6790973.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "You",
       type: "Tools",
-      distance: "0 miles",
+      distance: "Distance unavailable",
     },
     {
       id: 3,
@@ -441,7 +441,7 @@ export default function Profile() {
         "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=250&fit=crop&auto=format",
       host: "You",
       type: "Party",
-      distance: "0 miles",
+      distance: "Distance unavailable",
     },
     {
       id: 4,
@@ -453,7 +453,7 @@ export default function Profile() {
         "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=400&h=250&fit=crop&auto=format",
       host: "You",
       type: "Electronics",
-      distance: "0 miles",
+      distance: "Distance unavailable",
     },
     {
       id: 5,
@@ -465,7 +465,7 @@ export default function Profile() {
         "https://images.pexels.com/photos/5418926/pexels-photo-5418926.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "You",
       type: "Clothing",
-      distance: "0 miles",
+      distance: "Distance unavailable",
     },
     {
       id: 6,
@@ -477,7 +477,7 @@ export default function Profile() {
         "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&h=250&fit=crop&auto=format",
       host: "You",
       type: "Instruments",
-      distance: "0 miles",
+      distance: "Distance unavailable",
     },
     {
       id: 7,
@@ -489,7 +489,7 @@ export default function Profile() {
         "https://images.unsplash.com/photo-1544191696-15693b6d3d9d?w=400&h=250&fit=crop&auto=format",
       host: "You",
       type: "Sports",
-      distance: "0 miles",
+      distance: "Distance unavailable",
     },
   ];
 
