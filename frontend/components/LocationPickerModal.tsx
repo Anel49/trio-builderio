@@ -11,9 +11,9 @@ const DEFAULT_CENTER: LatLngExpression = [38.9072, -77.0369]; // Washington, D.C
 
 // Configure default marker assets once
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
+  iconRetinaUrl: "/leaflet/marker-icon-2x.png",
+  iconUrl: "/leaflet/marker-icon.png",
+  shadowUrl: "/leaflet/marker-shadow.png",
 });
 
 export interface LocationSelection {
