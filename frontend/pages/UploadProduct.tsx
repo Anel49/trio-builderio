@@ -970,6 +970,19 @@ export default function UploadProduct() {
       <ConfirmationModal />
       <SuccessModal />
       <PreviewModal />
+      <LocationPickerModal
+        open={isLocationModalOpen}
+        onOpenChange={setIsLocationModalOpen}
+        initialLocation={listingLocation}
+        onConfirm={(selection) => {
+          setListingLocation({
+            city: selection.city,
+            latitude: selection.latitude,
+            longitude: selection.longitude,
+            postalCode: selection.postalCode,
+          });
+        }}
+      />
 
       <Dialog open={isPriceInfoOpen} onOpenChange={setIsPriceInfoOpen}>
         <DialogContent className="max-w-lg">
