@@ -63,7 +63,7 @@ export const demoListings: DemoListing[] = [
       "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=250&fit=crop&auto=format",
     host: "David",
     type: "Party",
-    distance: "5.2 miles",
+    distance: null,
   },
   {
     id: 6,
