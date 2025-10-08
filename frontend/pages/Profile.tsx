@@ -300,6 +300,18 @@ export default function Profile() {
         longitude,
         postalCode,
       });
+      const userCoords = { latitude, longitude } as const;
+      setListedItems((prev) =>
+        prev.map((item) => {
+          const listingCoords = extractCoordinates(item);
+          const distanceMiles = computeDistanceMiles(userCoords, listingCoords);
+          return {
+            ...item,
+            distance: formatDistanceLabel(distanceMiles),
+            distanceMiles,
+          };
+        }),
+      );
     },
     [setCurrentUserLocation],
   );
