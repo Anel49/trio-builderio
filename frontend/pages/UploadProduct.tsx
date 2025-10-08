@@ -105,14 +105,21 @@ export default function UploadProduct() {
 
   // Check if form has content that should be saved
   const hasContent = () => {
+    const initialLocation = initialListingLocationRef.current;
+    const locationChanged =
+      (listingLocation.city ?? null) !== (initialLocation.city ?? null) ||
+      (listingLocation.latitude ?? null) !== (initialLocation.latitude ?? null) ||
+      (listingLocation.longitude ?? null) !== (initialLocation.longitude ?? null) ||
+      (listingLocation.postalCode ?? null) !== (initialLocation.postalCode ?? null);
+
     return (
       title.trim() !== "" ||
       price.trim() !== "" ||
-      location.trim() !== "" ||
       description.trim() !== "" ||
       selectedTags.length > 0 ||
       uploadedImages.length > 0 ||
-      rentalPeriod !== "Daily"
+      rentalPeriod !== "Daily" ||
+      locationChanged
     );
   };
 
