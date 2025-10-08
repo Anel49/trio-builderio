@@ -22,6 +22,52 @@ function uniq<T>(arr: T[]) {
   return Array.from(new Set(arr.filter(Boolean))) as T[];
 }
 
+function buildFallbackGeocodeResponse(init?: RequestInit) {
+  let latitude: number | null = null;
+  let longitude: number | null = null;
+
+  if (init?.body) {
+    try {
+      const rawBody =
+        typeof init.body === "string"
+          ? JSON.parse(init.body)
+          : init.body;
+      const latValue = rawBody?.latitude;
+      const lonValue = rawBody?.longitude;
+
+      const parseCoord = (value: unknown) => {
+        if (typeof value === "number") {
+          return Number.isFinite(value) ? value : null;
+        }
+        if (typeof value === "string") {
+          const parsed = Number.parseFloat(value.trim());
+          return Number.isFinite(parsed) ? parsed : null;
+        }
+        return null;
+      };
+
+      latitude = parseCoord(latValue);
+      longitude = parseCoord(lonValue);
+    } catch {
+      latitude = null;
+      longitude = null;
+    }
+  }
+
+  const fallbackCity =
+    latitude != null && longitude != null
+      ? `Selected point (${latitude.toFixed(3)}, ${longitude.toFixed(3)})`
+      : null;
+
+  return new Response(
+    JSON.stringify({ ok: true, city: fallbackCity, postalCode: null }),
+    {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    },
+  );
+}
+
 async function tryFetch(
   url: string,
   init?: RequestInit,
