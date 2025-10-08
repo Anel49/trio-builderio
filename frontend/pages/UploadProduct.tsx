@@ -281,7 +281,7 @@ export default function UploadProduct() {
     console.log("Saving draft:", {
       title,
       price,
-      location,
+      location: listingLocation,
       description,
       selectedTags,
       uploadedImages,
