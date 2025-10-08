@@ -52,7 +52,7 @@ export const demoListings: DemoListing[] = [
       "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=400&h=250&fit=crop&auto=format",
     host: "Emma",
     type: "Tech",
-    distance: "4.5 miles",
+    distance: null,
   },
   {
     id: 5,
