@@ -551,6 +551,8 @@ export default function Profile() {
                 : l.type || "General",
             distance: distanceLabel,
             distanceMiles,
+            latitude: listingCoords?.latitude ?? null,
+            longitude: listingCoords?.longitude ?? null,
           };
         });
         if (cancelled) return;
