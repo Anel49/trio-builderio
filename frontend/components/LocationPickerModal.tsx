@@ -174,7 +174,10 @@ function InteractiveMap({
     if (!mapRef.current || !active) {
       return;
     }
-    mapRef.current.invalidateSize();
+    const id = requestAnimationFrame(() => {
+      mapRef.current?.invalidateSize();
+    });
+    return () => cancelAnimationFrame(id);
   }, [active]);
 
   useEffect(() => {
