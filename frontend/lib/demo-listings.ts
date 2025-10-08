@@ -107,7 +107,7 @@ export const demoListings: DemoListing[] = [
       "https://images.unsplash.com/photo-1542060748-10c28b62716a?w=400&h=250&fit=crop&auto=format",
     host: "Mason",
     type: "Clothing",
-    distance: "6.1 miles",
+    distance: null,
   },
   {
     id: 10,
