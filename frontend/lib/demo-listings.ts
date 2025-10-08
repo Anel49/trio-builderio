@@ -41,7 +41,7 @@ export const demoListings: DemoListing[] = [
       "https://images.pexels.com/photos/6790973/pexels-photo-6790973.jpeg?w=400&h=250&fit=crop&auto=format",
     host: "Alex",
     type: "Tools",
-    distance: "3.1 miles",
+    distance: null,
   },
   {
     id: 4,
