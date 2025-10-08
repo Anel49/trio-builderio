@@ -312,6 +312,7 @@ export default function BrowseListings() {
         if (!response.ok || cancelled) return;
         const d = await response.json().catch(() => null);
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
+        const userCoords = coords ?? getCurrentUserCoordinates();
         const mapped = d.listings.map((l: any) => {
           const categories =
             Array.isArray(l.categories) && l.categories.length
@@ -319,20 +320,10 @@ export default function BrowseListings() {
               : l.type
                 ? [l.type]
                 : [];
-          const distanceMilesRaw =
-            typeof l.distanceMiles === "number" &&
-            Number.isFinite(l.distanceMiles)
-              ? Number(l.distanceMiles)
-              : typeof l.distance_miles === "number" &&
-                  Number.isFinite(l.distance_miles)
-                ? Number(l.distance_miles)
-                : null;
-          const hasDistance = distanceMilesRaw != null;
-          const distanceLabel = hasDistance
-            ? typeof l.distance === "string" && l.distance.trim()
-              ? l.distance.trim()
-              : `${distanceMilesRaw.toFixed(1)} miles`
-            : null;
+
+          const listingCoords = extractCoordinates(l);
+          const distanceMiles = computeDistanceMiles(userCoords, listingCoords);
+          const distanceLabel = formatDistanceLabel(distanceMiles);
 
           return {
             id: l.id,
@@ -349,15 +340,15 @@ export default function BrowseListings() {
             categories,
             location: "",
             distance: distanceLabel,
-            distanceMiles: distanceMilesRaw,
+            distanceMiles,
             zipCode:
               typeof l.zipCode === "string"
                 ? l.zipCode
                 : typeof l.zip_code === "string"
                   ? l.zip_code
                   : null,
-            lat: 0,
-            lng: 0,
+            lat: listingCoords?.latitude ?? 0,
+            lng: listingCoords?.longitude ?? 0,
             createdAt: l.createdAt ?? l.created_at ?? undefined,
             rentalPeriod: normalizeRentalPeriod(
               l.rentalPeriod ?? l.rental_period,
