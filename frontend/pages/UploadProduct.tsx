@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import Header from "@/components/Header";
+import { LocationPickerModal, type LocationSelection } from "@/components/LocationPickerModal";
 import { apiFetch } from "@/lib/api";
 import { currentUser, getCurrentUserLocation, type UserLocation } from "@/lib/user-profile";
 import { LoginModal } from "@/components/ui/login-modal";
