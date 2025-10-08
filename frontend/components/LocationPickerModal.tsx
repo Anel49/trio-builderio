@@ -44,11 +44,13 @@ function InteractiveMap({
   zoom,
   selectedPosition,
   onSelect,
+  active,
 }: {
   center: LatLngExpression;
   zoom: number;
   selectedPosition: LatLngTuple | null;
   onSelect: (lat: number, lng: number) => void;
+  active: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -60,7 +62,7 @@ function InteractiveMap({
   }, [onSelect]);
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current) {
+    if (!active || !containerRef.current || mapRef.current) {
       return;
     }
 
@@ -92,23 +94,23 @@ function InteractiveMap({
         markerRef.current = null;
       }
     };
-  }, []);
+  }, [active, center, zoom]);
 
   useEffect(() => {
-    if (!mapRef.current) {
+    if (!mapRef.current || !active) {
       return;
     }
     mapRef.current.setView(center, zoom);
-  }, [center, zoom]);
+  }, [active, center, zoom]);
 
   useEffect(() => {
-    if (mapRef.current) {
+    if (mapRef.current && active) {
       mapRef.current.invalidateSize();
     }
-  }, [center, zoom]);
+  }, [active, center, zoom]);
 
   useEffect(() => {
-    if (!mapRef.current) {
+    if (!mapRef.current || !active) {
       return;
     }
 
@@ -122,7 +124,20 @@ function InteractiveMap({
       markerRef.current.remove();
       markerRef.current = null;
     }
-  }, [selectedPosition]);
+  }, [active, selectedPosition]);
+
+  useEffect(() => {
+    if (!active) {
+      return;
+    }
+
+    const element = containerRef.current;
+    return () => {
+      if (!mapRef.current && element) {
+        element.innerHTML = "";
+      }
+    };
+  }, [active]);
 
   return <div ref={containerRef} className="h-full w-full" />;
 }
@@ -249,7 +264,7 @@ export function LocationPickerModal({
             convert the coordinates into the closest city name.
           </p>
           <div className="h-[420px] w-full overflow-hidden rounded-lg border border-border">
-            {isClient && open ? (
+            {isClient ? (
               <InteractiveMap
                 center={mapCenter}
                 zoom={zoomLevel}
@@ -261,6 +276,7 @@ export function LocationPickerModal({
                     ? [selectedLat, selectedLng]
                     : null}
                 onSelect={handleSelect}
+                active={open}
               />
             ) : null}
           </div>
