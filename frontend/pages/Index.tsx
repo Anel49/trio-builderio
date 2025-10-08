@@ -179,7 +179,7 @@ export default function Index() {
         "https://images.unsplash.com/photo-1581578017422-3eaf2b6f62b7?w=400&h=250&fit=crop&auto=format",
       host: "Olivia",
       type: "Tools",
-      distance: "3.6 miles",
+      distance: null,
     },
     {
       id: 9,
