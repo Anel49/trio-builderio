@@ -76,6 +76,8 @@ type ListedItem = {
   type: string;
   distance: string | null;
   distanceMiles?: number | null;
+  latitude?: number | null;
+  longitude?: number | null;
   reviews?: number;
 };
 import {
