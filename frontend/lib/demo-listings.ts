@@ -85,7 +85,7 @@ export const demoListings: DemoListing[] = [
       "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=250&fit=crop&auto=format",
     host: "Noah",
     type: "Instruments",
-    distance: "2.9 miles",
+    distance: null,
   },
   {
     id: 8,
