@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import Header from "@/components/Header";
 import { apiFetch } from "@/lib/api";
-import { currentUser } from "@/lib/user-profile";
+import { currentUser, getCurrentUserLocation, type UserLocation } from "@/lib/user-profile";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
