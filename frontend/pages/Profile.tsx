@@ -512,21 +512,11 @@ export default function Profile() {
         if (!response.ok || cancelled) return;
         const d = await response.json().catch(() => null);
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
+        const userCoords = coords ?? getCurrentUserCoordinates();
         const mapped: ListedItem[] = d.listings.map((l: any) => {
-          const distanceMiles =
-            typeof l.distanceMiles === "number" &&
-            Number.isFinite(l.distanceMiles)
-              ? Number(l.distanceMiles)
-              : typeof l.distance_miles === "number" &&
-                  Number.isFinite(l.distance_miles)
-                ? Number(l.distance_miles)
-                : null;
-          const hasDistance = distanceMiles != null;
-          const distanceLabel = hasDistance
-            ? typeof l.distance === "string" && l.distance.trim()
-              ? l.distance.trim()
-              : `${distanceMiles.toFixed(1)} miles`
-            : null;
+          const listingCoords = extractCoordinates(l);
+          const distanceMiles = computeDistanceMiles(userCoords, listingCoords);
+          const distanceLabel = formatDistanceLabel(distanceMiles);
 
           return {
             id: l.id,
