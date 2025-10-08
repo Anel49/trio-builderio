@@ -87,8 +87,10 @@ function InteractiveMap({
       attributionControl: true,
     });
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "© OpenStreetMap contributors",
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+      attribution:
+        "© OpenStreetMap contributors © CARTO",
+      subdomains: "abcd",
       maxZoom: 19,
     }).addTo(map);
 
