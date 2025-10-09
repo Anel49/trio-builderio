@@ -416,7 +416,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Delivery</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Hosts mcan optionally offer delivery for their item, either free of
+            Hosts can optionally offer delivery for their item, either free of
             charge or for a fee. Delivery fees are calculated based on the distance
             between the item’s location and the renter’s profile address. The fee
             is determined using the average miles-per-gallon (MPG) of U.S. vehicles
