@@ -318,12 +318,20 @@ export default function UploadProduct() {
       const defaultImage =
         "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format";
       const imgs = uploadedImages.length > 0 ? uploadedImages : [defaultImage];
-      const fallbackZip =
-        listingLocation.postalCode ??
-        (() => {
-          const candidate = String(userProfile.defaultLocation ?? "").trim();
-          return /^\d{5}$/.test(candidate) ? candidate : "00000";
-        })();
+      const fallbackZip = (() => {
+        if (listingLocation.postalCode) {
+          return listingLocation.postalCode;
+        }
+        const initialZip = initialListingLocationRef.current.postalCode;
+        if (initialZip) {
+          return initialZip;
+        }
+        const candidate =
+          typeof currentUser?.zipCode === "string"
+            ? currentUser.zipCode.trim()
+            : "";
+        return /^\d{5}$/.test(candidate) ? candidate : "00000";
+      })();
 
       const payload = {
         name: title || "Untitled",
