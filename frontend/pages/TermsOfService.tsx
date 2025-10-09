@@ -404,7 +404,7 @@ const TermsOfServiceContent = () => (
             throughout the rental period. This fee is not charged again with
             rental extensions.
           </p>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed mb-4">
             The renter's maximum out-of-pocket insurance payment is capped at
             $50. This coverage is subject to change based on the platform’s
             performance and growth.
