@@ -402,10 +402,7 @@ const TermsOfServiceContent = () => (
             Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental
             price, charged from the renter. This fee is to insure the renter
             throughout the rental period. This fee is not charged again with
-            rental extensions.
-          </p>
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            The renter's maximum out-of-pocket insurance payment is capped at
+            rental extensions. The renter's maximum out-of-pocket insurance payment is capped at
             $50.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
