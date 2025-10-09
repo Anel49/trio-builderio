@@ -414,6 +414,27 @@ const TermsOfServiceContent = () => (
           </p>
         </div>
         <div>
+          <h3 className="text-lg font-medium mb-2">Delivery</h3>
+          <p className="text-muted-foreground leading-relaxed">
+            Hosts can optionally add a choice for renter's to have their item
+            delivered with or without a fee. This fee will be calculated based
+            on the miles from the item's location to the renter's profile location.
+            This price is calculated by the average miles-per-gallon of U.S.
+            vehicles and the average gas price per gallon of the host's county.
+            Additionally, hosts are given an extra 5% of the total reimbursement
+            for extra protection.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-lg font-medium mb-2">Tipping</h3>
+          <p className="text-muted-foreground leading-relaxed">
+            Did you have a good experience with your host? Did they go the extra
+            mile to make you satisfied or were accomodating to your specific
+            concerns? Renters have the option to tip their host after their rental
+            completes. Hosts keep 100% of the tips they receive.
+          </p>
+        </div>
+        <div>
           <h3 className="text-lg font-medium mb-2">Payment Processing</h3>
           <p className="text-muted-foreground leading-relaxed">
             All payments are processed securely through third-party payment
