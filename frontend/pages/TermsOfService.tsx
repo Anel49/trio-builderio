@@ -402,8 +402,8 @@ const TermsOfServiceContent = () => (
             Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental
             price, charged from the renter. This fee is to insure the renter
             throughout the rental period. This fee is not charged again with
-            rental extensions. The renter's maximum out-of-pocket insurance payment is capped at
-            $50.
+            rental extensions. The renter's maximum out-of-pocket insurance payment
+            is capped at $50.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
             These coverages are subject to change based on the platform’s
@@ -417,12 +417,12 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Delivery</h3>
           <p className="text-muted-foreground leading-relaxed">
             Hosts may optionally offer delivery for their item, either free of
-            charge or for a fee. When a delivery fee is applied, it is calculated
-            based on the distance between the item’s location and the renter’s
-            profile address. The fee is determined using the average miles-per-gallon
-            (MPG) of U.S. vehicles and the current average gas price per gallon in
-            the host’s county. Additionally, hosts receive an extra 5% of the
-            calculated reimbursement to account for wear and tear and added protection.
+            charge or for a fee. Delivery fees are calculated based on the distance
+            between the item’s location and the renter’s profile address. The fee
+            is determined using the average miles-per-gallon (MPG) of U.S. vehicles
+            and the current average gas price per gallon in the host’s county.
+            Additionally, hosts receive an extra 5% of the calculated reimbursement
+            to account for wear and tear and added protection.
           </p>
         </div>
         <div>
