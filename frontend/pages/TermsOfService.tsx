@@ -431,7 +431,9 @@ const TermsOfServiceContent = () => (
             Did you have a positive experience with your host? Were they especially
             helpful, accommodating, or attentive to your specific needs? After your
             rental is complete, you have the option to leave a tip as a way to show
-            your appreciation. Hosts receive 100% of any tips provided.
+            your appreciation. Hosts receive 100% of any tips provided. Listing items
+            at artificially low prices or soliciting tips to circumvent LendIt’s
+            payment system is prohibited and will result in removal from the platform.
           </p>
         </div>
         <div>
