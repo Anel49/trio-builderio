@@ -422,7 +422,9 @@ const TermsOfServiceContent = () => (
             is determined using the average miles-per-gallon (MPG) of U.S. vehicles
             and the current average gas price per gallon in the host’s county.
             Additionally, hosts receive an extra 5% of the calculated reimbursement
-            to account for wear and tear and added protection.
+            to account for wear and tear and added protection. Hosts retain 100% of
+            any delivery fees collected. Delivery fees may qualify as deductible
+            expenses for tax purposes.
           </p>
         </div>
         <div>
@@ -433,7 +435,7 @@ const TermsOfServiceContent = () => (
             rental is complete, you have the option to leave a tip as a way to show
             your appreciation. Hosts receive 100% of any tips provided. 
             <span style={{ fontWeight: 700 }}> Listing items
-            at artificially low prices or soliciting tips to circumvent LendIt’s
+            at artificially low prices or soliciting tips to circumvent {COMPANY_NAME}’s
             payment system is prohibited and will result in removal from the platform.</span>
           </p>
         </div>
