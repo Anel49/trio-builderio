@@ -421,7 +421,7 @@ const TermsOfServiceContent = () => (
             between the item’s location and the renter’s profile address. The fee
             is determined using the average miles-per-gallon (MPG) of U.S. vehicles
             and the current average gas price per gallon in the host’s county.
-            Additionally, hosts receive an extra 5% of the calculated reimbursement
+            Additionally, hosts receive an extra 45% of the calculated reimbursement
             to account for wear and tear and any potential delivery cost discrepancies.
             Hosts retain 100% of all delivery fees collected. Delivery fees may
             qualify as deductible expenses for tax purposes.
