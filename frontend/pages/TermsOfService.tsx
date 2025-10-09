@@ -422,9 +422,9 @@ const TermsOfServiceContent = () => (
             is determined using the average miles-per-gallon (MPG) of U.S. vehicles
             and the current average gas price per gallon in the host’s county.
             Additionally, hosts receive an extra 5% of the calculated reimbursement
-            to account for wear and tear and added protection. Hosts retain 100% of
-            any delivery fees collected. Delivery fees may qualify as deductible
-            expenses for tax purposes.
+            to account for wear and tear and any potential delivery cost discrepancies.
+            Hosts retain 100% of any delivery fees collected. Delivery fees may
+            qualify as deductible expenses for tax purposes.
           </p>
         </div>
         <div>
