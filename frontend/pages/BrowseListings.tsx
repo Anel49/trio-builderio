@@ -368,6 +368,7 @@ export default function BrowseListings() {
           };
         });
         if (!cancelled) {
+          console.log("[BrowseListings] Setting listings with distances:", mapped.map((l: any) => ({ id: l.id, distance: l.distance, distanceMiles: l.distanceMiles })));
           setListings(mapped);
         }
       } catch {
