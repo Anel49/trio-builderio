@@ -247,43 +247,20 @@ export async function getListingById(req: Request, res: Response) {
     if (!id || Number.isNaN(id)) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
-    const userZip = extractUserZip(req);
-    let userCoords = extractUserCoordinates(req);
-    if (!userCoords && userZip) {
-      userCoords = await getZipCoordinates(userZip);
-    }
+    const userCoords = extractUserCoordinates(req);
     let result: any;
     try {
       result = await pool.query(
-        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude,
-                coalesce(img.images, '{}') as images,
-                coalesce(cats.categories, '{}') as categories
-         from listings l
-         left join lateral (
-           select array_agg(url order by position nulls last, id) as images
-           from listing_images
-           where listing_id = l.id
-         ) img on true
-         left join lateral (
-           select array_agg(category order by position nulls last, id) as categories
-           from listing_categories
-           where listing_id = l.id
-         ) cats on true
-         where l.id = $1`,
-        [id],
-      );
-    } catch {
-      result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude
+        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, rental_period, latitude, longitude
          from listings where id = $1`,
         [id],
       );
+    } catch (e) {
+      return res.status(500).json({ ok: false, error: String(e?.message || e) });
     }
     if (result.rowCount === 0)
       return res.status(404).json({ ok: false, error: "not found" });
     const r: any = result.rows[0];
-    const images = Array.isArray(r.images) ? r.images : [];
-    const categories = Array.isArray(r.categories) ? r.categories : [];
     const normalizedZip = normalizeZipCode(r.zip_code);
 
     let distanceMiles: number | null = null;
@@ -309,11 +286,11 @@ export async function getListingById(req: Request, res: Response) {
       name: r.name,
       price: formatPrice(r.price_cents),
       rating: r.rating ? Number(r.rating) : null,
-      images,
-      image: r.image_url || (images.length > 0 ? images[0] : null),
+      images: [],
+      image: r.image_url,
       host: r.host,
-      type: r.category || (categories.length ? categories[0] : null),
-      categories,
+      type: r.category || "General",
+      categories: r.category ? [r.category] : [],
       distance: distanceLabel,
       distanceMiles,
       latitude: listingLatitude,
