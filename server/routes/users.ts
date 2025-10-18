@@ -89,8 +89,6 @@ export async function upsertUser(req: Request, res: Response) {
       zip_code,
       latitude,
       longitude,
-      location_latitude,
-      location_longitude,
       location_city,
       founding_supporter,
       top_referrer,
@@ -104,8 +102,8 @@ export async function upsertUser(req: Request, res: Response) {
 
     await ensureBadgeColumns();
 
-    const latParam = latitude ?? location_latitude;
-    const lonParam = longitude ?? location_longitude;
+    const latParam = latitude;
+    const lonParam = longitude;
 
     const latValue =
       typeof latParam === "number"
