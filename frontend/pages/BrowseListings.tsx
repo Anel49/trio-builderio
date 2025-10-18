@@ -299,7 +299,13 @@ export default function BrowseListings() {
     let cancelled = false;
     (async () => {
       try {
-        const response = await apiFetch("listings");
+        await ensureCurrentUserProfile();
+        if (cancelled) return;
+        const coords = getCurrentUserCoordinates();
+        const path = coords
+          ? `listings?user_lat=${coords.latitude}&user_lng=${coords.longitude}`
+          : "listings";
+        const response = await apiFetch(path);
         if (!response.ok || cancelled) return;
         const d = await response.json().catch(() => null);
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
