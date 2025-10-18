@@ -315,7 +315,7 @@ export async function apiFetch(path: string, init?: RequestInit) {
   }
   if (
     /^stripe\/create-payment-intent$/.test(p) &&
-    (init?.method || "GET").toUpperCase() === "POST"
+    (finalInit?.method || "GET").toUpperCase() === "POST"
   ) {
     return new Response(
       JSON.stringify({ ok: true, clientSecret: "demo_secret" }),
@@ -327,9 +327,9 @@ export async function apiFetch(path: string, init?: RequestInit) {
   }
   if (
     /^geocode\/reverse$/.test(p) &&
-    (init?.method || "GET").toUpperCase() === "POST"
+    (finalInit?.method || "GET").toUpperCase() === "POST"
   ) {
-    return buildFallbackGeocodeResponse(init);
+    return buildFallbackGeocodeResponse(finalInit);
   }
   const m = p.match(/^listings\/(\d+)$/);
   if (m) {
@@ -354,16 +354,16 @@ export async function apiFetch(path: string, init?: RequestInit) {
   }
   if (
     /^users(\?|$)/.test(p) &&
-    (init?.method || "GET").toUpperCase() === "GET"
+    (finalInit?.method || "GET").toUpperCase() === "GET"
   ) {
     return new Response(JSON.stringify({ ok: true, user: null }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   }
-  if (/^users$/.test(p) && (init?.method || "GET").toUpperCase() === "POST") {
+  if (/^users$/.test(p) && (finalInit?.method || "GET").toUpperCase() === "POST") {
     try {
-      const body = typeof init?.body === "string" ? JSON.parse(init.body) : {};
+      const body = typeof finalInit?.body === "string" ? JSON.parse(finalInit.body) : {};
       const user = {
         id: 0,
         name: body?.name ?? null,
