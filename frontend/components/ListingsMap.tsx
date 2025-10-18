@@ -39,6 +39,7 @@ interface ListingsMapProps {
     longitude: number | null;
   }>;
   selectedListing?: number | null;
+  userCoordinates?: { latitude: number; longitude: number } | null;
   onSelectListing?: (listingId: number) => void;
 }
 
