@@ -116,6 +116,8 @@ function applyLocationUpdate(update: LocationUpdate) {
         : cachedLocation.postalCode,
   };
   cachedLocation = normalized;
+  (currentUser as any).latitude = normalized.latitude;
+  (currentUser as any).longitude = normalized.longitude;
   (currentUser as any).locationLatitude = normalized.latitude;
   (currentUser as any).locationLongitude = normalized.longitude;
   (currentUser as any).zipCode = normalized.postalCode;
