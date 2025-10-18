@@ -885,14 +885,15 @@ export default function BrowseListings() {
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
               {filteredAndSortedListings.map((listing) => {
                 const hasRange = !!(dateRange.start && dateRange.end);
-                const rentalPeriod = normalizeRentalPeriod(
+                const listingRentalPeriod = normalizeRentalPeriod(
                   (listing as any).rentalPeriod,
                 );
+                console.log("[BrowseListings] Listing", listing.id, "rentalPeriod:", listingRentalPeriod, "from listing:", (listing as any).rentalPeriod);
                 const display = (() => {
-                  if (!hasRange || rentalPeriod !== "Daily") {
+                  if (!hasRange || listingRentalPeriod !== "Daily") {
                     return {
                       price: listing.price,
-                      label: `per ${RENTAL_UNIT_LABELS[rentalPeriod]}`,
+                      label: `per ${RENTAL_UNIT_LABELS[listingRentalPeriod]}`,
                       underline: false,
                     };
                   }
