@@ -927,21 +927,22 @@ export default function UploadProduct() {
                     >
                       Offer delivery
                     </label>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <button
-                            type="button"
-                            className="p-0 h-4 w-4 text-muted-foreground hover:text-primary focus:outline-none"
-                          >
-                            <Info className="h-4 w-4" />
-                          </button>
-                        </TooltipTrigger>
-                        <TooltipContent side="right" className="max-w-xs">
-                          <p>Negotiate the price of delivery through your messages with the renter. You keep 100% of the delivery fee.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onMouseEnter={() => setShowDeliveryTooltip(true)}
+                        onMouseLeave={() => setShowDeliveryTooltip(false)}
+                        className="p-0 h-4 w-4 text-muted-foreground hover:text-primary focus:outline-none"
+                      >
+                        <Info className="h-4 w-4" />
+                      </button>
+                      {showDeliveryTooltip && (
+                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs rounded px-3 py-2 whitespace-nowrap z-50 pointer-events-none">
+                          <p>Negotiate delivery price. You keep 100% of fee.</p>
+                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-100"></div>
+                        </div>
+                      )}
+                    </div>
                     {offerDelivery && (
                       <div className="flex items-center gap-3 ml-auto">
                         <input
