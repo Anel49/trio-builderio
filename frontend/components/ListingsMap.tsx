@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LatLngExpression } from "leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "./ListingsMap.css";
 
 const markerIconRetinaUrl = new URL(
   "leaflet/dist/images/marker-icon-2x.png",
