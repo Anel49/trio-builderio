@@ -52,12 +52,16 @@ export async function dbSetup(_req: Request, res: Response) {
         description text,
         zip_code text,
         rental_period text,
+        latitude double precision,
+        longitude double precision,
         created_at timestamptz default now()
       );
       alter table listings drop column if exists distance;
       alter table listings add column if not exists zip_code text;
       alter table listings add column if not exists rental_period text;
       alter table listings add column if not exists description text;
+      alter table listings add column if not exists latitude double precision;
+      alter table listings add column if not exists longitude double precision;
       create table if not exists listing_images (
         id serial primary key,
         listing_id integer not null references listings(id) on delete cascade,
