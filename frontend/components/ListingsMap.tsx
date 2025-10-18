@@ -63,6 +63,7 @@ function InteractiveMap({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<Map<number, L.Marker>>(new Map());
+  const initializedRef = useRef(false);
 
   useEffect(() => {
     console.log("[InteractiveMap] Mounted, listings:", listings.length);
@@ -74,9 +75,10 @@ function InteractiveMap({
     );
   }, [listings]);
 
-  const mapCenter = useMemo((): LatLngExpression => {
-    // Prioritize user's location if available
-    if (userCoordinates) {
+  // Calculate initial map center (only used on page load)
+  const initialMapCenter = useMemo((): LatLngExpression => {
+    // Prioritize user's location if available (only on initial load)
+    if (userCoordinates && !initializedRef.current) {
       return [userCoordinates.latitude, userCoordinates.longitude];
     }
     // Otherwise center on bounds of listings with coordinates
@@ -88,7 +90,10 @@ function InteractiveMap({
       return [centerLat, centerLng];
     }
     return DEFAULT_CENTER;
-  }, [listingsWithCoords, userCoordinates]);
+  }, [listingsWithCoords]);
+
+  // Use a stable map center that doesn't change after initialization
+  const mapCenter = initialMapCenter;
 
   useEffect(() => {
     console.log(
