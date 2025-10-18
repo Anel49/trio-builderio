@@ -99,7 +99,7 @@ async function tryFetch(
 }
 
 async function pingBase(base: string): Promise<boolean> {
-  const res = await tryFetch(cleanJoin(base, "ping"), { method: "GET" }, 800);
+  const res = await tryFetch(cleanJoin(base, "ping"), { method: "GET" }, 5000);
   return !!(res && res.ok);
 }
 
