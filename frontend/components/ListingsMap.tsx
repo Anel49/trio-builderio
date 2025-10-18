@@ -143,17 +143,20 @@ function InteractiveMap({
     }
   }, []);
 
+  // Only center the map once on initial load, don't recenter on every change
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapRef.current || initializedRef.current === false) return;
 
     const map = mapRef.current;
     const target = L.latLng(mapCenter);
     const currentCenter = map.getCenter();
 
-    if (currentCenter.distanceTo(target) > 10) {
-      map.setView(target, map.getZoom(), { animate: true });
+    // Only set view on first initialization
+    if (initializedRef.current && currentCenter.distanceTo(target) > 10) {
+      map.setView(target, map.getZoom(), { animate: false });
+      initializedRef.current = true;
     }
-  }, [mapCenter]);
+  }, []);
 
   useEffect(() => {
     console.log(
