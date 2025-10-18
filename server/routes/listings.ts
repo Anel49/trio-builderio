@@ -129,16 +129,7 @@ export async function listListings(req: Request, res: Response) {
       };
     });
     console.log("[listListings] Returning", listings.length, "listings");
-    if (listings.length > 0) {
-      console.log(
-        "[listListings] First listing rentalPeriod:",
-        listings[0].rentalPeriod,
-        "delivery:",
-        listings[0].delivery,
-        "freeDelivery:",
-        listings[0].freeDelivery,
-      );
-    }
+    console.log("[listListings] Rental periods:", listings.map((l: any) => `${l.id}:${l.rentalPeriod}`).join(", "));
     res.json({ ok: true, listings });
   } catch (error: any) {
     console.error("[listListings] Error:", error);
