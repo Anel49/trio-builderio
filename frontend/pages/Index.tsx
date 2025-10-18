@@ -429,7 +429,8 @@ export default function Index() {
                     className={cn(
                       "h-14 w-14 border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white",
                       !searchLocation && "text-muted-foreground",
-                      searchLocation && "bg-primary text-primary-foreground dark:bg-primary hover:bg-primary/90 dark:hover:bg-primary/90"
+                      searchLocation &&
+                        "bg-primary text-primary-foreground dark:bg-primary hover:bg-primary/90 dark:hover:bg-primary/90",
                     )}
                     onClick={() => setIsLocationPickerOpen(true)}
                   >
