@@ -75,6 +75,11 @@ function InteractiveMap({
   }, [listings]);
 
   const mapCenter = useMemo((): LatLngExpression => {
+    // Prioritize user's location if available
+    if (userCoordinates) {
+      return [userCoordinates.latitude, userCoordinates.longitude];
+    }
+    // Otherwise center on bounds of listings with coordinates
     if (listingsWithCoords.length > 0) {
       const lats = listingsWithCoords.map((l) => l.latitude as number);
       const lngs = listingsWithCoords.map((l) => l.longitude as number);
@@ -83,7 +88,7 @@ function InteractiveMap({
       return [centerLat, centerLng];
     }
     return DEFAULT_CENTER;
-  }, [listingsWithCoords]);
+  }, [listingsWithCoords, userCoordinates]);
 
   useEffect(() => {
     console.log(
