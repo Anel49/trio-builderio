@@ -8,9 +8,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import Header from "@/components/Header";
-import { LocationPickerModal, type LocationSelection } from "@/components/LocationPickerModal";
+import {
+  LocationPickerModal,
+  type LocationSelection,
+} from "@/components/LocationPickerModal";
 import { apiFetch } from "@/lib/api";
-import { currentUser, getCurrentUserLocation, type UserLocation } from "@/lib/user-profile";
+import {
+  currentUser,
+  getCurrentUserLocation,
+  type UserLocation,
+} from "@/lib/user-profile";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
@@ -67,7 +74,9 @@ export default function UploadProduct() {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const initialListingLocation = useMemo(() => getCurrentUserLocation(), []);
-  const initialListingLocationRef = useRef<UserLocation>(initialListingLocation);
+  const initialListingLocationRef = useRef<UserLocation>(
+    initialListingLocation,
+  );
   const [listingLocation, setListingLocation] = useState<UserLocation>(
     initialListingLocationRef.current,
   );
@@ -118,18 +127,19 @@ export default function UploadProduct() {
     listingLocation.city ?? coordinateLabel ?? "Add a location";
 
   const listingLocationPreviewLabel =
-    listingLocation.city ??
-    coordinateLabel ??
-    "Your location";
+    listingLocation.city ?? coordinateLabel ?? "Your location";
 
   // Check if form has content that should be saved
   const hasContent = () => {
     const initialLocation = initialListingLocationRef.current;
     const locationChanged =
       (listingLocation.city ?? null) !== (initialLocation.city ?? null) ||
-      (listingLocation.latitude ?? null) !== (initialLocation.latitude ?? null) ||
-      (listingLocation.longitude ?? null) !== (initialLocation.longitude ?? null) ||
-      (listingLocation.postalCode ?? null) !== (initialLocation.postalCode ?? null);
+      (listingLocation.latitude ?? null) !==
+        (initialLocation.latitude ?? null) ||
+      (listingLocation.longitude ?? null) !==
+        (initialLocation.longitude ?? null) ||
+      (listingLocation.postalCode ?? null) !==
+        (initialLocation.postalCode ?? null);
 
     return (
       title.trim() !== "" ||
@@ -610,9 +620,7 @@ export default function UploadProduct() {
 
                 <div className="flex items-center text-muted-foreground mb-6">
                   <MapPin className="h-4 w-4 mr-1" />
-                  <span className="text-sm">
-                    {listingLocationPreviewLabel}
-                  </span>
+                  <span className="text-sm">{listingLocationPreviewLabel}</span>
                 </div>
 
                 <div className="text-right mb-6">
@@ -827,7 +835,9 @@ export default function UploadProduct() {
 
                 {/* Location */}
                 <div>
-                  <span className="block text-sm font-medium mb-2">Location</span>
+                  <span className="block text-sm font-medium mb-2">
+                    Location
+                  </span>
                   <Button
                     type="button"
                     variant="outline"
@@ -835,7 +845,9 @@ export default function UploadProduct() {
                     onClick={() => setIsLocationModalOpen(true)}
                   >
                     <MapPin className="h-4 w-4" />
-                    <span className="text-sm">{listingLocationButtonLabel}</span>
+                    <span className="text-sm">
+                      {listingLocationButtonLabel}
+                    </span>
                   </Button>
                 </div>
 
@@ -921,12 +933,20 @@ export default function UploadProduct() {
                         "w-5 h-5 rounded border-2 flex items-center justify-center transition-colors",
                         offerDelivery
                           ? "bg-primary border-primary text-primary-foreground"
-                          : "border-input bg-background hover:border-primary/50"
+                          : "border-input bg-background hover:border-primary/50",
                       )}
                     >
                       {offerDelivery && (
-                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        <svg
+                          className="w-3 h-3"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       )}
                     </button>
@@ -947,7 +967,10 @@ export default function UploadProduct() {
                       </button>
                       {showDeliveryTooltip && (
                         <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm rounded px-3 py-2 whitespace-nowrap z-50 pointer-events-none">
-                          <p>Negotiate delivery fee through messages. You keep 100% of the delivery fee.</p>
+                          <p>
+                            Negotiate delivery fee through messages. You keep
+                            100% of the delivery fee.
+                          </p>
                           <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-100"></div>
                         </div>
                       )}
@@ -956,17 +979,27 @@ export default function UploadProduct() {
                       <div className="flex items-center gap-3">
                         <button
                           type="button"
-                          onClick={() => setOfferFreeDelivery(!offerFreeDelivery)}
+                          onClick={() =>
+                            setOfferFreeDelivery(!offerFreeDelivery)
+                          }
                           className={cn(
                             "w-5 h-5 rounded border-2 flex items-center justify-center transition-colors",
                             offerFreeDelivery
                               ? "bg-primary border-primary text-primary-foreground"
-                              : "border-input bg-background hover:border-primary/50"
+                              : "border-input bg-background hover:border-primary/50",
                           )}
                         >
                           {offerFreeDelivery && (
-                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            <svg
+                              className="w-3 h-3"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                           )}
                         </button>
