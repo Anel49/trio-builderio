@@ -915,6 +915,7 @@ export default function BrowseListings() {
                     listings={filteredAndSortedListings}
                     selectedListing={selectedListing}
                     userCoordinates={userCoordinates}
+                    filterLocation={filterLocation}
                     onSelectListing={(listingId) => {
                       setSelectedListing(listingId);
                       const listingElement = document.getElementById(
