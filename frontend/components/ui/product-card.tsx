@@ -58,6 +58,8 @@ export function ProductCard({
   priceUnitLabel = "per day",
   underlinePrice = false,
   onDeleteClick,
+  delivery,
+  freeDelivery,
 }: ProductCardProps) {
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const distanceText =
