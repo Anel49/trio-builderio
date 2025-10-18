@@ -62,22 +62,8 @@ function formatPrice(price_cents: number) {
 export async function listListings(req: Request, res: Response) {
   try {
     console.log("[listListings] Request received");
-    const userZip = extractUserZip(req);
-    let userCoords = extractUserCoordinates(req);
-    if (!userCoords && userZip) {
-      try {
-        const timeoutPromise = new Promise<null>((resolve) => {
-          setTimeout(() => resolve(null), 3000);
-        });
-        userCoords = await Promise.race([
-          getZipCoordinates(userZip),
-          timeoutPromise,
-        ]);
-      } catch {
-        userCoords = null;
-      }
-    }
-    console.log("[listListings] User zip:", userZip, "coords:", userCoords);
+    const userCoords = extractUserCoordinates(req);
+    console.log("[listListings] User coords:", userCoords);
     let result: any;
     try {
       result = await pool.query(
