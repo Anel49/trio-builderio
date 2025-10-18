@@ -368,7 +368,7 @@ export default function Index() {
                   />
                 </div>
 
-                <div className="min-w-0">
+                <div className="min-w-0 flex gap-2">
                   <Popover
                     open={isDatePickerOpen}
                     onOpenChange={setIsDatePickerOpen}
@@ -377,7 +377,7 @@ export default function Index() {
                       <Button
                         variant="outline"
                         className={cn(
-                          "h-14 text-lg justify-start text-left font-normal border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white w-full",
+                          "h-14 text-lg justify-start text-left font-normal border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white flex-1",
                           !dateRange.start && "text-muted-foreground",
                         )}
                       >
@@ -422,6 +422,18 @@ export default function Index() {
                       )}
                     </PopoverContent>
                   </Popover>
+
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={cn(
+                      "h-14 w-14 border border-primary/20 dark:border-0 focus-visible:ring-1 dark:hover:bg-gray-600 dark:hover:text-white",
+                      searchLocation && "bg-primary text-primary-foreground dark:bg-primary hover:bg-primary/90 dark:hover:bg-primary/90"
+                    )}
+                    onClick={() => setIsLocationPickerOpen(true)}
+                  >
+                    <MapPin className="h-5 w-5" />
+                  </Button>
                 </div>
               </div>
 
