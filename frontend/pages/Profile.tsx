@@ -1079,7 +1079,6 @@ export default function Profile() {
                             email: currentUser.email,
                             name,
                             avatar_url: profileImageUrl,
-                            zip_code: locationPostalCode ?? null,
                             location_city:
                               typeof locationCity === "string" &&
                               locationCity.trim()
