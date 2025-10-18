@@ -92,6 +92,7 @@ export default function UploadProduct() {
   const [isSubmittingListing, setIsSubmittingListing] = useState(false);
   const [offerDelivery, setOfferDelivery] = useState(false);
   const [offerFreeDelivery, setOfferFreeDelivery] = useState(false);
+  const [showDeliveryTooltip, setShowDeliveryTooltip] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
