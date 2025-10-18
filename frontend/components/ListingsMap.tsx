@@ -46,6 +46,7 @@ interface ListingsMapProps {
 function InteractiveMap({
   listings,
   selectedListing,
+  userCoordinates,
   onSelectListing,
 }: {
   listings: Array<{
@@ -56,6 +57,7 @@ function InteractiveMap({
     longitude: number | null;
   }>;
   selectedListing?: number | null;
+  userCoordinates?: { latitude: number; longitude: number } | null;
   onSelectListing?: (listingId: number) => void;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
