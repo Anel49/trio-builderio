@@ -319,9 +319,11 @@ export default function BrowseListings() {
         }
         // Use filter location if available, otherwise use user coordinates
         const coordsToUse = filterLocation || coords;
+        console.log("[BrowseListings] filterLocation:", filterLocation, "userCoords:", coords, "coordsToUse:", coordsToUse);
         const path = coordsToUse
           ? `listings?user_lat=${coordsToUse.latitude}&user_lng=${coordsToUse.longitude}`
           : "listings";
+        console.log("[BrowseListings] Fetching listings with path:", path);
         const response = await apiFetch(path);
         if (!response.ok || cancelled) return;
         const d = await response.json().catch(() => null);
