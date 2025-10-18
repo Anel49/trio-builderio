@@ -225,18 +225,23 @@ export function ListingsMap({
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    console.log("[ListingsMap] Component mounted");
     setIsClient(true);
   }, []);
 
+  console.log("[ListingsMap] Rendering, isClient:", isClient, "listings:", listings.length);
+
   return (
-    <>
+    <div className="w-full h-full">
       {isClient ? (
         <InteractiveMap
           listings={listings}
           selectedListing={selectedListing}
           onSelectListing={onSelectListing}
         />
-      ) : null}
-    </>
+      ) : (
+        <div className="w-full h-full flex items-center justify-center">Loading map...</div>
+      )}
+    </div>
   );
 }
