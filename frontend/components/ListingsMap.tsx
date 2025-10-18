@@ -236,7 +236,7 @@ function InteractiveMap({
           closeButton: false,
           offset: [0, -10],
         }).setContent(
-          `<div style="font-weight: 600; margin-bottom: 4px;">${listing.name}</div><div>${listing.price}/day</div>`,
+          `<div style="font-weight: 600; margin-bottom: 4px;">${listing.name}</div><div>${listing.price} ${listing.priceUnitLabel || "per day"}</div>`,
         );
 
         const marker = L.marker(
