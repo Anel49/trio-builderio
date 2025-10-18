@@ -173,12 +173,14 @@ export async function createListing(req: Request, res: Response) {
         : [];
     const primaryCategory = cats[0] ?? null;
     const rentalPeriodValue = normalizeRentalPeriod(rental_period);
+    const deliveryValue = Boolean(delivery);
+    const freeDeliveryValue = Boolean(free_delivery) && deliveryValue;
 
     let result;
     try {
       result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, category, rental_period, description, zip_code)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+        `insert into listings (name, price_cents, rating, image_url, host, category, rental_period, description, zip_code, delivery, free_delivery)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
          returning id`,
         [
           name,
@@ -190,12 +192,14 @@ export async function createListing(req: Request, res: Response) {
           rentalPeriodValue,
           description ?? null,
           zip,
+          deliveryValue,
+          freeDeliveryValue,
         ],
       );
     } catch {
       result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, category, description, zip_code)
-         values ($1,$2,$3,$4,$5,$6,$7,$8)
+        `insert into listings (name, price_cents, rating, image_url, host, category, description, zip_code, delivery, free_delivery)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
          returning id`,
         [
           name,
@@ -206,6 +210,8 @@ export async function createListing(req: Request, res: Response) {
           primaryCategory,
           description ?? null,
           zip,
+          deliveryValue,
+          freeDeliveryValue,
         ],
       );
     }
