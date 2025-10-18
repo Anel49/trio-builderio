@@ -112,6 +112,10 @@ export default function BrowseListings() {
     end: undefined,
   });
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [userCoordinates, setUserCoordinates] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
 
   React.useEffect(() => {
     try {
