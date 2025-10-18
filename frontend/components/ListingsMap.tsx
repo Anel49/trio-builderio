@@ -82,10 +82,17 @@ function InteractiveMap({
   }, [listingsWithCoords]);
 
   useEffect(() => {
-    console.log("[InteractiveMap] useEffect for map init, container:", containerRef.current, "mapRef:", mapRef.current);
+    console.log(
+      "[InteractiveMap] useEffect for map init, container:",
+      containerRef.current,
+      "mapRef:",
+      mapRef.current,
+    );
 
     if (!containerRef.current || mapRef.current) {
-      console.log("[InteractiveMap] Skipping map init: no container or map already exists");
+      console.log(
+        "[InteractiveMap] Skipping map init: no container or map already exists",
+      );
       return;
     }
 
@@ -134,7 +141,12 @@ function InteractiveMap({
   }, [mapCenter]);
 
   useEffect(() => {
-    console.log("[InteractiveMap] Marker effect - map exists:", !!mapRef.current, "listings with coords:", listingsWithCoords.length);
+    console.log(
+      "[InteractiveMap] Marker effect - map exists:",
+      !!mapRef.current,
+      "listings with coords:",
+      listingsWithCoords.length,
+    );
 
     if (!mapRef.current) {
       console.log("[InteractiveMap] Skipping marker render - no map");
@@ -160,7 +172,13 @@ function InteractiveMap({
       const isSelected = selectedListing === listing.id;
 
       if (!existingMarker) {
-        console.log("[InteractiveMap] Creating marker for listing", listing.id, "at", listing.latitude, listing.longitude);
+        console.log(
+          "[InteractiveMap] Creating marker for listing",
+          listing.id,
+          "at",
+          listing.latitude,
+          listing.longitude,
+        );
         const markerHtml = `<div style="
           width: 32px;
           height: 32px;
@@ -201,7 +219,10 @@ function InteractiveMap({
           .addTo(map);
 
         marker.on("click", () => {
-          console.log("[InteractiveMap] Marker clicked for listing", listing.id);
+          console.log(
+            "[InteractiveMap] Marker clicked for listing",
+            listing.id,
+          );
           onSelectListing?.(listing.id);
         });
 
@@ -229,7 +250,12 @@ export function ListingsMap({
     setIsClient(true);
   }, []);
 
-  console.log("[ListingsMap] Rendering, isClient:", isClient, "listings:", listings.length);
+  console.log(
+    "[ListingsMap] Rendering, isClient:",
+    isClient,
+    "listings:",
+    listings.length,
+  );
 
   return (
     <div className="w-full h-full">
@@ -240,7 +266,9 @@ export function ListingsMap({
           onSelectListing={onSelectListing}
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center">Loading map...</div>
+        <div className="w-full h-full flex items-center justify-center">
+          Loading map...
+        </div>
       )}
     </div>
   );

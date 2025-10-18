@@ -141,7 +141,17 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     const count: number = countRes.rows[0]?.count ?? 0;
     if (count === 0) {
-      const rows: [string, number, number, string, string, string, string, number, number][] = [
+      const rows: [
+        string,
+        number,
+        number,
+        string,
+        string,
+        string,
+        string,
+        number,
+        number,
+      ][] = [
         [
           "Riding Lawn Mower",
           4500,
@@ -161,8 +171,8 @@ export async function dbSetup(_req: Request, res: Response) {
           "Michael",
           "Clothing",
           "20175",
-          39.0480,
-          -77.5980,
+          39.048,
+          -77.598,
         ],
         [
           "Professional Tool Set",
@@ -172,8 +182,8 @@ export async function dbSetup(_req: Request, res: Response) {
           "Alex",
           "Tools",
           "20147",
-          38.9950,
-          -77.4850,
+          38.995,
+          -77.485,
         ],
         [
           "Pro Camera Kit",
@@ -183,8 +193,8 @@ export async function dbSetup(_req: Request, res: Response) {
           "Emma",
           "Tech",
           "20148",
-          38.9920,
-          -77.4920,
+          38.992,
+          -77.492,
         ],
         [
           "Party Sound System",
@@ -194,8 +204,8 @@ export async function dbSetup(_req: Request, res: Response) {
           "David",
           "Party",
           "20164",
-          39.0750,
-          -77.5250,
+          39.075,
+          -77.525,
         ],
         [
           "Mountain Bike",
@@ -205,8 +215,8 @@ export async function dbSetup(_req: Request, res: Response) {
           "Liam",
           "Outdoors",
           "22102",
-          38.8550,
-          -77.4650,
+          38.855,
+          -77.465,
         ],
         [
           "Acoustic Guitar",
@@ -227,8 +237,8 @@ export async function dbSetup(_req: Request, res: Response) {
           "Olivia",
           "Tools",
           "20190",
-          39.0650,
-          -77.5450,
+          39.065,
+          -77.545,
         ],
         [
           "Tuxedo Rental",
@@ -238,8 +248,8 @@ export async function dbSetup(_req: Request, res: Response) {
           "Mason",
           "Clothing",
           "22201",
-          38.8450,
-          -77.0550,
+          38.845,
+          -77.055,
         ],
         [
           "Camping Tent",
@@ -249,8 +259,8 @@ export async function dbSetup(_req: Request, res: Response) {
           "Ava",
           "Outdoors",
           "22030",
-          38.7950,
-          -77.2250,
+          38.795,
+          -77.225,
         ],
       ];
       for (const r of rows) {
