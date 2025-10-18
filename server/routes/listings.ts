@@ -114,8 +114,10 @@ export async function listListings(req: Request, res: Response) {
       const normalizedZip = normalizeZipCode(r.zip_code);
 
       let distanceMiles: number | null = null;
-      const listingLatitude = typeof r.latitude === "number" ? r.latitude : null;
-      const listingLongitude = typeof r.longitude === "number" ? r.longitude : null;
+      const listingLatitude =
+        typeof r.latitude === "number" ? r.latitude : null;
+      const listingLongitude =
+        typeof r.longitude === "number" ? r.longitude : null;
 
       if (userCoords && listingLatitude != null && listingLongitude != null) {
         const listingCoords: Coordinates = {
@@ -126,7 +128,9 @@ export async function listListings(req: Request, res: Response) {
       }
 
       const distanceLabel =
-        distanceMiles != null ? `${distanceMiles.toFixed(1)} miles` : "Distance unavailable";
+        distanceMiles != null
+          ? `${distanceMiles.toFixed(1)} miles`
+          : "Distance unavailable";
 
       return {
         id: r.id,
@@ -311,7 +315,8 @@ export async function getListingById(req: Request, res: Response) {
 
     let distanceMiles: number | null = null;
     const listingLatitude = typeof r.latitude === "number" ? r.latitude : null;
-    const listingLongitude = typeof r.longitude === "number" ? r.longitude : null;
+    const listingLongitude =
+      typeof r.longitude === "number" ? r.longitude : null;
 
     if (userCoords && listingLatitude != null && listingLongitude != null) {
       const listingCoords: Coordinates = {
@@ -322,7 +327,9 @@ export async function getListingById(req: Request, res: Response) {
     }
 
     const distanceLabel =
-      distanceMiles != null ? `${distanceMiles.toFixed(1)} miles` : "Distance unavailable";
+      distanceMiles != null
+        ? `${distanceMiles.toFixed(1)} miles`
+        : "Distance unavailable";
 
     const listing = {
       id: r.id,

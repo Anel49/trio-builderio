@@ -59,8 +59,12 @@ function normalizeCity(candidate: unknown): string | null {
 
 const initialLocation: UserLocation = {
   city: normalizeCity((currentUser as any)?.defaultLocation) ?? null,
-  latitude: normalizeCoordinate((currentUser as any)?.latitude ?? (currentUser as any)?.locationLatitude),
-  longitude: normalizeCoordinate((currentUser as any)?.longitude ?? (currentUser as any)?.locationLongitude),
+  latitude: normalizeCoordinate(
+    (currentUser as any)?.latitude ?? (currentUser as any)?.locationLatitude,
+  ),
+  longitude: normalizeCoordinate(
+    (currentUser as any)?.longitude ?? (currentUser as any)?.locationLongitude,
+  ),
   postalCode: normalizePostal((currentUser as any)?.zipCode),
 };
 
