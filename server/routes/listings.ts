@@ -71,7 +71,7 @@ export async function listListings(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period,
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude,
                 coalesce(img.images, '{}') as images,
                 coalesce(cats.categories, '{}') as categories
          from listings l
@@ -95,7 +95,7 @@ export async function listListings(req: Request, res: Response) {
     } catch (e) {
       console.log("[listListings] Query 1 failed, trying fallback:", e);
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at
+        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude
          from listings
          order by created_at desc
          limit 50`,
