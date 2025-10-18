@@ -230,6 +230,12 @@ function InteractiveMap({
             "[InteractiveMap] Marker clicked for listing",
             listing.id,
           );
+          // Center map on the clicked marker
+          map.setView(
+            [listing.latitude as number, listing.longitude as number],
+            map.getZoom(),
+            { animate: true },
+          );
           onSelectListing?.(listing.id);
         });
 
