@@ -1039,6 +1039,7 @@ export default function BrowseListings() {
             city: selection.city,
           });
         }}
+        onClear={() => setFilterLocation(null)}
       />
 
       {/* Mobile Map Floating Button - Only visible on mobile/tablet */}
