@@ -226,6 +226,7 @@ export function LocationPickerModal({
   onOpenChange,
   initialLocation,
   onConfirm,
+  onClear,
 }: LocationPickerModalProps) {
   const [isClient, setIsClient] = useState(false);
   const [selectedLat, setSelectedLat] = useState<number | null>(null);
