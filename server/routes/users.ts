@@ -37,7 +37,7 @@ export async function getUserByEmail(req: Request, res: Response) {
     }
     try {
       const result = await pool.query(
-        `select id, name, email, avatar_url, zip_code, created_at,
+        `select id, name, email, avatar_url, created_at,
               latitude, longitude, location_city,
               coalesce(founding_supporter,false) as founding_supporter,
               coalesce(top_referrer,false) as top_referrer,
@@ -53,7 +53,7 @@ export async function getUserByEmail(req: Request, res: Response) {
     } catch {
       // Columns might not exist yet
       const result = await pool.query(
-        `select id, name, email, avatar_url, zip_code, created_at
+        `select id, name, email, avatar_url, created_at
          from users where email = $1 limit 1`,
         [email],
       );
@@ -64,7 +64,7 @@ export async function getUserByEmail(req: Request, res: Response) {
         name: base.name || null,
         email: base.email || null,
         avatarUrl: base.avatar_url || null,
-        zipCode: base.zip_code || null,
+        zipCode: null,
         locationLatitude: null,
         locationLongitude: null,
         locationCity: base.location_city || null,
