@@ -573,6 +573,14 @@ export default function BrowseListings() {
                 }}
               />
             </div>
+            <Button
+              variant="outline"
+              className="flex items-center gap-2"
+              onClick={() => setIsLocationPickerOpen(true)}
+            >
+              <MapPin className="h-4 w-4" />
+              {filterLocation ? `Location: ${filterLocation.city || "Custom"}` : "Location"}
+            </Button>
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
               <PopoverTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
