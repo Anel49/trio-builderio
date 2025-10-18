@@ -283,15 +283,15 @@ export async function apiFetch(path: string, init?: RequestInit) {
       if (now - lastPingOkAt > PING_TTL_MS && now - lastPingCheckAt > 1000) {
         lastPingCheckAt = now;
         const ok = await pingBase(base);
-        if (ok) lastPingOkAt = Date.now();
-        if (!ok) {
-          lastResolveFailAt = Date.now();
-          offlineUntil = Date.now() + TEMP_OFFLINE_MS;
-          // fall through to stubs below without attempting the failing fetch
-        } else {
+        if (ok) {
+          lastPingOkAt = Date.now();
           const url = cleanJoin(base, path);
           const res = await tryFetch(url, finalInit, 15000);
           if (res) return res;
+        } else {
+          lastResolveFailAt = Date.now();
+          offlineUntil = Date.now() + TEMP_OFFLINE_MS;
+          // fall through to stubs below without attempting the failing fetch
         }
       } else {
         const url = cleanJoin(base, path);
