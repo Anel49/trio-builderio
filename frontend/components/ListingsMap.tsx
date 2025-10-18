@@ -180,28 +180,11 @@ function InteractiveMap({
           listing.latitude,
           listing.longitude,
         );
-        const markerHtml = `<div style="
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          border: 2px solid ${isSelected ? "white" : "#9ca3af"};
-          background-color: ${isSelected ? "#3b82f6" : "#d1d5db"};
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 700;
-          font-size: 16px;
-          color: ${isSelected ? "white" : "black"};
-          box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-          cursor: pointer;
-          transition: all 200ms ease;
-          transform: scale(${isSelected ? 1.25 : 1});
-          transform-origin: center;
-        ">${index + 1}</div>`;
+        const markerHtml = `<div>${index + 1}</div>`;
 
         const markerIcon = L.divIcon({
           html: markerHtml,
-          className: "custom-listing-marker",
+          className: `listing-marker${isSelected ? " selected" : ""}`,
           iconSize: [32, 32],
           iconAnchor: [16, 16],
         });
