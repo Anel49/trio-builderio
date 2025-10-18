@@ -82,34 +82,44 @@ function InteractiveMap({
   }, [listingsWithCoords]);
 
   useEffect(() => {
+    console.log("[InteractiveMap] useEffect for map init, container:", containerRef.current, "mapRef:", mapRef.current);
+
     if (!containerRef.current || mapRef.current) {
+      console.log("[InteractiveMap] Skipping map init: no container or map already exists");
       return;
     }
 
-    const map = L.map(containerRef.current, {
-      center: mapCenter,
-      zoom: 12,
-      zoomControl: true,
-      attributionControl: true,
-    });
+    try {
+      console.log("[InteractiveMap] Creating map with center:", mapCenter);
+      const map = L.map(containerRef.current, {
+        center: mapCenter,
+        zoom: 12,
+        zoomControl: true,
+        attributionControl: true,
+      });
 
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-      {
-        attribution: "© OpenStreetMap contributors © CARTO",
-        subdomains: "abcd",
-        maxZoom: 19,
-      },
-    ).addTo(map);
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+        {
+          attribution: "© OpenStreetMap contributors © CARTO",
+          subdomains: "abcd",
+          maxZoom: 19,
+        },
+      ).addTo(map);
 
-    mapRef.current = map;
+      mapRef.current = map;
+      console.log("[InteractiveMap] Map created successfully");
 
-    return () => {
-      map.remove();
-      mapRef.current = null;
-      markersRef.current.clear();
-    };
-  }, []);
+      return () => {
+        console.log("[InteractiveMap] Cleaning up map");
+        map.remove();
+        mapRef.current = null;
+        markersRef.current.clear();
+      };
+    } catch (e) {
+      console.error("[InteractiveMap] Error creating map:", e);
+    }
+  }, [mapCenter]);
 
   useEffect(() => {
     if (!mapRef.current) return;
