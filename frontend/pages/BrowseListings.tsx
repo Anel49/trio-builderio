@@ -601,6 +601,13 @@ export default function BrowseListings() {
     dateRange.end,
   ]);
 
+  const listingsForMap = React.useMemo(() => {
+    return filteredAndSortedListings.map((listing) => ({
+      ...listing,
+      priceUnitLabel: `per ${RENTAL_UNIT_LABELS[normalizeRentalPeriod((listing as any).rentalPeriod)]}`,
+    }));
+  }, [filteredAndSortedListings]);
+
   return (
     <div className="min-h-screen bg-background">
       <style>{fadeInStyle}</style>
