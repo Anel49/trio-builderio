@@ -74,6 +74,12 @@ export default function Index() {
   const [isCookiesModalOpen, setIsCookiesModalOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
+  const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false);
+  const [searchLocation, setSearchLocation] = useState<{
+    latitude: number;
+    longitude: number;
+    city: string | null;
+  } | null>(null);
 
   const handleDateSelect = (range: any) => {
     if (range?.from) {
