@@ -61,11 +61,13 @@ function formatPrice(price_cents: number) {
 
 export async function listListings(req: Request, res: Response) {
   try {
+    console.log("[listListings] Request received");
     const userZip = extractUserZip(req);
     let userCoords = extractUserCoordinates(req);
     if (!userCoords && userZip) {
       userCoords = await getZipCoordinates(userZip);
     }
+    console.log("[listListings] User zip:", userZip, "coords:", userCoords);
     let result: any;
     try {
       result = await pool.query(
@@ -86,15 +88,19 @@ export async function listListings(req: Request, res: Response) {
          order by l.created_at desc
          limit 50`,
       );
-    } catch {
+      console.log("[listListings] Query 1 succeeded, rows:", result.rows?.length);
+    } catch (e) {
+      console.log("[listListings] Query 1 failed, trying fallback:", e);
       result = await pool.query(
         `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at
          from listings
          order by created_at desc
          limit 50`,
       );
+      console.log("[listListings] Query 2 succeeded, rows:", result.rows?.length);
     }
     const rows: any[] = Array.isArray(result.rows) ? result.rows : [];
+    console.log("[listListings] Processing", rows.length, "rows");
     const listingCoordinateMap = new Map<string, Coordinates>();
 
     if (userCoords) {
