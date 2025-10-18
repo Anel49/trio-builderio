@@ -129,6 +129,7 @@ function InteractiveMap({
       ).addTo(map);
 
       mapRef.current = map;
+      initializedRef.current = true;
       console.log("[InteractiveMap] Map created successfully");
 
       return () => {
@@ -140,7 +141,7 @@ function InteractiveMap({
     } catch (e) {
       console.error("[InteractiveMap] Error creating map:", e);
     }
-  }, [mapCenter]);
+  }, []);
 
   useEffect(() => {
     if (!mapRef.current) return;
