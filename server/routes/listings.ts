@@ -259,7 +259,8 @@ export async function getListingById(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, rental_period, latitude, longitude, delivery, free_delivery
+        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, rental_period, latitude, longitude,
+                coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery
          from listings where id = $1`,
         [id],
       );
