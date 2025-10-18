@@ -62,6 +62,8 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table listings add column if not exists description text;
       alter table listings add column if not exists latitude double precision;
       alter table listings add column if not exists longitude double precision;
+      alter table listings add column if not exists delivery boolean default false;
+      alter table listings add column if not exists free_delivery boolean default false;
       create table if not exists listing_images (
         id serial primary key,
         listing_id integer not null references listings(id) on delete cascade,
