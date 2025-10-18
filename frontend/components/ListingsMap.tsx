@@ -63,7 +63,6 @@ function InteractiveMap({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<Map<number, L.Marker>>(new Map());
-  const initializedRef = useRef(false);
 
   useEffect(() => {
     console.log("[InteractiveMap] Mounted, listings:", listings.length);
