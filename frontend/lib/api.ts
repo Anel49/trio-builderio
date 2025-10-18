@@ -75,18 +75,25 @@ async function tryFetch(
     let settled = false;
     const timeout = new Promise<Response | null>((resolve) => {
       setTimeout(() => {
-        if (!settled) resolve(null);
+        if (!settled) {
+          settled = true;
+          resolve(null);
+        }
       }, timeoutMs);
     });
     const res = await Promise.race([
       fetch(url, init).then((r) => {
-        settled = true;
-        return r;
+        if (!settled) {
+          settled = true;
+          return r;
+        }
+        return null;
       }),
       timeout,
     ]);
     return (res as Response) || null;
-  } catch {
+  } catch (error) {
+    // Silently handle fetch errors (network issues, etc.)
     return null;
   }
 }
