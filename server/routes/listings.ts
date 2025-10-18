@@ -67,7 +67,7 @@ export async function listListings(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude,
+        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
                 coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery
          from listings
          order by created_at desc
