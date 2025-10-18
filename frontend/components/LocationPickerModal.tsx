@@ -401,12 +401,7 @@ export function LocationPickerModal({
             type="button"
             variant="outline"
             onClick={() => {
-              onConfirm({
-                latitude: 0,
-                longitude: 0,
-                city: null,
-                postalCode: null,
-              });
+              onClear?.();
               onOpenChange(false);
             }}
             disabled={isSubmitting}
