@@ -61,9 +61,12 @@ function InteractiveMap({
   const markersRef = useRef<Map<number, L.Marker>>(new Map());
 
   const listingsWithCoords = useMemo(() => {
-    return listings.filter(
+    const filtered = listings.filter(
       (l) => typeof l.latitude === "number" && typeof l.longitude === "number",
     );
+    console.log("[ListingsMap] All listings:", listings);
+    console.log("[ListingsMap] Filtered listings with coords:", filtered);
+    return filtered;
   }, [listings]);
 
   const mapCenter = useMemo((): LatLngExpression => {
