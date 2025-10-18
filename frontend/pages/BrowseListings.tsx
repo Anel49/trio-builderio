@@ -326,7 +326,14 @@ export default function BrowseListings() {
         }
         // Use filter location if available, otherwise use user coordinates
         const coordsToUse = filterLocation || coords;
-        console.log("[BrowseListings] filterLocation:", filterLocation, "userCoords:", coords, "coordsToUse:", coordsToUse);
+        console.log(
+          "[BrowseListings] filterLocation:",
+          filterLocation,
+          "userCoords:",
+          coords,
+          "coordsToUse:",
+          coordsToUse,
+        );
         const path = coordsToUse
           ? `listings?user_lat=${coordsToUse.latitude}&user_lng=${coordsToUse.longitude}`
           : "listings";
@@ -375,7 +382,14 @@ export default function BrowseListings() {
           };
         });
         if (!cancelled) {
-          console.log("[BrowseListings] Setting listings with distances:", mapped.map((l: any) => ({ id: l.id, distance: l.distance, distanceMiles: l.distanceMiles })));
+          console.log(
+            "[BrowseListings] Setting listings with distances:",
+            mapped.map((l: any) => ({
+              id: l.id,
+              distance: l.distance,
+              distanceMiles: l.distanceMiles,
+            })),
+          );
           setListings(mapped);
           setIsLoadingDistances(false);
         }
@@ -956,7 +970,9 @@ export default function BrowseListings() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 pointer-events-auto">
           <div className="bg-white dark:bg-gray-900 rounded-lg p-8 flex flex-col items-center gap-4 shadow-lg max-w-sm mx-4">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            <p className="text-lg font-semibold text-center">Calculating new distances</p>
+            <p className="text-lg font-semibold text-center">
+              Calculating new distances
+            </p>
           </div>
         </div>
       )}
