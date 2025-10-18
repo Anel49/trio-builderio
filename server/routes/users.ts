@@ -28,7 +28,6 @@ async function ensureBadgeColumns() {
   } catch {}
 }
 
-
 export async function getUserByEmail(req: Request, res: Response) {
   try {
     const email = String((req.query as any)?.email || "").trim();

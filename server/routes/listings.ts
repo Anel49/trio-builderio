@@ -72,10 +72,7 @@ export async function listListings(req: Request, res: Response) {
          order by created_at desc
          limit 50`,
       );
-      console.log(
-        "[listListings] Query succeeded, rows:",
-        result.rows?.length,
-      );
+      console.log("[listListings] Query succeeded, rows:", result.rows?.length);
     } catch (e) {
       console.log("[listListings] Query failed:", e);
       result = { rows: [] };
@@ -256,7 +253,9 @@ export async function getListingById(req: Request, res: Response) {
         [id],
       );
     } catch (e) {
-      return res.status(500).json({ ok: false, error: String(e?.message || e) });
+      return res
+        .status(500)
+        .json({ ok: false, error: String(e?.message || e) });
     }
     if (result.rowCount === 0)
       return res.status(404).json({ ok: false, error: "not found" });
