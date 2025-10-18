@@ -307,6 +307,9 @@ export default function BrowseListings() {
         await ensureCurrentUserProfile();
         if (cancelled) return;
         const coords = getCurrentUserCoordinates();
+        if (coords && !cancelled) {
+          setUserCoordinates(coords);
+        }
         const path = coords
           ? `listings?user_lat=${coords.latitude}&user_lng=${coords.longitude}`
           : "listings";
