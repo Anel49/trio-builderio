@@ -352,6 +352,8 @@ export default function UploadProduct() {
         location_longitude: listingLocation.longitude,
         latitude: listingLocation.latitude,
         longitude: listingLocation.longitude,
+        delivery: offerDelivery,
+        free_delivery: offerFreeDelivery,
       };
       const res = await apiFetch("listings", {
         method: "POST",
