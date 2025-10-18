@@ -274,6 +274,27 @@ export async function dbSetup(_req: Request, res: Response) {
       }
     }
 
+    // Update existing listings with latitude/longitude coordinates
+    const coordinateMap: Record<string, [number, number]> = {
+      "Riding Lawn Mower": [39.0426, -77.6054],
+      "Designer Dress": [39.048, -77.598],
+      "Professional Tool Set": [38.995, -77.485],
+      "Pro Camera Kit": [38.992, -77.492],
+      "Party Sound System": [39.075, -77.525],
+      "Mountain Bike": [38.855, -77.465],
+      "Acoustic Guitar": [38.9072, -77.0369],
+      "Pressure Washer": [39.065, -77.545],
+      "Tuxedo Rental": [38.845, -77.055],
+      "Camping Tent": [38.795, -77.225],
+    };
+
+    for (const [name, [lat, lng]] of Object.entries(coordinateMap)) {
+      await pool.query(
+        `update listings set latitude = $1, longitude = $2 where name = $3 and (latitude is null or longitude is null)`,
+        [lat, lng, name],
+      );
+    }
+
     // Ensure a handful of listings have multiple images for testing the gallery UI
     await pool.query(`
       insert into listing_images (listing_id, url, position)
