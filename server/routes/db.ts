@@ -310,6 +310,27 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Update existing listings with different rental periods
+    const rentalPeriodMap: Record<string, string> = {
+      "Riding Lawn Mower": "Daily",
+      "Designer Dress": "Weekly",
+      "Professional Tool Set": "Daily",
+      "Pro Camera Kit": "Monthly",
+      "Party Sound System": "Weekly",
+      "Mountain Bike": "Daily",
+      "Acoustic Guitar": "Hourly",
+      "Pressure Washer": "Weekly",
+      "Tuxedo Rental": "Daily",
+      "Camping Tent": "Monthly",
+    };
+
+    for (const [name, period] of Object.entries(rentalPeriodMap)) {
+      await pool.query(
+        `update listings set rental_period = $1 where name = $2`,
+        [period, name],
+      );
+    }
+
     // Ensure a handful of listings have multiple images for testing the gallery UI
     await pool.query(`
       insert into listing_images (listing_id, url, position)
