@@ -274,6 +274,7 @@ export function ListingsMap({
   listings,
   selectedListing,
   userCoordinates,
+  filterLocation,
   onSelectListing,
 }: ListingsMapProps) {
   const [isClient, setIsClient] = useState(false);
@@ -290,6 +291,8 @@ export function ListingsMap({
     listings.length,
     "userCoords:",
     userCoordinates,
+    "filterLocation:",
+    filterLocation,
   );
 
   return (
@@ -299,6 +302,7 @@ export function ListingsMap({
           listings={listings}
           selectedListing={selectedListing}
           userCoordinates={userCoordinates}
+          filterLocation={filterLocation}
           onSelectListing={onSelectListing}
         />
       ) : (
