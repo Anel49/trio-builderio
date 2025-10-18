@@ -21,17 +21,20 @@ export function createServer() {
   const app = express();
 
   // Middleware
-  app.use(cors({
-    origin: true,
-    credentials: true,
-  }));
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    }),
+  );
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
   // Session middleware
   app.use(
     session({
-      secret: process.env.SESSION_SECRET || "default-secret-key-change-in-production",
+      secret:
+        process.env.SESSION_SECRET || "default-secret-key-change-in-production",
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -39,7 +42,7 @@ export function createServer() {
         httpOnly: true,
         // No maxAge - cookie is session-only and cleared when browser closes
       },
-    })
+    }),
   );
 
   // Authentication middleware
@@ -104,7 +107,11 @@ export function createServer() {
   app.post("/api/listings", requireAuth, createListing);
   app.delete("/api/listings/:id", requireAuth, deleteListing);
   app.get("/api/listings/:id/reviews", requireAuth, listListingReviews);
-  app.get("/api/listings/:id/reservations", requireAuth, listListingReservations);
+  app.get(
+    "/api/listings/:id/reservations",
+    requireAuth,
+    listListingReservations,
+  );
   // Users
   app.get("/api/users", requireAuth, getUserByEmail); // query: email
   app.post("/api/users", requireAuth, upsertUser);

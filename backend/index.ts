@@ -9,17 +9,20 @@ const ADMIN_PASSWORD = "q=foJ7Ba7#+4";
 
 const app = express();
 
-app.use(cors({
-  origin: true,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  }),
+);
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // Session middleware
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "default-secret-key-change-in-production",
+    secret:
+      process.env.SESSION_SECRET || "default-secret-key-change-in-production",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -27,7 +30,7 @@ app.use(
       httpOnly: true,
       // No maxAge - cookie is session-only and cleared when browser closes
     },
-  })
+  }),
 );
 
 // Authentication middleware

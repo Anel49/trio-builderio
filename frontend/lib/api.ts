@@ -212,7 +212,10 @@ export async function apiFetch(path: string, init?: RequestInit) {
         headers: { "Content-Type": "application/json" },
       });
     }
-    if (/^users$/.test(p) && (finalInit?.method || "GET").toUpperCase() === "POST") {
+    if (
+      /^users$/.test(p) &&
+      (finalInit?.method || "GET").toUpperCase() === "POST"
+    ) {
       try {
         const body =
           typeof finalInit?.body === "string" ? JSON.parse(finalInit.body) : {};
@@ -361,9 +364,13 @@ export async function apiFetch(path: string, init?: RequestInit) {
       headers: { "Content-Type": "application/json" },
     });
   }
-  if (/^users$/.test(p) && (finalInit?.method || "GET").toUpperCase() === "POST") {
+  if (
+    /^users$/.test(p) &&
+    (finalInit?.method || "GET").toUpperCase() === "POST"
+  ) {
     try {
-      const body = typeof finalInit?.body === "string" ? JSON.parse(finalInit.body) : {};
+      const body =
+        typeof finalInit?.body === "string" ? JSON.parse(finalInit.body) : {};
       const user = {
         id: 0,
         name: body?.name ?? null,
