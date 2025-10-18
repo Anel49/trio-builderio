@@ -889,134 +889,22 @@ export default function BrowseListings() {
             <div className="sticky top-8">
               <Card className="h-[750px] overflow-hidden">
                 <CardContent className="p-0 h-full relative">
-                  {/* Map Placeholder */}
-                  <div className="w-full h-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center relative">
-                    {/* Map Background */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-green-100"></div>
-
-                    {/* Map Markers */}
-                    <div className="absolute inset-0">
-                      {filteredAndSortedListings.map((listing, index) => (
-                        <div
-                          key={listing.id}
-                          className="absolute"
-                          style={{
-                            left: `${20 + index * 15}%`,
-                            top: `${25 + index * 12}%`,
-                          }}
-                        >
-                          {/* Map Pin */}
-                          <div
-                            className={cn(
-                              "w-8 h-8 rounded-full border-2 shadow-lg flex items-center justify-center cursor-pointer transition-all duration-200 relative",
-                              // Default style: light gray background, darker gray border, black text
-                              selectedListing === listing.id ||
-                                hoveredListing === listing.id
-                                ? "bg-primary border-white scale-125 z-10"
-                                : "bg-gray-200 border-gray-400 hover:scale-110",
-                            )}
-                            onClick={() => {
-                              setSelectedListing(listing.id);
-                              // Scroll to the listing
-                              const listingElement = document.getElementById(
-                                `listing-${listing.id}`,
-                              );
-                              if (listingElement) {
-                                listingElement.scrollIntoView({
-                                  behavior: "smooth",
-                                  block: "center",
-                                });
-                              }
-                            }}
-                            onMouseEnter={() => {
-                              setHoveredPin(listing.id);
-                              // Set timeout for price popup
-                              const timeout = setTimeout(() => {
-                                setShowPricePopup(listing.id);
-                              }, 200);
-                              setHoverTimeout(timeout);
-                            }}
-                            onMouseLeave={() => {
-                              setHoveredPin(null);
-                              // Clear timeout and hide popup unless pin is selected
-                              if (hoverTimeout) {
-                                clearTimeout(hoverTimeout);
-                                setHoverTimeout(null);
-                              }
-                              if (selectedListing !== listing.id) {
-                                setShowPricePopup(null);
-                              }
-                            }}
-                          >
-                            <span
-                              className={cn(
-                                "text-base font-bold transition-colors duration-200",
-                                selectedListing === listing.id ||
-                                  hoveredListing === listing.id
-                                  ? "text-white"
-                                  : "text-black",
-                              )}
-                              style={{
-                                transform:
-                                  selectedListing === listing.id ||
-                                  hoveredListing === listing.id
-                                    ? "scale(0.8)"
-                                    : "scale(1)",
-                              }}
-                            >
-                              {index + 1}
-                            </span>
-                          </div>
-
-                          {/* Price Popup */}
-                          {(showPricePopup === listing.id ||
-                            selectedListing === listing.id) && (
-                            <div
-                              className="absolute -top-14 left-1/2 transform -translate-x-1/2 bg-primary text-white px-3 py-2 rounded text-sm font-semibold whitespace-nowrap shadow-lg z-20"
-                              style={{
-                                animation:
-                                  showPricePopup === listing.id
-                                    ? "fadeIn 0.2s ease-in"
-                                    : undefined,
-                              }}
-                            >
-                              {listing.price}/day
-                              {/* Arrow */}
-                              <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-primary"></div>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Map Controls */}
-                    <div className="absolute top-4 right-4 flex flex-col gap-2">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        className="w-8 h-8 p-0 flex items-center justify-center"
-                      >
-                        +
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        className="w-8 h-8 p-0 flex items-center justify-center"
-                      >
-                        −
-                      </Button>
-                    </div>
-
-                    {/* Map Label */}
-                    <div className="absolute bottom-4 left-4 bg-white/90 dark:bg-gray-800/90 px-3 py-2 rounded-lg">
-                      <p className="text-sm font-medium dark:text-white">
-                        Interactive Map
-                      </p>
-                      <p className="text-xs text-muted-foreground dark:text-gray-300">
-                        Click markers to view details
-                      </p>
-                    </div>
-                  </div>
+                  <ListingsMap
+                    listings={filteredAndSortedListings}
+                    selectedListing={selectedListing}
+                    onSelectListing={(listingId) => {
+                      setSelectedListing(listingId);
+                      const listingElement = document.getElementById(
+                        `listing-${listingId}`,
+                      );
+                      if (listingElement) {
+                        listingElement.scrollIntoView({
+                          behavior: "smooth",
+                          block: "center",
+                        });
+                      }
+                    }}
+                  />
                 </CardContent>
               </Card>
             </div>
