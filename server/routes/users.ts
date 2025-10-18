@@ -49,7 +49,7 @@ export async function getUserByEmail(req: Request, res: Response) {
     try {
       const result = await pool.query(
         `select id, name, email, avatar_url, zip_code, created_at,
-              location_latitude, location_longitude, location_city,
+              latitude, longitude, location_city,
               coalesce(founding_supporter,false) as founding_supporter,
               coalesce(top_referrer,false) as top_referrer,
               coalesce(ambassador,false) as ambassador
@@ -76,14 +76,8 @@ export async function getUserByEmail(req: Request, res: Response) {
         email: base.email || null,
         avatarUrl: base.avatar_url || null,
         zipCode: base.zip_code || null,
-        locationLatitude:
-          typeof base.location_latitude === "number"
-            ? base.location_latitude
-            : null,
-        locationLongitude:
-          typeof base.location_longitude === "number"
-            ? base.location_longitude
-            : null,
+        locationLatitude: null,
+        locationLongitude: null,
         locationCity: base.location_city || null,
         createdAt: base.created_at,
         foundingSupporter: false,
