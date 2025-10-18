@@ -118,19 +118,18 @@ export async function upsertUser(req: Request, res: Response) {
           : NaN;
 
     const result = await pool.query(
-      `insert into users (name, email, avatar_url, zip_code, latitude, longitude, location_city, founding_supporter, top_referrer, ambassador)
-       values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+      `insert into users (name, email, avatar_url, latitude, longitude, location_city, founding_supporter, top_referrer, ambassador)
+       values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
        on conflict (email) do update set
          name = coalesce(excluded.name, users.name),
          avatar_url = coalesce(excluded.avatar_url, users.avatar_url),
-         zip_code = excluded.zip_code,
          latitude = excluded.latitude,
          longitude = excluded.longitude,
          location_city = excluded.location_city,
          founding_supporter = coalesce(excluded.founding_supporter, users.founding_supporter),
          top_referrer = coalesce(excluded.top_referrer, users.top_referrer),
          ambassador = coalesce(excluded.ambassador, users.ambassador)
-       returning id, name, email, avatar_url, zip_code, latitude, longitude, location_city, created_at,
+       returning id, name, email, avatar_url, latitude, longitude, location_city, created_at,
                  coalesce(founding_supporter,false) as founding_supporter,
                  coalesce(top_referrer,false) as top_referrer,
                  coalesce(ambassador,false) as ambassador`,
@@ -138,9 +137,6 @@ export async function upsertUser(req: Request, res: Response) {
         typeof name === "string" ? name : null,
         emailStr,
         typeof avatar_url === "string" ? avatar_url : null,
-        typeof zip_code === "string" && zip_code.trim()
-          ? zip_code.trim()
-          : null,
         Number.isFinite(latValue) ? latValue : null,
         Number.isFinite(lonValue) ? lonValue : null,
         typeof location_city === "string" && location_city.trim()
