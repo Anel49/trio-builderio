@@ -130,7 +130,7 @@ export async function listListings(req: Request, res: Response) {
     });
     console.log("[listListings] Returning", listings.length, "listings");
     if (listings.length > 0) {
-      console.log("[listListings] First listing sample:", JSON.stringify(listings[0]));
+      console.log("[listListings] First listing delivery:", listings[0].delivery, "freeDelivery:", listings[0].freeDelivery);
     }
     res.json({ ok: true, listings });
   } catch (error: any) {
