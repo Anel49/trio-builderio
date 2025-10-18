@@ -161,8 +161,10 @@ export async function listListings(req: Request, res: Response) {
             : DEFAULT_RENTAL_PERIOD,
       };
     });
+    console.log("[listListings] Returning", listings.length, "listings");
     res.json({ ok: true, listings });
   } catch (error: any) {
+    console.error("[listListings] Error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
