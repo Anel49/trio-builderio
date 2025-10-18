@@ -137,10 +137,12 @@ export async function apiFetch(path: string, init?: RequestInit) {
   const pRaw = String(path || "");
   const p = pRaw.replace(/^\//, "");
 
-  // Ensure credentials are included for authenticated requests
+  // Build final init with credentials only for same-origin requests
   const finalInit = {
     ...init,
-    credentials: "include" as const,
+    // Only add credentials for same-origin requests (API calls)
+    // Not for absolute URLs to external services
+    credentials: !/^https?:\/\//i.test(path) ? ("include" as const) : init?.credentials,
   };
 
   // Always short-circuit ping without network
