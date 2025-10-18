@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { MapPin } from "lucide-react";
-import type { LatLngExpression, LeafletMouseEvent } from "leaflet";
+import type { LatLngExpression } from "leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -142,17 +141,26 @@ function InteractiveMap({
       const isSelected = selectedListing === listing.id;
 
       if (!existingMarker) {
+        const markerHtml = `<div style="
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          border: 2px solid ${isSelected ? "white" : "#999"};
+          background-color: ${isSelected ? "#3b82f6" : "#d3d3d3"};
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 14px;
+          color: ${isSelected ? "white" : "black"};
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+          cursor: pointer;
+          transition: all 0.2s ease;
+        ">${index + 1}</div>`;
+
         const markerIcon = L.divIcon({
-          html: `
-            <div class="flex items-center justify-center w-8 h-8 rounded-full border-2 shadow-lg font-bold text-sm ${
-              isSelected
-                ? "bg-blue-600 border-white text-white scale-125"
-                : "bg-gray-200 border-gray-400 text-black"
-            }" style="transition: all 0.2s ease;">
-              ${index + 1}
-            </div>
-          `,
-          className: "",
+          html: markerHtml,
+          className: "custom-listing-marker",
           iconSize: [32, 32],
           iconAnchor: [16, 16],
         });
@@ -162,7 +170,7 @@ function InteractiveMap({
           closeButton: false,
           offset: [0, -10],
         }).setContent(
-          `<div class="text-sm font-semibold">${listing.name}</div><div class="text-sm">${listing.price}/day</div>`,
+          `<div style="font-weight: 600; margin-bottom: 4px;">${listing.name}</div><div>${listing.price}/day</div>`,
         );
 
         const marker = L.marker(
