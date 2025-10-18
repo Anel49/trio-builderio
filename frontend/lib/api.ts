@@ -205,17 +205,17 @@ export async function apiFetch(path: string, init?: RequestInit) {
     }
     if (
       /^users(\?|$)/.test(p) &&
-      (init?.method || "GET").toUpperCase() === "GET"
+      (finalInit?.method || "GET").toUpperCase() === "GET"
     ) {
       return new Response(JSON.stringify({ ok: true, user: null }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
-    if (/^users$/.test(p) && (init?.method || "GET").toUpperCase() === "POST") {
+    if (/^users$/.test(p) && (finalInit?.method || "GET").toUpperCase() === "POST") {
       try {
         const body =
-          typeof init?.body === "string" ? JSON.parse(init.body) : {};
+          typeof finalInit?.body === "string" ? JSON.parse(finalInit.body) : {};
         const user = {
           id: 0,
           name: body?.name ?? null,
