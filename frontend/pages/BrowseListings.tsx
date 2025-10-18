@@ -579,7 +579,9 @@ export default function BrowseListings() {
               onClick={() => setIsLocationPickerOpen(true)}
             >
               <MapPin className="h-4 w-4" />
-              {filterLocation ? `Location: ${filterLocation.city || "Custom"}` : "Location"}
+              {filterLocation
+                ? `Location: ${filterLocation.city || "Custom"}`
+                : "Location"}
             </Button>
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
               <PopoverTrigger asChild>
@@ -965,8 +967,10 @@ export default function BrowseListings() {
         open={isLocationPickerOpen}
         onOpenChange={setIsLocationPickerOpen}
         initialLocation={{
-          latitude: filterLocation?.latitude ?? userCoordinates?.latitude ?? null,
-          longitude: filterLocation?.longitude ?? userCoordinates?.longitude ?? null,
+          latitude:
+            filterLocation?.latitude ?? userCoordinates?.latitude ?? null,
+          longitude:
+            filterLocation?.longitude ?? userCoordinates?.longitude ?? null,
           city: filterLocation?.city ?? null,
         }}
         onConfirm={(selection) => {

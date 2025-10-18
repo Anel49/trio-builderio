@@ -40,7 +40,11 @@ interface ListingsMapProps {
   }>;
   selectedListing?: number | null;
   userCoordinates?: { latitude: number; longitude: number } | null;
-  filterLocation?: { latitude: number; longitude: number; city: string | null } | null;
+  filterLocation?: {
+    latitude: number;
+    longitude: number;
+    city: string | null;
+  } | null;
   onSelectListing?: (listingId: number) => void;
 }
 
@@ -60,7 +64,11 @@ function InteractiveMap({
   }>;
   selectedListing?: number | null;
   userCoordinates?: { latitude: number; longitude: number } | null;
-  filterLocation?: { latitude: number; longitude: number; city: string | null } | null;
+  filterLocation?: {
+    latitude: number;
+    longitude: number;
+    city: string | null;
+  } | null;
   onSelectListing?: (listingId: number) => void;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
