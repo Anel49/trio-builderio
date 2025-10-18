@@ -70,19 +70,21 @@ app.get("/api/ping", (_req, res) =>
 );
 app.get("/ping", (_req, res) => res.json({ message: "Hello from Backend!" }));
 
+// TEMPORARILY DISABLED - requireAuth removed while login wall is disabled
+// Re-add requireAuth middleware when login wall is re-enabled
 // DB
-app.get("/api/db/health", requireAuth, dbHealth);
-app.get("/api/db/schema", requireAuth, dbSchema);
-app.post("/api/db/setup", requireAuth, dbSetup);
-app.get("/db/health", requireAuth, dbHealth);
-app.get("/db/schema", requireAuth, dbSchema);
-app.post("/db/setup", requireAuth, dbSetup);
+app.get("/api/db/health", dbHealth);
+app.get("/api/db/schema", dbSchema);
+app.post("/api/db/setup", dbSetup);
+app.get("/db/health", dbHealth);
+app.get("/db/schema", dbSchema);
+app.post("/db/setup", dbSetup);
 
 // Listings
-app.get("/api/listings", requireAuth, listListings);
-app.post("/api/listings", requireAuth, createListing);
-app.get("/listings", requireAuth, listListings);
-app.post("/listings", requireAuth, createListing);
+app.get("/api/listings", listListings);
+app.post("/api/listings", createListing);
+app.get("/listings", listListings);
+app.post("/listings", createListing);
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 app.listen(PORT, () => {
