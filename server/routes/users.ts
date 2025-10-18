@@ -86,7 +86,6 @@ export async function upsertUser(req: Request, res: Response) {
       name,
       email,
       avatar_url,
-      zip_code,
       latitude,
       longitude,
       location_city,
