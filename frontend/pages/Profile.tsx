@@ -1865,11 +1865,11 @@ export default function Profile() {
                             locationCity.trim()
                               ? locationCity.trim()
                               : null,
-                          location_latitude:
+                          latitude:
                             typeof locationLatitude === "number"
                               ? locationLatitude
                               : null,
-                          location_longitude:
+                          longitude:
                             typeof locationLongitude === "number"
                               ? locationLongitude
                               : null,
