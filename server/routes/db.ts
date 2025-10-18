@@ -102,7 +102,6 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table users add column if not exists founding_supporter boolean default false;
       alter table users add column if not exists top_referrer boolean default false;
       alter table users add column if not exists ambassador boolean default false;
-      alter table users add column if not exists zip_code text;
       alter table users add column if not exists latitude double precision;
       alter table users add column if not exists longitude double precision;
       alter table users add column if not exists location_city text;
