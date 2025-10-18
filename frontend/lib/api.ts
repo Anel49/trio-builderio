@@ -137,6 +137,12 @@ export async function apiFetch(path: string, init?: RequestInit) {
   const pRaw = String(path || "");
   const p = pRaw.replace(/^\//, "");
 
+  // Ensure credentials are included for authenticated requests
+  const finalInit = {
+    ...init,
+    credentials: "include" as const,
+  };
+
   // Always short-circuit ping without network
   if (/^ping$/.test(p)) {
     return new Response(JSON.stringify({ ok: true, message: "local-ping" }), {
