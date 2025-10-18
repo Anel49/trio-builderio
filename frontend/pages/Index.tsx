@@ -658,6 +658,7 @@ export default function Index() {
             city: selection.city,
           });
         }}
+        onClear={() => setSearchLocation(null)}
       />
     </div>
   );
