@@ -310,28 +310,17 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
-    // Update existing listings with different rental periods
-    const rentalPeriodByID: Record<number, string> = {
-      1: "Daily",
-      2: "Weekly",
-      3: "Daily",
-      4: "Monthly",
-      5: "Weekly",
-      6: "Daily",
-      7: "Hourly",
-      15: "Weekly",
-      18: "Daily",
-      19: "Monthly",
-      20: "Weekly",
-      21: "Daily",
-      23: "Hourly",
-    };
-
-    for (const [id, period] of Object.entries(rentalPeriodByID)) {
+    // Update existing listings with different rental periods (cycle through all periods)
+    const periods = ["Daily", "Weekly", "Monthly", "Hourly"];
+    const listings = await pool.query("select id from listings order by id");
+    for (let i = 0; i < listings.rows.length; i++) {
+      const id = listings.rows[i].id;
+      const period = periods[i % periods.length];
       await pool.query(
         `update listings set rental_period = $1 where id = $2`,
-        [period, parseInt(id)],
+        [period, id],
       );
+      console.log(`Updated listing ${id} to ${period}`);
     }
 
     // Ensure a handful of listings have multiple images for testing the gallery UI
