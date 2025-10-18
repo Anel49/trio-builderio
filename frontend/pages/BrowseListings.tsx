@@ -174,6 +174,13 @@ export default function BrowseListings() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState("");
 
+  // Auto-sort by distance when location is selected
+  React.useEffect(() => {
+    if (filterLocation) {
+      setSortBy("distance-asc");
+    }
+  }, [filterLocation]);
+
   const CATEGORY_OPTIONS = [
     "Appliance",
     "Automotive",
