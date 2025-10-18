@@ -903,6 +903,58 @@ export default function UploadProduct() {
                   </div>
                 </div>
 
+                {/* Delivery Options */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="offer-delivery"
+                      checked={offerDelivery}
+                      onChange={(e) => {
+                        setOfferDelivery(e.target.checked);
+                        if (!e.target.checked) {
+                          setOfferFreeDelivery(false);
+                        }
+                      }}
+                      className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
+                    />
+                    <label
+                      htmlFor="offer-delivery"
+                      className="text-sm font-medium cursor-pointer flex items-center gap-2"
+                    >
+                      Offer delivery
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Info className="h-4 w-4 text-muted-foreground hover:text-primary" />
+                          </TooltipTrigger>
+                          <TooltipContent side="right" className="max-w-xs">
+                            <p>Negotiate the price of delivery through your messages with the renter. You keep 100% of the delivery fee.</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </label>
+                  </div>
+
+                  {offerDelivery && (
+                    <div className="flex items-center gap-3 ml-7">
+                      <input
+                        type="checkbox"
+                        id="offer-free-delivery"
+                        checked={offerFreeDelivery}
+                        onChange={(e) => setOfferFreeDelivery(e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
+                      />
+                      <label
+                        htmlFor="offer-free-delivery"
+                        className="text-sm font-medium cursor-pointer"
+                      >
+                        Offer free delivery
+                      </label>
+                    </div>
+                  )}
+                </div>
+
                 {/* Tags */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
