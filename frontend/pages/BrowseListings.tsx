@@ -117,6 +117,12 @@ export default function BrowseListings() {
     latitude: number;
     longitude: number;
   } | null>(null);
+  const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false);
+  const [filterLocation, setFilterLocation] = useState<{
+    latitude: number;
+    longitude: number;
+    city: string | null;
+  } | null>(null);
 
   React.useEffect(() => {
     try {
