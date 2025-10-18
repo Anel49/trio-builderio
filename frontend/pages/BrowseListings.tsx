@@ -299,9 +299,7 @@ export default function BrowseListings() {
     let cancelled = false;
     (async () => {
       try {
-        const userZip = getCurrentUserZipCode();
-        const path = userZip ? `listings?user_zip=${userZip}` : "listings";
-        const response = await apiFetch(path);
+        const response = await apiFetch("listings");
         if (!response.ok || cancelled) return;
         const d = await response.json().catch(() => null);
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
