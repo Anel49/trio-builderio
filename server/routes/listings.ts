@@ -278,7 +278,7 @@ export async function getListingById(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period,
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude,
                 coalesce(img.images, '{}') as images,
                 coalesce(cats.categories, '{}') as categories
          from listings l
@@ -297,7 +297,7 @@ export async function getListingById(req: Request, res: Response) {
       );
     } catch {
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at
+        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude
          from listings where id = $1`,
         [id],
       );
@@ -310,22 +310,19 @@ export async function getListingById(req: Request, res: Response) {
     const normalizedZip = normalizeZipCode(r.zip_code);
 
     let distanceMiles: number | null = null;
-    let listingLatitude: number | null = null;
-    let listingLongitude: number | null = null;
+    const listingLatitude = typeof r.latitude === "number" ? r.latitude : null;
+    const listingLongitude = typeof r.longitude === "number" ? r.longitude : null;
 
-    if (normalizedZip) {
-      const coords = await getZipCoordinates(normalizedZip).catch(() => null);
-      if (coords) {
-        listingLatitude = coords.latitude;
-        listingLongitude = coords.longitude;
-        if (userCoords) {
-          distanceMiles = calculateDistanceMiles(userCoords, coords);
-        }
-      }
+    if (userCoords && listingLatitude != null && listingLongitude != null) {
+      const listingCoords: Coordinates = {
+        latitude: listingLatitude,
+        longitude: listingLongitude,
+      };
+      distanceMiles = calculateDistanceMiles(userCoords, listingCoords);
     }
 
     const distanceLabel =
-      distanceMiles != null ? `${distanceMiles.toFixed(1)} miles` : null;
+      distanceMiles != null ? `${distanceMiles.toFixed(1)} miles` : "Distance unavailable";
 
     const listing = {
       id: r.id,
