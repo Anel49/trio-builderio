@@ -134,7 +134,12 @@ function InteractiveMap({
   }, [mapCenter]);
 
   useEffect(() => {
-    if (!mapRef.current) return;
+    console.log("[InteractiveMap] Marker effect - map exists:", !!mapRef.current, "listings with coords:", listingsWithCoords.length);
+
+    if (!mapRef.current) {
+      console.log("[InteractiveMap] Skipping marker render - no map");
+      return;
+    }
 
     const map = mapRef.current;
     const currentMarkerIds = new Set(markersRef.current.keys());
@@ -155,6 +160,7 @@ function InteractiveMap({
       const isSelected = selectedListing === listing.id;
 
       if (!existingMarker) {
+        console.log("[InteractiveMap] Creating marker for listing", listing.id, "at", listing.latitude, listing.longitude);
         const markerHtml = `<div style="
           width: 32px;
           height: 32px;
@@ -195,6 +201,7 @@ function InteractiveMap({
           .addTo(map);
 
         marker.on("click", () => {
+          console.log("[InteractiveMap] Marker clicked for listing", listing.id);
           onSelectListing?.(listing.id);
         });
 
