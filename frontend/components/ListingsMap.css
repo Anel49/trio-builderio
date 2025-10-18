@@ -1,0 +1,29 @@
+.listing-marker {
+  width: 32px;
+  height: 32px;
+}
+
+.listing-marker > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 200ms ease;
+  border: 2px solid #9ca3af;
+  background-color: #d1d5db;
+  color: #000;
+}
+
+.listing-marker.selected > div {
+  border-color: #ffffff;
+  background-color: #3b82f6;
+  color: #ffffff;
+  transform: scale(1.25);
+  z-index: 10;
+}
