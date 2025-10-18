@@ -130,10 +130,17 @@ export async function listListings(req: Request, res: Response) {
       const normalizedZip = normalizeZipCode(r.zip_code);
 
       let distanceMiles: number | null = null;
-      if (userCoords && normalizedZip) {
+      let listingLatitude: number | null = null;
+      let listingLongitude: number | null = null;
+
+      if (normalizedZip) {
         const coords = listingCoordinateMap.get(normalizedZip);
         if (coords) {
-          distanceMiles = calculateDistanceMiles(userCoords, coords);
+          listingLatitude = coords.latitude;
+          listingLongitude = coords.longitude;
+          if (userCoords) {
+            distanceMiles = calculateDistanceMiles(userCoords, coords);
+          }
         }
       }
 
@@ -152,6 +159,8 @@ export async function listListings(req: Request, res: Response) {
         categories,
         distance: distanceLabel,
         distanceMiles,
+        latitude: listingLatitude,
+        longitude: listingLongitude,
         description: r.description ?? null,
         zipCode: normalizedZip,
         createdAt: r.created_at,
