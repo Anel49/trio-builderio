@@ -34,6 +34,8 @@ interface ProductCardProps {
   priceUnitLabel?: string;
   underlinePrice?: boolean;
   onDeleteClick?: () => void;
+  delivery?: boolean;
+  freeDelivery?: boolean;
 }
 
 export function ProductCard({
