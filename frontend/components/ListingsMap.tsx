@@ -138,7 +138,6 @@ function InteractiveMap({
       ).addTo(map);
 
       mapRef.current = map;
-      initializedRef.current = true;
       console.log("[InteractiveMap] Map created successfully");
 
       return () => {
