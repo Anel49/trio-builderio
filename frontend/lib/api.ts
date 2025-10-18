@@ -175,9 +175,9 @@ export async function apiFetch(path: string, init?: RequestInit) {
     }
     if (
       /^geocode\/reverse$/.test(p) &&
-      (init?.method || "GET").toUpperCase() === "POST"
+      (finalInit?.method || "GET").toUpperCase() === "POST"
     ) {
-      return buildFallbackGeocodeResponse(init);
+      return buildFallbackGeocodeResponse(finalInit);
     }
     if (/^listings$/.test(p)) {
       return new Response(JSON.stringify({ ok: true, listings: [] }), {
