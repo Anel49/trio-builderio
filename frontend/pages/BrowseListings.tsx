@@ -942,6 +942,8 @@ export default function BrowseListings() {
                       }}
                       priceUnitLabel={display.label}
                       underlinePrice={display.underline}
+                      delivery={listing.delivery}
+                      freeDelivery={listing.freeDelivery}
                     />
                   </div>
                 );
