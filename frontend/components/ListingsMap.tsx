@@ -213,10 +213,18 @@ function InteractiveMap({
         });
 
         markersRef.current.set(listing.id, marker);
-      } else if (isSelected) {
-        existingMarker.openPopup();
       } else {
-        existingMarker.closePopup();
+        // Update marker styling when selection changes
+        const markerElement = existingMarker.getElement();
+        if (markerElement) {
+          if (isSelected) {
+            markerElement.classList.add("selected");
+            existingMarker.openPopup();
+          } else {
+            markerElement.classList.remove("selected");
+            existingMarker.closePopup();
+          }
+        }
       }
     });
   }, [listingsWithCoords, selectedListing, onSelectListing]);
