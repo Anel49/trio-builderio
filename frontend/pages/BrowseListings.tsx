@@ -960,6 +960,22 @@ export default function BrowseListings() {
         onOpenChange={setIsFavoritesModalOpen}
         listingTitle={favoritedListing}
       />
+      <LocationPickerModal
+        open={isLocationPickerOpen}
+        onOpenChange={setIsLocationPickerOpen}
+        initialLocation={{
+          latitude: filterLocation?.latitude ?? userCoordinates?.latitude ?? null,
+          longitude: filterLocation?.longitude ?? userCoordinates?.longitude ?? null,
+          city: filterLocation?.city ?? null,
+        }}
+        onConfirm={(selection) => {
+          setFilterLocation({
+            latitude: selection.latitude,
+            longitude: selection.longitude,
+            city: selection.city,
+          });
+        }}
+      />
 
       {/* Mobile Map Floating Button - Only visible on mobile/tablet */}
       <Button
