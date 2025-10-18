@@ -86,44 +86,45 @@ export function createServer() {
     res.json({ message: "Hello from Express server v2!" });
   });
 
-  app.get("/api/demo", requireAuth, handleDemo);
-  app.get("/demo", requireAuth, handleDemo);
+  // TEMPORARILY DISABLED - requireAuth removed while login wall is disabled
+  // Re-add requireAuth middleware when login wall is re-enabled
+  app.get("/api/demo", handleDemo);
+  app.get("/demo", handleDemo);
 
-  app.get("/api/db/health", requireAuth, dbHealth);
-  app.get("/api/db/schema", requireAuth, dbSchema);
-  app.post("/api/db/setup", requireAuth, dbSetup);
-  app.get("/api/db/setup/run", requireAuth, dbSetup);
-  app.post("/api/geocode/reverse", requireAuth, reverseGeocode);
+  app.get("/api/db/health", dbHealth);
+  app.get("/api/db/schema", dbSchema);
+  app.post("/api/db/setup", dbSetup);
+  app.get("/api/db/setup/run", dbSetup);
+  app.post("/api/geocode/reverse", reverseGeocode);
   // Alias routes
-  app.get("/db/health", requireAuth, dbHealth);
-  app.get("/db/schema", requireAuth, dbSchema);
-  app.post("/db/setup", requireAuth, dbSetup);
-  app.get("/db/setup/run", requireAuth, dbSetup);
-  app.post("/geocode/reverse", requireAuth, reverseGeocode);
+  app.get("/db/health", dbHealth);
+  app.get("/db/schema", dbSchema);
+  app.post("/db/setup", dbSetup);
+  app.get("/db/setup/run", dbSetup);
+  app.post("/geocode/reverse", reverseGeocode);
 
   // Listings
-  app.get("/api/listings", requireAuth, listListings);
-  app.get("/api/listings/:id", requireAuth, getListingById);
-  app.post("/api/listings", requireAuth, createListing);
-  app.delete("/api/listings/:id", requireAuth, deleteListing);
-  app.get("/api/listings/:id/reviews", requireAuth, listListingReviews);
+  app.get("/api/listings", listListings);
+  app.get("/api/listings/:id", getListingById);
+  app.post("/api/listings", createListing);
+  app.delete("/api/listings/:id", deleteListing);
+  app.get("/api/listings/:id/reviews", listListingReviews);
   app.get(
     "/api/listings/:id/reservations",
-    requireAuth,
     listListingReservations,
   );
   // Users
-  app.get("/api/users", requireAuth, getUserByEmail); // query: email
-  app.post("/api/users", requireAuth, upsertUser);
+  app.get("/api/users", getUserByEmail); // query: email
+  app.post("/api/users", upsertUser);
   // Alias routes
-  app.get("/listings", requireAuth, listListings);
-  app.get("/listings/:id", requireAuth, getListingById);
-  app.post("/listings", requireAuth, createListing);
-  app.delete("/listings/:id", requireAuth, deleteListing);
-  app.get("/listings/:id/reviews", requireAuth, listListingReviews);
-  app.get("/listings/:id/reservations", requireAuth, listListingReservations);
-  app.get("/users", requireAuth, getUserByEmail);
-  app.post("/users", requireAuth, upsertUser);
+  app.get("/listings", listListings);
+  app.get("/listings/:id", getListingById);
+  app.post("/listings", createListing);
+  app.delete("/listings/:id", deleteListing);
+  app.get("/listings/:id/reviews", listListingReviews);
+  app.get("/listings/:id/reservations", listListingReservations);
+  app.get("/users", getUserByEmail);
+  app.post("/users", upsertUser);
 
   return app;
 }
