@@ -909,7 +909,7 @@ export default function BrowseListings() {
                   if (!Number.isFinite(baseRate)) {
                     return {
                       price: listing.price,
-                      label: `per ${RENTAL_UNIT_LABELS[rentalPeriod]}`,
+                      label: `per ${RENTAL_UNIT_LABELS[listingRentalPeriod]}`,
                       underline: false,
                     };
                   }
