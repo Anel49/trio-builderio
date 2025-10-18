@@ -408,6 +408,8 @@ export default function BrowseListings() {
               id: l.id,
               distance: l.distance,
               distanceMiles: l.distanceMiles,
+              delivery: l.delivery,
+              freeDelivery: l.freeDelivery,
             })),
           );
           setListings(mapped);
