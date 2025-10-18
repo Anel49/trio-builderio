@@ -77,9 +77,17 @@ function InteractiveMap({
     );
   }, [listings]);
 
-  // Calculate initial map center (prioritize user location if available)
+  // Calculate initial map center (prioritize filter location, then user location)
   const initialMapCenter = useMemo((): LatLngExpression => {
-    // Prioritize user's location if available
+    // Prioritize filter location if available (takes priority over user coordinates)
+    if (filterLocation) {
+      console.log(
+        "[InteractiveMap] Using filter location for map center:",
+        filterLocation,
+      );
+      return [filterLocation.latitude, filterLocation.longitude];
+    }
+    // Then prioritize user's location if available
     if (userCoordinates) {
       console.log(
         "[InteractiveMap] Using user coordinates for map center:",
@@ -102,7 +110,7 @@ function InteractiveMap({
     }
     console.log("[InteractiveMap] Using default center");
     return DEFAULT_CENTER;
-  }, [userCoordinates, listingsWithCoords]);
+  }, [filterLocation, userCoordinates, listingsWithCoords]);
 
   // Use a stable map center that doesn't change after initialization
   const mapCenter = initialMapCenter;
