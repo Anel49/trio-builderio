@@ -377,7 +377,7 @@ export default function BrowseListings() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [filterLocation]);
 
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
   const [hoveredListing, setHoveredListing] = useState<number | null>(null);
