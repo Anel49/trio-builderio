@@ -48,6 +48,7 @@ function InteractiveMap({
   listings,
   selectedListing,
   userCoordinates,
+  filterLocation,
   onSelectListing,
 }: {
   listings: Array<{
@@ -59,6 +60,7 @@ function InteractiveMap({
   }>;
   selectedListing?: number | null;
   userCoordinates?: { latitude: number; longitude: number } | null;
+  filterLocation?: { latitude: number; longitude: number; city: string | null } | null;
   onSelectListing?: (listingId: number) => void;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
