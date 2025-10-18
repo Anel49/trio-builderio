@@ -312,6 +312,11 @@ export default function BrowseListings() {
     let cancelled = false;
     (async () => {
       try {
+        // Show loading overlay if filterLocation changed (not initial load)
+        if (filterLocation) {
+          setIsLoadingDistances(true);
+        }
+
         await ensureCurrentUserProfile();
         if (cancelled) return;
         const coords = getCurrentUserCoordinates();
