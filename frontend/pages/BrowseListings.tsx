@@ -983,7 +983,7 @@ export default function BrowseListings() {
               <Card className="h-[750px] overflow-hidden">
                 <CardContent className="p-0 h-full relative">
                   <ListingsMap
-                    listings={filteredAndSortedListings}
+                    listings={listingsForMap}
                     selectedListing={selectedListing}
                     userCoordinates={userCoordinates}
                     filterLocation={filterLocation}
