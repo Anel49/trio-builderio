@@ -190,27 +190,28 @@ export function ProductCard({
 
         <div
           className={combineTokens(
-            layouts.flex.start,
-            "space-x-4",
+            "flex items-center justify-between",
             typography.size.sm,
             colors.text.muted,
             "mb-3",
             "flex-wrap",
           )}
         >
-          <div className={layouts.flex.start}>
-            <Star
-              className={combineTokens(
-                spacing.dimensions.icon.sm,
-                "mr-1",
-                rating == null ? colors.rating.starEmpty : colors.rating.star,
-              )}
-            />
-            {rating == null ? "Not yet rated" : rating}
+          <div className={combineTokens(layouts.flex.start, "space-x-4")}>
+            <div className={layouts.flex.start}>
+              <Star
+                className={combineTokens(
+                  spacing.dimensions.icon.sm,
+                  "mr-1",
+                  rating == null ? colors.rating.starEmpty : colors.rating.star,
+                )}
+              />
+              {rating == null ? "Not yet rated" : rating}
+            </div>
+            {typeof reviews === "number" && reviews > 0 && (
+              <div>({reviews} reviews)</div>
+            )}
           </div>
-          {typeof reviews === "number" && reviews > 0 && (
-            <div>({reviews} reviews)</div>
-          )}
           {(delivery || freeDelivery) && (
             <div className={combineTokens(
               "flex items-center gap-1",
