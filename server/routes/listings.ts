@@ -84,8 +84,6 @@ export async function listListings(req: Request, res: Response) {
     console.log("[listListings] Processing", rows.length, "rows");
 
     const listings = rows.map((r: any) => {
-      const images = Array.isArray(r.images) ? r.images : [];
-      const categories = Array.isArray(r.categories) ? r.categories : [];
       const normalizedZip = normalizeZipCode(r.zip_code);
 
       let distanceMiles: number | null = null;
@@ -112,11 +110,11 @@ export async function listListings(req: Request, res: Response) {
         name: r.name,
         price: formatPrice(r.price_cents),
         rating: r.rating ? Number(r.rating) : null,
-        images,
-        image: r.image_url || (images.length > 0 ? images[0] : null),
+        images: [],
+        image: r.image_url,
         host: r.host,
-        type: r.category || (categories.length ? categories[0] : null),
-        categories,
+        type: r.category || "General",
+        categories: r.category ? [r.category] : [],
         distance: distanceLabel,
         distanceMiles,
         latitude: listingLatitude,
