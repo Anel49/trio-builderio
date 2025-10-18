@@ -9,9 +9,17 @@ function rowToUser(r: any) {
     avatarUrl: r.avatar_url || null,
     zipCode: r.zip_code || null,
     locationLatitude:
-      typeof r.latitude === "number" ? r.latitude : typeof r.location_latitude === "number" ? r.location_latitude : null,
+      typeof r.latitude === "number"
+        ? r.latitude
+        : typeof r.location_latitude === "number"
+          ? r.location_latitude
+          : null,
     locationLongitude:
-      typeof r.longitude === "number" ? r.longitude : typeof r.location_longitude === "number" ? r.location_longitude : null,
+      typeof r.longitude === "number"
+        ? r.longitude
+        : typeof r.location_longitude === "number"
+          ? r.location_longitude
+          : null,
     locationCity: r.location_city || null,
     createdAt: r.created_at,
     foundingSupporter: Boolean(r.founding_supporter),
