@@ -922,39 +922,43 @@ export default function UploadProduct() {
                     />
                     <label
                       htmlFor="offer-delivery"
-                      className="text-sm font-medium cursor-pointer flex items-center gap-2"
+                      className="text-sm font-medium cursor-pointer"
                     >
                       Offer delivery
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Info className="h-4 w-4 text-muted-foreground hover:text-primary" />
-                          </TooltipTrigger>
-                          <TooltipContent side="right" className="max-w-xs">
-                            <p>Negotiate the price of delivery through your messages with the renter. You keep 100% of the delivery fee.</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
                     </label>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button
+                            type="button"
+                            className="p-0 h-4 w-4 text-muted-foreground hover:text-primary focus:outline-none"
+                          >
+                            <Info className="h-4 w-4" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="right" className="max-w-xs">
+                          <p>Negotiate the price of delivery through your messages with the renter. You keep 100% of the delivery fee.</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    {offerDelivery && (
+                      <div className="flex items-center gap-3 ml-auto">
+                        <input
+                          type="checkbox"
+                          id="offer-free-delivery"
+                          checked={offerFreeDelivery}
+                          onChange={(e) => setOfferFreeDelivery(e.target.checked)}
+                          className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
+                        />
+                        <label
+                          htmlFor="offer-free-delivery"
+                          className="text-sm font-medium cursor-pointer whitespace-nowrap"
+                        >
+                          Offer free delivery
+                        </label>
+                      </div>
+                    )}
                   </div>
-
-                  {offerDelivery && (
-                    <div className="flex items-center gap-3 ml-7">
-                      <input
-                        type="checkbox"
-                        id="offer-free-delivery"
-                        checked={offerFreeDelivery}
-                        onChange={(e) => setOfferFreeDelivery(e.target.checked)}
-                        className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
-                      />
-                      <label
-                        htmlFor="offer-free-delivery"
-                        className="text-sm font-medium cursor-pointer"
-                      >
-                        Offer free delivery
-                      </label>
-                    </div>
-                  )}
                 </div>
 
                 {/* Tags */}
