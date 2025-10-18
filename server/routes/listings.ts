@@ -65,7 +65,17 @@ export async function listListings(req: Request, res: Response) {
     const userZip = extractUserZip(req);
     let userCoords = extractUserCoordinates(req);
     if (!userCoords && userZip) {
-      userCoords = await getZipCoordinates(userZip);
+      try {
+        const timeoutPromise = new Promise<null>((resolve) => {
+          setTimeout(() => resolve(null), 3000);
+        });
+        userCoords = await Promise.race([
+          getZipCoordinates(userZip),
+          timeoutPromise,
+        ]);
+      } catch {
+        userCoords = null;
+      }
     }
     console.log("[listListings] User zip:", userZip, "coords:", userCoords);
     let result: any;
