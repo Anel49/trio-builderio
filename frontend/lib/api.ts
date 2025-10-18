@@ -246,7 +246,7 @@ export async function apiFetch(path: string, init?: RequestInit) {
 
   // Absolute URL passthrough
   if (/^https?:\/\//i.test(path)) {
-    const res = await tryFetch(path, init);
+    const res = await tryFetch(path, finalInit);
     if (res) return res;
     return new Response(
       JSON.stringify({ ok: false, error: `Network error for ${path}` }),
@@ -278,17 +278,17 @@ export async function apiFetch(path: string, init?: RequestInit) {
           // fall through to stubs below without attempting the failing fetch
         } else {
           const url = cleanJoin(base, path);
-          const res = await tryFetch(url, init, 15000);
+          const res = await tryFetch(url, finalInit, 15000);
           if (res) return res;
         }
       } else {
         const url = cleanJoin(base, path);
-        const res = await tryFetch(url, init, 15000);
+        const res = await tryFetch(url, finalInit, 15000);
         if (res) return res;
       }
     } else {
       const url = cleanJoin(base, path);
-      const res = await tryFetch(url, init, 8000);
+      const res = await tryFetch(url, finalInit, 8000);
       if (res) return res;
     }
   }
