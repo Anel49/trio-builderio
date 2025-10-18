@@ -67,6 +67,9 @@ const AppContent = () => {
     };
   }, []);
 
+  // TEMPORARILY DISABLED - Login wall code kept for re-enablement
+  // Uncomment the following to re-enable the access required login:
+  /*
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
@@ -84,6 +87,7 @@ const AppContent = () => {
   if (!authenticated) {
     return <SessionLoginWall />;
   }
+  */
 
   const handleCookiePreferences = (preferences: CookiePreferences) => {
     localStorage.setItem(
