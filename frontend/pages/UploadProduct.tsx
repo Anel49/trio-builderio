@@ -90,6 +90,8 @@ export default function UploadProduct() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isPriceInfoOpen, setIsPriceInfoOpen] = useState(false);
   const [isSubmittingListing, setIsSubmittingListing] = useState(false);
+  const [offerDelivery, setOfferDelivery] = useState(false);
+  const [offerFreeDelivery, setOfferFreeDelivery] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
