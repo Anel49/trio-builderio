@@ -398,10 +398,18 @@ export function LocationPickerModal({
           <Button
             type="button"
             variant="outline"
-            onClick={() => onOpenChange(false)}
+            onClick={() => {
+              onConfirm({
+                latitude: 0,
+                longitude: 0,
+                city: null,
+                postalCode: null,
+              });
+              onOpenChange(false);
+            }}
             disabled={isSubmitting}
           >
-            Cancel
+            Clear location
           </Button>
           <Button type="button" onClick={handleConfirm} disabled={isSubmitting}>
             {isSubmitting ? (
