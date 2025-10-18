@@ -243,6 +243,7 @@ function InteractiveMap({
 export function ListingsMap({
   listings,
   selectedListing,
+  userCoordinates,
   onSelectListing,
 }: ListingsMapProps) {
   const [isClient, setIsClient] = useState(false);
@@ -257,6 +258,8 @@ export function ListingsMap({
     isClient,
     "listings:",
     listings.length,
+    "userCoords:",
+    userCoordinates,
   );
 
   return (
@@ -265,6 +268,7 @@ export function ListingsMap({
         <InteractiveMap
           listings={listings}
           selectedListing={selectedListing}
+          userCoordinates={userCoordinates}
           onSelectListing={onSelectListing}
         />
       ) : (
