@@ -305,7 +305,6 @@ export default function BrowseListings() {
         if (!response.ok || cancelled) return;
         const d = await response.json().catch(() => null);
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
-        const userCoords = coords ?? getCurrentUserCoordinates();
         const mapped = d.listings.map((l: any) => {
           const categories =
             Array.isArray(l.categories) && l.categories.length
@@ -313,10 +312,6 @@ export default function BrowseListings() {
               : l.type
                 ? [l.type]
                 : [];
-
-          const listingCoords = extractCoordinates(l);
-          const distanceMiles = computeDistanceMiles(userCoords, listingCoords);
-          const distanceLabel = formatDistanceLabel(distanceMiles);
 
           return {
             id: l.id,
@@ -332,16 +327,16 @@ export default function BrowseListings() {
             type: categories[0] || "General",
             categories,
             location: "",
-            distance: distanceLabel,
-            distanceMiles,
+            distance: typeof l.distance === "string" ? l.distance : null,
+            distanceMiles: typeof l.distanceMiles === "number" ? l.distanceMiles : null,
             zipCode:
               typeof l.zipCode === "string"
                 ? l.zipCode
                 : typeof l.zip_code === "string"
                   ? l.zip_code
                   : null,
-            lat: listingCoords?.latitude ?? null,
-            lng: listingCoords?.longitude ?? null,
+            lat: typeof l.latitude === "number" ? l.latitude : null,
+            lng: typeof l.longitude === "number" ? l.longitude : null,
             createdAt: l.createdAt ?? l.created_at ?? undefined,
             rentalPeriod: normalizeRentalPeriod(
               l.rentalPeriod ?? l.rental_period,
