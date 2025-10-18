@@ -888,7 +888,14 @@ export default function BrowseListings() {
                 const listingRentalPeriod = normalizeRentalPeriod(
                   (listing as any).rentalPeriod,
                 );
-                console.log("[BrowseListings] Listing", listing.id, "rentalPeriod:", listingRentalPeriod, "from listing:", (listing as any).rentalPeriod);
+                console.log(
+                  "[BrowseListings] Listing",
+                  listing.id,
+                  "rentalPeriod:",
+                  listingRentalPeriod,
+                  "from listing:",
+                  (listing as any).rentalPeriod,
+                );
                 const display = (() => {
                   if (!hasRange || listingRentalPeriod !== "Daily") {
                     return {

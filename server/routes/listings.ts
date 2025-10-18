@@ -129,7 +129,10 @@ export async function listListings(req: Request, res: Response) {
       };
     });
     console.log("[listListings] Returning", listings.length, "listings");
-    console.log("[listListings] Rental periods:", listings.map((l: any) => `${l.id}:${l.rentalPeriod}`).join(", "));
+    console.log(
+      "[listListings] Rental periods:",
+      listings.map((l: any) => `${l.id}:${l.rentalPeriod}`).join(", "),
+    );
     res.json({ ok: true, listings });
   } catch (error: any) {
     console.error("[listListings] Error:", error);
