@@ -56,6 +56,7 @@ interface LocationPickerModalProps {
     city: string | null;
   };
   onConfirm: (selection: LocationSelection) => void;
+  onClear?: () => void;
 }
 
 type LatLngTuple = [number, number];
