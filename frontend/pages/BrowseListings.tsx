@@ -317,8 +317,10 @@ export default function BrowseListings() {
         if (coords && !cancelled) {
           setUserCoordinates(coords);
         }
-        const path = coords
-          ? `listings?user_lat=${coords.latitude}&user_lng=${coords.longitude}`
+        // Use filter location if available, otherwise use user coordinates
+        const coordsToUse = filterLocation || coords;
+        const path = coordsToUse
+          ? `listings?user_lat=${coordsToUse.latitude}&user_lng=${coordsToUse.longitude}`
           : "listings";
         const response = await apiFetch(path);
         if (!response.ok || cancelled) return;
