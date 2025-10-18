@@ -37,6 +37,7 @@ interface ListingsMapProps {
     price: string;
     latitude: number | null;
     longitude: number | null;
+    priceUnitLabel?: string;
   }>;
   selectedListing?: number | null;
   userCoordinates?: { latitude: number; longitude: number } | null;
@@ -150,7 +151,7 @@ function InteractiveMap({
       L.tileLayer(
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
         {
-          attribution: "© OpenStreetMap contributors © CARTO",
+          attribution: "�� OpenStreetMap contributors © CARTO",
           subdomains: "abcd",
           maxZoom: 19,
         },
