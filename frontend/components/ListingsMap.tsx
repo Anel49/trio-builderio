@@ -75,10 +75,14 @@ function InteractiveMap({
     );
   }, [listings]);
 
-  // Calculate initial map center (only used on page load)
+  // Calculate initial map center (prioritize user location if available)
   const initialMapCenter = useMemo((): LatLngExpression => {
-    // Prioritize user's location if available (only on initial load)
-    if (userCoordinates && !initializedRef.current) {
+    // Prioritize user's location if available
+    if (userCoordinates) {
+      console.log(
+        "[InteractiveMap] Using user coordinates for map center:",
+        userCoordinates,
+      );
       return [userCoordinates.latitude, userCoordinates.longitude];
     }
     // Otherwise center on bounds of listings with coordinates
@@ -87,10 +91,16 @@ function InteractiveMap({
       const lngs = listingsWithCoords.map((l) => l.longitude as number);
       const centerLat = (Math.min(...lats) + Math.max(...lats)) / 2;
       const centerLng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
+      console.log(
+        "[InteractiveMap] Using listings bounds for map center:",
+        centerLat,
+        centerLng,
+      );
       return [centerLat, centerLng];
     }
+    console.log("[InteractiveMap] Using default center");
     return DEFAULT_CENTER;
-  }, [listingsWithCoords]);
+  }, [userCoordinates, listingsWithCoords]);
 
   // Use a stable map center that doesn't change after initialization
   const mapCenter = initialMapCenter;
