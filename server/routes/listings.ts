@@ -88,7 +88,10 @@ export async function listListings(req: Request, res: Response) {
          order by l.created_at desc
          limit 50`,
       );
-      console.log("[listListings] Query 1 succeeded, rows:", result.rows?.length);
+      console.log(
+        "[listListings] Query 1 succeeded, rows:",
+        result.rows?.length,
+      );
     } catch (e) {
       console.log("[listListings] Query 1 failed, trying fallback:", e);
       result = await pool.query(
@@ -97,7 +100,10 @@ export async function listListings(req: Request, res: Response) {
          order by created_at desc
          limit 50`,
       );
-      console.log("[listListings] Query 2 succeeded, rows:", result.rows?.length);
+      console.log(
+        "[listListings] Query 2 succeeded, rows:",
+        result.rows?.length,
+      );
     }
     const rows: any[] = Array.isArray(result.rows) ? result.rows : [];
     console.log("[listListings] Processing", rows.length, "rows");

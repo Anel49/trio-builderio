@@ -326,7 +326,8 @@ export default function BrowseListings() {
             categories,
             location: "",
             distance: typeof l.distance === "string" ? l.distance : null,
-            distanceMiles: typeof l.distanceMiles === "number" ? l.distanceMiles : null,
+            distanceMiles:
+              typeof l.distanceMiles === "number" ? l.distanceMiles : null,
             zipCode:
               typeof l.zipCode === "string"
                 ? l.zipCode

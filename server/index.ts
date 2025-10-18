@@ -109,10 +109,7 @@ export function createServer() {
   app.post("/api/listings", createListing);
   app.delete("/api/listings/:id", deleteListing);
   app.get("/api/listings/:id/reviews", listListingReviews);
-  app.get(
-    "/api/listings/:id/reservations",
-    listListingReservations,
-  );
+  app.get("/api/listings/:id/reservations", listListingReservations);
   // Users
   app.get("/api/users", getUserByEmail); // query: email
   app.post("/api/users", upsertUser);
