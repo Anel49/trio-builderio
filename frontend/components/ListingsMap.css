@@ -22,7 +22,7 @@
 
 .listing-marker.selected > div {
   border-color: #ffffff;
-  background-color: #3b82f6;
+  background-color: #4373a9;
   color: #ffffff;
   transform: scale(1.25);
   z-index: 10;
