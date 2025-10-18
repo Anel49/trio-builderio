@@ -892,6 +892,7 @@ export default function BrowseListings() {
                   <ListingsMap
                     listings={filteredAndSortedListings}
                     selectedListing={selectedListing}
+                    userCoordinates={getCurrentUserCoordinates()}
                     onSelectListing={(listingId) => {
                       setSelectedListing(listingId);
                       const listingElement = document.getElementById(
