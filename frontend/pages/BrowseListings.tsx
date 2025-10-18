@@ -123,6 +123,7 @@ export default function BrowseListings() {
     longitude: number;
     city: string | null;
   } | null>(null);
+  const [isLoadingDistances, setIsLoadingDistances] = useState(false);
 
   React.useEffect(() => {
     try {
