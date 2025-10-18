@@ -38,15 +38,6 @@ async function ensureBadgeColumns() {
   } catch {}
 }
 
-async function ensureLocationColumns() {
-  try {
-    await pool.query(
-      `alter table users add column if not exists location_latitude double precision;
-       alter table users add column if not exists location_longitude double precision;
-       alter table users add column if not exists location_city text;`,
-    );
-  } catch {}
-}
 
 export async function getUserByEmail(req: Request, res: Response) {
   try {
