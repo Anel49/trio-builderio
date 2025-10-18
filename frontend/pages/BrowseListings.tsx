@@ -13,6 +13,7 @@ import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { ListingsMap } from "@/components/ListingsMap";
+import { LocationPickerModal } from "@/components/LocationPickerModal";
 import { cn } from "@/lib/utils";
 import {
   Select,
