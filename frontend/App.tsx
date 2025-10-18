@@ -30,18 +30,6 @@ const AppContent = () => {
   const { authenticated, loading } = useAuth();
   const [showCookieBanner, setShowCookieBanner] = useState(false);
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">
-        Loading...
-      </div>
-    );
-  }
-
-  if (!authenticated) {
-    return <SessionLoginWall />;
-  }
-
   useEffect(() => {
     // Check if user has already accepted terms
     const hasAcceptedTerms = localStorage.getItem(
@@ -78,6 +66,18 @@ const AppContent = () => {
       );
     };
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!authenticated) {
+    return <SessionLoginWall />;
+  }
 
   const handleCookiePreferences = (preferences: CookiePreferences) => {
     localStorage.setItem(
