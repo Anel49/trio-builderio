@@ -311,23 +311,26 @@ export async function dbSetup(_req: Request, res: Response) {
     }
 
     // Update existing listings with different rental periods
-    const rentalPeriodMap: Record<string, string> = {
-      "Riding Lawn Mower": "Daily",
-      "Designer Dress": "Weekly",
-      "Professional Tool Set": "Daily",
-      "Pro Camera Kit": "Monthly",
-      "Party Sound System": "Weekly",
-      "Mountain Bike": "Daily",
-      "Acoustic Guitar": "Hourly",
-      "Pressure Washer": "Weekly",
-      "Tuxedo Rental": "Daily",
-      "Camping Tent": "Monthly",
+    const rentalPeriodByID: Record<number, string> = {
+      1: "Daily",
+      2: "Weekly",
+      3: "Daily",
+      4: "Monthly",
+      5: "Weekly",
+      6: "Daily",
+      7: "Hourly",
+      15: "Weekly",
+      18: "Daily",
+      19: "Monthly",
+      20: "Weekly",
+      21: "Daily",
+      23: "Hourly",
     };
 
-    for (const [name, period] of Object.entries(rentalPeriodMap)) {
+    for (const [id, period] of Object.entries(rentalPeriodByID)) {
       await pool.query(
-        `update listings set rental_period = $1 where name = $2`,
-        [period, name],
+        `update listings set rental_period = $1 where id = $2`,
+        [period, parseInt(id)],
       );
     }
 
