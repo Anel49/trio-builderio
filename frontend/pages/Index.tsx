@@ -25,6 +25,7 @@ import { PrivacyModal } from "@/components/ui/privacy-modal";
 import { TermsModal } from "@/components/ui/terms-modal";
 import { CookiesModal } from "@/components/ui/cookies-modal";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
+import { LocationPickerModal } from "@/components/LocationPickerModal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
