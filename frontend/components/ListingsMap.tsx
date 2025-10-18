@@ -153,20 +153,16 @@ function InteractiveMap({
     }
   }, []);
 
-  // Only center the map once on initial load, don't recenter on every change
+  // Center the map when the map is initialized or when userCoordinates arrive
   useEffect(() => {
-    if (!mapRef.current || initializedRef.current === false) return;
+    if (!mapRef.current) return;
 
     const map = mapRef.current;
     const target = L.latLng(mapCenter);
-    const currentCenter = map.getCenter();
 
-    // Only set view on first initialization
-    if (initializedRef.current && currentCenter.distanceTo(target) > 10) {
-      map.setView(target, map.getZoom(), { animate: false });
-      initializedRef.current = true;
-    }
-  }, []);
+    console.log("[InteractiveMap] Setting map center to:", mapCenter);
+    map.setView(target, map.getZoom(), { animate: false });
+  }, [mapCenter]);
 
   useEffect(() => {
     console.log(
