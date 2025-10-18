@@ -123,7 +123,20 @@ export default function BrowseListings() {
     latitude: number;
     longitude: number;
     city: string | null;
-  } | null>(null);
+  } | null>(() => {
+    // Initialize from localStorage if available
+    try {
+      const saved = localStorage.getItem("searchLocation");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        localStorage.removeItem("searchLocation"); // Clear after reading
+        return parsed;
+      }
+    } catch {
+      // Ignore parsing errors
+    }
+    return null;
+  });
   const [isLoadingDistances, setIsLoadingDistances] = useState(false);
 
   React.useEffect(() => {
