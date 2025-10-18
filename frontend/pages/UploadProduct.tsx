@@ -909,18 +909,27 @@ export default function UploadProduct() {
                 {/* Delivery Options */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      id="offer-delivery"
-                      checked={offerDelivery}
-                      onChange={(e) => {
-                        setOfferDelivery(e.target.checked);
-                        if (!e.target.checked) {
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOfferDelivery(!offerDelivery);
+                        if (offerDelivery) {
                           setOfferFreeDelivery(false);
                         }
                       }}
-                      className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
-                    />
+                      className={cn(
+                        "w-5 h-5 rounded border-2 flex items-center justify-center transition-colors",
+                        offerDelivery
+                          ? "bg-primary border-primary text-primary-foreground"
+                          : "border-input bg-background hover:border-primary/50"
+                      )}
+                    >
+                      {offerDelivery && (
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </button>
                     <label
                       htmlFor="offer-delivery"
                       className="text-sm font-medium cursor-pointer"
@@ -945,17 +954,23 @@ export default function UploadProduct() {
                     </div>
                     {offerDelivery && (
                       <div className="flex items-center gap-3">
-                        <input
-                          type="checkbox"
-                          id="offer-free-delivery"
-                          checked={offerFreeDelivery}
-                          onChange={(e) => setOfferFreeDelivery(e.target.checked)}
-                          className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
-                        />
-                        <label
-                          htmlFor="offer-free-delivery"
-                          className="text-sm font-medium cursor-pointer whitespace-nowrap"
+                        <button
+                          type="button"
+                          onClick={() => setOfferFreeDelivery(!offerFreeDelivery)}
+                          className={cn(
+                            "w-5 h-5 rounded border-2 flex items-center justify-center transition-colors",
+                            offerFreeDelivery
+                              ? "bg-primary border-primary text-primary-foreground"
+                              : "border-input bg-background hover:border-primary/50"
+                          )}
                         >
+                          {offerFreeDelivery && (
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </button>
+                        <label className="text-sm font-medium cursor-pointer whitespace-nowrap">
                           Offer free delivery
                         </label>
                       </div>
