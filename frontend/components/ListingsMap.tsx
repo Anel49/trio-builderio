@@ -60,6 +60,10 @@ function InteractiveMap({
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<Map<number, L.Marker>>(new Map());
 
+  useEffect(() => {
+    console.log("[InteractiveMap] Mounted, listings:", listings.length);
+  }, [listings]);
+
   const listingsWithCoords = useMemo(() => {
     return listings.filter(
       (l) => typeof l.latitude === "number" && typeof l.longitude === "number",
