@@ -944,7 +944,7 @@ export default function UploadProduct() {
                       )}
                     </div>
                     {offerDelivery && (
-                      <div className="flex items-center gap-3 ml-auto">
+                      <div className="flex items-center gap-3">
                         <input
                           type="checkbox"
                           id="offer-free-delivery"
