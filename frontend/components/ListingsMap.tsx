@@ -40,6 +40,7 @@ interface ListingsMapProps {
   }>;
   selectedListing?: number | null;
   userCoordinates?: { latitude: number; longitude: number } | null;
+  filterLocation?: { latitude: number; longitude: number; city: string | null } | null;
   onSelectListing?: (listingId: number) => void;
 }
 
