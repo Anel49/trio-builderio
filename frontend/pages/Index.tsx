@@ -452,6 +452,14 @@ export default function Index() {
                   } else {
                     localStorage.removeItem("searchDateRange");
                   }
+                  if (searchLocation) {
+                    localStorage.setItem(
+                      "searchLocation",
+                      JSON.stringify(searchLocation),
+                    );
+                  } else {
+                    localStorage.removeItem("searchLocation");
+                  }
                   window.location.href = "/browse";
                 }}
               >
