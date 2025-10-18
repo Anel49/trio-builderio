@@ -642,6 +642,22 @@ export default function Index() {
         onOpenChange={setIsFavoritesModalOpen}
         listingTitle={favoritedListing}
       />
+      <LocationPickerModal
+        open={isLocationPickerOpen}
+        onOpenChange={setIsLocationPickerOpen}
+        initialLocation={{
+          latitude: searchLocation?.latitude ?? null,
+          longitude: searchLocation?.longitude ?? null,
+          city: searchLocation?.city ?? null,
+        }}
+        onConfirm={(selection) => {
+          setSearchLocation({
+            latitude: selection.latitude,
+            longitude: selection.longitude,
+            city: selection.city,
+          });
+        }}
+      />
     </div>
   );
 }
