@@ -67,39 +67,18 @@ export async function listListings(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude,
-                coalesce(img.images, '{}') as images,
-                coalesce(cats.categories, '{}') as categories
-         from listings l
-         left join lateral (
-           select array_agg(url order by position nulls last, id) as images
-           from listing_images
-           where listing_id = l.id
-         ) img on true
-         left join lateral (
-           select array_agg(category order by position nulls last, id) as categories
-           from listing_categories
-           where listing_id = l.id
-         ) cats on true
-         order by l.created_at desc
-         limit 50`,
-      );
-      console.log(
-        "[listListings] Query 1 succeeded, rows:",
-        result.rows?.length,
-      );
-    } catch (e) {
-      console.log("[listListings] Query 1 failed, trying fallback:", e);
-      result = await pool.query(
         `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude
          from listings
          order by created_at desc
          limit 50`,
       );
       console.log(
-        "[listListings] Query 2 succeeded, rows:",
+        "[listListings] Query succeeded, rows:",
         result.rows?.length,
       );
+    } catch (e) {
+      console.log("[listListings] Query failed:", e);
+      result = { rows: [] };
     }
     const rows: any[] = Array.isArray(result.rows) ? result.rows : [];
     console.log("[listListings] Processing", rows.length, "rows");
