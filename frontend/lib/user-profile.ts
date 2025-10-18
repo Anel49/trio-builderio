@@ -165,9 +165,9 @@ export async function ensureCurrentUserProfile() {
           applyLocationUpdate({
             city: user.locationCity ?? user.location_city ?? null,
             latitude:
-              user.locationLatitude ?? user.location_latitude ?? undefined,
+              user.latitude ?? user.locationLatitude ?? user.location_latitude ?? undefined,
             longitude:
-              user.locationLongitude ?? user.location_longitude ?? undefined,
+              user.longitude ?? user.locationLongitude ?? user.location_longitude ?? undefined,
             postalCode: user.zipCode ?? user.zip_code ?? null,
           });
         } else {
