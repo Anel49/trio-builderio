@@ -98,6 +98,8 @@ export async function upsertUser(req: Request, res: Response) {
       email,
       avatar_url,
       zip_code,
+      latitude,
+      longitude,
       location_latitude,
       location_longitude,
       location_city,
@@ -114,33 +116,36 @@ export async function upsertUser(req: Request, res: Response) {
     await ensureBadgeColumns();
     await ensureLocationColumns();
 
+    const latParam = latitude ?? location_latitude;
+    const lonParam = longitude ?? location_longitude;
+
     const latValue =
-      typeof location_latitude === "number"
-        ? location_latitude
-        : typeof location_latitude === "string" && location_latitude.trim()
-          ? Number.parseFloat(location_latitude)
+      typeof latParam === "number"
+        ? latParam
+        : typeof latParam === "string" && latParam.trim()
+          ? Number.parseFloat(latParam)
           : NaN;
     const lonValue =
-      typeof location_longitude === "number"
-        ? location_longitude
-        : typeof location_longitude === "string" && location_longitude.trim()
-          ? Number.parseFloat(location_longitude)
+      typeof lonParam === "number"
+        ? lonParam
+        : typeof lonParam === "string" && lonParam.trim()
+          ? Number.parseFloat(lonParam)
           : NaN;
 
     const result = await pool.query(
-      `insert into users (name, email, avatar_url, zip_code, location_latitude, location_longitude, location_city, founding_supporter, top_referrer, ambassador)
+      `insert into users (name, email, avatar_url, zip_code, latitude, longitude, location_city, founding_supporter, top_referrer, ambassador)
        values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
        on conflict (email) do update set
          name = coalesce(excluded.name, users.name),
          avatar_url = coalesce(excluded.avatar_url, users.avatar_url),
          zip_code = excluded.zip_code,
-         location_latitude = excluded.location_latitude,
-         location_longitude = excluded.location_longitude,
+         latitude = excluded.latitude,
+         longitude = excluded.longitude,
          location_city = excluded.location_city,
          founding_supporter = coalesce(excluded.founding_supporter, users.founding_supporter),
          top_referrer = coalesce(excluded.top_referrer, users.top_referrer),
          ambassador = coalesce(excluded.ambassador, users.ambassador)
-       returning id, name, email, avatar_url, zip_code, location_latitude, location_longitude, location_city, created_at,
+       returning id, name, email, avatar_url, zip_code, latitude, longitude, location_city, created_at,
                  coalesce(founding_supporter,false) as founding_supporter,
                  coalesce(top_referrer,false) as top_referrer,
                  coalesce(ambassador,false) as ambassador`,
