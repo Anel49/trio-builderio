@@ -20,27 +20,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     checkAuthStatus();
   }, []);
 
-  // Clear session when tab/browser closes
-  useEffect(() => {
-    const handleBeforeUnload = async () => {
-      try {
-        await fetch("/api/auth/logout", {
-          method: "POST",
-          credentials: "include",
-          keepalive: true, // Ensures request completes even if page unloads
-        });
-      } catch (error) {
-        console.error("Error logging out on page unload:", error);
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
-
   const checkAuthStatus = async () => {
     try {
       const response = await fetch("/api/auth/status");
