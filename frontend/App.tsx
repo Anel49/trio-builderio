@@ -26,8 +26,21 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
-const App = () => {
+const AppContent = () => {
+  const { authenticated, loading } = useAuth();
   const [showCookieBanner, setShowCookieBanner] = useState(false);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!authenticated) {
+    return <SessionLoginWall />;
+  }
 
   useEffect(() => {
     // Check if user has already accepted terms
@@ -82,40 +95,50 @@ const App = () => {
   };
 
   return (
+    <>
+      <SplashOnboarding />
+      <Suspense
+        fallback={
+          <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">
+            Loading...
+          </div>
+        }
+      >
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/browse" element={<BrowseListings />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/upload" element={<UploadProduct />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/TermsOfService" element={<TermsOfService />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+      <CookieBanner
+        isOpen={showCookieBanner}
+        onAccept={handleCookiePreferences}
+      />
+    </>
+  );
+};
+
+const App = () => {
+  return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <SplashOnboarding />
-          <Suspense
-            fallback={
-              <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">
-                Loading...
-              </div>
-            }
-          >
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/browse" element={<BrowseListings />} />
-              <Route path="/product/:id" element={<ProductDetails />} />
-              <Route path="/upload" element={<UploadProduct />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/messages" element={<Messages />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/order-history" element={<OrderHistory />} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/TermsOfService" element={<TermsOfService />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-        <CookieBanner
-          isOpen={showCookieBanner}
-          onAccept={handleCookiePreferences}
-        />
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };
