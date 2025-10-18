@@ -62,7 +62,6 @@ export async function upsertUser(req: Request, res: Response) {
       avatar_url,
       latitude,
       longitude,
-      location_city,
       founding_supporter,
       top_referrer,
       ambassador,
