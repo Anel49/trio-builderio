@@ -1122,6 +1122,7 @@ export default function UploadProduct() {
       <DraftDialog />
       <ConfirmationModal />
       <SuccessModal />
+      <DeliveryModal />
       <PreviewModal />
       <LocationPickerModal
         open={isLocationModalOpen}
