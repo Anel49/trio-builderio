@@ -355,13 +355,23 @@ export default function UploadProduct() {
   };
 
   useEffect(() => {
-    if (showValidationTooltip) {
+    if (showValidationTooltip && !tooltipHiding) {
       const timer = setTimeout(() => {
-        setShowValidationTooltip(false);
-      }, 2200);
+        setTooltipHiding(true);
+      }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [showValidationTooltip]);
+  }, [showValidationTooltip, tooltipHiding]);
+
+  useEffect(() => {
+    if (tooltipHiding) {
+      const timer = setTimeout(() => {
+        setShowValidationTooltip(false);
+        setTooltipHiding(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [tooltipHiding]);
 
   const confirmListProduct = async () => {
     if (isSubmittingListing) return;
