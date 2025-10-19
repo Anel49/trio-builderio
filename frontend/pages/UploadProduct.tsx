@@ -1105,10 +1105,9 @@ export default function UploadProduct() {
                 {/* Submit Button */}
                 <div className="relative">
                   <Button
-                    className={`w-full ${!isFormValid() ? "opacity-50 cursor-not-allowed" : ""}`}
+                    className="w-full"
                     size="lg"
                     onClick={handleListProduct}
-                    disabled={false}
                   >
                     List Product
                   </Button>
