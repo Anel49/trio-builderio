@@ -69,7 +69,6 @@ const pricePlaceholderByPeriod: Record<RentalPeriod, string> = {
   Monthly: "400",
 };
 
-
 export default function UploadProduct() {
   const [createdListingId, setCreatedListingId] = useState<number | null>(null);
   const [title, setTitle] = useState("");
@@ -318,7 +317,6 @@ export default function UploadProduct() {
     navigationRef.current = null;
   };
 
-
   const handleListProduct = () => {
     setShowConfirmModal(true);
   };
@@ -447,10 +445,7 @@ export default function UploadProduct() {
           </p>
         </div>
         <div className="flex gap-4">
-          <Button
-            className="flex-1"
-            onClick={confirmListProduct}
-          >
+          <Button className="flex-1" onClick={confirmListProduct}>
             Yes
           </Button>
           <Button
@@ -477,10 +472,7 @@ export default function UploadProduct() {
           </p>
         </div>
         <div className="flex justify-center gap-3">
-          <Button
-            onClick={handleViewListing}
-            className="w-full"
-          >
+          <Button onClick={handleViewListing} className="w-full">
             See listing
           </Button>
           {!createdListingId && (
