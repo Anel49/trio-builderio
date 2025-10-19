@@ -113,6 +113,7 @@ export default function UploadProduct() {
   const [isPriceInfoOpen, setIsPriceInfoOpen] = useState(false);
   const [isSubmittingListing, setIsSubmittingListing] = useState(false);
   const [showValidationTooltip, setShowValidationTooltip] = useState(false);
+  const [tooltipHiding, setTooltipHiding] = useState(false);
   const [offerDelivery, setOfferDelivery] = useState(false);
   const [offerFreeDelivery, setOfferFreeDelivery] = useState(false);
   const [showDeliveryTooltip, setShowDeliveryTooltip] = useState(false);
