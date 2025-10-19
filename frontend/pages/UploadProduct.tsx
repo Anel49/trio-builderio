@@ -845,7 +845,7 @@ export default function UploadProduct() {
                         className={getAsteriskColor(
                           listingLocation.city !== null ||
                             (typeof listingLocation.latitude === "number" &&
-                              Number.isFinite(listingLocation.latitude))
+                              Number.isFinite(listingLocation.latitude)),
                         )}
                       >
                         *
@@ -901,7 +901,11 @@ export default function UploadProduct() {
                   >
                     <span className="inline-flex items-center gap-1">
                       {priceLabel}
-                      <span className={getAsteriskColor(price.trim() !== "" && parseFloat(price) > 0)}>
+                      <span
+                        className={getAsteriskColor(
+                          price.trim() !== "" && parseFloat(price) > 0,
+                        )}
+                      >
                         *
                       </span>
                     </span>
@@ -1064,7 +1068,9 @@ export default function UploadProduct() {
                   >
                     <span className="inline-flex items-center gap-1">
                       Description
-                      <span className={getAsteriskColor(description.trim() !== "")}>
+                      <span
+                        className={getAsteriskColor(description.trim() !== "")}
+                      >
                         *
                       </span>
                     </span>
