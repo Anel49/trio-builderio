@@ -10,7 +10,7 @@ function rowToUser(r: any) {
     zipCode: null,
     locationLatitude: typeof r.latitude === "number" ? r.latitude : null,
     locationLongitude: typeof r.longitude === "number" ? r.longitude : null,
-    locationCity: null,
+    locationCity: typeof r.location_city === "string" ? r.location_city : null,
     createdAt: r.created_at,
     foundingSupporter: Boolean(r.founding_supporter),
     topReferrer: Boolean(r.top_referrer),
