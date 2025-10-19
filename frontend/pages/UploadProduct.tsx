@@ -1062,7 +1062,12 @@ export default function UploadProduct() {
                     htmlFor="description"
                     className="block text-sm font-medium mb-2"
                   >
-                    Description
+                    <span className="inline-flex items-center gap-1">
+                      Description
+                      <span className={getAsteriskColor(description.trim() !== "")}>
+                        *
+                      </span>
+                    </span>
                   </label>
                   <Textarea
                     id="description"
