@@ -516,7 +516,7 @@ export default function UploadProduct() {
         </DialogHeader>
         <div className="py-4">
           <p className="text-base text-muted-foreground">
-            Negotiate delivery fees through messages. You keep 100% of the delivery fee.
+            Negotiate delivery fees through messages. You keep 100% of delivery fees.
           </p>
         </div>
         <Button
