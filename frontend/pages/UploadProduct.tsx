@@ -508,6 +508,27 @@ export default function UploadProduct() {
     </Dialog>
   );
 
+  const DeliveryModal = () => (
+    <Dialog open={showDeliveryModal} onOpenChange={setShowDeliveryModal}>
+      <DialogContent className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Delivery Fee</DialogTitle>
+        </DialogHeader>
+        <div className="py-4">
+          <p className="text-base text-muted-foreground">
+            Negotiate delivery fee through messages. You keep 100% of the delivery fee.
+          </p>
+        </div>
+        <Button
+          onClick={() => setShowDeliveryModal(false)}
+          className="w-full"
+        >
+          Got it
+        </Button>
+      </DialogContent>
+    </Dialog>
+  );
+
   const PreviewModal = () => (
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
       <DialogContent className="max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh]">
