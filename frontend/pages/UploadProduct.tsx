@@ -1066,22 +1066,13 @@ export default function UploadProduct() {
                 </Button>
 
                 {/* Submit Button */}
-                <div className="relative">
-                  <Button
-                    className="w-full"
-                    size="lg"
-                    onClick={handleListProduct}
-                  >
-                    List Product
-                  </Button>
-                  {showValidationTooltip && (
-                    <div
-                      className={`validation-tooltip absolute bottom-full left-0 right-0 mb-2 bg-red-600 text-white px-6 py-3 rounded-lg text-base z-50 shadow-xl pointer-events-none ${tooltipHiding ? "hiding" : ""}`}
-                    >
-                      Title, location, price, and description required.
-                    </div>
-                  )}
-                </div>
+                <Button
+                  className="w-full"
+                  size="lg"
+                  onClick={handleListProduct}
+                >
+                  List Product
+                </Button>
               </CardContent>
             </Card>
           </div>
