@@ -1186,7 +1186,7 @@ export default function UploadProduct() {
                   <td className="py-2 pr-3">
                     Cameras, projectors, GoPros, microphones, clothing
                   </td>
-                  <td className="py-2">1%-3% MSRP per period</td>
+                  <td className="py-2">1%-3% MSRP per day</td>
                 </tr>
                 <tr>
                   <td className="font-semibold py-2 pr-3">Medium-wear items</td>
@@ -1194,14 +1194,14 @@ export default function UploadProduct() {
                     Power drills, lawn mowers, camping tents, kayaks,
                     paddleboards
                   </td>
-                  <td className="py-2">3%-5% MSRP per period</td>
+                  <td className="py-2">3%-5% MSRP per day</td>
                 </tr>
                 <tr>
                   <td className="font-semibold py-2 pr-3">High-wear items</td>
                   <td className="py-2 pr-3">
                     Chainsaws, bouncy houses, trampolines, generators
                   </td>
-                  <td className="py-2">5%-8% MSRP per period</td>
+                  <td className="py-2">5%-8% MSRP per day</td>
                 </tr>
                 <tr>
                   <td className="font-semibold py-2 pr-3">
@@ -1211,7 +1211,7 @@ export default function UploadProduct() {
                     Advanced telescopes, drones, sound systems, e-bikes,
                     lighting rigs
                   </td>
-                  <td className="py-2">5%-10% MSRP per period</td>
+                  <td className="py-2">5%-10% MSRP per day</td>
                 </tr>
               </tbody>
             </table>
