@@ -529,7 +529,6 @@ export default function UploadProduct() {
           <Button
             onClick={handleViewListing}
             className="w-full"
-            disabled={!createdListingId}
           >
             See listing
           </Button>
