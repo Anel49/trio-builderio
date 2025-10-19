@@ -897,9 +897,14 @@ export default function UploadProduct() {
                 <div>
                   <label
                     htmlFor="price"
-                    className="block text-sm font-medium mb-2 flex items-center"
+                    className="block text-sm font-medium mb-2 flex items-center justify-between"
                   >
-                    <span>{priceLabel}</span>
+                    <span className="inline-flex items-center gap-1">
+                      {priceLabel}
+                      <span className={getAsteriskColor(price.trim() !== "")}>
+                        *
+                      </span>
+                    </span>
                     <button
                       type="button"
                       aria-label="Pricing guidance"
