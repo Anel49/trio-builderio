@@ -19,7 +19,7 @@ export const currentUser = {
   totalReviews: 89,
   joinedDate: "2022",
   responseTime: "within an hour",
-  defaultLocation: "Leesburg, VA",
+  defaultLocation: null as string | null,
   locationLatitude: null as number | null,
   locationLongitude: null as number | null,
   zipCode: "20175",
