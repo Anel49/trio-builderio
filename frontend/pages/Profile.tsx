@@ -1637,6 +1637,7 @@ export default function Profile() {
           longitude: locationLongitude,
         }}
         onConfirm={handleLocationConfirm}
+        onClear={handleLocationClear}
       />
 
       {/* Logout Confirmation Modal */}
