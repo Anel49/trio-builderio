@@ -423,7 +423,7 @@ export default function Profile() {
       return currentUser.defaultLocation.trim();
     }
     return null;
-  }, [locationCity]);
+  }, [locationCity, currentUser.defaultLocation]);
 
   // Use centralized user profile data
   const userProfile = {
