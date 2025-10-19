@@ -69,18 +69,6 @@ const pricePlaceholderByPeriod: Record<RentalPeriod, string> = {
   Monthly: "400",
 };
 
-const validationTooltipStyle = `
-  .validation-tooltip {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  .validation-tooltip.hiding {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-`;
 
 export default function UploadProduct() {
   const [createdListingId, setCreatedListingId] = useState<number | null>(null);
