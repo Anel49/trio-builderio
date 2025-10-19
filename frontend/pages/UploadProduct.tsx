@@ -111,7 +111,6 @@ export default function UploadProduct() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isPriceInfoOpen, setIsPriceInfoOpen] = useState(false);
-  const [isSubmittingListing, setIsSubmittingListing] = useState(false);
   const [showValidationTooltip, setShowValidationTooltip] = useState(false);
   const [tooltipHiding, setTooltipHiding] = useState(false);
   const [offerDelivery, setOfferDelivery] = useState(false);
