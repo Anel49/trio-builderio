@@ -373,8 +373,6 @@ export default function UploadProduct() {
   }, [tooltipHiding]);
 
   const confirmListProduct = async () => {
-    if (isSubmittingListing) return;
-    setIsSubmittingListing(true);
     try {
       const priceCents =
         Math.round(Number(price.replace(/[^0-9.]/g, "")) * 100) || 0;
