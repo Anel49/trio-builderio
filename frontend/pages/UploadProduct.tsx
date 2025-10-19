@@ -357,7 +357,7 @@ export default function UploadProduct() {
     if (showValidationTooltip) {
       const timer = setTimeout(() => {
         setShowValidationTooltip(false);
-      }, 2000);
+      }, 2200);
       return () => clearTimeout(timer);
     }
   }, [showValidationTooltip]);
