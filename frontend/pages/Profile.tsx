@@ -1108,7 +1108,8 @@ export default function Profile() {
                                 ? locationLongitude
                                 : null,
                             location_city:
-                              typeof locationCity === "string" && locationCity.trim()
+                              typeof locationCity === "string" &&
+                              locationCity.trim()
                                 ? locationCity.trim()
                                 : null,
                           };
@@ -1887,7 +1888,8 @@ export default function Profile() {
                               ? locationLongitude
                               : null,
                           location_city:
-                            typeof locationCity === "string" && locationCity.trim()
+                            typeof locationCity === "string" &&
+                            locationCity.trim()
                               ? locationCity.trim()
                               : null,
                         };
