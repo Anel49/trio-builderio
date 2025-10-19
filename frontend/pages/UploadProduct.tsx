@@ -1128,7 +1128,9 @@ export default function UploadProduct() {
                     List Product
                   </Button>
                   {showValidationTooltip && (
-                    <div className={`validation-tooltip absolute bottom-full left-0 right-0 mb-2 bg-red-600 text-white px-6 py-3 rounded-lg text-base font-bold z-50 shadow-xl pointer-events-none ${tooltipHiding ? "hiding" : ""}`}>
+                    <div
+                      className={`validation-tooltip absolute bottom-full left-0 right-0 mb-2 bg-red-600 text-white px-6 py-3 rounded-lg text-base z-50 shadow-xl pointer-events-none ${tooltipHiding ? "hiding" : ""}`}
+                    >
                       Title, location, price, and description required.
                     </div>
                   )}
@@ -1167,7 +1169,8 @@ export default function UploadProduct() {
           </DialogHeader>
           <p className="text-sm text-muted-foreground mb-4">
             Stumped on a pricing rate for your item? These are our recommended
-            rates.
+            rates. If you chose Hourly, Weekly, or Monthly, divide the price by
+            24, multiply by 7, or multiply by 30.
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -1184,7 +1187,7 @@ export default function UploadProduct() {
                   <td className="py-2 pr-3">
                     Cameras, projectors, GoPros, microphones, clothing
                   </td>
-                  <td className="py-2">1%-3% MSRP per period</td>
+                  <td className="py-2">1%-3% MSRP per day</td>
                 </tr>
                 <tr>
                   <td className="font-semibold py-2 pr-3">Medium-wear items</td>
@@ -1192,14 +1195,14 @@ export default function UploadProduct() {
                     Power drills, lawn mowers, camping tents, kayaks,
                     paddleboards
                   </td>
-                  <td className="py-2">3%-5% MSRP per period</td>
+                  <td className="py-2">3%-5% MSRP per day</td>
                 </tr>
                 <tr>
                   <td className="font-semibold py-2 pr-3">High-wear items</td>
                   <td className="py-2 pr-3">
                     Chainsaws, bouncy houses, trampolines, generators
                   </td>
-                  <td className="py-2">5%-8% MSRP per period</td>
+                  <td className="py-2">5%-8% MSRP per day</td>
                 </tr>
                 <tr>
                   <td className="font-semibold py-2 pr-3">
@@ -1209,7 +1212,7 @@ export default function UploadProduct() {
                     Advanced telescopes, drones, sound systems, e-bikes,
                     lighting rigs
                   </td>
-                  <td className="py-2">5%-10% MSRP per period</td>
+                  <td className="py-2">5%-10% MSRP per day</td>
                 </tr>
               </tbody>
             </table>
