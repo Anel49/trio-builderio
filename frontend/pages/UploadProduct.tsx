@@ -901,7 +901,7 @@ export default function UploadProduct() {
                   >
                     <span className="inline-flex items-center gap-1">
                       {priceLabel}
-                      <span className={getAsteriskColor(price.trim() !== "")}>
+                      <span className={getAsteriskColor(price.trim() !== "" && parseFloat(price) > 0)}>
                         *
                       </span>
                     </span>
