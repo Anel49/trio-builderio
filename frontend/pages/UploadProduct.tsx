@@ -839,7 +839,18 @@ export default function UploadProduct() {
                 {/* Location */}
                 <div>
                   <span className="block text-sm font-medium mb-2">
-                    Location
+                    <span className="inline-flex items-center gap-1">
+                      Location
+                      <span
+                        className={getAsteriskColor(
+                          listingLocation.city !== null ||
+                            (typeof listingLocation.latitude === "number" &&
+                              Number.isFinite(listingLocation.latitude))
+                        )}
+                      >
+                        *
+                      </span>
+                    </span>
                   </span>
                   <Button
                     type="button"
