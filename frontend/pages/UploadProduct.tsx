@@ -820,7 +820,12 @@ export default function UploadProduct() {
                     htmlFor="title"
                     className="block text-sm font-medium mb-2"
                   >
-                    Title
+                    <span className="inline-flex items-center gap-1">
+                      Title
+                      <span className={getAsteriskColor(title.trim() !== "")}>
+                        *
+                      </span>
+                    </span>
                   </label>
                   <Input
                     id="title"
