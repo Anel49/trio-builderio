@@ -1095,6 +1095,9 @@ export default function UploadProduct() {
             postalCode: selection.postalCode,
           });
         }}
+        onClear={() => {
+          setListingLocation(initialListingLocationRef.current);
+        }}
       />
 
       <Dialog open={isPriceInfoOpen} onOpenChange={setIsPriceInfoOpen}>
