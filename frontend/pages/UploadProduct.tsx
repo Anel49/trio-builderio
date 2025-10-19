@@ -317,8 +317,27 @@ export default function UploadProduct() {
     navigationRef.current = null;
   };
 
+  const isFormValid = () => {
+    const hasTitle = title.trim() !== "";
+    const hasLocation =
+      listingLocation.city !== null ||
+      (typeof listingLocation.latitude === "number" &&
+        Number.isFinite(listingLocation.latitude) &&
+        typeof listingLocation.longitude === "number" &&
+        Number.isFinite(listingLocation.longitude));
+    const hasPrice = price.trim() !== "";
+    const hasDescription = description.trim() !== "";
+    return hasTitle && hasLocation && hasPrice && hasDescription;
+  };
+
+  const getAsteriskColor = (isFilled: boolean) => {
+    return isFilled ? "text-gray-400" : "text-red-500";
+  };
+
   const handleListProduct = () => {
-    setShowConfirmModal(true);
+    if (isFormValid()) {
+      setShowConfirmModal(true);
+    }
   };
 
   const confirmListProduct = async () => {
