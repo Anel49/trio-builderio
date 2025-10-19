@@ -1106,14 +1106,22 @@ export default function UploadProduct() {
                 </Button>
 
                 {/* Submit Button */}
-                <Button
-                  className="w-full"
-                  size="lg"
-                  onClick={handleListProduct}
-                  disabled={!isFormValid()}
-                >
-                  List Product
-                </Button>
+                <div className="relative">
+                  <Button
+                    className="w-full"
+                    size="lg"
+                    onClick={handleListProduct}
+                    disabled={!isFormValid()}
+                  >
+                    List Product
+                  </Button>
+                  {showValidationTooltip && (
+                    <div className="validation-tooltip absolute -top-12 left-1/2 transform -translate-x-1/2 bg-destructive text-destructive-foreground px-3 py-2 rounded-md text-sm whitespace-nowrap z-50 shadow-lg">
+                      Title, location, price, and description required.
+                      <div className="absolute bottom--1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-destructive transform rotate-45" style={{ bottom: "-4px" }}></div>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </div>
