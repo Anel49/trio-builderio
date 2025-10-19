@@ -432,8 +432,6 @@ export default function UploadProduct() {
     } catch (e) {
       setShowConfirmModal(false);
       alert("Failed to list product. Please try again.");
-    } finally {
-      setIsSubmittingListing(false);
     }
   };
 
