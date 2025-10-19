@@ -125,9 +125,7 @@ function applyLocationUpdate(update: LocationUpdate) {
   (currentUser as any).locationLatitude = normalized.latitude;
   (currentUser as any).locationLongitude = normalized.longitude;
   (currentUser as any).zipCode = normalized.postalCode;
-  if (normalized.city) {
-    (currentUser as any).defaultLocation = normalized.city;
-  }
+  (currentUser as any).defaultLocation = normalized.city;
 }
 
 export function setCurrentUserLocation(update: LocationUpdate) {
