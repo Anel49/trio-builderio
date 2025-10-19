@@ -325,7 +325,7 @@ export default function UploadProduct() {
         Number.isFinite(listingLocation.latitude) &&
         typeof listingLocation.longitude === "number" &&
         Number.isFinite(listingLocation.longitude));
-    const hasPrice = price.trim() !== "";
+    const hasPrice = price.trim() !== "" && parseFloat(price) > 0;
     const hasDescription = description.trim() !== "";
     return hasTitle && hasLocation && hasPrice && hasDescription;
   };
