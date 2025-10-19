@@ -417,14 +417,10 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Delivery</h3>
           <p className="text-muted-foreground leading-relaxed">
             Hosts can optionally offer delivery for their item, either free of
-            charge or for a fee. Delivery fees are calculated based on the distance
-            between the item’s location and the renter’s profile address. The fee
-            is determined using the average miles-per-gallon (MPG) of U.S. vehicles
-            and the current average gas price per gallon in the host’s county.
-            Additionally, hosts receive an extra 45% of the calculated reimbursement
-            to account for wear and tear and any potential delivery cost discrepancies.
-            Hosts retain 100% of all delivery fees collected. Delivery fees may
-            qualify as deductible expenses for tax purposes.
+            charge or for a fee. Delivery fees are negotiated between the host
+            and the renter through Chats. Hosts retain 100% of all delivery fees
+            collected. Delivery fees may qualify as deductible expenses for tax
+            purposes.
           </p>
         </div>
         <div>
