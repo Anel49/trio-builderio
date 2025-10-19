@@ -73,7 +73,7 @@ const validationTooltipStyle = `
   .validation-tooltip {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
   }
 
   .validation-tooltip.hiding {
