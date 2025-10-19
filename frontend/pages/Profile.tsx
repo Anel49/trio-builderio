@@ -316,6 +316,26 @@ export default function Profile() {
     [setCurrentUserLocation],
   );
 
+  const handleLocationClear = useCallback(() => {
+    setLocationCity(null);
+    setLocationLatitude(null);
+    setLocationLongitude(null);
+    setLocationPostalCode(null);
+    setCurrentUserLocation({
+      city: null,
+      latitude: null,
+      longitude: null,
+      postalCode: null,
+    });
+    setListedItems((prev) =>
+      prev.map((item) => ({
+        ...item,
+        distance: null,
+        distanceMiles: undefined,
+      })),
+    );
+  }, [setCurrentUserLocation]);
+
   useEffect(() => {
     (async () => {
       try {
