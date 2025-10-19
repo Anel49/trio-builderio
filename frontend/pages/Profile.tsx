@@ -1886,6 +1886,10 @@ export default function Profile() {
                             typeof locationLongitude === "number"
                               ? locationLongitude
                               : null,
+                          location_city:
+                            typeof locationCity === "string" && locationCity.trim()
+                              ? locationCity.trim()
+                              : null,
                         };
                         const response = await apiFetch("users", {
                           method: "POST",
