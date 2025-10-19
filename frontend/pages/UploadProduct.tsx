@@ -318,6 +318,19 @@ export default function UploadProduct() {
     navigationRef.current = null;
   };
 
+  const isFormValid = () => {
+    const hasTitle = title.trim() !== "";
+    const hasLocation =
+      listingLocation.city !== null ||
+      (typeof listingLocation.latitude === "number" &&
+        Number.isFinite(listingLocation.latitude) &&
+        typeof listingLocation.longitude === "number" &&
+        Number.isFinite(listingLocation.longitude));
+    const hasPrice = price.trim() !== "";
+    const hasDescription = description.trim() !== "";
+    return hasTitle && hasLocation && hasPrice && hasDescription;
+  };
+
   const handleListProduct = () => {
     setShowConfirmModal(true);
   };
