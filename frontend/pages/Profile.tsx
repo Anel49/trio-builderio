@@ -602,6 +602,7 @@ export default function Profile() {
             distanceMiles,
             latitude: listingCoords?.latitude ?? null,
             longitude: listingCoords?.longitude ?? null,
+            rentalPeriod: normalizeRentalPeriod((l as any).rentalPeriod),
           };
         });
         if (cancelled) return;
