@@ -1107,19 +1107,21 @@ export default function UploadProduct() {
                 </Button>
 
                 {/* Submit Button */}
-                <Button
-                  className={`w-full ${!isFormValid() ? "opacity-50 cursor-not-allowed" : ""}`}
-                  size="lg"
-                  onClick={handleListProduct}
-                  disabled={false}
-                >
-                  List Product
-                </Button>
-                {showValidationTooltip && (
-                  <div className="validation-tooltip fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white px-6 py-4 rounded-lg text-base z-50 shadow-xl pointer-events-none">
-                    Title, location, price, and description required.
-                  </div>
-                )}
+                <div className="relative">
+                  <Button
+                    className={`w-full ${!isFormValid() ? "opacity-50 cursor-not-allowed" : ""}`}
+                    size="lg"
+                    onClick={handleListProduct}
+                    disabled={false}
+                  >
+                    List Product
+                  </Button>
+                  {showValidationTooltip && (
+                    <div className="validation-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-red-600 text-white px-6 py-3 rounded-lg text-sm z-50 shadow-xl pointer-events-none whitespace-nowrap">
+                      Title, location, price, and description required.
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </div>
