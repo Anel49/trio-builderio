@@ -751,6 +751,7 @@ export default function UploadProduct() {
 
   return (
     <div className="min-h-screen bg-background">
+      <style>{validationTooltipStyle}</style>
       <Header />
 
       {/* Main Content */}
