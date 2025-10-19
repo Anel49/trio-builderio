@@ -332,31 +332,8 @@ export default function UploadProduct() {
   };
 
   const handleListProduct = () => {
-    if (!isFormValid()) {
-      setShowValidationTooltip(true);
-      return;
-    }
     setShowConfirmModal(true);
   };
-
-  useEffect(() => {
-    if (showValidationTooltip && !tooltipHiding) {
-      const timer = setTimeout(() => {
-        setTooltipHiding(true);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [showValidationTooltip, tooltipHiding]);
-
-  useEffect(() => {
-    if (tooltipHiding) {
-      const timer = setTimeout(() => {
-        setShowValidationTooltip(false);
-        setTooltipHiding(false);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [tooltipHiding]);
 
   const confirmListProduct = async () => {
     try {
