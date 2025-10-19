@@ -499,22 +499,13 @@ export default function UploadProduct() {
           <Button
             className="flex-1"
             onClick={confirmListProduct}
-            disabled={isSubmittingListing}
           >
-            {isSubmittingListing ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Listing...
-              </>
-            ) : (
-              "Yes"
-            )}
+            Yes
           </Button>
           <Button
             variant="outline"
             className="flex-1"
             onClick={handleCancelListing}
-            disabled={isSubmittingListing}
           >
             No
           </Button>
