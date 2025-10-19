@@ -1108,15 +1108,15 @@ export default function UploadProduct() {
 
                 {/* Submit Button */}
                 <Button
-                  className="w-full"
+                  className={`w-full ${!isFormValid() ? "opacity-50 cursor-not-allowed" : ""}`}
                   size="lg"
                   onClick={handleListProduct}
-                  disabled={!isFormValid()}
+                  disabled={false}
                 >
                   List Product
                 </Button>
                 {showValidationTooltip && (
-                  <div className="validation-tooltip fixed bottom-32 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-4 py-3 rounded-lg text-sm z-50 shadow-xl">
+                  <div className="validation-tooltip fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white px-6 py-4 rounded-lg text-base z-50 shadow-xl pointer-events-none">
                     Title, location, price, and description required.
                   </div>
                 )}
