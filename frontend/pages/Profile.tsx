@@ -1260,6 +1260,7 @@ export default function Profile() {
                         type={item.type}
                         distance={item.distance}
                         hideHostInfo={true}
+                        priceUnitLabel={`per ${RENTAL_UNIT_LABELS[normalizeRentalPeriod(item.rentalPeriod)]}`}
                         onFavorite={handleFavorite}
                         onDeleteClick={() => {
                           setItemToDelete(item);
