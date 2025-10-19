@@ -516,13 +516,11 @@ export default function UploadProduct() {
         </DialogHeader>
         <div className="py-4">
           <p className="text-base text-muted-foreground">
-            Negotiate delivery fees through messages. You keep 100% of delivery fees.
+            Negotiate delivery fees through messages. You keep 100% of delivery
+            fees.
           </p>
         </div>
-        <Button
-          onClick={() => setShowDeliveryModal(false)}
-          className="w-full"
-        >
+        <Button onClick={() => setShowDeliveryModal(false)} className="w-full">
           Got it
         </Button>
       </DialogContent>
