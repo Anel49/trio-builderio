@@ -1083,6 +1083,7 @@ export default function UploadProduct() {
                   className="w-full"
                   size="lg"
                   onClick={handleListProduct}
+                  disabled={!isFormValid()}
                 >
                   List Product
                 </Button>
