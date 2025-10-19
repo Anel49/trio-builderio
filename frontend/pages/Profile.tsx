@@ -79,6 +79,7 @@ type ListedItem = {
   latitude?: number | null;
   longitude?: number | null;
   reviews?: number;
+  rentalPeriod?: string;
 };
 import {
   Select,
