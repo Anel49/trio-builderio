@@ -333,8 +333,21 @@ export default function UploadProduct() {
   };
 
   const handleListProduct = () => {
+    if (!isFormValid()) {
+      setShowValidationTooltip(true);
+      return;
+    }
     setShowConfirmModal(true);
   };
+
+  useEffect(() => {
+    if (showValidationTooltip) {
+      const timer = setTimeout(() => {
+        setShowValidationTooltip(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showValidationTooltip]);
 
   const confirmListProduct = async () => {
     if (isSubmittingListing) return;
