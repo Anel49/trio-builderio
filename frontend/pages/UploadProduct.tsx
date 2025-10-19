@@ -70,15 +70,15 @@ const pricePlaceholderByPeriod: Record<RentalPeriod, string> = {
 };
 
 const validationTooltipStyle = `
-  @keyframes fadeInOut {
-    0% { opacity: 0; transform: translateY(-8px); }
-    10% { opacity: 1; transform: translateY(0); }
-    90% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-8px); }
+  .validation-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 2s ease-in-out, transform 2s ease-in-out;
   }
 
-  .validation-tooltip {
-    animation: fadeInOut 2s ease-in-out;
+  .validation-tooltip.hiding {
+    opacity: 0;
+    transform: translateY(-8px);
   }
 `;
 
