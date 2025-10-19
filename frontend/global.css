@@ -106,9 +106,12 @@
 }
 
 /* Override Tailwind's default transitions - instant colors, smooth transforms */
-*,
-*::before,
-*::after {
+button,
+a,
+input,
+textarea,
+select,
+[role="button"] {
   transition:
     color 0s,
     background-color 0s,
