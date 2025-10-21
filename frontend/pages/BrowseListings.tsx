@@ -206,9 +206,25 @@ export default function BrowseListings() {
     "Toy",
   ];
 
-  const handleFavorite = (listingName: string) => {
-    setFavoritedListing(listingName);
-    setIsFavoritesModalOpen(true);
+  const handleFavorite = async (listingName: string, listingId: number) => {
+    const userId = currentUser.email;
+    if (!userId) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    try {
+      const response = await apiFetch("/api/favorites", {
+        method: "POST",
+        body: { userId, listingId },
+      });
+      if (response.ok) {
+        setFavoritedListing(listingName);
+        setIsFavoritesModalOpen(true);
+      }
+    } catch (error) {
+      console.error("Failed to add favorite:", error);
+    }
   };
 
   const handleDateSelect = (date: Date | undefined) => {
