@@ -214,11 +214,13 @@ export default function BrowseListings() {
     }
 
     try {
-      const response = await apiFetch("/api/favorites", {
+      const response = await apiFetch("favorites", {
         method: "POST",
-        body: { userId, listingId },
+        body: JSON.stringify({ userId, listingId }),
+        headers: { "content-type": "application/json" },
       });
-      if (response.ok) {
+      const data = await response.json().catch(() => ({}));
+      if (data.ok) {
         setFavoritedListing(listingName);
         setIsFavoritesModalOpen(true);
       }
