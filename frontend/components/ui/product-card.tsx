@@ -40,6 +40,7 @@ interface ProductCardProps {
   priceUnitLabel?: string;
   underlinePrice?: boolean;
   onDeleteClick?: () => void;
+  onEditClick?: () => void;
   delivery?: boolean;
   freeDelivery?: boolean;
   isFavorited?: boolean;
