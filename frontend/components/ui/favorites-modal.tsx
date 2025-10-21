@@ -76,10 +76,11 @@ export function FavoritesModal({
 
     try {
       const response = await apiFetch(
-        `/api/favorites/${userId}/${listingId}`,
+        `favorites/${userId}/${listingId}`,
         { method: "DELETE" }
       );
-      if (response.ok) {
+      const data = await response.json().catch(() => ({}));
+      if (data.ok) {
         setFavorites(favorites.filter((f) => f.id !== listingId));
       }
     } catch (error) {
