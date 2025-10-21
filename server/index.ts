@@ -119,6 +119,11 @@ export function createServer() {
   // Users
   app.get("/api/users", getUserByEmail); // query: email
   app.post("/api/users", upsertUser);
+  // Favorites
+  app.get("/api/favorites/:userId", listFavorites);
+  app.post("/api/favorites", addFavorite);
+  app.delete("/api/favorites/:userId/:listingId", removeFavorite);
+  app.get("/api/favorites/:userId/:listingId/check", checkFavorite);
   // Alias routes
   app.get("/listings", listListings);
   app.get("/listings/:id", getListingById);
@@ -128,6 +133,10 @@ export function createServer() {
   app.get("/listings/:id/reservations", listListingReservations);
   app.get("/users", getUserByEmail);
   app.post("/users", upsertUser);
+  app.get("/favorites/:userId", listFavorites);
+  app.post("/favorites", addFavorite);
+  app.delete("/favorites/:userId/:listingId", removeFavorite);
+  app.get("/favorites/:userId/:listingId/check", checkFavorite);
 
   return app;
 }
