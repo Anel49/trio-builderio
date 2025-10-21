@@ -1088,6 +1088,7 @@ export default function BrowseListings() {
         isOpen={isAddToFavoritesModalOpen}
         onOpenChange={setIsAddToFavoritesModalOpen}
         listingName={favoritedListing}
+        onSeeFavorites={() => setIsFavoritesModalOpen(true)}
       />
       <FavoritesModal
         isOpen={isFavoritesModalOpen}
