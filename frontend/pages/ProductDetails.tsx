@@ -146,7 +146,7 @@ export default function ProductDetails() {
       const data = await response.json().catch(() => ({}));
       if (data.ok) {
         setFavoritedListing(listingName);
-        setIsFavoritesModalOpen(true);
+        setIsAddToFavoritesModalOpen(true);
         setIsFavorited(true);
       }
     } catch (error) {
