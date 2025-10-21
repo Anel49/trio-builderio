@@ -1084,10 +1084,14 @@ export default function BrowseListings() {
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
       />
+      <AddToFavoritesModal
+        isOpen={isAddToFavoritesModalOpen}
+        onOpenChange={setIsAddToFavoritesModalOpen}
+        listingName={favoritedListing}
+      />
       <FavoritesModal
         isOpen={isFavoritesModalOpen}
         onOpenChange={setIsFavoritesModalOpen}
-        listingTitle={favoritedListing}
         userId={currentUser.email}
       />
       <LocationPickerModal
