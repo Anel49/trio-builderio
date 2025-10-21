@@ -1952,7 +1952,11 @@ export default function Profile() {
                   <Edit3 className="h-4 w-4 mr-2" />
                   {isEditingProfile ? "Save changes" : "Edit Profile"}
                 </Button>
-                <Button variant="outline" className="w-full hidden">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setIsFavoritesModalOpen(true)}
+                >
                   <Heart className="h-4 w-4 mr-2" />
                   Favorites
                 </Button>
