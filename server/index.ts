@@ -13,6 +13,12 @@ import {
 } from "./routes/listings";
 import { getUserByEmail, upsertUser } from "./routes/users";
 import { reverseGeocode } from "./routes/geocode";
+import {
+  listFavorites,
+  addFavorite,
+  removeFavorite,
+  checkFavorite,
+} from "./routes/favorites";
 
 const ADMIN_USERNAME = "Charki1014";
 const ADMIN_PASSWORD = "q=foJ7Ba7#+4";
