@@ -29,7 +29,7 @@ interface ProductCardProps {
   onClick?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
-  onFavorite?: (name: string) => void;
+  onFavorite?: (name: string, id: number) => void;
   className?: string;
   priceUnitLabel?: string;
   underlinePrice?: boolean;
