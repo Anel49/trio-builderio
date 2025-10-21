@@ -565,7 +565,7 @@ export default function ProductDetails() {
                     className="h-5 w-5 heart-transition"
                     style={{
                       stroke: "#ff6f6f",
-                      fill: isHeartHovered ? "#ff6f6f" : "transparent",
+                      fill: isHeartHovered || isFavorited ? "#ff6f6f" : "transparent",
                     }}
                   />
                 </Button>
