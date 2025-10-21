@@ -1021,6 +1021,7 @@ export default function ProductDetails() {
         isOpen={isFavoritesModalOpen}
         onOpenChange={setIsFavoritesModalOpen}
         listingTitle={favoritedListing}
+        userId={currentUser.email}
       />
       <ReportModal
         isOpen={isReportModalOpen}
