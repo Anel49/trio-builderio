@@ -61,6 +61,7 @@ export function ProductCard({
   onDeleteClick,
   delivery,
   freeDelivery,
+  isFavorited = false,
 }: ProductCardProps) {
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const distanceText =
