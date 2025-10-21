@@ -66,6 +66,7 @@ export function ProductCard({
   priceUnitLabel = "per day",
   underlinePrice = false,
   onDeleteClick,
+  onEditClick,
   delivery,
   freeDelivery,
   isFavorited = false,
