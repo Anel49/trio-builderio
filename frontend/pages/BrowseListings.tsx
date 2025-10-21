@@ -238,21 +238,42 @@ export default function BrowseListings() {
       return;
     }
 
+    const isCurrentlyFavorited = favoritedListingIds.has(listingId);
+
     try {
-      const response = await apiFetch("favorites", {
-        method: "POST",
-        body: JSON.stringify({ userId, listingId }),
-        headers: { "content-type": "application/json" },
-      });
-      const data = await response.json().catch(() => ({}));
-      if (data.ok) {
-        setFavoritedListing(listingName);
-        setIsAddToFavoritesModalOpen(true);
-        // Add to local favorites set
-        setFavoritedListingIds(prev => new Set(prev).add(listingId));
+      if (isCurrentlyFavorited) {
+        // Remove from favorites
+        const response = await apiFetch(`favorites/${userId}/${listingId}`, {
+          method: "DELETE",
+        });
+        const data = await response.json().catch(() => ({}));
+        if (data.ok) {
+          setFavoritedListing(listingName);
+          setIsRemoveFromFavoritesModalOpen(true);
+          // Remove from local favorites set
+          setFavoritedListingIds(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(listingId);
+            return newSet;
+          });
+        }
+      } else {
+        // Add to favorites
+        const response = await apiFetch("favorites", {
+          method: "POST",
+          body: JSON.stringify({ userId, listingId }),
+          headers: { "content-type": "application/json" },
+        });
+        const data = await response.json().catch(() => ({}));
+        if (data.ok) {
+          setFavoritedListing(listingName);
+          setIsAddToFavoritesModalOpen(true);
+          // Add to local favorites set
+          setFavoritedListingIds(prev => new Set(prev).add(listingId));
+        }
       }
     } catch (error) {
-      console.error("Failed to add favorite:", error);
+      console.error("Failed to toggle favorite:", error);
     }
   };
 
