@@ -103,6 +103,7 @@ export default function ProductDetails() {
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [isAddToFavoritesModalOpen, setIsAddToFavoritesModalOpen] = useState(false);
+  const [isRemoveFromFavoritesModalOpen, setIsRemoveFromFavoritesModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
   const [isFavorited, setIsFavorited] = useState(false);
