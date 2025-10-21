@@ -140,19 +140,33 @@ export default function ProductDetails() {
     }
 
     try {
-      const response = await apiFetch("favorites", {
-        method: "POST",
-        body: JSON.stringify({ userId, listingId }),
-        headers: { "content-type": "application/json" },
-      });
-      const data = await response.json().catch(() => ({}));
-      if (data.ok) {
-        setFavoritedListing(listingName);
-        setIsAddToFavoritesModalOpen(true);
-        setIsFavorited(true);
+      if (isFavorited) {
+        // Remove from favorites
+        const response = await apiFetch(`favorites/${userId}/${listingId}`, {
+          method: "DELETE",
+        });
+        const data = await response.json().catch(() => ({}));
+        if (data.ok) {
+          setFavoritedListing(listingName);
+          setIsRemoveFromFavoritesModalOpen(true);
+          setIsFavorited(false);
+        }
+      } else {
+        // Add to favorites
+        const response = await apiFetch("favorites", {
+          method: "POST",
+          body: JSON.stringify({ userId, listingId }),
+          headers: { "content-type": "application/json" },
+        });
+        const data = await response.json().catch(() => ({}));
+        if (data.ok) {
+          setFavoritedListing(listingName);
+          setIsAddToFavoritesModalOpen(true);
+          setIsFavorited(true);
+        }
       }
     } catch (error) {
-      console.error("Failed to add favorite:", error);
+      console.error("Failed to toggle favorite:", error);
     }
   };
 
