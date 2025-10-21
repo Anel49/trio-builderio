@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/tooltip";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { AddToFavoritesModal } from "@/components/ui/add-to-favorites-modal";
+import { RemoveFromFavoritesModal } from "@/components/ui/remove-from-favorites-modal";
 import { ReportModal } from "@/components/ui/report-modal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
