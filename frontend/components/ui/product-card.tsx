@@ -101,7 +101,7 @@ export function ProductCard({
             onClick={(e) => {
               e.stopPropagation();
               if (onFavorite) {
-                onFavorite(name);
+                onFavorite(name, id);
               }
             }}
           >
