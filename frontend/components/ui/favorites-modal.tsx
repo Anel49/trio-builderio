@@ -31,13 +31,10 @@ interface FavoritesModalProps {
 export function FavoritesModal({
   isOpen,
   onOpenChange,
-  listingTitle,
   userId,
 }: FavoritesModalProps) {
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(!!listingTitle);
-  const [justAdded, setJustAdded] = useState(listingTitle || "");
 
   useEffect(() => {
     if (!isOpen || !userId) return;
