@@ -157,6 +157,14 @@ export function FavoritesModal({
           </div>
         )}
       </DialogContent>
+
+      <RemoveFromFavoritesModal
+        isOpen={removalModalOpen}
+        onOpenChange={setRemovalModalOpen}
+        listingName={removedListingName}
+        showButtons={false}
+        hideDelay={2000}
+      />
     </Dialog>
   );
 }
