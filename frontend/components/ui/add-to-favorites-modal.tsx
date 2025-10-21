@@ -5,31 +5,22 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
-import { useEffect } from "react";
 
 interface AddToFavoritesModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   listingName: string;
+  onSeeFavorites?: () => void;
 }
 
 export function AddToFavoritesModal({
   isOpen,
   onOpenChange,
   listingName,
+  onSeeFavorites,
 }: AddToFavoritesModalProps) {
-  // Auto close after 2 seconds
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const timer = setTimeout(() => {
-      onOpenChange(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, [isOpen, onOpenChange]);
-
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
@@ -45,6 +36,24 @@ export function AddToFavoritesModal({
             your favorites.
           </DialogDescription>
         </DialogHeader>
+        <div className="flex gap-3 mt-6">
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            className="flex-1"
+          >
+            Continue Shopping
+          </Button>
+          <Button
+            onClick={() => {
+              onSeeFavorites?.();
+              onOpenChange(false);
+            }}
+            className="flex-1"
+          >
+            See Favorites
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
