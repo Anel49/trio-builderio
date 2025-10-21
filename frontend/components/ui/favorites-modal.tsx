@@ -8,6 +8,7 @@ import {
 import { Heart, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { RemoveFromFavoritesModal } from "@/components/ui/remove-from-favorites-modal";
 import { apiFetch } from "@/lib/api";
 
 interface Favorite {
@@ -35,6 +36,8 @@ export function FavoritesModal({
 }: FavoritesModalProps) {
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(false);
+  const [removalModalOpen, setRemovalModalOpen] = useState(false);
+  const [removedListingName, setRemovedListingName] = useState("");
 
   useEffect(() => {
     if (!isOpen || !userId) return;
