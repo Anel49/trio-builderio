@@ -107,6 +107,7 @@ export default function BrowseListings() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
+  const [favoritedListingIds, setFavoritedListingIds] = useState<Set<number>>(new Set());
   const [dateRange, setDateRange] = useState<{
     start: Date | undefined;
     end: Date | undefined;
