@@ -65,6 +65,7 @@ export function FavoritesModal({
     if (!userId) return;
 
     try {
+      const favorite = favorites.find((f) => f.id === listingId);
       const response = await apiFetch(
         `favorites/${userId}/${listingId}`,
         { method: "DELETE" }
@@ -72,6 +73,10 @@ export function FavoritesModal({
       const data = await response.json().catch(() => ({}));
       if (data.ok) {
         setFavorites(favorites.filter((f) => f.id !== listingId));
+        if (favorite) {
+          setRemovedListingName(favorite.name);
+          setRemovalModalOpen(true);
+        }
       }
     } catch (error) {
       console.error("Failed to remove favorite:", error);
