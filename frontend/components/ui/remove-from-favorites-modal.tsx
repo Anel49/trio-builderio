@@ -7,12 +7,15 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { HeartCrack } from "lucide-react";
+import { useEffect } from "react";
 
 interface RemoveFromFavoritesModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   listingName: string;
   onSeeFavorites?: () => void;
+  showButtons?: boolean;
+  hideDelay?: number;
 }
 
 export function RemoveFromFavoritesModal({
@@ -20,7 +23,19 @@ export function RemoveFromFavoritesModal({
   onOpenChange,
   listingName,
   onSeeFavorites,
+  showButtons = true,
+  hideDelay,
 }: RemoveFromFavoritesModalProps) {
+  useEffect(() => {
+    if (!isOpen || !hideDelay) return;
+
+    const timer = setTimeout(() => {
+      onOpenChange(false);
+    }, hideDelay);
+
+    return () => clearTimeout(timer);
+  }, [isOpen, hideDelay, onOpenChange]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
@@ -36,24 +51,26 @@ export function RemoveFromFavoritesModal({
             from your favorites.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex gap-3 mt-6">
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            className="flex-1"
-          >
-            Continue Shopping
-          </Button>
-          <Button
-            onClick={() => {
-              onSeeFavorites?.();
-              onOpenChange(false);
-            }}
-            className="flex-1"
-          >
-            See Favorites
-          </Button>
-        </div>
+        {showButtons && (
+          <div className="flex gap-3 mt-6">
+            <Button
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              className="flex-1"
+            >
+              Continue Shopping
+            </Button>
+            <Button
+              onClick={() => {
+                onSeeFavorites?.();
+                onOpenChange(false);
+              }}
+              className="flex-1"
+            >
+              See Favorites
+            </Button>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
