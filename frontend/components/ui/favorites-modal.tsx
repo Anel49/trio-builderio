@@ -75,31 +75,8 @@ export function FavoritesModal({
     }
   };
 
-  // Show confirmation modal when just added
-  if (showConfirmation && justAdded) {
-    return (
-      <Dialog open={isOpen && showConfirmation} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <div className="flex items-center justify-center mb-4">
-              <div className="rounded-full bg-red-50 dark:bg-red-900/20 p-3">
-                <Heart className="h-8 w-8 text-red-500 fill-red-500" />
-              </div>
-            </div>
-            <DialogTitle className="text-center">Added to Favorites</DialogTitle>
-            <DialogDescription className="text-center">
-              <span className="font-medium">{justAdded}</span> has been added to
-              your favorites.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
-  // Show favorites list
   return (
-    <Dialog open={isOpen && !showConfirmation} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[80vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>My Favorites</DialogTitle>
