@@ -246,7 +246,7 @@ export default function BrowseListings() {
       const data = await response.json().catch(() => ({}));
       if (data.ok) {
         setFavoritedListing(listingName);
-        setIsFavoritesModalOpen(true);
+        setIsAddToFavoritesModalOpen(true);
         // Add to local favorites set
         setFavoritedListingIds(prev => new Set(prev).add(listingId));
       }
