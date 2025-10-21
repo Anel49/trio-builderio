@@ -207,6 +207,27 @@ export default function BrowseListings() {
     "Toy",
   ];
 
+  // Fetch user's favorites on mount
+  React.useEffect(() => {
+    const fetchFavorites = async () => {
+      const userId = currentUser.email;
+      if (!userId) return;
+
+      try {
+        const response = await apiFetch(`favorites/${userId}`);
+        const data = await response.json().catch(() => ({}));
+        if (data.ok && Array.isArray(data.favorites)) {
+          const ids = new Set(data.favorites.map((f: any) => f.id));
+          setFavoritedListingIds(ids);
+        }
+      } catch (error) {
+        console.error("Failed to fetch favorites:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
+
   const handleFavorite = async (listingName: string, listingId: number) => {
     const userId = currentUser.email;
     if (!userId) {
@@ -224,6 +245,8 @@ export default function BrowseListings() {
       if (data.ok) {
         setFavoritedListing(listingName);
         setIsFavoritesModalOpen(true);
+        // Add to local favorites set
+        setFavoritedListingIds(prev => new Set(prev).add(listingId));
       }
     } catch (error) {
       console.error("Failed to add favorite:", error);
