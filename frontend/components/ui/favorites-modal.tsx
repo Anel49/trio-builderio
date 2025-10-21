@@ -46,9 +46,10 @@ export function FavoritesModal({
     const fetchFavorites = async () => {
       setLoading(true);
       try {
-        const response = await apiFetch(`/api/favorites/${userId}`);
-        if (response.ok) {
-          setFavorites(response.favorites || []);
+        const response = await apiFetch(`favorites/${userId}`);
+        const data = await response.json().catch(() => ({}));
+        if (data.ok) {
+          setFavorites(data.favorites || []);
         }
       } catch (error) {
         console.error("Failed to fetch favorites:", error);
