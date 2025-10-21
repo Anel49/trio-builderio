@@ -36,6 +36,7 @@ interface ProductCardProps {
   onDeleteClick?: () => void;
   delivery?: boolean;
   freeDelivery?: boolean;
+  isFavorited?: boolean;
 }
 
 export function ProductCard({
