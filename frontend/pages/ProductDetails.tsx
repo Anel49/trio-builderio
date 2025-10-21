@@ -1047,6 +1047,7 @@ export default function ProductDetails() {
         isOpen={isAddToFavoritesModalOpen}
         onOpenChange={setIsAddToFavoritesModalOpen}
         listingName={favoritedListing}
+        onSeeFavorites={() => setIsFavoritesModalOpen(true)}
       />
       <FavoritesModal
         isOpen={isFavoritesModalOpen}
