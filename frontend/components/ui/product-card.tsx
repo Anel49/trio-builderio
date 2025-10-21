@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Star, Heart, MapPin, X as XIcon } from "lucide-react";
+import { Star, Heart, MapPin, X as XIcon, MoreVertical } from "lucide-react";
 import { colors, combineColors } from "@/lib/colors";
 import { ENABLE_FAVORITES } from "@/lib/constants";
 import {
@@ -13,6 +13,12 @@ import {
   layouts,
   combineTokens,
 } from "@/lib/design-tokens";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface ProductCardProps {
   id: number;
