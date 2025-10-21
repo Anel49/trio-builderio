@@ -1006,6 +1006,7 @@ export default function BrowseListings() {
                       underlinePrice={display.underline}
                       delivery={listing.delivery}
                       freeDelivery={listing.freeDelivery}
+                      isFavorited={favoritedListingIds.has(listing.id)}
                     />
                   </div>
                 );
