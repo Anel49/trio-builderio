@@ -114,7 +114,7 @@ export function ProductCard({
               )}
               style={{
                 stroke: "#ff6f6f",
-                fill: isHeartHovered ? "#ff6f6f" : "transparent",
+                fill: isHeartHovered || isFavorited ? "#ff6f6f" : "transparent",
               }}
             />
           </Button>
