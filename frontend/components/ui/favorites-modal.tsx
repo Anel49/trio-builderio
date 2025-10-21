@@ -25,7 +25,6 @@ interface Favorite {
 interface FavoritesModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  listingTitle?: string;
   userId?: string;
 }
 
