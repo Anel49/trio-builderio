@@ -127,7 +127,7 @@ export function FavoritesModal({
                     <span className="font-semibold">{favorite.price}</span>
                     {favorite.rentalPeriod && (
                       <span className="text-xs text-muted-foreground">
-                        per {favorite.rentalPeriod.toLowerCase().replace(/ly$/, "")}
+                        per {favorite.rentalPeriod.toLowerCase() === "hourly" ? "hour" : favorite.rentalPeriod.toLowerCase() === "daily" ? "day" : favorite.rentalPeriod.toLowerCase()}
                       </span>
                     )}
                   </div>
