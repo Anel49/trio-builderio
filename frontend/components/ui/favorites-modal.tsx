@@ -57,15 +57,6 @@ export function FavoritesModal({
     fetchFavorites();
   }, [isOpen, userId]);
 
-  // Auto close confirmation modal after 2 seconds
-  useEffect(() => {
-    if (showConfirmation && justAdded) {
-      const timer = setTimeout(() => {
-        setShowConfirmation(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [showConfirmation, justAdded]);
 
   const handleRemoveFavorite = async (listingId: number) => {
     if (!userId) return;
