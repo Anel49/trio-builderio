@@ -45,7 +45,9 @@ export function RemoveFromFavoritesModal({
               <HeartCrack className="h-8 w-8 text-red-500" />
             </div>
           </div>
-          <DialogTitle className="text-center">Removed from Favorites</DialogTitle>
+          <DialogTitle className="text-center">
+            Removed from Favorites
+          </DialogTitle>
           <DialogDescription className="text-center">
             <span className="font-medium">{listingName}</span> has been removed
             from your favorites.

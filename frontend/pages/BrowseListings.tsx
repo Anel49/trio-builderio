@@ -108,10 +108,14 @@ export default function BrowseListings() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
-  const [isAddToFavoritesModalOpen, setIsAddToFavoritesModalOpen] = useState(false);
-  const [isRemoveFromFavoritesModalOpen, setIsRemoveFromFavoritesModalOpen] = useState(false);
+  const [isAddToFavoritesModalOpen, setIsAddToFavoritesModalOpen] =
+    useState(false);
+  const [isRemoveFromFavoritesModalOpen, setIsRemoveFromFavoritesModalOpen] =
+    useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
-  const [favoritedListingIds, setFavoritedListingIds] = useState<Set<number>>(new Set());
+  const [favoritedListingIds, setFavoritedListingIds] = useState<Set<number>>(
+    new Set(),
+  );
   const [dateRange, setDateRange] = useState<{
     start: Date | undefined;
     end: Date | undefined;
@@ -252,7 +256,7 @@ export default function BrowseListings() {
           setFavoritedListing(listingName);
           setIsRemoveFromFavoritesModalOpen(true);
           // Remove from local favorites set
-          setFavoritedListingIds(prev => {
+          setFavoritedListingIds((prev) => {
             const newSet = new Set(prev);
             newSet.delete(listingId);
             return newSet;
@@ -270,7 +274,7 @@ export default function BrowseListings() {
           setFavoritedListing(listingName);
           setIsAddToFavoritesModalOpen(true);
           // Add to local favorites set
-          setFavoritedListingIds(prev => new Set(prev).add(listingId));
+          setFavoritedListingIds((prev) => new Set(prev).add(listingId));
         }
       }
     } catch (error) {

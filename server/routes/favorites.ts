@@ -16,7 +16,7 @@ export async function listFavorites(req: Request, res: Response) {
        join listings l on f.listing_id = l.id
        where f.user_id = $1
        order by f.created_at desc`,
-      [userId]
+      [userId],
     );
 
     const favorites = result.rows.map((r: any) => ({
@@ -49,7 +49,9 @@ export async function addFavorite(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "userId is required" });
     }
     if (!listingId || typeof listingId !== "number") {
-      return res.status(400).json({ ok: false, error: "listingId is required" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "listingId is required" });
     }
 
     const result = await pool.query(
@@ -57,7 +59,7 @@ export async function addFavorite(req: Request, res: Response) {
        values ($1, $2)
        on conflict (user_id, listing_id) do nothing
        returning user_id, listing_id, created_at`,
-      [userId, listingId]
+      [userId, listingId],
     );
 
     if (result.rowCount === 0) {
@@ -72,19 +74,21 @@ export async function addFavorite(req: Request, res: Response) {
 
 export async function removeFavorite(req: Request, res: Response) {
   try {
-    const { userId, listingId } = (req.params as any);
+    const { userId, listingId } = req.params as any;
 
     if (!userId || typeof userId !== "string") {
       return res.status(400).json({ ok: false, error: "userId is required" });
     }
     if (!listingId || isNaN(Number(listingId))) {
-      return res.status(400).json({ ok: false, error: "listingId is required" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "listingId is required" });
     }
 
     const result = await pool.query(
       `delete from favorites
        where user_id = $1 and listing_id = $2`,
-      [userId, Number(listingId)]
+      [userId, Number(listingId)],
     );
 
     res.json({ ok: true, deleted: result.rowCount > 0 });
@@ -95,20 +99,22 @@ export async function removeFavorite(req: Request, res: Response) {
 
 export async function checkFavorite(req: Request, res: Response) {
   try {
-    const { userId, listingId } = (req.params as any);
+    const { userId, listingId } = req.params as any;
 
     if (!userId || typeof userId !== "string") {
       return res.status(400).json({ ok: false, error: "userId is required" });
     }
     if (!listingId || isNaN(Number(listingId))) {
-      return res.status(400).json({ ok: false, error: "listingId is required" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "listingId is required" });
     }
 
     const result = await pool.query(
       `select 1 from favorites
        where user_id = $1 and listing_id = $2
        limit 1`,
-      [userId, Number(listingId)]
+      [userId, Number(listingId)],
     );
 
     res.json({ ok: true, isFavorited: result.rowCount > 0 });

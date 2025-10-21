@@ -400,7 +400,8 @@ export async function dbSetup(_req: Request, res: Response) {
 
     // Seed favorites for demo user
     const demoUserEmail = "demo@example.com";
-    await pool.query(`
+    await pool.query(
+      `
       insert into favorites (user_id, listing_id)
       select $1, l.id
       from (
@@ -416,7 +417,9 @@ export async function dbSetup(_req: Request, res: Response) {
         select 1 from favorites x
         where x.user_id = $1 and x.listing_id = l.id
       );
-    `, [demoUserEmail]);
+    `,
+      [demoUserEmail],
+    );
 
     res.json({ ok: true });
   } catch (error: any) {

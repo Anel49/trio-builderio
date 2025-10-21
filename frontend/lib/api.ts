@@ -252,10 +252,13 @@ export async function apiFetch(path: string, init?: RequestInit) {
     }
     if (/^favorites($|\/[^\/]+)/.test(p)) {
       if ((finalInit?.method || "GET").toUpperCase() === "POST") {
-        return new Response(JSON.stringify({ ok: true, alreadyFavorited: false }), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        });
+        return new Response(
+          JSON.stringify({ ok: true, alreadyFavorited: false }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
       }
       return new Response(JSON.stringify({ ok: true, favorites: [] }), {
         status: 200,
@@ -415,10 +418,13 @@ export async function apiFetch(path: string, init?: RequestInit) {
   }
   if (/^favorites($|\/[^\/]+)/.test(p)) {
     if ((finalInit?.method || "GET").toUpperCase() === "POST") {
-      return new Response(JSON.stringify({ ok: true, alreadyFavorited: false }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ ok: true, alreadyFavorited: false }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
     return new Response(JSON.stringify({ ok: true, favorites: [] }), {
       status: 200,

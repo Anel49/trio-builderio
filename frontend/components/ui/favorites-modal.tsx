@@ -60,16 +60,14 @@ export function FavoritesModal({
     fetchFavorites();
   }, [isOpen, userId]);
 
-
   const handleRemoveFavorite = async (listingId: number) => {
     if (!userId) return;
 
     try {
       const favorite = favorites.find((f) => f.id === listingId);
-      const response = await apiFetch(
-        `favorites/${userId}/${listingId}`,
-        { method: "DELETE" }
-      );
+      const response = await apiFetch(`favorites/${userId}/${listingId}`, {
+        method: "DELETE",
+      });
       const data = await response.json().catch(() => ({}));
       if (data.ok) {
         setFavorites(favorites.filter((f) => f.id !== listingId));
@@ -102,7 +100,9 @@ export function FavoritesModal({
                 <div className="absolute inset-0 rounded-full border-2 border-muted"></div>
                 <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary animate-spin"></div>
               </div>
-              <p className="text-sm text-muted-foreground">Loading favorites...</p>
+              <p className="text-sm text-muted-foreground">
+                Loading favorites...
+              </p>
             </div>
           </div>
         ) : favorites.length === 0 ? (
@@ -135,7 +135,12 @@ export function FavoritesModal({
                     <span className="font-semibold">{favorite.price}</span>
                     {favorite.rentalPeriod && (
                       <span className="text-xs text-muted-foreground">
-                        per {favorite.rentalPeriod.toLowerCase() === "hourly" ? "hour" : favorite.rentalPeriod.toLowerCase() === "daily" ? "day" : favorite.rentalPeriod.toLowerCase()}
+                        per{" "}
+                        {favorite.rentalPeriod.toLowerCase() === "hourly"
+                          ? "hour"
+                          : favorite.rentalPeriod.toLowerCase() === "daily"
+                            ? "day"
+                            : favorite.rentalPeriod.toLowerCase()}
                       </span>
                     )}
                   </div>

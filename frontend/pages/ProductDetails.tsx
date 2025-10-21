@@ -102,8 +102,10 @@ export default function ProductDetails() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
-  const [isAddToFavoritesModalOpen, setIsAddToFavoritesModalOpen] = useState(false);
-  const [isRemoveFromFavoritesModalOpen, setIsRemoveFromFavoritesModalOpen] = useState(false);
+  const [isAddToFavoritesModalOpen, setIsAddToFavoritesModalOpen] =
+    useState(false);
+  const [isRemoveFromFavoritesModalOpen, setIsRemoveFromFavoritesModalOpen] =
+    useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
   const [isFavorited, setIsFavorited] = useState(false);
@@ -119,7 +121,9 @@ export default function ProductDetails() {
       if (!userId || !product?.id) return;
 
       try {
-        const response = await apiFetch(`favorites/${userId}/${product.id}/check`);
+        const response = await apiFetch(
+          `favorites/${userId}/${product.id}/check`,
+        );
         const data = await response.json().catch(() => ({}));
         if (data.ok) {
           setIsFavorited(data.isFavorited || false);
@@ -583,7 +587,10 @@ export default function ProductDetails() {
                     className="h-5 w-5 heart-transition"
                     style={{
                       stroke: "#ff6f6f",
-                      fill: isHeartHovered || isFavorited ? "#ff6f6f" : "transparent",
+                      fill:
+                        isHeartHovered || isFavorited
+                          ? "#ff6f6f"
+                          : "transparent",
                     }}
                   />
                 </Button>
