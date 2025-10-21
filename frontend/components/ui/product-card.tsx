@@ -127,24 +127,50 @@ export function ProductCard({
             />
           </Button>
         )}
-        {onDeleteClick && (
-          <Button
-            size="icon"
-            variant="outline"
-            className={combineTokens(
-              layouts.absolute.topRight,
-              "border-red-300 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600",
-              "mr-0 mt-0",
-            )}
-            onClick={(e) => {
-              e.stopPropagation();
-              onDeleteClick();
-            }}
-            aria-label="Delete listing"
-            title="Delete listing"
-          >
-            <XIcon className={combineTokens(spacing.dimensions.icon.sm)} />
-          </Button>
+        {(onDeleteClick || onEditClick) && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="icon"
+                variant="outline"
+                className={combineTokens(
+                  layouts.absolute.topRight,
+                  "border-gray-300 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 hover:border-gray-400",
+                  "mr-0 mt-0",
+                )}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                aria-label="Listing options"
+                title="Listing options"
+              >
+                <MoreVertical className={combineTokens(spacing.dimensions.icon.sm)} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {onEditClick && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEditClick();
+                  }}
+                >
+                  Edit
+                </DropdownMenuItem>
+              )}
+              {onDeleteClick && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteClick();
+                  }}
+                  className="text-red-600 focus:bg-red-50 focus:text-red-600"
+                >
+                  Delete
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         )}
         <Badge
           className={combineTokens(
