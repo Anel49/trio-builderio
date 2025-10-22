@@ -162,14 +162,14 @@ export function ListingLocationModal({
         background: "transparent",
         opacity: "0",
         pointerEvents: "none",
-        zIndex: "-9999"
+        zIndex: "-9999",
       });
 
       document.body.appendChild(textarea);
       console.log("Textarea created and added to DOM");
 
       // Wait a moment for DOM to update
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       // Focus and select
       textarea.focus();
