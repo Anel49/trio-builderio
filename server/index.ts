@@ -117,13 +117,11 @@ export function createServer() {
       return res.json({ authenticated, ok: true });
     } catch (error: any) {
       console.error("Auth status error:", error);
-      return res
-        .status(500)
-        .json({
-          authenticated: false,
-          ok: false,
-          error: "Internal server error",
-        });
+      return res.status(500).json({
+        authenticated: false,
+        ok: false,
+        error: "Internal server error",
+      });
     }
   });
 
