@@ -1816,7 +1816,8 @@ export default function Profile() {
                       `listings/${itemToDisable.id}/toggle-enabled`,
                       {
                         method: "PATCH",
-                        body: { enabled: false },
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ enabled: false }),
                       }
                     );
                     const data = await res.json().catch(() => ({}) as any);
