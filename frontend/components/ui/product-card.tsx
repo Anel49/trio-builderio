@@ -70,9 +70,12 @@ export function ProductCard({
   underlinePrice = false,
   onDeleteClick,
   onEditClick,
+  onDisableClick,
+  onEnableClick,
   delivery,
   freeDelivery,
   isFavorited = false,
+  enabled = true,
 }: ProductCardProps) {
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const distanceText =
