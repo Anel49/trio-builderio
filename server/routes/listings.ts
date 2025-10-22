@@ -296,12 +296,27 @@ export async function getListingById(req: Request, res: Response) {
         ? `${distanceMiles.toFixed(1)} miles`
         : "Distance unavailable";
 
+    let images: string[] = [];
+    try {
+      const imagesResult = await pool.query(
+        `select url from listing_images where listing_id = $1 order by position asc`,
+        [id],
+      );
+      if (imagesResult.rows && Array.isArray(imagesResult.rows)) {
+        images = imagesResult.rows
+          .map((row: any) => row.url)
+          .filter((url: any) => typeof url === "string" && url.trim());
+      }
+    } catch {
+      // If listing_images table doesn't exist or query fails, continue with empty images
+    }
+
     const listing = {
       id: r.id,
       name: r.name,
       price: formatPrice(r.price_cents),
       rating: r.rating ? Number(r.rating) : null,
-      images: [],
+      images,
       image: r.image_url,
       host: r.host,
       type: r.category || "General",
