@@ -631,6 +631,7 @@ export default function Profile() {
             latitude: listingCoords?.latitude ?? null,
             longitude: listingCoords?.longitude ?? null,
             rentalPeriod: normalizeRentalPeriod((l as any).rentalPeriod),
+            enabled: typeof l.enabled === "boolean" ? l.enabled : true,
           };
         });
         if (cancelled) return;
