@@ -96,6 +96,7 @@ type ListedItem = {
   longitude?: number | null;
   reviews?: number;
   rentalPeriod?: string;
+  enabled?: boolean;
 };
 import {
   Select,
