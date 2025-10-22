@@ -280,11 +280,11 @@ export default function ProductDetails() {
   useEffect(() => {
     const checkFavorite = async () => {
       const userId = currentUser.email;
-      if (!userId || !product?.id) return;
+      if (!userId || !params.id) return;
 
       try {
         const response = await apiFetch(
-          `favorites/${userId}/${product.id}/check`,
+          `favorites/${userId}/${params.id}/check`,
         );
         const data = await response.json().catch(() => ({}));
         if (data.ok) {
@@ -296,7 +296,7 @@ export default function ProductDetails() {
     };
 
     checkFavorite();
-  }, [product?.id]);
+  }, [params.id]);
 
   useEffect(() => {
     if (!params.id) return;
