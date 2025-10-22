@@ -407,6 +407,75 @@ export async function listListingReviews(req: Request, res: Response) {
   }
 }
 
+export async function updateListing(req: Request, res: Response) {
+  try {
+    const id = Number((req.params as any)?.id);
+    if (!id || Number.isNaN(id)) {
+      return res.status(400).json({ ok: false, error: "invalid id" });
+    }
+
+    const {
+      name,
+      price_cents,
+      description,
+      category,
+      categories,
+      image,
+      images,
+      rental_period,
+      zip_code,
+      location_city,
+      latitude,
+      longitude,
+      delivery,
+      free_delivery,
+    } = req.body || {};
+
+    if (!name || typeof price_cents !== "number") {
+      return res
+        .status(400)
+        .json({ ok: false, error: "name and price_cents are required" });
+    }
+
+    const normalizedRentalPeriod = normalizeRentalPeriod(rental_period);
+    const normalizedZip = normalizeZipCode(zip_code);
+    const imageUrl = Array.isArray(images) ? images[0] : image;
+
+    const result = await pool.query(
+      `update listings
+       set name = $1, price_cents = $2, description = $3, category = $4,
+           image_url = $5, rental_period = $6, zip_code = $7,
+           location_city = $8, latitude = $9, longitude = $10,
+           delivery = $11, free_delivery = $12
+       where id = $13
+       returning id`,
+      [
+        name,
+        price_cents,
+        description || null,
+        category || "Miscellaneous",
+        imageUrl || null,
+        normalizedRentalPeriod,
+        normalizedZip || null,
+        location_city || null,
+        latitude || null,
+        longitude || null,
+        delivery || false,
+        free_delivery || false,
+        id,
+      ],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Listing not found" });
+    }
+
+    res.json({ ok: true, id: result.rows[0].id });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function deleteListing(req: Request, res: Response) {
   try {
     const id = Number((req.params as any)?.id);
