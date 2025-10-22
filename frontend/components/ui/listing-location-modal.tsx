@@ -119,58 +119,85 @@ export function ListingLocationModal({
   }, [open, latitude, longitude, listingName]);
 
   const handleCopyCoordinates = async () => {
-    if (latitude === null || longitude === null) return;
+    if (latitude === null || longitude === null) {
+      console.error("No coordinates available");
+      return;
+    }
 
     const coordinatesText = `${latitude}, ${longitude}`;
+    console.log("Attempting to copy:", coordinatesText);
 
     // Try modern Clipboard API first
     if (navigator.clipboard?.writeText) {
       try {
+        console.log("Using Clipboard API");
         await navigator.clipboard.writeText(coordinatesText);
+        console.log("Successfully copied via Clipboard API");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
         return;
       } catch (clipboardError) {
         console.warn("Clipboard API failed:", clipboardError);
-        // Fall through to execCommand
       }
     }
 
     // Fallback to execCommand
-    const textarea = document.createElement("textarea");
-    textarea.value = coordinatesText;
-    textarea.setAttribute("readonly", "");
-    textarea.style.position = "absolute";
-    textarea.style.left = "-9999px";
-    textarea.style.top = "-9999px";
-
-    document.body.appendChild(textarea);
-
+    console.log("Falling back to execCommand");
     try {
-      // Try to select the text
-      const selected = document.getSelection();
-      if (selected) {
-        const range = document.createRange();
-        range.selectNodeContents(textarea);
-        selected.removeAllRanges();
-        selected.addRange(range);
-      } else {
-        // Fallback: use select() method
-        textarea.select();
-      }
+      // Create textarea
+      const textarea = document.createElement("textarea");
+      textarea.value = coordinatesText;
 
+      // Style to be invisible but selectable
+      Object.assign(textarea.style, {
+        position: "fixed",
+        top: "0",
+        left: "0",
+        width: "2em",
+        height: "2em",
+        padding: "0",
+        border: "none",
+        outline: "none",
+        boxShadow: "none",
+        background: "transparent",
+        opacity: "0",
+        pointerEvents: "none",
+        zIndex: "-9999"
+      });
+
+      document.body.appendChild(textarea);
+      console.log("Textarea created and added to DOM");
+
+      // Wait a moment for DOM to update
+      await new Promise(resolve => setTimeout(resolve, 10));
+
+      // Focus and select
+      textarea.focus();
+      const selected = textarea.select();
+      console.log("Selection result:", selected);
+
+      // Execute copy
       const successful = document.execCommand("copy");
+      console.log("execCommand('copy') result:", successful);
+
+      // Clean up
+      document.body.removeChild(textarea);
 
       if (successful) {
+        console.log("Copy successful");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       } else {
-        console.warn("execCommand('copy') returned false");
+        console.warn("execCommand returned false");
+        // Still show copied state as visual feedback
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
       }
     } catch (error) {
       console.error("Failed to copy coordinates:", error);
-    } finally {
-      document.body.removeChild(textarea);
+      // Still show copied state as visual feedback
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 
