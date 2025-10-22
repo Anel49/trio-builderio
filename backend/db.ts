@@ -62,6 +62,7 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table listings add column if not exists longitude double precision;
       alter table listings add column if not exists delivery boolean default false;
       alter table listings add column if not exists free_delivery boolean default false;
+      alter table listings add column if not exists enabled boolean default true;
     `);
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
