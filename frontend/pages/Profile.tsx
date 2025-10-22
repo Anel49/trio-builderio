@@ -1787,6 +1787,126 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      {/* Disable Listing Modal */}
+      <Dialog open={isDisableModalOpen} onOpenChange={setIsDisableModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Disable Listing</DialogTitle>
+            <DialogDescription>
+              {`Are you sure you want to disable ${itemToDisable?.name ?? "this listing"}?`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsDisableModalOpen(false);
+                setItemToDisable(null);
+              }}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={async () => {
+                let ok = false;
+                try {
+                  if (itemToDisable?.id != null) {
+                    const res = await apiFetch(
+                      `listings/${itemToDisable.id}/toggle-enabled`,
+                      {
+                        method: "PATCH",
+                        body: { enabled: false },
+                      }
+                    );
+                    const data = await res.json().catch(() => ({}) as any);
+                    ok = Boolean(res.ok && data && data.ok);
+                    if (ok) {
+                      setListedItems((prev) =>
+                        prev.map((i) =>
+                          i.id === itemToDisable.id
+                            ? { ...i, enabled: false }
+                            : i
+                        )
+                      );
+                    }
+                  }
+                } catch {}
+                if (!ok)
+                  alert(
+                    "Failed to disable listing on server. Please try again.",
+                  );
+                setIsDisableModalOpen(false);
+                setItemToDisable(null);
+              }}
+              className="w-full sm:w-auto bg-yellow-600 hover:bg-yellow-700 text-white"
+            >
+              Disable
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Enable Listing Modal */}
+      <Dialog open={isEnableModalOpen} onOpenChange={setIsEnableModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Enable Listing</DialogTitle>
+            <DialogDescription>
+              {`Are you sure you want to enable ${itemToEnable?.name ?? "this listing"}?`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsEnableModalOpen(false);
+                setItemToEnable(null);
+              }}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={async () => {
+                let ok = false;
+                try {
+                  if (itemToEnable?.id != null) {
+                    const res = await apiFetch(
+                      `listings/${itemToEnable.id}/toggle-enabled`,
+                      {
+                        method: "PATCH",
+                        body: { enabled: true },
+                      }
+                    );
+                    const data = await res.json().catch(() => ({}) as any);
+                    ok = Boolean(res.ok && data && data.ok);
+                    if (ok) {
+                      setListedItems((prev) =>
+                        prev.map((i) =>
+                          i.id === itemToEnable.id
+                            ? { ...i, enabled: true }
+                            : i
+                        )
+                      );
+                    }
+                  }
+                } catch {}
+                if (!ok)
+                  alert(
+                    "Failed to enable listing on server. Please try again.",
+                  );
+                setIsEnableModalOpen(false);
+                setItemToEnable(null);
+              }}
+              className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+            >
+              Enable
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Mobile Profile Floating Button - Only visible on mobile/tablet */}
       <Button
         onClick={() => setIsMobileProfileOpen(!isMobileProfileOpen)}
