@@ -40,6 +40,7 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
+    console.log("[dbSetup] Starting database setup");
     await pool.query(`
       create table if not exists listings (
         id serial primary key,
@@ -55,15 +56,36 @@ export async function dbSetup(_req: Request, res: Response) {
         created_at timestamptz default now()
       )
     `);
+    console.log("[dbSetup] Created listings table");
+
     await pool.query(`alter table listings drop column if exists distance`);
+    console.log("[dbSetup] Dropped distance column");
+
     await pool.query(`alter table listings add column if not exists zip_code text`);
+    console.log("[dbSetup] Added zip_code column");
+
     await pool.query(`alter table listings add column if not exists rental_period text`);
+    console.log("[dbSetup] Added rental_period column");
+
     await pool.query(`alter table listings add column if not exists description text`);
+    console.log("[dbSetup] Added description column");
+
     await pool.query(`alter table listings add column if not exists latitude double precision`);
+    console.log("[dbSetup] Added latitude column");
+
     await pool.query(`alter table listings add column if not exists longitude double precision`);
+    console.log("[dbSetup] Added longitude column");
+
     await pool.query(`alter table listings add column if not exists delivery boolean default false`);
+    console.log("[dbSetup] Added delivery column");
+
     await pool.query(`alter table listings add column if not exists free_delivery boolean default false`);
+    console.log("[dbSetup] Added free_delivery column");
+
     await pool.query(`alter table listings add column if not exists enabled boolean default true`);
+    console.log("[dbSetup] Added enabled column");
+
+    console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
     );
