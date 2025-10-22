@@ -76,25 +76,41 @@ export async function createServer() {
 
   // Login endpoint
   app.post("/api/auth/login", (req: any, res: any) => {
-    const { username, password } = req.body;
+    try {
+      const { username, password } = req.body || {};
 
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      req.session.authenticated = true;
-      res.json({ success: true, message: "Logged in successfully" });
-    } else {
-      res.status(401).json({ success: false, message: "Invalid credentials" });
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        req.session.authenticated = true;
+        return res.json({ success: true, message: "Logged in successfully" });
+      } else {
+        return res.status(401).json({ success: false, message: "Invalid credentials" });
+      }
+    } catch (error: any) {
+      console.error("Login error:", error);
+      return res.status(500).json({ success: false, error: "Internal server error" });
     }
   });
 
   // Logout endpoint
   app.post("/api/auth/logout", (req: any, res: any) => {
-    req.session.authenticated = false;
-    res.json({ success: true, message: "Logged out successfully" });
+    try {
+      req.session.authenticated = false;
+      return res.json({ success: true, message: "Logged out successfully" });
+    } catch (error: any) {
+      console.error("Logout error:", error);
+      return res.status(500).json({ success: false, error: "Internal server error" });
+    }
   });
 
   // Check auth status
   app.get("/api/auth/status", (req: any, res: any) => {
-    res.json({ authenticated: req.session && req.session.authenticated });
+    try {
+      const authenticated = !!(req.session && req.session.authenticated);
+      return res.json({ authenticated, ok: true });
+    } catch (error: any) {
+      console.error("Auth status error:", error);
+      return res.status(500).json({ authenticated: false, ok: false, error: "Internal server error" });
+    }
   });
 
   // Example API routes
