@@ -72,8 +72,16 @@ export async function listListings(req: Request, res: Response) {
     let result: any;
     try {
       let sql = `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
-                coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery, coalesce(enabled, true) as enabled
-         from listings`;
+                coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery`;
+
+      try {
+        await pool.query(`select enabled from listings limit 1`);
+        sql += `, coalesce(enabled, true) as enabled`;
+      } catch {
+        console.log("[listListings] enabled column does not exist yet");
+      }
+
+      sql += ` from listings`;
 
       if (filterEnabled !== null) {
         sql += ` where coalesce(enabled, true) = $1`;
