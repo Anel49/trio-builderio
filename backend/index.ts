@@ -83,8 +83,12 @@ app.post("/db/setup", dbSetup);
 // Listings
 app.get("/api/listings", listListings);
 app.post("/api/listings", createListing);
+app.put("/api/listings/:id", updateListing);
+app.delete("/api/listings/:id", deleteListing);
 app.get("/listings", listListings);
 app.post("/listings", createListing);
+app.put("/listings/:id", updateListing);
+app.delete("/listings/:id", deleteListing);
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 app.listen(PORT, () => {
