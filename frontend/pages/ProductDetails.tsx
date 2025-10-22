@@ -742,14 +742,17 @@ export default function ProductDetails() {
                 </button>
               </div>
 
-              <div className="flex items-center text-muted-foreground mb-6">
-                <MapPin className="h-4 w-4 mr-1" />
+              <button
+                onClick={() => setIsLocationModalOpen(true)}
+                className="flex items-center text-muted-foreground mb-6 hover:text-foreground cursor-pointer transition-colors"
+              >
+                <Map className="h-4 w-4 mr-1" />
                 <span className="text-sm">
                   {product.location && product.location.trim()
                     ? product.location
                     : "Distance unavailable"}
                 </span>
-              </div>
+              </button>
 
               <div className="text-right mb-6">
                 <div
