@@ -134,19 +134,19 @@ export function ListingLocationModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-auto">
+      <DialogContent className="max-w-2xl w-[90vw] max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Location</DialogTitle>
           <DialogDescription>{listingName}</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="flex-1 flex flex-col gap-4 min-h-0">
           {latitude !== null && longitude !== null ? (
             <>
               <div
                 ref={containerRef}
-                style={{ height: "400px", width: "100%", minHeight: "400px" }}
-                className="rounded-lg overflow-hidden border border-border bg-muted relative"
+                style={{ height: "400px", width: "100%" }}
+                className="rounded-lg overflow-hidden border border-border bg-muted relative flex-shrink-0"
               />
 
               <div className="flex items-center justify-between gap-2 bg-muted p-4 rounded-lg">
