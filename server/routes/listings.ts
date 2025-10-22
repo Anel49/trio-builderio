@@ -523,6 +523,9 @@ export async function deleteListing(req: Request, res: Response) {
     if (!id || Number.isNaN(id)) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
+    try {
+      await pool.query("delete from listing_images where listing_id = $1", [id]);
+    } catch {}
     const result = await pool.query("delete from listings where id = $1", [id]);
     res.json({ ok: true, deleted: result.rowCount || 0 });
   } catch (error: any) {
