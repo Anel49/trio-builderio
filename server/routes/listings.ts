@@ -136,6 +136,7 @@ export async function listListings(req: Request, res: Response) {
             : DEFAULT_RENTAL_PERIOD,
         delivery: Boolean(r.delivery),
         freeDelivery: Boolean(r.free_delivery),
+        enabled: typeof r.enabled === "boolean" ? r.enabled : true,
       };
     });
     console.log("[listListings] Returning", listings.length, "listings");
