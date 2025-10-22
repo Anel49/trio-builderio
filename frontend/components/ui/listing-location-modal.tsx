@@ -118,34 +118,59 @@ export function ListingLocationModal({
     };
   }, [open, latitude, longitude, listingName]);
 
-  const handleCopyCoordinates = () => {
+  const handleCopyCoordinates = async () => {
     if (latitude === null || longitude === null) return;
 
     const coordinatesText = `${latitude}, ${longitude}`;
 
-    // Use execCommand as the primary method
-    try {
-      const textarea = document.createElement("textarea");
-      textarea.value = coordinatesText;
-      textarea.style.position = "fixed";
-      textarea.style.top = "0";
-      textarea.style.left = "0";
-      textarea.style.opacity = "0";
-      textarea.style.pointerEvents = "none";
-      document.body.appendChild(textarea);
+    // Try modern Clipboard API first
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(coordinatesText);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        return;
+      } catch (clipboardError) {
+        console.warn("Clipboard API failed:", clipboardError);
+        // Fall through to execCommand
+      }
+    }
 
-      textarea.focus();
-      textarea.select();
+    // Fallback to execCommand
+    const textarea = document.createElement("textarea");
+    textarea.value = coordinatesText;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "absolute";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "-9999px";
+
+    document.body.appendChild(textarea);
+
+    try {
+      // Try to select the text
+      const selected = document.getSelection();
+      if (selected) {
+        const range = document.createRange();
+        range.selectNodeContents(textarea);
+        selected.removeAllRanges();
+        selected.addRange(range);
+      } else {
+        // Fallback: use select() method
+        textarea.select();
+      }
 
       const successful = document.execCommand("copy");
-      document.body.removeChild(textarea);
 
       if (successful) {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+      } else {
+        console.warn("execCommand('copy') returned false");
       }
     } catch (error) {
       console.error("Failed to copy coordinates:", error);
+    } finally {
+      document.body.removeChild(textarea);
     }
   };
 
