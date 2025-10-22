@@ -62,9 +62,13 @@ export function ListingLocationModal({
 
     // Wait for DOM to be fully rendered
     const timer = setTimeout(() => {
-      if (!containerRef.current) return;
+      if (!containerRef.current) {
+        console.error("Container ref not available");
+        return;
+      }
 
       try {
+        console.log("Initializing map with coordinates:", latitude, longitude);
         const center: LatLngExpression = [latitude, longitude];
 
         const map = L.map(containerRef.current, {
