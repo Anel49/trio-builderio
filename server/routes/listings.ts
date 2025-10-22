@@ -454,7 +454,12 @@ export async function updateListing(req: Request, res: Response) {
 
     const normalizedRentalPeriod = normalizeRentalPeriod(rental_period);
     const normalizedZip = normalizeZipCode(zip_code);
-    const imageUrl = Array.isArray(images) ? images[0] : image;
+    const imgs: string[] = Array.isArray(images)
+      ? (images as any[]).filter((u) => typeof u === "string" && u.trim())
+      : image
+        ? [image]
+        : [];
+    const primaryImage = imgs[0] ?? null;
 
     const result = await pool.query(
       `update listings
@@ -469,7 +474,7 @@ export async function updateListing(req: Request, res: Response) {
         price_cents,
         description || null,
         category || "Miscellaneous",
-        imageUrl || null,
+        primaryImage || null,
         normalizedRentalPeriod,
         normalizedZip || null,
         location_city || null,
@@ -485,7 +490,28 @@ export async function updateListing(req: Request, res: Response) {
       return res.status(404).json({ ok: false, error: "Listing not found" });
     }
 
-    res.json({ ok: true, id: result.rows[0].id });
+    const listingId = result.rows[0].id;
+
+    // Update images in listing_images table
+    if (imgs.length > 0) {
+      try {
+        // Delete existing images
+        await pool.query(`delete from listing_images where listing_id = $1`, [
+          listingId,
+        ]);
+        // Insert new images
+        for (let i = 0; i < imgs.length; i++) {
+          const url = imgs[i];
+          await pool.query(
+            `insert into listing_images (listing_id, url, position) values ($1,$2,$3)
+             on conflict do nothing`,
+            [listingId, url, i + 1],
+          );
+        }
+      } catch {}
+    }
+
+    res.json({ ok: true, id: listingId });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
