@@ -123,49 +123,51 @@ export function ListingLocationModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-auto">
         <DialogHeader>
           <DialogTitle>Location</DialogTitle>
           <DialogDescription>{listingName}</DialogDescription>
         </DialogHeader>
 
-        {latitude !== null && longitude !== null ? (
-          <>
-            <div
-              ref={containerRef}
-              style={{ height: "400px", width: "100%" }}
-              className="rounded-lg overflow-hidden border border-border bg-muted"
-            />
+        <div className="space-y-4">
+          {latitude !== null && longitude !== null ? (
+            <>
+              <div
+                ref={containerRef}
+                style={{ height: "400px", width: "100%", minHeight: "400px" }}
+                className="rounded-lg overflow-hidden border border-border bg-muted relative"
+              />
 
-            <div className="flex items-center justify-between gap-2">
-              <div className="text-sm text-muted-foreground">
-                {latitude.toFixed(6)}, {longitude.toFixed(6)}
+              <div className="flex items-center justify-between gap-2 bg-muted p-4 rounded-lg">
+                <div className="text-sm text-muted-foreground font-mono">
+                  {latitude.toFixed(6)}, {longitude.toFixed(6)}
+                </div>
+                <Button
+                  onClick={handleCopyCoordinates}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                >
+                  {copied ? (
+                    <>
+                      <CheckCircle className="h-4 w-4" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-4 w-4" />
+                      Copy coordinates
+                    </>
+                  )}
+                </Button>
               </div>
-              <Button
-                onClick={handleCopyCoordinates}
-                variant="outline"
-                size="sm"
-                className="gap-2"
-              >
-                {copied ? (
-                  <>
-                    <CheckCircle className="h-4 w-4" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4" />
-                    Copy coordinates
-                  </>
-                )}
-              </Button>
+            </>
+          ) : (
+            <div className="py-8 text-center text-muted-foreground">
+              Location information not available
             </div>
-          </>
-        ) : (
-          <div className="py-8 text-center text-muted-foreground">
-            Location information not available
-          </div>
-        )}
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
