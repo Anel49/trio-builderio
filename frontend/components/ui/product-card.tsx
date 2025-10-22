@@ -134,7 +134,7 @@ export function ProductCard({
             />
           </Button>
         )}
-        {(onDeleteClick || onEditClick) && (
+        {(onDeleteClick || onEditClick || onDisableClick || onEnableClick) && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -144,6 +144,7 @@ export function ProductCard({
                   layouts.absolute.topRight,
                   "border-gray-300 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 hover:border-gray-400",
                   "mr-0 mt-0",
+                  !enabled ? "opacity-100" : "",
                 )}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -165,6 +166,28 @@ export function ProductCard({
                   }}
                 >
                   Edit
+                </DropdownMenuItem>
+              )}
+              {enabled && onDisableClick && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDisableClick();
+                  }}
+                  className="text-yellow-600 focus:bg-yellow-50 focus:text-yellow-600"
+                >
+                  Disable
+                </DropdownMenuItem>
+              )}
+              {!enabled && onEnableClick && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEnableClick();
+                  }}
+                  className="text-green-600 focus:bg-green-50 focus:text-green-600"
+                >
+                  Enable
                 </DropdownMenuItem>
               )}
               {onDeleteClick && (
