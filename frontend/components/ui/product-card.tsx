@@ -41,9 +41,12 @@ interface ProductCardProps {
   underlinePrice?: boolean;
   onDeleteClick?: () => void;
   onEditClick?: () => void;
+  onDisableClick?: () => void;
+  onEnableClick?: () => void;
   delivery?: boolean;
   freeDelivery?: boolean;
   isFavorited?: boolean;
+  enabled?: boolean;
 }
 
 export function ProductCard({
