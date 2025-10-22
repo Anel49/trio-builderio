@@ -322,6 +322,24 @@ export async function getListingById(req: Request, res: Response) {
       // If listing_images table doesn't exist or query fails, continue with empty images
     }
 
+    let categories: string[] = [];
+    try {
+      const categoriesResult = await pool.query(
+        `select category from listing_categories where listing_id = $1 order by position asc`,
+        [id],
+      );
+      if (categoriesResult.rows && Array.isArray(categoriesResult.rows)) {
+        categories = categoriesResult.rows
+          .map((row: any) => row.category)
+          .filter((cat: any) => typeof cat === "string" && cat.trim());
+      }
+    } catch {
+      // If listing_categories table doesn't exist or query fails, use primary category
+      if (r.category) {
+        categories = [r.category];
+      }
+    }
+
     const listing = {
       id: r.id,
       name: r.name,
