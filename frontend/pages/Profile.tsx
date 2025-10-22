@@ -202,6 +202,12 @@ export default function Profile() {
     }
   };
 
+  const handleEdit = (item: ListedItem) => {
+    setItemToEdit(item);
+    sessionStorage.setItem("editListingData", JSON.stringify(item));
+    window.location.href = `/upload?edit=${item.id}`;
+  };
+
   // Badges state loaded from server
   const [badges, setBadges] = useState({
     foundingSupporter: false,
