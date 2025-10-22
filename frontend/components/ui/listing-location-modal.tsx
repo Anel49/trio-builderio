@@ -56,42 +56,65 @@ export function ListingLocationModal({
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (!open || !containerRef.current || mapRef.current) {
+    if (!open) {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
       return;
     }
 
-    if (latitude === null || longitude === null) {
+    if (latitude === null || longitude === null || !containerRef.current) {
       return;
     }
 
-    const center: LatLngExpression = [latitude, longitude];
+    // Clear previous map if it exists
+    if (mapRef.current) {
+      mapRef.current.remove();
+      mapRef.current = null;
+    }
 
-    const map = L.map(containerRef.current, {
-      center,
-      zoom: 15,
-      zoomControl: true,
-      attributionControl: true,
-    });
+    // Wait for DOM to be fully rendered
+    const timer = setTimeout(() => {
+      if (!containerRef.current) return;
 
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-      {
-        attribution: "© OpenStreetMap contributors © CARTO",
-        subdomains: "abcd",
-        maxZoom: 19,
-      },
-    ).addTo(map);
+      try {
+        const center: LatLngExpression = [latitude, longitude];
 
-    const marker = L.marker([latitude, longitude], { icon: defaultIcon }).addTo(
-      map,
-    );
-    marker.bindPopup(listingName);
+        const map = L.map(containerRef.current, {
+          center,
+          zoom: 15,
+          zoomControl: true,
+          attributionControl: true,
+        });
 
-    mapRef.current = map;
+        L.tileLayer(
+          "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+          {
+            attribution: "© OpenStreetMap contributors © CARTO",
+            subdomains: "abcd",
+            maxZoom: 19,
+          },
+        ).addTo(map);
+
+        const marker = L.marker([latitude, longitude], { icon: defaultIcon }).addTo(
+          map,
+        );
+        marker.bindPopup(listingName);
+        marker.openPopup();
+
+        mapRef.current = map;
+      } catch (error) {
+        console.error("Failed to initialize map:", error);
+      }
+    }, 100);
 
     return () => {
-      map.remove();
-      mapRef.current = null;
+      clearTimeout(timer);
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
     };
   }, [open, latitude, longitude, listingName]);
 
