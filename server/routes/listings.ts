@@ -543,6 +543,31 @@ export async function updateListing(req: Request, res: Response) {
       } catch {}
     }
 
+    // Update categories in listing_categories table
+    const cats: string[] = Array.isArray(categories)
+      ? (categories as any[]).filter((c) => typeof c === "string" && c.trim())
+      : category
+        ? [category]
+        : [];
+
+    if (cats.length > 0) {
+      try {
+        // Delete existing categories
+        await pool.query(`delete from listing_categories where listing_id = $1`, [
+          listingId,
+        ]);
+        // Insert new categories
+        for (let i = 0; i < cats.length; i++) {
+          const cat = cats[i];
+          await pool.query(
+            `insert into listing_categories (listing_id, category, position) values ($1,$2,$3)
+             on conflict do nothing`,
+            [listingId, cat, i + 1],
+          );
+        }
+      } catch {}
+    }
+
     res.json({ ok: true, id: listingId });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
