@@ -111,9 +111,10 @@ export function ListingLocationModal({
         console.log("Leaflet map created:", !!map);
 
         const layer = L.tileLayer(
-          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
           {
-            attribution: "© OpenStreetMap contributors",
+            attribution: "© OpenStreetMap contributors © CARTO",
+            subdomains: "abcd",
             maxZoom: 19,
           },
         ).addTo(map);
