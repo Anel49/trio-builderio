@@ -53,17 +53,17 @@ export async function dbSetup(_req: Request, res: Response) {
         zip_code text,
         rental_period text,
         created_at timestamptz default now()
-      );
-      alter table listings drop column if exists distance;
-      alter table listings add column if not exists zip_code text;
-      alter table listings add column if not exists rental_period text;
-      alter table listings add column if not exists description text;
-      alter table listings add column if not exists latitude double precision;
-      alter table listings add column if not exists longitude double precision;
-      alter table listings add column if not exists delivery boolean default false;
-      alter table listings add column if not exists free_delivery boolean default false;
-      alter table listings add column if not exists enabled boolean default true;
+      )
     `);
+    await pool.query(`alter table listings drop column if exists distance`);
+    await pool.query(`alter table listings add column if not exists zip_code text`);
+    await pool.query(`alter table listings add column if not exists rental_period text`);
+    await pool.query(`alter table listings add column if not exists description text`);
+    await pool.query(`alter table listings add column if not exists latitude double precision`);
+    await pool.query(`alter table listings add column if not exists longitude double precision`);
+    await pool.query(`alter table listings add column if not exists delivery boolean default false`);
+    await pool.query(`alter table listings add column if not exists free_delivery boolean default false`);
+    await pool.query(`alter table listings add column if not exists enabled boolean default true`);
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
     );
