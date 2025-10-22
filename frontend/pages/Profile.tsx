@@ -163,6 +163,7 @@ export default function Profile() {
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<ListedItem | null>(null);
+  const [itemToEdit, setItemToEdit] = useState<ListedItem | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string>(
     currentUser.profileImage,
   );
