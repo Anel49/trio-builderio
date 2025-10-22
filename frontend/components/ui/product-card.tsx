@@ -144,7 +144,9 @@ export function ProductCard({
                 aria-label="Listing options"
                 title="Listing options"
               >
-                <MoreVertical className={combineTokens(spacing.dimensions.icon.sm)} />
+                <MoreVertical
+                  className={combineTokens(spacing.dimensions.icon.sm)}
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

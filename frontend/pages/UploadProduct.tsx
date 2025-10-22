@@ -139,24 +139,43 @@ export default function UploadProduct() {
             // Set rental period
             if (listing.rentalPeriod) {
               const period = listing.rentalPeriod.toLowerCase() as RentalPeriod;
-              if (period === "hourly" || period === "daily" || period === "weekly" || period === "monthly") {
-                const capitalizedPeriod = period.charAt(0).toUpperCase() + period.slice(1) as RentalPeriod;
+              if (
+                period === "hourly" ||
+                period === "daily" ||
+                period === "weekly" ||
+                period === "monthly"
+              ) {
+                const capitalizedPeriod = (period.charAt(0).toUpperCase() +
+                  period.slice(1)) as RentalPeriod;
                 setRentalPeriod(capitalizedPeriod);
               }
             }
 
             // Set location
-            if (listing.location_city || listing.latitude != null || listing.longitude != null) {
+            if (
+              listing.location_city ||
+              listing.latitude != null ||
+              listing.longitude != null
+            ) {
               setListingLocation({
                 city: listing.location_city || null,
-                latitude: typeof listing.latitude === "number" ? listing.latitude : null,
-                longitude: typeof listing.longitude === "number" ? listing.longitude : null,
+                latitude:
+                  typeof listing.latitude === "number"
+                    ? listing.latitude
+                    : null,
+                longitude:
+                  typeof listing.longitude === "number"
+                    ? listing.longitude
+                    : null,
                 postalCode: listing.zipCode || null,
               });
             }
 
             // Set categories
-            if (Array.isArray(listing.categories) && listing.categories.length > 0) {
+            if (
+              Array.isArray(listing.categories) &&
+              listing.categories.length > 0
+            ) {
               setSelectedTags(listing.categories);
             }
 
@@ -471,7 +490,11 @@ export default function UploadProduct() {
       const data = await res.json().catch(() => ({}));
       const resultId = editListingId || Number(data?.id);
       if (!res.ok || !data?.ok || !Number.isFinite(resultId)) {
-        throw new Error(editListingId ? "Failed to update listing" : "Failed to create listing");
+        throw new Error(
+          editListingId
+            ? "Failed to update listing"
+            : "Failed to create listing",
+        );
       }
       setCreatedListingId(resultId);
       setIsListed(true);
@@ -480,7 +503,11 @@ export default function UploadProduct() {
       // Skip immediate refresh to avoid redundant network calls; pages load fresh on navigation
     } catch (e) {
       setShowConfirmModal(false);
-      alert(editListingId ? "Failed to update product. Please try again." : "Failed to list product. Please try again.");
+      alert(
+        editListingId
+          ? "Failed to update product. Please try again."
+          : "Failed to list product. Please try again.",
+      );
     }
   };
 
@@ -818,7 +845,9 @@ export default function UploadProduct() {
             {editListingId ? "Edit your product" : "List your product"}
           </h1>
           <p className="text-muted-foreground">
-            {editListingId ? "Update your listing information" : "Share your items with the community and earn money"}
+            {editListingId
+              ? "Update your listing information"
+              : "Share your items with the community and earn money"}
           </p>
         </div>
 

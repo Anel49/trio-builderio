@@ -64,9 +64,7 @@ export async function updateListing(req: Request, res: Response) {
     const listingId = Number.parseInt(id, 10);
 
     if (!Number.isFinite(listingId)) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "Invalid listing ID" });
+      return res.status(400).json({ ok: false, error: "Invalid listing ID" });
     }
 
     if (!name || typeof price_cents !== "number") {
@@ -92,9 +90,7 @@ export async function updateListing(req: Request, res: Response) {
     );
 
     if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ ok: false, error: "Listing not found" });
+      return res.status(404).json({ ok: false, error: "Listing not found" });
     }
 
     res.json({ ok: true, id: result.rows[0].id });
@@ -109,9 +105,7 @@ export async function deleteListing(req: Request, res: Response) {
     const listingId = Number.parseInt(id, 10);
 
     if (!Number.isFinite(listingId)) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "Invalid listing ID" });
+      return res.status(400).json({ ok: false, error: "Invalid listing ID" });
     }
 
     const result = await pool.query(
@@ -120,9 +114,7 @@ export async function deleteListing(req: Request, res: Response) {
     );
 
     if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ ok: false, error: "Listing not found" });
+      return res.status(404).json({ ok: false, error: "Listing not found" });
     }
 
     res.json({ ok: true, id: result.rows[0].id });

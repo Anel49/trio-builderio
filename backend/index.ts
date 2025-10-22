@@ -2,7 +2,12 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import { dbHealth, dbSchema, dbSetup } from "./db";
-import { createListing, listListings, updateListing, deleteListing } from "./routes.listings";
+import {
+  createListing,
+  listListings,
+  updateListing,
+  deleteListing,
+} from "./routes.listings";
 
 const ADMIN_USERNAME = "Charki1014";
 const ADMIN_PASSWORD = "q=foJ7Ba7#+4";

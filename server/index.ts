@@ -83,11 +83,15 @@ export async function createServer() {
         req.session.authenticated = true;
         return res.json({ success: true, message: "Logged in successfully" });
       } else {
-        return res.status(401).json({ success: false, message: "Invalid credentials" });
+        return res
+          .status(401)
+          .json({ success: false, message: "Invalid credentials" });
       }
     } catch (error: any) {
       console.error("Login error:", error);
-      return res.status(500).json({ success: false, error: "Internal server error" });
+      return res
+        .status(500)
+        .json({ success: false, error: "Internal server error" });
     }
   });
 
@@ -98,7 +102,9 @@ export async function createServer() {
       return res.json({ success: true, message: "Logged out successfully" });
     } catch (error: any) {
       console.error("Logout error:", error);
-      return res.status(500).json({ success: false, error: "Internal server error" });
+      return res
+        .status(500)
+        .json({ success: false, error: "Internal server error" });
     }
   });
 
@@ -109,7 +115,13 @@ export async function createServer() {
       return res.json({ authenticated, ok: true });
     } catch (error: any) {
       console.error("Auth status error:", error);
-      return res.status(500).json({ authenticated: false, ok: false, error: "Internal server error" });
+      return res
+        .status(500)
+        .json({
+          authenticated: false,
+          ok: false,
+          error: "Internal server error",
+        });
     }
   });
 

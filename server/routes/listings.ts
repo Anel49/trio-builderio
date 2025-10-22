@@ -553,9 +553,10 @@ export async function updateListing(req: Request, res: Response) {
     if (cats.length > 0) {
       try {
         // Delete existing categories
-        await pool.query(`delete from listing_categories where listing_id = $1`, [
-          listingId,
-        ]);
+        await pool.query(
+          `delete from listing_categories where listing_id = $1`,
+          [listingId],
+        );
         // Insert new categories
         for (let i = 0; i < cats.length; i++) {
           const cat = cats[i];
@@ -581,7 +582,9 @@ export async function deleteListing(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
     try {
-      await pool.query("delete from listing_images where listing_id = $1", [id]);
+      await pool.query("delete from listing_images where listing_id = $1", [
+        id,
+      ]);
     } catch {}
     const result = await pool.query("delete from listings where id = $1", [id]);
     res.json({ ok: true, deleted: result.rowCount || 0 });
