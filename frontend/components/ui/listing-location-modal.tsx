@@ -218,15 +218,23 @@ export function ListingLocationModal({
                 className="rounded-lg overflow-hidden border border-border bg-muted relative flex-shrink-0"
               />
 
-              <div className="flex items-center justify-between gap-2 bg-muted p-4 rounded-lg">
-                <div className="text-sm text-muted-foreground font-mono">
-                  {latitude.toFixed(6)}, {longitude.toFixed(6)}
-                </div>
+              <div className="space-y-2 bg-muted p-4 rounded-lg">
+                <input
+                  type="text"
+                  value={`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`}
+                  readOnly
+                  className="w-full px-3 py-2 text-sm font-mono bg-background border border-input rounded cursor-text"
+                  onClick={(e) => {
+                    const input = e.currentTarget;
+                    input.select();
+                    handleCopyCoordinates();
+                  }}
+                />
                 <Button
                   onClick={handleCopyCoordinates}
                   variant="outline"
                   size="sm"
-                  className="gap-2"
+                  className="gap-2 w-full"
                 >
                   {copied ? (
                     <>
