@@ -1098,6 +1098,13 @@ export default function ProductDetails() {
         onOpenChange={setIsReportModalOpen}
         listingTitle={product.name}
       />
+      <ListingLocationModal
+        open={isLocationModalOpen}
+        onOpenChange={setIsLocationModalOpen}
+        latitude={product?.latitude ?? null}
+        longitude={product?.longitude ?? null}
+        listingName={product?.name}
+      />
     </div>
   );
 }
