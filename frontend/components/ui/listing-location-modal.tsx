@@ -127,7 +127,8 @@ export function ListingLocationModal({
           <>
             <div
               ref={containerRef}
-              className="w-full h-96 rounded-lg overflow-hidden border border-border"
+              style={{ height: "400px", width: "100%" }}
+              className="rounded-lg overflow-hidden border border-border bg-muted"
             />
 
             <div className="flex items-center justify-between gap-2">
