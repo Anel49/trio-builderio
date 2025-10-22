@@ -375,6 +375,7 @@ export async function getListingById(req: Request, res: Response) {
           : DEFAULT_RENTAL_PERIOD,
       delivery: Boolean(r.delivery),
       freeDelivery: Boolean(r.free_delivery),
+      enabled: typeof r.enabled === "boolean" ? r.enabled : true,
     };
     res.json({ ok: true, listing });
   } catch (error: any) {
