@@ -427,8 +427,8 @@ export default function BrowseListings() {
           coordsToUse,
         );
         const path = coordsToUse
-          ? `listings?user_lat=${coordsToUse.latitude}&user_lng=${coordsToUse.longitude}`
-          : "listings";
+          ? `listings?user_lat=${coordsToUse.latitude}&user_lng=${coordsToUse.longitude}&enabled=true`
+          : "listings?enabled=true";
         console.log("[BrowseListings] Fetching listings with path:", path);
         const response = await apiFetch(path);
         if (!response.ok || cancelled) return;
