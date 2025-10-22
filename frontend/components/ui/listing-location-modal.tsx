@@ -75,10 +75,9 @@ export function ListingLocationModal({
         });
 
         L.tileLayer(
-          "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           {
-            attribution: "© OpenStreetMap contributors © CARTO",
-            subdomains: "abcd",
+            attribution: "© OpenStreetMap contributors",
             maxZoom: 19,
           },
         ).addTo(map);
