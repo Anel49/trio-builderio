@@ -88,6 +88,7 @@ export function ProductCard({
         "group cursor-pointer",
         animations.combinations.productCard,
         shadows.hover.productCard,
+        !enabled ? "opacity-25" : "",
         className || "",
       )}
       onClick={onClick}
