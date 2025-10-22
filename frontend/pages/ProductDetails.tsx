@@ -54,6 +54,7 @@ import {
   Star,
   Heart,
   MapPin,
+  Map,
   Calendar,
   Shield,
   Users,
