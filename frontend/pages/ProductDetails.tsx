@@ -38,6 +38,7 @@ import { Footer } from "@/components/Footer";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
+import { ListingLocationModal } from "@/components/ui/listing-location-modal";
 import { cn } from "@/lib/utils";
 import {
   currentUser,
