@@ -67,7 +67,8 @@ export async function listListings(req: Request, res: Response) {
 
     const query = (req.query ?? {}) as Record<string, unknown>;
     const enabledParam = query.enabled;
-    const filterEnabled = enabledParam === "true" ? true : enabledParam === "false" ? false : null;
+    const filterEnabled =
+      enabledParam === "true" ? true : enabledParam === "false" ? false : null;
 
     let result: any;
     try {
@@ -613,20 +614,40 @@ export async function toggleListingEnabled(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
     const { enabled } = req.body || {};
-    console.log("[toggleListingEnabled] Extracted enabled:", enabled, "type:", typeof enabled);
+    console.log(
+      "[toggleListingEnabled] Extracted enabled:",
+      enabled,
+      "type:",
+      typeof enabled,
+    );
     if (typeof enabled !== "boolean") {
-      return res.status(400).json({ ok: false, error: "enabled must be a boolean" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "enabled must be a boolean" });
     }
-    console.log("[toggleListingEnabled] Updating listing", id, "to enabled =", enabled);
+    console.log(
+      "[toggleListingEnabled] Updating listing",
+      id,
+      "to enabled =",
+      enabled,
+    );
     const result = await pool.query(
       `update listings set enabled = $1 where id = $2 returning id, enabled`,
-      [enabled, id]
+      [enabled, id],
     );
-    console.log("[toggleListingEnabled] Update result:", result.rowCount, result.rows);
+    console.log(
+      "[toggleListingEnabled] Update result:",
+      result.rowCount,
+      result.rows,
+    );
     if (result.rowCount === 0) {
       return res.status(404).json({ ok: false, error: "Listing not found" });
     }
-    res.json({ ok: true, id: result.rows[0].id, enabled: result.rows[0].enabled });
+    res.json({
+      ok: true,
+      id: result.rows[0].id,
+      enabled: result.rows[0].enabled,
+    });
   } catch (error: any) {
     console.error("[toggleListingEnabled] Error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });

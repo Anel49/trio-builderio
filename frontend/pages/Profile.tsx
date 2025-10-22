@@ -1818,7 +1818,7 @@ export default function Profile() {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ enabled: false }),
-                      }
+                      },
                     );
                     const data = await res.json().catch(() => ({}) as any);
                     ok = Boolean(res.ok && data && data.ok);
@@ -1827,8 +1827,8 @@ export default function Profile() {
                         prev.map((i) =>
                           i.id === itemToDisable.id
                             ? { ...i, enabled: false }
-                            : i
-                        )
+                            : i,
+                        ),
                       );
                     }
                   }
@@ -1879,7 +1879,7 @@ export default function Profile() {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ enabled: true }),
-                      }
+                      },
                     );
                     const data = await res.json().catch(() => ({}) as any);
                     ok = Boolean(res.ok && data && data.ok);
@@ -1888,8 +1888,8 @@ export default function Profile() {
                         prev.map((i) =>
                           i.id === itemToEnable.id
                             ? { ...i, enabled: true }
-                            : i
-                        )
+                            : i,
+                        ),
                       );
                     }
                   }

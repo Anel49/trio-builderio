@@ -144,7 +144,9 @@ export function ProductCard({
                   layouts.absolute.topRight,
                   "border-gray-300 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 hover:border-gray-400",
                   "mr-0 mt-0",
-                  !enabled ? "opacity-100 hover:opacity-100 focus:opacity-100" : "hover:opacity-100 focus:opacity-100",
+                  !enabled
+                    ? "opacity-100 hover:opacity-100 focus:opacity-100"
+                    : "hover:opacity-100 focus:opacity-100",
                 )}
                 onClick={(e) => {
                   e.stopPropagation();
