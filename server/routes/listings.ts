@@ -70,7 +70,6 @@ export async function listListings(req: Request, res: Response) {
         `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
                 coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery, coalesce(enabled, true) as enabled
          from listings
-         where coalesce(enabled, true) = true
          order by created_at desc
          limit 50`,
       );
