@@ -122,10 +122,38 @@ export function ListingLocationModal({
     if (latitude === null || longitude === null) return;
 
     const coordinatesText = `${latitude}, ${longitude}`;
+
     try {
-      await navigator.clipboard.writeText(coordinatesText);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      // Try modern Clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(coordinatesText);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        return;
+      }
+    } catch (error) {
+      console.warn("Clipboard API failed, trying fallback:", error);
+    }
+
+    // Fallback to old execCommand method
+    try {
+      const textarea = document.createElement("textarea");
+      textarea.value = coordinatesText;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+
+      textarea.select();
+      const successful = document.execCommand("copy");
+
+      document.body.removeChild(textarea);
+
+      if (successful) {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } else {
+        console.error("Failed to copy using execCommand");
+      }
     } catch (error) {
       console.error("Failed to copy coordinates:", error);
     }
