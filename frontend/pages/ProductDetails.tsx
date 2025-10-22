@@ -193,10 +193,13 @@ export default function ProductDetails() {
     totalReviews: number;
     location: string | null;
     distanceMiles: number | null;
+    latitude: number | null;
+    longitude: number | null;
     rentalPeriod: RentalPeriod;
     image?: string;
     images?: string[];
   }>(null);
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   const host = currentUser;
 
