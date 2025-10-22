@@ -418,24 +418,28 @@ export default function UploadProduct() {
         delivery: offerDelivery,
         free_delivery: offerFreeDelivery,
       };
-      const res = await apiFetch("listings", {
-        method: "POST",
+
+      const endpoint = editListingId ? `listings/${editListingId}` : "listings";
+      const method = editListingId ? "PUT" : "POST";
+
+      const res = await apiFetch(endpoint, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
       const data = await res.json().catch(() => ({}));
-      const newId = Number(data?.id);
-      if (!res.ok || !data?.ok || !Number.isFinite(newId)) {
-        throw new Error("Failed to create listing");
+      const resultId = editListingId || Number(data?.id);
+      if (!res.ok || !data?.ok || !Number.isFinite(resultId)) {
+        throw new Error(editListingId ? "Failed to update listing" : "Failed to create listing");
       }
-      setCreatedListingId(newId);
+      setCreatedListingId(resultId);
       setIsListed(true);
       setShowConfirmModal(false);
       setShowSuccessModal(true);
       // Skip immediate refresh to avoid redundant network calls; pages load fresh on navigation
     } catch (e) {
       setShowConfirmModal(false);
-      alert("Failed to list product. Please try again.");
+      alert(editListingId ? "Failed to update product. Please try again." : "Failed to list product. Please try again.");
     }
   };
 
