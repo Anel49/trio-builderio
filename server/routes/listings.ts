@@ -471,6 +471,8 @@ export async function updateListing(req: Request, res: Response) {
         ? [image]
         : [];
     const primaryImage = imgs[0] ?? null;
+    const lat = parseCoordinate(latitude);
+    const lon = parseCoordinate(longitude);
 
     const result = await pool.query(
       `update listings
@@ -489,8 +491,8 @@ export async function updateListing(req: Request, res: Response) {
         normalizedRentalPeriod,
         normalizedZip || null,
         location_city || null,
-        latitude || null,
-        longitude || null,
+        lat,
+        lon,
         delivery || false,
         free_delivery || false,
         id,
