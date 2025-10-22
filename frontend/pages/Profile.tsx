@@ -1289,6 +1289,7 @@ export default function Profile() {
                         hideHostInfo={true}
                         priceUnitLabel={`per ${RENTAL_UNIT_LABELS[normalizeRentalPeriod(item.rentalPeriod)]}`}
                         onFavorite={handleFavorite}
+                        onEditClick={() => handleEdit(item)}
                         onDeleteClick={() => {
                           setItemToDelete(item);
                           setIsDeleteModalOpen(true);
