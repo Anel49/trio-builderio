@@ -83,9 +83,7 @@ export function ListingLocationModal({
           },
         ).addTo(map);
 
-        const marker = L.marker([latitude, longitude], { icon: defaultIcon }).addTo(
-          map,
-        );
+        const marker = L.marker([latitude, longitude]).addTo(map);
         marker.bindPopup(listingName);
         marker.openPopup();
 
