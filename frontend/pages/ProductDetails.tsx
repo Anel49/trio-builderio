@@ -265,6 +265,8 @@ export default function ProductDetails() {
             totalReviews: 0,
             location: distanceLabel,
             distanceMiles,
+            latitude: typeof l.latitude === "number" ? l.latitude : null,
+            longitude: typeof l.longitude === "number" ? l.longitude : null,
             rentalPeriod: normalizeRentalPeriod(
               l.rentalPeriod ?? l.rental_period,
             ),
