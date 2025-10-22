@@ -154,6 +154,9 @@ export async function createListing(req: Request, res: Response) {
       categories,
       rental_period,
       zip_code,
+      location_city,
+      latitude,
+      longitude,
       delivery,
       free_delivery,
     } = req.body || {};
@@ -182,12 +185,14 @@ export async function createListing(req: Request, res: Response) {
     const rentalPeriodValue = normalizeRentalPeriod(rental_period);
     const deliveryValue = Boolean(delivery);
     const freeDeliveryValue = Boolean(free_delivery) && deliveryValue;
+    const lat = parseCoordinate(latitude);
+    const lon = parseCoordinate(longitude);
 
     let result;
     try {
       result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, category, rental_period, description, zip_code, delivery, free_delivery)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+        `insert into listings (name, price_cents, rating, image_url, host, category, rental_period, description, zip_code, location_city, latitude, longitude, delivery, free_delivery)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
          returning id`,
         [
           name,
@@ -199,14 +204,17 @@ export async function createListing(req: Request, res: Response) {
           rentalPeriodValue,
           description ?? null,
           zip,
+          location_city ?? null,
+          lat,
+          lon,
           deliveryValue,
           freeDeliveryValue,
         ],
       );
     } catch {
       result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, category, description, zip_code, delivery, free_delivery)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+        `insert into listings (name, price_cents, rating, image_url, host, category, description, zip_code, location_city, latitude, longitude, delivery, free_delivery)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
          returning id`,
         [
           name,
@@ -217,6 +225,9 @@ export async function createListing(req: Request, res: Response) {
           primaryCategory,
           description ?? null,
           zip,
+          location_city ?? null,
+          lat,
+          lon,
           deliveryValue,
           freeDeliveryValue,
         ],
