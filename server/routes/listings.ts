@@ -71,25 +71,30 @@ export async function listListings(req: Request, res: Response) {
 
     let result: any;
     try {
+      let hasEnabledColumn = false;
+      try {
+        await pool.query(`select enabled from listings limit 1`);
+        hasEnabledColumn = true;
+      } catch (e) {
+        console.log("[listListings] enabled column does not exist:", String(e));
+      }
+
       let sql = `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
                 coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery`;
 
-      try {
-        await pool.query(`select enabled from listings limit 1`);
+      if (hasEnabledColumn) {
         sql += `, coalesce(enabled, true) as enabled`;
-      } catch {
-        console.log("[listListings] enabled column does not exist yet");
       }
 
       sql += ` from listings`;
 
-      if (filterEnabled !== null) {
+      if (filterEnabled !== null && hasEnabledColumn) {
         sql += ` where coalesce(enabled, true) = $1`;
       }
 
       sql += ` order by created_at desc limit 50`;
 
-      const params = filterEnabled !== null ? [filterEnabled] : [];
+      const params = filterEnabled !== null && hasEnabledColumn ? [filterEnabled] : [];
       result = await pool.query(sql, params);
       console.log("[listListings] Query succeeded, rows:", result.rows?.length);
     } catch (e) {
