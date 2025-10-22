@@ -91,6 +91,7 @@ export function ListingLocationModal({
         marker.openPopup();
 
         mapRef.current = map;
+        console.log("Map initialized successfully");
       } catch (error) {
         console.error("Failed to initialize map:", error);
       }
