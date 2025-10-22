@@ -152,7 +152,10 @@ export function FavoritesModal({
                   )}
                 </div>
                 <button
-                  onClick={() => handleRemoveFavorite(favorite.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveFavorite(favorite.id);
+                  }}
                   className="flex-shrink-0 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
                   title="Remove from favorites"
                 >
