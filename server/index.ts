@@ -114,6 +114,7 @@ export function createServer() {
   app.get("/api/listings", listListings);
   app.get("/api/listings/:id", getListingById);
   app.post("/api/listings", createListing);
+  app.put("/api/listings/:id", updateListing);
   app.delete("/api/listings/:id", deleteListing);
   app.get("/api/listings/:id/reviews", listListingReviews);
   app.get("/api/listings/:id/reservations", listListingReservations);
@@ -129,6 +130,7 @@ export function createServer() {
   app.get("/listings", listListings);
   app.get("/listings/:id", getListingById);
   app.post("/listings", createListing);
+  app.put("/listings/:id", updateListing);
   app.delete("/listings/:id", deleteListing);
   app.get("/listings/:id/reviews", listListingReviews);
   app.get("/listings/:id/reservations", listListingReservations);
