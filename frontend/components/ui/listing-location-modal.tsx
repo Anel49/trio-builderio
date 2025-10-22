@@ -44,7 +44,10 @@ export function ListingLocationModal({
   console.log("ListingLocationModal rendered with:", { open, latitude, longitude, listingName });
 
   useEffect(() => {
+    console.log("useEffect triggered with open:", open);
+
     if (!open) {
+      console.log("Modal not open, cleaning up map");
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
@@ -52,9 +55,12 @@ export function ListingLocationModal({
       return;
     }
 
-    if (latitude === null || longitude === null || !containerRef.current) {
+    if (latitude === null || longitude === null) {
+      console.log("No coordinates available");
       return;
     }
+
+    console.log("Container ref available:", !!containerRef.current);
 
     // Clear previous map if it exists
     if (mapRef.current) {
@@ -62,15 +68,22 @@ export function ListingLocationModal({
       mapRef.current = null;
     }
 
-    // Wait for DOM to be fully rendered
-    const timer = setTimeout(() => {
+    // Use requestAnimationFrame instead of setTimeout to ensure DOM is ready
+    const rafId = requestAnimationFrame(() => {
+      console.log("RAF callback - container ref:", !!containerRef.current, containerRef.current?.clientHeight);
+
       if (!containerRef.current) {
-        console.error("Container ref not available");
+        console.error("Container ref still not available in RAF");
         return;
       }
 
       try {
         console.log("Initializing map with coordinates:", latitude, longitude);
+        console.log("Container dimensions:", {
+          height: containerRef.current.clientHeight,
+          width: containerRef.current.clientWidth,
+        });
+
         const center: LatLngExpression = [latitude, longitude];
 
         const map = L.map(containerRef.current, {
@@ -80,7 +93,9 @@ export function ListingLocationModal({
           attributionControl: true,
         });
 
-        L.tileLayer(
+        console.log("Leaflet map created:", !!map);
+
+        const layer = L.tileLayer(
           "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           {
             attribution: "© OpenStreetMap contributors",
@@ -88,7 +103,11 @@ export function ListingLocationModal({
           },
         ).addTo(map);
 
+        console.log("Tile layer added:", !!layer);
+
         const marker = L.marker([latitude, longitude]).addTo(map);
+        console.log("Marker added");
+
         marker.bindPopup(listingName);
         marker.openPopup();
 
@@ -97,10 +116,10 @@ export function ListingLocationModal({
       } catch (error) {
         console.error("Failed to initialize map:", error);
       }
-    }, 100);
+    });
 
     return () => {
-      clearTimeout(timer);
+      cancelAnimationFrame(rafId);
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
