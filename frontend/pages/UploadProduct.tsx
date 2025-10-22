@@ -107,6 +107,42 @@ export default function UploadProduct() {
   const priceUnit = priceUnitLabels[rentalPeriod];
   const priceLabel = `Price per ${priceUnit}`;
   const pricePlaceholder = pricePlaceholderByPeriod[rentalPeriod];
+  const [editListingId, setEditListingId] = useState<number | null>(null);
+
+  // Load listing data when editing
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const listingIdParam = params.get("edit");
+    if (listingIdParam) {
+      const listingId = Number.parseInt(listingIdParam, 10);
+      setEditListingId(listingId);
+
+      const editData = sessionStorage.getItem("editListingData");
+      if (editData) {
+        try {
+          const listing = JSON.parse(editData);
+          setTitle(listing.name || "");
+          setPrice(listing.price || "");
+          setDescription(listing.type || "");
+          if (listing.rentalPeriod) {
+            const period = listing.rentalPeriod.toLowerCase() as RentalPeriod;
+            if (period === "hourly" || period === "daily" || period === "weekly" || period === "monthly") {
+              const capitalizedPeriod = period.charAt(0).toUpperCase() + period.slice(1) as RentalPeriod;
+              setRentalPeriod(capitalizedPeriod);
+            }
+          }
+          if (listing.image && Array.isArray(listing.image) && listing.image.length > 0) {
+            setUploadedImages(listing.image);
+          } else if (typeof listing.image === "string") {
+            setUploadedImages([listing.image]);
+          }
+          sessionStorage.removeItem("editListingData");
+        } catch (error) {
+          console.error("Failed to parse edit listing data:", error);
+        }
+      }
+    }
+  }, []);
 
   // Mock user profile data - in real app this would come from context/API
   const hasListingCoordinates =
