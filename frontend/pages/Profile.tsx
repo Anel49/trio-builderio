@@ -1296,6 +1296,15 @@ export default function Profile() {
                         priceUnitLabel={`per ${RENTAL_UNIT_LABELS[normalizeRentalPeriod(item.rentalPeriod)]}`}
                         onFavorite={handleFavorite}
                         onEditClick={() => handleEdit(item)}
+                        enabled={item.enabled ?? true}
+                        onDisableClick={() => {
+                          setItemToDisable(item);
+                          setIsDisableModalOpen(true);
+                        }}
+                        onEnableClick={() => {
+                          setItemToEnable(item);
+                          setIsEnableModalOpen(true);
+                        }}
                         onDeleteClick={() => {
                           setItemToDelete(item);
                           setIsDeleteModalOpen(true);
