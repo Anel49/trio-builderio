@@ -118,41 +118,31 @@ export function ListingLocationModal({
     };
   }, [open, latitude, longitude, listingName]);
 
-  const handleCopyCoordinates = async () => {
+  const handleCopyCoordinates = () => {
     if (latitude === null || longitude === null) return;
 
     const coordinatesText = `${latitude}, ${longitude}`;
 
-    try {
-      // Try modern Clipboard API first
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(coordinatesText);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-        return;
-      }
-    } catch (error) {
-      console.warn("Clipboard API failed, trying fallback:", error);
-    }
-
-    // Fallback to old execCommand method
+    // Use execCommand as the primary method
     try {
       const textarea = document.createElement("textarea");
       textarea.value = coordinatesText;
       textarea.style.position = "fixed";
+      textarea.style.top = "0";
+      textarea.style.left = "0";
       textarea.style.opacity = "0";
+      textarea.style.pointerEvents = "none";
       document.body.appendChild(textarea);
 
+      textarea.focus();
       textarea.select();
-      const successful = document.execCommand("copy");
 
+      const successful = document.execCommand("copy");
       document.body.removeChild(textarea);
 
       if (successful) {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-      } else {
-        console.error("Failed to copy using execCommand");
       }
     } catch (error) {
       console.error("Failed to copy coordinates:", error);
