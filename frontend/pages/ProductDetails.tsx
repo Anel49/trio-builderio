@@ -749,7 +749,7 @@ export default function ProductDetails() {
                 className="flex items-center text-muted-foreground mb-6 hover:text-foreground cursor-pointer transition-colors"
               >
                 <Map className="h-4 w-4 mr-1" />
-                <span className="text-sm">
+                <span className="text-sm underline">
                   {product.location && product.location.trim()
                     ? product.location
                     : "Distance unavailable"}
