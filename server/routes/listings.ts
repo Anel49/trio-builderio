@@ -594,6 +594,29 @@ export async function deleteListing(req: Request, res: Response) {
   }
 }
 
+export async function toggleListingEnabled(req: Request, res: Response) {
+  try {
+    const id = Number((req.params as any)?.id);
+    if (!id || Number.isNaN(id)) {
+      return res.status(400).json({ ok: false, error: "invalid id" });
+    }
+    const { enabled } = req.body || {};
+    if (typeof enabled !== "boolean") {
+      return res.status(400).json({ ok: false, error: "enabled must be a boolean" });
+    }
+    const result = await pool.query(
+      `update listings set enabled = $1 where id = $2 returning id, enabled`,
+      [enabled, id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ ok: false, error: "Listing not found" });
+    }
+    res.json({ ok: true, id: result.rows[0].id, enabled: result.rows[0].enabled });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function listListingReservations(req: Request, res: Response) {
   try {
     const id = Number((req.params as any)?.id);
