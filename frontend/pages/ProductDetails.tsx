@@ -276,6 +276,28 @@ export default function ProductDetails() {
     };
   }, [params.id]);
 
+  // Check if current product is favorited on mount
+  useEffect(() => {
+    const checkFavorite = async () => {
+      const userId = currentUser.email;
+      if (!userId || !product?.id) return;
+
+      try {
+        const response = await apiFetch(
+          `favorites/${userId}/${product.id}/check`,
+        );
+        const data = await response.json().catch(() => ({}));
+        if (data.ok) {
+          setIsFavorited(data.isFavorited || false);
+        }
+      } catch (error) {
+        console.error("Failed to check favorite:", error);
+      }
+    };
+
+    checkFavorite();
+  }, [product?.id]);
+
   useEffect(() => {
     if (!params.id) return;
     apiFetch(`listings/${params.id}/reservations`)
