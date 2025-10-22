@@ -6,6 +6,7 @@ import { dbHealth, dbSchema, dbSetup } from "./routes/db";
 import {
   listListings,
   createListing,
+  updateListing,
   deleteListing,
   getListingById,
   listListingReviews,
