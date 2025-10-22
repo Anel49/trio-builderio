@@ -117,7 +117,8 @@ export function FavoritesModal({
             {favorites.map((favorite) => (
               <div
                 key={favorite.id}
-                className="flex gap-4 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                onClick={() => window.location.href = `/product/${favorite.id}`}
+                className="flex gap-4 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors cursor-pointer"
               >
                 {favorite.image && (
                   <img
