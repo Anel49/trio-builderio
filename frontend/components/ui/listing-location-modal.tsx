@@ -41,6 +41,8 @@ export function ListingLocationModal({
   const mapRef = useRef<L.Map | null>(null);
   const [copied, setCopied] = useState(false);
 
+  console.log("ListingLocationModal rendered with:", { open, latitude, longitude, listingName });
+
   useEffect(() => {
     if (!open) {
       if (mapRef.current) {
