@@ -64,15 +64,25 @@ export async function listListings(req: Request, res: Response) {
     console.log("[listListings] Request received");
     const userCoords = extractUserCoordinates(req);
     console.log("[listListings] User coords:", userCoords);
+
+    const query = (req.query ?? {}) as Record<string, unknown>;
+    const enabledParam = query.enabled;
+    const filterEnabled = enabledParam === "true" ? true : enabledParam === "false" ? false : null;
+
     let result: any;
     try {
-      result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
+      let sql = `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
                 coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery, coalesce(enabled, true) as enabled
-         from listings
-         order by created_at desc
-         limit 50`,
-      );
+         from listings`;
+
+      if (filterEnabled !== null) {
+        sql += ` where coalesce(enabled, true) = $1`;
+      }
+
+      sql += ` order by created_at desc limit 50`;
+
+      const params = filterEnabled !== null ? [filterEnabled] : [];
+      result = await pool.query(sql, params);
       console.log("[listListings] Query succeeded, rows:", result.rows?.length);
     } catch (e) {
       console.log("[listListings] Query failed:", e);
