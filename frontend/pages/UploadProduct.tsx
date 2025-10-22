@@ -117,30 +117,71 @@ export default function UploadProduct() {
       const listingId = Number.parseInt(listingIdParam, 10);
       setEditListingId(listingId);
 
-      const editData = sessionStorage.getItem("editListingData");
-      if (editData) {
+      // Fetch the complete listing data from the API
+      (async () => {
         try {
-          const listing = JSON.parse(editData);
-          setTitle(listing.name || "");
-          setPrice(listing.price || "");
-          setDescription(listing.type || "");
-          if (listing.rentalPeriod) {
-            const period = listing.rentalPeriod.toLowerCase() as RentalPeriod;
-            if (period === "hourly" || period === "daily" || period === "weekly" || period === "monthly") {
-              const capitalizedPeriod = period.charAt(0).toUpperCase() + period.slice(1) as RentalPeriod;
-              setRentalPeriod(capitalizedPeriod);
+          const response = await apiFetch(`listings/${listingId}`);
+          const data = await response.json().catch(() => ({}));
+          if (data.ok && data.listing) {
+            const listing = data.listing;
+
+            // Set all form fields from the listing data
+            setTitle(listing.name || "");
+
+            // Parse price: remove $ and convert from price format (e.g., "$60" -> "60")
+            if (listing.price) {
+              const priceStr = listing.price.replace(/[^0-9.]/g, "");
+              setPrice(priceStr || "");
+            }
+
+            setDescription(listing.description || "");
+
+            // Set rental period
+            if (listing.rentalPeriod) {
+              const period = listing.rentalPeriod.toLowerCase() as RentalPeriod;
+              if (period === "hourly" || period === "daily" || period === "weekly" || period === "monthly") {
+                const capitalizedPeriod = period.charAt(0).toUpperCase() + period.slice(1) as RentalPeriod;
+                setRentalPeriod(capitalizedPeriod);
+              }
+            }
+
+            // Set location
+            if (listing.location_city || listing.latitude != null || listing.longitude != null) {
+              setListingLocation({
+                city: listing.location_city || null,
+                latitude: typeof listing.latitude === "number" ? listing.latitude : null,
+                longitude: typeof listing.longitude === "number" ? listing.longitude : null,
+                postalCode: listing.zipCode || null,
+              });
+            }
+
+            // Set categories
+            if (Array.isArray(listing.categories) && listing.categories.length > 0) {
+              setSelectedTags(listing.categories);
+            }
+
+            // Set delivery options
+            if (typeof listing.delivery === "boolean") {
+              setOfferDelivery(listing.delivery);
+            }
+            if (typeof listing.freeDelivery === "boolean") {
+              setOfferFreeDelivery(listing.freeDelivery);
+            }
+
+            // Set images
+            if (Array.isArray(listing.images) && listing.images.length > 0) {
+              setUploadedImages(listing.images);
+            } else if (listing.image && typeof listing.image === "string") {
+              setUploadedImages([listing.image]);
             }
           }
-          if (listing.image && Array.isArray(listing.image) && listing.image.length > 0) {
-            setUploadedImages(listing.image);
-          } else if (typeof listing.image === "string") {
-            setUploadedImages([listing.image]);
-          }
-          sessionStorage.removeItem("editListingData");
         } catch (error) {
-          console.error("Failed to parse edit listing data:", error);
+          console.error("Failed to load listing data:", error);
         }
-      }
+      })();
+
+      // Clear session storage if it exists
+      sessionStorage.removeItem("editListingData");
     }
   }, []);
 
