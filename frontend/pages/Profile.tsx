@@ -164,6 +164,10 @@ export default function Profile() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<ListedItem | null>(null);
   const [itemToEdit, setItemToEdit] = useState<ListedItem | null>(null);
+  const [isDisableModalOpen, setIsDisableModalOpen] = useState(false);
+  const [itemToDisable, setItemToDisable] = useState<ListedItem | null>(null);
+  const [isEnableModalOpen, setIsEnableModalOpen] = useState(false);
+  const [itemToEnable, setItemToEnable] = useState<ListedItem | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string>(
     currentUser.profileImage,
   );
