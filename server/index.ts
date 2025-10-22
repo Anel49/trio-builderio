@@ -24,8 +24,21 @@ import {
 const ADMIN_USERNAME = "Charki1014";
 const ADMIN_PASSWORD = "q=foJ7Ba7#+4";
 
-export function createServer() {
+export async function createServer() {
   const app = express();
+
+  // Run database setup on startup
+  try {
+    const req = {} as any;
+    const res = {
+      json: (data: any) => {
+        console.log("Database setup completed:", data);
+      },
+    } as any;
+    await dbSetup(req, res);
+  } catch (error) {
+    console.error("Database setup error:", error);
+  }
 
   // Middleware
   app.use(
