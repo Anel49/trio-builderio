@@ -773,9 +773,11 @@ export default function UploadProduct() {
       {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">List your product</h1>
+          <h1 className="text-3xl font-bold mb-2">
+            {editListingId ? "Edit your product" : "List your product"}
+          </h1>
           <p className="text-muted-foreground">
-            Share your items with the community and earn money
+            {editListingId ? "Update your listing information" : "Share your items with the community and earn money"}
           </p>
         </div>
 
