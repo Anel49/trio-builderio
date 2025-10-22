@@ -21,29 +21,6 @@ if (!L.Icon.Default.prototype._getIconUrl) {
   });
 }
 
-const markerIconRetinaUrl = new URL(
-  "leaflet/dist/images/marker-icon-2x.png",
-  import.meta.url,
-).href;
-const markerIconUrl = new URL(
-  "leaflet/dist/images/marker-icon.png",
-  import.meta.url,
-).href;
-const markerShadowUrl = new URL(
-  "leaflet/dist/images/marker-shadow.png",
-  import.meta.url,
-).href;
-
-const defaultIcon = L.icon({
-  iconRetinaUrl: markerIconRetinaUrl,
-  iconUrl: markerIconUrl,
-  shadowUrl: markerShadowUrl,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-L.Marker.prototype.options.icon = defaultIcon;
 
 interface ListingLocationModalProps {
   open: boolean;
