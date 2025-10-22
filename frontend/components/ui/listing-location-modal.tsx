@@ -36,7 +36,6 @@ const defaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = defaultIcon;
 
-
 interface ListingLocationModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
