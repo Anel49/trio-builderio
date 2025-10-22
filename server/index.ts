@@ -175,6 +175,7 @@ export function createServer() {
   app.post("/listings", createListing);
   app.put("/listings/:id", updateListing);
   app.delete("/listings/:id", deleteListing);
+  app.patch("/listings/:id/toggle-enabled", toggleListingEnabled);
   app.get("/listings/:id/reviews", listListingReviews);
   app.get("/listings/:id/reservations", listListingReservations);
   app.get("/users", getUserByEmail);
