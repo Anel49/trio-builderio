@@ -333,8 +333,11 @@ export async function createListing(req: Request, res: Response) {
         }
       } catch {}
     }
+    console.log("[createListing] Successfully created listing with ID:", result.rows[0].id);
     res.json({ ok: true, id: result.rows[0].id });
   } catch (error: any) {
+    console.error("[createListing] Error occurred:", error);
+    console.error("[createListing] Error stack:", error?.stack);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
