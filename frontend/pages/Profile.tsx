@@ -1768,18 +1768,23 @@ export default function Profile() {
                     const data = await res.json().catch(() => ({}) as any);
                     ok = Boolean(res.ok && data && data.ok);
                     if (ok) {
+                      setDeletedItemName(itemToDelete.name);
                       setListedItems((prev) =>
                         prev.filter((i) => i.id !== itemToDelete.id),
                       );
+                      setIsDeleteModalOpen(false);
+                      setItemToDelete(null);
+                      setIsDeleteSuccessModalOpen(true);
                     }
                   }
                 } catch {}
-                if (!ok)
+                if (!ok) {
                   alert(
                     "Failed to delete listing on server. Please try again.",
                   );
-                setIsDeleteModalOpen(false);
-                setItemToDelete(null);
+                  setIsDeleteModalOpen(false);
+                  setItemToDelete(null);
+                }
               }}
               className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white"
             >
