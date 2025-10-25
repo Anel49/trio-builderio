@@ -36,6 +36,11 @@ export function createServer() {
         json: (data: any) => {
           console.log("Database setup completed:", data);
         },
+        status: (code: number) => ({
+          json: (data: any) => {
+            console.log(`Database setup error (${code}):`, data);
+          },
+        }),
       } as any;
       await dbSetup(req, res);
     } catch (error) {
