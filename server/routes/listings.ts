@@ -266,8 +266,8 @@ export async function createListing(req: Request, res: Response) {
     let result;
     try {
       result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, category, rental_period, description, zip_code, location_city, latitude, longitude, delivery, free_delivery)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+        `insert into listings (name, price_cents, rating, image_url, host, category, rental_period, description, zip_code, location_city, latitude, longitude, delivery, free_delivery, user_id)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
          returning id`,
         [
           name,
@@ -284,12 +284,13 @@ export async function createListing(req: Request, res: Response) {
           lon,
           deliveryValue,
           freeDeliveryValue,
+          null, // user_id - will be populated from auth in future
         ],
       );
     } catch {
       result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, category, description, zip_code, location_city, latitude, longitude, delivery, free_delivery)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+        `insert into listings (name, price_cents, rating, image_url, host, category, description, zip_code, location_city, latitude, longitude, delivery, free_delivery, user_id)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
          returning id`,
         [
           name,
@@ -305,6 +306,7 @@ export async function createListing(req: Request, res: Response) {
           lon,
           deliveryValue,
           freeDeliveryValue,
+          null, // user_id - will be populated from auth in future
         ],
       );
     }
