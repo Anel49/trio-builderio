@@ -1001,7 +1001,7 @@ export default function BrowseListings() {
                   if (!hasRange || listingRentalPeriod !== "Daily") {
                     return {
                       price: listing.price,
-                      label: `per ${RENTAL_UNIT_LABELS[listingRentalPeriod]}`,
+                      label: "per day",
                       underline: false,
                     };
                   }
@@ -1017,7 +1017,7 @@ export default function BrowseListings() {
                   if (!Number.isFinite(baseRate)) {
                     return {
                       price: listing.price,
-                      label: `per ${RENTAL_UNIT_LABELS[listingRentalPeriod]}`,
+                      label: "per day",
                       underline: false,
                     };
                   }
