@@ -996,33 +996,8 @@ export default function UploadProduct() {
                   </Button>
                 </div>
 
-                {/* Rental Period */}
-                <div>
-                  <span className="block text-sm font-medium mb-2">
-                    Rental period
-                  </span>
-                  <div
-                    role="radiogroup"
-                    aria-label="Rental period"
-                    className="flex flex-wrap gap-2"
-                  >
-                    {rentalPeriods.map((period) => (
-                      <Button
-                        key={period}
-                        type="button"
-                        role="radio"
-                        aria-checked={rentalPeriod === period}
-                        variant={
-                          rentalPeriod === period ? "default" : "outline"
-                        }
-                        className="flex-1 min-w-[120px]"
-                        onClick={() => setRentalPeriod(period)}
-                      >
-                        {period}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
+                {/* Rental Period - Disabled */}
+                {/* Rental period selector temporarily disabled */}
 
                 {/* Price */}
                 <div>
