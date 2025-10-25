@@ -139,6 +139,8 @@ export async function listListings(req: Request, res: Response) {
           ? `${distanceMiles.toFixed(1)} miles`
           : "Distance unavailable";
 
+      const cats = categoriesMap[r.id] || [];
+      const primaryCategory = cats.length > 0 ? cats[0] : (r.category || "General");
       return {
         id: r.id,
         name: r.name,
@@ -147,8 +149,8 @@ export async function listListings(req: Request, res: Response) {
         images: [],
         image: r.image_url,
         host: r.host,
-        type: r.category || "General",
-        categories: r.category ? [r.category] : [],
+        type: primaryCategory,
+        categories: cats.length > 0 ? cats : (r.category ? [r.category] : []),
         distance: distanceLabel,
         distanceMiles,
         latitude: listingLatitude,
