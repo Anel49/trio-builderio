@@ -1052,7 +1052,7 @@ export default function BrowseListings() {
                       reviews={listing.reviews}
                       image={listing.image}
                       host={listing.host}
-                      type={listing.type}
+                      categories={listing.categories}
                       distance={listing.distance}
                       listedTime={listing.listedTime}
                       onFavorite={handleFavorite}
