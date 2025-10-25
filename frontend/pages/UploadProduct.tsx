@@ -424,7 +424,8 @@ export default function UploadProduct() {
         Number.isFinite(listingLocation.longitude));
     const hasPrice = price.trim() !== "" && parseFloat(price) > 0;
     const hasDescription = description.trim() !== "";
-    return hasTitle && hasLocation && hasPrice && hasDescription;
+    const hasImage = uploadedImages.length > 0;
+    return hasTitle && hasLocation && hasPrice && hasDescription && hasImage;
   };
 
   const getAsteriskColor = (isFilled: boolean) => {
