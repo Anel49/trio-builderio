@@ -537,15 +537,18 @@ export default function Index() {
                     name={listing.name}
                     price={listing.price}
                     rating={listing.rating}
+                    reviews={listing.reviews}
                     image={listing.image}
                     host={listing.host}
-                    type={listing.type}
+                    categories={listing.categories || (listing.type ? [listing.type] : [])}
                     distance={listing.distance}
                     onFavorite={handleFavorite}
                     className="h-full"
                     onClick={() =>
                       (window.location.href = `/product/${listing.id}`)
                     }
+                    delivery={listing.delivery}
+                    freeDelivery={listing.freeDelivery}
                   />
                 </div>
               ))}
