@@ -202,7 +202,6 @@ export default function BrowseListings() {
     "Furniture",
     "Game",
     "Garden",
-    "General",
     "Home",
     "Instrument",
     "Literature",
