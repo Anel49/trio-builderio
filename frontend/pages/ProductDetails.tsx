@@ -1080,14 +1080,17 @@ export default function ProductDetails() {
               name={item.name}
               price={item.price}
               rating={item.rating}
+              reviews={item.reviews}
               image={item.image}
               host={item.host}
-              type={item.type}
+              categories={item.categories}
               distance={item.distance}
               onFavorite={handleFavorite}
               onClick={() => {
                 window.location.href = `/product/${item.id}`;
               }}
+              delivery={item.delivery}
+              freeDelivery={item.freeDelivery}
             />
           ))}
         </div>
