@@ -865,7 +865,7 @@ export default function BrowseListings() {
                       </SelectTrigger>
                       <SelectContent
                         side="bottom"
-                        className="max-h-48 overflow-y-auto text-sm"
+                        className="max-h-96 overflow-y-auto text-sm"
                         position="popper"
                       >
                         <SelectItem value="all">All Categories</SelectItem>
