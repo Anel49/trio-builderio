@@ -542,7 +542,7 @@ export default function BrowseListings() {
           ? ((listing as any).categories as string[])
           : [];
         const categoryMatches = cats.some((cat) =>
-          cat.toLowerCase().includes(query)
+          cat.toLowerCase().includes(query),
         );
         const typeMatches = listing.type.toLowerCase().includes(query);
         if (!nameMatches && !categoryMatches && !typeMatches) {
