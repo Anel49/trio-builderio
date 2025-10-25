@@ -28,7 +28,8 @@ interface ProductCardProps {
   reviews?: number;
   image: string;
   host: string;
-  type: string;
+  type?: string;
+  categories?: string[];
   distance: string | null;
   listedTime?: string;
   hideHostInfo?: boolean;
@@ -58,6 +59,7 @@ export function ProductCard({
   image,
   host,
   type,
+  categories,
   distance,
   listedTime,
   hideHostInfo,
@@ -81,6 +83,7 @@ export function ProductCard({
   const distanceText =
     typeof distance === "string" && distance.trim() ? distance.trim() : null;
   const resolvedDistance = distanceText ?? "Distance unavailable";
+  const displayCategories = (categories && categories.length > 0 ? categories : type ? [type] : []).slice(0, 3);
 
   return (
     <Card
@@ -206,14 +209,25 @@ export function ProductCard({
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-        <Badge
-          className={combineTokens(
-            layouts.absolute.bottomLeft,
-            "bg-black/60 text-white",
-          )}
-        >
-          {type}
-        </Badge>
+        {displayCategories.length > 0 && (
+          <div
+            className={combineTokens(
+              layouts.absolute.bottomLeft,
+              "flex flex-wrap gap-2 p-2",
+            )}
+          >
+            {displayCategories.map((category) => (
+              <Badge
+                key={category}
+                className={combineTokens(
+                  "bg-black/60 text-white",
+                )}
+              >
+                {category}
+              </Badge>
+            ))}
+          </div>
+        )}
       </div>
 
       <CardContent className={spacing.padding.card}>
