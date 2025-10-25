@@ -72,8 +72,7 @@ export async function listListings(req: Request, res: Response) {
 
     let result: any;
     try {
-      let sql = `set statement_timeout = 10000;
-select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
+      let sql = `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
                 coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery, coalesce(enabled, true) as enabled
          from listings`;
 
@@ -86,7 +85,14 @@ select id, name, price_cents, rating, image_url, host, category, description, zi
 
       const params = filterEnabled !== null ? [filterEnabled] : [];
       console.log("[listListings] Executing SQL:", sql, "Params:", params);
-      result = await pool.query(sql, params);
+
+      // Use timeout on the query itself
+      const queryPromise = pool.query(sql, params);
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Query timeout after 10 seconds")), 10000)
+      );
+      result = await Promise.race([queryPromise, timeoutPromise]);
+
       console.log("[listListings] Query succeeded, rows:", result.rows?.length);
       if (result.rows && result.rows.length > 0) {
         console.log("[listListings] First row:", JSON.stringify(result.rows[0]));
