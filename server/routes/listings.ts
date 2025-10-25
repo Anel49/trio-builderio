@@ -89,13 +89,19 @@ export async function listListings(req: Request, res: Response) {
       // Use timeout on the query itself
       const queryPromise = pool.query(sql, params);
       const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error("Query timeout after 10 seconds")), 10000)
+        setTimeout(
+          () => reject(new Error("Query timeout after 10 seconds")),
+          10000,
+        ),
       );
       result = await Promise.race([queryPromise, timeoutPromise]);
 
       console.log("[listListings] Query succeeded, rows:", result.rows?.length);
       if (result.rows && result.rows.length > 0) {
-        console.log("[listListings] First row:", JSON.stringify(result.rows[0]));
+        console.log(
+          "[listListings] First row:",
+          JSON.stringify(result.rows[0]),
+        );
       }
     } catch (e) {
       console.error("[listListings] Query failed:", e);
@@ -185,7 +191,10 @@ export async function listListings(req: Request, res: Response) {
       "[listListings] Rental periods:",
       listings.map((l: any) => `${l.id}:${l.rentalPeriod}`).join(", "),
     );
-    console.log("[listListings] Response size (stringified):", JSON.stringify({ ok: true, listings }).length);
+    console.log(
+      "[listListings] Response size (stringified):",
+      JSON.stringify({ ok: true, listings }).length,
+    );
     res.json({ ok: true, listings });
   } catch (error: any) {
     console.error("[listListings] Error:", error);
@@ -196,7 +205,10 @@ export async function listListings(req: Request, res: Response) {
 export async function createListing(req: Request, res: Response) {
   try {
     console.log("[createListing] Request received");
-    console.log("[createListing] Request body:", JSON.stringify(req.body, null, 2));
+    console.log(
+      "[createListing] Request body:",
+      JSON.stringify(req.body, null, 2),
+    );
 
     const {
       name,
@@ -251,7 +263,9 @@ export async function createListing(req: Request, res: Response) {
         ? [image]
         : [];
     if (imgs.length === 0) {
-      return res.status(400).json({ ok: false, error: "at least one image is required" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "at least one image is required" });
     }
     const primaryImage = imgs[0] ?? null;
     const cats: string[] = Array.isArray(categories)
@@ -290,7 +304,10 @@ export async function createListing(req: Request, res: Response) {
         ],
       );
     } catch (e) {
-      console.log("[createListing] Primary insert failed, trying without rental_period:", e);
+      console.log(
+        "[createListing] Primary insert failed, trying without rental_period:",
+        e,
+      );
       result = await pool.query(
         `insert into listings (name, price_cents, rating, image_url, host, category, description, zip_code, location_city, latitude, longitude, delivery, free_delivery)
          values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
@@ -337,7 +354,10 @@ export async function createListing(req: Request, res: Response) {
         }
       } catch {}
     }
-    console.log("[createListing] Successfully created listing with ID:", result.rows[0].id);
+    console.log(
+      "[createListing] Successfully created listing with ID:",
+      result.rows[0].id,
+    );
     res.json({ ok: true, id: result.rows[0].id });
   } catch (error: any) {
     console.error("[createListing] Error occurred:", error);

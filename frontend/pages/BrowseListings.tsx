@@ -431,7 +431,12 @@ export default function BrowseListings() {
           : "listings?enabled=true";
         console.log("[BrowseListings] Fetching listings with path:", path);
         const response = await apiFetch(path);
-        console.log("[BrowseListings] Response status:", response.status, "ok:", response.ok);
+        console.log(
+          "[BrowseListings] Response status:",
+          response.status,
+          "ok:",
+          response.ok,
+        );
         if (!response.ok || cancelled) {
           console.log("[BrowseListings] Response not ok, returning");
           return;
@@ -439,13 +444,23 @@ export default function BrowseListings() {
         let d;
         try {
           d = await response.json();
-          console.log("[BrowseListings] Parsed JSON successfully, ok:", d?.ok, "listings count:", Array.isArray(d?.listings) ? d.listings.length : "not array");
+          console.log(
+            "[BrowseListings] Parsed JSON successfully, ok:",
+            d?.ok,
+            "listings count:",
+            Array.isArray(d?.listings) ? d.listings.length : "not array",
+          );
         } catch (e) {
           console.error("[BrowseListings] Failed to parse JSON:", e);
           d = null;
         }
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) {
-          console.log("[BrowseListings] Data validation failed, d:", d, "cancelled:", cancelled);
+          console.log(
+            "[BrowseListings] Data validation failed, d:",
+            d,
+            "cancelled:",
+            cancelled,
+          );
           return;
         }
         const mapped = d.listings.map((l: any) => {

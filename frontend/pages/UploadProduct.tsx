@@ -485,13 +485,23 @@ export default function UploadProduct() {
       const endpoint = editListingId ? `listings/${editListingId}` : "listings";
       const method = editListingId ? "PUT" : "POST";
 
-      console.log("[UploadProduct] Calling API endpoint:", endpoint, "method:", method);
+      console.log(
+        "[UploadProduct] Calling API endpoint:",
+        endpoint,
+        "method:",
+        method,
+      );
       const res = await apiFetch(endpoint, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      console.log("[UploadProduct] Response status:", res.status, "ok:", res.ok);
+      console.log(
+        "[UploadProduct] Response status:",
+        res.status,
+        "ok:",
+        res.ok,
+      );
 
       let data = {};
       try {
@@ -507,8 +517,8 @@ export default function UploadProduct() {
       const resultId = editListingId || Number(data?.id);
       if (!res.ok || !data?.ok || !Number.isFinite(resultId)) {
         const errorMsg = editListingId
-            ? "Failed to update listing"
-            : "Failed to create listing";
+          ? "Failed to update listing"
+          : "Failed to create listing";
         console.error("[UploadProduct] Error:", errorMsg, "Response:", data);
         throw new Error(data?.error || errorMsg);
       }
@@ -874,7 +884,13 @@ export default function UploadProduct() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-1">
                   Product Images
-                  <span className={uploadedImages.length === 0 ? "text-red-500" : "text-gray-400"}>
+                  <span
+                    className={
+                      uploadedImages.length === 0
+                        ? "text-red-500"
+                        : "text-gray-400"
+                    }
+                  >
                     *
                   </span>
                 </CardTitle>

@@ -168,7 +168,9 @@ export default function ProductDetails() {
 
     // For weekly rentals, check if dates are a multiple of 7 days
     if (product && product.rentalPeriod === "Weekly") {
-      const daysDiff = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+      const daysDiff = Math.ceil(
+        (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
+      );
       if (daysDiff % 7 !== 0) {
         return false;
       }
@@ -176,7 +178,9 @@ export default function ProductDetails() {
 
     // For monthly rentals, check if dates are a multiple of 30 days
     if (product && product.rentalPeriod === "Monthly") {
-      const daysDiff = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+      const daysDiff = Math.ceil(
+        (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
+      );
       if (daysDiff % 30 !== 0) {
         return false;
       }
