@@ -540,7 +540,9 @@ export default function Index() {
                     reviews={listing.reviews}
                     image={listing.image}
                     host={listing.host}
-                    categories={listing.categories || (listing.type ? [listing.type] : [])}
+                    categories={
+                      listing.categories || (listing.type ? [listing.type] : [])
+                    }
                     distance={listing.distance}
                     onFavorite={handleFavorite}
                     className="h-full"
