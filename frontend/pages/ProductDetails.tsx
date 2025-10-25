@@ -177,13 +177,6 @@ export default function ProductDetails() {
     for (const r of reservations) {
       const rs = new Date(r.startDate);
       const re = new Date(r.endDate);
-      console.log("[isDateRangeValid] Checking reservation:", {
-        selectedStart: start.toISOString(),
-        selectedEnd: end.toISOString(),
-        reservationStart: rs.toISOString(),
-        reservationEnd: re.toISOString(),
-        conflicts: start <= re && end >= rs,
-      });
       if (start <= re && end >= rs) return false;
     }
     return true;
