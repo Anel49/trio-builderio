@@ -250,6 +250,14 @@ export async function createListing(req: Request, res: Response) {
       : image
         ? [image]
         : [];
+    if (imgs.length === 0) {
+      return res.status(400).json({ ok: false, error: "at least one image is required" });
+    }
+    const imgs: string[] = Array.isArray(images)
+      ? (images as any[]).filter((u) => typeof u === "string" && u.trim())
+      : image
+        ? [image]
+        : [];
     const primaryImage = imgs[0] ?? null;
     const cats: string[] = Array.isArray(categories)
       ? (categories as any[]).filter((c) => typeof c === "string" && c.trim())
