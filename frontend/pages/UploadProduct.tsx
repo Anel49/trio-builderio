@@ -1061,6 +1061,7 @@ export default function UploadProduct() {
                           setPrice(value);
                         }
                       }}
+                      onWheel={(e) => e.currentTarget.blur()}
                       placeholder={pricePlaceholder}
                       aria-label={priceLabel}
                       className="w-full pl-8"
