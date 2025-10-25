@@ -81,6 +81,11 @@ export function DateRangePicker({
     if (maxDate && date > maxDate) return true;
     if (isDateReserved(date)) return true;
 
+    // For weekly rentals, disable all dates if a start date is already selected
+    if (isWeeklyRental && value.start) {
+      return true;
+    }
+
     return false;
   };
 
