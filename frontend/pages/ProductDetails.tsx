@@ -427,9 +427,13 @@ export default function ProductDetails() {
       image:
         "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=200&fit=crop&auto=format",
       rating: 4.7,
+      reviews: 23,
       type: "Landscaping",
+      categories: ["Landscaping", "Garden", "Tools"],
       host: "Mike",
       distance: "1.5 miles",
+      delivery: true,
+      freeDelivery: false,
     },
     {
       id: 2,
@@ -438,9 +442,13 @@ export default function ProductDetails() {
       image:
         "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop&auto=format",
       rating: 4.8,
+      reviews: 31,
       type: "Landscaping",
+      categories: ["Landscaping", "Garden"],
       host: "Jennifer",
       distance: "2.8 miles",
+      delivery: true,
+      freeDelivery: true,
     },
     {
       id: 3,
@@ -449,9 +457,13 @@ export default function ProductDetails() {
       image:
         "https://images.unsplash.com/photo-1574263867128-5c8a8e78c8c0?w=300&h=200&fit=crop&auto=format",
       rating: 4.6,
+      reviews: 18,
       type: "Landscaping",
+      categories: ["Landscaping", "Garden", "Tools"],
       host: "David",
       distance: "4.2 miles",
+      delivery: false,
+      freeDelivery: false,
     },
     {
       id: 4,
@@ -460,9 +472,13 @@ export default function ProductDetails() {
       image:
         "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop&auto=format",
       rating: 4.9,
+      reviews: 27,
       type: "Tools",
+      categories: ["Tools", "Landscaping"],
       host: "Lisa",
       distance: "3.7 miles",
+      delivery: true,
+      freeDelivery: false,
     },
   ];
 
