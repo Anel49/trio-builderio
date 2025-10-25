@@ -1260,12 +1260,6 @@ export default function UploadProduct() {
             Stumped on a pricing rate for your item? These are our recommended
             rates.
           </p>
-
-          // if or when we implement hourly, weekly, and monthly types:
-          // Stumped on a pricing rate for your item? These are our recommended
-          rates. If you chose Hourly, Weekly, or Monthly, divide the price by
-          24, multiply by 7, or multiply by 30.
-
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="sr-only">
