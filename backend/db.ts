@@ -102,31 +102,43 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     console.log("[dbSetup] Added enabled column");
 
-    // Handle user_id column - try to add it, make it nullable, and set default
+    // Handle user_id column - always try to fix constraints
+    try {
+      // First, try to make it nullable and set default
+      await pool.query(
+        `alter table listings alter column user_id drop not null`,
+      );
+      console.log("[dbSetup] Dropped NOT NULL constraint on user_id");
+    } catch (e: any) {
+      console.log("[dbSetup] Drop NOT NULL error (may not exist):", e?.message?.slice(0, 100));
+    }
+
     try {
       await pool.query(
-        `alter table listings add column if not exists user_id integer default 0`,
+        `alter table listings alter column user_id set default 0`,
       );
-      console.log("[dbSetup] Added user_id column with default 0");
+      console.log("[dbSetup] Set user_id default to 0");
     } catch (e: any) {
-      // Column might already exist - try to fix the constraint
-      console.log("[dbSetup] user_id add column error (may already exist):", e?.message);
-      try {
-        await pool.query(
-          `alter table listings alter column user_id drop not null`,
-        );
-        console.log("[dbSetup] Made user_id nullable");
-      } catch (e2) {
-        console.log("[dbSetup] user_id nullable fix error:", e2);
-      }
-      try {
-        await pool.query(
-          `alter table listings alter column user_id set default 0`,
-        );
-        console.log("[dbSetup] Set user_id default to 0");
-      } catch (e3) {
-        console.log("[dbSetup] user_id default set error:", e3);
-      }
+      console.log("[dbSetup] Set default error:", e?.message?.slice(0, 100));
+    }
+
+    try {
+      await pool.query(
+        `alter table listings add column if not exists user_id integer`,
+      );
+      console.log("[dbSetup] Added user_id column if not exists");
+    } catch (e: any) {
+      console.log("[dbSetup] Add column error:", e?.message?.slice(0, 100));
+    }
+
+    try {
+      // Update any existing NULL values to 0
+      await pool.query(
+        `update listings set user_id = 0 where user_id is null`,
+      );
+      console.log("[dbSetup] Updated NULL user_id values to 0");
+    } catch (e: any) {
+      console.log("[dbSetup] Update NULL values error:", e?.message?.slice(0, 100));
     }
 
     console.log("[dbSetup] Database setup completed successfully");
