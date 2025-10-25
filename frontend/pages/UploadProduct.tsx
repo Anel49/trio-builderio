@@ -872,7 +872,12 @@ export default function UploadProduct() {
           <div className="lg:col-span-3">
             <Card>
               <CardHeader>
-                <CardTitle>Product Images</CardTitle>
+                <CardTitle className="flex items-center gap-1">
+                  Product Images
+                  <span className={uploadedImages.length === 0 ? "text-red-500" : "text-gray-400"}>
+                    *
+                  </span>
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
