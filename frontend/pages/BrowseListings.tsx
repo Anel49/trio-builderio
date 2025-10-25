@@ -534,12 +534,20 @@ export default function BrowseListings() {
   // Filter and sort listings
   const filteredAndSortedListings = React.useMemo(() => {
     let filtered = listings.filter((listing) => {
-      // Search query filter
-      if (
-        searchQuery &&
-        !listing.name.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        return false;
+      // Search query filter - search in name and categories
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const nameMatches = listing.name.toLowerCase().includes(query);
+        const cats = Array.isArray((listing as any).categories)
+          ? ((listing as any).categories as string[])
+          : [];
+        const categoryMatches = cats.some((cat) =>
+          cat.toLowerCase().includes(query)
+        );
+        const typeMatches = listing.type.toLowerCase().includes(query);
+        if (!nameMatches && !categoryMatches && !typeMatches) {
+          return false;
+        }
       }
 
       // Price filter
