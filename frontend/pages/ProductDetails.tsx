@@ -789,24 +789,6 @@ export default function ProductDetails() {
                   rentalPeriod={product.rentalPeriod}
                   className="w-full"
                 />
-                {selectedDateRange.start &&
-                  selectedDateRange.end &&
-                  !isDateRangeValid() && (
-                    <p className="text-sm text-red-600 mt-2">
-                      {product?.rentalPeriod === "Weekly" &&
-                      selectedDateRange.start &&
-                      selectedDateRange.end &&
-                      Math.ceil(
-                        (selectedDateRange.end.getTime() -
-                          selectedDateRange.start.getTime()) /
-                          (1000 * 60 * 60 * 24),
-                      ) %
-                        7 !==
-                        0
-                        ? "For weekly rentals, dates must span one or more full 7-day intervals."
-                        : "Selected dates conflict with existing reservations. Please choose different dates."}
-                    </p>
-                  )}
               </div>
 
               <Button
