@@ -761,7 +761,7 @@ export default function UploadProduct() {
                         })()
                       : "0"}
                   </div>
-                  <div className="text-muted-foreground">per {priceUnit}</div>
+                  <div className="text-muted-foreground">per day</div>
                 </div>
 
                 <Button size="lg" className="w-full mb-4">
