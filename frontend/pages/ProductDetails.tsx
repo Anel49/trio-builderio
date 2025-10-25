@@ -824,7 +824,9 @@ export default function ProductDetails() {
                     ? "Reserve Now"
                     : product?.rentalPeriod === "Weekly"
                       ? "Dates must be one or more full 7-day intervals"
-                      : "Select dates to reserve"}
+                      : product?.rentalPeriod === "Monthly"
+                        ? "Dates must be one or more full 30-day intervals"
+                        : "Select dates to reserve"}
               </Button>
             </div>
 
