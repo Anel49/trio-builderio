@@ -301,8 +301,16 @@ export async function apiFetch(path: string, init?: RequestInit) {
         if (ok) {
           lastPingOkAt = Date.now();
           const url = cleanJoin(base, path);
+          if (p.startsWith("listings") && !p.includes("/")) {
+            console.log("[apiFetch] Fetching listings from:", url);
+          }
           const res = await tryFetch(url, finalInit, 15000);
-          if (res) return res;
+          if (res) {
+            if (p.startsWith("listings") && !p.includes("/")) {
+              console.log("[apiFetch] Listings response status:", res.status);
+            }
+            return res;
+          }
         } else {
           lastResolveFailAt = Date.now();
           offlineUntil = Date.now() + TEMP_OFFLINE_MS;
@@ -310,8 +318,16 @@ export async function apiFetch(path: string, init?: RequestInit) {
         }
       } else {
         const url = cleanJoin(base, path);
+        if (p.startsWith("listings") && !p.includes("/")) {
+          console.log("[apiFetch] Fetching listings from:", url);
+        }
         const res = await tryFetch(url, finalInit, 15000);
-        if (res) return res;
+        if (res) {
+          if (p.startsWith("listings") && !p.includes("/")) {
+            console.log("[apiFetch] Listings response status:", res.status);
+          }
+          return res;
+        }
       }
     } else {
       const url = cleanJoin(base, path);
