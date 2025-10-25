@@ -102,10 +102,22 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     console.log("[dbSetup] Added enabled column");
 
-    await pool.query(
-      `alter table listings add column if not exists user_id integer`,
-    );
-    console.log("[dbSetup] Added user_id column");
+    try {
+      await pool.query(
+        `alter table listings add column if not exists user_id integer`,
+      );
+      console.log("[dbSetup] Added user_id column");
+    } catch (e) {
+      // Column might already exist, try to alter constraint
+      try {
+        await pool.query(
+          `alter table listings alter column user_id drop not null`,
+        );
+        console.log("[dbSetup] Made user_id nullable");
+      } catch (e2) {
+        console.log("[dbSetup] user_id column constraint fix skipped:", e2);
+      }
+    }
 
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
