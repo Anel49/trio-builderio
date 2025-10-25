@@ -174,6 +174,14 @@ export default function ProductDetails() {
       }
     }
 
+    // For monthly rentals, check if dates are a multiple of 30 days
+    if (product && product.rentalPeriod === "Monthly") {
+      const daysDiff = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+      if (daysDiff % 30 !== 0) {
+        return false;
+      }
+    }
+
     for (const r of reservations) {
       const rs = new Date(r.startDate);
       const re = new Date(r.endDate);
