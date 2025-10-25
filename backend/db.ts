@@ -7,8 +7,9 @@ export const pool = new Pool({
   connectionString,
   // Force SSL with no cert verification to avoid self-signed chain issues in dev/demo
   ssl: connectionString ? { rejectUnauthorized: false } : undefined,
-  connectionTimeoutMillis: 3000,
-  idleTimeoutMillis: 10000,
+  connectionTimeoutMillis: 10000,
+  idleTimeoutMillis: 30000,
+  statementTimeoutMillis: 20000,
 });
 
 export async function dbHealth(_req: Request, res: Response) {
