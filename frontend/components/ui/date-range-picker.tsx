@@ -29,9 +29,11 @@ export function DateRangePicker({
   minDate = new Date(),
   maxDate,
   className,
+  rentalPeriod = "Daily",
 }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isWeeklyRental = rentalPeriod === "Weekly";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
