@@ -299,6 +299,13 @@ export default function Index() {
     return () => el.removeEventListener("scroll", onScroll as any);
   }, []);
 
+  useEffect(() => {
+    const el = listRef.current;
+    if (el) {
+      el.scrollLeft = 0;
+    }
+  }, [listings]);
+
   const scrollByPage = useCallback((dir: 1 | -1) => {
     const el = listRef.current;
     if (!el) return;
