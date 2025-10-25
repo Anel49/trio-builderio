@@ -7,7 +7,7 @@ export function Footer() {
     <>
       <footer className="bg-muted py-12">
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <div className="text-xl font-semibold mb-4">{COMPANY_NAME}</div>
               <p className="text-muted-foreground">
