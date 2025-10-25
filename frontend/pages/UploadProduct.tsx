@@ -479,6 +479,7 @@ export default function UploadProduct() {
         delivery: offerDelivery,
         free_delivery: offerFreeDelivery,
       };
+      console.log("[UploadProduct] Sending payload:", payload);
 
       const endpoint = editListingId ? `listings/${editListingId}` : "listings";
       const method = editListingId ? "PUT" : "POST";
