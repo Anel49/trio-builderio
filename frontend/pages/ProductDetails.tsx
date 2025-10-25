@@ -777,6 +777,7 @@ export default function ProductDetails() {
                   value={selectedDateRange}
                   onChange={setSelectedDateRange}
                   reservations={reservations}
+                  rentalPeriod={product.rentalPeriod}
                   className="w-full"
                 />
                 {selectedDateRange.start &&
