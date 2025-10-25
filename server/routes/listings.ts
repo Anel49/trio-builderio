@@ -195,6 +195,9 @@ export async function listListings(req: Request, res: Response) {
 
 export async function createListing(req: Request, res: Response) {
   try {
+    console.log("[createListing] Request received");
+    console.log("[createListing] Request body:", JSON.stringify(req.body, null, 2));
+
     const {
       name,
       price_cents,
@@ -213,6 +216,25 @@ export async function createListing(req: Request, res: Response) {
       delivery,
       free_delivery,
     } = req.body || {};
+
+    console.log("[createListing] Extracted fields:", {
+      name,
+      price_cents,
+      rating,
+      image: image ? `<image ${image.length} chars>` : undefined,
+      images: images ? `<${images.length} images>` : undefined,
+      host,
+      type,
+      description: description ? `<${description.length} chars>` : undefined,
+      categories,
+      rental_period,
+      zip_code,
+      location_city,
+      latitude,
+      longitude,
+      delivery,
+      free_delivery,
+    });
     if (!name || typeof price_cents !== "number") {
       return res
         .status(400)
