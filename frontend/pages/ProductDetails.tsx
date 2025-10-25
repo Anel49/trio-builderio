@@ -165,6 +165,15 @@ export default function ProductDetails() {
     }
     const start = selectedDateRange.start;
     const end = selectedDateRange.end;
+
+    // For weekly rentals, check if dates are a multiple of 7 days
+    if (product && product.rentalPeriod === "Weekly") {
+      const daysDiff = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+      if (daysDiff % 7 !== 0) {
+        return false;
+      }
+    }
+
     for (const r of reservations) {
       const rs = new Date(r.startDate);
       const re = new Date(r.endDate);
