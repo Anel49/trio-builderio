@@ -818,7 +818,11 @@ export default function ProductDetails() {
                 }}
               >
                 <Calendar className="mr-2 h-5 w-5" />
-                {isDateRangeValid() ? "Reserve Now" : "Select dates to reserve"}
+                {isDateRangeValid()
+                  ? "Reserve Now"
+                  : product?.rentalPeriod === "Weekly"
+                    ? "Dates must be one or more full 7-day intervals"
+                    : "Select dates to reserve"}
               </Button>
             </div>
 
