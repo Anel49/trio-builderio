@@ -491,10 +491,17 @@ export default function UploadProduct() {
         body: JSON.stringify(payload),
       });
       console.log("[UploadProduct] Response status:", res.status, "ok:", res.ok);
-      const data = await res.json().catch((e) => {
-        console.error("[UploadProduct] Failed to parse response JSON:", e);
-        return {};
-      });
+
+      let data = {};
+      try {
+        const responseText = await res.text();
+        console.log("[UploadProduct] Response text:", responseText);
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error("[UploadProduct] Failed to parse response:", e);
+        data = {};
+      }
+
       console.log("[UploadProduct] Response data:", data);
       const resultId = editListingId || Number(data?.id);
       if (!res.ok || !data?.ok || !Number.isFinite(resultId)) {
@@ -502,7 +509,7 @@ export default function UploadProduct() {
             ? "Failed to update listing"
             : "Failed to create listing";
         console.error("[UploadProduct] Error:", errorMsg, "Response:", data);
-        throw new Error(errorMsg);
+        throw new Error(data?.error || errorMsg);
       }
       setCreatedListingId(resultId);
       setIsListed(true);
