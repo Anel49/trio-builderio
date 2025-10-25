@@ -19,6 +19,7 @@ interface DateRangePickerProps {
   minDate?: Date;
   maxDate?: Date;
   className?: string;
+  rentalPeriod?: string;
 }
 
 export function DateRangePicker({
