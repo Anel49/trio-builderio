@@ -72,7 +72,8 @@ export async function listListings(req: Request, res: Response) {
 
     let result: any;
     try {
-      let sql = `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
+      let sql = `set statement_timeout = 10000;
+select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
                 coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery, coalesce(enabled, true) as enabled
          from listings`;
 
