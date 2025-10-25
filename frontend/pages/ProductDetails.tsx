@@ -552,7 +552,6 @@ export default function ProductDetails() {
     isDateRangeValid();
   const showTotalPrice =
     product.rentalPeriod === "Daily" && hasSelectedValidRange;
-  const rentalUnitLabel = RENTAL_UNIT_LABELS[product.rentalPeriod];
   const displayedPrice = showTotalPrice
     ? (() => {
         if (!selectedDateRange.start || !selectedDateRange.end)
@@ -568,7 +567,7 @@ export default function ProductDetails() {
         return `$${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}`;
       })()
     : product.price;
-  const priceSubLabel = showTotalPrice ? "total" : `per ${rentalUnitLabel}`;
+  const priceSubLabel = showTotalPrice ? "total" : "per day";
 
   return (
     <div className="min-h-screen bg-background">
