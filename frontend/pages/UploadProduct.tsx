@@ -302,7 +302,6 @@ export default function UploadProduct() {
     "Furniture",
     "Game",
     "Garden",
-    "General",
     "Home",
     "Instrument",
     "Literature",
