@@ -83,7 +83,9 @@ export function ProductCard({
   const distanceText =
     typeof distance === "string" && distance.trim() ? distance.trim() : null;
   const resolvedDistance = distanceText ?? "Distance unavailable";
-  const displayCategories = (categories && categories.length > 0 ? categories : type ? [type] : []).slice(0, 3);
+  const displayCategories = (
+    categories && categories.length > 0 ? categories : type ? [type] : []
+  ).slice(0, 3);
 
   return (
     <Card
@@ -219,9 +221,7 @@ export function ProductCard({
             {displayCategories.map((category) => (
               <Badge
                 key={category}
-                className={combineTokens(
-                  "bg-black/60 text-white",
-                )}
+                className={combineTokens("bg-black/60 text-white")}
               >
                 {category}
               </Badge>
