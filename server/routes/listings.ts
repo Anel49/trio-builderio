@@ -97,6 +97,26 @@ export async function listListings(req: Request, res: Response) {
     const rows: any[] = Array.isArray(result.rows) ? result.rows : [];
     console.log("[listListings] Processing", rows.length, "rows");
 
+    // Fetch all categories for these listings in bulk
+    const listingIds = rows.map((r: any) => r.id);
+    const categoriesMap: Record<number, string[]> = {};
+    if (listingIds.length > 0) {
+      try {
+        const categoriesResult = await pool.query(
+          `select listing_id, category from listing_categories where listing_id = any($1)`,
+          [listingIds],
+        );
+        for (const row of categoriesResult.rows) {
+          if (!categoriesMap[row.listing_id]) {
+            categoriesMap[row.listing_id] = [];
+          }
+          categoriesMap[row.listing_id].push(row.category);
+        }
+      } catch (e) {
+        console.log("[listListings] Failed to fetch categories:", e);
+      }
+    }
+
     const listings = rows.map((r: any) => {
       const normalizedZip = normalizeZipCode(r.zip_code);
 
