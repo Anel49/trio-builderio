@@ -334,8 +334,10 @@ export default function ProductDetails() {
             renterName: r.renterName,
             status: r.status,
           }));
+          console.log("[ProductDetails] Loaded reservations:", mapped);
           setReservations(mapped);
         } else {
+          console.log("[ProductDetails] No reservations found");
           setReservations([]);
         }
       })
