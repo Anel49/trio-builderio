@@ -88,7 +88,7 @@ export async function listListings(req: Request, res: Response) {
       result = await pool.query(sql, params);
       console.log("[listListings] Query succeeded, rows:", result.rows?.length);
       if (result.rows && result.rows.length > 0) {
-        console.log("[listListings] First row:", result.rows[0]);
+        console.log("[listListings] First row:", JSON.stringify(result.rows[0]));
       }
     } catch (e) {
       console.error("[listListings] Query failed:", e);
@@ -142,10 +142,11 @@ export async function listListings(req: Request, res: Response) {
       const cats = categoriesMap[r.id] || [];
       const primaryCategory =
         cats.length > 0 ? cats[0] : r.category || "General";
-      return {
+      const formattedPrice = formatPrice(r.price_cents);
+      const listing = {
         id: r.id,
         name: r.name,
-        price: formatPrice(r.price_cents),
+        price: formattedPrice,
         rating: r.rating ? Number(r.rating) : null,
         images: [],
         image: r.image_url,
@@ -167,12 +168,17 @@ export async function listListings(req: Request, res: Response) {
         freeDelivery: Boolean(r.free_delivery),
         enabled: typeof r.enabled === "boolean" ? r.enabled : true,
       };
+      if (r.id === 20) {
+        console.log("[listListings] Listing 20:", JSON.stringify(listing));
+      }
+      return listing;
     });
     console.log("[listListings] Returning", listings.length, "listings");
     console.log(
       "[listListings] Rental periods:",
       listings.map((l: any) => `${l.id}:${l.rentalPeriod}`).join(", "),
     );
+    console.log("[listListings] Response size (stringified):", JSON.stringify({ ok: true, listings }).length);
     res.json({ ok: true, listings });
   } catch (error: any) {
     console.error("[listListings] Error:", error);
