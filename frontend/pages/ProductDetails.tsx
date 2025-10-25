@@ -890,7 +890,7 @@ export default function ProductDetails() {
                     <span>Joined:</span>
                     <span>{host.joinedDate}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between hidden">
                     <span>Response time:</span>
                     <span>{host.responseTime}</span>
                   </div>
