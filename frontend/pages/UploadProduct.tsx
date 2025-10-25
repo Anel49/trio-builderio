@@ -104,9 +104,10 @@ export default function UploadProduct() {
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
-  const priceUnit = priceUnitLabels[rentalPeriod];
-  const priceLabel = `Price per ${priceUnit}`;
-  const pricePlaceholder = pricePlaceholderByPeriod[rentalPeriod];
+  // Price label is now always "Daily" since rental period is fixed to Daily
+  const priceUnit = "day";
+  const priceLabel = "Price per day";
+  const pricePlaceholder = "35";
   const [editListingId, setEditListingId] = useState<number | null>(null);
 
   // Load listing data when editing
