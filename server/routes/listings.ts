@@ -77,16 +77,21 @@ export async function listListings(req: Request, res: Response) {
          from listings`;
 
       if (filterEnabled !== null) {
+        console.log("[listListings] Filtering enabled =", filterEnabled);
         sql += ` where coalesce(enabled, true) = $1`;
       }
 
       sql += ` order by created_at desc limit 50`;
 
       const params = filterEnabled !== null ? [filterEnabled] : [];
+      console.log("[listListings] Executing SQL:", sql, "Params:", params);
       result = await pool.query(sql, params);
       console.log("[listListings] Query succeeded, rows:", result.rows?.length);
+      if (result.rows && result.rows.length > 0) {
+        console.log("[listListings] First row:", result.rows[0]);
+      }
     } catch (e) {
-      console.log("[listListings] Query failed:", e);
+      console.error("[listListings] Query failed:", e);
       result = { rows: [] };
     }
     const rows: any[] = Array.isArray(result.rows) ? result.rows : [];
