@@ -91,26 +91,14 @@ export function DateRangePicker({
 
   const handleDateSelect = (range: any) => {
     if (range?.from) {
-      // For weekly rentals, automatically set end date to 7 days after start date
-      if (isWeeklyRental && !value.start) {
-        const endDate = new Date(range.from);
-        endDate.setDate(endDate.getDate() + 7);
-        onChange({
-          start: range.from,
-          end: endDate,
-        });
-        setIsOpen(false);
-      } else if (!isWeeklyRental) {
-        // For other rental periods, allow normal date range selection
-        onChange({
-          start: range.from,
-          end: range.to || null,
-        });
+      onChange({
+        start: range.from,
+        end: range.to || null,
+      });
 
-        // Close picker when both dates are selected
-        if (range.to) {
-          setIsOpen(false);
-        }
+      // Close picker when both dates are selected
+      if (range.to) {
+        setIsOpen(false);
       }
     }
   };
