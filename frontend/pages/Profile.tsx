@@ -1916,6 +1916,29 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      {/* Listing Deleted Success Modal */}
+      <Dialog open={isDeleteSuccessModalOpen} onOpenChange={setIsDeleteSuccessModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Listing Deleted</DialogTitle>
+            <DialogDescription>
+              {`${deletedItemName} has been successfully deleted.`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => {
+                setIsDeleteSuccessModalOpen(false);
+                setDeletedItemName("");
+              }}
+              className="w-full bg-green-600 hover:bg-green-700 text-white"
+            >
+              Done
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Mobile Profile Floating Button - Only visible on mobile/tablet */}
       <Button
         onClick={() => setIsMobileProfileOpen(!isMobileProfileOpen)}
