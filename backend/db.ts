@@ -102,6 +102,11 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     console.log("[dbSetup] Added enabled column");
 
+    await pool.query(
+      `alter table listings add column if not exists user_id integer`,
+    );
+    console.log("[dbSetup] Added user_id column");
+
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
