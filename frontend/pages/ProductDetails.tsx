@@ -175,6 +175,22 @@ export default function ProductDetails() {
     return true;
   };
 
+  // Check if there's a conflict with existing reservations
+  const hasDateConflict = () => {
+    if (!selectedDateRange.start || !selectedDateRange.end) {
+      return false;
+    }
+    const start = selectedDateRange.start;
+    const end = selectedDateRange.end;
+
+    for (const r of reservations) {
+      const rs = new Date(r.startDate);
+      const re = new Date(r.endDate);
+      if (start <= re && end >= rs) return true;
+    }
+    return false;
+  };
+
   const productImages = [
     "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
     "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop&auto=format",
