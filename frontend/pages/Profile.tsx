@@ -295,6 +295,9 @@ export default function Profile() {
             enabled: false,
           })),
         );
+
+        setBulkSuccessMessage("All listings disabled!");
+        setTimeout(() => setBulkSuccessMessage(null), 2000);
       } else {
         console.error("Failed to disable all listings");
       }
