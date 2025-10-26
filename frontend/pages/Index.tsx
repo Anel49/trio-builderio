@@ -303,7 +303,10 @@ export default function Index() {
         // Sort by distance if user has location, otherwise by most recent
         // Then limit to 9 items
         const sorted = coords
-          ? mapped.sort((a, b) => (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity))
+          ? mapped.sort(
+              (a, b) =>
+                (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity),
+            )
           : mapped;
         const limited = sorted.slice(0, 9);
 
@@ -568,7 +571,9 @@ export default function Index() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">
-              {getCurrentUserCoordinates() ? "Recently listed near you" : "Recently listed"}
+              {getCurrentUserCoordinates()
+                ? "Recently listed near you"
+                : "Recently listed"}
             </h2>
             <ViewAllButton />
           </div>
