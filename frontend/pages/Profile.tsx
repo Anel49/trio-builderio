@@ -1359,10 +1359,28 @@ export default function Profile() {
                 <div className="space-y-6">
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
                     <h2 className="text-2xl font-bold">Your Listed Items</h2>
-                    <Button onClick={() => (window.location.href = "/upload")}>
-                      <Package className="h-4 w-4 mr-2" />
-                      Add New Item
-                    </Button>
+                    <div className="flex flex-col lg:flex-row gap-2 lg:gap-3">
+                      {listedItems.length > 0 && (
+                        <>
+                          <Button
+                            variant="outline"
+                            onClick={() => setIsBulkEnableConfirmOpen(true)}
+                          >
+                            Enable All
+                          </Button>
+                          <Button
+                            variant="outline"
+                            onClick={() => setIsBulkDisableConfirmOpen(true)}
+                          >
+                            Disable All
+                          </Button>
+                        </>
+                      )}
+                      <Button onClick={() => (window.location.href = "/upload")}>
+                        <Package className="h-4 w-4 mr-2" />
+                        Add New Item
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
