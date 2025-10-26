@@ -221,6 +221,84 @@ export default function Profile() {
     window.location.href = `/upload?edit=${item.id}`;
   };
 
+  const handleBulkEnableAll = async () => {
+    try {
+      const userResponse = await apiFetch(
+        `users?email=${encodeURIComponent(currentUser.email)}`,
+      );
+      const userData = await userResponse.json().catch(() => ({}));
+      const userId = userData.user?.id ?? null;
+
+      if (!userId) {
+        console.error("Could not get user ID");
+        return;
+      }
+
+      const response = await apiFetch("/api/listings/bulk/update-enabled", {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ user_id: userId, enabled: true }),
+      });
+
+      if (response.ok) {
+        const data = await response.json().catch(() => ({}));
+        console.log("Bulk enabled", data.updated, "listings");
+
+        setListedItems((prev) =>
+          prev.map((item) => ({
+            ...item,
+            enabled: true,
+          })),
+        );
+      } else {
+        console.error("Failed to enable all listings");
+      }
+    } catch (error) {
+      console.error("Error enabling all listings:", error);
+    } finally {
+      setIsBulkEnableConfirmOpen(false);
+    }
+  };
+
+  const handleBulkDisableAll = async () => {
+    try {
+      const userResponse = await apiFetch(
+        `users?email=${encodeURIComponent(currentUser.email)}`,
+      );
+      const userData = await userResponse.json().catch(() => ({}));
+      const userId = userData.user?.id ?? null;
+
+      if (!userId) {
+        console.error("Could not get user ID");
+        return;
+      }
+
+      const response = await apiFetch("/api/listings/bulk/update-enabled", {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ user_id: userId, enabled: false }),
+      });
+
+      if (response.ok) {
+        const data = await response.json().catch(() => ({}));
+        console.log("Bulk disabled", data.updated, "listings");
+
+        setListedItems((prev) =>
+          prev.map((item) => ({
+            ...item,
+            enabled: false,
+          })),
+        );
+      } else {
+        console.error("Failed to disable all listings");
+      }
+    } catch (error) {
+      console.error("Error disabling all listings:", error);
+    } finally {
+      setIsBulkDisableConfirmOpen(false);
+    }
+  };
+
   // Badges state loaded from server
   const [badges, setBadges] = useState({
     foundingSupporter: false,
