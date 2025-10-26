@@ -2114,6 +2114,18 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      {/* Bulk Success Modal */}
+      <Dialog
+        open={Boolean(bulkSuccessMessage)}
+        onOpenChange={() => setBulkSuccessMessage(null)}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{bulkSuccessMessage}</DialogTitle>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
       {/* Mobile Profile Floating Button - Only visible on mobile/tablet */}
       <Button
         onClick={() => setIsMobileProfileOpen(!isMobileProfileOpen)}
