@@ -2097,7 +2097,7 @@ export default function Profile() {
             </Button>
             <Button
               onClick={handleBulkDisableAll}
-              className="w-full sm:w-auto bg-yellow-600 hover:bg-yellow-700 text-white"
+              className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white"
             >
               Disable All
             </Button>
