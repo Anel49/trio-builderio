@@ -492,7 +492,7 @@ export default function UploadProduct() {
         res.ok,
       );
 
-      let data = {};
+      let data: any = {};
       try {
         const responseText = await res.text();
         console.log("[UploadProduct] Response text:", responseText);
