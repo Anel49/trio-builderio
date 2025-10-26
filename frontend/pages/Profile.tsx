@@ -1696,7 +1696,6 @@ export default function Profile() {
       <FavoritesModal
         isOpen={isFavoritesModalOpen}
         onOpenChange={setIsFavoritesModalOpen}
-        listingTitle={favoritedListing}
         userId={currentUser.email}
       />
       <LocationPickerModal
