@@ -2053,7 +2053,7 @@ export default function Profile() {
             <DialogTitle>Enable All Listings</DialogTitle>
             <DialogDescription>
               Are you sure you want to enable all of your listings? This will
-              make them visible to renters.
+              make them visible in search results.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-col sm:flex-row gap-2">
