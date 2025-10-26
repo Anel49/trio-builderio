@@ -432,6 +432,13 @@ export default function UploadProduct() {
 
   const confirmListProduct = async () => {
     try {
+      // Fetch the current user's numeric ID from the users table
+      const userResponse = await apiFetch(
+        `users?email=${encodeURIComponent(currentUser.email)}`,
+      );
+      const userData = await userResponse.json().catch(() => ({}));
+      const userId = userData.user?.id ?? null;
+
       const priceCents =
         Math.round(Number(price.replace(/[^0-9.]/g, "")) * 100) || 0;
       const defaultImage =
@@ -459,6 +466,7 @@ export default function UploadProduct() {
         image: imgs[0],
         images: imgs,
         host: currentUser.name,
+        user_id: userId,
         type: selectedTags[0] || defaultCategory,
         categories: selectedTags.length > 0 ? selectedTags : [defaultCategory],
         description,
