@@ -30,6 +30,7 @@ export function DateRangePicker({
   minDate = new Date(),
   maxDate,
   className,
+  buttonClassName,
   rentalPeriod = "Daily",
 }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
