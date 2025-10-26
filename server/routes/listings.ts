@@ -769,3 +769,46 @@ export async function listListingReservations(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function bulkUpdateListingsEnabled(req: Request, res: Response) {
+  try {
+    const { user_id, enabled } = req.body || {};
+
+    if (typeof user_id !== "number" || Number.isNaN(user_id)) {
+      return res.status(400).json({ ok: false, error: "invalid user_id" });
+    }
+
+    if (typeof enabled !== "boolean") {
+      return res
+        .status(400)
+        .json({ ok: false, error: "enabled must be a boolean" });
+    }
+
+    console.log(
+      "[bulkUpdateListingsEnabled] Updating listings for user",
+      user_id,
+      "to enabled =",
+      enabled,
+    );
+
+    const result = await pool.query(
+      `update listings set enabled = $1 where user_id = $2 returning id`,
+      [enabled, user_id],
+    );
+
+    console.log(
+      "[bulkUpdateListingsEnabled] Updated",
+      result.rowCount,
+      "listings",
+    );
+
+    res.json({
+      ok: true,
+      updated: result.rowCount || 0,
+      ids: result.rows.map((r: any) => r.id),
+    });
+  } catch (error: any) {
+    console.error("[bulkUpdateListingsEnabled] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
