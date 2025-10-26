@@ -2119,9 +2119,11 @@ export default function Profile() {
         open={Boolean(bulkSuccessMessage)}
         onOpenChange={() => setBulkSuccessMessage(null)}
       >
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>{bulkSuccessMessage}</DialogTitle>
+        <DialogContent className="sm:max-w-md py-12 px-8">
+          <DialogHeader className="text-center">
+            <DialogTitle className="text-center text-xl">
+              {bulkSuccessMessage}
+            </DialogTitle>
           </DialogHeader>
         </DialogContent>
       </Dialog>
