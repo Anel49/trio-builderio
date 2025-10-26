@@ -165,6 +165,7 @@ export function createServer() {
   app.put("/api/listings/:id", updateListing);
   app.delete("/api/listings/:id", deleteListing);
   app.patch("/api/listings/:id/toggle-enabled", toggleListingEnabled);
+  app.patch("/api/listings/bulk/update-enabled", bulkUpdateListingsEnabled);
   app.get("/api/listings/:id/reviews", listListingReviews);
   app.get("/api/listings/:id/reservations", listListingReservations);
   // Users
