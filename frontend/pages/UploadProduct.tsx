@@ -138,18 +138,8 @@ export default function UploadProduct() {
             setDescription(listing.description || "");
 
             // Set rental period
-            if (listing.rentalPeriod) {
-              const period = listing.rentalPeriod.toLowerCase() as RentalPeriod;
-              if (
-                period === "hourly" ||
-                period === "daily" ||
-                period === "weekly" ||
-                period === "monthly"
-              ) {
-                const capitalizedPeriod = (period.charAt(0).toUpperCase() +
-                  period.slice(1)) as RentalPeriod;
-                setRentalPeriod(capitalizedPeriod);
-              }
+            if (listing.rentalPeriod && rentalPeriods.includes(listing.rentalPeriod as RentalPeriod)) {
+              setRentalPeriod(listing.rentalPeriod as RentalPeriod);
             }
 
             // Set location
