@@ -811,6 +811,7 @@ export default function ProductDetails() {
                   onChange={setSelectedDateRange}
                   reservations={reservations}
                   rentalPeriod={product.rentalPeriod}
+                  buttonClassName="w-full"
                 />
               </div>
 
