@@ -251,6 +251,21 @@ export default function Index() {
       delivery: false,
       freeDelivery: false,
     },
+    {
+      id: 11,
+      name: "Power Drill Kit",
+      price: "$32",
+      rating: 4.8,
+      reviews: 26,
+      image:
+        "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=250&fit=crop&auto=format",
+      host: "James",
+      type: "Tools",
+      categories: ["Tools", "Hardware", "Power Tools"],
+      distance: null,
+      delivery: true,
+      freeDelivery: false,
+    },
   ];
 
   const [listings, setListings] = useState(featuredListings);
