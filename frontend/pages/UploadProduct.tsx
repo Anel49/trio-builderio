@@ -824,7 +824,7 @@ export default function UploadProduct() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
+                    <div className="hidden">
                       <p className="font-medium">Response time</p>
                       <p className="text-muted-foreground">
                         {mockHost.responseTime}
