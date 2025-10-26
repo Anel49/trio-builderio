@@ -459,6 +459,7 @@ export default function UploadProduct() {
         image: imgs[0],
         images: imgs,
         host: currentUser.name,
+        user_id: currentUser.email,
         type: selectedTags[0] || defaultCategory,
         categories: selectedTags.length > 0 ? selectedTags : [defaultCategory],
         description,
