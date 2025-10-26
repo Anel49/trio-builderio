@@ -589,7 +589,7 @@ export default function Index() {
             {/* Cards Row */}
             <div
               ref={listRef}
-              className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory pb-2 no-scrollbar pl-[55px]"
+              className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory pb-2 no-scrollbar ml-[55px] mr-[55px]"
             >
               {listings.map((listing) => (
                 <div
