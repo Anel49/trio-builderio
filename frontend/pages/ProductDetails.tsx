@@ -819,7 +819,8 @@ export default function ProductDetails() {
                 size="lg"
                 className={cn(
                   "w-full mb-4 transition-opacity",
-                  !isDateRangeValid() && "opacity-50 cursor-not-allowed",
+                  hasDateConflict() && "bg-red-600 hover:bg-red-700",
+                  !isDateRangeValid() && !hasDateConflict() && "opacity-50 cursor-not-allowed",
                 )}
                 disabled={!isDateRangeValid()}
                 onClick={() => {
@@ -836,9 +837,11 @@ export default function ProductDetails() {
                 <Calendar className="mr-2 h-5 w-5" />
                 {!selectedDateRange.start || !selectedDateRange.end
                   ? "Select dates to reserve"
-                  : isDateRangeValid()
-                    ? "Reserve Now"
-                    : "Select dates to reserve"}
+                  : hasDateConflict()
+                    ? "Dates conflict with reservations"
+                    : isDateRangeValid()
+                      ? "Reserve Now"
+                      : "Select dates to reserve"}
               </Button>
             </div>
 
