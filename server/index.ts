@@ -183,6 +183,7 @@ export function createServer() {
   app.put("/listings/:id", updateListing);
   app.delete("/listings/:id", deleteListing);
   app.patch("/listings/:id/toggle-enabled", toggleListingEnabled);
+  app.patch("/listings/bulk/update-enabled", bulkUpdateListingsEnabled);
   app.get("/listings/:id/reviews", listListingReviews);
   app.get("/listings/:id/reservations", listListingReservations);
   app.get("/users", getUserByEmail);
