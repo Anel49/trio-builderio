@@ -217,7 +217,6 @@ export async function createListing(req: Request, res: Response) {
       image,
       images,
       host,
-      user_id,
       type,
       description,
       categories,
