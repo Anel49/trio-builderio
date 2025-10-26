@@ -224,7 +224,7 @@ export default function BrowseListings() {
         const response = await apiFetch(`favorites/${userId}`);
         const data = await response.json().catch(() => ({}));
         if (data.ok && Array.isArray(data.favorites)) {
-          const ids = new Set(data.favorites.map((f: any) => f.id));
+          const ids = new Set(data.favorites.map((f: any) => f.id)) as Set<number>;
           setFavoritedListingIds(ids);
         }
       } catch (error) {
