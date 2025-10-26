@@ -117,7 +117,7 @@ export function DateRangePicker({
 
       <Button
         variant="outline"
-        className="w-full justify-start text-left font-normal"
+        className={cn("justify-start text-left font-normal", buttonClassName)}
         onClick={() => setIsOpen(!isOpen)}
       >
         <CalendarIcon className="mr-2 h-4 w-4" />
