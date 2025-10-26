@@ -273,7 +273,7 @@ export default function Profile() {
         return;
       }
 
-      const response = await apiFetch("/api/listings/bulk/update-enabled", {
+      const response = await apiFetch("/listings/bulk/update-enabled", {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ user_id: userId, enabled: false }),
