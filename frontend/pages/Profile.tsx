@@ -253,6 +253,9 @@ export default function Profile() {
             enabled: true,
           })),
         );
+
+        setBulkSuccessMessage("All listings enabled!");
+        setTimeout(() => setBulkSuccessMessage(null), 2000);
       } else {
         console.error("Failed to enable all listings");
       }
