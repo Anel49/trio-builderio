@@ -123,7 +123,7 @@ export function DateRangePicker({
       </Button>
 
       {isOpen && (
-        <Card className="absolute bottom-full left-0 right-0 z-50 mb-2">
+        <Card className="absolute bottom-full left-0 z-50 mb-2 w-fit">
           <CardContent className="p-4">
             <div className="calendar-with-reservation-styling">
               <Calendar
