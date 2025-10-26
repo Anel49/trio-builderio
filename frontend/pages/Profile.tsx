@@ -199,7 +199,8 @@ export default function Profile() {
     try {
       const response = await apiFetch("/api/favorites", {
         method: "POST",
-        body: { userId, listingId },
+        body: JSON.stringify({ userId, listingId }),
+        headers: { "content-type": "application/json" },
       });
       if (response.ok) {
         setFavoritedListing(listingName);
