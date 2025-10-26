@@ -172,6 +172,10 @@ export default function Profile() {
   const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
     useState(false);
   const [deletedItemName, setDeletedItemName] = useState<string>("");
+  const [isBulkEnableConfirmOpen, setIsBulkEnableConfirmOpen] =
+    useState(false);
+  const [isBulkDisableConfirmOpen, setIsBulkDisableConfirmOpen] =
+    useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState<string>(
     currentUser.profileImage,
   );
