@@ -2043,6 +2043,68 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      {/* Bulk Enable All Confirmation Modal */}
+      <Dialog
+        open={isBulkEnableConfirmOpen}
+        onOpenChange={setIsBulkEnableConfirmOpen}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Enable All Listings</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to enable all of your listings? This will
+              make them visible to renters.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsBulkEnableConfirmOpen(false)}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleBulkEnableAll}
+              className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+            >
+              Enable All
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bulk Disable All Confirmation Modal */}
+      <Dialog
+        open={isBulkDisableConfirmOpen}
+        onOpenChange={setIsBulkDisableConfirmOpen}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Disable All Listings</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to disable all of your listings? This will
+              hide them from renters.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsBulkDisableConfirmOpen(false)}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleBulkDisableAll}
+              className="w-full sm:w-auto bg-yellow-600 hover:bg-yellow-700 text-white"
+            >
+              Disable All
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Mobile Profile Floating Button - Only visible on mobile/tablet */}
       <Button
         onClick={() => setIsMobileProfileOpen(!isMobileProfileOpen)}
