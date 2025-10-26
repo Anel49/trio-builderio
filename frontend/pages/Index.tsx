@@ -695,7 +695,7 @@ export default function Index() {
       <FavoritesModal
         isOpen={isFavoritesModalOpen}
         onOpenChange={setIsFavoritesModalOpen}
-        listingTitle={favoritedListing}
+        userId={currentUser.email}
       />
       <LocationPickerModal
         open={isLocationPickerOpen}
