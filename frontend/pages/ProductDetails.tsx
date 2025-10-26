@@ -820,7 +820,9 @@ export default function ProductDetails() {
                 className={cn(
                   "w-full mb-4 transition-opacity",
                   hasDateConflict() && "bg-red-600 hover:bg-red-700",
-                  !isDateRangeValid() && !hasDateConflict() && "opacity-50 cursor-not-allowed",
+                  !isDateRangeValid() &&
+                    !hasDateConflict() &&
+                    "opacity-50 cursor-not-allowed",
                 )}
                 disabled={!isDateRangeValid()}
                 onClick={() => {

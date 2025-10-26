@@ -138,7 +138,10 @@ export default function UploadProduct() {
             setDescription(listing.description || "");
 
             // Set rental period
-            if (listing.rentalPeriod && rentalPeriods.includes(listing.rentalPeriod as RentalPeriod)) {
+            if (
+              listing.rentalPeriod &&
+              rentalPeriods.includes(listing.rentalPeriod as RentalPeriod)
+            ) {
               setRentalPeriod(listing.rentalPeriod as RentalPeriod);
             }
 
