@@ -158,7 +158,7 @@ export default function ProductDetails() {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
-  // Check if selected dates are valid for reservation
+  // Check if selected dates are valid for reservation (daily rentals only)
   const isDateRangeValid = () => {
     if (!selectedDateRange.start || !selectedDateRange.end) {
       return false;
@@ -166,26 +166,7 @@ export default function ProductDetails() {
     const start = selectedDateRange.start;
     const end = selectedDateRange.end;
 
-    // For weekly rentals, check if dates are a multiple of 7 days
-    if (product && product.rentalPeriod === "Weekly") {
-      const daysDiff = Math.ceil(
-        (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
-      );
-      if (daysDiff % 7 !== 0) {
-        return false;
-      }
-    }
-
-    // For monthly rentals, check if dates are a multiple of 30 days
-    if (product && product.rentalPeriod === "Monthly") {
-      const daysDiff = Math.ceil(
-        (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
-      );
-      if (daysDiff % 30 !== 0) {
-        return false;
-      }
-    }
-
+    // Check if dates conflict with existing reservations
     for (const r of reservations) {
       const rs = new Date(r.startDate);
       const re = new Date(r.endDate);
@@ -841,11 +822,7 @@ export default function ProductDetails() {
                   ? "Select dates to reserve"
                   : isDateRangeValid()
                     ? "Reserve Now"
-                    : product?.rentalPeriod === "Weekly"
-                      ? "Dates must be one or more full 7-day intervals"
-                      : product?.rentalPeriod === "Monthly"
-                        ? "Dates must be one or more full 30-day intervals"
-                        : "Select dates to reserve"}
+                    : "Select dates to reserve"}
               </Button>
             </div>
 
