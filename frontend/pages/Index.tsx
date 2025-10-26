@@ -301,11 +301,11 @@ export default function Index() {
         });
 
         // Sort by distance if user has location, otherwise by most recent
-        // Then limit to 10 items
+        // Then limit to 9 items
         const sorted = coords
           ? mapped.sort((a, b) => (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity))
           : mapped;
-        const limited = sorted.slice(0, 10);
+        const limited = sorted.slice(0, 9);
 
         if (!cancelled) {
           setListings(limited);
