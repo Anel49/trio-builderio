@@ -12,6 +12,7 @@ import {
   getListingById,
   listListingReviews,
   listListingReservations,
+  bulkUpdateListingsEnabled,
 } from "./routes/listings";
 import { getUserByEmail, upsertUser } from "./routes/users";
 import { reverseGeocode } from "./routes/geocode";
