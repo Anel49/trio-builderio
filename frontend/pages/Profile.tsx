@@ -2084,7 +2084,7 @@ export default function Profile() {
             <DialogTitle>Disable All Listings</DialogTitle>
             <DialogDescription>
               Are you sure you want to disable all of your listings? This will
-              hide them from renters.
+              prevent them from showing in search results.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-col sm:flex-row gap-2">
