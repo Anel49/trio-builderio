@@ -176,6 +176,9 @@ export default function Profile() {
     useState(false);
   const [isBulkDisableConfirmOpen, setIsBulkDisableConfirmOpen] =
     useState(false);
+  const [bulkSuccessMessage, setBulkSuccessMessage] = useState<string | null>(
+    null,
+  );
   const [profileImageUrl, setProfileImageUrl] = useState<string>(
     currentUser.profileImage,
   );
