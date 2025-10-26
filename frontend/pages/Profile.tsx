@@ -172,8 +172,7 @@ export default function Profile() {
   const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
     useState(false);
   const [deletedItemName, setDeletedItemName] = useState<string>("");
-  const [isBulkEnableConfirmOpen, setIsBulkEnableConfirmOpen] =
-    useState(false);
+  const [isBulkEnableConfirmOpen, setIsBulkEnableConfirmOpen] = useState(false);
   const [isBulkDisableConfirmOpen, setIsBulkDisableConfirmOpen] =
     useState(false);
   const [bulkSuccessMessage, setBulkSuccessMessage] = useState<string | null>(
@@ -1385,7 +1384,9 @@ export default function Profile() {
                           </Button>
                         </>
                       )}
-                      <Button onClick={() => (window.location.href = "/upload")}>
+                      <Button
+                        onClick={() => (window.location.href = "/upload")}
+                      >
                         <Package className="h-4 w-4 mr-2" />
                         Add New Item
                       </Button>
