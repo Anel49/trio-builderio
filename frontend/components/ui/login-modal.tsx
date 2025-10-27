@@ -333,6 +333,32 @@ export function LoginModal({
             </Button>
           </div>
 
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-border/40"></span>
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white dark:bg-gray-900 px-2 text-muted-foreground">
+                Or
+              </span>
+            </div>
+          </div>
+
+          {/* Email Login Button */}
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => {
+              onOpenChange(false);
+              if (onContinueWithEmail) {
+                onContinueWithEmail();
+              }
+            }}
+            disabled={isLoading}
+          >
+            Continue with Email
+          </Button>
+
           <div className="text-center text-sm">
             <span className="text-muted-foreground">
               Don't have an account?{" "}
