@@ -481,6 +481,7 @@ export default function ProductDetails() {
             date: new Date(r.createdAt).toLocaleDateString(),
             dateValue: new Date(r.createdAt),
             text: r.comment || "",
+            reviewerId: r.reviewerId,
           }));
           setReviews(mapped);
         }
