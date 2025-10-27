@@ -195,10 +195,10 @@ export async function emailSignup(req: Request, res: Response) {
     }
 
     const userResult = await pool.query(
-      `insert into users (name, email, avatar_url)
-       values ($1, $2, $3)
+      `insert into users (name, email, avatar_url, first_name, last_name)
+       values ($1, $2, $3, $4, $5)
        returning id, name, email, avatar_url, created_at`,
-      [`${firstNameStr} ${lastNameStr}`, emailStr, photoIdStr],
+      [`${firstNameStr} ${lastNameStr}`, emailStr, photoIdStr, firstNameStr, lastNameStr],
     );
 
     const userId = userResult.rows[0].id;
