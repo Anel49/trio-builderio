@@ -15,9 +15,9 @@ import {
   ArrowLeft,
   MapPin,
 } from "lucide-react";
-import { currentUser } from "@/lib/user-profile";
 import { COMPANY_NAME, MARKETPLACE_NAME } from "@/lib/constants";
 import { apiFetch } from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement } from "@stripe/react-stripe-js";
 
@@ -30,6 +30,7 @@ declare global {
 }
 
 export default function Checkout() {
+  const { user: authUser } = useAuth();
   const [paymentMethod, setPaymentMethod] = useState("paypal");
   const publishableKey = (import.meta as any).env
     ?.VITE_STRIPE_PUBLISHABLE_KEY as string | undefined;
