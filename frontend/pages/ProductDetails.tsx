@@ -109,6 +109,10 @@ export default function ProductDetails() {
     useState(false);
   const [isRemoveFromFavoritesModalOpen, setIsRemoveFromFavoritesModalOpen] =
     useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
   const [isFavorited, setIsFavorited] = useState(false);
