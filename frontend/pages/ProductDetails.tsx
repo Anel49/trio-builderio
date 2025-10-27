@@ -182,8 +182,21 @@ export default function ProductDetails() {
         setReviewComment("");
         setReviewRating(5);
         setIsReviewModalOpen(false);
-        // Optionally refresh reviews here
-        window.location.reload();
+        // Refresh reviews from the listing-reviews endpoint
+        const reviewsResponse = await apiFetch(`listing-reviews/${params.id}`);
+        const reviewsData = await reviewsResponse.json().catch(() => ({ ok: true, reviews: [] }));
+        if (reviewsData && reviewsData.ok && Array.isArray(reviewsData.reviews)) {
+          const mapped: Review[] = reviewsData.reviews.map((r: any) => ({
+            id: r.id,
+            user: r.reviewerName || "Anonymous",
+            avatar: r.avatar,
+            rating: typeof r.rating === "number" ? r.rating : 0,
+            date: new Date(r.createdAt).toLocaleDateString(),
+            dateValue: new Date(r.createdAt),
+            text: r.comment || "",
+          }));
+          setReviews(mapped);
+        }
       } else {
         console.error("Failed to submit review:", data.error);
       }
