@@ -146,6 +146,9 @@ export default function Header() {
           setIsLoginModalOpen(false);
           setIsSignUpModalOpen(true);
         }}
+        onContinueWithEmail={() => {
+          setIsEmailLoginModalOpen(true);
+        }}
       />
 
       <SignUpModal
