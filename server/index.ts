@@ -74,6 +74,7 @@ export function createServer() {
       cookie: {
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
+        sameSite: "lax",
         // No maxAge - cookie is session-only and cleared when browser closes
       },
     }),
