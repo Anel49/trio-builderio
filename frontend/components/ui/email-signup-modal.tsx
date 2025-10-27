@@ -168,7 +168,7 @@ export function EmailSignupModal({
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={handleClose}>
+      <Dialog open={isOpen && !isSuccessModalOpen} onOpenChange={handleClose}>
         <DialogContent className="max-w-md max-h-[90vh]">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-center">
