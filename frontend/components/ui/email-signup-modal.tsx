@@ -180,13 +180,13 @@ export function EmailSignupModal({
           <ScrollArea className="max-h-[calc(90vh-120px)] pr-4">
             <form onSubmit={handleSubmit} className="space-y-4 p-2">
               {/* First Name */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              First Name <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="text"
-              value={firstName}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  First Name <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="text"
+                  value={firstName}
                   onChange={(e) => {
                     setFirstName(e.target.value);
                     if (fieldErrors.firstName) {
@@ -209,37 +209,37 @@ export function EmailSignupModal({
               </div>
 
               {/* Last Name */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Last Name</label>
-            <Input
-              type="text"
-              value={lastName}
-              onChange={(e) => {
-                setLastName(e.target.value);
-                if (fieldErrors.lastName) {
-                  setFieldErrors((prev) => {
-                    const updated = { ...prev };
-                    delete updated.lastName;
-                    return updated;
-                  });
-                }
-              }}
-              disabled={isLoading}
-              className={fieldErrors.lastName ? "border-red-500" : ""}
-            />
-            {fieldErrors.lastName && (
-              <p className="text-xs text-red-500">{fieldErrors.lastName}</p>
-            )}
-          </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Last Name</label>
+                <Input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                    if (fieldErrors.lastName) {
+                      setFieldErrors((prev) => {
+                        const updated = { ...prev };
+                        delete updated.lastName;
+                        return updated;
+                      });
+                    }
+                  }}
+                  disabled={isLoading}
+                  className={fieldErrors.lastName ? "border-red-500" : ""}
+                />
+                {fieldErrors.lastName && (
+                  <p className="text-xs text-red-500">{fieldErrors.lastName}</p>
+                )}
+              </div>
 
               {/* Email */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Email Address <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="email"
-              value={email}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Email Address <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="email"
+                  value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
                     if (fieldErrors.email) {
@@ -260,14 +260,14 @@ export function EmailSignupModal({
               </div>
 
               {/* Password */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Password <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <Input
-                type={showPassword ? "text" : "password"}
-                value={password}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Password <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
                       if (fieldErrors.password) {
@@ -300,14 +300,14 @@ export function EmailSignupModal({
               </div>
 
               {/* Confirm Password */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Confirm Password <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <Input
-                type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Confirm Password <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <Input
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
                     onChange={(e) => {
                       setConfirmPassword(e.target.value);
                       if (fieldErrors.confirmPassword) {
@@ -463,18 +463,18 @@ export function EmailSignupModal({
             <strong>{successUser?.name}</strong>.
           </p>
           <Button
-          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-          onClick={() => {
-            setIsSuccessModalOpen(false);
-            handleClose();
-            if (onSignupSuccess) {
-              onSignupSuccess();
-            }
-            window.location.href = "/";
-          }}
-        >
-          Continue to Dashboard
-        </Button>
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+            onClick={() => {
+              setIsSuccessModalOpen(false);
+              handleClose();
+              if (onSignupSuccess) {
+                onSignupSuccess();
+              }
+              window.location.href = "/";
+            }}
+          >
+            Continue to Dashboard
+          </Button>
         </DialogContent>
       </Dialog>
     </>

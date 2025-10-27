@@ -14,10 +14,7 @@ import {
 } from "@/components/LocationPickerModal";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-import {
-  getCurrentUserLocation,
-  type UserLocation,
-} from "@/lib/user-profile";
+import { getCurrentUserLocation, type UserLocation } from "@/lib/user-profile";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
@@ -453,9 +450,7 @@ export default function UploadProduct() {
           return initialZip;
         }
         const candidate =
-          typeof authUser?.zipCode === "string"
-            ? authUser.zipCode.trim()
-            : "";
+          typeof authUser?.zipCode === "string" ? authUser.zipCode.trim() : "";
         return /^\d{5}$/.test(candidate) ? candidate : "00000";
       })();
 

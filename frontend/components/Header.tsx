@@ -138,9 +138,10 @@ export default function Header() {
                       src={user?.avatarUrl || undefined}
                       alt={user?.name || "Profile"}
                     />
-                    <AvatarFallback>{getInitials(user?.name || null)}</AvatarFallback>
+                    <AvatarFallback>
+                      {getInitials(user?.name || null)}
+                    </AvatarFallback>
                   </Avatar>
-
                 </>
               )}
               <div className="hidden md:block">

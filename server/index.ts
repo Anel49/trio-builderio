@@ -176,9 +176,12 @@ export function createServer() {
         email: row.email || null,
         avatarUrl: row.avatar_url || null,
         zipCode: null,
-        locationLatitude: typeof row.latitude === "number" ? row.latitude : null,
-        locationLongitude: typeof row.longitude === "number" ? row.longitude : null,
-        locationCity: typeof row.location_city === "string" ? row.location_city : null,
+        locationLatitude:
+          typeof row.latitude === "number" ? row.latitude : null,
+        locationLongitude:
+          typeof row.longitude === "number" ? row.longitude : null,
+        locationCity:
+          typeof row.location_city === "string" ? row.location_city : null,
         createdAt: row.created_at,
         foundingSupporter: Boolean(row.founding_supporter),
         topReferrer: Boolean(row.top_referrer),

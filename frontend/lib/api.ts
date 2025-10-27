@@ -147,7 +147,9 @@ export async function apiFetch(path: string, init?: RequestInit) {
   // Build final init
   const finalInit = {
     ...init,
-    credentials: !/^https?:\/\//i.test(path) ? ("include" as const) : init?.credentials,
+    credentials: !/^https?:\/\//i.test(path)
+      ? ("include" as const)
+      : init?.credentials,
   };
 
   // Always short-circuit ping without network
