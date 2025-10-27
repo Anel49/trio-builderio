@@ -1,10 +1,27 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
+export interface User {
+  id: number;
+  name: string | null;
+  email: string | null;
+  avatarUrl: string | null;
+  zipCode: string | null;
+  locationLatitude: number | null;
+  locationLongitude: number | null;
+  locationCity: string | null;
+  createdAt: string;
+  foundingSupporter: boolean;
+  topReferrer: boolean;
+  ambassador: boolean;
+}
+
 interface AuthContextType {
   authenticated: boolean;
+  user: User | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => Promise<void>;
+  checkAuth: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -13,25 +30,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Check authentication status on mount
   useEffect(() => {
-    checkAuthStatus();
+    checkAuth();
   }, []);
 
-  const checkAuthStatus = async () => {
+  const checkAuth = async () => {
     try {
-      const response = await fetch("/api/auth/status");
-      if (!response.ok) {
-        console.error("Auth status check failed with status:", response.status);
+      const response = await fetch("/api/auth/me", {
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user);
+        setAuthenticated(true);
+      } else {
+        setUser(null);
         setAuthenticated(false);
-        return;
       }
-      const data = await response.json();
-      setAuthenticated(data.authenticated === true);
     } catch (error) {
       console.error("Failed to check auth status:", error);
+      setUser(null);
       setAuthenticated(false);
     } finally {
       setLoading(false);
@@ -50,15 +73,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       if (response.ok) {
-        setAuthenticated(true);
+        await checkAuth();
         return true;
       } else {
-        setAuthenticated(false);
         return false;
       }
     } catch (error) {
       console.error("Login failed:", error);
-      setAuthenticated(false);
       return false;
     }
   };
@@ -69,6 +90,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         method: "POST",
         credentials: "include",
       });
+      setUser(null);
       setAuthenticated(false);
     } catch (error) {
       console.error("Logout failed:", error);
@@ -76,7 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ authenticated, loading, login, logout }}>
+    <AuthContext.Provider value={{ authenticated, user, loading, login, logout, checkAuth }}>
       {children}
     </AuthContext.Provider>
   );
