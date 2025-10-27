@@ -219,6 +219,9 @@ export async function emailSignup(req: Request, res: Response) {
 
     const user = rowToUser(userResult.rows[0]);
 
+    (req as any).session.userId = user.id;
+    (req as any).session.user = user;
+
     res.json({
       ok: true,
       user,
