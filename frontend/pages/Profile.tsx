@@ -1181,7 +1181,7 @@ export default function Profile() {
                     </div>
                     <span className="font-medium">{userProfile.avgRating}</span>
                     <span className="text-sm text-muted-foreground">
-                      ({userProfile.totalReviews} reviews)
+                      ({itemReviews.length} reviews)
                     </span>
                   </div>
                 </div>
