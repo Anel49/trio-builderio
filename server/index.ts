@@ -171,6 +171,7 @@ export function createServer() {
   // Users
   app.get("/api/users", getUserByEmail); // query: email
   app.post("/api/users", upsertUser);
+  app.post("/api/users/signup", emailSignup);
   // Favorites
   app.get("/api/favorites/:userId", listFavorites);
   app.post("/api/favorites", addFavorite);
