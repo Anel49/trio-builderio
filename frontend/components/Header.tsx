@@ -197,8 +197,7 @@ export default function Header() {
       <EmailSignupModal
         isOpen={isEmailSignupModalOpen}
         onOpenChange={setIsEmailSignupModalOpen}
-        onSignupSuccess={(user) => {
-          localStorage.setItem("currentUser", JSON.stringify(user));
+        onSignupSuccess={() => {
           setIsSignUpModalOpen(false);
           window.location.href = "/";
         }}
@@ -211,8 +210,7 @@ export default function Header() {
       <EmailLoginModal
         isOpen={isEmailLoginModalOpen}
         onOpenChange={setIsEmailLoginModalOpen}
-        onLoginSuccess={(user) => {
-          localStorage.setItem("currentUser", JSON.stringify(user));
+        onLoginSuccess={() => {
           window.location.href = "/";
         }}
         onSwitchToSignUp={() => {
