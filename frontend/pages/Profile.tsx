@@ -517,14 +517,8 @@ export default function Profile() {
     if (typeof locationCity === "string" && locationCity.trim()) {
       return locationCity.trim();
     }
-    if (
-      typeof currentUser.defaultLocation === "string" &&
-      currentUser.defaultLocation.trim()
-    ) {
-      return currentUser.defaultLocation.trim();
-    }
     return null;
-  }, [locationCity, currentUser.defaultLocation]);
+  }, [locationCity]);
 
   // Use centralized user profile data
   const userProfile = {
