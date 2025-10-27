@@ -132,7 +132,11 @@ function InteractiveMap({
       if (!isActiveRef.current) {
         return;
       }
-      selectHandlerRef.current(event.latlng.lat, event.latlng.lng);
+      const [normalizedLat, normalizedLng] = normalizeCoordinates(
+        event.latlng.lat,
+        event.latlng.lng,
+      );
+      selectHandlerRef.current(normalizedLat, normalizedLng);
     };
 
     const handleZoomStart = () => {
