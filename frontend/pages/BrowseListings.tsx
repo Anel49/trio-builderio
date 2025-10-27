@@ -490,7 +490,7 @@ export default function BrowseListings() {
             name: l.name,
             price: l.price,
             rating: typeof l.rating === "number" ? l.rating : null,
-            reviews: undefined,
+            reviews: typeof l.reviews === "number" ? l.reviews : undefined,
             image:
               Array.isArray(l.images) && l.images.length
                 ? l.images[0]
