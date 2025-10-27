@@ -276,6 +276,11 @@ export function createServer() {
   app.post("/favorites", addFavorite);
   app.delete("/favorites/:userId/:listingId", removeFavorite);
   app.get("/favorites/:userId/:listingId/check", checkFavorite);
+  // Listing Reviews aliases
+  app.post("/listing-reviews", createListingReview);
+  app.get("/listing-reviews/:id", getListingReviews);
+  app.patch("/listing-reviews/:id/helpful", updateListingReviewHelpful);
+  app.delete("/listing-reviews/:id", deleteListingReview);
 
   return app;
 }
