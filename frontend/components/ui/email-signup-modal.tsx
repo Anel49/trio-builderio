@@ -260,15 +260,14 @@ export function EmailSignupModal({
               </div>
 
               {/* Password */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  Password <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="At least 6 characters"
-                    value={password}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Password <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
                       if (fieldErrors.password) {
