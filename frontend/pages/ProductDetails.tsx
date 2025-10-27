@@ -920,7 +920,7 @@ export default function ProductDetails() {
                       ?.scrollIntoView({ behavior: "smooth" })
                   }
                 >
-                  ({displayTotalReviews} reviews)
+                  ({displayTotalReviews} {displayTotalReviews === 1 ? "review" : "reviews"})
                 </button>
               </div>
 
