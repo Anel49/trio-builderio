@@ -262,9 +262,15 @@ function InteractiveMap({
 
         markersRef.current.set(listing.id, marker);
       } else {
-        // Update marker styling when selection changes
+        // Update marker styling and number when order changes or selection changes
         const markerElement = existingMarker.getElement();
         if (markerElement) {
+          // Update the number in case the order changed
+          const numberElement = markerElement.querySelector('div');
+          if (numberElement) {
+            numberElement.textContent = String(index + 1);
+          }
+
           if (isSelected) {
             markerElement.classList.add("selected");
             existingMarker.openPopup();
