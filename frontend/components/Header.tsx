@@ -23,6 +23,7 @@ export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isEmailSignupModalOpen, setIsEmailSignupModalOpen] = useState(false);
+  const [isEmailLoginModalOpen, setIsEmailLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
