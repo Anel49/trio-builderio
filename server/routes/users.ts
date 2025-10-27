@@ -153,12 +153,6 @@ export async function emailSignup(req: Request, res: Response) {
         .json({ ok: false, error: "first_name is required" });
     }
 
-    if (!lastNameStr) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "last_name is required" });
-    }
-
     if (!emailStr || !emailStr.includes("@")) {
       return res
         .status(400)
