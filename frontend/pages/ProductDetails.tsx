@@ -94,6 +94,7 @@ const normalizeRentalPeriod = (value: unknown): RentalPeriod => {
 const REVIEWS_PER_PAGE = 8;
 
 export default function ProductDetails() {
+  const { user: authUser } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [reviewSearchQuery, setReviewSearchQuery] = useState("");
   const [reviewSortBy, setReviewSortBy] = useState("newest");
@@ -117,7 +118,7 @@ export default function ProductDetails() {
   }>({ start: null, end: null });
 
   const handleFavorite = async (listingName: string, listingId: number) => {
-    const userId = currentUser.email;
+    const userId = authUser?.id;
     if (!userId) {
       console.error("User not authenticated");
       return;
