@@ -191,6 +191,7 @@ export function createServer() {
   app.get("/users", getUserByEmail);
   app.post("/users", upsertUser);
   app.post("/users/signup", emailSignup);
+  app.post("/users/login", emailLogin);
   app.get("/favorites/:userId", listFavorites);
   app.post("/favorites", addFavorite);
   app.delete("/favorites/:userId/:listingId", removeFavorite);
