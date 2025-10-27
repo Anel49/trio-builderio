@@ -74,6 +74,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const RENTAL_PERIODS = ["Hourly", "Daily", "Weekly", "Monthly"] as const;
 type RentalPeriod = (typeof RENTAL_PERIODS)[number];
