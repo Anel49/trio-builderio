@@ -522,16 +522,16 @@ export default function Profile() {
 
   // Use centralized user profile data
   const userProfile = {
-    ...currentUser,
-    name,
-    profileImage: profileImageUrl,
+    name: name || authUser?.name || "User",
+    email: authUser?.email || "",
+    profileImage: profileImageUrl || authUser?.avatarUrl || "",
     locationCity,
     locationLatitude,
     locationLongitude,
     zipCode: locationPostalCode,
-    avgRating: currentUser.rating,
+    avgRating: 0,
     dateJoined: dateJoinedDisplay || "—",
-    avgResponseTime: currentUser.responseTime,
+    avgResponseTime: "—",
   };
 
   // Mock listed items
