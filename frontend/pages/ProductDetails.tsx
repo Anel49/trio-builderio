@@ -611,25 +611,19 @@ export default function ProductDetails() {
     return reviews.find((r) => r.reviewerId === authUser?.id) || null;
   }, [reviews, authUser?.id]);
 
-  // Calculate average rating
-  const averageRating = useMemo(() => {
+  // Calculate average rating from reviews
+  const calculatedAverageRating = useMemo(() => {
     if (reviews.length === 0) return null;
-    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    const sum = reviews.reduce((acc, review) => {
+      const rating = typeof review.rating === "number" ? review.rating : 0;
+      return acc + rating;
+    }, 0);
     return Math.round((sum / reviews.length) * 10) / 10;
   }, [reviews]);
 
-  // Update product rating when reviews load
-  useEffect(() => {
-    setProduct((prev) =>
-      prev
-        ? {
-            ...prev,
-            rating: averageRating,
-            totalReviews: reviews.length,
-          }
-        : null,
-    );
-  }, [averageRating, reviews.length]);
+  // Use calculated average if reviews exist, otherwise use product rating from API
+  const displayRating = calculatedAverageRating !== null ? calculatedAverageRating : product?.rating || null;
+  const displayTotalReviews = reviews.length;
 
   // Filter and sort reviews
   const filteredAndSortedReviews = useMemo(() => {
