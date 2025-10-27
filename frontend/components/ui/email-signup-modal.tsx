@@ -186,10 +186,23 @@ export function EmailSignupModal({
               type="text"
               placeholder="John"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+                if (fieldErrors.firstName) {
+                  setFieldErrors((prev) => {
+                    const updated = { ...prev };
+                    delete updated.firstName;
+                    return updated;
+                  });
+                }
+              }}
               disabled={isLoading}
               required
+              className={fieldErrors.firstName ? "border-red-500" : ""}
             />
+            {fieldErrors.firstName && (
+              <p className="text-xs text-red-500">{fieldErrors.firstName}</p>
+            )}
           </div>
 
           {/* Last Name */}
