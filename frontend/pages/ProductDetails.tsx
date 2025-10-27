@@ -177,11 +177,7 @@ export default function ProductDetails() {
     const reviewsData = await reviewsResponse
       .json()
       .catch(() => ({ ok: true, reviews: [] }));
-    if (
-      reviewsData &&
-      reviewsData.ok &&
-      Array.isArray(reviewsData.reviews)
-    ) {
+    if (reviewsData && reviewsData.ok && Array.isArray(reviewsData.reviews)) {
       const mapped: Review[] = reviewsData.reviews.map((r: any) => ({
         id: r.id,
         user: r.reviewerName || "Anonymous",
@@ -623,7 +619,9 @@ export default function ProductDetails() {
 
   // Use calculated average if reviews exist, otherwise use product rating from API
   const displayRating = useMemo(() => {
-    return calculatedAverageRating !== null ? calculatedAverageRating : product?.rating || null;
+    return calculatedAverageRating !== null
+      ? calculatedAverageRating
+      : product?.rating || null;
   }, [calculatedAverageRating, product?.rating]);
 
   const displayTotalReviews = reviews.length;
@@ -1152,7 +1150,9 @@ export default function ProductDetails() {
                     </a>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold">{review.user.split(" ")[0]}</h4>
+                        <h4 className="font-semibold">
+                          {review.user.split(" ")[0]}
+                        </h4>
                         <span className="text-sm text-muted-foreground">
                           {review.date}
                         </span>
@@ -1309,17 +1309,21 @@ export default function ProductDetails() {
         longitude={product?.longitude ?? null}
         listingName={product?.name}
       />
-      <AlertDialog open={isDeleteConfirmOpen} onOpenChange={(open) => {
-        setIsDeleteConfirmOpen(open);
-        if (!open && editingReviewId !== null) {
-          setIsReviewModalOpen(true);
-        }
-      }}>
+      <AlertDialog
+        open={isDeleteConfirmOpen}
+        onOpenChange={(open) => {
+          setIsDeleteConfirmOpen(open);
+          if (!open && editingReviewId !== null) {
+            setIsReviewModalOpen(true);
+          }
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Review</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this review? This action cannot be undone.
+              Are you sure you want to delete this review? This action cannot be
+              undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex gap-2 justify-end">
