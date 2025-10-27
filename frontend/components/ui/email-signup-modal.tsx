@@ -472,17 +472,18 @@ export function EmailSignupModal({
             <strong>{successUser?.name}</strong>.
           </p>
           <Button
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            onClick={() => {
-              setIsSuccessModalOpen(false);
-              handleClose();
-              if (onSignupSuccess && successUser) {
-                onSignupSuccess(successUser);
-              }
-            }}
-          >
-            Continue to Dashboard
-          </Button>
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+          onClick={() => {
+            setIsSuccessModalOpen(false);
+            handleClose();
+            if (onSignupSuccess && successUser) {
+              onSignupSuccess(successUser);
+            }
+            window.location.href = "/";
+          }}
+        >
+          Continue to Dashboard
+        </Button>
         </DialogContent>
       </Dialog>
     </>
