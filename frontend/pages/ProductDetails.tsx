@@ -235,21 +235,28 @@ export default function ProductDetails() {
     setIsReviewModalOpen(true);
   };
 
-  const handleDeleteReview = async (reviewId: number) => {
-    if (!confirm("Are you sure you want to delete this review?")) return;
+  const handleDeleteReview = async () => {
+    if (!editingReviewId) return;
 
     try {
-      const response = await apiFetch(`listing-reviews/${reviewId}`, {
+      const response = await apiFetch(`listing-reviews/${editingReviewId}`, {
         method: "DELETE",
       });
       const data = await response.json().catch(() => ({}));
       if (data.ok) {
+        setIsReviewModalOpen(false);
+        setIsEditingReview(false);
+        setEditingReviewId(null);
+        setReviewComment("");
+        setReviewRating(5);
         await refreshReviews();
       } else {
         console.error("Failed to delete review:", data.error);
       }
     } catch (error) {
       console.error("Failed to delete review:", error);
+    } finally {
+      setIsDeleteConfirmOpen(false);
     }
   };
 
