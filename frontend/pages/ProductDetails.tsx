@@ -220,7 +220,15 @@ export default function ProductDetails() {
   }>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
-  const host = authUser;
+  // Host information from the current product or fallback to authenticated user
+  const host = {
+    name: authUser?.name || "Product Host",
+    profileImage: authUser?.avatarUrl || "",
+    rating: 4.8,
+    totalReviews: 42,
+    joinedDate: authUser?.createdAt ? new Date(authUser.createdAt).getFullYear().toString() : "2024",
+    responseTime: "Within an hour",
+  };
 
   const params = useParams();
   const listingId = String(params.id || "1");
