@@ -73,7 +73,7 @@ export function EmailLoginModal({
       if (response.ok && data.ok && data.user) {
         handleClose();
         if (onLoginSuccess) {
-          onLoginSuccess(data.user);
+          onLoginSuccess();
         }
         // Reload the current page to refresh auth state and show authenticated content
         window.location.reload();
