@@ -1374,7 +1374,10 @@ export default function ProductDetails() {
                 {isEditingReview && (
                   <Button
                     variant="destructive"
-                    onClick={() => setIsDeleteConfirmOpen(true)}
+                    onClick={() => {
+                      setIsReviewModalOpen(false);
+                      setIsDeleteConfirmOpen(true);
+                    }}
                   >
                     Delete Review
                   </Button>
