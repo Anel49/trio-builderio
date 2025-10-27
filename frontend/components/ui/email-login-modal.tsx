@@ -13,7 +13,7 @@ import { apiFetch } from "@/lib/api";
 interface EmailLoginModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onLoginSuccess?: (user: any) => void;
+  onLoginSuccess?: () => void;
   onSwitchToSignUp?: () => void;
 }
 
