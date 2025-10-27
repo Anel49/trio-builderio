@@ -322,7 +322,7 @@ export function ProductCard({
         {!hideHostInfo ? (
           <div className="flex items-center justify-between">
             <span className={`text-sm ${colors.text.muted}`}>
-              Hosted by {host}
+              Hosted by {host.split(" ")[0]}
             </span>
             <div className={`flex items-center text-sm ${colors.text.muted}`}>
               <MapPin className="h-3 w-3 mr-1" />
