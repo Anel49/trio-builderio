@@ -182,8 +182,8 @@ export function SignUpModal({
       `${provider} signup successful! (This is a demo - implement your backend integration)`,
     );
     onOpenChange(false);
-    // Redirect to home page or dashboard
-    window.location.href = "/";
+    // Reload the current page to refresh auth state and show authenticated content
+    window.location.reload();
   };
 
   // Load Google OAuth2 script
