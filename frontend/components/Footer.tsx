@@ -1,6 +1,7 @@
 import { Container } from "./Container";
 import { resetCookiePreferences } from "@/lib/cookie-utils";
 import { COMPANY_NAME } from "@/lib/constants";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function Footer() {
   return (
