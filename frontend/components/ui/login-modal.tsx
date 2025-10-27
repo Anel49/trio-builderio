@@ -338,7 +338,7 @@ export function LoginModal({
               <span className="w-full border-t border-border/40"></span>
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white dark:bg-gray-900 px-2 text-muted-foreground">
+              <span className="bg-background dark:bg-slate-950 px-2 text-muted-foreground">
                 Or
               </span>
             </div>
