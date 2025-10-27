@@ -1795,7 +1795,11 @@ export default function Profile() {
               Cancel
             </Button>
             <Button
-              onClick={() => setIsLogoutModalOpen(false)}
+              onClick={async () => {
+                await logout();
+                setIsLogoutModalOpen(false);
+                window.location.href = "/";
+              }}
               className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white"
             >
               Log out
