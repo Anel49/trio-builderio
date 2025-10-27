@@ -271,10 +271,19 @@ export function EmailSignupModal({
                 type={showPassword ? "text" : "password"}
                 placeholder="At least 6 characters"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (fieldErrors.password) {
+                    setFieldErrors((prev) => {
+                      const updated = { ...prev };
+                      delete updated.password;
+                      return updated;
+                    });
+                  }
+                }}
                 disabled={isLoading}
                 required
-                className="pr-10"
+                className={`pr-10 ${fieldErrors.password ? "border-red-500" : ""}`}
               />
               <button
                 type="button"
@@ -288,6 +297,9 @@ export function EmailSignupModal({
                 )}
               </button>
             </div>
+            {fieldErrors.password && (
+              <p className="text-xs text-red-500">{fieldErrors.password}</p>
+            )}
           </div>
 
           {/* Confirm Password */}
