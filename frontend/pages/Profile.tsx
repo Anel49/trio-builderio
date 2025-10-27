@@ -263,12 +263,7 @@ export default function Profile() {
 
   const handleBulkDisableAll = async () => {
     try {
-      const userResponse = await apiFetch(
-        `users?email=${encodeURIComponent(currentUser.email)}`,
-      );
-      const userData = await userResponse.json().catch(() => ({}));
-      const userId = userData.user?.id ?? null;
-
+      const userId = authUser?.id;
       if (!userId) {
         console.error("Could not get user ID");
         return;
