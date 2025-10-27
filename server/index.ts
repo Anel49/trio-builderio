@@ -137,6 +137,24 @@ export function createServer() {
     }
   });
 
+  // Get current authenticated user
+  app.get("/api/auth/me", (req: any, res: any) => {
+    try {
+      if (!req.session || !req.session.userId) {
+        return res.status(401).json({ ok: false, error: "Not authenticated" });
+      }
+
+      const user = req.session.user;
+      return res.json({ ok: true, user });
+    } catch (error: any) {
+      console.error("Auth me error:", error);
+      return res.status(500).json({
+        ok: false,
+        error: "Internal server error",
+      });
+    }
+  });
+
   // Example API routes
   app.get("/api/ping", (_req, res) => {
     res.json({ message: "Hello from Express server v2!" });
