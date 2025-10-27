@@ -109,7 +109,7 @@ import {
 const REVIEWS_PER_PAGE = 8;
 
 export default function Profile() {
-  const { user: authUser, authenticated, logout } = useAuth();
+  const { user: authUser, authenticated, logout, checkAuth } = useAuth();
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const initialLocation = getCurrentUserLocation();
