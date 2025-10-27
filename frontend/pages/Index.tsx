@@ -290,13 +290,19 @@ export default function Index() {
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
         const userCoords = coords ?? getCurrentUserCoordinates();
         const mapped = d.listings.map((l: any) => {
-          const listingCoords = extractCoordinates(l);
-          const distanceMiles = computeDistanceMiles(userCoords, listingCoords);
-          const distanceLabel = formatDistanceLabel(distanceMiles);
+          let distance = null;
+          let distanceMiles = null;
+
+          // Only calculate distance if user has location
+          if (userCoords) {
+            const listingCoords = extractCoordinates(l);
+            distanceMiles = computeDistanceMiles(userCoords, listingCoords);
+            distance = formatDistanceLabel(distanceMiles);
+          }
 
           return {
             ...l,
-            distance: distanceLabel,
+            distance,
             distanceMiles,
           };
         });
@@ -308,7 +314,11 @@ export default function Index() {
               (a, b) =>
                 (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity),
             )
-          : mapped;
+          : mapped.sort((a, b) => {
+              const dateA = new Date(a.created_at).getTime();
+              const dateB = new Date(b.created_at).getTime();
+              return dateB - dateA; // Most recent first
+            });
         const limited = sorted.slice(0, 9);
 
         if (!cancelled) {
