@@ -197,7 +197,7 @@ export default function Header() {
         onOpenChange={setIsEmailSignupModalOpen}
         onSignupSuccess={() => {
           setIsSignUpModalOpen(false);
-          window.location.href = "/";
+          // Modal will reload the page to refresh auth state
         }}
         onSwitchToLogin={() => {
           setIsEmailSignupModalOpen(false);
