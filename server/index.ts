@@ -153,9 +153,8 @@ export function createServer() {
         return res.status(401).json({ ok: false, error: "Not authenticated" });
       }
 
-      // Fetch the latest user data from the database to ensure we have the most recent profile updates
-      const { getUserByEmail } = await import("./routes/users");
-      const pool = (await import("./routes/db")).pool;
+      // Import pool to fetch latest user data
+      const { pool } = await import("./routes/db");
 
       const userResult = await pool.query(
         `select id, name, email, avatar_url, latitude, longitude, location_city, created_at,
@@ -170,9 +169,21 @@ export function createServer() {
         return res.status(401).json({ ok: false, error: "User not found" });
       }
 
-      // Import the rowToUser function to properly format the user object
-      const { rowToUser } = await import("./routes/users");
-      const user = rowToUser(userResult.rows[0]);
+      const row = userResult.rows[0];
+      const user = {
+        id: row.id,
+        name: row.name || null,
+        email: row.email || null,
+        avatarUrl: row.avatar_url || null,
+        zipCode: null,
+        locationLatitude: typeof row.latitude === "number" ? row.latitude : null,
+        locationLongitude: typeof row.longitude === "number" ? row.longitude : null,
+        locationCity: typeof row.location_city === "string" ? row.location_city : null,
+        createdAt: row.created_at,
+        foundingSupporter: Boolean(row.founding_supporter),
+        topReferrer: Boolean(row.top_referrer),
+        ambassador: Boolean(row.ambassador),
+      };
 
       // Update the session with the latest user data
       req.session.user = user;
