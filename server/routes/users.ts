@@ -126,3 +126,109 @@ export async function upsertUser(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+function hashPassword(password: string): string {
+  return crypto.createHash("sha256").update(password).digest("hex");
+}
+
+export async function emailSignup(req: Request, res: Response) {
+  try {
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      confirm_password,
+      photo_id,
+    } = (req.body || {}) as any;
+
+    const firstNameStr = typeof first_name === "string" ? first_name.trim() : "";
+    const lastNameStr = typeof last_name === "string" ? last_name.trim() : "";
+    const emailStr = typeof email === "string" ? email.trim() : "";
+    const passwordStr = typeof password === "string" ? password : "";
+    const confirmPasswordStr = typeof confirm_password === "string" ? confirm_password : "";
+    const photoIdStr = typeof photo_id === "string" ? photo_id.trim() : null;
+
+    if (!firstNameStr) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "first_name is required" });
+    }
+
+    if (!lastNameStr) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "last_name is required" });
+    }
+
+    if (!emailStr || !emailStr.includes("@")) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "valid email is required" });
+    }
+
+    if (!passwordStr || passwordStr.length < 6) {
+      return res.status(400).json({
+        ok: false,
+        error: "password must be at least 6 characters",
+      });
+    }
+
+    if (passwordStr !== confirmPasswordStr) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "passwords do not match" });
+    }
+
+    const existingUserResult = await pool.query(
+      `select id from users where email = $1`,
+      [emailStr],
+    );
+
+    if (existingUserResult.rowCount && existingUserResult.rowCount > 0) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "email already registered" });
+    }
+
+    const existingCredResult = await pool.query(
+      `select id from user_credentials where email = $1`,
+      [emailStr],
+    );
+
+    if (existingCredResult.rowCount && existingCredResult.rowCount > 0) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "email already registered" });
+    }
+
+    const userResult = await pool.query(
+      `insert into users (name, email, avatar_url)
+       values ($1, $2, $3)
+       returning id, name, email, avatar_url, created_at`,
+      [`${firstNameStr} ${lastNameStr}`, emailStr, photoIdStr],
+    );
+
+    const userId = userResult.rows[0].id;
+    const hashedPassword = hashPassword(passwordStr);
+
+    const credResult = await pool.query(
+      `insert into user_credentials (user_id, first_name, last_name, email, password, photo_id)
+       values ($1, $2, $3, $4, $5, $6)
+       returning id`,
+      [userId, firstNameStr, lastNameStr, emailStr, hashedPassword, photoIdStr],
+    );
+
+    const user = rowToUser(userResult.rows[0]);
+
+    res.json({
+      ok: true,
+      user,
+      credentialId: credResult.rows[0].id,
+      message: "Account created successfully",
+    });
+  } catch (error: any) {
+    console.error("Email signup error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
