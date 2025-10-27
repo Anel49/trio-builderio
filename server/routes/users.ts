@@ -198,7 +198,13 @@ export async function emailSignup(req: Request, res: Response) {
       `insert into users (name, email, avatar_url, first_name, last_name)
        values ($1, $2, $3, $4, $5)
        returning id, name, email, avatar_url, created_at`,
-      [`${firstNameStr} ${lastNameStr}`, emailStr, photoIdStr, firstNameStr, lastNameStr],
+      [
+        `${firstNameStr} ${lastNameStr}`,
+        emailStr,
+        photoIdStr,
+        firstNameStr,
+        lastNameStr,
+      ],
     );
 
     const userId = userResult.rows[0].id;
