@@ -75,7 +75,8 @@ export function EmailLoginModal({
         if (onLoginSuccess) {
           onLoginSuccess(data.user);
         }
-        window.location.href = "/";
+        // Stay on the current page after login
+        window.location.href = window.location.pathname + window.location.search;
       } else {
         const errorMsg = data.error || "Login failed. Please try again.";
         const mappedErrors = mapErrorToField(errorMsg);
