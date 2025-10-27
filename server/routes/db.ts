@@ -159,6 +159,33 @@ export async function dbSetup(_req: Request, res: Response) {
         comment text,
         created_at timestamptz default now()
       );
+      create table if not exists listing_reviews (
+        id serial primary key,
+        listing_id integer not null references listings(id) on delete cascade,
+        reviewer_id integer not null references users(id) on delete cascade,
+        rating numeric(2,1) not null,
+        comment text,
+        helpful_count integer default 0,
+        created_at timestamptz default now(),
+        updated_at timestamptz default now()
+      );
+      create index if not exists idx_listing_reviews_listing_id on listing_reviews(listing_id);
+      create index if not exists idx_listing_reviews_reviewer_id on listing_reviews(reviewer_id);
+      create index if not exists idx_listing_reviews_created_at on listing_reviews(created_at);
+      create table if not exists user_reviews (
+        id serial primary key,
+        reviewed_user_id integer not null references users(id) on delete cascade,
+        reviewer_id integer not null references users(id) on delete cascade,
+        rating numeric(2,1) not null,
+        comment text,
+        related_listing_id integer references listings(id) on delete set null,
+        created_at timestamptz default now(),
+        updated_at timestamptz default now()
+      );
+      create index if not exists idx_user_reviews_reviewed_user_id on user_reviews(reviewed_user_id);
+      create index if not exists idx_user_reviews_reviewer_id on user_reviews(reviewer_id);
+      create index if not exists idx_user_reviews_related_listing_id on user_reviews(related_listing_id);
+      create index if not exists idx_user_reviews_created_at on user_reviews(created_at);
       create table if not exists user_credentials (
         id serial primary key,
         user_id integer not null references users(id) on delete cascade,
