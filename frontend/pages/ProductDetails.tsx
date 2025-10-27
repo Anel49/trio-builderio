@@ -159,6 +159,41 @@ export default function ProductDetails() {
     }
   };
 
+  const handleSubmitReview = async () => {
+    if (!authUser?.id || !params.id) {
+      console.error("User not authenticated or listing ID missing");
+      return;
+    }
+
+    setIsSubmittingReview(true);
+    try {
+      const response = await apiFetch("listing-reviews", {
+        method: "POST",
+        body: JSON.stringify({
+          listing_id: Number(params.id),
+          reviewer_id: authUser.id,
+          rating: reviewRating,
+          comment: reviewComment,
+        }),
+        headers: { "content-type": "application/json" },
+      });
+      const data = await response.json().catch(() => ({}));
+      if (data.ok) {
+        setReviewComment("");
+        setReviewRating(5);
+        setIsReviewModalOpen(false);
+        // Optionally refresh reviews here
+        window.location.reload();
+      } else {
+        console.error("Failed to submit review:", data.error);
+      }
+    } catch (error) {
+      console.error("Failed to submit review:", error);
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
+
   const [reservations, setReservations] = useState<ReservationPeriod[]>([]);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const touchStartX = useRef<number | null>(null);
