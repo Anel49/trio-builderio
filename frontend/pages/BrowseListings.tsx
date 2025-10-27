@@ -55,8 +55,8 @@ import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
 import { isDateRangeAvailable } from "@/lib/reservations";
 import { apiFetch } from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 import {
-  currentUser,
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
   getCurrentUserCoordinates,
