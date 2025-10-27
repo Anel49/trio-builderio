@@ -161,6 +161,31 @@ export default function ProductDetails() {
     }
   };
 
+  const refreshReviews = async () => {
+    if (!params.id) return;
+    const reviewsResponse = await apiFetch(`listing-reviews/${params.id}`);
+    const reviewsData = await reviewsResponse
+      .json()
+      .catch(() => ({ ok: true, reviews: [] }));
+    if (
+      reviewsData &&
+      reviewsData.ok &&
+      Array.isArray(reviewsData.reviews)
+    ) {
+      const mapped: Review[] = reviewsData.reviews.map((r: any) => ({
+        id: r.id,
+        user: r.reviewerName || "Anonymous",
+        avatar: r.avatar,
+        rating: typeof r.rating === "number" ? r.rating : 0,
+        date: new Date(r.createdAt).toLocaleDateString(),
+        dateValue: new Date(r.createdAt),
+        text: r.comment || "",
+        reviewerId: r.reviewerId,
+      }));
+      setReviews(mapped);
+    }
+  };
+
   const handleSubmitReview = async () => {
     if (!authUser?.id || !params.id) {
       console.error("User not authenticated or listing ID missing");
@@ -169,8 +194,12 @@ export default function ProductDetails() {
 
     setIsSubmittingReview(true);
     try {
-      const response = await apiFetch("listing-reviews", {
-        method: "POST",
+      const endpoint = isEditingReview
+        ? `listing-reviews/${editingReviewId}`
+        : "listing-reviews";
+      const method = isEditingReview ? "PATCH" : "POST";
+      const response = await apiFetch(endpoint, {
+        method,
         body: JSON.stringify({
           listing_id: Number(params.id),
           reviewer_id: authUser.id,
@@ -184,27 +213,9 @@ export default function ProductDetails() {
         setReviewComment("");
         setReviewRating(5);
         setIsReviewModalOpen(false);
-        // Refresh reviews from the listing-reviews endpoint
-        const reviewsResponse = await apiFetch(`listing-reviews/${params.id}`);
-        const reviewsData = await reviewsResponse
-          .json()
-          .catch(() => ({ ok: true, reviews: [] }));
-        if (
-          reviewsData &&
-          reviewsData.ok &&
-          Array.isArray(reviewsData.reviews)
-        ) {
-          const mapped: Review[] = reviewsData.reviews.map((r: any) => ({
-            id: r.id,
-            user: r.reviewerName || "Anonymous",
-            avatar: r.avatar,
-            rating: typeof r.rating === "number" ? r.rating : 0,
-            date: new Date(r.createdAt).toLocaleDateString(),
-            dateValue: new Date(r.createdAt),
-            text: r.comment || "",
-          }));
-          setReviews(mapped);
-        }
+        setIsEditingReview(false);
+        setEditingReviewId(null);
+        await refreshReviews();
       } else {
         console.error("Failed to submit review:", data.error);
       }
@@ -212,6 +223,32 @@ export default function ProductDetails() {
       console.error("Failed to submit review:", error);
     } finally {
       setIsSubmittingReview(false);
+    }
+  };
+
+  const handleEditReview = (review: Review) => {
+    setEditingReviewId(review.id);
+    setReviewRating(review.rating);
+    setReviewComment(review.text);
+    setIsEditingReview(true);
+    setIsReviewModalOpen(true);
+  };
+
+  const handleDeleteReview = async (reviewId: number) => {
+    if (!confirm("Are you sure you want to delete this review?")) return;
+
+    try {
+      const response = await apiFetch(`listing-reviews/${reviewId}`, {
+        method: "DELETE",
+      });
+      const data = await response.json().catch(() => ({}));
+      if (data.ok) {
+        await refreshReviews();
+      } else {
+        console.error("Failed to delete review:", data.error);
+      }
+    } catch (error) {
+      console.error("Failed to delete review:", error);
     }
   };
 
