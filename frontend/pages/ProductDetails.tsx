@@ -611,6 +611,26 @@ export default function ProductDetails() {
     return reviews.find((r) => r.reviewerId === authUser?.id) || null;
   }, [reviews, authUser?.id]);
 
+  // Calculate average rating
+  const averageRating = useMemo(() => {
+    if (reviews.length === 0) return null;
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return Math.round((sum / reviews.length) * 10) / 10;
+  }, [reviews]);
+
+  // Update product rating when reviews load
+  useEffect(() => {
+    setProduct((prev) =>
+      prev
+        ? {
+            ...prev,
+            rating: averageRating,
+            totalReviews: reviews.length,
+          }
+        : null,
+    );
+  }, [averageRating, reviews.length]);
+
   // Filter and sort reviews
   const filteredAndSortedReviews = useMemo(() => {
     let filtered = [...reviews];
