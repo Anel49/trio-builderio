@@ -28,6 +28,20 @@ const markerShadowUrl = new URL(
 
 const DEFAULT_CENTER: LatLngExpression = [38.9072, -77.0369]; // Washington, D.C. as neutral US center
 
+function normalizeCoordinates(lat: number, lng: number): [number, number] {
+  // Normalize latitude to -90 to 90
+  let normalizedLat = lat;
+  while (normalizedLat > 90) normalizedLat -= 180;
+  while (normalizedLat < -90) normalizedLat += 180;
+
+  // Normalize longitude to -180 to 180
+  let normalizedLng = lng;
+  while (normalizedLng > 180) normalizedLng -= 360;
+  while (normalizedLng < -180) normalizedLng += 360;
+
+  return [normalizedLat, normalizedLng];
+}
+
 // Configure default marker assets once
 const defaultIcon = L.icon({
   iconRetinaUrl: markerIconRetinaUrl,
