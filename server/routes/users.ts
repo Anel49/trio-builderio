@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { pool } from "./db";
+import crypto from "crypto";
 
 function rowToUser(r: any) {
   return {
