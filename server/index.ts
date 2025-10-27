@@ -112,8 +112,16 @@ export function createServer() {
   // Logout endpoint
   app.post("/api/auth/logout", (req: any, res: any) => {
     try {
-      req.session.authenticated = false;
-      return res.json({ success: true, message: "Logged out successfully" });
+      req.session.destroy((error: any) => {
+        if (error) {
+          console.error("Session destroy error:", error);
+          return res.status(500).json({
+            success: false,
+            error: "Failed to logout",
+          });
+        }
+        return res.json({ success: true, message: "Logged out successfully" });
+      });
     } catch (error: any) {
       console.error("Logout error:", error);
       return res
