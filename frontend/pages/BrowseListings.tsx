@@ -412,13 +412,19 @@ export default function BrowseListings() {
           setIsLoadingDistances(true);
         }
 
-        await ensureCurrentUserProfile();
         if (cancelled) return;
-        const coords = getCurrentUserCoordinates();
-        if (coords && !cancelled) {
+
+        // Only use authenticated user's location
+        let coords = null;
+        if (authenticated && authUser?.locationLatitude && authUser?.locationLongitude) {
+          coords = {
+            latitude: authUser.locationLatitude,
+            longitude: authUser.locationLongitude,
+          };
           setUserCoordinates(coords);
         }
-        // Use filter location if available, otherwise use user coordinates
+
+        // Use filter location if available, otherwise use authenticated user coordinates
         const coordsToUse = filterLocation || coords;
         console.log(
           "[BrowseListings] filterLocation:",
@@ -427,6 +433,8 @@ export default function BrowseListings() {
           coords,
           "coordsToUse:",
           coordsToUse,
+          "authenticated:",
+          authenticated,
         );
         const path = coordsToUse
           ? `listings?user_lat=${coordsToUse.latitude}&user_lng=${coordsToUse.longitude}&enabled=true`
