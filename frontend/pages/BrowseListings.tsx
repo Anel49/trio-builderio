@@ -103,7 +103,7 @@ const fadeInStyle = `
 `;
 
 export default function BrowseListings() {
-  const { user: authUser } = useAuth();
+  const { user: authUser, authenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
