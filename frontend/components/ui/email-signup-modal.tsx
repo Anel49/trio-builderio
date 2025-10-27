@@ -180,14 +180,13 @@ export function EmailSignupModal({
           <ScrollArea className="max-h-[calc(90vh-120px)] pr-4">
             <form onSubmit={handleSubmit} className="space-y-4 p-2">
               {/* First Name */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  First Name <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  type="text"
-                  placeholder="John"
-                  value={firstName}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              First Name <span className="text-red-500">*</span>
+            </label>
+            <Input
+              type="text"
+              value={firstName}
                   onChange={(e) => {
                     setFirstName(e.target.value);
                     if (fieldErrors.firstName) {
