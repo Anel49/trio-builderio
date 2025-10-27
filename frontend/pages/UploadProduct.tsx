@@ -13,8 +13,8 @@ import {
   type LocationSelection,
 } from "@/components/LocationPickerModal";
 import { apiFetch } from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 import {
-  currentUser,
   getCurrentUserLocation,
   type UserLocation,
 } from "@/lib/user-profile";
