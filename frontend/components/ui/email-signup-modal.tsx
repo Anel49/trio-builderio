@@ -453,8 +453,8 @@ export function EmailSignupModal({
           <div className="flex justify-center mb-6">
             <CheckCircle className="h-16 w-16 text-green-600" />
           </div>
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">
+          <DialogHeader className="text-center">
+            <DialogTitle className="text-2xl font-bold text-center">
               Account Created Successfully!
             </DialogTitle>
           </DialogHeader>
