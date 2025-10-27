@@ -31,11 +31,6 @@ import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
 import {
-  ensureCurrentUserProfile,
-  getCurrentUserZipCode,
-  getCurrentUserCoordinates,
-} from "@/lib/user-profile";
-import {
   computeDistanceMiles,
   extractCoordinates,
   formatDistanceLabel,
