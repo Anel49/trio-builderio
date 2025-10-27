@@ -133,6 +133,15 @@ export async function dbSetup(_req: Request, res: Response) {
         body text,
         created_at timestamptz default now()
       );
+      -- Migration: Rename columns and add foreign key constraints
+      alter table messages drop constraint if exists messages_from_id_fkey;
+      alter table messages drop constraint if exists messages_to_id_fkey;
+      alter table messages rename column from_name to from_id_old;
+      alter table messages rename column to_name to to_id_old;
+      alter table messages drop column if exists from_id_old;
+      alter table messages drop column if exists to_id_old;
+      alter table messages add column if not exists from_id integer references users(id) on delete cascade;
+      alter table messages add column if not exists to_id integer references users(id) on delete cascade;
       create table if not exists reviews (
         id serial primary key,
         listing_id integer not null references listings(id) on delete cascade,
