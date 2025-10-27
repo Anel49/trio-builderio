@@ -470,7 +470,8 @@ export function EmailSignupModal({
               if (onSignupSuccess) {
                 onSignupSuccess();
               }
-              window.location.href = "/";
+              // Reload the current page to refresh auth state and show authenticated content
+              window.location.reload();
             }}
           >
             Continue to Dashboard
