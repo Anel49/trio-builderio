@@ -962,54 +962,66 @@ export default function ProductDetails() {
 
         {/* Review Filters and Controls */}
         <div className="mb-8 space-y-4">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-            {/* Search Reviews */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search reviews..."
-                value={reviewSearchQuery}
-                onChange={(e) => setReviewSearchQuery(e.target.value)}
-                className="pl-9"
-              />
+          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+            <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center flex-1">
+              {/* Search Reviews */}
+              <div className="relative flex-1 max-w-md">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search reviews..."
+                  value={reviewSearchQuery}
+                  onChange={(e) => setReviewSearchQuery(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+
+              {/* Sort By */}
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
+                <Select value={reviewSortBy} onValueChange={setReviewSortBy}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">Newest first</SelectItem>
+                    <SelectItem value="oldest">Oldest first</SelectItem>
+                    <SelectItem value="rating-high">Highest rating</SelectItem>
+                    <SelectItem value="rating-low">Lowest rating</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Filter by Rating */}
+              <div className="flex items-center gap-2">
+                <Star className="h-4 w-4 text-muted-foreground" />
+                <Select
+                  value={reviewRatingFilter}
+                  onValueChange={setReviewRatingFilter}
+                >
+                  <SelectTrigger className="w-40">
+                    <SelectValue placeholder="All ratings" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All ratings</SelectItem>
+                    <SelectItem value="5">5 stars</SelectItem>
+                    <SelectItem value="4">4 stars</SelectItem>
+                    <SelectItem value="3">3 stars</SelectItem>
+                    <SelectItem value="2">2 stars</SelectItem>
+                    <SelectItem value="1">1 star</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
-            {/* Sort By */}
-            <div className="flex items-center gap-2">
-              <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-              <Select value={reviewSortBy} onValueChange={setReviewSortBy}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="newest">Newest first</SelectItem>
-                  <SelectItem value="oldest">Oldest first</SelectItem>
-                  <SelectItem value="rating-high">Highest rating</SelectItem>
-                  <SelectItem value="rating-low">Lowest rating</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Filter by Rating */}
-            <div className="flex items-center gap-2">
-              <Star className="h-4 w-4 text-muted-foreground" />
-              <Select
-                value={reviewRatingFilter}
-                onValueChange={setReviewRatingFilter}
+            {/* Post a Review Button */}
+            {authUser && (
+              <Button
+                onClick={() => setIsReviewModalOpen(true)}
+                className="whitespace-nowrap"
               >
-                <SelectTrigger className="w-40">
-                  <SelectValue placeholder="All ratings" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All ratings</SelectItem>
-                  <SelectItem value="5">5 stars</SelectItem>
-                  <SelectItem value="4">4 stars</SelectItem>
-                  <SelectItem value="3">3 stars</SelectItem>
-                  <SelectItem value="2">2 stars</SelectItem>
-                  <SelectItem value="1">1 star</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+                Post a Review
+              </Button>
+            )}
           </div>
 
           {/* Results Count */}
