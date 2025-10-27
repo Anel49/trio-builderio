@@ -21,8 +21,8 @@ import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { LocationPickerModal } from "@/components/LocationPickerModal";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 import {
-  currentUser,
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
   getCurrentUserLocation,
