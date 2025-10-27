@@ -530,6 +530,7 @@ export default function Profile() {
     locationLongitude,
     zipCode: locationPostalCode,
     avgRating: 0,
+    totalReviews: itemReviews.length,
     dateJoined: dateJoinedDisplay || "—",
     avgResponseTime: "—",
   };
