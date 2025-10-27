@@ -15,7 +15,7 @@ import { apiFetch } from "@/lib/api";
 interface EmailSignupModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onSignupSuccess?: (user: any) => void;
+  onSignupSuccess?: () => void;
   onSwitchToLogin?: () => void;
 }
 
