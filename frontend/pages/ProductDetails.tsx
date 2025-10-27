@@ -622,7 +622,10 @@ export default function ProductDetails() {
   }, [reviews]);
 
   // Use calculated average if reviews exist, otherwise use product rating from API
-  const displayRating = calculatedAverageRating !== null ? calculatedAverageRating : product?.rating || null;
+  const displayRating = useMemo(() => {
+    return calculatedAverageRating !== null ? calculatedAverageRating : product?.rating || null;
+  }, [calculatedAverageRating, product?.rating]);
+
   const displayTotalReviews = reviews.length;
 
   // Filter and sort reviews
