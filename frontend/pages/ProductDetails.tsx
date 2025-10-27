@@ -1138,7 +1138,7 @@ export default function ProductDetails() {
                     </a>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold">{review.user}</h4>
+                        <h4 className="font-semibold">{review.user.split(" ")[0]}</h4>
                         <span className="text-sm text-muted-foreground">
                           {review.date}
                         </span>
