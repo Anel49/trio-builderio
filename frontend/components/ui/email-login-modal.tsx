@@ -127,7 +127,6 @@ export function EmailLoginModal({
               </label>
               <Input
                 type="email"
-                placeholder="john@example.com"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
