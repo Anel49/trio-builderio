@@ -163,6 +163,7 @@ export default function Header() {
         onOpenChange={setIsEmailSignupModalOpen}
         onSignupSuccess={(user) => {
           localStorage.setItem("currentUser", JSON.stringify(user));
+          setIsSignUpModalOpen(false);
           window.location.href = "/";
         }}
         onSwitchToLogin={() => {
