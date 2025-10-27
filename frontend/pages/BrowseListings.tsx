@@ -218,7 +218,7 @@ export default function BrowseListings() {
   // Fetch user's favorites on mount
   React.useEffect(() => {
     const fetchFavorites = async () => {
-      const userId = currentUser.email;
+      const userId = authUser?.id;
       if (!userId) return;
 
       try {
@@ -236,10 +236,10 @@ export default function BrowseListings() {
     };
 
     fetchFavorites();
-  }, []);
+  }, [authUser?.id]);
 
   const handleFavorite = async (listingName: string, listingId: number) => {
-    const userId = currentUser.email;
+    const userId = authUser?.id;
     if (!userId) {
       console.error("User not authenticated");
       return;
