@@ -220,7 +220,7 @@ export default function ProductDetails() {
   }>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
-  const host = currentUser;
+  const host = authUser;
 
   const params = useParams();
   const listingId = String(params.id || "1");
