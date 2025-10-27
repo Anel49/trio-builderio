@@ -1220,6 +1220,8 @@ export default function Profile() {
                             .catch(() => ({}) as any);
                           if (responseData?.user) {
                             applyUserData(responseData.user);
+                            // Refresh auth context to update authUser with new location data
+                            await checkAuth();
                           }
                         } catch {}
                       }
