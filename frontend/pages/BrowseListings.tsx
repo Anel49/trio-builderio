@@ -1165,7 +1165,7 @@ export default function BrowseListings() {
       <FavoritesModal
         isOpen={isFavoritesModalOpen}
         onOpenChange={setIsFavoritesModalOpen}
-        userId={currentUser.email}
+        userId={authUser?.id?.toString() || ""}
       />
       <LocationPickerModal
         open={isLocationPickerOpen}
