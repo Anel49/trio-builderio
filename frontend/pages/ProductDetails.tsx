@@ -1129,10 +1129,7 @@ export default function ProductDetails() {
                       <Avatar>
                         <AvatarImage src={review.avatar} alt={review.user} />
                         <AvatarFallback>
-                          {review.user
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
+                          {review.user.split(" ")[0][0]?.toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                     </a>
