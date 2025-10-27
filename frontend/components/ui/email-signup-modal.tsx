@@ -211,32 +211,29 @@ export function EmailSignupModal({
               </div>
 
               {/* Last Name */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  Last Name <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  type="text"
-                  placeholder="Doe"
-                  value={lastName}
-                  onChange={(e) => {
-                    setLastName(e.target.value);
-                    if (fieldErrors.lastName) {
-                      setFieldErrors((prev) => {
-                        const updated = { ...prev };
-                        delete updated.lastName;
-                        return updated;
-                      });
-                    }
-                  }}
-                  disabled={isLoading}
-                  required
-                  className={fieldErrors.lastName ? "border-red-500" : ""}
-                />
-                {fieldErrors.lastName && (
-                  <p className="text-xs text-red-500">{fieldErrors.lastName}</p>
-                )}
-              </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Last Name</label>
+            <Input
+              type="text"
+              placeholder="Doe"
+              value={lastName}
+              onChange={(e) => {
+                setLastName(e.target.value);
+                if (fieldErrors.lastName) {
+                  setFieldErrors((prev) => {
+                    const updated = { ...prev };
+                    delete updated.lastName;
+                    return updated;
+                  });
+                }
+              }}
+              disabled={isLoading}
+              className={fieldErrors.lastName ? "border-red-500" : ""}
+            />
+            {fieldErrors.lastName && (
+              <p className="text-xs text-red-500">{fieldErrors.lastName}</p>
+            )}
+          </div>
 
               {/* Email */}
               <div className="space-y-2">
