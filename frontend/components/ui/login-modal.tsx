@@ -266,7 +266,7 @@ export function LoginModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 p-2">
+        <div className="space-y-3 p-2">
           <div className="text-center">
             <p className="text-muted-foreground">
               Sign in to your {COMPANY_NAME} account
