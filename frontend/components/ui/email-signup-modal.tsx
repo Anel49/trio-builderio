@@ -233,14 +233,13 @@ export function EmailSignupModal({
           </div>
 
               {/* Email */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  Email Address <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  type="email"
-                  placeholder="john@example.com"
-                  value={email}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Email Address <span className="text-red-500">*</span>
+            </label>
+            <Input
+              type="email"
+              value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
                     if (fieldErrors.email) {
