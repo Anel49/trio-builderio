@@ -36,9 +36,44 @@ export function EmailSignupModal({
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [successUser, setSuccessUser] = useState<any>(null);
+
+  const mapErrorToField = (errorMsg: string): Record<string, string> => {
+    const errors: Record<string, string> = {};
+
+    if (
+      errorMsg.includes("email") ||
+      errorMsg.includes("already registered")
+    ) {
+      errors.email = "Email already registered";
+    }
+    if (errorMsg.includes("password") && errorMsg.includes("do not match")) {
+      errors.confirmPassword = "Passwords do not match";
+    }
+    if (
+      errorMsg.includes("password") &&
+      errorMsg.includes("at least 6 characters")
+    ) {
+      errors.password = "Password must be at least 6 characters";
+    }
+    if (errorMsg.includes("first_name") || errorMsg.includes("First name")) {
+      errors.firstName = "First name is required";
+    }
+    if (errorMsg.includes("last_name") || errorMsg.includes("Last name")) {
+      errors.lastName = "Last name is required";
+    }
+    if (
+      errorMsg.includes("valid email") ||
+      (errorMsg.includes("email") && errorMsg.includes("required"))
+    ) {
+      errors.email = "Valid email is required";
+    }
+
+    return errors;
+  };
 
   const handlePhotoIdUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
