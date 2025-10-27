@@ -597,6 +597,11 @@ export default function ProductDetails() {
     },
   ];
 
+  // Find user's review for this listing
+  const userReview = useMemo(() => {
+    return reviews.find((r) => r.reviewerId === authUser?.id) || null;
+  }, [reviews, authUser?.id]);
+
   // Filter and sort reviews
   const filteredAndSortedReviews = useMemo(() => {
     let filtered = [...reviews];
