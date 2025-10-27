@@ -109,6 +109,7 @@ import {
 const REVIEWS_PER_PAGE = 8;
 
 export default function Profile() {
+  const { user: authUser, authenticated } = useAuth();
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const initialLocation = getCurrentUserLocation();
@@ -125,7 +126,7 @@ export default function Profile() {
     initialLocation.postalCode,
   );
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [name, setName] = useState(currentUser.name);
+  const [name, setName] = useState(authUser?.name || "");
   const [userRecord, setUserRecord] = useState<null | {
     id: number | null;
     name: string | null;
