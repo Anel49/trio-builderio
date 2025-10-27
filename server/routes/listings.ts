@@ -79,9 +79,13 @@ export async function listListings(req: Request, res: Response) {
 
     let result: any;
     try {
-      let sql = `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period, user_id,
-                coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery, coalesce(enabled, true) as enabled
-         from listings`;
+      let sql = `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.latitude, l.longitude, l.rental_period, l.user_id,
+                coalesce(l.delivery, false) as delivery, coalesce(l.free_delivery, false) as free_delivery, coalesce(l.enabled, true) as enabled,
+                round(coalesce(avg(lr.rating)::numeric, 0), 1) as avg_review_rating,
+                count(lr.id)::int as review_count
+         from listings l
+         left join listing_reviews lr on l.id = lr.listing_id
+         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.latitude, l.longitude, l.rental_period, l.user_id, l.delivery, l.free_delivery, l.enabled`;
 
       const params: any[] = [];
       let paramIndex = 1;
@@ -89,14 +93,14 @@ export async function listListings(req: Request, res: Response) {
 
       if (filterEnabled !== null) {
         console.log("[listListings] Filtering enabled =", filterEnabled);
-        conditions.push(`coalesce(enabled, true) = $${paramIndex}`);
+        conditions.push(`coalesce(l.enabled, true) = $${paramIndex}`);
         params.push(filterEnabled);
         paramIndex++;
       }
 
       if (Number.isFinite(filterUserId) && filterUserId !== null) {
         console.log("[listListings] Filtering user_id =", filterUserId);
-        conditions.push(`user_id = $${paramIndex}`);
+        conditions.push(`l.user_id = $${paramIndex}`);
         params.push(filterUserId);
         paramIndex++;
       }
@@ -105,7 +109,7 @@ export async function listListings(req: Request, res: Response) {
         sql += ` where ${conditions.join(" and ")}`;
       }
 
-      sql += ` order by created_at desc limit 50`;
+      sql += ` order by l.created_at desc limit 50`;
 
       console.log("[listListings] Executing SQL:", sql, "Params:", params);
 
