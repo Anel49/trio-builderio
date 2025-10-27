@@ -70,6 +70,7 @@ const pricePlaceholderByPeriod: Record<RentalPeriod, string> = {
 };
 
 export default function UploadProduct() {
+  const { user: authUser } = useAuth();
   const [createdListingId, setCreatedListingId] = useState<number | null>(null);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
