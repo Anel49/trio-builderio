@@ -491,12 +491,6 @@ export default function Profile() {
         return "";
       }
     }
-    if (
-      typeof currentUser.joinedDate === "string" &&
-      currentUser.joinedDate.trim()
-    ) {
-      return currentUser.joinedDate.trim();
-    }
     return "";
   }, [userRecord?.createdAt]);
 
