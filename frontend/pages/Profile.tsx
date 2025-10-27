@@ -1763,7 +1763,7 @@ export default function Profile() {
       <FavoritesModal
         isOpen={isFavoritesModalOpen}
         onOpenChange={setIsFavoritesModalOpen}
-        userId={currentUser.email}
+        userId={authUser?.id?.toString() || ""}
       />
       <LocationPickerModal
         open={isLocationModalOpen}
