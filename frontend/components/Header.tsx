@@ -177,6 +177,19 @@ export default function Header() {
         }}
       />
 
+      <EmailLoginModal
+        isOpen={isEmailLoginModalOpen}
+        onOpenChange={setIsEmailLoginModalOpen}
+        onLoginSuccess={(user) => {
+          localStorage.setItem("currentUser", JSON.stringify(user));
+          window.location.href = "/";
+        }}
+        onSwitchToSignUp={() => {
+          setIsEmailLoginModalOpen(false);
+          setIsSignUpModalOpen(true);
+        }}
+      />
+
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
