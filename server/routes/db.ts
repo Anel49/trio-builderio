@@ -65,6 +65,8 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table listings add column if not exists delivery boolean default false;
       alter table listings add column if not exists free_delivery boolean default false;
       alter table listings add column if not exists location_city text;
+      alter table listings add column if not exists user_id integer references users(id) on delete set null;
+      alter table listings add column if not exists enabled boolean default true;
       create table if not exists listing_images (
         id serial primary key,
         listing_id integer not null references listings(id) on delete cascade,
