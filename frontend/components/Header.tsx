@@ -141,17 +141,6 @@ export default function Header() {
                     <AvatarFallback>{getInitials(user?.name || null)}</AvatarFallback>
                   </Avatar>
 
-                  {/* Logout Button */}
-                  <Button
-                    variant="ghost"
-                    className="hidden md:inline-flex pt-[6px] pb-[8px] px-4 text-sm"
-                    onClick={async () => {
-                      await logout();
-                      window.location.href = "/";
-                    }}
-                  >
-                    Log out
-                  </Button>
                 </>
               )}
               <div className="hidden md:block">
