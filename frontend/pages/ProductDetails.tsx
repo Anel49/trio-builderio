@@ -221,15 +221,13 @@ export default function ProductDetails() {
   }>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
-  // Host information from the current product or fallback to authenticated user
+  // Host information from the product listing
   const host = {
-    name: authUser?.name || "Product Host",
-    profileImage: authUser?.avatarUrl || "",
+    name: product?.host || "Product Host",
+    profileImage: "",
     rating: 4.8,
     totalReviews: 42,
-    joinedDate: authUser?.createdAt
-      ? new Date(authUser.createdAt).getFullYear().toString()
-      : "2024",
+    joinedDate: "2024",
     responseTime: "Within an hour",
   };
 
