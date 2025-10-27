@@ -429,9 +429,14 @@ export async function getListingById(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, rental_period, latitude, longitude,
-                coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery, coalesce(enabled, true) as enabled
-         from listings where id = $1`,
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude,
+                coalesce(l.delivery, false) as delivery, coalesce(l.free_delivery, false) as free_delivery, coalesce(l.enabled, true) as enabled,
+                round(coalesce(avg(lr.rating)::numeric, 0), 1) as avg_review_rating,
+                count(lr.id)::int as review_count
+         from listings l
+         left join listing_reviews lr on l.id = lr.listing_id
+         where l.id = $1
+         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude, l.delivery, l.free_delivery, l.enabled`,
         [id],
       );
     } catch (e) {
