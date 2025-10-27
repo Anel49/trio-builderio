@@ -27,6 +27,12 @@ import {
   removeFavorite,
   checkFavorite,
 } from "./routes/favorites";
+import {
+  createListingReview,
+  getListingReviews,
+  updateListingReviewHelpful,
+  deleteListingReview,
+} from "./routes/listing-reviews";
 
 const ADMIN_USERNAME = "Charki1014";
 const ADMIN_PASSWORD = "q=foJ7Ba7#+4";
