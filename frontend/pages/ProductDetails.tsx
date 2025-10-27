@@ -900,15 +900,15 @@ export default function ProductDetails() {
                       key={i}
                       className={cn(
                         "h-4 w-4",
-                        typeof product.rating === "number" &&
-                          i < Math.floor(product.rating)
+                        typeof displayRating === "number" &&
+                          i < Math.floor(displayRating)
                           ? "fill-yellow-400 text-yellow-400"
                           : "text-gray-300",
                       )}
                     />
                   ))}
                   <span className="ml-2 text-sm font-medium">
-                    {product.rating == null ? "Not yet rated" : product.rating}
+                    {displayRating == null ? "Not yet rated" : displayRating}
                   </span>
                 </div>
                 <button
