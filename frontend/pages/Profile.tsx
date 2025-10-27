@@ -180,7 +180,7 @@ export default function Profile() {
     null,
   );
   const [profileImageUrl, setProfileImageUrl] = useState<string>(
-    currentUser.profileImage,
+    authUser?.avatarUrl || "",
   );
   const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
   const openAvatarFilePicker = () => avatarFileInputRef.current?.click();
