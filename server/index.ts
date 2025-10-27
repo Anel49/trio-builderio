@@ -258,6 +258,7 @@ export function createServer() {
   app.post("/api/listing-reviews", createListingReview);
   app.get("/api/listing-reviews/:id", getListingReviews);
   app.patch("/api/listing-reviews/:id/helpful", updateListingReviewHelpful);
+  app.patch("/api/listing-reviews/:id", updateListingReview);
   app.delete("/api/listing-reviews/:id", deleteListingReview);
   // Alias routes
   app.get("/listings", listListings);
