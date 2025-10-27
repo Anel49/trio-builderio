@@ -71,7 +71,6 @@ export function EmailLoginModal({
       const data = await response.json().catch(() => ({}));
 
       if (response.ok && data.ok && data.user) {
-        localStorage.setItem("currentUser", JSON.stringify(data.user));
         handleClose();
         if (onLoginSuccess) {
           onLoginSuccess(data.user);
