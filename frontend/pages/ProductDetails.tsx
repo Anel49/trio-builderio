@@ -919,7 +919,7 @@ export default function ProductDetails() {
                       ?.scrollIntoView({ behavior: "smooth" })
                   }
                 >
-                  ({reviews.length} reviews)
+                  ({displayTotalReviews} reviews)
                 </button>
               </div>
 
