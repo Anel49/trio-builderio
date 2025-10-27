@@ -207,7 +207,7 @@ export async function emailSignup(req: Request, res: Response) {
     );
 
     const userId = userResult.rows[0].id;
-    const hashedPassword = hashPassword(passwordStr);
+    const hashedPassword = await argon2.hash(passwordStr);
 
     const credResult = await pool.query(
       `insert into user_credentials (user_id, first_name, last_name, email, password, photo_id)
