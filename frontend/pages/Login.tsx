@@ -167,8 +167,8 @@ export default function Login() {
     alert(
       `${provider} login successful! (This is a demo - implement your backend integration)`,
     );
-    // Redirect to home page or dashboard
-    window.location.href = "/";
+    // Reload the current page to refresh auth state and show authenticated content
+    window.location.reload();
   };
 
   // Load Google OAuth2 script
