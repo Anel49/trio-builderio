@@ -469,31 +469,8 @@ export default function Profile() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await apiFetch(
-          `users?email=${encodeURIComponent(currentUser.email)}`,
-        );
-        const data = await res.json().catch(() => ({}) as any);
-        let user = data?.user ?? null;
-        if (!user) {
-          const snapshot = getCurrentUserLocation();
-          const up = await apiFetch("users", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({
-              email: currentUser.email,
-              name: currentUser.name,
-              avatar_url: currentUser.profileImage,
-              zip_code: snapshot.postalCode,
-              location_city: snapshot.city,
-              location_latitude: snapshot.latitude,
-              location_longitude: snapshot.longitude,
-            }),
-          });
-          const upData = await up.json().catch(() => ({}) as any);
-          user = upData?.user ?? null;
-        }
-        if (user) {
-          applyUserData(user);
+        if (authUser) {
+          applyUserData(authUser);
         }
       } catch {}
     })();
