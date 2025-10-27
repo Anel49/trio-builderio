@@ -124,7 +124,8 @@ export function EmailSignupModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <>
+      <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center">
@@ -332,5 +333,36 @@ export function EmailSignupModal({
         </form>
       </DialogContent>
     </Dialog>
+
+    {/* Success Modal */}
+    <Dialog open={isSuccessModalOpen} onOpenChange={setIsSuccessModalOpen}>
+      <DialogContent className="max-w-md text-center py-12 px-8">
+        <div className="flex justify-center mb-6">
+          <CheckCircle className="h-16 w-16 text-green-600" />
+        </div>
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold">
+            Account Created Successfully!
+          </DialogTitle>
+        </DialogHeader>
+        <p className="text-muted-foreground mb-6">
+          Welcome to the platform! You are now signed in as{" "}
+          <strong>{successUser?.name}</strong>.
+        </p>
+        <Button
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+          onClick={() => {
+            setIsSuccessModalOpen(false);
+            handleClose();
+            if (onSignupSuccess && successUser) {
+              onSignupSuccess(successUser);
+            }
+          }}
+        >
+          Continue to Dashboard
+        </Button>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }
