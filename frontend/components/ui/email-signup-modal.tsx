@@ -242,10 +242,23 @@ export function EmailSignupModal({
               type="email"
               placeholder="john@example.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (fieldErrors.email) {
+                  setFieldErrors((prev) => {
+                    const updated = { ...prev };
+                    delete updated.email;
+                    return updated;
+                  });
+                }
+              }}
               disabled={isLoading}
               required
+              className={fieldErrors.email ? "border-red-500" : ""}
             />
+            {fieldErrors.email && (
+              <p className="text-xs text-red-500">{fieldErrors.email}</p>
+            )}
           </div>
 
           {/* Password */}
