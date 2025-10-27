@@ -1344,19 +1344,31 @@ export default function ProductDetails() {
             </div>
 
             {/* Actions */}
-            <div className="flex gap-2 justify-end pt-4">
-              <Button
-                variant="outline"
-                onClick={() => setIsReviewModalOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleSubmitReview}
-                disabled={isSubmittingReview || !reviewComment.trim()}
-              >
-                {isSubmittingReview ? "Submitting..." : "Submit Review"}
-              </Button>
+            <div className="flex gap-2 justify-between pt-4">
+              <div className="flex gap-2">
+                {isEditingReview && (
+                  <Button
+                    variant="destructive"
+                    onClick={() => setIsDeleteConfirmOpen(true)}
+                  >
+                    Delete Review
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setIsReviewModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSubmitReview}
+                  disabled={isSubmittingReview || !reviewComment.trim()}
+                >
+                  {isSubmittingReview ? "Submitting..." : "Submit Review"}
+                </Button>
+              </div>
             </div>
           </div>
         </DialogContent>
