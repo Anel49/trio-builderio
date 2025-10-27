@@ -29,8 +29,8 @@ import { LocationPickerModal } from "@/components/LocationPickerModal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 import {
-  currentUser,
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
   getCurrentUserCoordinates,
