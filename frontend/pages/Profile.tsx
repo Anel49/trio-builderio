@@ -197,7 +197,7 @@ export default function Profile() {
   };
 
   const handleFavorite = async (listingName: string, listingId: number) => {
-    const userId = currentUser.email;
+    const userId = authUser?.id;
     if (!userId) {
       console.error("User not authenticated");
       return;
