@@ -214,10 +214,23 @@ export function EmailSignupModal({
               type="text"
               placeholder="Doe"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => {
+                setLastName(e.target.value);
+                if (fieldErrors.lastName) {
+                  setFieldErrors((prev) => {
+                    const updated = { ...prev };
+                    delete updated.lastName;
+                    return updated;
+                  });
+                }
+              }}
               disabled={isLoading}
               required
+              className={fieldErrors.lastName ? "border-red-500" : ""}
             />
+            {fieldErrors.lastName && (
+              <p className="text-xs text-red-500">{fieldErrors.lastName}</p>
+            )}
           </div>
 
           {/* Email */}
