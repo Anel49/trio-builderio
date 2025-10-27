@@ -58,7 +58,7 @@ import {
 } from "lucide-react";
 
 export default function Index() {
-  const { user: authUser } = useAuth();
+  const { user: authUser, authenticated } = useAuth();
   const [dateRange, setDateRange] = useState<{
     start: Date | undefined;
     end: Date | undefined;
