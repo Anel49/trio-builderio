@@ -43,34 +43,41 @@ export function EmailSignupModal({
 
   const mapErrorToField = (errorMsg: string): Record<string, string> => {
     const errors: Record<string, string> = {};
+    const lowerMsg = errorMsg.toLowerCase();
 
-    if (
-      errorMsg.includes("email") ||
-      errorMsg.includes("already registered")
-    ) {
+    // Check for email errors first
+    if (lowerMsg.includes("email already registered")) {
       errors.email = "Email already registered";
-    }
-    if (errorMsg.includes("password") && errorMsg.includes("do not match")) {
-      errors.confirmPassword = "Passwords do not match";
-    }
-    if (
-      errorMsg.includes("password") &&
-      errorMsg.includes("at least 6 characters")
-    ) {
-      errors.password = "Password must be at least 6 characters";
-    }
-    if (errorMsg.includes("first_name") || errorMsg.includes("First name")) {
-      errors.firstName = "First name is required";
-    }
-    if (errorMsg.includes("last_name") || errorMsg.includes("Last name")) {
-      errors.lastName = "Last name is required";
-    }
-    if (
-      errorMsg.includes("valid email") ||
-      (errorMsg.includes("email") && errorMsg.includes("required"))
+    } else if (
+      lowerMsg.includes("valid email") ||
+      (lowerMsg.includes("email") && lowerMsg.includes("required"))
     ) {
       errors.email = "Valid email is required";
     }
+
+    // Check for password errors
+    if (lowerMsg.includes("password") && lowerMsg.includes("do not match")) {
+      errors.confirmPassword = "Passwords do not match";
+    } else if (
+      lowerMsg.includes("password") &&
+      lowerMsg.includes("at least 6 characters")
+    ) {
+      errors.password = "Password must be at least 6 characters";
+    }
+
+    // Check for name errors
+    if (lowerMsg.includes("first_name") || lowerMsg.includes("first name")) {
+      errors.firstName = "First name is required";
+    }
+    if (lowerMsg.includes("last_name") || lowerMsg.includes("last name")) {
+      errors.lastName = "Last name is required";
+    }
+
+    console.log("[Email Signup] Error mapping:", {
+      originalMsg: errorMsg,
+      mappedErrors: errors,
+      mappedCount: Object.keys(errors).length,
+    });
 
     return errors;
   };
