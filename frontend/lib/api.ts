@@ -145,11 +145,9 @@ export async function apiFetch(path: string, init?: RequestInit) {
   const p = pRaw.replace(/^\//, "");
 
   // Build final init
-  // Note: credentials removed while login wall is disabled
-  // Re-add when login wall is re-enabled:
-  // credentials: !/^https?:\/\//i.test(path) ? ("include" as const) : init?.credentials,
   const finalInit = {
     ...init,
+    credentials: !/^https?:\/\//i.test(path) ? ("include" as const) : init?.credentials,
   };
 
   // Always short-circuit ping without network
