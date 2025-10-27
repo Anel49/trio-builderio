@@ -142,12 +142,20 @@ export function EmailSignupModal({
         const errorMsg = data.error || "Signup failed. Please check your information and try again.";
         const mappedErrors = mapErrorToField(errorMsg);
 
+        console.log("[Email Signup] Backend error:", {
+          status: response.status,
+          errorMsg,
+          mappedErrorsCount: Object.keys(mappedErrors).length,
+          mappedErrors,
+        });
+
         if (Object.keys(mappedErrors).length > 0) {
           setFieldErrors(mappedErrors);
+          // Also set a general message that errors are below
+          setError("");
         } else {
           setError(errorMsg);
         }
-        console.error("Signup error details:", { status: response.status, data });
       }
     } catch (error) {
       console.error("Signup error:", error);
