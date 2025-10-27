@@ -217,6 +217,7 @@ export default function ProductDetails() {
     rentalPeriod: RentalPeriod;
     image?: string;
     images?: string[];
+    host?: string;
   }>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
