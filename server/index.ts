@@ -253,6 +253,11 @@ export function createServer() {
   app.post("/api/favorites", addFavorite);
   app.delete("/api/favorites/:userId/:listingId", removeFavorite);
   app.get("/api/favorites/:userId/:listingId/check", checkFavorite);
+  // Listing Reviews
+  app.post("/api/listing-reviews", createListingReview);
+  app.get("/api/listing-reviews/:id", getListingReviews);
+  app.patch("/api/listing-reviews/:id/helpful", updateListingReviewHelpful);
+  app.delete("/api/listing-reviews/:id", deleteListingReview);
   // Alias routes
   app.get("/listings", listListings);
   app.get("/listings/:id", getListingById);
