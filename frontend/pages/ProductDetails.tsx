@@ -226,7 +226,9 @@ export default function ProductDetails() {
     profileImage: authUser?.avatarUrl || "",
     rating: 4.8,
     totalReviews: 42,
-    joinedDate: authUser?.createdAt ? new Date(authUser.createdAt).getFullYear().toString() : "2024",
+    joinedDate: authUser?.createdAt
+      ? new Date(authUser.createdAt).getFullYear().toString()
+      : "2024",
     responseTime: "Within an hour",
   };
 
