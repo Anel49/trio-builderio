@@ -642,15 +642,24 @@ export default function Profile() {
     let cancelled = false;
     (async () => {
       try {
+        if (!authenticated || !authUser?.id) {
+          // Don't fetch if not authenticated
+          setListedItems([]);
+          return;
+        }
+
         await ensureCurrentUserProfile();
         if (cancelled) return;
         const coords = getCurrentUserCoordinates();
         const userZip = getCurrentUserZipCode();
-        const path = coords
-          ? `listings?user_lat=${coords.latitude}&user_lng=${coords.longitude}`
-          : userZip
-            ? `listings?user_zip=${userZip}`
-            : "listings";
+        let path = `listings?user_id=${authUser.id}`;
+
+        if (coords) {
+          path += `&user_lat=${coords.latitude}&user_lng=${coords.longitude}`;
+        } else if (userZip) {
+          path += `&user_zip=${userZip}`;
+        }
+
         const response = await apiFetch(path);
         if (!response.ok || cancelled) return;
         const d = await response.json().catch(() => null);
