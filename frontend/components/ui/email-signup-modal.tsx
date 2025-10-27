@@ -213,7 +213,6 @@ export function EmailSignupModal({
             <label className="text-sm font-medium">Last Name</label>
             <Input
               type="text"
-              placeholder="Doe"
               value={lastName}
               onChange={(e) => {
                 setLastName(e.target.value);
