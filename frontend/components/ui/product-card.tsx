@@ -293,7 +293,9 @@ export function ProductCard({
               {rating == null ? "Not yet rated" : rating}
             </div>
             {typeof reviews === "number" && reviews > 0 && (
-              <div>({reviews} {reviews === 1 ? "review" : "reviews"})</div>
+              <div>
+                ({reviews} {reviews === 1 ? "review" : "reviews"})
+              </div>
             )}
           </div>
           {(delivery || freeDelivery) && (
