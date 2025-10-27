@@ -86,54 +86,74 @@ export default function Header() {
               </nav>
             </div>
             <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                className="hidden md:inline-flex pt-[6px] pb-[8px] px-4"
-                onClick={() => setIsLoginModalOpen(true)}
-              >
-                Log in
-              </Button>
-              <Button
-                className="pt-[6px] pb-[8px] px-4"
-                onClick={() => setIsSignUpModalOpen(true)}
-              >
-                Sign up
-              </Button>
+              {!authenticated && (
+                <>
+                  <Button
+                    variant="ghost"
+                    className="hidden md:inline-flex pt-[6px] pb-[8px] px-4"
+                    onClick={() => setIsLoginModalOpen(true)}
+                  >
+                    Log in
+                  </Button>
+                  <Button
+                    className="pt-[6px] pb-[8px] px-4"
+                    onClick={() => setIsSignUpModalOpen(true)}
+                  >
+                    Sign up
+                  </Button>
+                </>
+              )}
 
-              {/* Messages Link */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative"
-                title="Messages"
-                onClick={() => (window.location.href = "/messages")}
-              >
-                <MessageCircle className="h-5 w-5" />
-              </Button>
+              {authenticated && (
+                <>
+                  {/* Messages Link */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative"
+                    title="Messages"
+                    onClick={() => (window.location.href = "/messages")}
+                  >
+                    <MessageCircle className="h-5 w-5" />
+                  </Button>
 
-              {/* Orders and Requests Link */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative hidden sm:inline-flex"
-                title="Orders and Requests"
-                onClick={() => (window.location.href = "/order-history")}
-              >
-                <ClipboardList className="h-5 w-5" />
-              </Button>
+                  {/* Orders and Requests Link */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative hidden sm:inline-flex"
+                    title="Orders and Requests"
+                    onClick={() => (window.location.href = "/order-history")}
+                  >
+                    <ClipboardList className="h-5 w-5" />
+                  </Button>
 
-              {/* Profile Picture Link */}
-              <Avatar
-                className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
-                title="Profile"
-                onClick={() => (window.location.href = "/profile")}
-              >
-                <AvatarImage
-                  src="https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=200&h=200&fit=crop&auto=format"
-                  alt="Profile"
-                />
-                <AvatarFallback>{currentUser.initials}</AvatarFallback>
-              </Avatar>
+                  {/* Profile Picture Link */}
+                  <Avatar
+                    className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
+                    title="Profile"
+                    onClick={() => (window.location.href = "/profile")}
+                  >
+                    <AvatarImage
+                      src={user?.avatarUrl || undefined}
+                      alt={user?.name || "Profile"}
+                    />
+                    <AvatarFallback>{getInitials(user?.name || null)}</AvatarFallback>
+                  </Avatar>
+
+                  {/* Logout Button */}
+                  <Button
+                    variant="ghost"
+                    className="hidden md:inline-flex pt-[6px] pb-[8px] px-4 text-sm"
+                    onClick={async () => {
+                      await logout();
+                      window.location.href = "/";
+                    }}
+                  >
+                    Log out
+                  </Button>
+                </>
+              )}
               <div className="hidden md:block">
                 <ThemeToggle />
               </div>
