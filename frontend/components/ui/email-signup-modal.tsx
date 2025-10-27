@@ -127,14 +127,15 @@ export function EmailSignupModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">
-            Create Your Account
-          </DialogTitle>
-        </DialogHeader>
+        <DialogContent className="max-w-md max-h-[90vh]">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center">
+              Create Your Account
+            </DialogTitle>
+          </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 p-2">
+          <ScrollArea className="max-h-[calc(90vh-120px)] pr-4">
+            <form onSubmit={handleSubmit} className="space-y-4 p-2">
           {/* First Name */}
           <div className="space-y-2">
             <label className="text-sm font-medium">
@@ -331,7 +332,8 @@ export function EmailSignupModal({
               Sign in
             </Button>
           </div>
-        </form>
+            </form>
+          </ScrollArea>
       </DialogContent>
     </Dialog>
 
