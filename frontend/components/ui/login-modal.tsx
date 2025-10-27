@@ -36,6 +36,7 @@ interface LoginModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onSwitchToSignUp?: () => void;
+  onContinueWithEmail?: () => void;
 }
 
 export function LoginModal({
