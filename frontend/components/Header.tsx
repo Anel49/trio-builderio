@@ -6,6 +6,7 @@ import { ThemeToggle } from "./ui/theme-toggle";
 import { LoginModal } from "./ui/login-modal";
 import { SignUpModal } from "./ui/signup-modal";
 import { EmailSignupModal } from "./ui/email-signup-modal";
+import { EmailLoginModal } from "./ui/email-login-modal";
 import { MobileMenu } from "./ui/mobile-menu";
 import { currentUser } from "@/lib/user-profile";
 import { COMPANY_NAME } from "@/lib/constants";
