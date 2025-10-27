@@ -43,34 +43,20 @@ export function EmailSignupModal({
 
   const mapErrorToField = (errorMsg: string): Record<string, string> => {
     const errors: Record<string, string> = {};
-    const lowerMsg = errorMsg.toLowerCase();
 
-    // Check for email errors first
-    if (lowerMsg.includes("email already registered")) {
-      errors.email = "Email already registered";
-    } else if (
-      lowerMsg.includes("valid email") ||
-      (lowerMsg.includes("email") && lowerMsg.includes("required"))
-    ) {
-      errors.email = "Valid email is required";
-    }
-
-    // Check for password errors
-    if (lowerMsg.includes("password") && lowerMsg.includes("do not match")) {
-      errors.confirmPassword = "Passwords do not match";
-    } else if (
-      lowerMsg.includes("password") &&
-      lowerMsg.includes("at least 6 characters")
-    ) {
-      errors.password = "Password must be at least 6 characters";
-    }
-
-    // Check for name errors
-    if (lowerMsg.includes("first_name") || lowerMsg.includes("first name")) {
+    // Exact matches for backend error messages
+    if (errorMsg === "first_name is required") {
       errors.firstName = "First name is required";
-    }
-    if (lowerMsg.includes("last_name") || lowerMsg.includes("last name")) {
+    } else if (errorMsg === "last_name is required") {
       errors.lastName = "Last name is required";
+    } else if (errorMsg === "valid email is required") {
+      errors.email = "Valid email is required";
+    } else if (errorMsg === "email already registered") {
+      errors.email = "Email already registered";
+    } else if (errorMsg === "password must be at least 6 characters") {
+      errors.password = "Password must be at least 6 characters";
+    } else if (errorMsg === "passwords do not match") {
+      errors.confirmPassword = "Passwords do not match";
     }
 
     console.log("[Email Signup] Error mapping:", {
