@@ -463,6 +463,7 @@ export default function ProductDetails() {
     date: string;
     dateValue: Date;
     text: string;
+    reviewerId?: number;
   };
   const [reviews, setReviews] = useState<Review[]>([]);
 
