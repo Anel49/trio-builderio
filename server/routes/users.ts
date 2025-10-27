@@ -261,9 +261,9 @@ export async function emailLogin(req: Request, res: Response) {
     }
 
     const cred = credResult.rows[0];
-    const hashedPassword = hashPassword(passwordStr);
+    const isPasswordValid = await argon2.verify(cred.password, passwordStr);
 
-    if (cred.password !== hashedPassword) {
+    if (!isPasswordValid) {
       return res
         .status(400)
         .json({ ok: false, error: "email or password is incorrect" });
