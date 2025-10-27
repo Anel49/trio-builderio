@@ -1086,13 +1086,19 @@ export default function ProductDetails() {
               </div>
             </div>
 
-            {/* Post a Review Button */}
+            {/* Post/Edit a Review Button */}
             {authUser && (
               <Button
-                onClick={() => setIsReviewModalOpen(true)}
+                onClick={() => {
+                  if (userReview) {
+                    handleEditReview(userReview);
+                  } else {
+                    setIsReviewModalOpen(true);
+                  }
+                }}
                 className="whitespace-nowrap"
               >
-                Post a Review
+                {userReview ? "Edit Review" : "Post a Review"}
               </Button>
             )}
           </div>
