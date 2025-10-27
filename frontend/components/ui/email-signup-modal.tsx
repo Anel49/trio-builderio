@@ -300,15 +300,14 @@ export function EmailSignupModal({
               </div>
 
               {/* Confirm Password */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  Confirm Password <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <Input
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your password"
-                    value={confirmPassword}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Confirm Password <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <Input
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
                     onChange={(e) => {
                       setConfirmPassword(e.target.value);
                       if (fieldErrors.confirmPassword) {
