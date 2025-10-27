@@ -1193,7 +1193,7 @@ export default function Profile() {
                       if (isEditingProfile) {
                         try {
                           const body: any = {
-                            email: currentUser.email,
+                            email: authUser?.email,
                             name,
                             avatar_url: profileImageUrl,
                             latitude:
