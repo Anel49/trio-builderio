@@ -266,7 +266,7 @@ function InteractiveMap({
         const markerElement = existingMarker.getElement();
         if (markerElement) {
           // Update the number in case the order changed
-          const numberElement = markerElement.querySelector('div');
+          const numberElement = markerElement.querySelector("div");
           if (numberElement) {
             numberElement.textContent = String(index + 1);
           }

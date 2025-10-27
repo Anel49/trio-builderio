@@ -416,7 +416,11 @@ export default function BrowseListings() {
 
         // Only use authenticated user's location
         let coords = null;
-        if (authenticated && authUser?.locationLatitude && authUser?.locationLongitude) {
+        if (
+          authenticated &&
+          authUser?.locationLatitude &&
+          authUser?.locationLongitude
+        ) {
           coords = {
             latitude: authUser.locationLatitude,
             longitude: authUser.locationLongitude,
@@ -538,7 +542,12 @@ export default function BrowseListings() {
     return () => {
       cancelled = true;
     };
-  }, [filterLocation, authenticated, authUser?.locationLatitude, authUser?.locationLongitude]);
+  }, [
+    filterLocation,
+    authenticated,
+    authUser?.locationLatitude,
+    authUser?.locationLongitude,
+  ]);
 
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
   const [hoveredListing, setHoveredListing] = useState<number | null>(null);
@@ -1000,9 +1009,7 @@ export default function BrowseListings() {
           {/* Left Side - Listings Grid (70%) */}
           <div className="flex-1" style={{ width: "70%" }}>
             <div className="mb-6">
-              <h1 className="text-3xl font-bold mb-2">
-                Recently listed
-              </h1>
+              <h1 className="text-3xl font-bold mb-2">Recently listed</h1>
               <p className="text-muted-foreground">
                 Discover amazing items available for rent in your area
               </p>
