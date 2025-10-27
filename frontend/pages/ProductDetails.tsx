@@ -447,18 +447,18 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (!params.id) return;
-    apiFetch(`listings/${params.id}/reviews`)
+    apiFetch(`listing-reviews/${params.id}`)
       .then(async (r) => (r.ok ? r.json() : { ok: true, reviews: [] }))
       .then((d) => {
         if (d && d.ok && Array.isArray(d.reviews)) {
           const mapped: Review[] = d.reviews.map((r: any) => ({
             id: r.id,
-            user: r.user,
+            user: r.reviewerName || "Anonymous",
             avatar: r.avatar,
             rating: typeof r.rating === "number" ? r.rating : 0,
-            date: r.date,
-            dateValue: new Date(r.dateValue || r.date || Date.now()),
-            text: r.text,
+            date: new Date(r.createdAt).toLocaleDateString(),
+            dateValue: new Date(r.createdAt),
+            text: r.comment || "",
           }));
           setReviews(mapped);
         }
