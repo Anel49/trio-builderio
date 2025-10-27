@@ -40,20 +40,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const checkAuth = async () => {
     try {
+      console.log("[AuthContext] Checking auth...");
       const response = await fetch("/api/auth/me", {
         credentials: "include",
       });
 
+      console.log("[AuthContext] Auth response status:", response.status);
       if (response.ok) {
         const data = await response.json();
+        console.log("[AuthContext] Auth user data:", data);
         setUser(data.user);
         setAuthenticated(true);
       } else {
+        console.log("[AuthContext] Not authenticated");
         setUser(null);
         setAuthenticated(false);
       }
     } catch (error) {
-      console.error("Failed to check auth status:", error);
+      console.error("[AuthContext] Failed to check auth status:", error);
       setUser(null);
       setAuthenticated(false);
     } finally {
