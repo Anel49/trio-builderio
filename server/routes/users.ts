@@ -127,7 +127,6 @@ export async function upsertUser(req: Request, res: Response) {
   }
 }
 
-
 export async function emailSignup(req: Request, res: Response) {
   try {
     const {
@@ -139,11 +138,13 @@ export async function emailSignup(req: Request, res: Response) {
       photo_id,
     } = (req.body || {}) as any;
 
-    const firstNameStr = typeof first_name === "string" ? first_name.trim() : "";
+    const firstNameStr =
+      typeof first_name === "string" ? first_name.trim() : "";
     const lastNameStr = typeof last_name === "string" ? last_name.trim() : "";
     const emailStr = typeof email === "string" ? email.trim() : "";
     const passwordStr = typeof password === "string" ? password : "";
-    const confirmPasswordStr = typeof confirm_password === "string" ? confirm_password : "";
+    const confirmPasswordStr =
+      typeof confirm_password === "string" ? confirm_password : "";
     const photoIdStr = typeof photo_id === "string" ? photo_id.trim() : null;
 
     if (!firstNameStr) {
@@ -244,9 +245,7 @@ export async function emailLogin(req: Request, res: Response) {
     }
 
     if (!passwordStr) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "password is required" });
+      return res.status(400).json({ ok: false, error: "password is required" });
     }
 
     const credResult = await pool.query(
@@ -279,9 +278,7 @@ export async function emailLogin(req: Request, res: Response) {
     );
 
     if (!userResult.rowCount || userResult.rowCount === 0) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "user not found" });
+      return res.status(400).json({ ok: false, error: "user not found" });
     }
 
     const user = rowToUser(userResult.rows[0]);

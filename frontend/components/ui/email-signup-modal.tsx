@@ -125,7 +125,9 @@ export function EmailSignupModal({
         setSuccessUser(data.user);
         setIsSuccessModalOpen(true);
       } else {
-        const errorMsg = data.error || "Signup failed. Please check your information and try again.";
+        const errorMsg =
+          data.error ||
+          "Signup failed. Please check your information and try again.";
         const mappedErrors = mapErrorToField(errorMsg);
 
         console.log("[Email Signup] Backend error:", {
@@ -178,302 +180,311 @@ export function EmailSignupModal({
 
           <ScrollArea className="max-h-[calc(90vh-120px)] pr-4">
             <form onSubmit={handleSubmit} className="space-y-4 p-2">
-          {/* First Name */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              First Name <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="text"
-              placeholder="John"
-              value={firstName}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-                if (fieldErrors.firstName) {
-                  setFieldErrors((prev) => {
-                    const updated = { ...prev };
-                    delete updated.firstName;
-                    return updated;
-                  });
-                }
-              }}
-              disabled={isLoading}
-              required
-              className={fieldErrors.firstName ? "border-red-500" : ""}
-            />
-            {fieldErrors.firstName && (
-              <p className="text-xs text-red-500">{fieldErrors.firstName}</p>
-            )}
-          </div>
-
-          {/* Last Name */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Last Name <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="text"
-              placeholder="Doe"
-              value={lastName}
-              onChange={(e) => {
-                setLastName(e.target.value);
-                if (fieldErrors.lastName) {
-                  setFieldErrors((prev) => {
-                    const updated = { ...prev };
-                    delete updated.lastName;
-                    return updated;
-                  });
-                }
-              }}
-              disabled={isLoading}
-              required
-              className={fieldErrors.lastName ? "border-red-500" : ""}
-            />
-            {fieldErrors.lastName && (
-              <p className="text-xs text-red-500">{fieldErrors.lastName}</p>
-            )}
-          </div>
-
-          {/* Email */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Email Address <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="email"
-              placeholder="john@example.com"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (fieldErrors.email) {
-                  setFieldErrors((prev) => {
-                    const updated = { ...prev };
-                    delete updated.email;
-                    return updated;
-                  });
-                }
-              }}
-              disabled={isLoading}
-              required
-              className={fieldErrors.email ? "border-red-500" : ""}
-            />
-            {fieldErrors.email && (
-              <p className="text-xs text-red-500">{fieldErrors.email}</p>
-            )}
-          </div>
-
-          {/* Password */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Password <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <Input
-                type={showPassword ? "text" : "password"}
-                placeholder="At least 6 characters"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (fieldErrors.password) {
-                    setFieldErrors((prev) => {
-                      const updated = { ...prev };
-                      delete updated.password;
-                      return updated;
-                    });
-                  }
-                }}
-                disabled={isLoading}
-                required
-                className={`pr-10 ${fieldErrors.password ? "border-red-500" : ""}`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-            {fieldErrors.password && (
-              <p className="text-xs text-red-500">{fieldErrors.password}</p>
-            )}
-          </div>
-
-          {/* Confirm Password */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Confirm Password <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <Input
-                type={showConfirmPassword ? "text" : "password"}
-                placeholder="Confirm your password"
-                value={confirmPassword}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                  if (fieldErrors.confirmPassword) {
-                    setFieldErrors((prev) => {
-                      const updated = { ...prev };
-                      delete updated.confirmPassword;
-                      return updated;
-                    });
-                  }
-                }}
-                disabled={isLoading}
-                required
-                className={`pr-10 ${fieldErrors.confirmPassword ? "border-red-500" : ""}`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                {showConfirmPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-            {fieldErrors.confirmPassword && (
-              <p className="text-xs text-red-500">{fieldErrors.confirmPassword}</p>
-            )}
-            {!fieldErrors.confirmPassword &&
-              password &&
-              confirmPassword &&
-              password !== confirmPassword && (
-                <p className="text-xs text-red-500">Passwords do not match</p>
-              )}
-          </div>
-
-          {/* Photo ID Upload */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Photo ID</label>
-            {!photoId ? (
-              <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-muted-foreground/50 transition-colors">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoIdUpload}
+              {/* First Name */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  First Name <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="text"
+                  placeholder="John"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                    if (fieldErrors.firstName) {
+                      setFieldErrors((prev) => {
+                        const updated = { ...prev };
+                        delete updated.firstName;
+                        return updated;
+                      });
+                    }
+                  }}
                   disabled={isLoading}
-                  className="hidden"
-                  id="photo-id-input"
+                  required
+                  className={fieldErrors.firstName ? "border-red-500" : ""}
+                />
+                {fieldErrors.firstName && (
+                  <p className="text-xs text-red-500">
+                    {fieldErrors.firstName}
+                  </p>
+                )}
+              </div>
+
+              {/* Last Name */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Last Name <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="text"
+                  placeholder="Doe"
+                  value={lastName}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                    if (fieldErrors.lastName) {
+                      setFieldErrors((prev) => {
+                        const updated = { ...prev };
+                        delete updated.lastName;
+                        return updated;
+                      });
+                    }
+                  }}
+                  disabled={isLoading}
+                  required
+                  className={fieldErrors.lastName ? "border-red-500" : ""}
+                />
+                {fieldErrors.lastName && (
+                  <p className="text-xs text-red-500">{fieldErrors.lastName}</p>
+                )}
+              </div>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Email Address <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="email"
+                  placeholder="john@example.com"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (fieldErrors.email) {
+                      setFieldErrors((prev) => {
+                        const updated = { ...prev };
+                        delete updated.email;
+                        return updated;
+                      });
+                    }
+                  }}
+                  disabled={isLoading}
+                  required
+                  className={fieldErrors.email ? "border-red-500" : ""}
+                />
+                {fieldErrors.email && (
+                  <p className="text-xs text-red-500">{fieldErrors.email}</p>
+                )}
+              </div>
+
+              {/* Password */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Password <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="At least 6 characters"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (fieldErrors.password) {
+                        setFieldErrors((prev) => {
+                          const updated = { ...prev };
+                          delete updated.password;
+                          return updated;
+                        });
+                      }
+                    }}
+                    disabled={isLoading}
+                    required
+                    className={`pr-10 ${fieldErrors.password ? "border-red-500" : ""}`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+                {fieldErrors.password && (
+                  <p className="text-xs text-red-500">{fieldErrors.password}</p>
+                )}
+              </div>
+
+              {/* Confirm Password */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Confirm Password <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <Input
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
+                      if (fieldErrors.confirmPassword) {
+                        setFieldErrors((prev) => {
+                          const updated = { ...prev };
+                          delete updated.confirmPassword;
+                          return updated;
+                        });
+                      }
+                    }}
+                    disabled={isLoading}
+                    required
+                    className={`pr-10 ${fieldErrors.confirmPassword ? "border-red-500" : ""}`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+                {fieldErrors.confirmPassword && (
+                  <p className="text-xs text-red-500">
+                    {fieldErrors.confirmPassword}
+                  </p>
+                )}
+                {!fieldErrors.confirmPassword &&
+                  password &&
+                  confirmPassword &&
+                  password !== confirmPassword && (
+                    <p className="text-xs text-red-500">
+                      Passwords do not match
+                    </p>
+                  )}
+              </div>
+
+              {/* Photo ID Upload */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Photo ID</label>
+                {!photoId ? (
+                  <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-muted-foreground/50 transition-colors">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handlePhotoIdUpload}
+                      disabled={isLoading}
+                      className="hidden"
+                      id="photo-id-input"
+                    />
+                    <label
+                      htmlFor="photo-id-input"
+                      className="cursor-pointer flex flex-col items-center gap-2"
+                    >
+                      <Upload className="h-6 w-6 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">
+                        Click to upload photo
+                      </span>
+                    </label>
+                  </div>
+                ) : (
+                  <div className="relative inline-block w-full">
+                    <img
+                      src={photoId}
+                      alt="Photo ID preview"
+                      className="max-h-40 rounded-lg mx-auto"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleRemovePhoto}
+                      className="absolute top-2 right-2 bg-destructive hover:bg-destructive/90 text-white rounded-full p-1"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Age Affirmation Checkbox */}
+              <div className="flex items-start gap-3 pt-4">
+                <Checkbox
+                  id="age-check"
+                  checked={isOver18}
+                  onCheckedChange={(checked) => setIsOver18(Boolean(checked))}
+                  disabled={isLoading}
                 />
                 <label
-                  htmlFor="photo-id-input"
-                  className="cursor-pointer flex flex-col items-center gap-2"
+                  htmlFor="age-check"
+                  className="text-sm text-muted-foreground"
                 >
-                  <Upload className="h-6 w-6 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">
-                    Click to upload photo
-                  </span>
+                  I affirm that I am at least 18 years of age.{" "}
+                  <span className="text-red-500">*</span>
                 </label>
               </div>
-            ) : (
-              <div className="relative inline-block w-full">
-                <img
-                  src={photoId}
-                  alt="Photo ID preview"
-                  className="max-h-40 rounded-lg mx-auto"
-                />
-                <button
-                  type="button"
-                  onClick={handleRemovePhoto}
-                  className="absolute top-2 right-2 bg-destructive hover:bg-destructive/90 text-white rounded-full p-1"
+
+              {/* Error Message */}
+              {error && <div className="text-sm text-red-500">{error}</div>}
+
+              {/* Success Message */}
+              {successMessage && (
+                <div className="text-sm text-green-600">{successMessage}</div>
+              )}
+
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                disabled={!isFormValid || isLoading}
+              >
+                {isLoading ? "Creating Account..." : "Create Account"}
+              </Button>
+
+              {/* Sign In Link */}
+              <div className="text-center text-sm">
+                <span className="text-muted-foreground">
+                  Already have an account?{" "}
+                </span>
+                <Button
+                  variant="link"
+                  className="p-0"
+                  onClick={() => {
+                    handleClose();
+                    if (onSwitchToLogin) {
+                      onSwitchToLogin();
+                    }
+                  }}
                 >
-                  <X className="h-4 w-4" />
-                </button>
+                  Sign in
+                </Button>
               </div>
-            )}
-          </div>
-
-          {/* Age Affirmation Checkbox */}
-          <div className="flex items-start gap-3 pt-4">
-            <Checkbox
-              id="age-check"
-              checked={isOver18}
-              onCheckedChange={(checked) => setIsOver18(Boolean(checked))}
-              disabled={isLoading}
-            />
-            <label htmlFor="age-check" className="text-sm text-muted-foreground">
-              I affirm that I am at least 18 years of age.{" "}
-              <span className="text-red-500">*</span>
-            </label>
-          </div>
-
-          {/* Error Message */}
-          {error && <div className="text-sm text-red-500">{error}</div>}
-
-          {/* Success Message */}
-          {successMessage && (
-            <div className="text-sm text-green-600">{successMessage}</div>
-          )}
-
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            disabled={!isFormValid || isLoading}
-          >
-            {isLoading ? "Creating Account..." : "Create Account"}
-          </Button>
-
-          {/* Sign In Link */}
-          <div className="text-center text-sm">
-            <span className="text-muted-foreground">
-              Already have an account?{" "}
-            </span>
-            <Button
-              variant="link"
-              className="p-0"
-              onClick={() => {
-                handleClose();
-                if (onSwitchToLogin) {
-                  onSwitchToLogin();
-                }
-              }}
-            >
-              Sign in
-            </Button>
-          </div>
             </form>
           </ScrollArea>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
 
-    {/* Success Modal */}
-    <Dialog open={isSuccessModalOpen} onOpenChange={setIsSuccessModalOpen}>
-      <DialogContent className="max-w-md text-center py-12 px-8">
-        <div className="flex justify-center mb-6">
-          <CheckCircle className="h-16 w-16 text-green-600" />
-        </div>
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">
-            Account Created Successfully!
-          </DialogTitle>
-        </DialogHeader>
-        <p className="text-muted-foreground mb-6">
-          Welcome to the platform! You are now signed in as{" "}
-          <strong>{successUser?.name}</strong>.
-        </p>
-        <Button
-          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-          onClick={() => {
-            setIsSuccessModalOpen(false);
-            handleClose();
-            if (onSignupSuccess && successUser) {
-              onSignupSuccess(successUser);
-            }
-          }}
-        >
-          Continue to Dashboard
-        </Button>
-      </DialogContent>
-    </Dialog>
+      {/* Success Modal */}
+      <Dialog open={isSuccessModalOpen} onOpenChange={setIsSuccessModalOpen}>
+        <DialogContent className="max-w-md text-center py-12 px-8">
+          <div className="flex justify-center mb-6">
+            <CheckCircle className="h-16 w-16 text-green-600" />
+          </div>
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">
+              Account Created Successfully!
+            </DialogTitle>
+          </DialogHeader>
+          <p className="text-muted-foreground mb-6">
+            Welcome to the platform! You are now signed in as{" "}
+            <strong>{successUser?.name}</strong>.
+          </p>
+          <Button
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+            onClick={() => {
+              setIsSuccessModalOpen(false);
+              handleClose();
+              if (onSignupSuccess && successUser) {
+                onSignupSuccess(successUser);
+              }
+            }}
+          >
+            Continue to Dashboard
+          </Button>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

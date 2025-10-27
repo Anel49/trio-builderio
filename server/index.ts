@@ -14,7 +14,12 @@ import {
   listListingReservations,
   bulkUpdateListingsEnabled,
 } from "./routes/listings";
-import { getUserByEmail, upsertUser, emailSignup, emailLogin } from "./routes/users";
+import {
+  getUserByEmail,
+  upsertUser,
+  emailSignup,
+  emailLogin,
+} from "./routes/users";
 import { reverseGeocode } from "./routes/geocode";
 import {
   listFavorites,
