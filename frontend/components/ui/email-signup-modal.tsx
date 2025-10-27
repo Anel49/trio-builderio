@@ -312,10 +312,19 @@ export function EmailSignupModal({
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm your password"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  if (fieldErrors.confirmPassword) {
+                    setFieldErrors((prev) => {
+                      const updated = { ...prev };
+                      delete updated.confirmPassword;
+                      return updated;
+                    });
+                  }
+                }}
                 disabled={isLoading}
                 required
-                className="pr-10"
+                className={`pr-10 ${fieldErrors.confirmPassword ? "border-red-500" : ""}`}
               />
               <button
                 type="button"
@@ -329,9 +338,15 @@ export function EmailSignupModal({
                 )}
               </button>
             </div>
-            {password && confirmPassword && password !== confirmPassword && (
-              <p className="text-xs text-red-500">Passwords do not match</p>
+            {fieldErrors.confirmPassword && (
+              <p className="text-xs text-red-500">{fieldErrors.confirmPassword}</p>
             )}
+            {!fieldErrors.confirmPassword &&
+              password &&
+              confirmPassword &&
+              password !== confirmPassword && (
+                <p className="text-xs text-red-500">Passwords do not match</p>
+              )}
           </div>
 
           {/* Photo ID Upload */}
