@@ -1001,7 +1001,7 @@ export default function BrowseListings() {
           <div className="flex-1" style={{ width: "70%" }}>
             <div className="mb-6">
               <h1 className="text-3xl font-bold mb-2">
-                {filteredAndSortedListings.length} listings near you
+                Recently listed
               </h1>
               <p className="text-muted-foreground">
                 Discover amazing items available for rent in your area
