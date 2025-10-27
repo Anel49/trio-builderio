@@ -305,7 +305,7 @@ export default function ProductDetails() {
   // Check if current product is favorited on mount
   useEffect(() => {
     const checkFavorite = async () => {
-      const userId = currentUser.email;
+      const userId = authUser?.id;
       if (!userId || !params.id) return;
 
       try {
@@ -322,7 +322,7 @@ export default function ProductDetails() {
     };
 
     checkFavorite();
-  }, [params.id]);
+  }, [params.id, authUser?.id]);
 
   useEffect(() => {
     if (!params.id) return;
