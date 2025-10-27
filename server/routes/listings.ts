@@ -69,21 +69,44 @@ export async function listListings(req: Request, res: Response) {
     const enabledParam = query.enabled;
     const filterEnabled =
       enabledParam === "true" ? true : enabledParam === "false" ? false : null;
+    const userIdParam = query.user_id;
+    const filterUserId =
+      typeof userIdParam === "string"
+        ? Number.parseInt(userIdParam, 10)
+        : typeof userIdParam === "number"
+          ? userIdParam
+          : null;
 
     let result: any;
     try {
-      let sql = `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period,
+      let sql = `select id, name, price_cents, rating, image_url, host, category, description, zip_code, created_at, latitude, longitude, rental_period, user_id,
                 coalesce(delivery, false) as delivery, coalesce(free_delivery, false) as free_delivery, coalesce(enabled, true) as enabled
          from listings`;
 
+      const params: any[] = [];
+      let paramIndex = 1;
+      const conditions: string[] = [];
+
       if (filterEnabled !== null) {
         console.log("[listListings] Filtering enabled =", filterEnabled);
-        sql += ` where coalesce(enabled, true) = $1`;
+        conditions.push(`coalesce(enabled, true) = $${paramIndex}`);
+        params.push(filterEnabled);
+        paramIndex++;
+      }
+
+      if (Number.isFinite(filterUserId) && filterUserId !== null) {
+        console.log("[listListings] Filtering user_id =", filterUserId);
+        conditions.push(`user_id = $${paramIndex}`);
+        params.push(filterUserId);
+        paramIndex++;
+      }
+
+      if (conditions.length > 0) {
+        sql += ` where ${conditions.join(" and ")}`;
       }
 
       sql += ` order by created_at desc limit 50`;
 
-      const params = filterEnabled !== null ? [filterEnabled] : [];
       console.log("[listListings] Executing SQL:", sql, "Params:", params);
 
       // Use timeout on the query itself
