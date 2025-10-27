@@ -433,12 +433,11 @@ export default function UploadProduct() {
 
   const confirmListProduct = async () => {
     try {
-      // Fetch the current user's numeric ID from the users table
-      const userResponse = await apiFetch(
-        `users?email=${encodeURIComponent(currentUser.email)}`,
-      );
-      const userData = await userResponse.json().catch(() => ({}));
-      const userId = userData.user?.id ?? null;
+      const userId = authUser?.id;
+      if (!userId) {
+        console.error("User not authenticated");
+        return;
+      }
 
       const priceCents =
         Math.round(Number(price.replace(/[^0-9.]/g, "")) * 100) || 0;
@@ -454,8 +453,8 @@ export default function UploadProduct() {
           return initialZip;
         }
         const candidate =
-          typeof currentUser?.zipCode === "string"
-            ? currentUser.zipCode.trim()
+          typeof authUser?.zipCode === "string"
+            ? authUser.zipCode.trim()
             : "";
         return /^\d{5}$/.test(candidate) ? candidate : "00000";
       })();
@@ -466,7 +465,7 @@ export default function UploadProduct() {
         rating: null,
         image: imgs[0],
         images: imgs,
-        host: currentUser.name,
+        host: authUser?.name || "User",
         user_id: userId,
         type: selectedTags[0] || defaultCategory,
         categories: selectedTags.length > 0 ? selectedTags : [defaultCategory],
