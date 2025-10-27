@@ -189,6 +189,7 @@ export function createServer() {
   app.get("/listings/:id/reservations", listListingReservations);
   app.get("/users", getUserByEmail);
   app.post("/users", upsertUser);
+  app.post("/users/signup", emailSignup);
   app.get("/favorites/:userId", listFavorites);
   app.post("/favorites", addFavorite);
   app.delete("/favorites/:userId/:listingId", removeFavorite);
