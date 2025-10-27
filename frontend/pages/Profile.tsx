@@ -521,6 +521,7 @@ export default function Profile() {
   }, [locationCity]);
 
   // Use centralized user profile data
+  // Item reviews will be defined below - initialize a default userProfile
   const userProfile = {
     name: name || authUser?.name || "User",
     email: authUser?.email || "",
@@ -530,7 +531,7 @@ export default function Profile() {
     locationLongitude,
     zipCode: locationPostalCode,
     avgRating: 0,
-    totalReviews: itemReviews.length,
+    totalReviews: 0,
     dateJoined: dateJoinedDisplay || "—",
     avgResponseTime: "—",
   };
