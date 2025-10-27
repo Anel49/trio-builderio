@@ -266,7 +266,7 @@ export function LoginModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-3 p-2">
+        <div className="space-y-6 p-2">
           <div className="text-center">
             <p className="text-muted-foreground">
               Sign in to your {COMPANY_NAME} account
@@ -274,7 +274,7 @@ export function LoginModal({
           </div>
 
           {/* OAuth Login Buttons */}
-          <div className="space-y-3 mt-6">
+          <div className="space-y-3">
             {/* Google Login */}
             <Button
               variant="outline"
@@ -358,7 +358,7 @@ export function LoginModal({
             Continue with Email
           </Button>
 
-          <div className="text-center text-sm mt-6">
+          <div className="text-center text-sm">
             <span className="text-muted-foreground">
               Don't have an account?{" "}
             </span>
