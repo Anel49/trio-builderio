@@ -1267,10 +1267,23 @@ export default function ProductDetails() {
         longitude={product?.longitude ?? null}
         listingName={product?.name}
       />
-      <Dialog open={isReviewModalOpen} onOpenChange={setIsReviewModalOpen}>
+      <Dialog
+        open={isReviewModalOpen}
+        onOpenChange={(open) => {
+          setIsReviewModalOpen(open);
+          if (!open) {
+            setIsEditingReview(false);
+            setEditingReviewId(null);
+            setReviewComment("");
+            setReviewRating(5);
+          }
+        }}
+      >
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Post a Review</DialogTitle>
+            <DialogTitle>
+              {isEditingReview ? "Edit Review" : "Post a Review"}
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             {/* Rating */}
