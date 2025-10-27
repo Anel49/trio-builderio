@@ -1295,7 +1295,12 @@ export default function ProductDetails() {
         longitude={product?.longitude ?? null}
         listingName={product?.name}
       />
-      <AlertDialog open={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen}>
+      <AlertDialog open={isDeleteConfirmOpen} onOpenChange={(open) => {
+        setIsDeleteConfirmOpen(open);
+        if (!open && isEditingReview) {
+          setIsReviewModalOpen(true);
+        }
+      }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Review</AlertDialogTitle>
