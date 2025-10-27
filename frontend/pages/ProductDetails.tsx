@@ -1130,7 +1130,7 @@ export default function ProductDetails() {
           {/* Results Count */}
           <div className="text-sm text-muted-foreground">
             Showing {paginatedReviews.length} of{" "}
-            {filteredAndSortedReviews.length} reviews
+            {filteredAndSortedReviews.length} {filteredAndSortedReviews.length === 1 ? "review" : "reviews"}
           </div>
         </div>
 
