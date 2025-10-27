@@ -500,11 +500,15 @@ export async function getListingById(req: Request, res: Response) {
       }
     }
 
+    const avgRating = r.avg_review_rating && Number(r.avg_review_rating) > 0 ? Number(r.avg_review_rating) : null;
+    const reviewCount = Number(r.review_count) || 0;
+
     const listing = {
       id: r.id,
       name: r.name,
       price: formatPrice(r.price_cents),
-      rating: r.rating ? Number(r.rating) : null,
+      rating: avgRating,
+      reviews: reviewCount > 0 ? reviewCount : undefined,
       images,
       image: r.image_url,
       host: r.host,
