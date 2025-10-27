@@ -275,25 +275,27 @@ export default function Index() {
     let cancelled = false;
     (async () => {
       try {
-        await ensureCurrentUserProfile();
-        if (cancelled) return;
-        const coords = getCurrentUserCoordinates();
-        const userZip = getCurrentUserZipCode();
-        const path = coords
-          ? `listings?user_lat=${coords.latitude}&user_lng=${coords.longitude}`
-          : userZip
-            ? `listings?user_zip=${userZip}`
-            : "listings";
-        const response = await apiFetch(path);
+        const response = await apiFetch("listings");
         if (!response.ok || cancelled) return;
         const d = await response.json().catch(() => null);
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
-        const userCoords = coords ?? getCurrentUserCoordinates();
+
+        // Only use user location if authenticated and has location
+        const userCoords =
+          authenticated &&
+          authUser?.locationLatitude &&
+          authUser?.locationLongitude
+            ? {
+                latitude: authUser.locationLatitude,
+                longitude: authUser.locationLongitude,
+              }
+            : null;
+
         const mapped = d.listings.map((l: any) => {
           let distance = null;
           let distanceMiles = null;
 
-          // Only calculate distance if user has location
+          // Only calculate distance if user is authenticated and has location
           if (userCoords) {
             const listingCoords = extractCoordinates(l);
             distanceMiles = computeDistanceMiles(userCoords, listingCoords);
@@ -307,9 +309,8 @@ export default function Index() {
           };
         });
 
-        // Sort by distance if user has location, otherwise by most recent
-        // Then limit to 9 items
-        const sorted = coords
+        // Sort by distance if user is authenticated and has location, otherwise by most recent
+        const sorted = userCoords
           ? mapped.sort(
               (a, b) =>
                 (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity),
@@ -333,7 +334,7 @@ export default function Index() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [authenticated, authUser]);
 
   const categories = [
     { name: "Landscaping", icon: "🌻", count: "500+" },
