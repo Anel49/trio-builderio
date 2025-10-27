@@ -147,13 +147,36 @@ export function createServer() {
   });
 
   // Get current authenticated user
-  app.get("/api/auth/me", (req: any, res: any) => {
+  app.get("/api/auth/me", async (req: any, res: any) => {
     try {
       if (!req.session || !req.session.userId) {
         return res.status(401).json({ ok: false, error: "Not authenticated" });
       }
 
-      const user = req.session.user;
+      // Fetch the latest user data from the database to ensure we have the most recent profile updates
+      const { getUserByEmail } = await import("./routes/users");
+      const pool = (await import("./routes/db")).pool;
+
+      const userResult = await pool.query(
+        `select id, name, email, avatar_url, latitude, longitude, location_city, created_at,
+                coalesce(founding_supporter,false) as founding_supporter,
+                coalesce(top_referrer,false) as top_referrer,
+                coalesce(ambassador,false) as ambassador
+         from users where id = $1`,
+        [req.session.userId],
+      );
+
+      if (!userResult.rowCount || userResult.rowCount === 0) {
+        return res.status(401).json({ ok: false, error: "User not found" });
+      }
+
+      // Import the rowToUser function to properly format the user object
+      const { rowToUser } = await import("./routes/users");
+      const user = rowToUser(userResult.rows[0]);
+
+      // Update the session with the latest user data
+      req.session.user = user;
+
       return res.json({ ok: true, user });
     } catch (error: any) {
       console.error("Auth me error:", error);
