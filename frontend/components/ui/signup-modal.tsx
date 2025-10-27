@@ -44,6 +44,7 @@ export function SignUpModal({
   isOpen,
   onOpenChange,
   onSwitchToLogin,
+  onContinueWithEmail,
 }: SignUpModalProps) {
   const [isLoading, setIsLoading] = useState(false);
 
