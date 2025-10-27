@@ -30,6 +30,7 @@ import {
 import {
   createListingReview,
   getListingReviews,
+  updateListingReview,
   updateListingReviewHelpful,
   deleteListingReview,
 } from "./routes/listing-reviews";
