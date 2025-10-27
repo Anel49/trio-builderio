@@ -1297,7 +1297,7 @@ export default function ProductDetails() {
       />
       <AlertDialog open={isDeleteConfirmOpen} onOpenChange={(open) => {
         setIsDeleteConfirmOpen(open);
-        if (!open && isEditingReview) {
+        if (!open && editingReviewId !== null) {
           setIsReviewModalOpen(true);
         }
       }}>
