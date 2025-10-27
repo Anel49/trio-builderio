@@ -184,8 +184,14 @@ export default function ProductDetails() {
         setIsReviewModalOpen(false);
         // Refresh reviews from the listing-reviews endpoint
         const reviewsResponse = await apiFetch(`listing-reviews/${params.id}`);
-        const reviewsData = await reviewsResponse.json().catch(() => ({ ok: true, reviews: [] }));
-        if (reviewsData && reviewsData.ok && Array.isArray(reviewsData.reviews)) {
+        const reviewsData = await reviewsResponse
+          .json()
+          .catch(() => ({ ok: true, reviews: [] }));
+        if (
+          reviewsData &&
+          reviewsData.ok &&
+          Array.isArray(reviewsData.reviews)
+        ) {
           const mapped: Review[] = reviewsData.reviews.map((r: any) => ({
             id: r.id,
             user: r.reviewerName || "Anonymous",

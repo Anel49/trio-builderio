@@ -19,7 +19,11 @@ export async function createListingReview(req: Request, res: Response) {
       });
     }
 
-    if (!comment || typeof comment !== "string" || comment.trim().length === 0) {
+    if (
+      !comment ||
+      typeof comment !== "string" ||
+      comment.trim().length === 0
+    ) {
       return res.status(400).json({
         ok: false,
         error: "comment is required",
@@ -77,10 +81,7 @@ export async function getListingReviews(req: Request, res: Response) {
   }
 }
 
-export async function updateListingReviewHelpful(
-  req: Request,
-  res: Response,
-) {
+export async function updateListingReviewHelpful(req: Request, res: Response) {
   try {
     const reviewId = Number((req.params as any)?.id);
     if (!reviewId || Number.isNaN(reviewId)) {
