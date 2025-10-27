@@ -128,20 +128,29 @@ export async function dbSetup(_req: Request, res: Response) {
       create table if not exists messages (
         id serial primary key,
         thread_id text,
-        from_id integer not null references users(id) on delete cascade,
-        to_id integer not null references users(id) on delete cascade,
+        from_id integer references users(id) on delete cascade,
+        to_id integer references users(id) on delete cascade,
         body text,
         created_at timestamptz default now()
       );
-      -- Migration: Rename columns and add foreign key constraints
+      -- Migration: Rename from_name/to_name to from_id/to_id if they still exist
       alter table messages drop constraint if exists messages_from_id_fkey;
       alter table messages drop constraint if exists messages_to_id_fkey;
-      alter table messages rename column from_name to from_id_old;
-      alter table messages rename column to_name to to_id_old;
-      alter table messages drop column if exists from_id_old;
-      alter table messages drop column if exists to_id_old;
-      alter table messages add column if not exists from_id integer references users(id) on delete cascade;
-      alter table messages add column if not exists to_id integer references users(id) on delete cascade;
+      do $$
+      begin
+        if exists (select 1 from information_schema.columns where table_name = 'messages' and column_name = 'from_name') then
+          alter table messages drop column from_name;
+        end if;
+        if exists (select 1 from information_schema.columns where table_name = 'messages' and column_name = 'to_name') then
+          alter table messages drop column to_name;
+        end if;
+        if not exists (select 1 from information_schema.columns where table_name = 'messages' and column_name = 'from_id') then
+          alter table messages add column from_id integer references users(id) on delete cascade;
+        end if;
+        if not exists (select 1 from information_schema.columns where table_name = 'messages' and column_name = 'to_id') then
+          alter table messages add column to_id integer references users(id) on delete cascade;
+        end if;
+      end $$;
       create table if not exists reviews (
         id serial primary key,
         listing_id integer not null references listings(id) on delete cascade,
