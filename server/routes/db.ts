@@ -128,8 +128,8 @@ export async function dbSetup(_req: Request, res: Response) {
       create table if not exists messages (
         id serial primary key,
         thread_id text,
-        from_name text,
-        to_name text,
+        from_id integer not null references users(id) on delete cascade,
+        to_id integer not null references users(id) on delete cascade,
         body text,
         created_at timestamptz default now()
       );
