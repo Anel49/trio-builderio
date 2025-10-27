@@ -129,6 +129,12 @@ export function Footer() {
               >
                 Clear cookies
               </button>
+              <button
+                onClick={handleLogout}
+                className="px-3 py-1 text-xs font-medium bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors"
+              >
+                Log out
+              </button>
             </div>
           </div>
         </Container>
