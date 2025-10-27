@@ -476,8 +476,8 @@ export function EmailSignupModal({
           onClick={() => {
             setIsSuccessModalOpen(false);
             handleClose();
-            if (onSignupSuccess && successUser) {
-              onSignupSuccess(successUser);
+            if (onSignupSuccess) {
+              onSignupSuccess();
             }
             window.location.href = "/";
           }}
