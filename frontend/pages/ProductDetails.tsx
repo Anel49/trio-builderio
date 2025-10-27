@@ -1055,7 +1055,7 @@ export default function ProductDetails() {
         id="reviews-section"
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-8"
       >
-        <h2 className="text-2xl font-bold mb-6">Reviews ({reviews.length})</h2>
+        <h2 className="text-2xl font-bold mb-6">{reviews.length === 1 ? "Review" : "Reviews"} ({reviews.length})</h2>
 
         {/* Review Filters and Controls */}
         <div className="mb-8 space-y-4">
