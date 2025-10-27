@@ -43,6 +43,7 @@ export function LoginModal({
   isOpen,
   onOpenChange,
   onSwitchToSignUp,
+  onContinueWithEmail,
 }: LoginModalProps) {
   const [isLoading, setIsLoading] = useState(false);
 
