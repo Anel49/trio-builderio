@@ -232,3 +232,70 @@ export async function emailSignup(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function emailLogin(req: Request, res: Response) {
+  try {
+    const { email, password } = (req.body || {}) as any;
+
+    const emailStr = typeof email === "string" ? email.trim() : "";
+    const passwordStr = typeof password === "string" ? password : "";
+
+    if (!emailStr || !emailStr.includes("@")) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "valid email is required" });
+    }
+
+    if (!passwordStr) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "password is required" });
+    }
+
+    const credResult = await pool.query(
+      `select user_id, password from user_credentials where email = $1`,
+      [emailStr],
+    );
+
+    if (!credResult.rowCount || credResult.rowCount === 0) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "email or password is incorrect" });
+    }
+
+    const cred = credResult.rows[0];
+    const hashedPassword = hashPassword(passwordStr);
+
+    if (cred.password !== hashedPassword) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "email or password is incorrect" });
+    }
+
+    const userResult = await pool.query(
+      `select id, name, email, avatar_url, latitude, longitude, location_city, created_at,
+              coalesce(founding_supporter,false) as founding_supporter,
+              coalesce(top_referrer,false) as top_referrer,
+              coalesce(ambassador,false) as ambassador
+       from users where id = $1`,
+      [cred.user_id],
+    );
+
+    if (!userResult.rowCount || userResult.rowCount === 0) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "user not found" });
+    }
+
+    const user = rowToUser(userResult.rows[0]);
+
+    res.json({
+      ok: true,
+      user,
+      message: "Login successful",
+    });
+  } catch (error: any) {
+    console.error("Email login error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
