@@ -92,13 +92,8 @@ export function EmailSignupModal({
       const data = await response.json().catch(() => ({}));
 
       if (response.ok && data.ok && data.user) {
-        setSuccessMessage("Account created successfully!");
-        setTimeout(() => {
-          onOpenChange(false);
-          if (onSignupSuccess) {
-            onSignupSuccess(data.user);
-          }
-        }, 1500);
+        setSuccessUser(data.user);
+        setIsSuccessModalOpen(true);
       } else {
         setError(
           data.error ||
