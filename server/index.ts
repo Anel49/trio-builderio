@@ -282,6 +282,7 @@ export function createServer() {
   app.post("/listing-reviews", createListingReview);
   app.get("/listing-reviews/:id", getListingReviews);
   app.patch("/listing-reviews/:id/helpful", updateListingReviewHelpful);
+  app.patch("/listing-reviews/:id", updateListingReview);
   app.delete("/listing-reviews/:id", deleteListingReview);
 
   return app;
