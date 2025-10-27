@@ -96,10 +96,9 @@ export function EmailSignupModal({
         setSuccessUser(data.user);
         setIsSuccessModalOpen(true);
       } else {
-        setError(
-          data.error ||
-            "Signup failed. Please check your information and try again.",
-        );
+        const errorMsg = data.error || "Signup failed. Please check your information and try again.";
+        setError(errorMsg);
+        console.error("Signup error details:", { status: response.status, data });
       }
     } catch (error) {
       console.error("Signup error:", error);
