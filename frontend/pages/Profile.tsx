@@ -474,7 +474,7 @@ export default function Profile() {
         }
       } catch {}
     })();
-  }, [applyUserData]);
+  }, [applyUserData, authUser]);
 
   const avatarOutlineClass = useMemo(() => {
     if (badges.foundingSupporter) return "ring-4 ring-sky-400";
