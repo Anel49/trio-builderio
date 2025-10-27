@@ -139,6 +139,16 @@ export async function dbSetup(_req: Request, res: Response) {
         comment text,
         created_at timestamptz default now()
       );
+      create table if not exists user_credentials (
+        id serial primary key,
+        user_id integer not null references users(id) on delete cascade,
+        first_name text not null,
+        last_name text not null,
+        email text not null unique,
+        password text not null,
+        photo_id text,
+        created_at timestamptz default now()
+      );
     `);
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
