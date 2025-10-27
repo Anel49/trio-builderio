@@ -40,8 +40,8 @@ import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { ListingLocationModal } from "@/components/ui/listing-location-modal";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 import {
-  currentUser,
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
   getCurrentUserCoordinates,
