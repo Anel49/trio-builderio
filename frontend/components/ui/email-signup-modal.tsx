@@ -102,6 +102,7 @@ export function EmailSignupModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setFieldErrors({});
     setSuccessMessage("");
 
     if (!isFormValid) {
@@ -132,7 +133,13 @@ export function EmailSignupModal({
         setIsSuccessModalOpen(true);
       } else {
         const errorMsg = data.error || "Signup failed. Please check your information and try again.";
-        setError(errorMsg);
+        const mappedErrors = mapErrorToField(errorMsg);
+
+        if (Object.keys(mappedErrors).length > 0) {
+          setFieldErrors(mappedErrors);
+        } else {
+          setError(errorMsg);
+        }
         console.error("Signup error details:", { status: response.status, data });
       }
     } catch (error) {
