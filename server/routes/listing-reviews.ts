@@ -107,6 +107,45 @@ export async function updateListingReviewHelpful(req: Request, res: Response) {
   }
 }
 
+export async function updateListingReview(req: Request, res: Response) {
+  try {
+    const reviewId = Number((req.params as any)?.id);
+    if (!reviewId || Number.isNaN(reviewId)) {
+      return res.status(400).json({ ok: false, error: "invalid review id" });
+    }
+
+    const { rating, comment } = req.body || {};
+
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({
+        ok: false,
+        error: "rating must be between 1 and 5",
+      });
+    }
+
+    if (!comment || typeof comment !== "string" || comment.trim().length === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "comment is required",
+      });
+    }
+
+    const result = await pool.query(
+      `update listing_reviews set rating = $1, comment = $2, updated_at = now() where id = $3 returning id, rating, comment, updated_at`,
+      [rating, comment.trim(), reviewId],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "review not found" });
+    }
+
+    res.json({ ok: true, review: result.rows[0] });
+  } catch (error: any) {
+    console.error("[updateListingReview] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function deleteListingReview(req: Request, res: Response) {
   try {
     const reviewId = Number((req.params as any)?.id);
