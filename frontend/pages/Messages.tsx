@@ -505,7 +505,7 @@ export default function Messages() {
                               Enable open messages
                             </label>
                             <p className="text-xs text-muted-foreground">
-                              Allow other users to send you messages
+                              Allow renters to message you without submitting a request
                             </p>
                           </div>
                           <Switch
