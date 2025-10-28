@@ -471,17 +471,54 @@ export default function Messages() {
               </button>
             </div>
 
-            {/* Search Bar */}
-            <div className="p-4 md:pt-4">
+            {/* Search Bar and Settings */}
+            <div className="p-4 md:pt-4 space-y-3">
               {/* md:pt-4 to keep original padding on desktop */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search conversations..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9"
-                />
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search conversations..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-9"
+                  />
+                </div>
+                {user && (
+                  <Popover open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-10 w-10"
+                        disabled={isUpdatingOpenDms}
+                      >
+                        <Settings className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent align="end" className="w-64">
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold">Message Settings</h3>
+                        <div className="flex items-center justify-between space-x-2">
+                          <div className="flex flex-col space-y-1">
+                            <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              Enable open messages
+                            </label>
+                            <p className="text-xs text-muted-foreground">
+                              Allow other users to send you messages
+                            </p>
+                          </div>
+                          <Switch
+                            checked={user.openDms}
+                            onCheckedChange={handleOpenDmsToggle}
+                            disabled={isUpdatingOpenDms}
+                            className={user.openDms ? "bg-green-500" : ""}
+                          />
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                )}
               </div>
             </div>
 
