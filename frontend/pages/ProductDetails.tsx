@@ -1042,9 +1042,11 @@ export default function ProductDetails() {
                   </div>
                 </div>
 
-                <Button variant="outline" className="w-full mt-4">
-                  Contact Host
-                </Button>
+                {authUser && host?.openDms && (
+                  <Button variant="outline" className="w-full mt-4">
+                    Contact Host
+                  </Button>
+                )}
               </CardContent>
             </Card>
           </div>
