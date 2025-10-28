@@ -52,6 +52,30 @@ export default function Messages() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isUpdatingOpenDms, setIsUpdatingOpenDms] = useState(false);
 
+  // Handle open_dms toggle change
+  const handleOpenDmsToggle = async (checked: boolean) => {
+    setIsUpdatingOpenDms(true);
+    try {
+      const response = await fetch("/api/auth/me/open-dms", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ openDms: checked }),
+      });
+
+      if (response.ok) {
+        // Only update the local state after server confirms
+        await checkAuth();
+      }
+    } catch (error) {
+      console.error("Failed to update open_dms setting:", error);
+    } finally {
+      setIsUpdatingOpenDms(false);
+    }
+  };
+
   // Mobile sidebar toggle functions
   const toggleLeftSidebar = () => {
     if (rightSidebarOpen) setRightSidebarOpen(false); // Close right if open
