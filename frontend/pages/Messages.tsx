@@ -29,7 +29,11 @@ import {
   ChevronLeft,
   ChevronRight,
   Users,
+  Settings,
 } from "lucide-react";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Switch } from "@/components/ui/switch";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Messages() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
