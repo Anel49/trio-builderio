@@ -36,6 +36,7 @@ import { Switch } from "@/components/ui/switch";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Messages() {
+  const { user, checkAuth } = useAuth();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -47,6 +48,9 @@ export default function Messages() {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
   const [supportModalOpen, setSupportModalOpen] = useState(false);
+  // Settings popover and toggle states
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isUpdatingOpenDms, setIsUpdatingOpenDms] = useState(false);
 
   // Mobile sidebar toggle functions
   const toggleLeftSidebar = () => {
