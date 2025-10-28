@@ -496,11 +496,11 @@ export default function Messages() {
                         <Settings className="h-4 w-4" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent align="end" className="w-64">
+                    <PopoverContent align="end" className="w-64 z-[100]">
                       <div className="space-y-4">
                         <h3 className="text-sm font-semibold">Message Settings</h3>
                         <div className="flex items-center justify-between space-x-2">
-                          <div className="flex flex-col space-y-1">
+                          <div className="flex flex-col space-y-1 flex-1">
                             <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                               Enable open messages
                             </label>
