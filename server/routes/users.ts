@@ -16,6 +16,7 @@ function rowToUser(r: any) {
     foundingSupporter: Boolean(r.founding_supporter),
     topReferrer: Boolean(r.top_referrer),
     ambassador: Boolean(r.ambassador),
+    openDms: Boolean(r.open_dms),
   };
 }
 
