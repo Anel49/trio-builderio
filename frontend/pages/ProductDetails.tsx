@@ -1042,7 +1042,7 @@ export default function ProductDetails() {
                   </div>
                 </div>
 
-                {authUser && host?.openDms && (
+                {authUser && host?.hostOpenDms && (
                   <Button variant="outline" className="w-full mt-4">
                     Contact Host
                   </Button>
