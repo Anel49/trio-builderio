@@ -657,21 +657,72 @@ export default function Profile() {
 
   const [listedItems, setListedItems] = useState<ListedItem[]>([]);
 
+  // Fetch other user data when viewing another user's profile
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!viewingOtherUser || !userId) {
+        setIsLoadingOtherUser(false);
+        return;
+      }
+
+      try {
+        const userIdNum = Number.parseInt(userId, 10);
+        if (!Number.isFinite(userIdNum)) {
+          setIsLoadingOtherUser(false);
+          return;
+        }
+
+        const response = await fetch(`/api/users/${userIdNum}`);
+        if (!response.ok || cancelled) {
+          setIsLoadingOtherUser(false);
+          return;
+        }
+
+        const data = await response.json();
+        if (data.ok && data.user && !cancelled) {
+          setOtherUserData(data.user);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      } finally {
+        if (!cancelled) {
+          setIsLoadingOtherUser(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [userId, viewingOtherUser]);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        if (!authenticated || !authUser?.id) {
-          // Don't fetch if not authenticated
+        const targetUserId = viewingOtherUser ? userId : authUser?.id;
+
+        if (!targetUserId) {
+          // Don't fetch if no user ID available
           setListedItems([]);
           return;
         }
 
-        await ensureCurrentUserProfile();
+        if (!viewingOtherUser && (!authenticated || !authUser?.id)) {
+          // Don't fetch current user listings if not authenticated
+          setListedItems([]);
+          return;
+        }
+
+        if (!viewingOtherUser) {
+          await ensureCurrentUserProfile();
+        }
         if (cancelled) return;
-        const coords = getCurrentUserCoordinates();
-        const userZip = getCurrentUserZipCode();
-        let path = `listings?user_id=${authUser.id}`;
+
+        const coords = !viewingOtherUser ? getCurrentUserCoordinates() : null;
+        const userZip = !viewingOtherUser ? getCurrentUserZipCode() : null;
+        let path = `listings?user_id=${targetUserId}`;
 
         if (coords) {
           path += `&user_lat=${coords.latitude}&user_lng=${coords.longitude}`;
