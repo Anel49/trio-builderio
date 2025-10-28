@@ -23,12 +23,20 @@ function rowToUser(r: any) {
 async function ensureBadgeColumns() {
   try {
     await pool.query(
-      `alter table users add column if not exists founding_supporter boolean default false;
-       alter table users add column if not exists top_referrer boolean default false;
-       alter table users add column if not exists ambassador boolean default false;
-       alter table users add column if not exists open_dms boolean default true;`,
+      `alter table users add column if not exists founding_supporter boolean default false`,
     );
-  } catch {}
+    await pool.query(
+      `alter table users add column if not exists top_referrer boolean default false`,
+    );
+    await pool.query(
+      `alter table users add column if not exists ambassador boolean default false`,
+    );
+    await pool.query(
+      `alter table users add column if not exists open_dms boolean default true`,
+    );
+  } catch (e) {
+    console.error("Error ensuring badge columns:", e);
+  }
 }
 
 export async function getUserByEmail(req: Request, res: Response) {
