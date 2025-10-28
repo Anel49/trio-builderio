@@ -281,7 +281,8 @@ export async function emailLogin(req: Request, res: Response) {
       `select id, name, email, avatar_url, latitude, longitude, location_city, created_at,
               coalesce(founding_supporter,false) as founding_supporter,
               coalesce(top_referrer,false) as top_referrer,
-              coalesce(ambassador,false) as ambassador
+              coalesce(ambassador,false) as ambassador,
+              coalesce(open_dms,true) as open_dms
        from users where id = $1`,
       [cred.user_id],
     );
