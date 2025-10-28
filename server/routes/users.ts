@@ -25,7 +25,8 @@ async function ensureBadgeColumns() {
     await pool.query(
       `alter table users add column if not exists founding_supporter boolean default false;
        alter table users add column if not exists top_referrer boolean default false;
-       alter table users add column if not exists ambassador boolean default false;`,
+       alter table users add column if not exists ambassador boolean default false;
+       alter table users add column if not exists open_dms boolean default true;`,
     );
   } catch {}
 }
