@@ -522,6 +522,7 @@ export async function getListingById(req: Request, res: Response) {
       images,
       image: r.image_url,
       host: r.host,
+      hostOpenDms: Boolean(r.host_open_dms),
       type: categories[0] || "General",
       categories: categories && categories.length > 0 ? categories : [],
       distance: distanceLabel,
