@@ -200,6 +200,7 @@ export async function listListings(req: Request, res: Response) {
         images: [],
         image: r.image_url,
         host: r.host,
+        hostOpenDms: Boolean(r.host_open_dms),
         type: primaryCategory,
         categories: cats.length > 0 ? cats : r.category ? [r.category] : [],
         distance: distanceLabel,
