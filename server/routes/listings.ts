@@ -110,7 +110,7 @@ export async function listListings(req: Request, res: Response) {
         sql += ` where ${conditions.join(" and ")}`;
       }
 
-      sql += ` group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.latitude, l.longitude, l.rental_period, l.user_id, l.delivery, l.free_delivery, l.enabled
+      sql += ` group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.latitude, l.longitude, l.rental_period, l.user_id, l.delivery, l.free_delivery, l.enabled, u.open_dms
                order by l.created_at desc limit 50`;
 
       console.log("[listListings] Executing SQL:", sql, "Params:", params);
