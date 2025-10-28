@@ -31,7 +31,11 @@ import {
   Users,
   Settings,
 } from "lucide-react";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -485,7 +489,10 @@ export default function Messages() {
                   />
                 </div>
                 {user && (
-                  <Popover open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+                  <Popover
+                    open={isSettingsOpen}
+                    onOpenChange={setIsSettingsOpen}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -498,14 +505,17 @@ export default function Messages() {
                     </PopoverTrigger>
                     <PopoverContent align="end" className="w-64">
                       <div className="space-y-4">
-                        <h3 className="text-sm font-semibold">Message Settings</h3>
+                        <h3 className="text-sm font-semibold">
+                          Message Settings
+                        </h3>
                         <div className="flex items-center justify-between space-x-2">
                           <div className="flex flex-col space-y-1 flex-1">
                             <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                               Enable open messages
                             </label>
                             <p className="text-xs text-muted-foreground">
-                              Allow renters to message you without submitting a request
+                              Allow renters to message you without submitting a
+                              request
                             </p>
                           </div>
                           <Switch
