@@ -156,3 +156,14 @@ select,
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
+
+/* Hide browser's native password visibility toggle */
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-strong-password-auto-fill-button {
+  display: none !important;
+}
+
+/* Hide IE/Edge's native password visibility toggle */
+input[type="password"]::-ms-reveal {
+  display: none;
+}
