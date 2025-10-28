@@ -167,7 +167,8 @@ export function createServer() {
         `select id, name, email, avatar_url, latitude, longitude, location_city, created_at,
                 coalesce(founding_supporter,false) as founding_supporter,
                 coalesce(top_referrer,false) as top_referrer,
-                coalesce(ambassador,false) as ambassador
+                coalesce(ambassador,false) as ambassador,
+                coalesce(open_dms,true) as open_dms
          from users where id = $1`,
         [req.session.userId],
       );
@@ -193,6 +194,7 @@ export function createServer() {
         foundingSupporter: Boolean(row.founding_supporter),
         topReferrer: Boolean(row.top_referrer),
         ambassador: Boolean(row.ambassador),
+        openDms: Boolean(row.open_dms),
       };
 
       // Update the session with the latest user data
