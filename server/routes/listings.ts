@@ -82,9 +82,11 @@ export async function listListings(req: Request, res: Response) {
       let sql = `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.latitude, l.longitude, l.rental_period, l.user_id,
                 coalesce(l.delivery, false) as delivery, coalesce(l.free_delivery, false) as free_delivery, coalesce(l.enabled, true) as enabled,
                 round(coalesce(avg(lr.rating)::numeric, 0), 1) as avg_review_rating,
-                count(lr.id)::int as review_count
+                count(lr.id)::int as review_count,
+                coalesce(u.open_dms, true) as host_open_dms
          from listings l
-         left join listing_reviews lr on l.id = lr.listing_id`;
+         left join listing_reviews lr on l.id = lr.listing_id
+         left join users u on l.user_id = u.id`;
 
       const params: any[] = [];
       let paramIndex = 1;
