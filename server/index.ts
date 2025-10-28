@@ -153,6 +153,64 @@ export function createServer() {
     }
   });
 
+  // Update user open_dms setting
+  app.patch("/api/auth/me/open-dms", async (req: any, res: any) => {
+    try {
+      if (!req.session || !req.session.userId) {
+        return res.status(401).json({ ok: false, error: "Not authenticated" });
+      }
+
+      const { openDms } = req.body || {};
+      const openDmsValue = Boolean(openDms);
+
+      const { pool } = await import("./routes/db");
+
+      const userResult = await pool.query(
+        `update users set open_dms = $1 where id = $2
+         returning id, name, email, avatar_url, latitude, longitude, location_city, created_at,
+                   coalesce(founding_supporter,false) as founding_supporter,
+                   coalesce(top_referrer,false) as top_referrer,
+                   coalesce(ambassador,false) as ambassador,
+                   coalesce(open_dms,true) as open_dms`,
+        [openDmsValue, req.session.userId],
+      );
+
+      if (!userResult.rowCount || userResult.rowCount === 0) {
+        return res.status(401).json({ ok: false, error: "User not found" });
+      }
+
+      const row = userResult.rows[0];
+      const user = {
+        id: row.id,
+        name: row.name || null,
+        email: row.email || null,
+        avatarUrl: row.avatar_url || null,
+        zipCode: null,
+        locationLatitude:
+          typeof row.latitude === "number" ? row.latitude : null,
+        locationLongitude:
+          typeof row.longitude === "number" ? row.longitude : null,
+        locationCity:
+          typeof row.location_city === "string" ? row.location_city : null,
+        createdAt: row.created_at,
+        foundingSupporter: Boolean(row.founding_supporter),
+        topReferrer: Boolean(row.top_referrer),
+        ambassador: Boolean(row.ambassador),
+        openDms: Boolean(row.open_dms),
+      };
+
+      req.session.user = user;
+
+      return res.json({ ok: true, user });
+    } catch (error: any) {
+      console.error("Update open_dms error:", error);
+      return res.status(500).json({
+        ok: false,
+        error: "Internal server error",
+      });
+    }
+  });
+
   // Get current authenticated user
   app.get("/api/auth/me", async (req: any, res: any) => {
     try {
