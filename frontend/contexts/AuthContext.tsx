@@ -13,6 +13,7 @@ export interface User {
   foundingSupporter: boolean;
   topReferrer: boolean;
   ambassador: boolean;
+  openDms: boolean;
 }
 
 interface AuthContextType {
