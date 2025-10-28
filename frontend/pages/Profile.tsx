@@ -870,7 +870,7 @@ export default function Profile() {
     return () => {
       cancelled = true;
     };
-  }, [authenticated, authUser?.id]);
+  }, [authenticated, authUser?.id, viewingOtherUser, userId]);
 
   // Item reviews from DB
   const [itemReviews, setItemReviews] = useState<
