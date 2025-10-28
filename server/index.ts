@@ -16,6 +16,7 @@ import {
 } from "./routes/listings";
 import {
   getUserByEmail,
+  getUserById,
   upsertUser,
   emailSignup,
   emailLogin,
