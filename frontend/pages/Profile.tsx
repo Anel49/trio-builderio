@@ -540,16 +540,33 @@ export default function Profile() {
   }, [locationCity]);
 
   // Use centralized user profile data
+  const profileDisplayData = viewingOtherUser ? otherUserData : userRecord || null;
   const userProfile = {
-    name: name || authUser?.name || "User",
-    email: authUser?.email || "",
-    profileImage: profileImageUrl || authUser?.avatarUrl || "",
-    locationCity,
-    locationLatitude,
-    locationLongitude,
-    zipCode: locationPostalCode,
+    name: viewingOtherUser
+      ? (otherUserData?.name || "User")
+      : (name || authUser?.name || "User"),
+    email: viewingOtherUser
+      ? (otherUserData?.email || "")
+      : (authUser?.email || ""),
+    profileImage: viewingOtherUser
+      ? (otherUserData?.avatarUrl || "")
+      : (profileImageUrl || authUser?.avatarUrl || ""),
+    locationCity: viewingOtherUser
+      ? (otherUserData?.locationCity || null)
+      : locationCity,
+    locationLatitude: viewingOtherUser
+      ? (otherUserData?.locationLatitude || null)
+      : locationLatitude,
+    locationLongitude: viewingOtherUser
+      ? (otherUserData?.locationLongitude || null)
+      : locationLongitude,
+    zipCode: viewingOtherUser
+      ? (otherUserData?.zipCode || null)
+      : locationPostalCode,
     avgRating: 0,
-    dateJoined: dateJoinedDisplay || "—",
+    dateJoined: viewingOtherUser
+      ? (otherUserData?.createdAt ? new Date(otherUserData.createdAt).toLocaleDateString() : "—")
+      : (dateJoinedDisplay || "—"),
     avgResponseTime: "—",
   };
 
