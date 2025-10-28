@@ -1048,11 +1048,11 @@ export default function UploadProduct() {
 
                 {/* Price */}
                 <div>
-                  <label
-                    htmlFor="price"
-                    className="block text-sm font-medium mb-2 flex items-center justify-between"
-                  >
-                    <span className="inline-flex items-center gap-1">
+                  <div className="block text-sm font-medium mb-2 flex items-center gap-1">
+                    <label
+                      htmlFor="price"
+                      className="text-sm font-medium cursor-pointer inline-flex items-center gap-1"
+                    >
                       {priceLabel}
                       <span
                         className={getAsteriskColor(
@@ -1061,16 +1061,16 @@ export default function UploadProduct() {
                       >
                         *
                       </span>
-                    </span>
+                    </label>
                     <button
                       type="button"
                       aria-label="Pricing guidance"
-                      className="ml-2 text-muted-foreground hover:text-primary"
+                      className="p-0 h-4 w-4 text-muted-foreground hover:text-primary focus:outline-none"
                       onClick={() => setIsPriceInfoOpen(true)}
                     >
                       <Info className="h-4 w-4" />
                     </button>
-                  </label>
+                  </div>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
                       $
