@@ -39,6 +39,34 @@ async function ensureBadgeColumns() {
   }
 }
 
+export async function getUserById(req: Request, res: Response) {
+  try {
+    const userId = String((req.params as any)?.id || "").trim();
+    if (!userId || !Number.isFinite(Number.parseInt(userId, 10))) {
+      return res.status(400).json({ ok: false, error: "valid user id is required" });
+    }
+    const result = await pool.query(
+      `select id, name, email, avatar_url, created_at,
+            latitude, longitude, location_city,
+            coalesce(founding_supporter,false) as founding_supporter,
+            coalesce(top_referrer,false) as top_referrer,
+            coalesce(ambassador,false) as ambassador,
+            coalesce(open_dms,true) as open_dms
+       from users where id = $1 limit 1`,
+      [Number.parseInt(userId, 10)],
+    );
+
+    if (!result.rowCount || result.rowCount === 0) {
+      return res.status(404).json({ ok: false, error: "User not found" });
+    }
+
+    const user = rowToUser(result.rows[0]);
+    res.json({ ok: true, user });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function getUserByEmail(req: Request, res: Response) {
   try {
     const email = String((req.query as any)?.email || "").trim();
