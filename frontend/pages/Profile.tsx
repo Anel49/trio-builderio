@@ -110,7 +110,25 @@ import {
 const REVIEWS_PER_PAGE = 8;
 
 export default function Profile() {
+  const { userId } = useParams<{ userId?: string }>();
+  const navigate = useNavigate();
   const { user: authUser, authenticated, logout, checkAuth } = useAuth();
+  const [viewingOtherUser, setViewingOtherUser] = useState(Boolean(userId));
+  const [otherUserData, setOtherUserData] = useState<null | {
+    id: number | null;
+    name: string | null;
+    email: string | null;
+    avatarUrl: string | null;
+    zipCode: string | null;
+    locationCity: string | null;
+    locationLatitude: number | null;
+    locationLongitude: number | null;
+    createdAt: string | null;
+    foundingSupporter: boolean;
+    topReferrer: boolean;
+    ambassador: boolean;
+  }>(null);
+  const [isLoadingOtherUser, setIsLoadingOtherUser] = useState(Boolean(userId));
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const initialLocation = getCurrentUserLocation();
