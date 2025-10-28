@@ -1283,50 +1283,52 @@ export default function Profile() {
 
                 {/* Action Buttons */}
                 <div className="space-y-2">
-                  <Button
-                    className="w-full"
-                    onClick={async () => {
-                      if (isEditingProfile) {
-                        try {
-                          const body: any = {
-                            email: authUser?.email,
-                            name,
-                            avatar_url: profileImageUrl,
-                            latitude:
-                              typeof locationLatitude === "number"
-                                ? locationLatitude
-                                : null,
-                            longitude:
-                              typeof locationLongitude === "number"
-                                ? locationLongitude
-                                : null,
-                            location_city:
-                              typeof locationCity === "string" &&
-                              locationCity.trim()
-                                ? locationCity.trim()
-                                : null,
-                          };
-                          const response = await apiFetch("users", {
-                            method: "POST",
-                            headers: { "content-type": "application/json" },
-                            body: JSON.stringify(body),
-                          });
-                          const responseData = await response
-                            .json()
-                            .catch(() => ({}) as any);
-                          if (responseData?.user) {
-                            applyUserData(responseData.user);
-                            // Refresh auth context to update authUser with new location data
-                            await checkAuth();
-                          }
-                        } catch {}
-                      }
-                      setIsEditingProfile((v) => !v);
-                    }}
-                  >
-                    <Edit3 className="h-4 w-4 mr-2" />
-                    {isEditingProfile ? "Save changes" : "Edit Profile"}
-                  </Button>
+                  {!viewingOtherUser && (
+                    <Button
+                      className="w-full"
+                      onClick={async () => {
+                        if (isEditingProfile) {
+                          try {
+                            const body: any = {
+                              email: authUser?.email,
+                              name,
+                              avatar_url: profileImageUrl,
+                              latitude:
+                                typeof locationLatitude === "number"
+                                  ? locationLatitude
+                                  : null,
+                              longitude:
+                                typeof locationLongitude === "number"
+                                  ? locationLongitude
+                                  : null,
+                              location_city:
+                                typeof locationCity === "string" &&
+                                locationCity.trim()
+                                  ? locationCity.trim()
+                                  : null,
+                            };
+                            const response = await apiFetch("users", {
+                              method: "POST",
+                              headers: { "content-type": "application/json" },
+                              body: JSON.stringify(body),
+                            });
+                            const responseData = await response
+                              .json()
+                              .catch(() => ({}) as any);
+                            if (responseData?.user) {
+                              applyUserData(responseData.user);
+                              // Refresh auth context to update authUser with new location data
+                              await checkAuth();
+                            }
+                          } catch {}
+                        }
+                        setIsEditingProfile((v) => !v);
+                      }}
+                    >
+                      <Edit3 className="h-4 w-4 mr-2" />
+                      {isEditingProfile ? "Save changes" : "Edit Profile"}
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     className="w-full"
