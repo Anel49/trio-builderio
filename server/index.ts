@@ -364,6 +364,7 @@ export function createServer() {
   app.get("/api/listings/:id/reservations", listListingReservations);
   // Users
   app.get("/api/users", getUserByEmail); // query: email
+  app.get("/api/users/:id", getUserById); // param: id
   app.post("/api/users", upsertUser);
   app.post("/api/users/signup", emailSignup);
   app.post("/api/users/login", emailLogin);
