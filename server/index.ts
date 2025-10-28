@@ -391,6 +391,7 @@ export function createServer() {
   app.get("/listings/:id/reviews", listListingReviews);
   app.get("/listings/:id/reservations", listListingReservations);
   app.get("/users", getUserByEmail);
+  app.get("/users/:id", getUserById);
   app.post("/users", upsertUser);
   app.post("/users/signup", emailSignup);
   app.post("/users/login", emailLogin);
