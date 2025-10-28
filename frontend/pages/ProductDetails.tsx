@@ -1044,7 +1044,7 @@ export default function ProductDetails() {
                   </div>
                 </div>
 
-                {authUser && host?.hostOpenDms && (
+                {authUser && product?.hostOpenDms && (
                   <Button variant="outline" className="w-full mt-4">
                     Contact Host
                   </Button>
