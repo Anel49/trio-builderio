@@ -496,7 +496,7 @@ export default function Messages() {
                         <Settings className="h-4 w-4" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent align="end" className="w-64 z-[100]">
+                    <PopoverContent align="end" className="w-64">
                       <div className="space-y-4">
                         <h3 className="text-sm font-semibold">Message Settings</h3>
                         <div className="flex items-center justify-between space-x-2">
