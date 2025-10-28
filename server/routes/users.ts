@@ -42,7 +42,8 @@ export async function getUserByEmail(req: Request, res: Response) {
             latitude, longitude, location_city,
             coalesce(founding_supporter,false) as founding_supporter,
             coalesce(top_referrer,false) as top_referrer,
-            coalesce(ambassador,false) as ambassador
+            coalesce(ambassador,false) as ambassador,
+            coalesce(open_dms,true) as open_dms
        from users where email = $1 limit 1`,
       [email],
     );
