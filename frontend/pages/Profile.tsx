@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
+import { RemoveFromFavoritesModal } from "@/components/ui/remove-from-favorites-modal";
 import { LocationPickerModal } from "@/components/LocationPickerModal";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
