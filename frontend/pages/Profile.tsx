@@ -925,7 +925,7 @@ export default function Profile() {
             return entry
               ? {
                   ...it,
-                  reviews: entry.count,
+                  reviews: it.reviews !== undefined ? it.reviews : entry.count,
                   rating: it.rating ?? entry.avg,
                 }
               : it;
