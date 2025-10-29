@@ -496,6 +496,7 @@ export default function BrowseListings() {
                 ? l.images[0]
                 : l.image,
             host: l.host,
+            hostUserId: typeof l.hostUserId === "number" ? l.hostUserId : undefined,
             type: categories[0] || "General",
             categories,
             location: "",
@@ -518,10 +519,16 @@ export default function BrowseListings() {
             freeDelivery: Boolean(l.freeDelivery),
           };
         });
+
+        // Filter out user's own listings
+        const filtered = authenticated && authUser?.id
+          ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
+          : mapped;
+
         if (!cancelled) {
           console.log(
             "[BrowseListings] Setting listings with distances:",
-            mapped.map((l: any) => ({
+            filtered.map((l: any) => ({
               id: l.id,
               distance: l.distance,
               distanceMiles: l.distanceMiles,
@@ -529,7 +536,7 @@ export default function BrowseListings() {
               freeDelivery: l.freeDelivery,
             })),
           );
-          setListings(mapped);
+          setListings(filtered);
           setIsLoadingDistances(false);
         }
       } catch {
