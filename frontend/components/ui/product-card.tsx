@@ -29,6 +29,7 @@ interface ProductCardProps {
   reviews?: number;
   image: string;
   host: string;
+  hostUserId?: number;
   type?: string;
   categories?: string[];
   distance: string | null;
