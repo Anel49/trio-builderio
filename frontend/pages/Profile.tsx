@@ -828,6 +828,7 @@ export default function Profile() {
             name: l.name,
             price: l.price,
             rating: typeof l.rating === "number" ? l.rating : null,
+            reviews: typeof l.reviews === "number" ? l.reviews : undefined,
             trips: 0,
             image:
               Array.isArray(l.images) && l.images.length
