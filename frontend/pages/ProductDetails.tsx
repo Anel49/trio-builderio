@@ -414,6 +414,7 @@ export default function ProductDetails() {
             image: l.image || undefined,
             images: Array.isArray(l.images) ? l.images : undefined,
             host: typeof l.host === "string" ? l.host : undefined,
+            hostUserId: typeof l.hostUserId === "number" ? l.hostUserId : undefined,
             hostOpenDms:
               typeof l.hostOpenDms === "boolean" ? l.hostOpenDms : true,
           });
