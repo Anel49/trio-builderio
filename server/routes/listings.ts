@@ -83,7 +83,8 @@ export async function listListings(req: Request, res: Response) {
                 coalesce(l.delivery, false) as delivery, coalesce(l.free_delivery, false) as free_delivery, coalesce(l.enabled, true) as enabled,
                 round(coalesce(avg(lr.rating)::numeric, 0), 1) as avg_review_rating,
                 count(lr.id)::int as review_count,
-                coalesce(u.open_dms, true) as host_open_dms
+                coalesce(u.open_dms, true) as host_open_dms,
+                u.created_at as host_created_at
          from listings l
          left join listing_reviews lr on l.id = lr.listing_id
          left join users u on l.user_id = u.id`;
