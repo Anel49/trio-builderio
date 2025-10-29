@@ -180,10 +180,14 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState("listings");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
-  const [isAddToFavoritesModalOpen, setIsAddToFavoritesModalOpen] = useState(false);
-  const [isRemoveFromFavoritesModalOpen, setIsRemoveFromFavoritesModalOpen] = useState(false);
+  const [isAddToFavoritesModalOpen, setIsAddToFavoritesModalOpen] =
+    useState(false);
+  const [isRemoveFromFavoritesModalOpen, setIsRemoveFromFavoritesModalOpen] =
+    useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
-  const [favoritedListingIds, setFavoritedListingIds] = useState<Set<number>>(new Set());
+  const [favoritedListingIds, setFavoritedListingIds] = useState<Set<number>>(
+    new Set(),
+  );
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
@@ -595,33 +599,37 @@ export default function Profile() {
   }, [locationCity]);
 
   // Use centralized user profile data
-  const profileDisplayData = viewingOtherUser ? otherUserData : userRecord || null;
+  const profileDisplayData = viewingOtherUser
+    ? otherUserData
+    : userRecord || null;
   const userProfile = {
     name: viewingOtherUser
-      ? (otherUserData?.name || "User")
-      : (name || authUser?.name || "User"),
+      ? otherUserData?.name || "User"
+      : name || authUser?.name || "User",
     email: viewingOtherUser
-      ? (otherUserData?.email || "")
-      : (authUser?.email || ""),
+      ? otherUserData?.email || ""
+      : authUser?.email || "",
     profileImage: viewingOtherUser
-      ? (otherUserData?.avatarUrl || "")
-      : (profileImageUrl || authUser?.avatarUrl || ""),
+      ? otherUserData?.avatarUrl || ""
+      : profileImageUrl || authUser?.avatarUrl || "",
     locationCity: viewingOtherUser
-      ? (otherUserData?.locationCity || null)
+      ? otherUserData?.locationCity || null
       : locationCity,
     locationLatitude: viewingOtherUser
-      ? (otherUserData?.locationLatitude || null)
+      ? otherUserData?.locationLatitude || null
       : locationLatitude,
     locationLongitude: viewingOtherUser
-      ? (otherUserData?.locationLongitude || null)
+      ? otherUserData?.locationLongitude || null
       : locationLongitude,
     zipCode: viewingOtherUser
-      ? (otherUserData?.zipCode || null)
+      ? otherUserData?.zipCode || null
       : locationPostalCode,
     avgRating: 0,
     dateJoined: viewingOtherUser
-      ? (otherUserData?.createdAt ? new Date(otherUserData.createdAt).toLocaleDateString() : "—")
-      : (dateJoinedDisplay || "—"),
+      ? otherUserData?.createdAt
+        ? new Date(otherUserData.createdAt).toLocaleDateString()
+        : "—"
+      : dateJoinedDisplay || "—",
     avgResponseTime: "—",
   };
 
@@ -1289,7 +1297,8 @@ export default function Profile() {
                       >
                         <Pencil className="h-4 w-4" />
                         <span className="text-sm">
-                          {typeof locationCity === "string" && locationCity.trim()
+                          {typeof locationCity === "string" &&
+                          locationCity.trim()
                             ? locationCity.trim()
                             : "Add a location"}
                         </span>
@@ -1483,7 +1492,9 @@ export default function Profile() {
               {activeTab === "listings" && (
                 <div className="space-y-6">
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
-                    <h2 className="text-2xl font-bold">{viewingOtherUser ? "Listed Items" : "Your Listed Items"}</h2>
+                    <h2 className="text-2xl font-bold">
+                      {viewingOtherUser ? "Listed Items" : "Your Listed Items"}
+                    </h2>
                     {!viewingOtherUser && (
                       <div className="flex flex-col lg:flex-row gap-2 lg:gap-3">
                         {listedItems.length > 0 && (
@@ -1513,7 +1524,10 @@ export default function Profile() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {(viewingOtherUser ? listedItems.filter(item => item.enabled !== false) : listedItems).map((item) => (
+                    {(viewingOtherUser
+                      ? listedItems.filter((item) => item.enabled !== false)
+                      : listedItems
+                    ).map((item) => (
                       <ProductCard
                         key={item.id}
                         id={item.id}
@@ -1530,20 +1544,34 @@ export default function Profile() {
                         priceUnitLabel={`per ${RENTAL_UNIT_LABELS[normalizeRentalPeriod(item.rentalPeriod)]}`}
                         onFavorite={handleFavorite}
                         isFavorited={favoritedListingIds.has(item.id)}
-                        onEditClick={!viewingOtherUser ? () => handleEdit(item) : undefined}
+                        onEditClick={
+                          !viewingOtherUser ? () => handleEdit(item) : undefined
+                        }
                         enabled={item.enabled ?? true}
-                        onDisableClick={!viewingOtherUser ? () => {
-                          setItemToDisable(item);
-                          setIsDisableModalOpen(true);
-                        } : undefined}
-                        onEnableClick={!viewingOtherUser ? () => {
-                          setItemToEnable(item);
-                          setIsEnableModalOpen(true);
-                        } : undefined}
-                        onDeleteClick={!viewingOtherUser ? () => {
-                          setItemToDelete(item);
-                          setIsDeleteModalOpen(true);
-                        } : undefined}
+                        onDisableClick={
+                          !viewingOtherUser
+                            ? () => {
+                                setItemToDisable(item);
+                                setIsDisableModalOpen(true);
+                              }
+                            : undefined
+                        }
+                        onEnableClick={
+                          !viewingOtherUser
+                            ? () => {
+                                setItemToEnable(item);
+                                setIsEnableModalOpen(true);
+                              }
+                            : undefined
+                        }
+                        onDeleteClick={
+                          !viewingOtherUser
+                            ? () => {
+                                setItemToDelete(item);
+                                setIsDeleteModalOpen(true);
+                              }
+                            : undefined
+                        }
                         onClick={() => {
                           window.location.href = `/product/${item.id}`;
                         }}

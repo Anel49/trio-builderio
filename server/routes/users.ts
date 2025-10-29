@@ -43,7 +43,9 @@ export async function getUserById(req: Request, res: Response) {
   try {
     const userId = String((req.params as any)?.id || "").trim();
     if (!userId || !Number.isFinite(Number.parseInt(userId, 10))) {
-      return res.status(400).json({ ok: false, error: "valid user id is required" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "valid user id is required" });
     }
     const result = await pool.query(
       `select id, name, email, avatar_url, created_at,
