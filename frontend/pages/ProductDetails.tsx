@@ -103,6 +103,7 @@ const normalizeRentalPeriod = (value: unknown): RentalPeriod => {
 const REVIEWS_PER_PAGE = 8;
 
 export default function ProductDetails() {
+  const navigate = useNavigate();
   const { user: authUser } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [reviewSearchQuery, setReviewSearchQuery] = useState("");
