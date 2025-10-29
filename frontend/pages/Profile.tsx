@@ -843,6 +843,8 @@ export default function Profile() {
             longitude: listingCoords?.longitude ?? null,
             rentalPeriod: normalizeRentalPeriod((l as any).rentalPeriod),
             enabled: typeof l.enabled === "boolean" ? l.enabled : true,
+            delivery: typeof l.delivery === "boolean" ? l.delivery : false,
+            freeDelivery: typeof l.freeDelivery === "boolean" ? l.freeDelivery : false,
           };
         });
         if (cancelled) return;
