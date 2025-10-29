@@ -1922,15 +1922,22 @@ export default function Profile() {
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
       />
-      <FavoritesModal
-        isOpen={isFavoritesModalOpen}
-        onOpenChange={setIsFavoritesModalOpen}
-        userId={authUser?.id?.toString() || ""}
+      <AddToFavoritesModal
+        isOpen={isAddToFavoritesModalOpen}
+        onOpenChange={setIsAddToFavoritesModalOpen}
+        listingName={favoritedListing}
+        onSeeFavorites={() => setIsFavoritesModalOpen(true)}
       />
       <RemoveFromFavoritesModal
         isOpen={isRemoveFromFavoritesModalOpen}
         onOpenChange={setIsRemoveFromFavoritesModalOpen}
         listingName={favoritedListing}
+        onSeeFavorites={() => setIsFavoritesModalOpen(true)}
+      />
+      <FavoritesModal
+        isOpen={isFavoritesModalOpen}
+        onOpenChange={setIsFavoritesModalOpen}
+        userId={authUser?.id?.toString() || ""}
       />
       <LocationPickerModal
         open={isLocationModalOpen}
