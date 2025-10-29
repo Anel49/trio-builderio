@@ -1005,7 +1005,17 @@ export default function ProductDetails() {
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4 mb-4">
-                  <a href="/profile" aria-label="Open profile">
+                  <button
+                    onClick={() => {
+                      if (product?.hostUserId) {
+                        navigate(`/profile/${product.hostUserId}`);
+                      } else {
+                        navigate("/profile");
+                      }
+                    }}
+                    className="cursor-pointer hover:opacity-80 transition-opacity"
+                    aria-label="Open profile"
+                  >
                     <Avatar className="h-16 w-16">
                       <AvatarImage src={host.profileImage} alt={host.name} />
                       <AvatarFallback>
@@ -1015,9 +1025,20 @@ export default function ProductDetails() {
                           .join("")}
                       </AvatarFallback>
                     </Avatar>
-                  </a>
+                  </button>
                   <div>
-                    <h3 className="font-semibold text-lg">{host.name}</h3>
+                    <button
+                      onClick={() => {
+                        if (product?.hostUserId) {
+                          navigate(`/profile/${product.hostUserId}`);
+                        } else {
+                          navigate("/profile");
+                        }
+                      }}
+                      className="font-semibold text-lg hover:underline text-left cursor-pointer"
+                    >
+                      {host.name}
+                    </button>
                     <div className="flex items-center mt-1">
                       {[...Array(5)].map((_, i) => (
                         <Star
