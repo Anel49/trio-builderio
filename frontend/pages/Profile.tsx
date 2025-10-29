@@ -178,7 +178,9 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState("listings");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
+  const [isRemoveFromFavoritesModalOpen, setIsRemoveFromFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
+  const [favoritedListingIds, setFavoritedListingIds] = useState<Set<number>>(new Set());
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
