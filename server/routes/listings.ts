@@ -435,7 +435,7 @@ export async function getListingById(req: Request, res: Response) {
     let result: any;
     try {
       result = await pool.query(
-        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude,
+        `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude, l.user_id,
                 coalesce(l.delivery, false) as delivery, coalesce(l.free_delivery, false) as free_delivery, coalesce(l.enabled, true) as enabled,
                 round(coalesce(avg(lr.rating)::numeric, 0), 1) as avg_review_rating,
                 count(lr.id)::int as review_count,
@@ -444,7 +444,7 @@ export async function getListingById(req: Request, res: Response) {
          left join listing_reviews lr on l.id = lr.listing_id
          left join users u on l.user_id = u.id
          where l.id = $1
-         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude, l.delivery, l.free_delivery, l.enabled, u.open_dms`,
+         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude, l.delivery, l.free_delivery, l.enabled, u.open_dms, l.user_id`,
         [id],
       );
     } catch (e) {
