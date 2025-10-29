@@ -1523,6 +1523,7 @@ export default function Profile() {
                         hideHostInfo={true}
                         priceUnitLabel={`per ${RENTAL_UNIT_LABELS[normalizeRentalPeriod(item.rentalPeriod)]}`}
                         onFavorite={handleFavorite}
+                        isFavorited={favoritedListingIds.has(item.id)}
                         onEditClick={!viewingOtherUser ? () => handleEdit(item) : undefined}
                         enabled={item.enabled ?? true}
                         onDisableClick={!viewingOtherUser ? () => {
