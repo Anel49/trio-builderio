@@ -903,11 +903,6 @@ export default function ProductDetails() {
                   ))}
                 </div>
               )}
-              {product.description && (
-                <p className="text-muted-foreground mb-4 whitespace-pre-line">
-                  {product.description}
-                </p>
-              )}
 
               <div className="flex items-center space-x-4 mb-4">
                 <div className="flex items-center">
@@ -939,6 +934,12 @@ export default function ProductDetails() {
                   {displayTotalReviews === 1 ? "review" : "reviews"})
                 </button>
               </div>
+
+              {product.description && (
+                <p className="text-muted-foreground mb-4 whitespace-pre-line">
+                  {product.description}
+                </p>
+              )}
 
               <button
                 onClick={() => setIsLocationModalOpen(true)}
