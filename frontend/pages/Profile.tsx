@@ -100,6 +100,8 @@ type ListedItem = {
   reviews?: number;
   rentalPeriod?: string;
   enabled?: boolean;
+  delivery?: boolean;
+  freeDelivery?: boolean;
 };
 import {
   Select,
