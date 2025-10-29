@@ -529,6 +529,7 @@ export async function getListingById(req: Request, res: Response) {
       host: r.host,
       hostUserId: typeof r.user_id === "number" ? r.user_id : null,
       hostOpenDms: Boolean(r.host_open_dms),
+      hostCreatedAt: r.host_created_at || null,
       type: categories[0] || "General",
       categories: categories && categories.length > 0 ? categories : [],
       distance: distanceLabel,
