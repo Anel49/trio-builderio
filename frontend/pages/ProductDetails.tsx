@@ -331,6 +331,8 @@ export default function ProductDetails() {
     host?: string;
     hostUserId?: number;
     hostOpenDms?: boolean;
+    delivery?: boolean;
+    freeDelivery?: boolean;
   }>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
