@@ -1070,6 +1070,7 @@ export default function BrowseListings() {
                       reviews={listing.reviews}
                       image={listing.image}
                       host={listing.host}
+                      hostUserId={listing.hostUserId}
                       categories={listing.categories}
                       distance={listing.distance}
                       listedTime={listing.listedTime}
