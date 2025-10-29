@@ -30,7 +30,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ENABLE_FAVORITES } from "@/lib/constants";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import Header from "@/components/Header";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { apiFetch } from "@/lib/api";
 import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
