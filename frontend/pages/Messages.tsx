@@ -42,6 +42,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Messages() {
   const { user, checkAuth } = useAuth();
+  const navigate = useNavigate();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
