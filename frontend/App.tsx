@@ -125,8 +125,22 @@ const AppContent = () => {
           <Route path="/" element={<Index />} />
           <Route path="/browse" element={<BrowseListings />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/upload" element={<UploadProduct />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/upload"
+            element={
+              <ProtectedRoute>
+                <UploadProduct />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/checkout" element={<Checkout />} />
