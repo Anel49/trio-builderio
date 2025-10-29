@@ -60,6 +60,7 @@ export function ProductCard({
   reviews,
   image,
   host,
+  hostUserId,
   type,
   categories,
   distance,
@@ -81,6 +82,7 @@ export function ProductCard({
   isFavorited = false,
   enabled = true,
 }: ProductCardProps) {
+  const navigate = useNavigate();
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const distanceText =
     typeof distance === "string" && distance.trim() ? distance.trim() : null;
