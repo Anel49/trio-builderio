@@ -2386,21 +2386,25 @@ export default function Profile() {
                   <Edit3 className="h-4 w-4 mr-2" />
                   {isEditingProfile ? "Save changes" : "Edit Profile"}
                 </Button>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => setIsFavoritesModalOpen(true)}
-                >
-                  <Heart className="h-4 w-4 mr-2" />
-                  Favorites
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700"
-                  onClick={() => setIsLogoutModalOpen(true)}
-                >
-                  Log out
-                </Button>
+                {!viewingOtherUser && (
+                  <>
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => setIsFavoritesModalOpen(true)}
+                    >
+                      <Heart className="h-4 w-4 mr-2" />
+                      Favorites
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700"
+                      onClick={() => setIsLogoutModalOpen(true)}
+                    >
+                      Log out
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
