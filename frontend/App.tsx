@@ -12,6 +12,7 @@ import { COMPANY_NAME } from "@/lib/constants";
 import SplashOnboarding from "@/components/ui/splash-onboarding";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { SessionLoginWall } from "@/components/SessionLoginWall";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const Index = lazy(() => import("./pages/Index"));
 const BrowseListings = lazy(() => import("./pages/BrowseListings"));
