@@ -1925,6 +1925,11 @@ export default function Profile() {
         onOpenChange={setIsFavoritesModalOpen}
         userId={authUser?.id?.toString() || ""}
       />
+      <RemoveFromFavoritesModal
+        isOpen={isRemoveFromFavoritesModalOpen}
+        onOpenChange={setIsRemoveFromFavoritesModalOpen}
+        itemName={favoritedListing}
+      />
       <LocationPickerModal
         open={isLocationModalOpen}
         onOpenChange={setIsLocationModalOpen}
