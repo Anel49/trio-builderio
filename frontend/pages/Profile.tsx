@@ -637,7 +637,7 @@ export default function Profile() {
     avgRating: 0,
     dateJoined: viewingOtherUser
       ? otherUserData?.createdAt
-        ? new Date(otherUserData.createdAt).toLocaleDateString()
+        ? format(new Date(otherUserData.createdAt), "MMMM yyyy")
         : "—"
       : dateJoinedDisplay || "—",
     avgResponseTime: "—",
