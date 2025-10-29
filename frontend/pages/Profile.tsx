@@ -1928,7 +1928,7 @@ export default function Profile() {
       <RemoveFromFavoritesModal
         isOpen={isRemoveFromFavoritesModalOpen}
         onOpenChange={setIsRemoveFromFavoritesModalOpen}
-        itemName={favoritedListing}
+        listingName={favoritedListing}
       />
       <LocationPickerModal
         open={isLocationModalOpen}
