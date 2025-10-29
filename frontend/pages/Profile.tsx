@@ -92,6 +92,7 @@ type ListedItem = {
   trips: number;
   image: string;
   host: string;
+  hostUserId?: number;
   type: string;
   distance: string | null;
   distanceMiles?: number | null;
