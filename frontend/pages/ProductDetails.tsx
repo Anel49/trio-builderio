@@ -331,6 +331,7 @@ export default function ProductDetails() {
     host?: string;
     hostUserId?: number;
     hostOpenDms?: boolean;
+    hostCreatedAt?: string | null;
     delivery?: boolean;
     freeDelivery?: boolean;
   }>(null);
