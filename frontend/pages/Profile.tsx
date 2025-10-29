@@ -835,7 +835,8 @@ export default function Profile() {
                 ? l.images[0]
                 : l.image,
             host: l.host || "You",
-            hostUserId: typeof l.hostUserId === "number" ? l.hostUserId : undefined,
+            hostUserId:
+              typeof l.hostUserId === "number" ? l.hostUserId : undefined,
             type:
               Array.isArray(l.categories) && l.categories.length
                 ? l.categories[0]
@@ -847,7 +848,8 @@ export default function Profile() {
             rentalPeriod: normalizeRentalPeriod((l as any).rentalPeriod),
             enabled: typeof l.enabled === "boolean" ? l.enabled : true,
             delivery: typeof l.delivery === "boolean" ? l.delivery : false,
-            freeDelivery: typeof l.freeDelivery === "boolean" ? l.freeDelivery : false,
+            freeDelivery:
+              typeof l.freeDelivery === "boolean" ? l.freeDelivery : false,
           };
         });
         if (cancelled) return;
