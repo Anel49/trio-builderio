@@ -422,6 +422,8 @@ export default function ProductDetails() {
               typeof l.hostUserId === "number" ? l.hostUserId : undefined,
             hostOpenDms:
               typeof l.hostOpenDms === "boolean" ? l.hostOpenDms : true,
+            hostCreatedAt:
+              typeof l.hostCreatedAt === "string" ? l.hostCreatedAt : null,
             delivery: typeof l.delivery === "boolean" ? l.delivery : false,
             freeDelivery:
               typeof l.freeDelivery === "boolean" ? l.freeDelivery : false,
