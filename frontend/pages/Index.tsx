@@ -106,6 +106,7 @@ export default function Index() {
       image:
         "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Sarah",
+      hostUserId: 2,
       type: "Landscaping",
       categories: ["Landscaping", "Garden", "Tools"],
       distance: null,
@@ -121,6 +122,7 @@ export default function Index() {
       image:
         "https://images.pexels.com/photos/5418926/pexels-photo-5418926.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Michael",
+      hostUserId: 3,
       type: "Clothing",
       categories: ["Clothing", "Fashion"],
       distance: null,
@@ -136,6 +138,7 @@ export default function Index() {
       image:
         "https://images.pexels.com/photos/6790973/pexels-photo-6790973.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Alex",
+      hostUserId: 4,
       type: "Tools",
       categories: ["Tools", "Hardware"],
       distance: null,
@@ -151,6 +154,7 @@ export default function Index() {
       image:
         "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=400&h=250&fit=crop&auto=format",
       host: "Emma",
+      hostUserId: 5,
       type: "Tech",
       categories: ["Tech", "Photography", "Electronics"],
       distance: null,
@@ -166,6 +170,7 @@ export default function Index() {
       image:
         "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=250&fit=crop&auto=format",
       host: "David",
+      hostUserId: 6,
       type: "Party",
       categories: ["Party", "Audio", "Entertainment"],
       distance: null,
@@ -181,6 +186,7 @@ export default function Index() {
       image:
         "https://images.unsplash.com/photo-1518655048521-f130df041f66?w=400&h=250&fit=crop&auto=format",
       host: "Liam",
+      hostUserId: 7,
       type: "Outdoors",
       categories: ["Outdoors", "Sports", "Cycling"],
       distance: null,
@@ -196,6 +202,7 @@ export default function Index() {
       image:
         "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=250&fit=crop&auto=format",
       host: "Noah",
+      hostUserId: 8,
       type: "Instruments",
       categories: ["Instruments", "Music", "Audio"],
       distance: null,
@@ -211,6 +218,7 @@ export default function Index() {
       image:
         "https://images.unsplash.com/photo-1581578017422-3eaf2b6f62b7?w=400&h=250&fit=crop&auto=format",
       host: "Olivia",
+      hostUserId: 9,
       type: "Tools",
       categories: ["Tools", "Cleaning"],
       distance: null,
@@ -226,6 +234,7 @@ export default function Index() {
       image:
         "https://images.unsplash.com/photo-1542060748-10c28b62716a?w=400&h=250&fit=crop&auto=format",
       host: "Mason",
+      hostUserId: 10,
       type: "Clothing",
       categories: ["Clothing", "Fashion", "Formal"],
       distance: null,
@@ -241,6 +250,7 @@ export default function Index() {
       image:
         "https://images.unsplash.com/photo-1504280390368-3971e38c98e8?w=400&h=250&fit=crop&auto=format",
       host: "Ava",
+      hostUserId: 11,
       type: "Outdoors",
       categories: ["Outdoors", "Camping", "Sports"],
       distance: null,
