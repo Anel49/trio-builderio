@@ -315,9 +315,10 @@ export default function Index() {
         });
 
         // Filter out user's own listings
-        const filtered = authenticated && authUser?.id
-          ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
-          : mapped;
+        const filtered =
+          authenticated && authUser?.id
+            ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
+            : mapped;
 
         // Sort by distance if user is authenticated and has location, otherwise by most recent
         const sorted = userCoords

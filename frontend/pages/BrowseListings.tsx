@@ -496,7 +496,8 @@ export default function BrowseListings() {
                 ? l.images[0]
                 : l.image,
             host: l.host,
-            hostUserId: typeof l.hostUserId === "number" ? l.hostUserId : undefined,
+            hostUserId:
+              typeof l.hostUserId === "number" ? l.hostUserId : undefined,
             type: categories[0] || "General",
             categories,
             location: "",
@@ -521,9 +522,10 @@ export default function BrowseListings() {
         });
 
         // Filter out user's own listings
-        const filtered = authenticated && authUser?.id
-          ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
-          : mapped;
+        const filtered =
+          authenticated && authUser?.id
+            ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
+            : mapped;
 
         if (!cancelled) {
           console.log(
