@@ -523,6 +523,7 @@ export async function getListingById(req: Request, res: Response) {
       images,
       image: r.image_url,
       host: r.host,
+      hostUserId: typeof r.user_id === "number" ? r.user_id : null,
       hostOpenDms: Boolean(r.host_open_dms),
       type: categories[0] || "General",
       categories: categories && categories.length > 0 ? categories : [],
