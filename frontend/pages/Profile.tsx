@@ -217,6 +217,29 @@ export default function Profile() {
     e.currentTarget.value = "";
   };
 
+  // Fetch favorites on mount
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      const userId = authUser?.id;
+      if (!userId) return;
+
+      try {
+        const response = await apiFetch(`favorites/${userId}`);
+        const data = await response.json().catch(() => ({}));
+        if (data.ok && Array.isArray(data.favorites)) {
+          const ids = new Set(
+            data.favorites.map((f: any) => f.id),
+          ) as Set<number>;
+          setFavoritedListingIds(ids);
+        }
+      } catch (error) {
+        console.error("Failed to fetch favorites:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, [authUser?.id]);
+
   const handleFavorite = async (listingName: string, listingId: number) => {
     const userId = authUser?.id;
     if (!userId) {
@@ -224,18 +247,42 @@ export default function Profile() {
       return;
     }
 
+    const isCurrentlyFavorited = favoritedListingIds.has(listingId);
+
     try {
-      const response = await apiFetch("/api/favorites", {
-        method: "POST",
-        body: JSON.stringify({ userId, listingId }),
-        headers: { "content-type": "application/json" },
-      });
-      if (response.ok) {
-        setFavoritedListing(listingName);
-        setIsFavoritesModalOpen(true);
+      if (isCurrentlyFavorited) {
+        // Remove from favorites
+        const response = await apiFetch(`favorites/${userId}/${listingId}`, {
+          method: "DELETE",
+        });
+        const data = await response.json().catch(() => ({}));
+        if (data.ok) {
+          setFavoritedListing(listingName);
+          setIsRemoveFromFavoritesModalOpen(true);
+          // Remove from local favorites set
+          setFavoritedListingIds((prev) => {
+            const newSet = new Set(prev);
+            newSet.delete(listingId);
+            return newSet;
+          });
+        }
+      } else {
+        // Add to favorites
+        const response = await apiFetch(`favorites`, {
+          method: "POST",
+          body: JSON.stringify({ userId, listingId }),
+          headers: { "content-type": "application/json" },
+        });
+        const data = await response.json().catch(() => ({}));
+        if (data.ok) {
+          setFavoritedListing(listingName);
+          setIsFavoritesModalOpen(true);
+          // Add to local favorites set
+          setFavoritedListingIds((prev) => new Set(prev).add(listingId));
+        }
       }
     } catch (error) {
-      console.error("Failed to add favorite:", error);
+      console.error("Failed to toggle favorite:", error);
     }
   };
 
