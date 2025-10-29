@@ -339,12 +339,23 @@ export default function ProductDetails() {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   // Host information from the product listing
+  const formattedJoinedDate = useMemo(() => {
+    if (product?.hostCreatedAt) {
+      try {
+        return format(new Date(product.hostCreatedAt), "MMMM yyyy");
+      } catch {
+        return "—";
+      }
+    }
+    return "—";
+  }, [product?.hostCreatedAt]);
+
   const host = {
     name: product?.host || "Product Host",
     profileImage: "",
     rating: 4.8,
     totalReviews: 42,
-    joinedDate: "2024",
+    joinedDate: formattedJoinedDate,
     responseTime: "Within an hour",
   };
 
