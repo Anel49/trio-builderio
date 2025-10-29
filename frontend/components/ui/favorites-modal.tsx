@@ -136,16 +136,9 @@ export function FavoritesModal({
                   </p>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="font-semibold">{favorite.price}</span>
-                    {favorite.rentalPeriod && (
-                      <span className="text-xs text-muted-foreground">
-                        per{" "}
-                        {favorite.rentalPeriod.toLowerCase() === "hourly"
-                          ? "hour"
-                          : favorite.rentalPeriod.toLowerCase() === "daily"
-                            ? "day"
-                            : favorite.rentalPeriod.toLowerCase()}
-                      </span>
-                    )}
+                    <span className="text-xs text-muted-foreground">
+                      per day
+                    </span>
                   </div>
                   {favorite.rating && (
                     <p className="text-xs text-muted-foreground">
