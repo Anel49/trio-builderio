@@ -1460,6 +1460,7 @@ export default function Profile() {
                         reviews={item.reviews}
                         image={item.image}
                         host={item.host}
+                        hostUserId={item.hostUserId}
                         type={item.type}
                         distance={item.distance}
                         hideHostInfo={true}
