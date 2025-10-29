@@ -577,7 +577,14 @@ export default function Messages() {
                 >
                   <div className="flex items-center space-x-3">
                     <div className="relative">
-                      <a href="/profile" aria-label="Open profile">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/profile/${chat.userId}`);
+                        }}
+                        className="cursor-pointer hover:opacity-80 transition-opacity"
+                        aria-label="Open profile"
+                      >
                         <Avatar className="h-12 w-12">
                           <AvatarImage src={chat.avatar} alt={chat.name} />
                           <AvatarFallback>
@@ -587,15 +594,21 @@ export default function Messages() {
                               .join("")}
                           </AvatarFallback>
                         </Avatar>
-                      </a>
+                      </button>
                       {chat.isOnline && (
                         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
                       )}
                     </div>
                     <div className="flex-1 w-0">
-                      <div className="font-semibold text-sm truncate">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/profile/${chat.userId}`);
+                        }}
+                        className="font-semibold text-sm truncate hover:underline text-left w-full"
+                      >
                         {chat.name}
-                      </div>
+                      </button>
                       <div className="text-xs text-muted-foreground truncate">
                         {chat.lastMessage}
                       </div>
