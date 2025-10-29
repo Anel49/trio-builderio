@@ -220,29 +220,6 @@ export default function Profile() {
     e.currentTarget.value = "";
   };
 
-  // Fetch favorites on mount
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      const userId = authUser?.id;
-      if (!userId) return;
-
-      try {
-        const response = await apiFetch(`favorites/${userId}`);
-        const data = await response.json().catch(() => ({}));
-        if (data.ok && Array.isArray(data.favorites)) {
-          const ids = new Set(
-            data.favorites.map((f: any) => f.id),
-          ) as Set<number>;
-          setFavoritedListingIds(ids);
-        }
-      } catch (error) {
-        console.error("Failed to fetch favorites:", error);
-      }
-    };
-
-    fetchFavorites();
-  }, [authUser?.id]);
-
   const handleFavorite = async (listingName: string, listingId: number) => {
     const userId = authUser?.id;
     if (!userId) {
