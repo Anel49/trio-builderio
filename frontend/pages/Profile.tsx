@@ -1579,6 +1579,8 @@ export default function Profile() {
                         onClick={() => {
                           window.location.href = `/product/${item.id}`;
                         }}
+                        delivery={item.delivery}
+                        freeDelivery={item.freeDelivery}
                       />
                     ))}
                   </div>
