@@ -834,6 +834,7 @@ export default function Profile() {
                 ? l.images[0]
                 : l.image,
             host: l.host || "You",
+            hostUserId: typeof l.hostUserId === "number" ? l.hostUserId : undefined,
             type:
               Array.isArray(l.categories) && l.categories.length
                 ? l.categories[0]
