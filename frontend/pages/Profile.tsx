@@ -1458,7 +1458,7 @@ export default function Profile() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {listedItems.map((item) => (
+                    {(viewingOtherUser ? listedItems.filter(item => item.enabled !== false) : listedItems).map((item) => (
                       <ProductCard
                         key={item.id}
                         id={item.id}
