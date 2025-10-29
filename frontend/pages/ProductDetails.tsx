@@ -329,6 +329,7 @@ export default function ProductDetails() {
     image?: string;
     images?: string[];
     host?: string;
+    hostUserId?: number;
     hostOpenDms?: boolean;
   }>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
