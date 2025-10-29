@@ -314,13 +314,18 @@ export default function Index() {
           };
         });
 
+        // Filter out user's own listings
+        const filtered = authenticated && authUser?.id
+          ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
+          : mapped;
+
         // Sort by distance if user is authenticated and has location, otherwise by most recent
         const sorted = userCoords
-          ? mapped.sort(
+          ? filtered.sort(
               (a, b) =>
                 (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity),
             )
-          : mapped.sort((a, b) => {
+          : filtered.sort((a, b) => {
               const dateA = new Date(a.created_at).getTime();
               const dateB = new Date(b.created_at).getTime();
               return dateB - dateA; // Most recent first
