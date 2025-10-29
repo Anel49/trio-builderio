@@ -1474,20 +1474,20 @@ export default function Profile() {
                         hideHostInfo={true}
                         priceUnitLabel={`per ${RENTAL_UNIT_LABELS[normalizeRentalPeriod(item.rentalPeriod)]}`}
                         onFavorite={handleFavorite}
-                        onEditClick={() => handleEdit(item)}
+                        onEditClick={!viewingOtherUser ? () => handleEdit(item) : undefined}
                         enabled={item.enabled ?? true}
-                        onDisableClick={() => {
+                        onDisableClick={!viewingOtherUser ? () => {
                           setItemToDisable(item);
                           setIsDisableModalOpen(true);
-                        }}
-                        onEnableClick={() => {
+                        } : undefined}
+                        onEnableClick={!viewingOtherUser ? () => {
                           setItemToEnable(item);
                           setIsEnableModalOpen(true);
-                        }}
-                        onDeleteClick={() => {
+                        } : undefined}
+                        onDeleteClick={!viewingOtherUser ? () => {
                           setItemToDelete(item);
                           setIsDeleteModalOpen(true);
-                        }}
+                        } : undefined}
                         onClick={() => {
                           window.location.href = `/product/${item.id}`;
                         }}
