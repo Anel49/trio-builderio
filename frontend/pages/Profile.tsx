@@ -119,6 +119,13 @@ export default function Profile() {
   const navigate = useNavigate();
   const { user: authUser, authenticated, logout, checkAuth } = useAuth();
   const [viewingOtherUser, setViewingOtherUser] = useState(Boolean(userId));
+
+  // Redirect to /profile if viewing own profile via userId param
+  useEffect(() => {
+    if (userId && authUser?.id && parseInt(userId) === authUser.id) {
+      navigate("/profile", { replace: true });
+    }
+  }, [userId, authUser?.id, navigate]);
   const [otherUserData, setOtherUserData] = useState<null | {
     id: number | null;
     name: string | null;
