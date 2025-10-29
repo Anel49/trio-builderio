@@ -203,6 +203,7 @@ export async function listListings(req: Request, res: Response) {
         host: r.host,
         hostUserId: typeof r.user_id === "number" ? r.user_id : undefined,
         hostOpenDms: Boolean(r.host_open_dms),
+        hostCreatedAt: r.host_created_at || null,
         type: primaryCategory,
         categories: cats.length > 0 ? cats : r.category ? [r.category] : [],
         distance: distanceLabel,
