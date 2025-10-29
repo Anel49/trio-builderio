@@ -276,7 +276,7 @@ export default function Profile() {
         // Add to favorites
         const response = await apiFetch(`favorites`, {
           method: "POST",
-          body: JSON.stringify({ userId, listingId }),
+          body: JSON.stringify({ userId: String(userId), listingId }),
           headers: { "content-type": "application/json" },
         });
         const data = await response.json().catch(() => ({}));
