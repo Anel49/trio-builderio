@@ -106,6 +106,7 @@ export default function Messages() {
   const chats = [
     {
       id: 1,
+      userId: 2,
       name: "Sarah",
       avatar:
         "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
@@ -115,6 +116,7 @@ export default function Messages() {
     },
     {
       id: 2,
+      userId: 3,
       name: "Michael",
       avatar:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&auto=format",
@@ -125,6 +127,7 @@ export default function Messages() {
     },
     {
       id: 3,
+      userId: 4,
       name: "Alex",
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&auto=format",
@@ -134,6 +137,7 @@ export default function Messages() {
     },
     {
       id: 4,
+      userId: 5,
       name: "Emma",
       avatar:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
@@ -143,6 +147,7 @@ export default function Messages() {
     },
     {
       id: 5,
+      userId: 6,
       name: "David",
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
@@ -152,6 +157,7 @@ export default function Messages() {
     },
     {
       id: 6,
+      userId: 7,
       name: "Lisa",
       avatar:
         "https://images.unsplash.com/photo-1494790108755-2616b612-1.jpg?w=64&h=64&fit=crop&auto=format",
