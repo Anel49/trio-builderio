@@ -575,7 +575,6 @@ export function EmailSignupModal({
                 onSignupSuccess();
               }
               await checkAuth();
-              navigate("/profile");
             }}
           >
             Continue to Dashboard
