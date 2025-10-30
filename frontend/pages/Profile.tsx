@@ -121,10 +121,15 @@ export default function Profile() {
   const { user: authUser, authenticated, logout, checkAuth } = useAuth();
 
   // Check if this is the current user's own profile by username (case-insensitive)
-  const isOwnUsername = username && authUser?.username && username.toLowerCase() === authUser.username.toLowerCase();
+  const isOwnUsername =
+    username &&
+    authUser?.username &&
+    username.toLowerCase() === authUser.username.toLowerCase();
 
   // Only viewing other user if username param exists AND doesn't match current user
-  const [viewingOtherUser, setViewingOtherUser] = useState(Boolean(username && !isOwnUsername));
+  const [viewingOtherUser, setViewingOtherUser] = useState(
+    Boolean(username && !isOwnUsername),
+  );
 
   // Redirect to /profile and update state if viewing own profile via username param
   useEffect(() => {
@@ -149,7 +154,9 @@ export default function Profile() {
     topReferrer: boolean;
     ambassador: boolean;
   }>(null);
-  const [isLoadingOtherUser, setIsLoadingOtherUser] = useState(Boolean(username));
+  const [isLoadingOtherUser, setIsLoadingOtherUser] = useState(
+    Boolean(username),
+  );
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const initialLocation = getCurrentUserLocation();
@@ -794,7 +801,9 @@ export default function Profile() {
     let cancelled = false;
     (async () => {
       try {
-        const targetUserId = viewingOtherUser ? otherUserData?.id : authUser?.id;
+        const targetUserId = viewingOtherUser
+          ? otherUserData?.id
+          : authUser?.id;
 
         if (!targetUserId) {
           // Don't fetch if no user ID available

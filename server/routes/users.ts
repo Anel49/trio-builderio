@@ -72,7 +72,9 @@ export async function getUserById(req: Request, res: Response) {
 
 export async function getUserByUsername(req: Request, res: Response) {
   try {
-    const username = String((req.params as any)?.username || "").trim().toLowerCase();
+    const username = String((req.params as any)?.username || "")
+      .trim()
+      .toLowerCase();
     if (!username) {
       return res
         .status(400)
@@ -222,7 +224,8 @@ export async function emailSignup(req: Request, res: Response) {
     const firstNameStr =
       typeof first_name === "string" ? first_name.trim() : "";
     const lastNameStr = typeof last_name === "string" ? last_name.trim() : "";
-    const usernameStr = typeof username === "string" ? username.trim().toLowerCase() : "";
+    const usernameStr =
+      typeof username === "string" ? username.trim().toLowerCase() : "";
     const emailStr = typeof email === "string" ? email.trim() : "";
     const passwordStr = typeof password === "string" ? password : "";
     const confirmPasswordStr =
@@ -236,9 +239,7 @@ export async function emailSignup(req: Request, res: Response) {
     }
 
     if (!usernameStr) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "username is required" });
+      return res.status(400).json({ ok: false, error: "username is required" });
     }
 
     if (!emailStr || !emailStr.includes("@")) {
@@ -288,7 +289,10 @@ export async function emailSignup(req: Request, res: Response) {
       [usernameStr],
     );
 
-    if (existingUsernameResult.rowCount && existingUsernameResult.rowCount > 0) {
+    if (
+      existingUsernameResult.rowCount &&
+      existingUsernameResult.rowCount > 0
+    ) {
       return res
         .status(400)
         .json({ ok: false, error: "username already taken" });
