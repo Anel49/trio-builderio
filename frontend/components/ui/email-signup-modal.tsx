@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Eye, EyeOff, Upload, X, CheckCircle } from "lucide-react";
 import { apiFetch } from "@/lib/api";
+import { useNavigate } from "react-router-dom";
 
 interface EmailSignupModalProps {
   isOpen: boolean;
