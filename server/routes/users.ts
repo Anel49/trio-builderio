@@ -107,7 +107,7 @@ export async function getUserByEmail(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "email is required" });
     }
     const result = await pool.query(
-      `select id, name, email, avatar_url, created_at,
+      `select id, name, email, username, avatar_url, created_at,
             latitude, longitude, location_city,
             coalesce(founding_supporter,false) as founding_supporter,
             coalesce(top_referrer,false) as top_referrer,
