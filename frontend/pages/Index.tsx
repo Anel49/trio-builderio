@@ -633,6 +633,7 @@ export default function Index() {
                     image={listing.image}
                     host={listing.host}
                     hostUserId={listing.hostUserId}
+                    hostUsername={listing.hostUsername}
                     categories={
                       listing.categories || (listing.type ? [listing.type] : [])
                     }
