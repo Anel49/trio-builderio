@@ -72,7 +72,7 @@ export async function getUserById(req: Request, res: Response) {
 
 export async function getUserByUsername(req: Request, res: Response) {
   try {
-    const username = String((req.params as any)?.username || "").trim();
+    const username = String((req.params as any)?.username || "").trim().toLowerCase();
     if (!username) {
       return res
         .status(400)
@@ -85,7 +85,7 @@ export async function getUserByUsername(req: Request, res: Response) {
             coalesce(top_referrer,false) as top_referrer,
             coalesce(ambassador,false) as ambassador,
             coalesce(open_dms,true) as open_dms
-       from users where username = $1 limit 1`,
+       from users where lower(username) = $1 limit 1`,
       [username],
     );
 
