@@ -265,7 +265,6 @@ export function EmailSignupModal({
                   }}
                   disabled={isLoading}
                   required
-                  placeholder="Choose your username"
                   className={fieldErrors.username ? "border-red-500" : ""}
                 />
                 {fieldErrors.username && (
