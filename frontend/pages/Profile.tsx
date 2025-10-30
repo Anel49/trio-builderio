@@ -93,6 +93,7 @@ type ListedItem = {
   image: string;
   host: string;
   hostUserId?: number;
+  hostUsername?: string;
   type: string;
   distance: string | null;
   distanceMiles?: number | null;
