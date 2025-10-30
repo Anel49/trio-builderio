@@ -115,17 +115,17 @@ import {
 const REVIEWS_PER_PAGE = 8;
 
 export default function Profile() {
-  const { userId } = useParams<{ userId?: string }>();
+  const { username } = useParams<{ username?: string }>();
   const navigate = useNavigate();
   const { user: authUser, authenticated, logout, checkAuth } = useAuth();
-  const [viewingOtherUser, setViewingOtherUser] = useState(Boolean(userId));
+  const [viewingOtherUser, setViewingOtherUser] = useState(Boolean(username));
 
-  // Redirect to /profile if viewing own profile via userId param
+  // Redirect to /profile if viewing own profile via username param
   useEffect(() => {
-    if (userId && authUser?.id && parseInt(userId) === authUser.id) {
+    if (username && authUser?.username && username === authUser.username) {
       navigate("/profile", { replace: true });
     }
-  }, [userId, authUser?.id, navigate]);
+  }, [username, authUser?.username, navigate]);
   const [otherUserData, setOtherUserData] = useState<null | {
     id: number | null;
     name: string | null;
