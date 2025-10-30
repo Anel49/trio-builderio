@@ -332,7 +332,9 @@ export function ProductCard({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                if (hostUserId) {
+                if (hostUsername) {
+                  navigate(`/profile/${hostUsername}`);
+                } else if (hostUserId) {
                   navigate(`/profile/${hostUserId}`);
                 }
               }}
