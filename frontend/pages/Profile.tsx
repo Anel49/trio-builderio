@@ -140,7 +140,7 @@ export default function Profile() {
     topReferrer: boolean;
     ambassador: boolean;
   }>(null);
-  const [isLoadingOtherUser, setIsLoadingOtherUser] = useState(Boolean(userId));
+  const [isLoadingOtherUser, setIsLoadingOtherUser] = useState(Boolean(username));
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const initialLocation = getCurrentUserLocation();
