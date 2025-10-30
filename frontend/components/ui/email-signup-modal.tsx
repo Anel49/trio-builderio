@@ -363,6 +363,7 @@ export function EmailSignupModal({
                 <div className="relative">
                   <Input
                     type={showConfirmPassword ? "text" : "password"}
+                    autoComplete="new-password"
                     value={confirmPassword}
                     onChange={(e) => {
                       setConfirmPassword(e.target.value);
