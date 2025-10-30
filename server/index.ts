@@ -300,6 +300,7 @@ export function createServer() {
         id: row.id,
         name: row.name || null,
         email: row.email || null,
+        username: row.username || null,
         avatarUrl: row.avatar_url || null,
         zipCode: null,
         locationLatitude:
