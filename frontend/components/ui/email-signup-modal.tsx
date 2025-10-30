@@ -552,7 +552,7 @@ export function EmailSignupModal({
       </Dialog>
 
       {/* Success Modal */}
-      <Dialog open={isSuccessModalOpen} onOpenChange={setIsSuccessModalOpen}>
+      <Dialog open={isSuccessModalOpen} onOpenChange={handleSuccessModalClose}>
         <DialogContent className="max-w-md text-center py-12 px-8">
           <div className="flex justify-center mb-6">
             <CheckCircle className="h-16 w-16 text-green-600" />
