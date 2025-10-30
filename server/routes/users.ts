@@ -282,9 +282,9 @@ export async function emailSignup(req: Request, res: Response) {
         .json({ ok: false, error: "email already registered" });
     }
 
-    // Check if username is already taken
+    // Check if username is already taken (case-insensitive)
     const existingUsernameResult = await pool.query(
-      `select id from users where username = $1`,
+      `select id from users where lower(username) = $1`,
       [usernameStr],
     );
 
