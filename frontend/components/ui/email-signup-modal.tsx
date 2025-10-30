@@ -43,9 +43,20 @@ export function EmailSignupModal({
   const [successUser, setSuccessUser] = useState<any>(null);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const usernameRegex = /^[a-zA-Z0-9_-]*$/;
 
   const validateEmail = (emailValue: string): boolean => {
     return emailRegex.test(emailValue);
+  };
+
+  const validateUsername = (usernameValue: string): string | null => {
+    if (usernameValue.length > 30) {
+      return "Username must be 30 characters or less";
+    }
+    if (!usernameRegex.test(usernameValue)) {
+      return "Username can only contain letters, numbers, underscores, and hyphens";
+    }
+    return null;
   };
 
   const mapErrorToField = (errorMsg: string): Record<string, string> => {
