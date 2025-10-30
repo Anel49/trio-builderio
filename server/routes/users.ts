@@ -141,6 +141,8 @@ export async function upsertUser(req: Request, res: Response) {
       top_referrer,
       ambassador,
       username,
+      first_name,
+      last_name,
     } = (req.body || {}) as any;
 
     const emailStr = typeof email === "string" ? email.trim() : "";
