@@ -367,6 +367,7 @@ export function createServer() {
   // Users
   app.get("/api/users", getUserByEmail); // query: email
   app.get("/api/users/:id", getUserById); // param: id
+  app.get("/api/users/username/:username", getUserByUsername); // param: username
   app.post("/api/users", upsertUser);
   app.post("/api/users/signup", emailSignup);
   app.post("/api/users/login", emailLogin);
