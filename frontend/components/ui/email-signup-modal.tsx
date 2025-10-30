@@ -26,6 +26,7 @@ export function EmailSignupModal({
   onSignupSuccess,
   onSwitchToLogin,
 }: EmailSignupModalProps) {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
