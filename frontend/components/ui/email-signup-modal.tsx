@@ -224,6 +224,40 @@ export function EmailSignupModal({
                 )}
               </div>
 
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Email Address <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="text"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => {
+                    const emailValue = e.target.value;
+                    setEmail(emailValue);
+                    if (emailValue.trim() && !validateEmail(emailValue)) {
+                      setFieldErrors((prev) => ({
+                        ...prev,
+                        email: "Please enter a valid email address",
+                      }));
+                    } else {
+                      setFieldErrors((prev) => {
+                        const updated = { ...prev };
+                        delete updated.email;
+                        return updated;
+                      });
+                    }
+                  }}
+                  disabled={isLoading}
+                  required
+                  className={fieldErrors.email ? "border-red-500" : ""}
+                />
+                {fieldErrors.email && (
+                  <p className="text-xs text-red-500">{fieldErrors.email}</p>
+                )}
+              </div>
+
               {/* Last Name */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Last Name</label>
@@ -279,40 +313,6 @@ export function EmailSignupModal({
                 />
                 {fieldErrors.username && (
                   <p className="text-xs text-red-500">{fieldErrors.username}</p>
-                )}
-              </div>
-
-              {/* Email */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  Email Address <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  type="text"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => {
-                    const emailValue = e.target.value;
-                    setEmail(emailValue);
-                    if (emailValue.trim() && !validateEmail(emailValue)) {
-                      setFieldErrors((prev) => ({
-                        ...prev,
-                        email: "Please enter a valid email address",
-                      }));
-                    } else {
-                      setFieldErrors((prev) => {
-                        const updated = { ...prev };
-                        delete updated.email;
-                        return updated;
-                      });
-                    }
-                  }}
-                  disabled={isLoading}
-                  required
-                  className={fieldErrors.email ? "border-red-500" : ""}
-                />
-                {fieldErrors.email && (
-                  <p className="text-xs text-red-500">{fieldErrors.email}</p>
                 )}
               </div>
 
