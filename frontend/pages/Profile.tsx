@@ -120,7 +120,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const { user: authUser, authenticated, logout, checkAuth } = useAuth();
 
-  // Check if this is the current user's own profile by username
+  // Check if this is the current user's own profile by username (case-insensitive)
   const isOwnUsername = username && authUser?.username && username.toLowerCase() === authUser.username.toLowerCase();
 
   // Only viewing other user if username param exists AND doesn't match current user
