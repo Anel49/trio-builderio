@@ -30,6 +30,7 @@ interface ProductCardProps {
   image: string;
   host: string;
   hostUserId?: number;
+  hostUsername?: string;
   type?: string;
   categories?: string[];
   distance: string | null;
