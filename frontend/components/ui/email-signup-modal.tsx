@@ -246,21 +246,7 @@ export function EmailSignupModal({
                   <label className="text-sm font-medium">
                     Username <span className="text-red-500">*</span>
                   </label>
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setShowUsernameTooltip(!showUsernameTooltip)}
-                      onBlur={() => setTimeout(() => setShowUsernameTooltip(false), 200)}
-                      className="inline-flex focus:outline-none"
-                    >
-                      <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help hover:text-foreground" />
-                    </button>
-                    {showUsernameTooltip && (
-                      <div className="absolute top-full left-0 mt-2 p-2 bg-popover text-popover-foreground rounded border text-sm whitespace-nowrap z-50 shadow-md">
-                        Your username will be used in your profile's URL.
-                      </div>
-                    )}
-                  </div>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <Input
                   type="text"
@@ -280,6 +266,9 @@ export function EmailSignupModal({
                   placeholder="Choose your username"
                   className={fieldErrors.username ? "border-red-500" : ""}
                 />
+                <p className="text-xs text-muted-foreground">
+                  Your username will be used in your profile's URL.
+                </p>
                 {fieldErrors.username && (
                   <p className="text-xs text-red-500">{fieldErrors.username}</p>
                 )}
