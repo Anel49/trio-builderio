@@ -35,7 +35,6 @@ export function EmailSignupModal({
   const [isOver18, setIsOver18] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showUsernameTooltip, setShowUsernameTooltip] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
