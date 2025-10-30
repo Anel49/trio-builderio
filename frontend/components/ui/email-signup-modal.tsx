@@ -42,6 +42,12 @@ export function EmailSignupModal({
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [successUser, setSuccessUser] = useState<any>(null);
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const validateEmail = (emailValue: string): boolean => {
+    return emailRegex.test(emailValue);
+  };
+
   const mapErrorToField = (errorMsg: string): Record<string, string> => {
     const errors: Record<string, string> = {};
 
