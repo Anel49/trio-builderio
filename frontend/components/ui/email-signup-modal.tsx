@@ -242,9 +242,14 @@ export function EmailSignupModal({
 
               {/* Username */}
               <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  Username <span className="text-red-500">*</span>
-                </label>
+                <div>
+                  <label className="text-sm font-medium">
+                    Username <span className="text-red-500">*</span>
+                  </label>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Your username will be used in your profile's URL.
+                  </p>
+                </div>
                 <Input
                   type="text"
                   value={username}
@@ -263,9 +268,6 @@ export function EmailSignupModal({
                   placeholder="Choose your username"
                   className={fieldErrors.username ? "border-red-500" : ""}
                 />
-                <p className="text-xs text-muted-foreground">
-                  Your username will be used in your profile's URL.
-                </p>
                 {fieldErrors.username && (
                   <p className="text-xs text-red-500">{fieldErrors.username}</p>
                 )}
