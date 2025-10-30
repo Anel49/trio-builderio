@@ -236,6 +236,9 @@ export default function Profile() {
   const [profileImageUrl, setProfileImageUrl] = useState<string>(
     authUser?.avatarUrl || "",
   );
+  const [originalImageUrl, setOriginalImageUrl] = useState<string>(
+    authUser?.avatarUrl || "",
+  );
   const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
   const openAvatarFilePicker = () => avatarFileInputRef.current?.click();
   const handleAvatarUpload: React.ChangeEventHandler<HTMLInputElement> = (
