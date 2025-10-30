@@ -582,7 +582,11 @@ export default function Messages() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/profile/${chat.userId}`);
+                          if (chat.username) {
+                            navigate(`/profile/${chat.username}`);
+                          } else if (chat.userId) {
+                            navigate(`/profile/${chat.userId}`);
+                          }
                         }}
                         className="cursor-pointer hover:opacity-80 transition-opacity"
                         aria-label="Open profile"
@@ -605,7 +609,11 @@ export default function Messages() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/profile/${chat.userId}`);
+                          if (chat.username) {
+                            navigate(`/profile/${chat.username}`);
+                          } else if (chat.userId) {
+                            navigate(`/profile/${chat.userId}`);
+                          }
                         }}
                         className="font-semibold text-sm truncate hover:underline text-left w-full"
                       >
