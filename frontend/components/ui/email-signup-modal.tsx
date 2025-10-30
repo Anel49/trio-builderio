@@ -285,11 +285,17 @@ export function EmailSignupModal({
                   Email Address <span className="text-red-500">*</span>
                 </label>
                 <Input
-                  type="email"
+                  type="text"
                   value={email}
                   onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (fieldErrors.email) {
+                    const emailValue = e.target.value;
+                    setEmail(emailValue);
+                    if (emailValue.trim() && !validateEmail(emailValue)) {
+                      setFieldErrors((prev) => ({
+                        ...prev,
+                        email: "Please enter a valid email address",
+                      }));
+                    } else {
                       setFieldErrors((prev) => {
                         const updated = { ...prev };
                         delete updated.email;
