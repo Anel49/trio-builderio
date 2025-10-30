@@ -198,6 +198,17 @@ export function EmailSignupModal({
     onOpenChange(false);
   };
 
+  const handleSuccessModalClose = async (open: boolean) => {
+    if (!open) {
+      setIsSuccessModalOpen(false);
+      handleClose();
+      if (onSignupSuccess) {
+        onSignupSuccess();
+      }
+      await checkAuth();
+    }
+  };
+
   return (
     <>
       <Dialog open={isOpen && !isSuccessModalOpen} onOpenChange={handleClose}>
