@@ -212,6 +212,7 @@ export async function emailSignup(req: Request, res: Response) {
     const {
       first_name,
       last_name,
+      username,
       email,
       password,
       confirm_password,
@@ -221,6 +222,7 @@ export async function emailSignup(req: Request, res: Response) {
     const firstNameStr =
       typeof first_name === "string" ? first_name.trim() : "";
     const lastNameStr = typeof last_name === "string" ? last_name.trim() : "";
+    const usernameStr = typeof username === "string" ? username.trim() : "";
     const emailStr = typeof email === "string" ? email.trim() : "";
     const passwordStr = typeof password === "string" ? password : "";
     const confirmPasswordStr =
@@ -231,6 +233,12 @@ export async function emailSignup(req: Request, res: Response) {
       return res
         .status(400)
         .json({ ok: false, error: "first_name is required" });
+    }
+
+    if (!usernameStr) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "username is required" });
     }
 
     if (!emailStr || !emailStr.includes("@")) {
@@ -274,22 +282,16 @@ export async function emailSignup(req: Request, res: Response) {
         .json({ ok: false, error: "email already registered" });
     }
 
-    const baseUsername = `${firstNameStr.toLowerCase()}${lastNameStr.toLowerCase()}`.replace(/\s+/g, "");
-    let username = baseUsername;
-    let usernameExists = true;
-    let counter = 1;
+    // Check if username is already taken
+    const existingUsernameResult = await pool.query(
+      `select id from users where username = $1`,
+      [usernameStr],
+    );
 
-    while (usernameExists) {
-      const usernameCheck = await pool.query(
-        `select id from users where username = $1`,
-        [username],
-      );
-      if (usernameCheck.rowCount === 0) {
-        usernameExists = false;
-      } else {
-        username = `${baseUsername}${counter}`;
-        counter++;
-      }
+    if (existingUsernameResult.rowCount && existingUsernameResult.rowCount > 0) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "username already taken" });
     }
 
     const userResult = await pool.query(
@@ -302,7 +304,7 @@ export async function emailSignup(req: Request, res: Response) {
         photoIdStr,
         firstNameStr,
         lastNameStr,
-        username,
+        usernameStr,
       ],
     );
 
