@@ -399,10 +399,26 @@ export function EmailSignupModal({
                 <Input
                   type="text"
                   autoComplete="off"
+                  maxLength={30}
                   value={username}
                   onChange={(e) => {
-                    setUsername(e.target.value);
-                    if (fieldErrors.username) {
+                    const usernameValue = e.target.value;
+                    setUsername(usernameValue);
+                    if (usernameValue.trim()) {
+                      const error = validateUsername(usernameValue);
+                      if (error) {
+                        setFieldErrors((prev) => ({
+                          ...prev,
+                          username: error,
+                        }));
+                      } else {
+                        setFieldErrors((prev) => {
+                          const updated = { ...prev };
+                          delete updated.username;
+                          return updated;
+                        });
+                      }
+                    } else {
                       setFieldErrors((prev) => {
                         const updated = { ...prev };
                         delete updated.username;
