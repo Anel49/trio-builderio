@@ -1080,6 +1080,7 @@ export default function BrowseListings() {
                       image={listing.image}
                       host={listing.host}
                       hostUserId={listing.hostUserId}
+                      hostUsername={listing.hostUsername}
                       categories={listing.categories}
                       distance={listing.distance}
                       listedTime={listing.listedTime}
