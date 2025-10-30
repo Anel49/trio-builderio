@@ -168,6 +168,7 @@ export function EmailSignupModal({
   const handleClose = () => {
     setFirstName("");
     setLastName("");
+    setUsername("");
     setEmail("");
     setPassword("");
     setConfirmPassword("");
