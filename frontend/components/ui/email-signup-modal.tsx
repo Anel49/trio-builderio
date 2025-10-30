@@ -9,7 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Eye, EyeOff, Upload, X, CheckCircle } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Eye, EyeOff, Upload, X, CheckCircle, HelpCircle } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 
 interface EmailSignupModalProps {
