@@ -4,6 +4,7 @@ export interface User {
   id: number;
   name: string | null;
   email: string | null;
+  username: string | null;
   avatarUrl: string | null;
   zipCode: string | null;
   locationLatitude: number | null;
