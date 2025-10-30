@@ -559,8 +559,7 @@ export function EmailSignupModal({
               if (onSignupSuccess) {
                 onSignupSuccess();
               }
-              // Reload the current page to refresh auth state and show authenticated content
-              window.location.reload();
+              navigate("/profile");
             }}
           >
             Continue to Dashboard
