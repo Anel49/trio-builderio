@@ -17,6 +17,7 @@ import {
 import {
   getUserByEmail,
   getUserById,
+  getUserByUsername,
   upsertUser,
   emailSignup,
   emailLogin,
