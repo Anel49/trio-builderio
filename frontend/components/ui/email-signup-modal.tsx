@@ -287,6 +287,7 @@ export function EmailSignupModal({
                 </label>
                 <Input
                   type="text"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => {
                     const emailValue = e.target.value;
