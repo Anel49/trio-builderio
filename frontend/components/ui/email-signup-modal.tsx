@@ -387,14 +387,14 @@ export function EmailSignupModal({
                   )}
               </div>
 
-              {/* User ID */}
+              {/* Profile Name */}
               <div className="space-y-2">
                 <div>
                   <label className="text-sm font-medium">
-                    User ID <span className="text-red-500">*</span>
+                    Profile Name <span className="text-red-500">*</span>
                   </label>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Your User ID will be used in your profile's URL.
+                    Your Profile Name will be used in your profile's URL.
                   </p>
                 </div>
                 <Input
