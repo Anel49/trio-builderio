@@ -1548,6 +1548,7 @@ export default function Profile() {
                         image={item.image}
                         host={item.host}
                         hostUserId={item.hostUserId}
+                        hostUsername={item.hostUsername}
                         type={item.type}
                         distance={item.distance}
                         hideHostInfo={true}
