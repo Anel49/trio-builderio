@@ -481,6 +481,7 @@ export default function Profile() {
     }
     if (extractedAvatar) {
       setProfileImageUrl(extractedAvatar);
+      setOriginalImageUrl(extractedAvatar);
     }
     setLocationCity(resolvedCityRaw);
     setLocationLatitude(latValue);
