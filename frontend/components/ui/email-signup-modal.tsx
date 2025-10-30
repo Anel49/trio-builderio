@@ -258,7 +258,7 @@ export function EmailSignupModal({
                       <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help hover:text-foreground" />
                     </button>
                     {showUsernameTooltip && (
-                      <div className="absolute bottom-full right-full mr-2 mb-2 p-2 bg-popover text-popover-foreground rounded border text-sm whitespace-nowrap z-50 shadow-md">
+                      <div className="absolute top-full left-0 mt-2 p-2 bg-popover text-popover-foreground rounded border text-sm whitespace-nowrap z-50 shadow-md">
                         Your username will be used in your profile's URL.
                       </div>
                     )}
