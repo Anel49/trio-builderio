@@ -324,6 +324,7 @@ export function EmailSignupModal({
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
+                    tabIndex={-1}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     {showPassword ? (
@@ -365,6 +366,7 @@ export function EmailSignupModal({
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    tabIndex={-1}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     {showConfirmPassword ? (
