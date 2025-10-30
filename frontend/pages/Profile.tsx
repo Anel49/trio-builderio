@@ -751,19 +751,13 @@ export default function Profile() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      if (!viewingOtherUser || !userId) {
+      if (!viewingOtherUser || !username) {
         setIsLoadingOtherUser(false);
         return;
       }
 
       try {
-        const userIdNum = Number.parseInt(userId, 10);
-        if (!Number.isFinite(userIdNum)) {
-          setIsLoadingOtherUser(false);
-          return;
-        }
-
-        const response = await fetch(`/api/users/${userIdNum}`);
+        const response = await fetch(`/api/users/username/${username}`);
         if (!response.ok || cancelled) {
           setIsLoadingOtherUser(false);
           return;
@@ -785,7 +779,7 @@ export default function Profile() {
     return () => {
       cancelled = true;
     };
-  }, [userId, viewingOtherUser]);
+  }, [username, viewingOtherUser]);
 
   useEffect(() => {
     let cancelled = false;
