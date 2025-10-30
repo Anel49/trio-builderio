@@ -203,6 +203,7 @@ export async function listListings(req: Request, res: Response) {
         image: r.image_url,
         host: r.host,
         hostUserId: typeof r.user_id === "number" ? r.user_id : undefined,
+        hostUsername: typeof r.host_username === "string" ? r.host_username : undefined,
         hostOpenDms: Boolean(r.host_open_dms),
         hostCreatedAt: r.host_created_at || null,
         type: primaryCategory,
