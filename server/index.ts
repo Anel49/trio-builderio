@@ -169,7 +169,7 @@ export function createServer() {
 
       const userResult = await pool.query(
         `update users set open_dms = $1 where id = $2
-         returning id, name, email, avatar_url, latitude, longitude, location_city, created_at,
+         returning id, name, email, username, avatar_url, latitude, longitude, location_city, created_at,
                    coalesce(founding_supporter,false) as founding_supporter,
                    coalesce(top_referrer,false) as top_referrer,
                    coalesce(ambassador,false) as ambassador,
@@ -186,6 +186,7 @@ export function createServer() {
         id: row.id,
         name: row.name || null,
         email: row.email || null,
+        username: row.username || null,
         avatarUrl: row.avatar_url || null,
         zipCode: null,
         locationLatitude:
@@ -227,7 +228,7 @@ export function createServer() {
 
       const userResult = await pool.query(
         `update users set open_dms = $1 where id = $2
-         returning id, name, email, avatar_url, latitude, longitude, location_city, created_at,
+         returning id, name, email, username, avatar_url, latitude, longitude, location_city, created_at,
                    coalesce(founding_supporter,false) as founding_supporter,
                    coalesce(top_referrer,false) as top_referrer,
                    coalesce(ambassador,false) as ambassador,
@@ -244,6 +245,7 @@ export function createServer() {
         id: row.id,
         name: row.name || null,
         email: row.email || null,
+        username: row.username || null,
         avatarUrl: row.avatar_url || null,
         zipCode: null,
         locationLatitude:
