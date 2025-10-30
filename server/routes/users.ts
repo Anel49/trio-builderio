@@ -274,16 +274,35 @@ export async function emailSignup(req: Request, res: Response) {
         .json({ ok: false, error: "email already registered" });
     }
 
+    const baseUsername = `${firstNameStr.toLowerCase()}${lastNameStr.toLowerCase()}`.replace(/\s+/g, "");
+    let username = baseUsername;
+    let usernameExists = true;
+    let counter = 1;
+
+    while (usernameExists) {
+      const usernameCheck = await pool.query(
+        `select id from users where username = $1`,
+        [username],
+      );
+      if (usernameCheck.rowCount === 0) {
+        usernameExists = false;
+      } else {
+        username = `${baseUsername}${counter}`;
+        counter++;
+      }
+    }
+
     const userResult = await pool.query(
-      `insert into users (name, email, avatar_url, first_name, last_name)
-       values ($1, $2, $3, $4, $5)
-       returning id, name, email, avatar_url, created_at`,
+      `insert into users (name, email, avatar_url, first_name, last_name, username)
+       values ($1, $2, $3, $4, $5, $6)
+       returning id, name, email, username, avatar_url, created_at`,
       [
         `${firstNameStr} ${lastNameStr}`,
         emailStr,
         photoIdStr,
         firstNameStr,
         lastNameStr,
+        username,
       ],
     );
 
