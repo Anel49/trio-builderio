@@ -246,6 +246,46 @@ export function EmailSignupModal({
                 )}
               </div>
 
+              {/* Username */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium">
+                    Username <span className="text-red-500">*</span>
+                  </label>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Your username will be used in your profile's URL.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <Input
+                  type="text"
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    if (fieldErrors.username) {
+                      setFieldErrors((prev) => {
+                        const updated = { ...prev };
+                        delete updated.username;
+                        return updated;
+                      });
+                    }
+                  }}
+                  disabled={isLoading}
+                  required
+                  placeholder="Choose your username"
+                  className={fieldErrors.username ? "border-red-500" : ""}
+                />
+                {fieldErrors.username && (
+                  <p className="text-xs text-red-500">{fieldErrors.username}</p>
+                )}
+              </div>
+
               {/* Email */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">
