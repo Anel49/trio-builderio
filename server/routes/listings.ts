@@ -444,12 +444,13 @@ export async function getListingById(req: Request, res: Response) {
                 round(coalesce(avg(lr.rating)::numeric, 0), 1) as avg_review_rating,
                 count(lr.id)::int as review_count,
                 coalesce(u.open_dms, true) as host_open_dms,
-                u.created_at as host_created_at
+                u.created_at as host_created_at,
+                u.username as host_username
          from listings l
          left join listing_reviews lr on l.id = lr.listing_id
          left join users u on l.user_id = u.id
          where l.id = $1
-         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude, l.delivery, l.free_delivery, l.enabled, u.open_dms, u.created_at, l.user_id`,
+         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude, l.delivery, l.free_delivery, l.enabled, u.open_dms, u.created_at, u.username, l.user_id`,
         [id],
       );
     } catch (e) {
