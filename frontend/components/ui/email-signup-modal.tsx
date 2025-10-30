@@ -108,6 +108,7 @@ export function EmailSignupModal({
   const isFormValid =
     firstName.trim() &&
     username.trim() &&
+    !validateUsername(username) &&
     email.trim() &&
     validateEmail(email) &&
     password &&
