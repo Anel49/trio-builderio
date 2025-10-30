@@ -170,7 +170,6 @@ export function EmailSignupModal({
     setIsOver18(false);
     setShowPassword(false);
     setShowConfirmPassword(false);
-    setShowUsernameTooltip(false);
     setError("");
     setSuccessMessage("");
     onOpenChange(false);
