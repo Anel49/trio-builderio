@@ -254,16 +254,21 @@ export function EmailSignupModal({
                   <label className="text-sm font-medium">
                     Username <span className="text-red-500">*</span>
                   </label>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Your username will be used in your profile's URL.</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setShowUsernameTooltip(!showUsernameTooltip)}
+                      onBlur={() => setTimeout(() => setShowUsernameTooltip(false), 200)}
+                      className="inline-flex focus:outline-none"
+                    >
+                      <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help hover:text-foreground" />
+                    </button>
+                    {showUsernameTooltip && (
+                      <div className="absolute bottom-full left-0 mb-2 p-2 bg-popover text-popover-foreground rounded border text-sm whitespace-nowrap z-50 shadow-md">
+                        Your username will be used in your profile's URL.
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <Input
                   type="text"
