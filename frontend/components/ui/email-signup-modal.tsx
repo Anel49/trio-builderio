@@ -98,6 +98,7 @@ export function EmailSignupModal({
     firstName.trim() &&
     username.trim() &&
     email.trim() &&
+    validateEmail(email) &&
     password &&
     confirmPassword &&
     password === confirmPassword &&
