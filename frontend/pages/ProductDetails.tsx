@@ -1332,6 +1332,7 @@ export default function ProductDetails() {
               image={item.image}
               host={item.host}
               hostUserId={item.hostUserId}
+              hostUsername={item.hostUsername}
               categories={item.categories}
               distance={item.distance}
               onFavorite={handleFavorite}
