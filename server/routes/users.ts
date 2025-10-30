@@ -222,7 +222,7 @@ export async function emailSignup(req: Request, res: Response) {
     const firstNameStr =
       typeof first_name === "string" ? first_name.trim() : "";
     const lastNameStr = typeof last_name === "string" ? last_name.trim() : "";
-    const usernameStr = typeof username === "string" ? username.trim() : "";
+    const usernameStr = typeof username === "string" ? username.trim().toLowerCase() : "";
     const emailStr = typeof email === "string" ? email.trim() : "";
     const passwordStr = typeof password === "string" ? password : "";
     const confirmPasswordStr =
