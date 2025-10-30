@@ -243,8 +243,12 @@ export default function Profile() {
   ) => {
     const file = e.target.files?.[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      setProfileImageUrl(url);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const dataUrl = event.target?.result as string;
+        setProfileImageUrl(dataUrl);
+      };
+      reader.readAsDataURL(file);
     }
     // reset so same file re-triggers change
     e.currentTarget.value = "";
