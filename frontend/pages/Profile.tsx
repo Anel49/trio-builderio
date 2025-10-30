@@ -1398,9 +1398,14 @@ export default function Profile() {
                       onClick={async () => {
                         if (isEditingProfile) {
                           try {
+                            const nameParts = name.trim().split(/\s+/);
+                            const firstName = nameParts[0] || "";
+                            const lastName = nameParts.slice(1).join(" ") || "";
                             const body: any = {
                               email: authUser?.email,
                               name,
+                              first_name: firstName,
+                              last_name: lastName,
                               latitude:
                                 typeof locationLatitude === "number"
                                   ? locationLatitude
@@ -2500,9 +2505,14 @@ export default function Profile() {
                   onClick={async () => {
                     if (isEditingProfile) {
                       try {
+                        const nameParts = name.trim().split(/\s+/);
+                        const firstName = nameParts[0] || "";
+                        const lastName = nameParts.slice(1).join(" ") || "";
                         const body: any = {
                           email: authUser?.email,
                           name,
+                          first_name: firstName,
+                          last_name: lastName,
                           latitude:
                             typeof locationLatitude === "number"
                               ? locationLatitude
