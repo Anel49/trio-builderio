@@ -1400,7 +1400,6 @@ export default function Profile() {
                             const body: any = {
                               email: authUser?.email,
                               name,
-                              avatar_url: profileImageUrl,
                               latitude:
                                 typeof locationLatitude === "number"
                                   ? locationLatitude
@@ -1415,6 +1414,9 @@ export default function Profile() {
                                   ? locationCity.trim()
                                   : null,
                             };
+                            if (profileImageUrl !== originalImageUrl) {
+                              body.avatar_url = profileImageUrl;
+                            }
                             const response = await apiFetch("users", {
                               method: "POST",
                               headers: { "content-type": "application/json" },
@@ -1424,11 +1426,14 @@ export default function Profile() {
                               .json()
                               .catch(() => ({}) as any);
                             if (responseData?.user) {
+                              setOriginalImageUrl(profileImageUrl);
                               applyUserData(responseData.user);
                               // Refresh auth context to update authUser with new location data
                               await checkAuth();
                             }
                           } catch {}
+                        } else {
+                          setOriginalImageUrl(profileImageUrl);
                         }
                         setIsEditingProfile((v) => !v);
                       }}
@@ -2497,7 +2502,6 @@ export default function Profile() {
                         const body: any = {
                           email: authUser?.email,
                           name,
-                          avatar_url: profileImageUrl,
                           latitude:
                             typeof locationLatitude === "number"
                               ? locationLatitude
@@ -2512,6 +2516,9 @@ export default function Profile() {
                               ? locationCity.trim()
                               : null,
                         };
+                        if (profileImageUrl !== originalImageUrl) {
+                          body.avatar_url = profileImageUrl;
+                        }
                         const response = await apiFetch("users", {
                           method: "POST",
                           headers: { "content-type": "application/json" },
@@ -2521,9 +2528,12 @@ export default function Profile() {
                           .json()
                           .catch(() => ({}) as any);
                         if (responseData?.user) {
+                          setOriginalImageUrl(profileImageUrl);
                           applyUserData(responseData.user);
                         }
                       } catch {}
+                    } else {
+                      setOriginalImageUrl(profileImageUrl);
                     }
                     setIsEditingProfile((v) => !v);
                   }}
