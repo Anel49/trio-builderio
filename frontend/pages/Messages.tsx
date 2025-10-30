@@ -109,6 +109,7 @@ export default function Messages() {
     {
       id: 1,
       userId: 2,
+      username: "sarahsmith",
       name: "Sarah",
       avatar:
         "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
