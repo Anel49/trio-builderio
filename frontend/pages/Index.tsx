@@ -124,6 +124,7 @@ export default function Index() {
         "https://images.pexels.com/photos/5418926/pexels-photo-5418926.jpeg?w=400&h=250&fit=crop&auto=format",
       host: "Michael",
       hostUserId: 3,
+      hostUsername: "michaeljones",
       type: "Clothing",
       categories: ["Clothing", "Fashion"],
       distance: null,
