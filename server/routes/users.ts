@@ -7,6 +7,7 @@ function rowToUser(r: any) {
     id: r.id,
     name: r.name || null,
     email: r.email || null,
+    username: r.username || null,
     avatarUrl: r.avatar_url || null,
     zipCode: null,
     locationLatitude: typeof r.latitude === "number" ? r.latitude : null,
