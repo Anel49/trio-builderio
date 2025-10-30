@@ -1226,6 +1226,11 @@ export default function Profile() {
     );
   }, [filteredAndSortedSellerReviews, currentSellerReviewPage]);
 
+  // If redirecting from /profile/:username to /profile (own profile), don't render the other user view
+  if (isOwnUsername && username) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
