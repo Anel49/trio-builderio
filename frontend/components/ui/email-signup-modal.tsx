@@ -568,13 +568,8 @@ export function EmailSignupModal({
           </p>
           <Button
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            onClick={async () => {
+            onClick={() => {
               setIsSuccessModalOpen(false);
-              handleClose();
-              if (onSignupSuccess) {
-                onSignupSuccess();
-              }
-              await checkAuth();
             }}
           >
             Continue to Dashboard
