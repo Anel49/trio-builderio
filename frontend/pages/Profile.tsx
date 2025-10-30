@@ -124,6 +124,7 @@ export default function Profile() {
   // Redirect to /profile if viewing own profile via username param
   useEffect(() => {
     if (username && authUser?.username && username.toLowerCase() === authUser.username.toLowerCase()) {
+      setViewingOtherUser(false);
       navigate("/profile", { replace: true });
     }
   }, [username, authUser?.username, navigate]);
