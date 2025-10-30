@@ -62,6 +62,7 @@ export function ProductCard({
   image,
   host,
   hostUserId,
+  hostUsername,
   type,
   categories,
   distance,
