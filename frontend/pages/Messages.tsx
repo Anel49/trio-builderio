@@ -120,6 +120,7 @@ export default function Messages() {
     {
       id: 2,
       userId: 3,
+      username: "michaeljones",
       name: "Michael",
       avatar:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&auto=format",
@@ -131,6 +132,7 @@ export default function Messages() {
     {
       id: 3,
       userId: 4,
+      username: "alexwilson",
       name: "Alex",
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&auto=format",
@@ -141,6 +143,7 @@ export default function Messages() {
     {
       id: 4,
       userId: 5,
+      username: "emmadavis",
       name: "Emma",
       avatar:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
