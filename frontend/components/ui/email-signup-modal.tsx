@@ -224,6 +224,31 @@ export function EmailSignupModal({
                 )}
               </div>
 
+              {/* Last Name */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Last Name</label>
+                <Input
+                  type="text"
+                  autoComplete="family-name"
+                  value={lastName}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                    if (fieldErrors.lastName) {
+                      setFieldErrors((prev) => {
+                        const updated = { ...prev };
+                        delete updated.lastName;
+                        return updated;
+                      });
+                    }
+                  }}
+                  disabled={isLoading}
+                  className={fieldErrors.lastName ? "border-red-500" : ""}
+                />
+                {fieldErrors.lastName && (
+                  <p className="text-xs text-red-500">{fieldErrors.lastName}</p>
+                )}
+              </div>
+
               {/* Email */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">
@@ -255,64 +280,6 @@ export function EmailSignupModal({
                 />
                 {fieldErrors.email && (
                   <p className="text-xs text-red-500">{fieldErrors.email}</p>
-                )}
-              </div>
-
-              {/* Last Name */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Last Name</label>
-                <Input
-                  type="text"
-                  autoComplete="family-name"
-                  value={lastName}
-                  onChange={(e) => {
-                    setLastName(e.target.value);
-                    if (fieldErrors.lastName) {
-                      setFieldErrors((prev) => {
-                        const updated = { ...prev };
-                        delete updated.lastName;
-                        return updated;
-                      });
-                    }
-                  }}
-                  disabled={isLoading}
-                  className={fieldErrors.lastName ? "border-red-500" : ""}
-                />
-                {fieldErrors.lastName && (
-                  <p className="text-xs text-red-500">{fieldErrors.lastName}</p>
-                )}
-              </div>
-
-              {/* Username */}
-              <div className="space-y-2">
-                <div>
-                  <label className="text-sm font-medium">
-                    Username <span className="text-red-500">*</span>
-                  </label>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Your username will be used in your profile's URL.
-                  </p>
-                </div>
-                <Input
-                  type="text"
-                  autoComplete="off"
-                  value={username}
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                    if (fieldErrors.username) {
-                      setFieldErrors((prev) => {
-                        const updated = { ...prev };
-                        delete updated.username;
-                        return updated;
-                      });
-                    }
-                  }}
-                  disabled={isLoading}
-                  required
-                  className={fieldErrors.username ? "border-red-500" : ""}
-                />
-                {fieldErrors.username && (
-                  <p className="text-xs text-red-500">{fieldErrors.username}</p>
                 )}
               </div>
 
