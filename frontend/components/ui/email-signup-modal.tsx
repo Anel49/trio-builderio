@@ -375,6 +375,39 @@ export function EmailSignupModal({
                   )}
               </div>
 
+              {/* Username */}
+              <div className="space-y-2">
+                <div>
+                  <label className="text-sm font-medium">
+                    Username <span className="text-red-500">*</span>
+                  </label>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Your username will be used in your profile's URL.
+                  </p>
+                </div>
+                <Input
+                  type="text"
+                  autoComplete="off"
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    if (fieldErrors.username) {
+                      setFieldErrors((prev) => {
+                        const updated = { ...prev };
+                        delete updated.username;
+                        return updated;
+                      });
+                    }
+                  }}
+                  disabled={isLoading}
+                  required
+                  className={fieldErrors.username ? "border-red-500" : ""}
+                />
+                {fieldErrors.username && (
+                  <p className="text-xs text-red-500">{fieldErrors.username}</p>
+                )}
+              </div>
+
               {/* Photo ID Upload */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Photo ID</label>
