@@ -785,7 +785,7 @@ export default function Profile() {
     let cancelled = false;
     (async () => {
       try {
-        const targetUserId = viewingOtherUser ? userId : authUser?.id;
+        const targetUserId = viewingOtherUser ? otherUserData?.id : authUser?.id;
 
         if (!targetUserId) {
           // Don't fetch if no user ID available
