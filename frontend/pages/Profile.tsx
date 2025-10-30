@@ -120,16 +120,21 @@ export default function Profile() {
   const navigate = useNavigate();
   const { user: authUser, authenticated, logout, checkAuth } = useAuth();
 
-  // Only viewing other user if username param exists AND doesn't match current user
+  // Check if this is the current user's own profile by username
   const isOwnUsername = username && authUser?.username && username.toLowerCase() === authUser.username.toLowerCase();
+
+  // Only viewing other user if username param exists AND doesn't match current user
   const [viewingOtherUser, setViewingOtherUser] = useState(Boolean(username && !isOwnUsername));
 
-  // Redirect to /profile if viewing own profile via username param
+  // Redirect to /profile and update state if viewing own profile via username param
   useEffect(() => {
     if (isOwnUsername) {
+      setViewingOtherUser(false);
       navigate("/profile", { replace: true });
+    } else if (username && !isOwnUsername) {
+      setViewingOtherUser(true);
     }
-  }, [isOwnUsername, navigate]);
+  }, [isOwnUsername, username, navigate]);
   const [otherUserData, setOtherUserData] = useState<null | {
     id: number | null;
     name: string | null;
