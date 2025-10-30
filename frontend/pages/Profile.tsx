@@ -1279,9 +1279,9 @@ export default function Profile() {
                         .join("")}
                     </AvatarFallback>
                   </Avatar>
-                  {!viewingOtherUser && (
+                  {!viewingOtherUser && isEditingProfile && (
                     <div
-                      className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                      className="absolute inset-0 bg-black/50 rounded-full opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
                       onClick={openAvatarFilePicker}
                       role="button"
                       aria-label="Change profile photo"
@@ -2380,14 +2380,16 @@ export default function Profile() {
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
-                <div
-                  className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
-                  onClick={openAvatarFilePicker}
-                  role="button"
-                  aria-label="Change profile photo"
-                >
-                  <Edit3 className="h-5 w-5 text-white" />
-                </div>
+                {!viewingOtherUser && isEditingProfile && (
+                  <div
+                    className="absolute inset-0 bg-black/50 rounded-full opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                    onClick={openAvatarFilePicker}
+                    role="button"
+                    aria-label="Change profile photo"
+                  >
+                    <Edit3 className="h-5 w-5 text-white" />
+                  </div>
+                )}
               </div>
 
               {/* Name and Member Since */}
