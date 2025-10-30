@@ -201,6 +201,7 @@ export function EmailSignupModal({
                 </label>
                 <Input
                   type="text"
+                  autoComplete="given-name"
                   value={firstName}
                   onChange={(e) => {
                     setFirstName(e.target.value);
