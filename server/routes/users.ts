@@ -49,7 +49,7 @@ export async function getUserById(req: Request, res: Response) {
         .json({ ok: false, error: "valid user id is required" });
     }
     const result = await pool.query(
-      `select id, name, email, avatar_url, created_at,
+      `select id, name, email, username, avatar_url, created_at,
             latitude, longitude, location_city,
             coalesce(founding_supporter,false) as founding_supporter,
             coalesce(top_referrer,false) as top_referrer,
