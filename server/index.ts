@@ -412,9 +412,9 @@ export function createServer() {
   app.patch("/listing-reviews/:id", updateListingReview);
   app.delete("/listing-reviews/:id", deleteListingReview);
 
-  // Catch-all for non-API routes - respond with 200 OK so Vite can serve the app
+  // Catch-all for non-API routes - just send empty response so Vite dev server handles it
   app.use((_req, res) => {
-    res.status(200).json({ ok: true });
+    res.status(404).end();
   });
 
   return app;
