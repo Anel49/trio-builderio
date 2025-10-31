@@ -49,12 +49,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       console.log("[AuthContext] Auth response status:", response.status);
       if (response.ok) {
-        const data = await response.json();
-        console.log("[AuthContext] Auth user data:", data);
-        setUser(data.user);
-        setAuthenticated(true);
+        try {
+          const data = await response.json();
+          console.log("[AuthContext] Auth user data:", data);
+          setUser(data.user);
+          setAuthenticated(true);
+        } catch (e) {
+          console.log("[AuthContext] Failed to parse auth response");
+          setUser(null);
+          setAuthenticated(false);
+        }
       } else {
-        console.log("[AuthContext] Not authenticated");
+        console.log("[AuthContext] Not authenticated (status", response.status + ")");
         setUser(null);
         setAuthenticated(false);
       }
