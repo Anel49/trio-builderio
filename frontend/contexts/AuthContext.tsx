@@ -60,7 +60,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           setAuthenticated(false);
         }
       } else {
-        console.log("[AuthContext] Not authenticated (status", response.status + ")");
+        console.log(
+          "[AuthContext] Not authenticated (status",
+          response.status + ")",
+        );
         setUser(null);
         setAuthenticated(false);
       }
