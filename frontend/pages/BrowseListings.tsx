@@ -480,6 +480,7 @@ export default function BrowseListings() {
             "cancelled:",
             cancelled,
           );
+          setPageLoading(false);
           return;
         }
         const mapped = d.listings.map((l: any) => {
