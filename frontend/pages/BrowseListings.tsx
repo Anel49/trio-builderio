@@ -457,6 +457,7 @@ export default function BrowseListings() {
         );
         if (!response.ok || cancelled) {
           console.log("[BrowseListings] Response not ok, returning");
+          setPageLoading(false);
           return;
         }
         let d;
