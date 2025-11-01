@@ -544,10 +544,12 @@ export default function BrowseListings() {
           );
           setListings(filtered);
           setIsLoadingDistances(false);
+          setPageLoading(false);
         }
       } catch {
         if (!cancelled) {
           setIsLoadingDistances(false);
+          setPageLoading(false);
           // keep demo data
         }
       }
