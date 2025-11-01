@@ -126,6 +126,7 @@ const AppContent = () => {
 
   return (
     <>
+      <LoadingOverlay />
       <SplashOnboarding />
       <Suspense
         fallback={
