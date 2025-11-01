@@ -1147,9 +1147,9 @@ export default function BrowseListings() {
 
       {isLoadingDistances && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 pointer-events-auto">
-          <div className="bg-white dark:bg-gray-900 rounded-lg p-8 flex flex-col items-center gap-4 shadow-lg max-w-sm mx-4">
+          <div className="bg-card rounded-lg p-8 flex flex-col items-center gap-4 shadow-lg max-w-sm mx-4 border border-border">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            <p className="text-lg font-semibold text-center">
+            <p className="text-lg font-semibold text-center text-foreground">
               Calculating new distances
             </p>
           </div>
