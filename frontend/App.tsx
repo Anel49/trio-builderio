@@ -113,10 +113,10 @@ const AppContent = () => {
           <div className="flex min-h-screen items-center justify-center bg-background">
             <div className="flex flex-col items-center gap-4">
               <div className="relative h-12 w-12">
-                <div className="absolute inset-0 rounded-full border-4 border-muted"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-secondary dark:border-border"></div>
                 <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary animate-spin"></div>
               </div>
-              <p className="text-sm text-muted-foreground">Loading page...</p>
+              <p className="text-sm text-foreground dark:text-muted-foreground">Loading page...</p>
             </div>
           </div>
         }
