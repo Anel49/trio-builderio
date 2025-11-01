@@ -97,10 +97,10 @@ export function FavoritesModal({
           <div className="flex items-center justify-center py-8">
             <div className="text-center">
               <div className="relative h-8 w-8 mx-auto mb-2">
-                <div className="absolute inset-0 rounded-full border-2 border-muted"></div>
+                <div className="absolute inset-0 rounded-full border-2 border-secondary dark:border-border"></div>
                 <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary animate-spin"></div>
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-foreground dark:text-muted-foreground">
                 Loading favorites...
               </p>
             </div>
