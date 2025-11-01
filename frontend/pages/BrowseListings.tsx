@@ -409,6 +409,8 @@ export default function BrowseListings() {
     let cancelled = false;
     (async () => {
       try {
+        setPageLoading(true);
+
         // Show loading overlay if filterLocation changed (not initial load)
         if (filterLocation) {
           setIsLoadingDistances(true);
