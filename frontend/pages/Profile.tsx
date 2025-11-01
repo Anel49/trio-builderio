@@ -782,10 +782,13 @@ export default function Profile() {
         return;
       }
 
+      setPageLoading(true);
+
       try {
         const response = await fetch(`/api/users/username/${username}`);
         if (!response.ok || cancelled) {
           setIsLoadingOtherUser(false);
+          setPageLoading(false);
           return;
         }
 
@@ -798,6 +801,7 @@ export default function Profile() {
       } finally {
         if (!cancelled) {
           setIsLoadingOtherUser(false);
+          setPageLoading(false);
         }
       }
     })();
@@ -805,7 +809,7 @@ export default function Profile() {
     return () => {
       cancelled = true;
     };
-  }, [username, viewingOtherUser]);
+  }, [username, viewingOtherUser, setPageLoading]);
 
   useEffect(() => {
     let cancelled = false;
