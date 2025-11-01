@@ -55,6 +55,12 @@ import {
 
 export default function Index() {
   const { user: authUser, authenticated } = useAuth();
+  const { setPageLoading } = usePageLoading();
+
+  useEffect(() => {
+    setPageLoading(false);
+  }, [setPageLoading]);
+
   const [dateRange, setDateRange] = useState<{
     start: Date | undefined;
     end: Date | undefined;
