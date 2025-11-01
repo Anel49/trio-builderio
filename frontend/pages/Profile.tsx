@@ -25,6 +25,7 @@ import { LocationPickerModal } from "@/components/LocationPickerModal";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
