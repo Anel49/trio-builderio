@@ -120,6 +120,7 @@ export default function Profile() {
   const { username } = useParams<{ username?: string }>();
   const navigate = useNavigate();
   const { user: authUser, authenticated, logout, checkAuth } = useAuth();
+  const { setPageLoading } = usePageLoading();
 
   // Check if this is the current user's own profile by username (case-insensitive)
   const isOwnUsername =
