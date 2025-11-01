@@ -11,6 +11,7 @@ import { CookieBanner, CookiePreferences } from "@/components/ui/cookie-banner";
 import { COMPANY_NAME } from "@/lib/constants";
 import SplashOnboarding from "@/components/ui/splash-onboarding";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { PageLoadingProvider, usePageLoading } from "@/contexts/PageLoadingContext";
 // import { SessionLoginWall } from "@/components/SessionLoginWall";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
