@@ -664,7 +664,7 @@ export default function Checkout() {
                 {paymentMethod === "paypal" && (
                   <div className="p-4">
                     {!paypalReady ? (
-                      <div className="flex items-center justify-center py-8 text-muted-foreground">
+                      <div className="flex items-center justify-center py-8 text-foreground dark:text-muted-foreground">
                         <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mr-3"></div>
                         Loading PayPal...
                       </div>
