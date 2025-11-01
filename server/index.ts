@@ -37,9 +37,6 @@ import {
   deleteListingReview,
 } from "./routes/listing-reviews";
 
-const ADMIN_USERNAME = "Charki1014";
-const ADMIN_PASSWORD = "q=foJ7Ba7#+4";
-
 export function createServer() {
   const app = express();
 
