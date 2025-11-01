@@ -28,6 +28,24 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
+const LoadingOverlay = () => {
+  const { isPageLoading } = usePageLoading();
+
+  if (!isPageLoading) return null;
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-background z-50">
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative h-12 w-12">
+          <div className="absolute inset-0 rounded-full border-4 border-secondary dark:border-border"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary animate-spin"></div>
+        </div>
+        <p className="text-sm text-foreground dark:text-muted-foreground">Loading page...</p>
+      </div>
+    </div>
+  );
+};
+
 const AppContent = () => {
   const { authenticated, loading } = useAuth();
   const [showCookieBanner, setShowCookieBanner] = useState(false);
