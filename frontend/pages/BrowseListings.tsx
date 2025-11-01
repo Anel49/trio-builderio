@@ -56,6 +56,7 @@ import { format } from "date-fns";
 import { isDateRangeAvailable } from "@/lib/reservations";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
