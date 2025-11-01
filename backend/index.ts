@@ -9,9 +9,6 @@ import {
   deleteListing,
 } from "./routes.listings";
 
-const ADMIN_USERNAME = "Charki1014";
-const ADMIN_PASSWORD = "q=foJ7Ba7#+4";
-
 const app = express();
 
 app.use(
@@ -38,45 +35,11 @@ app.use(
   }),
 );
 
-// Authentication middleware
-const requireAuth = (req: any, res: any, next: any) => {
-  if (req.session && req.session.authenticated) {
-    next();
-  } else {
-    res.status(401).json({ error: "Unauthorized" });
-  }
-};
-
-// Login endpoint
-app.post("/api/auth/login", (req: any, res: any) => {
-  const { username, password } = req.body;
-
-  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-    req.session.authenticated = true;
-    res.json({ success: true, message: "Logged in successfully" });
-  } else {
-    res.status(401).json({ success: false, message: "Invalid credentials" });
-  }
-});
-
-// Logout endpoint
-app.post("/api/auth/logout", (req: any, res: any) => {
-  req.session.authenticated = false;
-  res.json({ success: true, message: "Logged out successfully" });
-});
-
-// Check auth status
-app.get("/api/auth/status", (req: any, res: any) => {
-  res.json({ authenticated: req.session && req.session.authenticated });
-});
-
 app.get("/api/ping", (_req, res) =>
   res.json({ message: "Hello from Backend!" }),
 );
 app.get("/ping", (_req, res) => res.json({ message: "Hello from Backend!" }));
 
-// TEMPORARILY DISABLED - requireAuth removed while login wall is disabled
-// Re-add requireAuth middleware when login wall is re-enabled
 // DB
 app.get("/api/db/health", dbHealth);
 app.get("/api/db/schema", dbSchema);
