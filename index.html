@@ -16,6 +16,19 @@
   <body>
     <div id="root"></div>
 
+    <script>
+      // Initialize theme immediately to avoid flash of wrong theme
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const shouldBeDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
+
+        if (shouldBeDark) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+
     <script type="module" src="/frontend/App.tsx"></script>
   </body>
 </html>
