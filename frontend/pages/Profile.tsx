@@ -970,16 +970,18 @@ export default function Profile() {
               : it;
           }),
         );
+        setPageLoading(false);
       } catch {
         if (!cancelled) {
           // ignore; keep existing
+          setPageLoading(false);
         }
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [authenticated, authUser?.id, viewingOtherUser, otherUserData?.id]);
+  }, [authenticated, authUser?.id, viewingOtherUser, otherUserData?.id, setPageLoading]);
 
   // Item reviews from DB
   const [itemReviews, setItemReviews] = useState<
