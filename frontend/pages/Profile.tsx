@@ -822,14 +822,18 @@ export default function Profile() {
         if (!targetUserId) {
           // Don't fetch if no user ID available
           setListedItems([]);
+          setPageLoading(false);
           return;
         }
 
         if (!viewingOtherUser && (!authenticated || !authUser?.id)) {
           // Don't fetch current user listings if not authenticated
           setListedItems([]);
+          setPageLoading(false);
           return;
         }
+
+        setPageLoading(true);
 
         if (!viewingOtherUser) {
           await ensureCurrentUserProfile();
