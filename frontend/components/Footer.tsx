@@ -76,7 +76,7 @@ export function Footer() {
                     href="#"
                     className="hover:text-foreground transition-colors"
                   >
-                    Help center
+                    Help Center
                   </a>
                 </li>
                 <li>
