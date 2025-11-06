@@ -56,7 +56,7 @@ import { format } from "date-fns";
 import { isDateRangeAvailable } from "@/lib/reservations";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-import { usePageLoading } from "@/contexts/PageLoadingContext";
+// import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
@@ -105,7 +105,7 @@ const fadeInStyle = `
 
 export default function BrowseListings() {
   const { user: authUser, authenticated } = useAuth();
-  const { setPageLoading } = usePageLoading();
+  // const { setPageLoading } = usePageLoading();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -409,7 +409,7 @@ export default function BrowseListings() {
     let cancelled = false;
     (async () => {
       try {
-        setPageLoading(true);
+        // setPageLoading(true);
 
         // Show loading overlay if filterLocation changed (not initial load)
         if (filterLocation) {
@@ -457,7 +457,7 @@ export default function BrowseListings() {
         );
         if (!response.ok || cancelled) {
           console.log("[BrowseListings] Response not ok, returning");
-          setPageLoading(false);
+          // setPageLoading(false);
           return;
         }
         let d;
@@ -480,7 +480,7 @@ export default function BrowseListings() {
             "cancelled:",
             cancelled,
           );
-          setPageLoading(false);
+          // setPageLoading(false);
           return;
         }
         const mapped = d.listings.map((l: any) => {
@@ -546,12 +546,12 @@ export default function BrowseListings() {
           );
           setListings(filtered);
           setIsLoadingDistances(false);
-          setPageLoading(false);
+          // setPageLoading(false);
         }
       } catch {
         if (!cancelled) {
           setIsLoadingDistances(false);
-          setPageLoading(false);
+          // setPageLoading(false);
           // keep demo data
         }
       }
