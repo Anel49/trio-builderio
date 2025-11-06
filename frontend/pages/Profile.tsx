@@ -25,7 +25,7 @@ import { LocationPickerModal } from "@/components/LocationPickerModal";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-import { usePageLoading } from "@/contexts/PageLoadingContext";
+// import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
   ensureCurrentUserProfile,
   getCurrentUserZipCode,
@@ -120,7 +120,7 @@ export default function Profile() {
   const { username } = useParams<{ username?: string }>();
   const navigate = useNavigate();
   const { user: authUser, authenticated, logout, checkAuth } = useAuth();
-  const { setPageLoading } = usePageLoading();
+  // const { setPageLoading } = usePageLoading();
 
   // Check if this is the current user's own profile by username (case-insensitive)
   const isOwnUsername =
@@ -782,13 +782,13 @@ export default function Profile() {
         return;
       }
 
-      setPageLoading(true);
+      // setPageLoading(true);
 
       try {
         const response = await fetch(`/api/users/username/${username}`);
         if (!response.ok || cancelled) {
           setIsLoadingOtherUser(false);
-          setPageLoading(false);
+          // setPageLoading(false);
           return;
         }
 
@@ -801,7 +801,7 @@ export default function Profile() {
       } finally {
         if (!cancelled) {
           setIsLoadingOtherUser(false);
-          setPageLoading(false);
+          // setPageLoading(false);
         }
       }
     })();
@@ -809,7 +809,7 @@ export default function Profile() {
     return () => {
       cancelled = true;
     };
-  }, [username, viewingOtherUser, setPageLoading]);
+  }, [username, viewingOtherUser]); // setPageLoading removed from deps
 
   useEffect(() => {
     let cancelled = false;
@@ -822,18 +822,18 @@ export default function Profile() {
         if (!targetUserId) {
           // Don't fetch if no user ID available
           setListedItems([]);
-          setPageLoading(false);
+          // setPageLoading(false);
           return;
         }
 
         if (!viewingOtherUser && (!authenticated || !authUser?.id)) {
           // Don't fetch current user listings if not authenticated
           setListedItems([]);
-          setPageLoading(false);
+          // setPageLoading(false);
           return;
         }
 
-        setPageLoading(true);
+        // setPageLoading(true);
 
         if (!viewingOtherUser) {
           await ensureCurrentUserProfile();
@@ -970,18 +970,18 @@ export default function Profile() {
               : it;
           }),
         );
-        setPageLoading(false);
+        // setPageLoading(false);
       } catch {
         if (!cancelled) {
           // ignore; keep existing
-          setPageLoading(false);
+          // setPageLoading(false);
         }
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [authenticated, authUser?.id, viewingOtherUser, otherUserData?.id, setPageLoading]);
+  }, [authenticated, authUser?.id, viewingOtherUser, otherUserData?.id]); // setPageLoading removed from deps
 
   // Item reviews from DB
   const [itemReviews, setItemReviews] = useState<
