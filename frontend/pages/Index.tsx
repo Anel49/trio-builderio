@@ -30,7 +30,7 @@ import { ViewAllButton } from "@/components/ui/view-all-button";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-import { usePageLoading } from "@/contexts/PageLoadingContext";
+// import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
   computeDistanceMiles,
   extractCoordinates,
@@ -55,11 +55,11 @@ import {
 
 export default function Index() {
   const { user: authUser, authenticated } = useAuth();
-  const { setPageLoading } = usePageLoading();
+  // const { setPageLoading } = usePageLoading();
 
-  useEffect(() => {
-    setPageLoading(false);
-  }, [setPageLoading]);
+  // useEffect(() => {
+  //   setPageLoading(false);
+  // }, [setPageLoading]);
 
   const [dateRange, setDateRange] = useState<{
     start: Date | undefined;
