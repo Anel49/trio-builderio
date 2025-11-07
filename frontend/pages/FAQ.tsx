@@ -173,7 +173,7 @@ export default function FAQ() {
             href="/terms-of-service#prohibited-items"
             className="text-primary hover:underline"
           >
-            "Prohibited Items and Activities"
+            Prohibited Items and Activities
           </a>
           {" "}in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a {COMPANY_NAME} administrator.
         </p>
