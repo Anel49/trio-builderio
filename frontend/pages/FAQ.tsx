@@ -4,7 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { ArrowLeft, HelpCircle, User, ShoppingBag, Home, ChevronDown } from "lucide-react";
+import {
+  ArrowLeft,
+  HelpCircle,
+  User,
+  ShoppingBag,
+  Home,
+  ChevronDown,
+} from "lucide-react";
 
 type FAQSection = "general" | "account" | "renter" | "host";
 
@@ -103,7 +110,7 @@ export default function FAQ() {
     {
       question: "Do you offer delivery?",
       answer:
-        "LendIt does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with \"Offers delivery\" or \"Offers free delivery\". Delivery instructions and fees will be decided in the Chat between the host and renter.",
+        'LendIt does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with "Offers delivery" or "Offers free delivery". Delivery instructions and fees will be decided in the Chat between the host and renter.',
     },
     {
       question: "What happens if I'm late returning an item?",
@@ -117,7 +124,7 @@ export default function FAQ() {
     {
       question: "What items are prohibited?",
       answer:
-        "Prohibited include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under \"Prohibited Items and Activities\" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a LendIt staff member.",
+        'Prohibited include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a LendIt staff member.',
     },
     {
       question: "Can I cancel a booking?",
@@ -146,8 +153,7 @@ export default function FAQ() {
     },
     {
       question: "Is a deposit required?",
-      answer:
-        "Listings may include a security deposit if set by the host.",
+      answer: "Listings may include a security deposit if set by the host.",
     },
     {
       question: "What if the item is damaged while I'm renting it?",
@@ -157,7 +163,7 @@ export default function FAQ() {
     {
       question: "Can I extend my rental?",
       answer:
-        "Yes! If you want to extend your rental, go to your Order History, find the rental, click or tap the \"Extend Rental\" button, and if the owner approves the extension, you will be notified to make a payment. Once the payment is accepted, your rental's end date will be updated.",
+        'Yes! If you want to extend your rental, go to your Order History, find the rental, click or tap the "Extend Rental" button, and if the owner approves the extension, you will be notified to make a payment. Once the payment is accepted, your rental\'s end date will be updated.',
     },
   ];
 
@@ -307,7 +313,10 @@ export default function FAQ() {
                   const isExpanded = expandedItems.has(itemId);
 
                   return (
-                    <div key={itemId} className="border border-border rounded-lg">
+                    <div
+                      key={itemId}
+                      className="border border-border rounded-lg"
+                    >
                       <button
                         onClick={() => toggleExpanded(itemId)}
                         className="w-full px-4 py-4 flex items-center justify-between hover:bg-muted/50 transition-colors"
@@ -329,7 +338,9 @@ export default function FAQ() {
                             {faq.answer.includes("\n") ? (
                               <ol className="list-decimal list-inside space-y-2">
                                 {faq.answer.split("\n").map((line, i) => (
-                                  <li key={i}>{line.replace(/^\d+\.\s*/, "")}</li>
+                                  <li key={i}>
+                                    {line.replace(/^\d+\.\s*/, "")}
+                                  </li>
                                 ))}
                               </ol>
                             ) : (

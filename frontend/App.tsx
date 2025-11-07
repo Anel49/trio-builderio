@@ -137,7 +137,9 @@ const AppContent = () => {
                 <div className="absolute inset-0 rounded-full border-4 border-secondary dark:border-border"></div>
                 <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary animate-spin"></div>
               </div>
-              <p className="text-sm text-foreground dark:text-muted-foreground">Loading page...</p>
+              <p className="text-sm text-foreground dark:text-muted-foreground">
+                Loading page...
+              </p>
             </div>
           </div>
         }
@@ -186,13 +188,13 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         {/* <PageLoadingProvider> */}
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <AppContent />
-            </BrowserRouter>
-          </TooltipProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </TooltipProvider>
         {/* </PageLoadingProvider> */}
       </AuthProvider>
     </QueryClientProvider>
