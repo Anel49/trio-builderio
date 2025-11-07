@@ -133,8 +133,22 @@ export default function FAQ() {
       answer: `1. Create an account\n2. Search for listings using keywords and filters\n3. Choose an item, select from available dates, and submit your request\n4. Coordinate pickup or delivery through messages with host`,
     },
     {
+      question: "Can I extend my booking?",
+      answer:
+        'Yes! If you want to extend your booking, go to your Order History, find the booking, click or tap the "Extend Booking" button, and if the owner approves the extension, you will be notified to make a payment. Once the payment is accepted, your booking\'s end date will be updated.',
+    },
+    {
+      question: "Can I cancel my booking?",
+      answer:
+        "Yes, both renters and hosts can cancel bookings. Hosts can set a mandatory cancellation fee during listing creation. This fee is charged if the booking is cancelled within 24 hours of it beginning.",
+    },
+    {
       question: "Is a deposit required?",
       answer: "Listings may include a security deposit if set by the host.",
+    },
+    {
+      question: "What happens if I'm late returning an item?",
+      answer: "Late fees may apply based on the listing's terms.",
     },
     {
       question: "What if the item is damaged while I'm renting it?",
@@ -142,23 +156,9 @@ export default function FAQ() {
         "As a renter, you have the responsibility to document, through pictures and notes, any damage that occurred to an item during your rental period and, if applicable, its transport to the host. At the end of the rental period, which can be ended prematurely if both parties agree, submit a claim with us and provide us with the information gathered to resolve the claim.",
     },
     {
-      question: "Can I extend my booking?",
-      answer:
-        'Yes! If you want to extend your booking, go to your Order History, find the booking, click or tap the "Extend Booking" button, and if the owner approves the extension, you will be notified to make a payment. Once the payment is accepted, your booking\'s end date will be updated.',
-    },
-    {
-      question: "What happens if I'm late returning an item?",
-      answer: "Late fees may apply based on the listing's terms.",
-    },
-    {
       question: "What if I have an issue with the host?",
       answer:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-      question: "Can I cancel a booking?",
-      answer:
-        "Yes, both renters and hosts can cancel bookings. Hosts can set a mandatory cancellation fee during listing creation. This fee is charged if the booking is cancelled within 24 hours of it beginning.",
     },
   ];
 
