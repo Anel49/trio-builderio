@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -18,7 +18,7 @@ type FAQSection = "general" | "account" | "renter" | "host";
 
 interface FAQItem {
   question: string;
-  answer: string;
+  answer?: string | ReactNode;
 }
 
 export default function FAQ() {
@@ -346,16 +346,20 @@ export default function FAQ() {
                         <>
                           <Separator />
                           <div className="px-4 py-4 text-muted-foreground whitespace-pre-line">
-                            {faq.answer.includes("\n") ? (
-                              <ol className="list-decimal list-inside space-y-2">
-                                {faq.answer.split("\n").map((line, i) => (
-                                  <li key={i}>
-                                    {line.replace(/^\d+\.\s*/, "")}
-                                  </li>
-                                ))}
-                              </ol>
+                            {typeof faq.answer === "string" ? (
+                              faq.answer.includes("\n") ? (
+                                <ol className="list-decimal list-inside space-y-2">
+                                  {faq.answer.split("\n").map((line, i) => (
+                                    <li key={i}>
+                                      {line.replace(/^\d+\.\s*/, "")}
+                                    </li>
+                                  ))}
+                                </ol>
+                              ) : (
+                                <p>{faq.answer}</p>
+                              )
                             ) : (
-                              <p>{faq.answer}</p>
+                              faq.answer
                             )}
                           </div>
                         </>
