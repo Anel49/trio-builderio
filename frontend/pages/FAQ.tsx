@@ -56,7 +56,7 @@ export default function FAQ() {
     {
       question: "What is this platform?",
       answer:
-        `${COMPANY_NAME} is a peer-to-peer rental marketplace where users can rent everyday items from one another, including but not limited to tools, clothing, electronics, sports gear, and event supplies.`,
+        `${COMPANY_NAME} is a peer-to-peer rental marketplace where individuals can rent everyday items from one another, including but not limited to tools, clothing, electronics, sports gear, and event supplies.`,
     },
     {
       question: "How does it work?",
