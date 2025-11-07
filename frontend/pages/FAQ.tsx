@@ -168,14 +168,14 @@ export default function FAQ() {
       question: "What items are prohibited?",
       answer: (
         <p>
-          Prohibited items include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under{" "}
+          Prohibited items include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "{" "}
           <a
             href="/terms-of-service#prohibited-items"
             className="text-primary hover:underline"
           >
             Prohibited Items and Activities
           </a>
-          {" "}in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a {COMPANY_NAME} administrator.
+          {" "}" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a {COMPANY_NAME} administrator.
         </p>
       ),
     },
