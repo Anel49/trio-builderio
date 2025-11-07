@@ -12,7 +12,7 @@ import {
   Home,
   ChevronDown,
 } from "lucide-react";
-import { MARKETPLACE_NAME } from "@/lib/constants";
+import { COMPANY_NAME } from "@/lib/constants";
 
 type FAQSection = "general" | "account" | "renter" | "host";
 
@@ -56,7 +56,7 @@ export default function FAQ() {
     {
       question: "What is this platform?",
       answer:
-        `${MARKETPLACE_NAME} is a peer-to-peer rental marketplace where users can rent everyday items from one another, including but not limited to tools, clothing, electronics, sports gear, and event supplies.`,
+        `${COMPANY_NAME} is a peer-to-peer rental marketplace where users can rent everyday items from one another, including but not limited to tools, clothing, electronics, sports gear, and event supplies.`,
     },
     {
       question: "How does it work?",
@@ -86,7 +86,7 @@ export default function FAQ() {
     {
       question: "Do you offer delivery?",
       answer:
-        `${MARKETPLACE_NAME} does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with "Offers delivery" or "Offers free delivery". Delivery instructions and fees will be decided in the Chat between the host and renter.`,
+        `${COMPANY_NAME} does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with "Offers delivery" or "Offers free delivery". Delivery instructions and fees will be decided in the Chat between the host and renter.`,
     },
     {
       question: "How do pickups and drop-offs work?",
@@ -167,7 +167,7 @@ export default function FAQ() {
     {
       question: "What items are prohibited?",
       answer:
-        `Prohibited include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a ${MARKETPLACE_NAME} staff member.`,
+        `Prohibited include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a ${COMPANY_NAME} staff member.`,
     },
     {
       question: "How do I list an item?",
@@ -191,7 +191,7 @@ export default function FAQ() {
     {
       question: "What if someone loses or doesn't return my item?",
       answer:
-        `We have a comprehensive claim process that holds renters liable for not returning an item. It is up to the host's discretion whether they want to initiate a claim. If ${MARKETPLACE_NAME} or the host fail to retrieve the missing item featured in a claim, ${MARKETPLACE_NAME} will reimburse the host a dollar amount equal to the item's condition at the time of lending it, capped at $5,000.`,
+        `We have a comprehensive claim process that holds renters liable for not returning an item. It is up to the host's discretion whether they want to initiate a claim. If ${COMPANY_NAME} or the host fail to retrieve the missing item featured in a claim, ${COMPANY_NAME} will reimburse the host a dollar amount equal to the item's condition at the time of lending it, capped at $5,000.`,
     },
     {
       question: "What if my item gets damaged?",
