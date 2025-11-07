@@ -151,7 +151,7 @@ export default function FAQ() {
       answer: "Late fees may apply based on the listing's terms.",
     },
     {
-      question: "What if I have an issue with a renter or host?",
+      question: "What if I have an issue with the host?",
       answer:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
