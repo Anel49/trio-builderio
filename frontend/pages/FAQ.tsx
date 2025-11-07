@@ -344,8 +344,8 @@ export default function FAQ() {
                         onClick={() => toggleExpanded(itemId)}
                         className={`w-full px-4 py-4 flex items-center justify-between transition-colors ${
                           isExpanded
-                            ? "bg-[#f4f5f5] dark:bg-[#344255]"
-                            : "hover:bg-[#f4f5f5] dark:hover:bg-[#344255]"
+                            ? "bg-[#f4f5f5] dark:bg-[#354254]"
+                            : "hover:bg-[#f4f5f5] dark:hover:bg-[#354254]"
                         }`}
                       >
                         <h3 className="font-semibold text-left text-foreground">
