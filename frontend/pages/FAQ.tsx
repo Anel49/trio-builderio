@@ -167,7 +167,7 @@ export default function FAQ() {
     {
       question: "What items are prohibited?",
       answer:
-        `Prohibited items include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a ${COMPANY_NAME} staff member.`,
+        `Prohibited items include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a ${COMPANY_NAME} administrator.`,
     },
     {
       question: "How do I list an item?",
