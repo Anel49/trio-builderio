@@ -73,6 +73,31 @@ export default function FAQ() {
         "Yes, you need an account to host or rent items. This helps us verify individuals to ensure our users and their items are cared for.",
     },
     {
+      question: "How are users verified?",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      question: "Are items insured?",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      question: "Do you offer delivery?",
+      answer:
+        'LendIt does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with "Offers delivery" or "Offers free delivery". Delivery instructions and fees will be decided in the Chat between the host and renter.',
+    },
+    {
+      question: "How do pickups and drop-offs work?",
+      answer:
+        "Users must coordinate with each other to arrange a meeting location or delivery address and fee.",
+    },
+    {
+      question: "How do reviews work?",
+      answer:
+        "Renters can leave a review for both the host and the listing on their respective pages. Hosts can leave a review for the renter on their profile page.",
+    },
+    {
       question: "What payment methods are accepted?",
       answer:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -86,31 +111,6 @@ export default function FAQ() {
       question: "Do you hold deposits?",
       answer:
         "Yes. Deposits are held and returned after successful item return and inspection.",
-    },
-    {
-      question: "How are users verified?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-      question: "Are items insured?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-      question: "How do reviews work?",
-      answer:
-        "Renters can leave a review for both the host and the listing on their respective pages. Hosts can leave a review for the renter on their profile page.",
-    },
-    {
-      question: "How do pickups and drop-offs work?",
-      answer:
-        "Users must coordinate with each other to arrange a meeting location or delivery address and fee.",
-    },
-    {
-      question: "Do you offer delivery?",
-      answer:
-        'LendIt does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with "Offers delivery" or "Offers free delivery". Delivery instructions and fees will be decided in the Chat between the host and renter.',
     },
   ];
 
