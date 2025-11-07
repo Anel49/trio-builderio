@@ -112,25 +112,6 @@ export default function FAQ() {
       answer:
         'LendIt does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with "Offers delivery" or "Offers free delivery". Delivery instructions and fees will be decided in the Chat between the host and renter.',
     },
-    {
-      question: "What happens if I'm late returning an item?",
-      answer: "Late fees may apply based on the listing's terms.",
-    },
-    {
-      question: "What if I have an issue with a renter or host?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-      question: "What items are prohibited?",
-      answer:
-        'Prohibited include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a LendIt staff member.',
-    },
-    {
-      question: "Can I cancel a booking?",
-      answer:
-        "Yes, both renters and hosts can cancel bookings. Hosts can set a mandatory cancellation fee during listing creation. This fee is charged if the booking is cancelled within 24 hours of it beginning.",
-    },
   ];
 
   const accountFAQs: FAQItem[] = [
@@ -165,6 +146,20 @@ export default function FAQ() {
       answer:
         'Yes! If you want to extend your rental, go to your Order History, find the rental, click or tap the "Extend Rental" button, and if the owner approves the extension, you will be notified to make a payment. Once the payment is accepted, your rental\'s end date will be updated.',
     },
+    {
+      question: "What happens if I'm late returning an item?",
+      answer: "Late fees may apply based on the listing's terms.",
+    },
+    {
+      question: "What if I have an issue with a renter or host?",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      question: "Can I cancel a booking?",
+      answer:
+        "Yes, both renters and hosts can cancel bookings. Hosts can set a mandatory cancellation fee during listing creation. This fee is charged if the booking is cancelled within 24 hours of it beginning.",
+    },
   ];
 
   const hostFAQs: FAQItem[] = [
@@ -191,6 +186,21 @@ export default function FAQ() {
       question: "What if someone loses or doesn't return my item?",
       answer:
         "We have a comprehensive claim process that holds renters liable for not returning an item. It is up to the host's discretion whether they want to initiate a claim. If LendIt or the host fail to retrieve the missing item featured in a claim, LendIt will reimburse the host a dollar amount equal to the item's condition at the time of lending it, capped at $5,000.",
+    },
+    {
+      question: "What items are prohibited?",
+      answer:
+        'Prohibited include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a LendIt staff member.',
+    },
+    {
+      question: "What if I have an issue with a renter or host?",
+      answer:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      question: "Can I cancel a booking?",
+      answer:
+        "Yes, both renters and hosts can cancel bookings. Hosts can set a mandatory cancellation fee during listing creation. This fee is charged if the booking is cancelled within 24 hours of it beginning.",
     },
   ];
 
