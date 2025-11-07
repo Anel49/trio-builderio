@@ -86,7 +86,7 @@ export default function FAQ() {
     {
       question: "Do you offer delivery?",
       answer:
-        `${COMPANY_NAME} does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with "Offers delivery" or "Offers free delivery". Delivery address and fee will be decided in the Chat between the host and renter.`,
+        `${COMPANY_NAME} does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with "Offers delivery" or "Offers free delivery". Delivery address and fee will be decided through messages between the host and renter.`,
     },
     {
       question: "How do pickups and drop-offs work?",
