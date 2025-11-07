@@ -168,6 +168,7 @@ const AppContent = () => {
           <Route path="/order-history" element={<OrderHistory />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/TermsOfService" element={<TermsOfService />} />
+          <Route path="/faq" element={<FAQ />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
