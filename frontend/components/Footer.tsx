@@ -73,7 +73,7 @@ export function Footer() {
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <a
-                    href="#"
+                    href="/faq"
                     className="hover:text-foreground transition-colors"
                   >
                     Help Center
