@@ -175,7 +175,7 @@ export default function FAQ() {
           >
             Prohibited Items and Activities
           </a>
-          {" "} in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a {COMPANY_NAME} administrator.
+          {" "}in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a {COMPANY_NAME} administrator.
         </p>
       ),
     },
