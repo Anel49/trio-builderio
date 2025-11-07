@@ -201,7 +201,7 @@ export default function FAQ() {
     {
       question: "What if someone loses or doesn't return my item?",
       answer:
-        `We have a comprehensive claim process that holds renters liable for not returning an item. It is up to the host's discretion whether they want to initiate a claim. If ${COMPANY_NAME} or the host fail to retrieve the missing item featured in a claim, ${COMPANY_NAME} will reimburse the host a dollar amount equal to the item's condition at the time of lending it, capped at $5,000.`,
+        `We have a comprehensive claim process that holds renters liable for not returning an item. It is up to the host's discretion whether they want to initiate a claim. If ${COMPANY_NAME} or the host fail to retrieve a missing item featured in a claim, ${COMPANY_NAME} will reimburse the host a dollar amount equal to the item's condition at the time of lending it, capped at $5,000.`,
     },
     {
       question: "What if my item gets damaged?",
