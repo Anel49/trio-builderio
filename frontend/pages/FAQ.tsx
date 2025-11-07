@@ -131,7 +131,7 @@ export default function FAQ() {
   const renterFAQs: FAQItem[] = [
     {
       question: "How do I rent an item?",
-      answer: `1. Create an account\n2. Search for listings using keywords and filters\n3. Choose an item, select from available dates, and submit your request\n4. Coordinate pickup or delivery through messages with host`,
+      answer: `1. Create an account\n2. Search for listings using keywords and filters\n3. Choose an item, select from available dates, and submit your request\n4. Coordinate pickup or delivery through messages with the host`,
     },
     {
       question: "Can I extend my booking?",
