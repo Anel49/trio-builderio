@@ -154,7 +154,7 @@ export default function FAQ() {
     {
       question: "What if the item is damaged while I'm renting it?",
       answer:
-        "As a renter, you have the responsibility to document, through pictures and notes, any damage that occurred to an item during your rental period and, if applicable, its transport to the host. At the end of the rental period, which can be ended prematurely if both parties agree, submit a claim with us and provide us with the information gathered to resolve the claim.",
+        "As a renter, you have the responsibility to document, through pictures and notes, any item damage incurred during your rental period and, if applicable, its transport to the host. At the end of the rental period, which can be ended prematurely if both parties agree, submit a claim with us and provide us with the information gathered to resolve the claim.",
     },
     {
       question: "What if I have an issue with the host?",
