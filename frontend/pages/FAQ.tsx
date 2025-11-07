@@ -164,13 +164,18 @@ export default function FAQ() {
 
   const hostFAQs: FAQItem[] = [
     {
+      question: "What items are prohibited?",
+      answer:
+        'Prohibited include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a LendIt staff member.',
+    },
+    {
       question: "How do I list an item?",
       answer: `1. Create an account\n2. Select \"Rent your product\" from the navigation bar or \"List an item\" from the profile page\n3. Populate mandatory fields (title, location, price, description; optional tags)\n4. Post the listing`,
     },
     {
-      question: "How do I get paid?",
+      question: "Can I cancel a booking?",
       answer:
-        "Payments are wired to your connected bank account two days after the rental is marked completed.",
+        "Yes, both renters and hosts can cancel bookings. Hosts can set a mandatory cancellation fee during listing creation. This fee is charged if the booking is cancelled within 24 hours of it beginning.",
     },
     {
       question: "Can I require a deposit for my item?",
@@ -178,9 +183,9 @@ export default function FAQ() {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
-      question: "What if my item gets damaged?",
+      question: "How do I get paid?",
       answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Payments are wired to your connected bank account two days after the rental is marked completed.",
     },
     {
       question: "What if someone loses or doesn't return my item?",
@@ -188,19 +193,14 @@ export default function FAQ() {
         "We have a comprehensive claim process that holds renters liable for not returning an item. It is up to the host's discretion whether they want to initiate a claim. If LendIt or the host fail to retrieve the missing item featured in a claim, LendIt will reimburse the host a dollar amount equal to the item's condition at the time of lending it, capped at $5,000.",
     },
     {
-      question: "What items are prohibited?",
+      question: "What if my item gets damaged?",
       answer:
-        'Prohibited include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a LendIt staff member.',
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
       question: "What if I have an issue with the renter?",
       answer:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-      question: "Can I cancel a booking?",
-      answer:
-        "Yes, both renters and hosts can cancel bookings. Hosts can set a mandatory cancellation fee during listing creation. This fee is charged if the booking is cancelled within 24 hours of it beginning.",
     },
   ];
 
