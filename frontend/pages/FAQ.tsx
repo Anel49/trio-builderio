@@ -168,7 +168,7 @@ export default function FAQ() {
       question: "What items are prohibited?",
       answer: (
         <p>
-          Prohibited items include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under {" "}
+          Prohibited items include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under{" "}
           <a
             href="/terms-of-service#prohibited-items"
             className="text-primary hover:underline"
