@@ -193,7 +193,7 @@ export default function FAQ() {
         'Prohibited include, but are not limited to, firearms, ammunition, drugs, live animals, obscene materials, and anything restricted by law. Full categorization of prohibited items can be found under "Prohibited Items and Activities" in our Terms of Service page. Listings of items categorized under these categories will be removed and may result in account suspension or deletion at the discretion of a LendIt staff member.',
     },
     {
-      question: "What if I have an issue with a renter or host?",
+      question: "What if I have an issue with the renter?",
       answer:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
