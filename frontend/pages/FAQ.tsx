@@ -142,9 +142,9 @@ export default function FAQ() {
         "As a renter, you have the responsibility to document, through pictures and notes, any damage that occurred to an item during your rental period and, if applicable, its transport to the host. At the end of the rental period, which can be ended prematurely if both parties agree, submit a claim with us and provide us with the information gathered to resolve the claim.",
     },
     {
-      question: "Can I extend my rental?",
+      question: "Can I extend my booking?",
       answer:
-        'Yes! If you want to extend your rental, go to your Order History, find the rental, click or tap the "Extend Rental" button, and if the owner approves the extension, you will be notified to make a payment. Once the payment is accepted, your rental\'s end date will be updated.',
+        'Yes! If you want to extend your booking, go to your Order History, find the booking, click or tap the "Extend Booking" button, and if the owner approves the extension, you will be notified to make a payment. Once the payment is accepted, your booking\'s end date will be updated.',
     },
     {
       question: "What happens if I'm late returning an item?",
