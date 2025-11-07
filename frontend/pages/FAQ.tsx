@@ -119,7 +119,7 @@ export default function FAQ() {
     {
       question: "How do I change my password or email?",
       answer:
-        "Users can change either their password or email through the cog icon found on your profile page.",
+        "Users can change either their password or email through the cog icon found on their profile page.",
     },
     {
       question: "How do I delete my account?",
