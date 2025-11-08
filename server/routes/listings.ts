@@ -835,16 +835,19 @@ export async function listListingReservations(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
     const result = await pool.query(
-      `select id, start_date, end_date, renter, status from reservations where listing_id = $1 order by start_date asc limit 500`,
+      `select r.id, r.start_date, r.end_date, r.renter_id, r.status, u.first_name, u.last_name from reservations r left join users u on r.renter_id = u.id where r.listing_id = $1 order by r.start_date asc limit 500`,
       [id],
     );
-    const reservations = result.rows.map((r: any) => ({
-      id: String(r.id),
-      startDate: new Date(r.start_date).toISOString(),
-      endDate: new Date(r.end_date).toISOString(),
-      renterName: r.renter || undefined,
-      status: String(r.status || "confirmed") as any,
-    }));
+    const reservations = result.rows.map((r: any) => {
+      const renterName = r.first_name && r.last_name ? `${r.first_name} ${r.last_name}` : undefined;
+      return {
+        id: String(r.id),
+        startDate: new Date(r.start_date).toISOString(),
+        endDate: new Date(r.end_date).toISOString(),
+        renterName: renterName,
+        status: String(r.status || "confirmed") as any,
+      };
+    });
     res.json({ ok: true, reservations });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });

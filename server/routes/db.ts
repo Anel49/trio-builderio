@@ -117,7 +117,7 @@ export async function dbSetup(_req: Request, res: Response) {
       create table if not exists reservations (
         id serial primary key,
         listing_id integer not null references listings(id) on delete cascade,
-        renter text,
+        renter_id integer references users(id) on delete set null,
         start_date date not null,
         end_date date not null,
         status text default 'pending',
@@ -441,24 +441,25 @@ export async function dbSetup(_req: Request, res: Response) {
     `);
 
     // Seed reservations for the first 3 listings (by name) to replace demo data
-    await pool.query(`
-      insert into reservations (listing_id, renter, start_date, end_date, status)
-      select l.id, r.renter, r.start_date::date, r.end_date::date, r.status
-      from (
-        values
-          ('Riding Lawn Mower', 'Alice', '2025-10-15', '2025-10-17', 'confirmed'),
-          ('Riding Lawn Mower', 'Bob',   '2025-09-22', '2025-09-28', 'confirmed'),
-          ('Designer Dress',   'Cara',  '2025-06-18', '2025-06-20', 'confirmed'),
-          ('Designer Dress',   'Dan',   '2025-07-10', '2025-07-12', 'completed'),
-          ('Professional Tool Set', 'Eve', '2025-08-05', '2025-08-07', 'confirmed'),
-          ('Professional Tool Set', 'Frank','2025-09-10', '2025-09-12', 'pending')
-      ) as r(name, renter, start_date, end_date, status)
-      join listings l on l.name = r.name
-      where not exists (
-        select 1 from reservations x
-        where x.listing_id = l.id and x.start_date = r.start_date::date and x.end_date = r.end_date::date
-      );
-    `);
+    // For now, reservations are created without a renter_id until renting functionality is implemented
+    // await pool.query(`
+    //   insert into reservations (listing_id, renter_id, start_date, end_date, status)
+    //   select l.id, NULL, r.start_date::date, r.end_date::date, r.status
+    //   from (
+    //     values
+    //       ('Riding Lawn Mower', '2025-10-15', '2025-10-17', 'confirmed'),
+    //       ('Riding Lawn Mower', '2025-09-22', '2025-09-28', 'confirmed'),
+    //       ('Designer Dress',   '2025-06-18', '2025-06-20', 'confirmed'),
+    //       ('Designer Dress',   '2025-07-10', '2025-07-12', 'completed'),
+    //       ('Professional Tool Set', '2025-08-05', '2025-08-07', 'confirmed'),
+    //       ('Professional Tool Set', '2025-09-10', '2025-09-12', 'pending')
+    //   ) as r(name, start_date, end_date, status)
+    //   join listings l on l.name = r.name
+    //   where not exists (
+    //     select 1 from reservations x
+    //     where x.listing_id = l.id and x.start_date = r.start_date::date and x.end_date = r.end_date::date
+    //   );
+    // `);
 
     // Seed favorites for demo user
     const demoUserEmail = "demo@example.com";
