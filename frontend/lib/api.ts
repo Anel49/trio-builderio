@@ -114,13 +114,11 @@ async function resolveApiBase(): Promise<string | null> {
     | undefined;
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
-  if (envBase) {
-    cachedBase = envBase;
-    return cachedBase;
-  }
-
+  // Build candidates list: try env var first if provided, then standard candidates
   const candidates = uniq<string>([
-    // Prefer same-origin candidates first to avoid CORS/network blockers
+    // Try env var first if provided
+    envBase ? envBase : "",
+    // Prefer same-origin candidates next to avoid CORS/network blockers
     "/api",
     "/.netlify/functions/api",
     origin ? `${origin}/api` : "",
@@ -128,6 +126,7 @@ async function resolveApiBase(): Promise<string | null> {
   ]);
 
   for (const base of candidates) {
+    if (!base) continue;
     const pingUrl = cleanJoin(base, "ping");
     const res = await tryFetch(pingUrl, { method: "GET" }, 1200);
     if (res && res.ok) {
