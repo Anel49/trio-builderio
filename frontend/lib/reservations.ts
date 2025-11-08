@@ -120,8 +120,10 @@ export const getAllReservedDates = (listingId: string): Date[] => {
   reservations.forEach((reservation) => {
     const currentDate = new Date(reservation.startDate);
     const endDate = new Date(reservation.endDate);
+    // Add 1 day to include the end date in the reservation (end date is inclusive)
+    endDate.setDate(endDate.getDate() + 1);
 
-    while (currentDate <= endDate) {
+    while (currentDate < endDate) {
       reservedDates.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
