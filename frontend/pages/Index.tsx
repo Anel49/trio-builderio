@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
@@ -54,6 +55,7 @@ import {
 } from "lucide-react";
 
 export default function Index() {
+  const navigate = useNavigate();
   const { user: authUser, authenticated } = useAuth();
   // const { setPageLoading } = usePageLoading();
 
@@ -101,6 +103,35 @@ export default function Index() {
   const handleFavorite = (listingName: string) => {
     setFavoritedListing(listingName);
     setIsFavoritesModalOpen(true);
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const params = new URLSearchParams();
+
+      if (location) {
+        params.set("q", location);
+      }
+
+      if (dateRange.start) {
+        params.set("startDate", dateRange.start.toISOString().split("T")[0]);
+      }
+
+      if (dateRange.end) {
+        params.set("endDate", dateRange.end.toISOString().split("T")[0]);
+      }
+
+      if (searchLocation) {
+        params.set("latitude", searchLocation.latitude.toString());
+        params.set("longitude", searchLocation.longitude.toString());
+        if (searchLocation.city) {
+          params.set("city", searchLocation.city);
+        }
+      }
+
+      navigate(`/browse${params.toString() ? "?" + params.toString() : ""}`);
+    }
   };
 
   const featuredListings = [
@@ -479,6 +510,7 @@ export default function Index() {
                     placeholder="What"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
+                    onKeyDown={handleSearchKeyDown}
                     className="pl-10 h-14 text-lg md:text-lg border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:placeholder:text-gray-400"
                   />
                 </div>
