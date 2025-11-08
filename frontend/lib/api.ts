@@ -93,7 +93,10 @@ async function tryFetch(
     ]);
     return (res as Response) || null;
   } catch (error) {
-    // Silently handle fetch errors (network issues, etc.)
+    // Log errors for debugging, but don't throw
+    if (process.env.NODE_ENV !== "production") {
+      console.debug("[tryFetch] Network error for", url, error);
+    }
     return null;
   }
 }
