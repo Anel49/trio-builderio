@@ -154,8 +154,11 @@ export const isDateRangeAvailable = (
 ): boolean => {
   const reservedDates = getAllReservedDates(listingId);
   const currentDate = new Date(startDate);
+  // Add 1 day to end date to make it inclusive
+  const inclusiveEndDate = new Date(endDate);
+  inclusiveEndDate.setDate(inclusiveEndDate.getDate() + 1);
 
-  while (currentDate <= endDate) {
+  while (currentDate < inclusiveEndDate) {
     const isReserved = reservedDates.some(
       (reservedDate) =>
         reservedDate.toDateString() === currentDate.toDateString(),
