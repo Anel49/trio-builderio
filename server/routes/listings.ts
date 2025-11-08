@@ -203,7 +203,8 @@ export async function listListings(req: Request, res: Response) {
         image: r.image_url,
         host: r.host,
         hostUserId: typeof r.user_id === "number" ? r.user_id : undefined,
-        hostUsername: typeof r.host_username === "string" ? r.host_username : undefined,
+        hostUsername:
+          typeof r.host_username === "string" ? r.host_username : undefined,
         hostOpenDms: Boolean(r.host_open_dms),
         hostCreatedAt: r.host_created_at || null,
         type: primaryCategory,
@@ -531,7 +532,8 @@ export async function getListingById(req: Request, res: Response) {
       image: r.image_url,
       host: r.host,
       hostUserId: typeof r.user_id === "number" ? r.user_id : null,
-      hostUsername: typeof r.host_username === "string" ? r.host_username : undefined,
+      hostUsername:
+        typeof r.host_username === "string" ? r.host_username : undefined,
       hostOpenDms: Boolean(r.host_open_dms),
       hostCreatedAt: r.host_created_at || null,
       type: categories[0] || "General",
@@ -839,7 +841,10 @@ export async function listListingReservations(req: Request, res: Response) {
       [id],
     );
     const reservations = result.rows.map((r: any) => {
-      const renterName = r.first_name && r.last_name ? `${r.first_name} ${r.last_name}` : undefined;
+      const renterName =
+        r.first_name && r.last_name
+          ? `${r.first_name} ${r.last_name}`
+          : undefined;
       return {
         id: String(r.id),
         startDate: new Date(r.start_date).toISOString(),

@@ -63,15 +63,13 @@ export function DateRangePicker({
 
   const getReservationForDate = (date: Date): ReservationPeriod | null => {
     return (
-      reservations.find(
-        (reservation) => {
-          const reservationStart = new Date(reservation.startDate);
-          const reservationEnd = new Date(reservation.endDate);
-          // Add 1 day to end date to make it inclusive
-          reservationEnd.setDate(reservationEnd.getDate() + 1);
-          return date >= reservationStart && date < reservationEnd;
-        },
-      ) || null
+      reservations.find((reservation) => {
+        const reservationStart = new Date(reservation.startDate);
+        const reservationEnd = new Date(reservation.endDate);
+        // Add 1 day to end date to make it inclusive
+        reservationEnd.setDate(reservationEnd.getDate() + 1);
+        return date >= reservationStart && date < reservationEnd;
+      }) || null
     );
   };
 

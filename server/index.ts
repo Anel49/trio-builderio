@@ -86,7 +86,6 @@ export function createServer() {
     }),
   );
 
-
   // Update user open_dms setting
   app.patch("/api/auth/me/open-dms", async (req: any, res: any) => {
     try {
