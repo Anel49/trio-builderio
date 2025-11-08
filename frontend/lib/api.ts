@@ -1,11 +1,11 @@
 let cachedBase: string | null = null;
 let lastResolveFailAt = 0;
-const RESOLVE_COOLDOWN_MS = 15_000;
+const RESOLVE_COOLDOWN_MS = 5_000; // Reduced from 15s to recover faster
 let offlineUntil = 0;
-const TEMP_OFFLINE_MS = 60_000;
+const TEMP_OFFLINE_MS = 15_000; // Reduced from 60s to 15s for faster recovery
 let lastPingOkAt = 0;
 let lastPingCheckAt = 0;
-const PING_TTL_MS = 15_000;
+const PING_TTL_MS = 10_000; // Reduced from 15s to check more frequently
 const DISABLE_NETWORK =
   String(
     (import.meta as any).env?.VITE_DISABLE_NETWORK ?? "false",
