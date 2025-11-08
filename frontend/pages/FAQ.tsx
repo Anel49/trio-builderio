@@ -342,7 +342,9 @@ export default function FAQ() {
                     >
                       <button
                         onClick={() => toggleExpanded(itemId)}
-                        className={`w-full px-4 py-4 flex items-center justify-between transition-colors rounded-md ${
+                        className={`w-full px-4 py-4 flex items-center justify-between transition-colors ${
+                          isExpanded ? "rounded-t-md" : "rounded-md"
+                        } ${
                           isExpanded
                             ? "bg-[#f4f5f5] dark:bg-[#344255]"
                             : "hover:bg-[#f4f5f5] dark:hover:bg-[#344255]"
