@@ -283,26 +283,26 @@ export default function UploadProduct() {
   const defaultCategory = "General";
 
   const recommendedTags = [
-    "Appliance",
+    "Appliances",
     "Automotive",
     "Baby",
-    "Child",
+    "Kids",
     "Clothing",
     "Crafts",
     "Fitness",
     "Furniture",
-    "Game",
+    "Games",
     "Garden",
     "Home",
-    "Instrument",
+    "Instruments",
     "Literature",
     "Party",
-    "Pet",
-    "Service",
+    "Pets",
+    "Services",
     "Sports",
     "Tech",
-    "Tool",
-    "Toy",
+    "Tools",
+    "Toys",
   ];
 
   const handleTagToggle = (tag: string) => {
