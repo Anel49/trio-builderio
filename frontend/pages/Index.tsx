@@ -397,7 +397,7 @@ export default function Index() {
   }, [authenticated, authUser]);
 
   const categories = [
-    { name: "Landscaping", icon: "🌻", count: "500+" },
+    { name: "Garden", icon: "🌻", count: "500+" },
     { name: "Clothing", icon: "👗", count: "300+" },
     { name: "Tools", icon: "🔨", count: "800+" },
     { name: "Tech", icon: "💻", count: "150+" },
