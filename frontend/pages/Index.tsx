@@ -397,12 +397,12 @@ export default function Index() {
   }, [authenticated, authUser]);
 
   const categories = [
-    { name: "Garden", icon: "🌻", count: "500+" },
-    { name: "Clothing", icon: "👗", count: "300+" },
-    { name: "Tools", icon: "🔨", count: "800+" },
-    { name: "Tech", icon: "💻", count: "150+" },
-    { name: "Party", icon: "🎈", count: "200+" },
-    { name: "Instruments", icon: "🎷", count: "50+" },
+    { name: "Garden", icon: "🌻" },
+    { name: "Clothing", icon: "👗" },
+    { name: "Tools", icon: "🔨" },
+    { name: "Tech", icon: "💻" },
+    { name: "Party", icon: "🎈" },
+    { name: "Instruments", icon: "🎷" },
   ];
 
   const benefits = [
