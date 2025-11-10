@@ -634,6 +634,7 @@ export default function Index() {
               icon={category.icon}
               name={category.name}
               count={category.count}
+              onClick={() => navigate(`/browse?category=${encodeURIComponent(category.name)}`)}
             />
           ))}
         </div>
