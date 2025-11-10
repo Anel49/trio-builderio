@@ -503,7 +503,7 @@ export default function Index() {
           {/* Search Form */}
           <Card className="w-[70vw] mx-auto bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/30">
             <CardContent className="p-6 mr-[3px]">
-              <div className="grid grid-cols-1 md:grid-cols-[6fr_4fr] gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-[6fr_4fr] gap-2">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
