@@ -170,6 +170,21 @@ export default function BrowseListings() {
     } catch {}
   }, []);
 
+  // Apply category filter from URL query parameter
+  React.useEffect(() => {
+    const category = searchParams.get("category");
+    if (category) {
+      setFilters((prev) => ({
+        ...prev,
+        category: category,
+      }));
+      setAppliedFilters((prev) => ({
+        ...prev,
+        category: category,
+      }));
+    }
+  }, [searchParams]);
+
   // Filter state
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
