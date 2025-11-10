@@ -524,16 +524,18 @@ export default function Index() {
                       <Button
                         variant="outline"
                         className={cn(
-                          "h-14 text-lg justify-start text-left font-normal border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white flex-1 max-w-xs",
+                          "h-14 text-lg justify-start text-left font-normal border border-primary/20 dark:border-0 focus-visible:ring-1 dark:bg-gray-700 dark:hover:bg-gray-600 dark:hover:text-white flex-1 min-w-0 overflow-hidden text-ellipsis",
                           !dateRange.start && "text-muted-foreground",
                         )}
                       >
-                        <CalendarIcon className="mr-2 h-5 w-5" />
-                        {dateRange.start && dateRange.end
-                          ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
-                          : dateRange.start
-                            ? `${format(dateRange.start, "MMM dd")} - End`
-                            : "When"}
+                        <CalendarIcon className="mr-2 h-5 w-5 flex-shrink-0" />
+                        <span className="truncate">
+                          {dateRange.start && dateRange.end
+                            ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
+                            : dateRange.start
+                              ? `${format(dateRange.start, "MMM dd")} - End`
+                              : "When"}
+                        </span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
