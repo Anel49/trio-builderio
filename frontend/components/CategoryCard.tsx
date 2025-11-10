@@ -9,7 +9,7 @@ import {
 interface CategoryCardProps {
   icon: string;
   name: string;
-  count: string;
+  count?: string;
 }
 
 export function CategoryCard({ icon, name, count }: CategoryCardProps) {
@@ -41,11 +41,13 @@ export function CategoryCard({ icon, name, count }: CategoryCardProps) {
         >
           {name}
         </h3>
-        <p
-          className={combineTokens("text-muted-foreground", typography.size.sm)}
-        >
-          {count}
-        </p>
+        {count && (
+          <p
+            className={combineTokens("text-muted-foreground", typography.size.sm)}
+          >
+            {count}
+          </p>
+        )}
       </CardContent>
     </Card>
   );
