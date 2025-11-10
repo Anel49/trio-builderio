@@ -10,9 +10,10 @@ interface CategoryCardProps {
   icon: string;
   name: string;
   count?: string;
+  onClick?: () => void;
 }
 
-export function CategoryCard({ icon, name, count }: CategoryCardProps) {
+export function CategoryCard({ icon, name, count, onClick }: CategoryCardProps) {
   return (
     <Card
       className={combineTokens(
@@ -20,6 +21,7 @@ export function CategoryCard({ icon, name, count }: CategoryCardProps) {
         animations.combinations.categoryCard,
         "hover:shadow-lg",
       )}
+      onClick={onClick}
     >
       <CardContent
         className={combineTokens(spacing.padding.card, "text-center")}
