@@ -13,7 +13,12 @@ interface CategoryCardProps {
   onClick?: () => void;
 }
 
-export function CategoryCard({ icon, name, count, onClick }: CategoryCardProps) {
+export function CategoryCard({
+  icon,
+  name,
+  count,
+  onClick,
+}: CategoryCardProps) {
   return (
     <Card
       className={combineTokens(
@@ -45,7 +50,10 @@ export function CategoryCard({ icon, name, count, onClick }: CategoryCardProps) 
         </h3>
         {count && (
           <p
-            className={combineTokens("text-muted-foreground", typography.size.sm)}
+            className={combineTokens(
+              "text-muted-foreground",
+              typography.size.sm,
+            )}
           >
             {count}
           </p>
