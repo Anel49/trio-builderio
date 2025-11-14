@@ -207,10 +207,24 @@ export default function BrowseListings() {
   const [sortBy, setSortBy] = useState("");
 
   // Auto-sort by distance when location is selected
+  // Track previous location to detect removal
+  const [prevFilterLocation, setPrevFilterLocation] = React.useState<{
+    latitude: number;
+    longitude: number;
+    city: string | null;
+  } | null>(filterLocation);
+
   React.useEffect(() => {
     if (filterLocation) {
       setSortBy("distance-asc");
     }
+
+    // Detect location removal (was set, now null)
+    if (prevFilterLocation && !filterLocation) {
+      setIsLoadingDistances(true);
+    }
+
+    setPrevFilterLocation(filterLocation);
   }, [filterLocation]);
 
   const CATEGORY_OPTIONS = [
