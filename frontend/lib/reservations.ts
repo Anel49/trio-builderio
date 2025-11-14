@@ -105,6 +105,15 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
   ],
   // Listing 6 intentionally has no reservations
   "6": [],
+  // Listing 26 (CYBERTRUCK) reservations
+  "26": [
+    {
+      id: "res-2601",
+      startDate: new Date("2025-11-18"),
+      endDate: new Date("2025-11-20"),
+      status: "accepted",
+    },
+  ],
 };
 
 export const getListingReservations = (
