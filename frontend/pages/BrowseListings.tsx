@@ -205,18 +205,20 @@ export default function BrowseListings() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState("");
 
-  // Auto-sort by distance when location is selected
+  // Listings state (moved here to avoid temporal dead zone)
+  const [listings, setListings] = useState<any[]>([]);
+
+  // Cache for listing reservations
+  const [reservationsCache, setReservationsCache] = React.useState<
+    Record<string, Array<{ startDate: string; endDate: string; status: string }>>
+  >({});
+
   // Track previous location to detect removal
   const [prevFilterLocation, setPrevFilterLocation] = React.useState<{
     latitude: number;
     longitude: number;
     city: string | null;
   } | null>(filterLocation);
-
-  // Cache for listing reservations
-  const [reservationsCache, setReservationsCache] = React.useState<
-    Record<string, Array<{ startDate: string; endDate: string; status: string }>>
-  >({});
 
   // Fetch reservations for a listing
   const fetchReservations = React.useCallback(
