@@ -132,6 +132,30 @@ export const getAllReservedDates = (listingId: string): Date[] => {
   return reservedDates;
 };
 
+export const getPendingOrAcceptedReservedDates = (listingId: string): Date[] => {
+  const reservations = getListingReservations(listingId);
+  const reservedDates: Date[] = [];
+
+  reservations.forEach((reservation) => {
+    // Only include pending or accepted reservations
+    if (reservation.status !== "pending" && reservation.status !== "confirmed") {
+      return;
+    }
+
+    const currentDate = new Date(reservation.startDate);
+    const endDate = new Date(reservation.endDate);
+    // Add 1 day to include the end date in the reservation (end date is inclusive)
+    endDate.setDate(endDate.getDate() + 1);
+
+    while (currentDate < endDate) {
+      reservedDates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  });
+
+  return reservedDates;
+};
+
 export const isDateInReservation = (
   date: Date,
   listingId: string,
