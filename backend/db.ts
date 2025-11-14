@@ -102,6 +102,23 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     console.log("[dbSetup] Added enabled column");
 
+    await pool.query(`
+      create table if not exists reservations (
+        id serial primary key,
+        listing_id integer not null references listings(id) on delete cascade,
+        start_date date not null,
+        end_date date not null,
+        status text not null default 'pending',
+        created_at timestamptz default now()
+      )
+    `);
+    console.log("[dbSetup] Created reservations table");
+
+    await pool.query(
+      `create index if not exists idx_reservations_listing_id on reservations(listing_id)`,
+    );
+    console.log("[dbSetup] Created index on reservations.listing_id");
+
     // Handle user_id column - always try to fix constraints
     try {
       // First, try to make it nullable and set default
