@@ -688,12 +688,27 @@ export default function BrowseListings() {
 
       // Availability filter: only when a date range is selected
       if (dateRange.start && dateRange.end) {
-        const available = isDateRangeAvailable(
-          dateRange.start,
-          dateRange.end,
-          String(listing.id),
-        );
-        if (!available) return false;
+        const listingId = String(listing.id);
+        const reservations = reservationsCache[listingId];
+
+        if (reservations !== undefined) {
+          // Check if any day in the selected range conflicts with reservations
+          const currentDate = new Date(dateRange.start);
+          const inclusiveEndDate = new Date(dateRange.end);
+          inclusiveEndDate.setDate(inclusiveEndDate.getDate() + 1);
+
+          while (currentDate < inclusiveEndDate) {
+            const dateStr = currentDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            const hasConflict = reservations.some((res) => {
+              const resStart = res.startDate;
+              const resEnd = res.endDate;
+              return dateStr >= resStart && dateStr <= resEnd;
+            });
+
+            if (hasConflict) return false;
+            currentDate.setDate(currentDate.getDate() + 1);
+          }
+        }
       }
 
       return true;
