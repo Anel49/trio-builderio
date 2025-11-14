@@ -177,6 +177,10 @@ export const isDateRangeAvailable = (
   listingId: string,
 ): boolean => {
   const reservedDates = getPendingOrAcceptedReservedDates(listingId);
+  console.log(
+    `Checking availability for listing ${listingId}: Reserved dates: ${reservedDates.map((d) => d.toISOString()).join(", ")}`,
+  );
+
   const currentDate = new Date(startDate);
   // Add 1 day to end date to make it inclusive
   const inclusiveEndDate = new Date(endDate);
@@ -188,11 +192,15 @@ export const isDateRangeAvailable = (
         reservedDate.toDateString() === currentDate.toDateString(),
     );
     if (isReserved) {
+      console.log(
+        `Listing ${listingId}: Date ${currentDate.toDateString()} is reserved`,
+      );
       return false;
     }
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
+  console.log(`Listing ${listingId}: Available`);
   return true;
 };
 
