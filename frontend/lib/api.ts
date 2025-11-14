@@ -214,6 +214,12 @@ export async function apiFetch(path: string, init?: RequestInit) {
         headers: { "Content-Type": "application/json" },
       });
     }
+    if (/^listings\/\d+\/reviews$/.test(p)) {
+      return new Response(JSON.stringify({ ok: true, reviews: [] }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
     if (
       /^users(\?|$)/.test(p) &&
       (finalInit?.method || "GET").toUpperCase() === "GET"
