@@ -797,7 +797,7 @@ export default function BrowseListings() {
               />
             </div>
             <Button
-              variant="outline"
+              variant={filterLocation ? "default" : "outline"}
               className="flex items-center gap-2"
               onClick={() => setIsLocationPickerOpen(true)}
             >
@@ -808,7 +808,10 @@ export default function BrowseListings() {
             </Button>
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
+                <Button
+                  variant={dateRange.start && dateRange.end ? "default" : "outline"}
+                  className="flex items-center gap-2"
+                >
                   <CalendarIcon className="h-4 w-4" />
                   {dateRange.start && dateRange.end
                     ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
@@ -869,7 +872,18 @@ export default function BrowseListings() {
             </Popover>
             <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
+                <Button
+                  variant={
+                    appliedFilters.minPrice ||
+                    appliedFilters.maxPrice ||
+                    appliedFilters.maxDistance ||
+                    appliedFilters.zipCode ||
+                    appliedFilters.category
+                      ? "default"
+                      : "outline"
+                  }
+                  className="flex items-center gap-2"
+                >
                   <SlidersHorizontal className="h-4 w-4" />
                   Filters
                 </Button>
@@ -1004,7 +1018,10 @@ export default function BrowseListings() {
             </Popover>
             <DropdownMenu open={isSortOpen} onOpenChange={setIsSortOpen}>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
+                <Button
+                  variant={sortBy ? "default" : "outline"}
+                  className="flex items-center gap-2"
+                >
                   <Filter className="h-4 w-4" />
                   Sort
                 </Button>
