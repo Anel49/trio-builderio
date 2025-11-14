@@ -877,7 +877,17 @@ export default function BrowseListings() {
                 ? `Location: ${filterLocation.city || "Custom"}`
                 : "Location"}
             </Button>
-            <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+            <Popover
+              open={isDatePickerOpen}
+              onOpenChange={(open) => {
+                setIsDatePickerOpen(open);
+                // Clear date selection when closing the popover
+                if (!open) {
+                  setDateRange({ start: undefined, end: undefined });
+                  localStorage.removeItem("searchDateRange");
+                }
+              }}
+            >
               <PopoverTrigger asChild>
                 <Button
                   variant={
