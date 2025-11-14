@@ -943,7 +943,8 @@ export default function BrowseListings() {
 
                   {/* Distance Filter */}
                   <div>
-                    <div className="flex items-center gap-2">
+                    <Label className="text-sm font-medium">Distance</Label>
+                    <div className="flex items-center gap-2 mt-2">
                       <Input
                         placeholder="Miles"
                         value={filters.maxDistance}
