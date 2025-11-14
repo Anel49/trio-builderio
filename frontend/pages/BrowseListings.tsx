@@ -922,6 +922,12 @@ export default function BrowseListings() {
                           onChange={(e) =>
                             setFilters({ ...filters, minPrice: e.target.value })
                           }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              setAppliedFilters(filters);
+                              setIsFilterOpen(false);
+                            }
+                          }}
                           className="pl-8"
                         />
                       </div>
@@ -936,6 +942,12 @@ export default function BrowseListings() {
                           onChange={(e) =>
                             setFilters({ ...filters, maxPrice: e.target.value })
                           }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              setAppliedFilters(filters);
+                              setIsFilterOpen(false);
+                            }
+                          }}
                           className="pl-8"
                         />
                       </div>
