@@ -955,11 +955,17 @@ export default function BrowseListings() {
                           })
                         }
                         className="w-20"
+                        disabled={!filterLocation}
                       />
                       <span className="text-sm text-muted-foreground">
                         miles from location
                       </span>
                     </div>
+                    {!filterLocation && (
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Select a location to use distance filter
+                      </p>
+                    )}
                   </div>
 
                   {/* Category Filter */}
