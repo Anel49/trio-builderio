@@ -967,6 +967,12 @@ export default function BrowseListings() {
                             maxDistance: e.target.value,
                           })
                         }
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            setAppliedFilters(filters);
+                            setIsFilterOpen(false);
+                          }
+                        }}
                         className="w-20"
                         disabled={!filterLocation}
                       />
