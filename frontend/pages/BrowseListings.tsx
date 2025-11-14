@@ -214,6 +214,11 @@ export default function BrowseListings() {
     city: string | null;
   } | null>(filterLocation);
 
+  // Cache for listing reservations
+  const [reservationsCache, setReservationsCache] = React.useState<
+    Record<string, Array<{ startDate: string; endDate: string; status: string }>>
+  >({});
+
   React.useEffect(() => {
     if (filterLocation) {
       setSortBy("distance-asc");
