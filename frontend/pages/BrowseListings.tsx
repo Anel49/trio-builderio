@@ -478,8 +478,6 @@ export default function BrowseListings() {
     },
   ];
 
-  const [listings, setListings] = useState<any[]>([]);
-
   React.useEffect(() => {
     let cancelled = false;
     (async () => {
