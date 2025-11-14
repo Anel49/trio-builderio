@@ -943,8 +943,7 @@ export default function BrowseListings() {
 
                   {/* Distance Filter */}
                   <div>
-                    <Label className="text-sm font-medium">Distance</Label>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-2">
                       <Input
                         placeholder="Miles"
                         value={filters.maxDistance}
@@ -957,16 +956,8 @@ export default function BrowseListings() {
                         className="w-20"
                       />
                       <span className="text-sm text-muted-foreground">
-                        miles from
+                        miles from location
                       </span>
-                      <Input
-                        placeholder="Zip code"
-                        value={filters.zipCode}
-                        onChange={(e) =>
-                          setFilters({ ...filters, zipCode: e.target.value })
-                        }
-                        className="w-24"
-                      />
                     </div>
                   </div>
 
