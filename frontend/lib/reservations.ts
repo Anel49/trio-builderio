@@ -3,7 +3,7 @@ export interface ReservationPeriod {
   startDate: Date;
   endDate: Date;
   renterName?: string;
-  status: "confirmed" | "pending" | "completed";
+  status: "accepted" | "pending" | "completed";
 }
 
 export interface ListingReservations {
@@ -19,13 +19,13 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
       id: "res-001",
       startDate: new Date("2025-10-15"),
       endDate: new Date("2025-10-17"),
-      status: "confirmed",
+      status: "accepted",
     },
     {
       id: "res-002",
       startDate: new Date("2025-09-22"),
       endDate: new Date("2025-09-28"),
-      status: "confirmed",
+      status: "accepted",
     },
     {
       id: "res-003",
@@ -37,13 +37,13 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
       id: "res-004",
       startDate: new Date("2025-12-14"),
       endDate: new Date("2025-12-23"),
-      status: "confirmed",
+      status: "accepted",
     },
     {
       id: "res-005",
       startDate: new Date("2025-12-20"),
       endDate: new Date("2025-12-24"),
-      status: "confirmed",
+      status: "accepted",
     },
     {
       id: "res-006",
@@ -58,7 +58,7 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
       id: "res-101",
       startDate: new Date("2025-06-18"),
       endDate: new Date("2025-06-20"),
-      status: "confirmed",
+      status: "accepted",
     },
     {
       id: "res-102",
@@ -72,7 +72,7 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
       id: "res-201",
       startDate: new Date("2025-08-05"),
       endDate: new Date("2025-08-07"),
-      status: "confirmed",
+      status: "accepted",
     },
     {
       id: "res-202",
@@ -86,7 +86,7 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
       id: "res-301",
       startDate: new Date("2025-10-01"),
       endDate: new Date("2025-10-04"),
-      status: "confirmed",
+      status: "accepted",
     },
   ],
   "5": [
@@ -100,7 +100,7 @@ const mockReservations: Record<string, ReservationPeriod[]> = {
       id: "res-402",
       startDate: new Date("2025-12-05"),
       endDate: new Date("2025-12-06"),
-      status: "confirmed",
+      status: "accepted",
     },
   ],
   // Listing 6 intentionally has no reservations
@@ -138,7 +138,7 @@ export const getPendingOrAcceptedReservedDates = (listingId: string): Date[] => 
 
   reservations.forEach((reservation) => {
     // Only include pending or accepted reservations
-    if (reservation.status !== "pending" && reservation.status !== "confirmed") {
+    if (reservation.status !== "pending" && reservation.status !== "accepted") {
       return;
     }
 
