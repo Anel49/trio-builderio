@@ -669,8 +669,8 @@ export default function BrowseListings() {
         if (!matches) return false;
       }
 
-      // Distance filter (simplified - in real app would calculate based on zip code)
-      if (appliedFilters.maxDistance && appliedFilters.zipCode) {
+      // Distance filter (requires a location to be set)
+      if (appliedFilters.maxDistance && filterLocation) {
         const distanceValue =
           typeof listing.distanceMiles === "number" &&
           Number.isFinite(listing.distanceMiles)
@@ -777,6 +777,7 @@ export default function BrowseListings() {
     sortBy,
     dateRange.start,
     dateRange.end,
+    filterLocation,
   ]);
 
   const listingsForMap = React.useMemo(() => {
