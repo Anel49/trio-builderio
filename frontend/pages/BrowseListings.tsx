@@ -210,7 +210,10 @@ export default function BrowseListings() {
 
   // Cache for listing reservations
   const [reservationsCache, setReservationsCache] = React.useState<
-    Record<string, Array<{ startDate: string; endDate: string; status: string }>>
+    Record<
+      string,
+      Array<{ startDate: string; endDate: string; status: string }>
+    >
   >({});
 
   // Track previous location to detect removal
@@ -238,7 +241,10 @@ export default function BrowseListings() {
           }));
         }
       } catch (error) {
-        console.error(`Error fetching reservations for listing ${listingId}:`, error);
+        console.error(
+          `Error fetching reservations for listing ${listingId}:`,
+          error,
+        );
         // Set empty array if fetch fails
         setReservationsCache((prev) => ({
           ...prev,
@@ -733,7 +739,7 @@ export default function BrowseListings() {
           inclusiveEndDate.setDate(inclusiveEndDate.getDate() + 1);
 
           while (currentDate < inclusiveEndDate) {
-            const dateStr = currentDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            const dateStr = currentDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
             const hasConflict = reservations.some((res) => {
               const resStart = res.startDate;
               const resEnd = res.endDate;

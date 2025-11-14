@@ -141,7 +141,9 @@ export const getAllReservedDates = (listingId: string): Date[] => {
   return reservedDates;
 };
 
-export const getPendingOrAcceptedReservedDates = (listingId: string): Date[] => {
+export const getPendingOrAcceptedReservedDates = (
+  listingId: string,
+): Date[] => {
   const reservations = getListingReservations(listingId);
   const reservedDates: Date[] = [];
 
