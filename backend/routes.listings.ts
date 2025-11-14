@@ -122,3 +122,35 @@ export async function deleteListing(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function getListingReservations(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const listingId = Number.parseInt(id, 10);
+
+    if (!Number.isFinite(listingId)) {
+      return res.status(400).json({ ok: false, error: "Invalid listing ID" });
+    }
+
+    const result = await pool.query(
+      `select id, listing_id, start_date, end_date, status
+       from reservations
+       where listing_id = $1
+         and (status = 'pending' or status = 'accepted')
+       order by start_date asc`,
+      [listingId],
+    );
+
+    const reservations = result.rows.map((r: any) => ({
+      id: r.id,
+      listingId: r.listing_id,
+      startDate: r.start_date,
+      endDate: r.end_date,
+      status: r.status,
+    }));
+
+    res.json({ ok: true, reservations });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
