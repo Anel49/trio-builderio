@@ -219,6 +219,42 @@ export default function BrowseListings() {
     Record<string, Array<{ startDate: string; endDate: string; status: string }>>
   >({});
 
+  // Fetch reservations for a listing
+  const fetchReservations = React.useCallback(
+    async (listingId: string) => {
+      if (reservationsCache[listingId] !== undefined) {
+        return; // Already cached
+      }
+
+      try {
+        const response = await apiFetch(`/listings/${listingId}/reservations`);
+        const data = await response.json();
+
+        if (data.ok) {
+          setReservationsCache((prev) => ({
+            ...prev,
+            [listingId]: data.reservations || [],
+          }));
+        }
+      } catch (error) {
+        console.error(`Error fetching reservations for listing ${listingId}:`, error);
+        // Set empty array if fetch fails
+        setReservationsCache((prev) => ({
+          ...prev,
+          [listingId]: [],
+        }));
+      }
+    },
+    [reservationsCache],
+  );
+
+  // Fetch reservations for all listings when they load
+  React.useEffect(() => {
+    listings.forEach((listing) => {
+      fetchReservations(String(listing.id));
+    });
+  }, [listings, fetchReservations]);
+
   React.useEffect(() => {
     if (filterLocation) {
       setSortBy("distance-asc");
