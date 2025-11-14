@@ -881,8 +881,8 @@ export default function BrowseListings() {
               open={isDatePickerOpen}
               onOpenChange={(open) => {
                 setIsDatePickerOpen(open);
-                // Clear date selection when closing the popover
-                if (!open) {
+                // Clear incomplete date selection when closing the popover
+                if (!open && !dateRange.end) {
                   setDateRange({ start: undefined, end: undefined });
                   localStorage.removeItem("searchDateRange");
                 }
