@@ -176,7 +176,7 @@ export const isDateRangeAvailable = (
   endDate: Date,
   listingId: string,
 ): boolean => {
-  const reservedDates = getAllReservedDates(listingId);
+  const reservedDates = getPendingOrAcceptedReservedDates(listingId);
   const currentDate = new Date(startDate);
   // Add 1 day to end date to make it inclusive
   const inclusiveEndDate = new Date(endDate);
