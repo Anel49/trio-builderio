@@ -823,7 +823,9 @@ export default function BrowseListings() {
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
               <PopoverTrigger asChild>
                 <Button
-                  variant={dateRange.start && dateRange.end ? "default" : "outline"}
+                  variant={
+                    dateRange.start && dateRange.end ? "default" : "outline"
+                  }
                   className="flex items-center gap-2"
                 >
                   <CalendarIcon className="h-4 w-4" />
