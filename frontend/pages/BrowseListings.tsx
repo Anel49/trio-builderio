@@ -688,6 +688,9 @@ export default function BrowseListings() {
           dateRange.end,
           String(listing.id),
         );
+        console.log(
+          `Listing ${listing.id}: ${listing.name}, Available: ${available}, Date Range: ${dateRange.start.toISOString()} - ${dateRange.end.toISOString()}`,
+        );
         if (!available) return false;
       }
 
