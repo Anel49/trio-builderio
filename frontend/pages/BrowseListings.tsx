@@ -834,6 +834,7 @@ export default function BrowseListings() {
     dateRange.start,
     dateRange.end,
     filterLocation,
+    reservationsCache,
   ]);
 
   const listingsForMap = React.useMemo(() => {
