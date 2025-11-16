@@ -601,7 +601,8 @@ export async function changeUsername(req: Request, res: Response) {
 
     const { new_username, password } = (req.body || {}) as any;
 
-    const newUsernameStr = typeof new_username === "string" ? new_username.trim() : "";
+    const newUsernameStr =
+      typeof new_username === "string" ? new_username.trim() : "";
     const passwordStr = typeof password === "string" ? password : "";
 
     // Validate username
@@ -616,7 +617,8 @@ export async function changeUsername(req: Request, res: Response) {
     if (!/^[a-zA-Z0-9_-]+$/.test(newUsernameStr)) {
       return res.status(400).json({
         ok: false,
-        error: "username can only contain letters, numbers, underscores, and hyphens",
+        error:
+          "username can only contain letters, numbers, underscores, and hyphens",
       });
     }
 
@@ -667,7 +669,10 @@ export async function changeUsername(req: Request, res: Response) {
       [newUsernameStr.toLowerCase(), session.userId],
     );
 
-    if (existingUsernameResult.rowCount && existingUsernameResult.rowCount > 0) {
+    if (
+      existingUsernameResult.rowCount &&
+      existingUsernameResult.rowCount > 0
+    ) {
       return res.status(400).json({
         ok: false,
         error: "username already taken",
@@ -700,8 +705,7 @@ export async function changeUsername(req: Request, res: Response) {
       username: row.username || null,
       avatarUrl: row.avatar_url || null,
       zipCode: null,
-      locationLatitude:
-        typeof row.latitude === "number" ? row.latitude : null,
+      locationLatitude: typeof row.latitude === "number" ? row.latitude : null,
       locationLongitude:
         typeof row.longitude === "number" ? row.longitude : null,
       locationCity:
