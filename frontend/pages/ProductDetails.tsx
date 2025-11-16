@@ -339,6 +339,9 @@ export default function ProductDetails() {
     images?: string[];
     host?: string;
     hostUserId?: number;
+    hostAvatarUrl?: string | null;
+    hostRating?: number | null;
+    hostTotalReviews?: number;
     hostOpenDms?: boolean;
     hostCreatedAt?: string | null;
     delivery?: boolean;
