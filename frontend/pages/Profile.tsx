@@ -284,6 +284,19 @@ export default function Profile() {
     e.currentTarget.value = "";
   };
 
+  // Prevent page scrolling when mobile profile is open
+  useEffect(() => {
+    if (isMobileProfileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileProfileOpen]);
+
   // Fetch favorites on mount
   useEffect(() => {
     const fetchFavorites = async () => {
