@@ -48,6 +48,7 @@ interface Conversation {
   username: string | null;
   lastMessage: string;
   lastMessageTime: string;
+  lastMessageFromId?: number;
 }
 
 interface Message {
