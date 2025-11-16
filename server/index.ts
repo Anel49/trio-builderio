@@ -377,6 +377,13 @@ export function createServer() {
   app.patch("/listing-reviews/:id/helpful", updateListingReviewHelpful);
   app.patch("/listing-reviews/:id", updateListingReview);
   app.delete("/listing-reviews/:id", deleteListingReview);
+  // Messages
+  app.get("/api/messages/:userId/conversations", listConversations);
+  app.get("/api/messages/:userId/:otherUserId", getMessages);
+  app.post("/api/messages", sendMessage);
+  app.get("/messages/:userId/conversations", listConversations);
+  app.get("/messages/:userId/:otherUserId", getMessages);
+  app.post("/messages", sendMessage);
 
   return app;
 }
