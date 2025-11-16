@@ -612,8 +612,6 @@ export default function Messages() {
                       onClick={() => {
                         if (selectedChat.username) {
                           navigate(`/profile/${selectedChat.username}`);
-                        } else {
-                          navigate(`/profile/${selectedChat.otherUserId}`);
                         }
                       }}
                       aria-label="Open profile"
