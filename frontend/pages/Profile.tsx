@@ -2429,8 +2429,33 @@ export default function Profile() {
         }`}
       >
         {/* Profile Header */}
-        <div className="px-4 pb-4 pt-4">
+        <div className="px-4 pb-4 pt-4 flex items-center justify-between">
           <h3 className="text-lg font-semibold">Profile</h3>
+          {!viewingOtherUser && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  title="Settings"
+                  className="p-0 h-8 w-8"
+                >
+                  <Settings className="!size-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                  onClick={() => setIsChangePasswordModalOpen(true)}
+                >
+                  Change password
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setIsChangeEmailModalOpen(true)}
+                >
+                  Change email
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
 
         {/* Profile Content */}
