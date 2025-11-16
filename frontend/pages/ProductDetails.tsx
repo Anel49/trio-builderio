@@ -136,7 +136,6 @@ export default function ProductDetails() {
   }>({ start: null, end: null });
 
   const handleFavorite = async (listingName: string, listingId: number) => {
-    console.log("ProductDetails handleFavorite called, isFavorited:", isFavorited);
     const userId = authUser?.id;
     if (!userId) {
       console.error("User not authenticated");
@@ -145,7 +144,6 @@ export default function ProductDetails() {
 
     try {
       if (isFavorited) {
-        console.log("Removing from favorites");
         // Remove from favorites
         const response = await apiFetch(`favorites/${userId}/${listingId}`, {
           method: "DELETE",
