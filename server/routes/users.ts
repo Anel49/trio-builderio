@@ -170,8 +170,10 @@ export async function upsertUser(req: Request, res: Response) {
 
     const usernameValue = typeof username === "string" ? username.trim() : null;
 
-    const firstNameValue = typeof first_name === "string" ? first_name.trim() || null : null;
-    const lastNameValue = typeof last_name === "string" ? last_name.trim() || null : null;
+    const firstNameValue =
+      typeof first_name === "string" ? first_name.trim() || null : null;
+    const lastNameValue =
+      typeof last_name === "string" ? last_name.trim() || null : null;
 
     const result = await pool.query(
       `insert into users (name, email, avatar_url, latitude, longitude, location_city, founding_supporter, top_referrer, ambassador, open_dms, username, first_name, last_name)
