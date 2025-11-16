@@ -88,6 +88,7 @@ export function ProductCard({
   const navigate = useNavigate();
   const { authUser } = useAuth();
   const [isHeartHovered, setIsHeartHovered] = useState(false);
+  console.log("ProductCard authUser:", authUser, "ENABLE_FAVORITES:", ENABLE_FAVORITES);
   const distanceText =
     typeof distance === "string" && distance.trim() ? distance.trim() : null;
   const resolvedDistance = distanceText ?? "Distance unavailable";
