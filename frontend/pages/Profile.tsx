@@ -1290,6 +1290,35 @@ export default function Profile() {
           {/* Left Side - Profile Info (30%) */}
           <div className="hidden lg:block w-1/4 bg-muted/30 overflow-hidden">
             <div className="p-6">
+              {/* Settings Cog - Only for own profile */}
+              {!viewingOtherUser && (
+                <div className="flex justify-end mb-4">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        title="Settings"
+                      >
+                        <Settings className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onClick={() => setIsChangePasswordModalOpen(true)}
+                      >
+                        Change password
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => setIsChangeEmailModalOpen(true)}
+                      >
+                        Change email
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              )}
               <div className="text-center">
                 {/* Profile Picture with Edit on Hover */}
                 <div className="relative inline-block group mb-4">
