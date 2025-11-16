@@ -2751,6 +2751,17 @@ export default function Profile() {
         </div>
       </div>
 
+      {/* Change Username Modal */}
+      <ChangeUsernameModal
+        isOpen={isChangeUsernameModalOpen}
+        onOpenChange={setIsChangeUsernameModalOpen}
+        currentUsername={authUser?.username}
+        onSuccess={(newUsername) => {
+          setNewUsernameForConfirmation(newUsername);
+          setIsUsernameChangeSuccessOpen(true);
+        }}
+      />
+
       {/* Change Password Modal */}
       <ChangePasswordModal
         isOpen={isChangePasswordModalOpen}
