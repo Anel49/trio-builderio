@@ -576,8 +576,8 @@ export default function BrowseListings() {
             rentalPeriod: normalizeRentalPeriod(
               l.rentalPeriod ?? l.rental_period,
             ),
-            delivery: Boolean(l.delivery),
-            freeDelivery: Boolean(l.freeDelivery),
+            delivery: Boolean(l.delivery || l.delivery_available),
+            freeDelivery: Boolean(l.freeDelivery || l.free_delivery),
           };
         });
 
