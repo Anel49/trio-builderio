@@ -428,7 +428,9 @@ export default function Messages() {
                         <div className="text-xs text-muted-foreground truncate">
                           {chat.lastMessage ? (
                             <>
-                              {chat.lastMessageFromId === user?.id ? "You: " : "Them: "}
+                              {chat.lastMessageFromId === user?.id
+                                ? "You: "
+                                : "Them: "}
                               {chat.lastMessage}
                             </>
                           ) : (
