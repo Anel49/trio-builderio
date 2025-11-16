@@ -703,6 +703,10 @@ export default function BrowseListings() {
           while (currentDate < inclusiveEndDate) {
             const dateStr = currentDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
             const hasConflict = reservations.some((res) => {
+              // Only consider pending or accepted reservations
+              if (res.status !== "pending" && res.status !== "accepted") {
+                return false;
+              }
               const resStart = res.startDate;
               const resEnd = res.endDate;
               return dateStr >= resStart && dateStr <= resEnd;
