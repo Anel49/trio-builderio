@@ -224,6 +224,20 @@ export default function BrowseListings() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState("");
 
+  // Prevent auto-focus on mobile/tablet when filter opens
+  React.useEffect(() => {
+    if (isTabletOrMobile && isFilterOpen) {
+      // Blur any focused element after popover opens
+      const timer = setTimeout(() => {
+        const focused = document.activeElement as HTMLElement;
+        if (focused && focused.tagName === "INPUT") {
+          focused.blur();
+        }
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [isFilterOpen, isTabletOrMobile]);
+
   // Listings state (moved here to avoid temporal dead zone)
   const [listings, setListings] = useState<any[]>([]);
 
