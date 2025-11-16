@@ -86,7 +86,7 @@ export function MultiSelectCategories({
 
   return (
     <div ref={containerRef} className="relative w-full">
-      <div className="border border-input rounded-md bg-background p-2 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 flex flex-wrap gap-2 items-start">
+      <div className="border border-input rounded-md bg-background p-2 flex flex-wrap gap-2 items-start">
         {selected.map((category) => (
           <Badge
             key={category}
