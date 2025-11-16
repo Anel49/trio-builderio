@@ -204,6 +204,18 @@ export function EmailLoginModal({
             >
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>
+
+            {/* Forgot Password Link */}
+            <div className="text-center">
+              <Button
+                type="button"
+                variant="link"
+                className="p-0 text-sm h-auto"
+                onClick={() => setIsForgotPasswordOpen(true)}
+              >
+                Forgot your password?
+              </Button>
+            </div>
           </form>
 
           <div className="text-center text-sm">
