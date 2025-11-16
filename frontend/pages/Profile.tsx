@@ -2641,6 +2641,7 @@ export default function Profile() {
         onOpenChange={setIsChangePasswordModalOpen}
         onSuccess={() => {
           checkAuth();
+          setIsPasswordChangeSuccessOpen(true);
         }}
       />
 
@@ -2649,10 +2650,58 @@ export default function Profile() {
         isOpen={isChangeEmailModalOpen}
         onOpenChange={setIsChangeEmailModalOpen}
         currentEmail={authUser?.email}
-        onSuccess={() => {
+        onSuccess={(newEmail) => {
           checkAuth();
+          setNewEmailForConfirmation(newEmail);
+          setIsEmailChangeSuccessOpen(true);
         }}
       />
+
+      {/* Password Change Success Modal */}
+      <Dialog
+        open={isPasswordChangeSuccessOpen}
+        onOpenChange={setIsPasswordChangeSuccessOpen}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Password Changed Successfully</DialogTitle>
+            <DialogDescription>
+              Your password has been updated.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => setIsPasswordChangeSuccessOpen(false)}
+              className="w-full bg-green-600 hover:bg-green-700 text-white"
+            >
+              Done
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Email Change Success Modal */}
+      <Dialog
+        open={isEmailChangeSuccessOpen}
+        onOpenChange={setIsEmailChangeSuccessOpen}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Email Changed Successfully</DialogTitle>
+            <DialogDescription>
+              Your email has been updated to: {newEmailForConfirmation}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => setIsEmailChangeSuccessOpen(false)}
+              className="w-full bg-green-600 hover:bg-green-700 text-white"
+            >
+              Done
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
