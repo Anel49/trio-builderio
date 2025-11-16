@@ -2827,6 +2827,29 @@ export default function Profile() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Username Change Success Modal */}
+      <Dialog
+        open={isUsernameChangeSuccessOpen}
+        onOpenChange={setIsUsernameChangeSuccessOpen}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Username Changed Successfully</DialogTitle>
+            <DialogDescription>
+              Your username has been updated to: {newUsernameForConfirmation}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => setIsUsernameChangeSuccessOpen(false)}
+              className="w-full bg-green-600 hover:bg-green-700 text-white"
+            >
+              Done
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
