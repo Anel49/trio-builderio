@@ -722,9 +722,6 @@ export default function BrowseListings() {
             });
 
             if (hasConflict) {
-              console.log(
-                `Listing ${listingId} hidden due to reservation conflict`,
-              );
               return false;
             }
             currentDate.setDate(currentDate.getDate() + 1);
