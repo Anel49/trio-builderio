@@ -648,10 +648,9 @@ export async function changeUsername(req: Request, res: Response) {
       return res.status(401).json({ ok: false, error: "User not found" });
     }
 
-    // Verify password using bcrypt
-    const { default: bcrypt } = await import("bcrypt");
+    // Verify password using argon2
     const passwordHash = userResult.rows[0].password_hash;
-    const isPasswordValid = await bcrypt.compare(passwordStr, passwordHash);
+    const isPasswordValid = await argon2.verify(passwordHash, passwordStr);
 
     if (!isPasswordValid) {
       return res.status(400).json({
