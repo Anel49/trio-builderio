@@ -130,7 +130,7 @@ export function ProductCard({
             src={image}
             alt={name}
             className={combineTokens(
-              "w-full object-cover",
+              "w-full object-cover rounded-t-lg",
               spacing.dimensions.productImage,
             )}
           />
