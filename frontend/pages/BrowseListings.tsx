@@ -1243,7 +1243,7 @@ export default function BrowseListings() {
                       onMouseLeave={() => setHoveredListing(null)}
                       onClick={() => {
                         setSelectedListing(listing.id);
-                        window.location.href = `/product/${listing.id}`;
+                        window.location.href = `/listing/${listing.id}`;
                       }}
                       priceUnitLabel={display.label}
                       underlinePrice={display.underline}

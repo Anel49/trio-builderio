@@ -697,7 +697,7 @@ export default function Index() {
                     onFavorite={handleFavorite}
                     className="h-full"
                     onClick={() =>
-                      (window.location.href = `/product/${listing.id}`)
+                      (window.location.href = `/listing/${listing.id}`)
                     }
                     delivery={listing.delivery}
                     freeDelivery={listing.freeDelivery}
