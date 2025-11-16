@@ -1803,8 +1803,27 @@ export default function Profile() {
                     {paginatedItemReviews.map((review) => (
                       <Card key={review.id}>
                         <CardContent className="p-6">
-                          <div className="flex items-start justify-between mb-3">
-                            <div>
+                          <div className="flex items-start gap-4 mb-3">
+                            <button
+                              onClick={() => {
+                                if (review.reviewerId) {
+                                  navigate(`/profile/${review.reviewerId}`);
+                                }
+                              }}
+                              className="cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
+                              aria-label="Open profile"
+                            >
+                              <Avatar>
+                                <AvatarImage
+                                  src={review.avatar || undefined}
+                                  alt={review.reviewer}
+                                />
+                                <AvatarFallback>
+                                  {review.reviewer.split(" ")[0][0]?.toUpperCase()}
+                                </AvatarFallback>
+                              </Avatar>
+                            </button>
+                            <div className="flex-1">
                               <h4 className="font-semibold">
                                 {review.itemName}
                               </h4>
