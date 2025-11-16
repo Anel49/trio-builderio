@@ -65,7 +65,10 @@ export function DateRangePicker({
     return (
       reservations.find((reservation) => {
         // Only consider pending or accepted reservations
-        if (reservation.status !== "pending" && reservation.status !== "accepted") {
+        if (
+          reservation.status !== "pending" &&
+          reservation.status !== "accepted"
+        ) {
           return false;
         }
         const reservationStart = new Date(reservation.startDate);
