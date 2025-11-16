@@ -200,6 +200,7 @@ export default function BrowseListings() {
 
   // Filter state
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const minPriceInputRef = React.useRef<HTMLInputElement>(null);
   const [filters, setFilters] = useState({
     minPrice: "",
     maxPrice: "",
