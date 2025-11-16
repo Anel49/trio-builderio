@@ -671,7 +671,8 @@ export default function BrowseListings() {
           : [];
         const matches = appliedFilters.categories.some(
           (selectedCategory) =>
-            listing.type === selectedCategory || cats.includes(selectedCategory),
+            listing.type === selectedCategory ||
+            cats.includes(selectedCategory),
         );
         if (!matches) return false;
       }
