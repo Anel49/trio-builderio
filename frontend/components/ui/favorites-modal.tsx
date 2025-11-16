@@ -156,7 +156,7 @@ export function FavoritesModal({
                   )}
                   {favorite.enabled === false && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      (Listing no longer available)
+                      Listing disabled
                     </p>
                   )}
                 </div>
