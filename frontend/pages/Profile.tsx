@@ -1306,7 +1306,7 @@ export default function Profile() {
                         className="h-8 w-8"
                         title="Settings"
                       >
-                        <Settings size={32} />
+                        <Settings size={64} />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
