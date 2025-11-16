@@ -407,3 +407,177 @@ export async function emailLogin(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function changePassword(req: Request, res: Response) {
+  try {
+    const session = (req as any).session;
+    if (!session || !session.userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    const {
+      current_password: currentPasswordStr,
+      new_password: newPasswordStr,
+      confirm_password: confirmPasswordStr,
+    } = (req.body || {}) as any;
+
+    if (!currentPasswordStr) {
+      return res.status(400).json({
+        ok: false,
+        error: "current password is required",
+      });
+    }
+
+    if (!newPasswordStr || newPasswordStr.length < 6) {
+      return res.status(400).json({
+        ok: false,
+        error: "password must be at least 6 characters",
+      });
+    }
+
+    if (newPasswordStr !== confirmPasswordStr) {
+      return res.status(400).json({
+        ok: false,
+        error: "passwords do not match",
+      });
+    }
+
+    // Get current password from database
+    const credResult = await pool.query(
+      `select password from user_credentials where user_id = $1`,
+      [session.userId],
+    );
+
+    if (!credResult.rowCount || credResult.rowCount === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "User credentials not found",
+      });
+    }
+
+    // Verify current password
+    const isPasswordValid = await argon2.verify(
+      credResult.rows[0].password,
+      currentPasswordStr,
+    );
+
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        ok: false,
+        error: "current password is incorrect",
+      });
+    }
+
+    // Hash and update new password
+    const hashedNewPassword = await argon2.hash(newPasswordStr);
+
+    await pool.query(
+      `update user_credentials set password = $1 where user_id = $2`,
+      [hashedNewPassword, session.userId],
+    );
+
+    res.json({
+      ok: true,
+      message: "Password changed successfully",
+    });
+  } catch (error: any) {
+    console.error("Change password error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
+export async function changeEmail(req: Request, res: Response) {
+  try {
+    const session = (req as any).session;
+    if (!session || !session.userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    const {
+      new_email: newEmailStr,
+      confirm_email: confirmEmailStr,
+      password: passwordStr,
+    } = (req.body || {}) as any;
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!newEmailStr || !emailRegex.test(newEmailStr)) {
+      return res.status(400).json({
+        ok: false,
+        error: "valid email is required",
+      });
+    }
+
+    if (newEmailStr !== confirmEmailStr) {
+      return res.status(400).json({
+        ok: false,
+        error: "emails do not match",
+      });
+    }
+
+    if (!passwordStr) {
+      return res.status(400).json({
+        ok: false,
+        error: "password is required for security",
+      });
+    }
+
+    // Verify password
+    const credResult = await pool.query(
+      `select password from user_credentials where user_id = $1`,
+      [session.userId],
+    );
+
+    if (!credResult.rowCount || credResult.rowCount === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "User credentials not found",
+      });
+    }
+
+    const isPasswordValid = await argon2.verify(
+      credResult.rows[0].password,
+      passwordStr,
+    );
+
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        ok: false,
+        error: "password is incorrect",
+      });
+    }
+
+    // Check if new email is already in use
+    const existingEmailResult = await pool.query(
+      `select id from user_credentials where email = $1 and user_id != $2`,
+      [newEmailStr.trim(), session.userId],
+    );
+
+    if (existingEmailResult.rowCount && existingEmailResult.rowCount > 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "email already in use",
+      });
+    }
+
+    // Update email in both users and user_credentials tables
+    await pool.query(`update users set email = $1 where id = $2`, [
+      newEmailStr.trim(),
+      session.userId,
+    ]);
+
+    await pool.query(
+      `update user_credentials set email = $1 where user_id = $2`,
+      [newEmailStr.trim(), session.userId],
+    );
+
+    res.json({
+      ok: true,
+      message: "Email changed successfully",
+    });
+  } catch (error: any) {
+    console.error("Change email error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
