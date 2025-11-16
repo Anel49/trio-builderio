@@ -1074,9 +1074,57 @@ export default function ProductDetails() {
                     "opacity-50 cursor-not-allowed",
                 )}
                 disabled={!isDateRangeValid()}
-                onClick={() => {
-                  if (isDateRangeValid()) {
-                    // Pass selected dates to checkout page via URL params or localStorage
+                onClick={async () => {
+                  if (!isDateRangeValid()) return;
+
+                  // Recheck for conflicts before proceeding
+                  if (!params.id) return;
+                  try {
+                    const response = await apiFetch(`listings/${params.id}/reservations`);
+                    const data = response.ok ? await response.json() : { ok: true, reservations: [] };
+                    if (data && data.ok && Array.isArray(data.reservations)) {
+                      const mapped: ReservationPeriod[] = data.reservations.map((r: any) => ({
+                        id: String(r.id),
+                        startDate: new Date(r.startDate),
+                        endDate: new Date(r.endDate),
+                        renterName: r.renterName,
+                        status: r.status,
+                      }));
+
+                      // Check for conflicts with current selection
+                      const start = selectedDateRange.start;
+                      const end = selectedDateRange.end;
+                      let hasConflict = false;
+
+                      if (start && end) {
+                        for (const r of mapped) {
+                          if (r.status !== "pending" && r.status !== "accepted") {
+                            continue;
+                          }
+                          const rs = new Date(r.startDate);
+                          const re = new Date(r.endDate);
+                          if (start <= re && end >= rs) {
+                            hasConflict = true;
+                            break;
+                          }
+                        }
+                      }
+
+                      if (hasConflict) {
+                        setReservations(mapped);
+                        setShowConflictModal(true);
+                      } else {
+                        // Proceed to checkout
+                        localStorage.setItem(
+                          "selectedDates",
+                          JSON.stringify(selectedDateRange),
+                        );
+                        window.location.href = "/checkout";
+                      }
+                    }
+                  } catch (error) {
+                    console.error("Failed to check for conflicts:", error);
+                    // Proceed anyway if check fails
                     localStorage.setItem(
                       "selectedDates",
                       JSON.stringify(selectedDateRange),
