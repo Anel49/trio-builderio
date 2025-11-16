@@ -395,10 +395,6 @@ export function LocationPickerModal({
                   Latitude: {selectedLat.toFixed(5)}, Longitude:{" "}
                   {selectedLng.toFixed(5)}
                 </div>
-                <div className="text-xs">
-                  We’ll match these coordinates to the nearest city when you
-                  save.
-                </div>
               </div>
             </div>
           ) : (
