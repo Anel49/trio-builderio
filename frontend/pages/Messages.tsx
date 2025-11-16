@@ -421,19 +421,9 @@ export default function Messages() {
                         </button>
                       </div>
                       <div className="flex-1 w-0">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (chat.username) {
-                              navigate(`/profile/${chat.username}`);
-                            } else {
-                              navigate(`/profile/${chat.otherUserId}`);
-                            }
-                          }}
-                          className="font-semibold text-sm truncate hover:underline text-left w-full"
-                        >
+                        <div className="font-semibold text-sm truncate text-left w-full">
                           {chat.name}
-                        </button>
+                        </div>
                         <div className="text-xs text-muted-foreground truncate">
                           {chat.lastMessage || "No messages yet"}
                         </div>
