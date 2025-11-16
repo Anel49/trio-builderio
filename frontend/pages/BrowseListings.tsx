@@ -1007,6 +1007,7 @@ export default function BrowseListings() {
                             }
                           }}
                           className="pl-8"
+                          autoFocus={false}
                         />
                       </div>
                       <div className="relative flex-1">
