@@ -323,7 +323,6 @@ export default function BrowseListings() {
   }, [authUser?.id]);
 
   const handleFavorite = async (listingName: string, listingId: number) => {
-    console.log("handleFavorite called for listing:", listingId);
     const userId = authUser?.id;
     if (!userId) {
       console.error("User not authenticated");
@@ -331,7 +330,6 @@ export default function BrowseListings() {
     }
 
     const isCurrentlyFavorited = favoritedListingIds.has(listingId);
-    console.log("isCurrentlyFavorited:", isCurrentlyFavorited);
 
     try {
       if (isCurrentlyFavorited) {
