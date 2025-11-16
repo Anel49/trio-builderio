@@ -279,8 +279,11 @@ export default function ProductDetails() {
     const start = selectedDateRange.start;
     const end = selectedDateRange.end;
 
-    // Check if dates conflict with existing reservations
+    // Check if dates conflict with existing reservations (only pending or accepted)
     for (const r of reservations) {
+      if (r.status !== "pending" && r.status !== "accepted") {
+        continue;
+      }
       const rs = new Date(r.startDate);
       const re = new Date(r.endDate);
       if (start <= re && end >= rs) return false;
