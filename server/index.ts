@@ -21,6 +21,8 @@ import {
   upsertUser,
   emailSignup,
   emailLogin,
+  changePassword,
+  changeEmail,
 } from "./routes/users";
 import { reverseGeocode } from "./routes/geocode";
 import {
