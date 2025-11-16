@@ -122,22 +122,24 @@ export function ForgotPasswordModal({
                 </div>
               </div>
 
-              <Button
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                onClick={handleSendResetLink}
-                disabled={isButtonDisabled || isLoading}
-              >
-                {isLoading ? "Sending..." : "Email reset link"}
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  onClick={handleSendResetLink}
+                  disabled={isButtonDisabled || isLoading}
+                >
+                  {isLoading ? "Sending..." : "Email reset link"}
+                </Button>
 
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={handleClose}
-                disabled={isLoading}
-              >
-                Cancel
-              </Button>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleClose}
+                  disabled={isLoading}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           </>
         ) : (
