@@ -1105,7 +1105,7 @@ export default function BrowseListings() {
                           })
                         }
                         placeholder="Search categories..."
-                        autoFocus={!isTabletOrMobile}
+                        autoFocus={false}
                       />
                     </div>
                   </div>
