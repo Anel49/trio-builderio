@@ -64,19 +64,8 @@ export function ForgotPasswordModal({
     }
   };
 
-  const handleDialogOpenChange = (open: boolean) => {
-    if (!open) {
-      setEmail("");
-      setConfirmEmail("");
-      setResetEmailSent(false);
-      setSentEmail("");
-      setIsLoading(false);
-    }
-    onOpenChange(open);
-  };
-
   return (
-    <Dialog open={isOpen} onOpenChange={handleDialogOpenChange}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         {!resetEmailSent ? (
           <>
