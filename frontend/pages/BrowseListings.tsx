@@ -871,7 +871,7 @@ export default function BrowseListings() {
     <div
       className="bg-background"
       style={{
-        minHeight: isFilterOpen ? "200vh" : "100vh",
+        minHeight: isFilterOpen ? "133vh" : "100vh",
       }}
     >
       <style>{fadeInStyle}</style>
