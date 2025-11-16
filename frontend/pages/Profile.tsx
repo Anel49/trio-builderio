@@ -2640,7 +2640,6 @@ export default function Profile() {
         isOpen={isChangePasswordModalOpen}
         onOpenChange={setIsChangePasswordModalOpen}
         onSuccess={() => {
-          checkAuth();
           setIsPasswordChangeSuccessOpen(true);
         }}
       />
@@ -2651,7 +2650,6 @@ export default function Profile() {
         onOpenChange={setIsChangeEmailModalOpen}
         currentEmail={authUser?.email}
         onSuccess={(newEmail) => {
-          checkAuth();
           setNewEmailForConfirmation(newEmail);
           setIsEmailChangeSuccessOpen(true);
         }}
