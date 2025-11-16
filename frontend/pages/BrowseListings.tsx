@@ -1070,7 +1070,7 @@ export default function BrowseListings() {
                         maxPrice: "",
                         maxDistance: "",
                         zipCode: "",
-                        category: "",
+                        categories: [] as string[],
                       };
                       setFilters(emptyFilters);
                       setAppliedFilters(emptyFilters);
