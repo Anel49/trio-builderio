@@ -15,7 +15,7 @@ interface ChangeEmailModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   currentEmail?: string;
-  onSuccess?: () => void;
+  onSuccess?: (newEmail: string) => void;
 }
 
 export function ChangeEmailModal({
@@ -115,7 +115,7 @@ export function ChangeEmailModal({
       if (response.ok && data.ok) {
         handleClose();
         if (onSuccess) {
-          onSuccess();
+          onSuccess(newEmail);
         }
       } else {
         const errorMsg = data.error || "Failed to change email";
