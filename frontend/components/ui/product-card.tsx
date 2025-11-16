@@ -132,7 +132,7 @@ export function ProductCard({
               spacing.dimensions.productImage,
             )}
           />
-          {ENABLE_FAVORITES && (
+          {ENABLE_FAVORITES && authUser && (
             <Button
               size="icon"
               variant="ghost"
