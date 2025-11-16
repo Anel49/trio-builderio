@@ -156,14 +156,12 @@ export default function ProductDetails() {
         }
       } else {
         // Add to favorites
-        console.log("Adding to favorites, userId:", userId, "listingId:", listingId);
         const response = await apiFetch("favorites", {
           method: "POST",
           body: JSON.stringify({ userId: String(userId), listingId }),
           headers: { "content-type": "application/json" },
         });
         const data = await response.json().catch(() => ({}));
-        console.log("Add to favorites response:", data);
         if (data.ok) {
           setFavoritedListing(listingName);
           setIsAddToFavoritesModalOpen(true);
