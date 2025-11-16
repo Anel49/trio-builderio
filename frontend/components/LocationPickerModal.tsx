@@ -368,10 +368,6 @@ export function LocationPickerModal({
           <DialogTitle>Select your location</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <p className="text-sm text-muted-foreground">
-            Tap or click anywhere on the map to drop the pin. When you save,
-            we’ll convert the coordinates into the closest city name.
-          </p>
           <div className="h-[420px] w-full overflow-hidden rounded-lg border border-border">
             {isClient ? (
               <InteractiveMap
