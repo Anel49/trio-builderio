@@ -590,3 +590,51 @@ export async function changeEmail(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function passwordResetRequest(req: Request, res: Response) {
+  try {
+    const { email } = (req.body || {}) as any;
+
+    const emailStr = typeof email === "string" ? email.trim() : "";
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailStr || !emailRegex.test(emailStr)) {
+      return res.status(400).json({
+        ok: false,
+        error: "valid email is required",
+      });
+    }
+
+    // Check if user exists
+    const credResult = await pool.query(
+      `select user_id from user_credentials where email = $1`,
+      [emailStr],
+    );
+
+    if (!credResult.rowCount || credResult.rowCount === 0) {
+      // For security, return success even if email doesn't exist
+      return res.json({
+        ok: true,
+        message: "If an account exists with this email, a password reset link has been sent",
+      });
+    }
+
+    // TODO: Generate a password reset token and send it via email
+    // This would typically involve:
+    // 1. Creating a reset token (JWT or random string)
+    // 2. Storing the token with an expiration time in the database
+    // 3. Sending an email with a reset link containing the token
+    // For now, just log the request
+    console.log(`Password reset requested for email: ${emailStr}`);
+
+    res.json({
+      ok: true,
+      message: "If an account exists with this email, a password reset link has been sent",
+    });
+  } catch (error: any) {
+    console.error("Password reset request error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
