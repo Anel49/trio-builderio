@@ -375,14 +375,14 @@ export function ProductCard({
               >
                 Hosted by {host.split(" ")[0]}
               </button>
-              <div className={`flex items-center text-sm ${colors.text.muted}`}>
+              <div className={`flex items-center text-sm ${colors.text.muted} ${hideDistance ? "hidden" : ""}`}>
                 <MapPin className="h-3 w-3 mr-1" />
                 {resolvedDistance}
               </div>
             </div>
           ) : (
             <div className="flex items-center justify-end">
-              <div className={`flex items-center text-sm ${colors.text.muted}`}>
+              <div className={`flex items-center text-sm ${colors.text.muted} ${hideDistance ? "hidden" : ""}`}>
                 <MapPin className="h-3 w-3 mr-1" />
                 {resolvedDistance}
               </div>
