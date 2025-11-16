@@ -591,6 +591,141 @@ export async function changeEmail(req: Request, res: Response) {
   }
 }
 
+export async function changeUsername(req: Request, res: Response) {
+  try {
+    const session = req.session as any;
+
+    if (!session || !session.userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    const { new_username, password } = (req.body || {}) as any;
+
+    const newUsernameStr = typeof new_username === "string" ? new_username.trim() : "";
+    const passwordStr = typeof password === "string" ? password : "";
+
+    // Validate username
+    if (!newUsernameStr) {
+      return res.status(400).json({
+        ok: false,
+        error: "new username is required",
+      });
+    }
+
+    // Username should be alphanumeric and contain no spaces
+    if (!/^[a-zA-Z0-9_-]+$/.test(newUsernameStr)) {
+      return res.status(400).json({
+        ok: false,
+        error: "username can only contain letters, numbers, underscores, and hyphens",
+      });
+    }
+
+    // Username should be between 3 and 30 characters
+    if (newUsernameStr.length < 3 || newUsernameStr.length > 30) {
+      return res.status(400).json({
+        ok: false,
+        error: "username must be between 3 and 30 characters",
+      });
+    }
+
+    if (!passwordStr) {
+      return res.status(400).json({
+        ok: false,
+        error: "password is required",
+      });
+    }
+
+    // Get user with password hash
+    const userResult = await pool.query(
+      `select users.id, user_credentials.password_hash
+       from users
+       inner join user_credentials on users.id = user_credentials.user_id
+       where users.id = $1`,
+      [session.userId],
+    );
+
+    if (!userResult.rowCount || userResult.rowCount === 0) {
+      return res.status(401).json({ ok: false, error: "User not found" });
+    }
+
+    // Verify password using bcrypt
+    const { default: bcrypt } = await import("bcrypt");
+    const passwordHash = userResult.rows[0].password_hash;
+    const isPasswordValid = await bcrypt.compare(passwordStr, passwordHash);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        ok: false,
+        error: "password is incorrect",
+      });
+    }
+
+    // Check if username is already taken by another user (case-insensitive)
+    const existingUsernameResult = await pool.query(
+      `select id from users where lower(username) = $1 and id != $2`,
+      [newUsernameStr.toLowerCase(), session.userId],
+    );
+
+    if (existingUsernameResult.rowCount && existingUsernameResult.rowCount > 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "username already taken",
+      });
+    }
+
+    // Update username in users table
+    const updateResult = await pool.query(
+      `update users set username = $1 where id = $2
+       returning id, name, email, username, avatar_url, latitude, longitude, location_city, created_at,
+                 coalesce(founding_supporter,false) as founding_supporter,
+                 coalesce(top_referrer,false) as top_referrer,
+                 coalesce(ambassador,false) as ambassador,
+                 coalesce(open_dms,true) as open_dms`,
+      [newUsernameStr, session.userId],
+    );
+
+    if (!updateResult.rowCount || updateResult.rowCount === 0) {
+      return res.status(500).json({
+        ok: false,
+        error: "Failed to update username",
+      });
+    }
+
+    const row = updateResult.rows[0];
+    const user = {
+      id: row.id,
+      name: row.name || null,
+      email: row.email || null,
+      username: row.username || null,
+      avatarUrl: row.avatar_url || null,
+      zipCode: null,
+      locationLatitude:
+        typeof row.latitude === "number" ? row.latitude : null,
+      locationLongitude:
+        typeof row.longitude === "number" ? row.longitude : null,
+      locationCity:
+        typeof row.location_city === "string" ? row.location_city : null,
+      createdAt: row.created_at,
+      foundingSupporter: Boolean(row.founding_supporter),
+      topReferrer: Boolean(row.top_referrer),
+      ambassador: Boolean(row.ambassador),
+      openDms: Boolean(row.open_dms),
+    };
+
+    // Update session with new user data
+    session.user = user;
+
+    res.json({
+      ok: true,
+      message: "Username changed successfully",
+      user,
+    });
+  } catch (error: any) {
+    console.error("Change username error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function passwordResetRequest(req: Request, res: Response) {
   try {
     const { email } = (req.body || {}) as any;
