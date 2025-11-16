@@ -25,16 +25,6 @@ export function ForgotPasswordModal({
   const [sentEmail, setSentEmail] = useState("");
   const emailInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (!isOpen) {
-      setEmail("");
-      setConfirmEmail("");
-      setResetEmailSent(false);
-      setSentEmail("");
-      setIsLoading(false);
-    }
-  }, [isOpen]);
-
   const validateEmail = (value: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(value);
