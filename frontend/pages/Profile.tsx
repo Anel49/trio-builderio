@@ -1304,29 +1304,70 @@ export default function Profile() {
               {/* Settings Cog - Only for own profile */}
               {!viewingOtherUser && (
                 <div className="flex justify-end mb-4">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        title="Settings"
-                        className="p-0 h-8 w-8"
-                      >
-                        <Settings className="!size-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem
-                        onClick={() => setIsChangePasswordModalOpen(true)}
-                      >
-                        Change password
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => setIsChangeEmailModalOpen(true)}
-                      >
-                        Change email
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  {/* Desktop Dropdown */}
+                  <div className="hidden lg:block">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          title="Settings"
+                          className="p-0 h-8 w-8"
+                        >
+                          <Settings className="!size-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem
+                          onClick={() => setIsChangePasswordModalOpen(true)}
+                        >
+                          Change password
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => setIsChangeEmailModalOpen(true)}
+                        >
+                          Change email
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+
+                  {/* Mobile Settings Sheet Trigger */}
+                  <div className="lg:hidden">
+                    <Sheet open={isMobileSettingsOpen} onOpenChange={setIsMobileSettingsOpen}>
+                      <SheetTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          title="Settings"
+                          className="p-0 h-8 w-8"
+                        >
+                          <Settings className="!size-5" />
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent side="bottom" className="w-full">
+                        <div className="flex flex-col gap-4 py-4">
+                          <h2 className="text-lg font-semibold">Settings</h2>
+                          <button
+                            onClick={() => {
+                              setIsChangePasswordModalOpen(true);
+                              setIsMobileSettingsOpen(false);
+                            }}
+                            className="w-full text-left px-4 py-2 hover:bg-accent rounded-md transition-colors"
+                          >
+                            Change password
+                          </button>
+                          <button
+                            onClick={() => {
+                              setIsChangeEmailModalOpen(true);
+                              setIsMobileSettingsOpen(false);
+                            }}
+                            className="w-full text-left px-4 py-2 hover:bg-accent rounded-md transition-colors"
+                          >
+                            Change email
+                          </button>
+                        </div>
+                      </SheetContent>
+                    </Sheet>
+                  </div>
                 </div>
               )}
               <div className="text-center">
