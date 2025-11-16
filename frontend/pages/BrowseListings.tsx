@@ -691,8 +691,10 @@ export default function BrowseListings() {
 
       // Availability filter: only when a date range is selected
       if (dateRange.start && dateRange.end) {
+        console.log("Date range filter active:", dateRange);
         const listingId = String(listing.id);
         const reservations = reservationsCache[listingId];
+        console.log(`Listing ${listingId} reservations:`, reservations);
 
         if (reservations !== undefined) {
           // Check if any day in the selected range conflicts with reservations
