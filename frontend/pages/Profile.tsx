@@ -1377,7 +1377,7 @@ export default function Profile() {
                   </DropdownMenu>
                 </div>
               )}
-              <div className="text-center">
+              <div className={`text-center ${viewingOtherUser ? "pt-12" : ""}`}>
                 {/* Profile Picture with Edit on Hover */}
                 <div className="relative inline-block group mb-4">
                   <Avatar
