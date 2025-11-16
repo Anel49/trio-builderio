@@ -547,6 +547,7 @@ export default function ProductDetails() {
     dateValue: Date;
     text: string;
     reviewerId?: number;
+    reviewerUsername?: string;
   };
   const [reviews, setReviews] = useState<Review[]>([]);
 
