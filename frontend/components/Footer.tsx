@@ -4,13 +4,6 @@ import { COMPANY_NAME } from "@/lib/constants";
 import { useAuth } from "@/contexts/AuthContext";
 
 export function Footer() {
-  const { logout } = useAuth();
-
-  const handleLogout = async () => {
-    await logout();
-    window.location.href = "/";
-  };
-
   return (
     <>
       <footer className="bg-muted py-12">
