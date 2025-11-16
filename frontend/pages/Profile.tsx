@@ -1691,6 +1691,7 @@ export default function Profile() {
                         hostUserId={item.hostUserId}
                         hostUsername={item.hostUsername}
                         type={item.type}
+                        categories={item.categories}
                         distance={item.distance}
                         hideHostInfo={true}
                         priceUnitLabel="per day"
