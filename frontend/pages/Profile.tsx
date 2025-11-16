@@ -1530,14 +1530,7 @@ export default function Profile() {
           </div>
 
           {/* Right Side - Tabs Content (70%) */}
-          <div
-            className="flex-1 bg-background overflow-y-auto"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-          >
-            <style>{`div[style*="scrollbarWidth"]::-webkit-scrollbar { display: none; }`}</style>
+          <div className="flex-1 bg-background overflow-y-auto no-scrollbar">
             <div className="p-8">
               {/* Mobile Tab Navigation */}
               <div className="md:hidden mb-6">
