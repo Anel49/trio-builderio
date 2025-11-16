@@ -663,14 +663,15 @@ export default function BrowseListings() {
         if (price > parseInt(appliedFilters.maxPrice)) return false;
       }
 
-      // Category filter (match any assigned category)
-      if (appliedFilters.category) {
+      // Category filter (match any of the selected categories)
+      if (appliedFilters.categories && appliedFilters.categories.length > 0) {
         const cats = Array.isArray((listing as any).categories)
           ? ((listing as any).categories as string[])
           : [];
-        const matches =
-          listing.type === appliedFilters.category ||
-          cats.includes(appliedFilters.category);
+        const matches = appliedFilters.categories.some(
+          (selectedCategory) =>
+            listing.type === selectedCategory || cats.includes(selectedCategory),
+        );
         if (!matches) return false;
       }
 
