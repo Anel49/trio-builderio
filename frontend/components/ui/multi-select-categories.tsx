@@ -18,6 +18,7 @@ export function MultiSelectCategories({
   selected,
   onSelectionChange,
   placeholder = "Search categories...",
+  variant = "inline",
 }: MultiSelectCategoriesProps) {
   const [inputValue, setInputValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
