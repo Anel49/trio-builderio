@@ -479,26 +479,54 @@ export default function ProductDetails() {
     checkFavorite();
   }, [params.id, authUser?.id]);
 
+  const recheckReservations = async () => {
+    if (!params.id) return;
+    try {
+      const response = await apiFetch(`listings/${params.id}/reservations`);
+      const data = response.ok ? await response.json() : { ok: true, reservations: [] };
+      if (data && data.ok && Array.isArray(data.reservations)) {
+        const mapped: ReservationPeriod[] = data.reservations.map((r: any) => ({
+          id: String(r.id),
+          startDate: new Date(r.startDate),
+          endDate: new Date(r.endDate),
+          renterName: r.renterName,
+          status: r.status,
+        }));
+        setReservations(mapped);
+      } else {
+        setReservations([]);
+      }
+    } catch (error) {
+      console.error("Failed to recheck reservations:", error);
+    }
+  };
+
   useEffect(() => {
     if (!params.id) return;
-    apiFetch(`listings/${params.id}/reservations`)
-      .then(async (r) => (r.ok ? r.json() : { ok: true, reservations: [] }))
-      .then((d) => {
-        if (d && d.ok && Array.isArray(d.reservations)) {
-          const mapped: ReservationPeriod[] = d.reservations.map((r: any) => ({
-            id: String(r.id),
-            startDate: new Date(r.startDate),
-            endDate: new Date(r.endDate),
-            renterName: r.renterName,
-            status: r.status,
-          }));
-          setReservations(mapped);
-        } else {
-          setReservations([]);
-        }
-      })
-      .catch(() => setReservations([]));
+    recheckReservations();
   }, [params.id]);
+
+  // Recheck reservations every 2 seconds while conflict modal is open
+  useEffect(() => {
+    if (!showConflictModal) {
+      if (conflictRecheckIntervalRef.current) {
+        clearInterval(conflictRecheckIntervalRef.current);
+        conflictRecheckIntervalRef.current = null;
+      }
+      return;
+    }
+
+    conflictRecheckIntervalRef.current = setInterval(() => {
+      recheckReservations();
+    }, 2000);
+
+    return () => {
+      if (conflictRecheckIntervalRef.current) {
+        clearInterval(conflictRecheckIntervalRef.current);
+        conflictRecheckIntervalRef.current = null;
+      }
+    };
+  }, [showConflictModal, params.id]);
 
   // Lightbox: keyboard and swipe navigation
   useEffect(() => {
