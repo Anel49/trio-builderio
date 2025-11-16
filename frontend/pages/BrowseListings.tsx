@@ -1022,32 +1022,18 @@ export default function BrowseListings() {
 
                   {/* Category Filter */}
                   <div>
-                    <Label className="text-sm font-medium">Category</Label>
-                    <Select
-                      value={filters.category || "all"}
-                      onValueChange={(value) =>
+                    <Label className="text-sm font-medium">Categories</Label>
+                    <MultiSelectCategories
+                      categories={CATEGORY_OPTIONS}
+                      selected={filters.categories}
+                      onSelectionChange={(selected) =>
                         setFilters({
                           ...filters,
-                          category: value === "all" ? "" : value,
+                          categories: selected,
                         })
                       }
-                    >
-                      <SelectTrigger className="w-full mt-2 h-10 text-sm">
-                        <SelectValue placeholder="All Categories" />
-                      </SelectTrigger>
-                      <SelectContent
-                        side="bottom"
-                        className="max-h-96 overflow-y-auto text-sm"
-                        position="popper"
-                      >
-                        <SelectItem value="all">All Categories</SelectItem>
-                        {CATEGORY_OPTIONS.map((category) => (
-                          <SelectItem key={category} value={category}>
-                            {category}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      placeholder="Search categories..."
+                    />
                   </div>
 
                   {/* Apply Button */}
