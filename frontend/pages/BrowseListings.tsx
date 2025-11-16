@@ -54,6 +54,7 @@ import {
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
