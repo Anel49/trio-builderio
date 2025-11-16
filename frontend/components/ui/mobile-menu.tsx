@@ -40,14 +40,16 @@ export function MobileMenu({ isOpen, onOpenChange }: MobileMenuProps) {
             Browse listings
           </Button>
 
-          <Button
-            variant="ghost"
-            className="justify-start h-12 text-base"
-            onClick={() => handleNavigation("/upload")}
-          >
-            <Package className="h-5 w-5 mr-3" />
-            Rent your product
-          </Button>
+          {authenticated && (
+            <Button
+              variant="ghost"
+              className="justify-start h-12 text-base"
+              onClick={() => handleNavigation("/upload")}
+            >
+              <Package className="h-5 w-5 mr-3" />
+              Rent your product
+            </Button>
+          )}
 
           <Button
             variant="ghost"
