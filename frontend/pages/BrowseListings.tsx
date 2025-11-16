@@ -233,16 +233,10 @@ export default function BrowseListings() {
       }
 
       try {
-        console.log(`Fetching reservations for listing ${listingId}`);
         const response = await apiFetch(`/listings/${listingId}/reservations`);
         const data = await response.json();
-        console.log(`API response for listing ${listingId}:`, data);
 
         if (data.ok) {
-          console.log(
-            `Setting cache for listing ${listingId}:`,
-            data.reservations,
-          );
           setReservationsCache((prev) => ({
             ...prev,
             [listingId]: data.reservations || [],
