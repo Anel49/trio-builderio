@@ -1530,7 +1530,7 @@ export default function Profile() {
           </div>
 
           {/* Right Side - Tabs Content (70%) */}
-          <div className="flex-1 bg-background overflow-y-auto">
+          <div className="flex-1 bg-background overflow-y-auto scrollbar-hide">
             <div className="p-8">
               {/* Mobile Tab Navigation */}
               <div className="md:hidden mb-6">
