@@ -83,6 +83,9 @@ export default function Messages() {
   const [conversationsLoading, setConversationsLoading] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(false);
 
+  // Ref for scrolling messages to bottom
+  const messagesScrollRef = React.useRef<HTMLDivElement>(null);
+
   // Handle open_dms toggle change
   const handleOpenDmsToggle = async (checked: boolean) => {
     setIsUpdatingOpenDms(true);
