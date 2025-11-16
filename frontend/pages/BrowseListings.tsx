@@ -932,7 +932,10 @@ export default function BrowseListings() {
                       : "Dates"}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align={isTabletOrMobile ? "center" : "start"}>
+              <PopoverContent
+                className="w-auto p-0"
+                align={isTabletOrMobile ? "center" : "start"}
+              >
                 <div className="calendar-with-range-styling">
                   <Calendar
                     mode="range"
@@ -1003,7 +1006,10 @@ export default function BrowseListings() {
                   Filters
                 </Button>
               </PopoverTrigger>
-              <PopoverContent align={isTabletOrMobile ? "center" : "start"} className="w-80 p-4">
+              <PopoverContent
+                align={isTabletOrMobile ? "center" : "start"}
+                className="w-80 p-4"
+              >
                 <div className="space-y-4">
                   {/* Price Filter */}
                   <div>
@@ -1192,7 +1198,10 @@ export default function BrowseListings() {
                   Sort
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align={isTabletOrMobile ? "center" : "start"} className="w-56">
+              <DropdownMenuContent
+                align={isTabletOrMobile ? "center" : "start"}
+                className="w-56"
+              >
                 <DropdownMenuRadioGroup
                   value={sortBy}
                   onValueChange={setSortBy}
