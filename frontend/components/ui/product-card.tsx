@@ -86,6 +86,7 @@ export function ProductCard({
   enabled = true,
 }: ProductCardProps) {
   const navigate = useNavigate();
+  const { authUser } = useAuth();
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const distanceText =
     typeof distance === "string" && distance.trim() ? distance.trim() : null;
