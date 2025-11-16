@@ -689,7 +689,7 @@ export default function Profile() {
     dateJoined: viewingOtherUser
       ? otherUserData?.createdAt
         ? format(new Date(otherUserData.createdAt), "MMMM yyyy")
-        : "��"
+        : "—"
       : dateJoinedDisplay || "—",
     avgResponseTime: "—",
   };
@@ -2510,7 +2510,7 @@ export default function Profile() {
 
       {/* Mobile Profile Popup - Slides up from bottom */}
       <div
-        className={`fixed inset-x-0 top-24 bottom-0 z-20 border-t lg:hidden transition-transform duration-300 ease-in-out bg-background ${
+        className={`fixed inset-x-0 top-24 bottom-0 z-20 border-t lg:hidden transition-transform duration-300 ease-in-out bg-white dark:bg-[rgb(44,51,62)] ${
           isMobileProfileOpen
             ? "translate-y-0" // Slide up to visible position
             : "translate-y-[115%]" // Slide down past viewport when hidden
