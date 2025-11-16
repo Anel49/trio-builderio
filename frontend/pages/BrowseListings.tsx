@@ -927,7 +927,8 @@ export default function BrowseListings() {
                     appliedFilters.maxPrice ||
                     appliedFilters.maxDistance ||
                     appliedFilters.zipCode ||
-                    appliedFilters.category
+                    (appliedFilters.categories &&
+                      appliedFilters.categories.length > 0)
                       ? "default"
                       : "outline"
                   }
