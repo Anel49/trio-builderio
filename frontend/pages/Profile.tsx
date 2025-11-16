@@ -2460,7 +2460,7 @@ export default function Profile() {
         </div>
 
         {/* Profile Content */}
-        <div className="px-4 pb-4 h-full overflow-y-auto">
+        <div className="px-4 pb-4 h-full overflow-y-auto no-scrollbar">
           <div className="rounded-lg p-6">
             <div className="text-center">
               {/* Profile Picture */}
