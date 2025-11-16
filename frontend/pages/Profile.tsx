@@ -1036,7 +1036,8 @@ export default function Profile() {
       reviewer: "Emily",
       reviewerId: 1,
       reviewerUsername: "emily123",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
       rating: 5,
       date: "1 week ago",
       dateValue: new Date("2024-12-08"),
@@ -1048,7 +1049,8 @@ export default function Profile() {
       reviewer: "Robert",
       reviewerId: 2,
       reviewerUsername: "robert456",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
       rating: 5,
       date: "3 weeks ago",
       dateValue: new Date("2024-11-25"),
@@ -1060,7 +1062,8 @@ export default function Profile() {
       reviewer: "Lisa",
       reviewerId: 3,
       reviewerUsername: "lisa789",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
       rating: 4,
       date: "1 month ago",
       dateValue: new Date("2024-11-15"),
@@ -1821,7 +1824,9 @@ export default function Profile() {
                             <button
                               onClick={() => {
                                 if (review.reviewerUsername) {
-                                  navigate(`/profile/${review.reviewerUsername}`);
+                                  navigate(
+                                    `/profile/${review.reviewerUsername}`,
+                                  );
                                 }
                               }}
                               className="cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
@@ -1833,7 +1838,9 @@ export default function Profile() {
                                   alt={review.reviewer}
                                 />
                                 <AvatarFallback>
-                                  {review.reviewer.split(" ")[0][0]?.toUpperCase()}
+                                  {review.reviewer
+                                    .split(" ")[0][0]
+                                    ?.toUpperCase()}
                                 </AvatarFallback>
                               </Avatar>
                             </button>
@@ -2014,7 +2021,9 @@ export default function Profile() {
                             <button
                               onClick={() => {
                                 if (review.reviewerUsername) {
-                                  navigate(`/profile/${review.reviewerUsername}`);
+                                  navigate(
+                                    `/profile/${review.reviewerUsername}`,
+                                  );
                                 }
                               }}
                               className="cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
@@ -2026,7 +2035,9 @@ export default function Profile() {
                                   alt={review.reviewer}
                                 />
                                 <AvatarFallback>
-                                  {review.reviewer.split(" ")[0][0]?.toUpperCase()}
+                                  {review.reviewer
+                                    .split(" ")[0][0]
+                                    ?.toUpperCase()}
                                 </AvatarFallback>
                               </Avatar>
                             </button>

@@ -617,7 +617,8 @@ export async function passwordResetRequest(req: Request, res: Response) {
       // For security, return success even if email doesn't exist
       return res.json({
         ok: true,
-        message: "If an account exists with this email, a password reset link has been sent",
+        message:
+          "If an account exists with this email, a password reset link has been sent",
       });
     }
 
@@ -631,7 +632,8 @@ export async function passwordResetRequest(req: Request, res: Response) {
 
     res.json({
       ok: true,
-      message: "If an account exists with this email, a password reset link has been sent",
+      message:
+        "If an account exists with this email, a password reset link has been sent",
     });
   } catch (error: any) {
     console.error("Password reset request error:", error);

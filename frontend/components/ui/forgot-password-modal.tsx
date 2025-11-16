@@ -33,7 +33,8 @@ export function ForgotPasswordModal({
   const isEmailValid = validateEmail(email);
   const isConfirmEmailValid = validateEmail(confirmEmail);
   const emailsMatch = email === confirmEmail;
-  const isButtonDisabled = !isEmailValid || !isConfirmEmailValid || !emailsMatch;
+  const isButtonDisabled =
+    !isEmailValid || !isConfirmEmailValid || !emailsMatch;
 
   const handleSendResetLink = async () => {
     if (isButtonDisabled) return;
