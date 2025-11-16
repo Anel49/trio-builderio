@@ -9,6 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu, Package, Search, ClipboardList } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ isOpen, onOpenChange }: MobileMenuProps) {
+  const { authenticated } = useAuth();
   const handleNavigation = (href: string) => {
     onOpenChange(false);
     window.location.href = href;
