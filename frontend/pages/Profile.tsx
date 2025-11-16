@@ -254,11 +254,17 @@ export default function Profile() {
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
   const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false);
+  const [isChangeUsernameModalOpen, setIsChangeUsernameModalOpen] =
+    useState(false);
   const [isPasswordChangeSuccessOpen, setIsPasswordChangeSuccessOpen] =
     useState(false);
   const [isEmailChangeSuccessOpen, setIsEmailChangeSuccessOpen] =
     useState(false);
+  const [isUsernameChangeSuccessOpen, setIsUsernameChangeSuccessOpen] =
+    useState(false);
   const [newEmailForConfirmation, setNewEmailForConfirmation] = useState("");
+  const [newUsernameForConfirmation, setNewUsernameForConfirmation] =
+    useState("");
   const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
   const openAvatarFilePicker = () => avatarFileInputRef.current?.click();
   const handleAvatarUpload: React.ChangeEventHandler<HTMLInputElement> = (
