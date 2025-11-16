@@ -709,10 +709,21 @@ export default function BrowseListings() {
               }
               const resStart = res.startDate;
               const resEnd = res.endDate;
-              return dateStr >= resStart && dateStr <= resEnd;
+              const isConflict = dateStr >= resStart && dateStr <= resEnd;
+              if (isConflict) {
+                console.log(
+                  `Conflict found for listing ${listingId}: ${dateStr} conflicts with reservation ${resStart} to ${resEnd} (status: ${res.status})`
+                );
+              }
+              return isConflict;
             });
 
-            if (hasConflict) return false;
+            if (hasConflict) {
+              console.log(
+                `Listing ${listingId} hidden due to reservation conflict`
+              );
+              return false;
+            }
             currentDate.setDate(currentDate.getDate() + 1);
           }
         }
