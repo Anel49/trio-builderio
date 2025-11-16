@@ -181,6 +181,11 @@ export default function UploadProduct() {
               setOfferFreeDelivery(listing.freeDelivery);
             }
 
+            // Set instant booking
+            if (typeof listing.instantBooking === "boolean") {
+              setEnableInstantBooking(listing.instantBooking);
+            }
+
             // Set images
             if (Array.isArray(listing.images) && listing.images.length > 0) {
               setUploadedImages(listing.images);
