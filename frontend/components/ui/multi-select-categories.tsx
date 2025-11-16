@@ -88,7 +88,11 @@ export function MultiSelectCategories({
     <div ref={containerRef} className="relative w-full">
       <div className="border border-input rounded-md bg-background p-2 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 flex flex-wrap gap-2 items-center">
         {selected.map((category) => (
-          <Badge key={category} variant="default" className="gap-1 flex-shrink-0">
+          <Badge
+            key={category}
+            variant="default"
+            className="gap-1 flex-shrink-0"
+          >
             {category}
             <button
               onClick={() => handleRemoveCategory(category)}
@@ -102,7 +106,9 @@ export function MultiSelectCategories({
         <Input
           ref={inputRef}
           type="text"
-          placeholder={inputValue === "" && selected.length === 0 ? placeholder : ""}
+          placeholder={
+            inputValue === "" && selected.length === 0 ? placeholder : ""
+          }
           value={inputValue}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
