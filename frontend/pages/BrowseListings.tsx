@@ -1144,12 +1144,9 @@ export default function BrowseListings() {
                       </div>
                     </div>
                   </div>
-                </div>
-
-                {/* Action Buttons - Fixed at Bottom */}
-                <div className="border-t p-4 space-y-2 flex-shrink-0">
+                  {/* Apply Button */}
                   <Button
-                    className="w-full"
+                    className="w-full mt-4"
                     onClick={() => {
                       setAppliedFilters(filters);
                       setIsFilterOpen(false);
@@ -1158,9 +1155,10 @@ export default function BrowseListings() {
                     Apply filter
                   </Button>
 
+                  {/* Clear Button */}
                   <Button
                     variant="outline"
-                    className="w-full"
+                    className="w-full mt-2"
                     onClick={() => {
                       const emptyFilters = {
                         minPrice: "",
