@@ -966,7 +966,6 @@ export default function Profile() {
               id: rev.id,
               itemName: name,
               reviewer: rev.user || "",
-              avatar: rev.avatar,
               reviewerId: rev.reviewerId,
               reviewerUsername: rev.reviewerUsername,
               rating: Number(rev.rating) || 0,
