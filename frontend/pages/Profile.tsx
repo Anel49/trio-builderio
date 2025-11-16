@@ -1698,7 +1698,7 @@ export default function Profile() {
                 <div className="space-y-6">
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
                     <h2 className="text-2xl font-bold">
-                      Reviews for Your Items
+                      Reviews for Your Listings
                     </h2>
                     <div className="flex items-center space-x-2">
                       <div className="flex items-center">
