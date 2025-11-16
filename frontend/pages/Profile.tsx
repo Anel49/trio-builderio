@@ -2676,61 +2676,63 @@ export default function Profile() {
 
               {/* Action Buttons */}
               <div className="space-y-2">
-                <Button
-                  className="w-full"
-                  onClick={async () => {
-                    if (isEditingProfile) {
-                      try {
-                        const nameParts = name.trim().split(/\s+/);
-                        const firstName = nameParts[0] || "";
-                        const lastName =
-                          nameParts.length > 1
-                            ? nameParts.slice(1).join(" ")
-                            : null;
-                        const body: any = {
-                          email: authUser?.email,
-                          name,
-                          first_name: firstName,
-                          last_name: lastName,
-                          latitude:
-                            typeof locationLatitude === "number"
-                              ? locationLatitude
-                              : null,
-                          longitude:
-                            typeof locationLongitude === "number"
-                              ? locationLongitude
-                              : null,
-                          location_city:
-                            typeof locationCity === "string" &&
-                            locationCity.trim()
-                              ? locationCity.trim()
-                              : null,
-                        };
-                        if (profileImageUrl !== originalImageUrl) {
-                          body.avatar_url = profileImageUrl;
-                        }
-                        const response = await apiFetch("users", {
-                          method: "POST",
-                          headers: { "content-type": "application/json" },
-                          body: JSON.stringify(body),
-                        });
-                        const responseData = await response
-                          .json()
-                          .catch(() => ({}) as any);
-                        if (responseData?.user) {
-                          setOriginalImageUrl(profileImageUrl);
-                          applyUserData(responseData.user);
-                        }
-                      } catch {}
-                    } else {
-                      setOriginalImageUrl(profileImageUrl);
-                    }
-                    setIsEditingProfile((v) => !v);
-                  }}
-                >
-                  <Edit3 className="h-4 w-4 mr-2" />
-                  {isEditingProfile ? "Save changes" : "Edit Profile"}
-                </Button>
+                {!viewingOtherUser && (
+                  <Button
+                    className="w-full"
+                    onClick={async () => {
+                      if (isEditingProfile) {
+                        try {
+                          const nameParts = name.trim().split(/\s+/);
+                          const firstName = nameParts[0] || "";
+                          const lastName =
+                            nameParts.length > 1
+                              ? nameParts.slice(1).join(" ")
+                              : null;
+                          const body: any = {
+                            email: authUser?.email,
+                            name,
+                            first_name: firstName,
+                            last_name: lastName,
+                            latitude:
+                              typeof locationLatitude === "number"
+                                ? locationLatitude
+                                : null,
+                            longitude:
+                              typeof locationLongitude === "number"
+                                ? locationLongitude
+                                : null,
+                            location_city:
+                              typeof locationCity === "string" &&
+                              locationCity.trim()
+                                ? locationCity.trim()
+                                : null,
+                          };
+                          if (profileImageUrl !== originalImageUrl) {
+                            body.avatar_url = profileImageUrl;
+                          }
+                          const response = await apiFetch("users", {
+                            method: "POST",
+                            headers: { "content-type": "application/json" },
+                            body: JSON.stringify(body),
+                          });
+                          const responseData = await response
+                            .json()
+                            .catch(() => ({}) as any);
+                          if (responseData?.user) {
+                            setOriginalImageUrl(profileImageUrl);
+                            applyUserData(responseData.user);
+                          }
+                        } catch {}
+                      } else {
+                        setOriginalImageUrl(profileImageUrl);
+                      }
+                      setIsEditingProfile((v) => !v);
+                    }}
+                  >
+                    <Edit3 className="h-4 w-4 mr-2" />
+                    {isEditingProfile ? "Save changes" : "Edit Profile"}
+                  </Button>
+                )}
                 {!viewingOtherUser && (
                   <>
                     <Button
