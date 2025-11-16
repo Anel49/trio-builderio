@@ -78,7 +78,6 @@ function InteractiveMap({
   const markersRef = useRef<Map<number, L.Marker>>(new Map());
 
   useEffect(() => {
-    console.log("[InteractiveMap] Mounted, listings:", listings.length);
   }, [listings]);
 
   const listingsWithCoords = useMemo(() => {
@@ -91,18 +90,10 @@ function InteractiveMap({
   const initialMapCenter = useMemo((): LatLngExpression => {
     // Prioritize filter location if available (takes priority over user coordinates)
     if (filterLocation) {
-      console.log(
-        "[InteractiveMap] Using filter location for map center:",
-        filterLocation,
-      );
       return [filterLocation.latitude, filterLocation.longitude];
     }
     // Then prioritize user's location if available
     if (userCoordinates) {
-      console.log(
-        "[InteractiveMap] Using user coordinates for map center:",
-        userCoordinates,
-      );
       return [userCoordinates.latitude, userCoordinates.longitude];
     }
     // Otherwise center on bounds of listings with coordinates
@@ -111,14 +102,8 @@ function InteractiveMap({
       const lngs = listingsWithCoords.map((l) => l.longitude as number);
       const centerLat = (Math.min(...lats) + Math.max(...lats)) / 2;
       const centerLng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
-      console.log(
-        "[InteractiveMap] Using listings bounds for map center:",
-        centerLat,
-        centerLng,
-      );
       return [centerLat, centerLng];
     }
-    console.log("[InteractiveMap] Using default center");
     return DEFAULT_CENTER;
   }, [filterLocation, userCoordinates, listingsWithCoords]);
 
@@ -126,22 +111,11 @@ function InteractiveMap({
   const mapCenter = initialMapCenter;
 
   useEffect(() => {
-    console.log(
-      "[InteractiveMap] useEffect for map init, container:",
-      containerRef.current,
-      "mapRef:",
-      mapRef.current,
-    );
-
     if (!containerRef.current || mapRef.current) {
-      console.log(
-        "[InteractiveMap] Skipping map init: no container or map already exists",
-      );
       return;
     }
 
     try {
-      console.log("[InteractiveMap] Creating map with center:", mapCenter);
       const map = L.map(containerRef.current, {
         center: mapCenter,
         zoom: 12,
@@ -159,16 +133,13 @@ function InteractiveMap({
       ).addTo(map);
 
       mapRef.current = map;
-      console.log("[InteractiveMap] Map created successfully");
 
       return () => {
-        console.log("[InteractiveMap] Cleaning up map");
         map.remove();
         mapRef.current = null;
         markersRef.current.clear();
       };
     } catch (e) {
-      console.error("[InteractiveMap] Error creating map:", e);
     }
   }, []);
 
@@ -178,21 +149,11 @@ function InteractiveMap({
 
     const map = mapRef.current;
     const target = L.latLng(mapCenter);
-
-    console.log("[InteractiveMap] Setting map center to:", mapCenter);
     map.setView(target, map.getZoom(), { animate: false });
   }, [mapCenter]);
 
   useEffect(() => {
-    console.log(
-      "[InteractiveMap] Marker effect - map exists:",
-      !!mapRef.current,
-      "listings with coords:",
-      listingsWithCoords.length,
-    );
-
     if (!mapRef.current) {
-      console.log("[InteractiveMap] Skipping marker render - no map");
       return;
     }
 
@@ -215,13 +176,6 @@ function InteractiveMap({
       const isSelected = selectedListing === listing.id;
 
       if (!existingMarker) {
-        console.log(
-          "[InteractiveMap] Creating marker for listing",
-          listing.id,
-          "at",
-          listing.latitude,
-          listing.longitude,
-        );
         const markerHtml = `<div>${index + 1}</div>`;
 
         const markerIcon = L.divIcon({
@@ -247,10 +201,6 @@ function InteractiveMap({
           .addTo(map);
 
         marker.on("click", () => {
-          console.log(
-            "[InteractiveMap] Marker clicked for listing",
-            listing.id,
-          );
           // Center map on the clicked marker
           map.setView(
             [listing.latitude as number, listing.longitude as number],
@@ -296,20 +246,8 @@ export function ListingsMap({
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    console.log("[ListingsMap] Component mounted");
     setIsClient(true);
   }, []);
-
-  console.log(
-    "[ListingsMap] Rendering, isClient:",
-    isClient,
-    "listings:",
-    listings.length,
-    "userCoords:",
-    userCoordinates,
-    "filterLocation:",
-    filterLocation,
-  );
 
   return (
     <div className="w-full h-full">
