@@ -162,13 +162,6 @@ export default function Header() {
         </div>
       </header>
 
-      {authenticated && user && (
-        <div className="bg-black/5 dark:bg-white/5 border-b border-border/40 dark:border-gray-700/40 px-4 sm:px-6 lg:px-8 py-2">
-          <p className="text-lime-500 font-mono text-sm">
-            LOGGED IN AS: {user.name}, id: {user.id}
-          </p>
-        </div>
-      )}
 
       <LoginModal
         isOpen={isLoginModalOpen}
