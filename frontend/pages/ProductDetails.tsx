@@ -134,6 +134,8 @@ export default function ProductDetails() {
     start: Date | null;
     end: Date | null;
   }>({ start: null, end: null });
+  const [showConflictModal, setShowConflictModal] = useState(false);
+  const conflictRecheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleFavorite = async (listingName: string, listingId: number) => {
     const userId = authUser?.id;
