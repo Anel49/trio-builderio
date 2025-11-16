@@ -20,6 +20,7 @@ export function MultiSelectCategories({
   onSelectionChange,
   placeholder = "Search categories...",
   variant = "inline",
+  autoFocus = true,
 }: MultiSelectCategoriesProps) {
   const [inputValue, setInputValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
