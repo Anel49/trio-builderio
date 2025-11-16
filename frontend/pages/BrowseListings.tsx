@@ -693,6 +693,16 @@ export default function BrowseListings() {
           return false;
       }
 
+      // Delivery filter
+      if (appliedFilters.offersDelivery && !listing.delivery) {
+        return false;
+      }
+
+      // Free delivery filter
+      if (appliedFilters.offersFreeDelivery && !listing.freeDelivery) {
+        return false;
+      }
+
       // Availability filter: only when a date range is selected
       if (dateRange.start && dateRange.end) {
         const listingId = String(listing.id);
