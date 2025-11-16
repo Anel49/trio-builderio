@@ -111,30 +111,6 @@ export function Footer() {
               >
                 Cookie Preferences
               </button>
-              <button
-                onClick={() => {
-                  // Clear all cookies
-                  document.cookie.split(";").forEach((cookie) => {
-                    const eqPos = cookie.indexOf("=");
-                    const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                    document.cookie = `${name.trim()}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-                  });
-                  // Clear localStorage and sessionStorage
-                  localStorage.clear();
-                  sessionStorage.clear();
-                  // Reload page to reset state
-                  window.location.reload();
-                }}
-                className="px-3 py-1 text-xs font-medium bg-lime-500 hover:bg-lime-600 text-white rounded-md transition-colors"
-              >
-                Clear cookies
-              </button>
-              <button
-                onClick={handleLogout}
-                className="px-3 py-1 text-xs font-medium bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors"
-              >
-                Log out
-              </button>
             </div>
           </div>
         </Container>
