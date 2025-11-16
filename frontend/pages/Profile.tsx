@@ -93,6 +93,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChangePasswordModal } from "@/components/ui/change-password-modal";
 import { ChangeEmailModal } from "@/components/ui/change-email-modal";
+import { ChangeUsernameModal } from "@/components/ui/change-username-modal";
 
 type ListedItem = {
   id: number;
