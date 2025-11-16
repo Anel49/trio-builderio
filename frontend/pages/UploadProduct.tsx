@@ -1310,6 +1310,7 @@ export default function UploadProduct() {
       <ConfirmationModal />
       <SuccessModal />
       <DeliveryModal />
+      <InstantBookingModal />
       <PreviewModal />
       <LocationPickerModal
         open={isLocationModalOpen}
