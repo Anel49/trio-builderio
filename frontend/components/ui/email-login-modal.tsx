@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Eye, EyeOff } from "lucide-react";
 import { apiFetch } from "@/lib/api";
+import { ForgotPasswordModal } from "@/components/ui/forgot-password-modal";
 
 interface EmailLoginModalProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export function EmailLoginModal({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
   const mapErrorToField = (errorMsg: string): Record<string, string> => {
     const errors: Record<string, string> = {};
