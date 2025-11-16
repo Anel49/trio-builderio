@@ -77,12 +77,14 @@ export default function Header() {
                 >
                   Browse listings
                 </a>
-                <a
-                  href="/upload"
-                  className="text-foreground hover:text-primary transition-colors mt-[2px] ml-8"
-                >
-                  Rent your product
-                </a>
+                {authenticated && (
+                  <a
+                    href="/upload"
+                    className="text-foreground hover:text-primary transition-colors mt-[2px] ml-8"
+                  >
+                    Rent your product
+                  </a>
+                )}
               </nav>
             </div>
             <div className="flex items-center space-x-4">
