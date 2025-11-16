@@ -407,7 +407,13 @@ export default function Messages() {
                           className="cursor-pointer hover:opacity-80 transition-opacity"
                           aria-label="Open profile"
                         >
-                          <Avatar className="h-12 w-12">
+                          <Avatar
+                            className={`h-12 w-12 ${
+                              selectedUserId === chat.otherUserId
+                                ? "bg-muted/75"
+                                : ""
+                            }`}
+                          >
                             <AvatarImage
                               src={chat.avatarUrl || undefined}
                               alt={chat.name}
