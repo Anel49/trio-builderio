@@ -145,7 +145,10 @@ export function ProductCard({
               onMouseLeave={() => setIsHeartHovered(false)}
               onClick={(e) => {
                 e.stopPropagation();
+                e.preventDefault();
+                console.log("Favorite button clicked for listing", id, "onFavorite:", !!onFavorite);
                 if (onFavorite) {
+                  console.log("Calling onFavorite handler");
                   onFavorite(name, id);
                 }
               }}
