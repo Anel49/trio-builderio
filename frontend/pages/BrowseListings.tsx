@@ -1088,18 +1088,20 @@ export default function BrowseListings() {
                   {/* Category Filter */}
                   <div>
                     <Label className="text-sm font-medium">Categories</Label>
-                    <MultiSelectCategories
-                      categories={CATEGORY_OPTIONS}
-                      selected={filters.categories}
-                      onSelectionChange={(selected) =>
-                        setFilters({
-                          ...filters,
-                          categories: selected,
-                        })
-                      }
-                      placeholder="Search categories..."
-                      autoFocus={!isTabletOrMobile}
-                    />
+                    <div className="mt-2">
+                      <MultiSelectCategories
+                        categories={CATEGORY_OPTIONS}
+                        selected={filters.categories}
+                        onSelectionChange={(selected) =>
+                          setFilters({
+                            ...filters,
+                            categories: selected,
+                          })
+                        }
+                        placeholder="Search categories..."
+                        autoFocus={!isTabletOrMobile}
+                      />
+                    </div>
                   </div>
 
                   {/* Delivery Options */}
