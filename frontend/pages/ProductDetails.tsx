@@ -291,7 +291,7 @@ export default function ProductDetails() {
     return true;
   };
 
-  // Check if there's a conflict with existing reservations
+  // Check if there's a conflict with existing reservations (only pending or accepted)
   const hasDateConflict = () => {
     if (!selectedDateRange.start || !selectedDateRange.end) {
       return false;
@@ -300,6 +300,9 @@ export default function ProductDetails() {
     const end = selectedDateRange.end;
 
     for (const r of reservations) {
+      if (r.status !== "pending" && r.status !== "accepted") {
+        continue;
+      }
       const rs = new Date(r.startDate);
       const re = new Date(r.endDate);
       if (start <= re && end >= rs) return true;
