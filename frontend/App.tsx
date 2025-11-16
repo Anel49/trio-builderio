@@ -165,7 +165,14 @@ const AppContent = () => {
             }
           />
           <Route path="/profile/:username" element={<Profile />} />
-          <Route path="/messages" element={<Messages />} />
+          <Route
+            path="/messages"
+            element={
+              <ProtectedRoute>
+                <Messages />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-history" element={<OrderHistory />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
