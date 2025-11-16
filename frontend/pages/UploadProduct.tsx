@@ -646,11 +646,28 @@ export default function UploadProduct() {
         </DialogHeader>
         <div className="py-4">
           <p className="text-base text-muted-foreground">
-            Negotiate delivery fees through messages. You keep 100% of delivery
-            fees.
+            Negotiate delivery fees through messages. You keep 100% of the delivery fee.
           </p>
         </div>
         <Button onClick={() => setShowDeliveryModal(false)} className="w-full">
+          Got it
+        </Button>
+      </DialogContent>
+    </Dialog>
+  );
+
+  const InstantBookingModal = () => (
+    <Dialog open={showInstantBookingModal} onOpenChange={setShowInstantBookingModal}>
+      <DialogContent className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Instant Booking</DialogTitle>
+        </DialogHeader>
+        <div className="py-4">
+          <p className="text-base text-muted-foreground">
+            Enabling Instant Booking configures your listing to automatically approve incoming booking requests that do not conflict with any existing Pending or Accepted requests, eliminating the need for manual approval.
+          </p>
+        </div>
+        <Button onClick={() => setShowInstantBookingModal(false)} className="w-full">
           Got it
         </Button>
       </DialogContent>
