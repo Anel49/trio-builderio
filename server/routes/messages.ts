@@ -12,32 +12,38 @@ export async function listConversations(req: Request, res: Response) {
 
     const result = await pool.query(
       `
-      SELECT DISTINCT 
-        CASE 
-          WHEN from_id = $1 THEN to_id 
-          ELSE from_id 
-        END as other_user_id,
+      WITH conversation_users AS (
+        SELECT DISTINCT
+          CASE
+            WHEN from_id = $1 THEN to_id
+            ELSE from_id
+          END as other_user_id
+        FROM messages
+        WHERE from_id = $1 OR to_id = $1
+      ),
+      last_messages AS (
+        SELECT
+          CASE
+            WHEN m.from_id = $1 THEN m.to_id
+            ELSE m.from_id
+          END as other_user_id,
+          m.body,
+          m.created_at,
+          ROW_NUMBER() OVER (PARTITION BY CASE WHEN m.from_id = $1 THEN m.to_id ELSE m.from_id END ORDER BY m.created_at DESC) as rn
+        FROM messages m
+        WHERE m.from_id = $1 OR m.to_id = $1
+      )
+      SELECT
+        cu.other_user_id,
         u.name,
         u.avatar_url,
         u.username,
-        (
-          SELECT body FROM messages 
-          WHERE (from_id = $1 AND to_id = CASE WHEN from_id = $1 THEN to_id ELSE from_id END) 
-             OR (to_id = $1 AND from_id = CASE WHEN from_id = $1 THEN to_id ELSE from_id END)
-          ORDER BY created_at DESC 
-          LIMIT 1
-        ) as last_message,
-        (
-          SELECT created_at FROM messages 
-          WHERE (from_id = $1 AND to_id = CASE WHEN from_id = $1 THEN to_id ELSE from_id END) 
-             OR (to_id = $1 AND from_id = CASE WHEN from_id = $1 THEN to_id ELSE from_id END)
-          ORDER BY created_at DESC 
-          LIMIT 1
-        ) as last_message_time
-      FROM messages m
-      JOIN users u ON u.id = CASE WHEN from_id = $1 THEN to_id ELSE from_id END
-      WHERE from_id = $1 OR to_id = $1
-      ORDER BY last_message_time DESC
+        lm.body as last_message,
+        lm.created_at as last_message_time
+      FROM conversation_users cu
+      JOIN users u ON u.id = cu.other_user_id
+      LEFT JOIN last_messages lm ON lm.other_user_id = cu.other_user_id AND lm.rn = 1
+      ORDER BY lm.created_at DESC NULLS LAST
       `,
       [userId],
     );
