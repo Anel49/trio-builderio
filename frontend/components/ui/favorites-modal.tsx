@@ -20,6 +20,7 @@ interface Favorite {
   host: string;
   type: string;
   rentalPeriod?: string;
+  enabled?: boolean;
   favoritedAt?: string;
 }
 
