@@ -1339,6 +1339,11 @@ export default function Profile() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
+                        onClick={() => setIsChangeUsernameModalOpen(true)}
+                      >
+                        Change username
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
                         onClick={() => setIsChangePasswordModalOpen(true)}
                       >
                         Change password
