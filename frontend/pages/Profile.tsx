@@ -904,7 +904,10 @@ export default function Profile() {
             host: l.host || "You",
             hostUserId:
               typeof l.hostUserId === "number" ? l.hostUserId : undefined,
-            type: Array.isArray(categories) && categories.length > 0 ? categories[0] : "General",
+            type:
+              Array.isArray(categories) && categories.length > 0
+                ? categories[0]
+                : "General",
             categories,
             distance: distanceLabel,
             distanceMiles,
