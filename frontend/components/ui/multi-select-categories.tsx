@@ -81,6 +81,9 @@ export function MultiSelectCategories({
     if (e.key === "Escape") {
       setIsOpen(false);
       setInputValue("");
+    } else if (e.key === "Enter" && isOpen && filteredCategories.length > 0) {
+      e.preventDefault();
+      handleSelectCategory(filteredCategories[0]);
     }
   };
 
