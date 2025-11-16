@@ -447,12 +447,17 @@ export async function getListingById(req: Request, res: Response) {
                 count(lr.id)::int as review_count,
                 coalesce(u.open_dms, true) as host_open_dms,
                 u.created_at as host_created_at,
-                u.username as host_username
+                u.username as host_username,
+                u.avatar_url as host_avatar_url,
+                round(coalesce(avg(all_lr.rating)::numeric, 0), 1) as host_avg_rating,
+                count(distinct all_lr.id)::int as host_total_reviews
          from listings l
          left join listing_reviews lr on l.id = lr.listing_id
          left join users u on l.user_id = u.id
+         left join listings all_listings on u.id = all_listings.user_id
+         left join listing_reviews all_lr on all_listings.id = all_lr.listing_id
          where l.id = $1
-         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude, l.delivery, l.free_delivery, l.enabled, u.open_dms, u.created_at, u.username, l.user_id`,
+         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.rental_period, l.latitude, l.longitude, l.delivery, l.free_delivery, l.enabled, u.open_dms, u.created_at, u.username, u.avatar_url, l.user_id`,
         [id],
       );
     } catch (e) {
