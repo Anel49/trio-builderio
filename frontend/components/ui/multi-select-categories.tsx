@@ -22,6 +22,7 @@ export function MultiSelectCategories({
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const filteredCategories = categories.filter(
     (category) =>
