@@ -1834,7 +1834,7 @@ export default function Profile() {
                           variant="outline"
                           size="icon"
                           className="rounded-[20px]"
-                          aria-label="Previous item reviews"
+                          aria-label="Previous listing reviews"
                           disabled={currentItemReviewPage === 1}
                           onClick={() =>
                             setCurrentItemReviewPage((page) =>
@@ -1851,7 +1851,7 @@ export default function Profile() {
                           variant="outline"
                           size="icon"
                           className="rounded-[20px]"
-                          aria-label="Next item reviews"
+                          aria-label="Next listing reviews"
                           disabled={
                             currentItemReviewPage === totalItemReviewPages
                           }
