@@ -1104,7 +1104,9 @@ export default function BrowseListings() {
 
                   {/* Delivery Options */}
                   <div>
-                    <Label className="text-sm font-medium">Delivery Options</Label>
+                    <Label className="text-sm font-medium">
+                      Delivery Options
+                    </Label>
                     <div className="space-y-3 mt-2">
                       <div className="flex items-center gap-2">
                         <Checkbox
