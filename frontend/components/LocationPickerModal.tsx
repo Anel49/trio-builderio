@@ -368,7 +368,7 @@ export function LocationPickerModal({
           <DialogTitle>Select your location</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <div className="h-[420px] w-full overflow-hidden rounded-lg border border-border">
+          <div className="h-[315px] sm:h-[420px] w-full overflow-hidden rounded-lg border border-border">
             {isClient ? (
               <InteractiveMap
                 center={mapCenter}
