@@ -191,14 +191,14 @@ export default function BrowseListings() {
     maxPrice: "",
     maxDistance: "",
     zipCode: "",
-    category: "",
+    categories: [] as string[],
   });
   const [appliedFilters, setAppliedFilters] = useState({
     minPrice: "",
     maxPrice: "",
     maxDistance: "",
     zipCode: "",
-    category: "",
+    categories: [] as string[],
   });
 
   // Sort state
