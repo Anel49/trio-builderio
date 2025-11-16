@@ -637,7 +637,7 @@ export default function Index() {
               name={category.name}
               onClick={() =>
                 navigate(
-                  `/browse?category=${encodeURIComponent(category.name)}`,
+                  `/browse?categories=${encodeURIComponent(category.name)}`,
                 )
               }
             />
