@@ -1160,8 +1160,8 @@ export default function ProductDetails() {
                   <div className="flex items-center space-x-4 mb-4">
                     <button
                       onClick={() => {
-                        if (product?.hostUserId) {
-                          navigate(`/profile/${product.hostUserId}`);
+                        if (product?.hostUsername) {
+                          navigate(`/profile/${product.hostUsername}`);
                         } else {
                           navigate("/profile");
                         }
@@ -1182,8 +1182,8 @@ export default function ProductDetails() {
                     <div>
                       <button
                         onClick={() => {
-                          if (product?.hostUserId) {
-                            navigate(`/profile/${product.hostUserId}`);
+                          if (product?.hostUsername) {
+                            navigate(`/profile/${product.hostUsername}`);
                           } else {
                             navigate("/profile");
                           }
