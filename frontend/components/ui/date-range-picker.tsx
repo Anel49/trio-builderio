@@ -64,6 +64,10 @@ export function DateRangePicker({
   const getReservationForDate = (date: Date): ReservationPeriod | null => {
     return (
       reservations.find((reservation) => {
+        // Only consider pending or accepted reservations
+        if (reservation.status !== "pending" && reservation.status !== "accepted") {
+          return false;
+        }
         const reservationStart = new Date(reservation.startDate);
         const reservationEnd = new Date(reservation.endDate);
         // Add 1 day to end date to make it inclusive
