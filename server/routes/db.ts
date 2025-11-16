@@ -484,6 +484,23 @@ export async function dbSetup(_req: Request, res: Response) {
       [demoUserEmail],
     );
 
+    // Seed messages between user 28 (Sarah) and user 61 (Andrew)
+    await pool.query(`
+      insert into messages (from_id, to_id, body, created_at)
+      values
+        (28, 61, 'Hi! I''m interested in renting your lawn mower this weekend.', now() - interval '5 hours'),
+        (61, 28, 'Sure! It''s available. When would you like to pick it up?', now() - interval '4 hours 50 minutes'),
+        (28, 61, 'Saturday morning would be perfect. Around 9 AM?', now() - interval '4 hours 30 minutes'),
+        (61, 28, 'That works perfectly! My address is 123 Oak Street. I''ll have it ready for you.', now() - interval '4 hours'),
+        (28, 61, 'Thanks! Should I bring anything?', now() - interval '3 hours 45 minutes'),
+        (61, 28, 'Just bring a valid ID for verification and payment method.', now() - interval '3 hours 30 minutes'),
+        (28, 61, 'Sounds good! See you Saturday.', now() - interval '3 hours'),
+        (61, 28, 'Great! Looking forward to it.', now() - interval '2 hours 50 minutes'),
+        (28, 61, 'The lawn mower worked great! Thanks so much.', now() - interval '30 minutes'),
+        (61, 28, 'Glad to hear it! Thanks for renting from me!', now() - interval '10 minutes')
+      on conflict do nothing
+    `);
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
