@@ -211,7 +211,10 @@ export function EmailLoginModal({
                 type="button"
                 variant="link"
                 className="p-0 text-sm h-auto"
-                onClick={() => setIsForgotPasswordOpen(true)}
+                onClick={() => {
+                  onOpenChange(false);
+                  setIsForgotPasswordOpen(true);
+                }}
               >
                 Forgot your password?
               </Button>
