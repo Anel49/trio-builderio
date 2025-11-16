@@ -510,7 +510,7 @@ export default function Messages() {
             )}
 
             {/* Chat Messages */}
-            <ScrollArea ref={messagesScrollRef} className="flex-1 px-4">
+            <ScrollArea ref={messagesScrollRef} className="flex-1 px-4 [&>div>div]:md:block [&>div>div]:hidden">
               {messagesLoading ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center text-muted-foreground">
