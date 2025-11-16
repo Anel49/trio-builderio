@@ -137,7 +137,7 @@ export function ForgotPasswordModal({
                 <Button
                   variant="outline"
                   className="w-full"
-                  onClick={handleClose}
+                  onClick={() => onOpenChange(false)}
                   disabled={isLoading}
                 >
                   Cancel
