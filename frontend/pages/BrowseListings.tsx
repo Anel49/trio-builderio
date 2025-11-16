@@ -1133,6 +1133,8 @@ export default function BrowseListings() {
                         maxDistance: "",
                         zipCode: "",
                         categories: [] as string[],
+                        offersDelivery: false,
+                        offersFreeDelivery: false,
                       };
                       setFilters(emptyFilters);
                       setAppliedFilters(emptyFilters);
