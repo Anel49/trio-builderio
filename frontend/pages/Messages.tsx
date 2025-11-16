@@ -410,7 +410,7 @@ export default function Messages() {
                           <Avatar
                             className={`h-12 w-12 ${
                               selectedUserId === chat.otherUserId
-                                ? "bg-muted/75"
+                                ? "opacity-100"
                                 : ""
                             }`}
                           >
