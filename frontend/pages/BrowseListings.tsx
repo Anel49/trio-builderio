@@ -1003,7 +1003,7 @@ export default function BrowseListings() {
                   Filters
                 </Button>
               </PopoverTrigger>
-              <PopoverContent align="start" className="w-80 p-4">
+              <PopoverContent align={isTabletOrMobile ? "center" : "start"} className="w-80 p-4">
                 <div className="space-y-4">
                   {/* Price Filter */}
                   <div>
