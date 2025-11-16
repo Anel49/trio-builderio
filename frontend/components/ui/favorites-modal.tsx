@@ -118,16 +118,24 @@ export function FavoritesModal({
             {favorites.map((favorite) => (
               <div
                 key={favorite.id}
-                onClick={() =>
-                  (window.location.href = `/listing/${favorite.id}`)
-                }
-                className="flex gap-4 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors cursor-pointer"
+                onClick={() => {
+                  if (favorite.enabled !== false) {
+                    window.location.href = `/listing/${favorite.id}`;
+                  }
+                }}
+                className={`flex gap-4 p-3 rounded-lg border bg-card transition-colors ${
+                  favorite.enabled !== false
+                    ? "hover:bg-accent/50 cursor-pointer"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
               >
                 {favorite.image && (
                   <img
                     src={favorite.image}
                     alt={favorite.name}
-                    className="h-20 w-20 rounded object-cover flex-shrink-0"
+                    className={`h-20 w-20 rounded object-cover flex-shrink-0 ${
+                      favorite.enabled === false ? "grayscale" : ""
+                    }`}
                   />
                 )}
                 <div className="flex-1 min-w-0">
@@ -144,6 +152,11 @@ export function FavoritesModal({
                   {favorite.rating && (
                     <p className="text-xs text-muted-foreground">
                       ★ {favorite.rating}
+                    </p>
+                  )}
+                  {favorite.enabled === false && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      (Listing no longer available)
                     </p>
                   )}
                 </div>
