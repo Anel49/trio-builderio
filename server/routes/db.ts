@@ -517,6 +517,42 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Seed 25 messages between users 61 and 70
+    await pool.query(
+      `
+      insert into messages (from_id, to_id, body, created_at)
+      values
+        (61, 65, 'Hey! Are you still interested in the camera equipment?', now() - interval '6 days'),
+        (65, 61, 'Yes! Is it still available?', now() - interval '6 days - 50 minutes'),
+        (61, 65, 'Yes, absolutely. I can meet tomorrow afternoon if that works.', now() - interval '6 days - 40 minutes'),
+        (65, 61, 'Tomorrow sounds great! What time?', now() - interval '6 days - 30 minutes'),
+        (61, 65, 'How about 2 PM at the coffee shop downtown?', now() - interval '6 days - 20 minutes'),
+        (65, 61, 'Perfect! See you then!', now() - interval '6 days - 10 minutes'),
+        (62, 68, 'Hi, I''m looking at your camping gear listing. Do you have the tent in stock?', now() - interval '5 days'),
+        (68, 62, 'Yes, I do! It''s in great condition, barely used.', now() - interval '5 days - 1 hour'),
+        (62, 68, 'That''s great! What''s the best time to come see it?', now() - interval '5 days - 2 hours'),
+        (68, 62, 'Weekends work best for me. How about Saturday?', now() - interval '5 days - 3 hours'),
+        (63, 70, 'Thanks for the quick response about the tools!', now() - interval '4 days'),
+        (70, 63, 'Happy to help! When can you pick them up?', now() - interval '4 days - 30 minutes'),
+        (63, 70, 'This Friday evening if possible?', now() - interval '4 days - 1 hour'),
+        (70, 63, 'Friday evening works perfectly!', now() - interval '4 days - 1 hour 30 minutes'),
+        (64, 66, 'Hi! Is the bicycle still available for rent?', now() - interval '3 days'),
+        (66, 64, 'Yes it is! Very reliable and well maintained.', now() - interval '3 days - 45 minutes'),
+        (64, 66, 'Excellent! What are your rental rates?', now() - interval '3 days - 1 hour 30 minutes'),
+        (66, 64, 'It''s $20 per day or $100 per week. Interested?', now() - interval '3 days - 2 hours'),
+        (64, 66, 'That sounds reasonable. I''d like to rent it for two weeks!', now() - interval '3 days - 2 hours 30 minutes'),
+        (66, 64, 'Fantastic! Let''s arrange a time to get you set up!', now() - interval '3 days - 3 hours'),
+        (61, 70, 'Hi! Quick question about your listing.', now() - interval '2 days'),
+        (70, 61, 'Sure, what would you like to know?', now() - interval '2 days - 20 minutes'),
+        (61, 70, 'Can you provide more details about the condition?', now() - interval '2 days - 40 minutes'),
+        (70, 61, 'Of course! It''s in excellent condition, no issues at all.', now() - interval '2 days - 1 hour'),
+        (67, 69, 'This is exactly what I''ve been looking for! When can we connect?', now() - interval '1 day')
+      on conflict do nothing
+      `,
+    );
+
+    console.log(`[dbSetup] Created 25 messages between users 61-70`);
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
