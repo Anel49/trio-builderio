@@ -1239,14 +1239,22 @@ export default function ProductDetails() {
               <Card key={review.id}>
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
-                    <a href="/profile" aria-label="Open profile">
+                    <button
+                      onClick={() => {
+                        if (review.reviewerId) {
+                          navigate(`/profile/${review.reviewerId}`);
+                        }
+                      }}
+                      className="cursor-pointer hover:opacity-80 transition-opacity"
+                      aria-label="Open profile"
+                    >
                       <Avatar>
                         <AvatarImage src={review.avatar} alt={review.user} />
                         <AvatarFallback>
                           {review.user.split(" ")[0][0]?.toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
-                    </a>
+                    </button>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold">
