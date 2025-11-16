@@ -92,7 +92,7 @@ export default function Header() {
                 <>
                   <Button
                     variant="ghost"
-                    className="hidden md:inline-flex pt-[6px] pb-[8px] px-4"
+                    className="pt-[6px] pb-[8px] px-4"
                     onClick={() => setIsLoginModalOpen(true)}
                   >
                     Log in
