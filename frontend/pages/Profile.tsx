@@ -1054,13 +1054,13 @@ export default function Profile() {
   const tabs = [
     {
       id: "listings",
-      label: "Listed Items",
+      label: "Listings",
       count: listedItems.length,
       icon: Package,
     },
     {
       id: "item-reviews",
-      label: "Item Reviews",
+      label: "Listing Reviews",
       count: itemReviews.length,
       icon: Star,
     },
@@ -1578,14 +1578,14 @@ export default function Profile() {
                       className="flex items-center space-x-2"
                     >
                       <Package className="h-4 w-4" />
-                      <span>Listed Items ({listedItems.length})</span>
+                      <span>Listings ({listedItems.length})</span>
                     </TabsTrigger>
                     <TabsTrigger
                       value="item-reviews"
                       className="flex items-center space-x-2"
                     >
                       <Star className="h-4 w-4" />
-                      <span>Item Reviews ({itemReviews.length})</span>
+                      <span>Listing Reviews ({itemReviews.length})</span>
                     </TabsTrigger>
                     <TabsTrigger
                       value="seller-reviews"
