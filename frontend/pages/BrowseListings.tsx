@@ -718,11 +718,6 @@ export default function BrowseListings() {
                   : new Date(res.endDate).toISOString().split("T")[0];
 
               const isConflict = dateStr >= resStart && dateStr <= resEnd;
-              if (isConflict) {
-                console.log(
-                  `Conflict found for listing ${listingId}: ${dateStr} conflicts with reservation ${resStart} to ${resEnd} (status: ${res.status})`,
-                );
-              }
               return isConflict;
             });
 
