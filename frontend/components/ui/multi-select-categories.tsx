@@ -102,7 +102,7 @@ export function MultiSelectCategories({
         <Input
           ref={inputRef}
           type="text"
-          placeholder={inputValue ? "" : placeholder}
+          placeholder={inputValue === "" && selected.length === 0 ? placeholder : ""}
           value={inputValue}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
