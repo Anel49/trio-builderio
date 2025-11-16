@@ -360,9 +360,9 @@ export default function ProductDetails() {
 
   const host = {
     name: product?.host || "Product Host",
-    profileImage: "",
-    rating: 4.8,
-    totalReviews: 42,
+    profileImage: product?.hostAvatarUrl || "",
+    rating: product?.hostRating ?? 4.8,
+    totalReviews: product?.hostTotalReviews ?? 0,
     joinedDate: formattedJoinedDate,
     responseTime: "Within an hour",
   };
