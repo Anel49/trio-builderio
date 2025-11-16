@@ -165,7 +165,7 @@ export function FavoritesModal({
                     e.stopPropagation();
                     handleRemoveFavorite(favorite.id);
                   }}
-                  className="flex-shrink-0 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
+                  className="flex-shrink-0 p-1 h-fit hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors self-start"
                   title="Remove from favorites"
                 >
                   <X className="h-4 w-4 text-red-500" />
