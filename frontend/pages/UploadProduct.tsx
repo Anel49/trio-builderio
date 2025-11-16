@@ -480,7 +480,7 @@ export default function UploadProduct() {
         longitude: listingLocation.longitude,
         delivery: offerDelivery,
         free_delivery: offerFreeDelivery,
-        instant_booking: enableInstantBooking,
+        instant_bookings: enableInstantBooking,
       };
       console.log("[UploadProduct] Sending payload:", payload);
 
