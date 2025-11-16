@@ -2460,7 +2460,7 @@ export default function Profile() {
 
         {/* Profile Content */}
         <div className="px-4 pb-4 h-full overflow-y-auto">
-          <div className="bg-muted/30 rounded-lg p-6">
+          <div className="rounded-lg p-6">
             <div className="text-center">
               {/* Profile Picture */}
               <div className="relative inline-block group mb-4">
