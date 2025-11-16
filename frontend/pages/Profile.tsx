@@ -1021,6 +1021,8 @@ export default function Profile() {
   const sellerReviews: {
     id: number;
     reviewer: string;
+    avatar?: string;
+    reviewerId?: number;
     rating: number;
     date: string;
     dateValue: Date;
@@ -1029,6 +1031,8 @@ export default function Profile() {
     {
       id: 1,
       reviewer: "Emily",
+      reviewerId: 1,
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
       rating: 5,
       date: "1 week ago",
       dateValue: new Date("2024-12-08"),
@@ -1038,6 +1042,8 @@ export default function Profile() {
     {
       id: 2,
       reviewer: "Robert",
+      reviewerId: 2,
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
       rating: 5,
       date: "3 weeks ago",
       dateValue: new Date("2024-11-25"),
@@ -1047,6 +1053,8 @@ export default function Profile() {
     {
       id: 3,
       reviewer: "Lisa",
+      reviewerId: 3,
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
       rating: 4,
       date: "1 month ago",
       dateValue: new Date("2024-11-15"),
