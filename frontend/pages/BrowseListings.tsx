@@ -715,8 +715,14 @@ export default function BrowseListings() {
               if (res.status !== "pending" && res.status !== "accepted") {
                 return false;
               }
-              const resStart = res.startDate;
-              const resEnd = res.endDate;
+              // Parse the dates properly - handle ISO strings
+              const resStart = typeof res.startDate === "string"
+                ? res.startDate.split("T")[0]
+                : new Date(res.startDate).toISOString().split("T")[0];
+              const resEnd = typeof res.endDate === "string"
+                ? res.endDate.split("T")[0]
+                : new Date(res.endDate).toISOString().split("T")[0];
+
               const isConflict = dateStr >= resStart && dateStr <= resEnd;
               if (isConflict) {
                 console.log(
