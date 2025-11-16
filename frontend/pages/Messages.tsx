@@ -639,12 +639,6 @@ export default function Messages() {
                     {selectedChat.name}
                   </h3>
 
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {selectedChat.lastMessageTime
-                      ? `Last message ${new Date(selectedChat.lastMessageTime).toLocaleString()}`
-                      : "No messages yet"}
-                  </p>
-
                   {/* Chat Deletion Notice */}
                   <div className="border-t border-border pt-6">
                     <p className="text-xs text-muted-foreground leading-relaxed">
