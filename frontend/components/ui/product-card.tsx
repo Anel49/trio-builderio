@@ -37,6 +37,7 @@ interface ProductCardProps {
   distance: string | null;
   listedTime?: string;
   hideHostInfo?: boolean;
+  hideDistance?: boolean;
   onClick?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
