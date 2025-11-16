@@ -1457,7 +1457,7 @@ export default function Profile() {
                           try {
                             const nameParts = name.trim().split(/\s+/);
                             const firstName = nameParts[0] || "";
-                            const lastName = nameParts.slice(1).join(" ") || "";
+                            const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : null;
                             const body: any = {
                               email: authUser?.email,
                               name,
@@ -2590,7 +2590,7 @@ export default function Profile() {
                       try {
                         const nameParts = name.trim().split(/\s+/);
                         const firstName = nameParts[0] || "";
-                        const lastName = nameParts.slice(1).join(" ") || "";
+                        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : null;
                         const body: any = {
                           email: authUser?.email,
                           name,
