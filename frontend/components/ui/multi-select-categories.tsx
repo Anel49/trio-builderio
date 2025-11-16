@@ -47,15 +47,33 @@ export function MultiSelectCategories({
 
   const handleInputFocus = () => {
     setIsOpen(true);
-  };
-
-  const handleBlur = (e: React.FocusEvent) => {
-    // Close dropdown when clicking outside
-    if (containerRef.current && !containerRef.current.contains(e.relatedTarget as Node)) {
-      setIsOpen(false);
-      setInputValue(""); // Clear loose text on blur
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
     }
   };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    // Prevent default to keep focus on input
+    if ((e.target as HTMLElement).tagName !== "BUTTON") {
+      e.preventDefault();
+    }
+  };
+
+  const handleBlur = () => {
+    // Delay closing to allow click on dropdown items
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+      setInputValue(""); // Clear loose text on blur
+    }, 200);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
