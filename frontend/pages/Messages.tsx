@@ -620,9 +620,18 @@ export default function Messages() {
                     </button>
                   </div>
 
-                  <h3 className="font-semibold text-lg mb-2">
+                  <button
+                    onClick={() => {
+                      if (selectedChat.username) {
+                        navigate(`/profile/${selectedChat.username}`);
+                      } else {
+                        navigate(`/profile/${selectedChat.otherUserId}`);
+                      }
+                    }}
+                    className="font-semibold text-lg mb-2 hover:underline text-left w-full transition-colors hover:text-primary"
+                  >
                     {selectedChat.name}
-                  </h3>
+                  </button>
 
                   {/* Chat Deletion Notice */}
                   <div className="border-t border-border pt-6">
