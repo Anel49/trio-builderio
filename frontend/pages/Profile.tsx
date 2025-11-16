@@ -263,6 +263,7 @@ export default function Profile() {
   const [isEmailChangeSuccessOpen, setIsEmailChangeSuccessOpen] =
     useState(false);
   const [newEmailForConfirmation, setNewEmailForConfirmation] = useState("");
+  const [isMobileSettingsOpen, setIsMobileSettingsOpen] = useState(false);
   const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
   const openAvatarFilePicker = () => avatarFileInputRef.current?.click();
   const handleAvatarUpload: React.ChangeEventHandler<HTMLInputElement> = (
