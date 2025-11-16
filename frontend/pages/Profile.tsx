@@ -1816,8 +1816,8 @@ export default function Profile() {
                           <div className="flex items-start gap-4 mb-3">
                             <button
                               onClick={() => {
-                                if (review.reviewerId) {
-                                  navigate(`/profile/${review.reviewerId}`);
+                                if (review.reviewerUsername) {
+                                  navigate(`/profile/${review.reviewerUsername}`);
                                 }
                               }}
                               className="cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
