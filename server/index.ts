@@ -307,6 +307,8 @@ export function createServer() {
   app.post("/api/users", upsertUser);
   app.post("/api/users/signup", emailSignup);
   app.post("/api/users/login", emailLogin);
+  app.post("/api/users/change-password", changePassword);
+  app.post("/api/users/change-email", changeEmail);
   // Favorites
   app.get("/api/favorites/:userId", listFavorites);
   app.post("/api/favorites", addFavorite);
