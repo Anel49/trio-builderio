@@ -960,7 +960,9 @@ export default function BrowseListings() {
                     appliedFilters.maxDistance ||
                     appliedFilters.zipCode ||
                     (appliedFilters.categories &&
-                      appliedFilters.categories.length > 0)
+                      appliedFilters.categories.length > 0) ||
+                    appliedFilters.offersDelivery ||
+                    appliedFilters.offersFreeDelivery
                       ? "default"
                       : "outline"
                   }
