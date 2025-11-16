@@ -1006,6 +1006,8 @@ export default function Profile() {
       id: number;
       itemName: string;
       reviewer: string;
+      avatar?: string;
+      reviewerId?: number;
       rating: number;
       date: string;
       dateValue: Date;
