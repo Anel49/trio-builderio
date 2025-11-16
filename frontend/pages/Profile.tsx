@@ -885,6 +885,11 @@ export default function Profile() {
           const distanceMiles = computeDistanceMiles(userCoords, listingCoords);
           const distanceLabel = formatDistanceLabel(distanceMiles);
 
+          const categories = Array.isArray(l.categories)
+            ? l.categories
+            : typeof l.type === "string"
+              ? [l.type]
+              : ["General"];
           return {
             id: l.id,
             name: l.name,
@@ -899,10 +904,8 @@ export default function Profile() {
             host: l.host || "You",
             hostUserId:
               typeof l.hostUserId === "number" ? l.hostUserId : undefined,
-            type:
-              Array.isArray(l.categories) && l.categories.length
-                ? l.categories[0]
-                : l.type || "General",
+            type: Array.isArray(categories) && categories.length > 0 ? categories[0] : "General",
+            categories,
             distance: distanceLabel,
             distanceMiles,
             latitude: listingCoords?.latitude ?? null,
