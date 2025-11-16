@@ -1068,6 +1068,49 @@ export default function BrowseListings() {
                     />
                   </div>
 
+                  {/* Delivery Options */}
+                  <div>
+                    <Label className="text-sm font-medium">Delivery Options</Label>
+                    <div className="space-y-3 mt-2">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id="offers-delivery"
+                          checked={filters.offersDelivery}
+                          onCheckedChange={(checked) =>
+                            setFilters({
+                              ...filters,
+                              offersDelivery: checked === true,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor="offers-delivery"
+                          className="text-sm cursor-pointer font-normal"
+                        >
+                          Offers delivery
+                        </label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id="offers-free-delivery"
+                          checked={filters.offersFreeDelivery}
+                          onCheckedChange={(checked) =>
+                            setFilters({
+                              ...filters,
+                              offersFreeDelivery: checked === true,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor="offers-free-delivery"
+                          className="text-sm cursor-pointer font-normal"
+                        >
+                          Offers free delivery
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Apply Button */}
                   <Button
                     className="w-full mt-4"
