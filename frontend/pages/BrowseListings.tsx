@@ -109,6 +109,17 @@ export default function BrowseListings() {
   const { user: authUser, authenticated } = useAuth();
   // const { setPageLoading } = usePageLoading();
   const [searchParams] = useSearchParams();
+  const [isTabletOrMobile, setIsTabletOrMobile] = React.useState(
+    window.innerWidth < 1024,
+  );
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsTabletOrMobile(window.innerWidth < 1024);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const [searchQuery, setSearchQuery] = useState(() => {
     return searchParams.get("q") || "";
   });
