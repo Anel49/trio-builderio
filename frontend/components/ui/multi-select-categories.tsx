@@ -117,7 +117,12 @@ export function MultiSelectCategories({
           className="absolute z-50 w-full mt-1 bg-popover border border-border rounded-md shadow-md"
           onMouseDown={handleMouseDown}
         >
-          <ScrollArea className="h-48">
+          <ScrollArea
+            className={cn(
+              "max-h-48",
+              filteredCategories.length <= 3 ? "h-auto" : "h-48",
+            )}
+          >
             <div className="p-1">
               {filteredCategories.map((category) => (
                 <button
