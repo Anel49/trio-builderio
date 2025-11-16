@@ -932,7 +932,7 @@ export default function BrowseListings() {
                       : "Dates"}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
+              <PopoverContent className="w-auto p-0" align={isTabletOrMobile ? "center" : "start"}>
                 <div className="calendar-with-range-styling">
                   <Calendar
                     mode="range"
