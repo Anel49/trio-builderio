@@ -120,7 +120,7 @@ export function MultiSelectCategories({
           <ScrollArea
             className={cn(
               "max-h-48",
-              filteredCategories.length <= 3 ? "h-auto" : "h-48",
+              filteredCategories.length <= 4 ? "h-auto" : "h-48",
             )}
           >
             <div className="p-1">
