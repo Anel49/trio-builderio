@@ -868,7 +868,12 @@ export default function BrowseListings() {
   }, [filteredAndSortedListings]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div
+      className="bg-background"
+      style={{
+        minHeight: isFilterOpen ? "200vh" : "100vh",
+      }}
+    >
       <style>{fadeInStyle}</style>
       <Header />
 
