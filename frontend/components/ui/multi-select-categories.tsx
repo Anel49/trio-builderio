@@ -11,6 +11,7 @@ interface MultiSelectCategoriesProps {
   onSelectionChange: (selected: string[]) => void;
   placeholder?: string;
   variant?: "inline" | "stacked";
+  autoFocus?: boolean;
 }
 
 export function MultiSelectCategories({
