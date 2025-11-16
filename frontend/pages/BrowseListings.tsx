@@ -941,7 +941,7 @@ export default function BrowseListings() {
                       }
                     }}
                     disabled={(date) => date < new Date()}
-                    initialFocus
+                    initialFocus={!isTabletOrMobile}
                     numberOfMonths={1}
                   />
                 </div>
