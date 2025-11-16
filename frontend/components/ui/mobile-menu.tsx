@@ -51,14 +51,16 @@ export function MobileMenu({ isOpen, onOpenChange }: MobileMenuProps) {
             </Button>
           )}
 
-          <Button
-            variant="ghost"
-            className="justify-start h-12 text-base sm:hidden"
-            onClick={() => handleNavigation("/order-history")}
-          >
-            <ClipboardList className="h-5 w-5 mr-3" />
-            Orders and Requests
-          </Button>
+          {authenticated && (
+            <Button
+              variant="ghost"
+              className="justify-start h-12 text-base sm:hidden"
+              onClick={() => handleNavigation("/order-history")}
+            >
+              <ClipboardList className="h-5 w-5 mr-3" />
+              Orders and Requests
+            </Button>
+          )}
         </div>
 
         <div className="mt-10 border-t border-border pt-6">
