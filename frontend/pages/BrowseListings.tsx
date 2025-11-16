@@ -172,15 +172,16 @@ export default function BrowseListings() {
 
   // Apply category filter from URL query parameter
   React.useEffect(() => {
-    const category = searchParams.get("category");
-    if (category) {
+    const categories = searchParams.get("categories");
+    if (categories) {
+      const categoryList = categories.split(",").filter((c) => c.trim());
       setFilters((prev) => ({
         ...prev,
-        category: category,
+        categories: categoryList,
       }));
       setAppliedFilters((prev) => ({
         ...prev,
-        category: category,
+        categories: categoryList,
       }));
     }
   }, [searchParams]);
