@@ -121,19 +121,6 @@ export default function BrowseListings() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Prevent auto-focus on mobile/tablet when filter opens
-  React.useEffect(() => {
-    if (isTabletOrMobile && isFilterOpen) {
-      // Blur any focused element after popover opens
-      const timer = setTimeout(() => {
-        const focused = document.activeElement as HTMLElement;
-        if (focused && focused.tagName === "INPUT") {
-          focused.blur();
-        }
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-  }, [isFilterOpen, isTabletOrMobile]);
   const [searchQuery, setSearchQuery] = useState(() => {
     return searchParams.get("q") || "";
   });
