@@ -83,11 +83,7 @@ export function MultiSelectCategories({
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full"
-      onBlur={handleBlur}
-    >
+    <div ref={containerRef} className="relative w-full">
       <div className="border border-input rounded-md bg-background p-2 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
         <div className="flex flex-wrap gap-2 mb-2">
           {selected.map((category) => (
@@ -110,13 +106,17 @@ export function MultiSelectCategories({
           value={inputValue}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
+          onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           className="border-0 p-0 focus-visible:ring-0 h-auto text-sm"
         />
       </div>
 
       {isOpen && filteredCategories.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-popover border border-border rounded-md shadow-md">
+        <div
+          className="absolute z-50 w-full mt-1 bg-popover border border-border rounded-md shadow-md"
+          onMouseDown={handleMouseDown}
+        >
           <ScrollArea className="h-48">
             <div className="p-1">
               {filteredCategories.map((category) => (
