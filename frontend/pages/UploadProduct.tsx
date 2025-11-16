@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { MultiSelectCategories } from "@/components/ui/multi-select-categories";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
@@ -1175,30 +1176,17 @@ export default function UploadProduct() {
                   </div>
                 </div>
 
-                {/* Tags */}
+                {/* Categories */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Categories
                   </label>
-                  <div className="flex flex-wrap gap-2">
-                    {recommendedTags.map((tag) => (
-                      <Badge
-                        key={tag}
-                        variant={
-                          selectedTags.includes(tag) ? "default" : "outline"
-                        }
-                        className={cn(
-                          "cursor-pointer transition-all",
-                          selectedTags.includes(tag)
-                            ? "bg-primary text-primary-foreground"
-                            : "hover:bg-primary/10",
-                        )}
-                        onClick={() => handleTagToggle(tag)}
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
+                  <MultiSelectCategories
+                    categories={recommendedTags}
+                    selected={selectedTags}
+                    onSelectionChange={setSelectedTags}
+                    placeholder="Search categories..."
+                  />
                 </div>
 
                 {/* Description */}
