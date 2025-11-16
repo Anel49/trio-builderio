@@ -400,8 +400,6 @@ export default function Messages() {
                             e.stopPropagation();
                             if (chat.username) {
                               navigate(`/profile/${chat.username}`);
-                            } else {
-                              navigate(`/profile/${chat.otherUserId}`);
                             }
                           }}
                           className="cursor-pointer hover:opacity-80 transition-opacity"
