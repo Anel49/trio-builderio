@@ -77,8 +77,7 @@ function InteractiveMap({
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<Map<number, L.Marker>>(new Map());
 
-  useEffect(() => {
-  }, [listings]);
+  useEffect(() => {}, [listings]);
 
   const listingsWithCoords = useMemo(() => {
     return listings.filter(
@@ -139,8 +138,7 @@ function InteractiveMap({
         mapRef.current = null;
         markersRef.current.clear();
       };
-    } catch (e) {
-    }
+    } catch (e) {}
   }, []);
 
   // Center the map when the map is initialized or when userCoordinates arrive
