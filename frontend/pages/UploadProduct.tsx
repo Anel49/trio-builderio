@@ -539,7 +539,7 @@ export default function UploadProduct() {
   const handleViewListing = () => {
     if (!createdListingId) return;
     setShowSuccessModal(false);
-    window.location.href = `/product/${createdListingId}`;
+    window.location.href = `/listing/${createdListingId}`;
   };
 
   const mockHost = {

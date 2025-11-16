@@ -118,7 +118,7 @@ export function FavoritesModal({
               <div
                 key={favorite.id}
                 onClick={() =>
-                  (window.location.href = `/product/${favorite.id}`)
+                  (window.location.href = `/listing/${favorite.id}`)
                 }
                 className="flex gap-4 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors cursor-pointer"
               >

@@ -1341,7 +1341,7 @@ export default function ProductDetails() {
               distance={item.distance}
               onFavorite={handleFavorite}
               onClick={() => {
-                window.location.href = `/product/${item.id}`;
+                window.location.href = `/listing/${item.id}`;
               }}
               delivery={item.delivery}
               freeDelivery={item.freeDelivery}

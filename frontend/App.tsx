@@ -147,7 +147,7 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/browse" element={<BrowseListings />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/listing/:id" element={<ProductDetails />} />
           <Route
             path="/upload"
             element={
