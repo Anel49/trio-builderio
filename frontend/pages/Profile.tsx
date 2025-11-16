@@ -1692,7 +1692,7 @@ export default function Profile() {
                         hostUsername={item.hostUsername}
                         type={item.type}
                         categories={item.categories}
-                        distance={item.distance}
+                        distance={viewingOtherUser ? item.distance : null}
                         hideHostInfo={true}
                         priceUnitLabel="per day"
                         onFavorite={handleFavorite}
