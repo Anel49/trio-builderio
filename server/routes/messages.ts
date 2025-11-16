@@ -27,6 +27,7 @@ export async function listConversations(req: Request, res: Response) {
           END as other_user_id,
           m.body,
           m.created_at,
+          m.from_id,
           ROW_NUMBER() OVER (PARTITION BY CASE WHEN m.from_id = $1 THEN m.to_id ELSE m.from_id END ORDER BY m.created_at DESC) as rn
         FROM messages m
         WHERE m.from_id = $1 OR m.to_id = $1
@@ -37,7 +38,8 @@ export async function listConversations(req: Request, res: Response) {
         u.avatar_url,
         u.username,
         lm.body as last_message,
-        lm.created_at as last_message_time
+        lm.created_at as last_message_time,
+        lm.from_id as last_message_from_id
       FROM conversation_users cu
       JOIN users u ON u.id = cu.other_user_id
       LEFT JOIN last_messages lm ON lm.other_user_id = cu.other_user_id AND lm.rn = 1
