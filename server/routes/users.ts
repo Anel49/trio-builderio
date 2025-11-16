@@ -170,9 +170,12 @@ export async function upsertUser(req: Request, res: Response) {
 
     const usernameValue = typeof username === "string" ? username.trim() : null;
 
+    const firstNameValue = typeof first_name === "string" ? first_name.trim() || null : null;
+    const lastNameValue = typeof last_name === "string" ? last_name.trim() || null : null;
+
     const result = await pool.query(
-      `insert into users (name, email, avatar_url, latitude, longitude, location_city, founding_supporter, top_referrer, ambassador, open_dms, username)
-       values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+      `insert into users (name, email, avatar_url, latitude, longitude, location_city, founding_supporter, top_referrer, ambassador, open_dms, username, first_name, last_name)
+       values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
        on conflict (email) do update set
          name = coalesce(excluded.name, users.name),
          avatar_url = coalesce(excluded.avatar_url, users.avatar_url),
@@ -183,7 +186,9 @@ export async function upsertUser(req: Request, res: Response) {
          top_referrer = coalesce(excluded.top_referrer, users.top_referrer),
          ambassador = coalesce(excluded.ambassador, users.ambassador),
          open_dms = coalesce(excluded.open_dms, users.open_dms),
-         username = coalesce(excluded.username, users.username)
+         username = coalesce(excluded.username, users.username),
+         first_name = excluded.first_name,
+         last_name = excluded.last_name
        returning id, name, email, username, avatar_url, latitude, longitude, location_city, created_at,
                  coalesce(founding_supporter,false) as founding_supporter,
                  coalesce(top_referrer,false) as top_referrer,
@@ -201,6 +206,8 @@ export async function upsertUser(req: Request, res: Response) {
         Boolean(ambassador),
         true, // open_dms defaults to true
         usernameValue,
+        firstNameValue,
+        lastNameValue,
       ],
     );
 
