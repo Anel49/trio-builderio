@@ -1025,6 +1025,7 @@ export default function Profile() {
     reviewer: string;
     avatar?: string;
     reviewerId?: number;
+    reviewerUsername?: string;
     rating: number;
     date: string;
     dateValue: Date;
@@ -1034,6 +1035,7 @@ export default function Profile() {
       id: 1,
       reviewer: "Emily",
       reviewerId: 1,
+      reviewerUsername: "emily123",
       avatar: "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
       rating: 5,
       date: "1 week ago",
@@ -1045,6 +1047,7 @@ export default function Profile() {
       id: 2,
       reviewer: "Robert",
       reviewerId: 2,
+      reviewerUsername: "robert456",
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
       rating: 5,
       date: "3 weeks ago",
@@ -1056,6 +1059,7 @@ export default function Profile() {
       id: 3,
       reviewer: "Lisa",
       reviewerId: 3,
+      reviewerUsername: "lisa789",
       avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
       rating: 4,
       date: "1 month ago",
