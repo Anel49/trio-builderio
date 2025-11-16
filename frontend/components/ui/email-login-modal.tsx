@@ -237,6 +237,11 @@ export function EmailLoginModal({
           </div>
         </div>
       </DialogContent>
+
+      <ForgotPasswordModal
+        isOpen={isForgotPasswordOpen}
+        onOpenChange={setIsForgotPasswordOpen}
+      />
     </Dialog>
   );
 }
