@@ -165,6 +165,20 @@ export default function Messages() {
     fetchMessages();
   }, [user?.id, selectedUserId]);
 
+  // Auto-scroll to bottom when messages load or update
+  useEffect(() => {
+    if (messagesScrollRef.current) {
+      const scrollElement = messagesScrollRef.current.querySelector(
+        '[data-radix-scroll-area-viewport]'
+      ) as HTMLElement;
+      if (scrollElement) {
+        setTimeout(() => {
+          scrollElement.scrollTop = scrollElement.scrollHeight;
+        }, 0);
+      }
+    }
+  }, [messages]);
+
   // Mobile sidebar toggle functions
   const toggleLeftSidebar = () => {
     if (rightSidebarOpen) setRightSidebarOpen(false);
