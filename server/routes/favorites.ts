@@ -11,7 +11,7 @@ export async function listFavorites(req: Request, res: Response) {
     const result = await pool.query(
       `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category,
               l.latitude, l.longitude, l.zip_code, l.rental_period, l.description,
-              f.created_at as favorited_at
+              l.enabled, f.created_at as favorited_at
        from favorites f
        join listings l on f.listing_id = l.id
        where f.user_id = $1
@@ -32,6 +32,7 @@ export async function listFavorites(req: Request, res: Response) {
       zipCode: r.zip_code,
       rentalPeriod: r.rental_period,
       description: r.description,
+      enabled: r.enabled !== false,
       favoritedAt: r.favorited_at,
     }));
 
