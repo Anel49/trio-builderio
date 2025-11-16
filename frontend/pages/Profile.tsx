@@ -1603,7 +1603,7 @@ export default function Profile() {
                 <div className="space-y-6">
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
                     <h2 className="text-2xl font-bold">
-                      {viewingOtherUser ? "Listed Items" : "Your Listed Items"}
+                      {viewingOtherUser ? "Listings" : "Your Listings"}
                     </h2>
                     {!viewingOtherUser && (
                       <div className="flex flex-col lg:flex-row gap-2 lg:gap-3">
