@@ -2629,6 +2629,25 @@ export default function Profile() {
           </div>
         </div>
       </div>
+
+      {/* Change Password Modal */}
+      <ChangePasswordModal
+        isOpen={isChangePasswordModalOpen}
+        onOpenChange={setIsChangePasswordModalOpen}
+        onSuccess={() => {
+          checkAuth();
+        }}
+      />
+
+      {/* Change Email Modal */}
+      <ChangeEmailModal
+        isOpen={isChangeEmailModalOpen}
+        onOpenChange={setIsChangeEmailModalOpen}
+        currentEmail={authUser?.email}
+        onSuccess={() => {
+          checkAuth();
+        }}
+      />
     </div>
   );
 }
