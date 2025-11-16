@@ -264,6 +264,30 @@ export function createServer() {
     }
   });
 
+  // Logout endpoint
+  app.post("/api/auth/logout", (req: any, res: any) => {
+    req.session.destroy((err: any) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res.status(500).json({ ok: false, error: "Logout failed" });
+      }
+      res.clearCookie("connect.sid");
+      res.json({ ok: true, message: "Logged out successfully" });
+    });
+  });
+
+  // Logout endpoint (alias)
+  app.post("/auth/logout", (req: any, res: any) => {
+    req.session.destroy((err: any) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res.status(500).json({ ok: false, error: "Logout failed" });
+      }
+      res.clearCookie("connect.sid");
+      res.json({ ok: true, message: "Logged out successfully" });
+    });
+  });
+
   // Example API routes
   app.get("/api/ping", (_req, res) => {
     res.json({ message: "Hello from Express server v2!" });
