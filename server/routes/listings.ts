@@ -527,6 +527,9 @@ export async function getListingById(req: Request, res: Response) {
         : null;
     const reviewCount = Number(r.review_count) || 0;
 
+    const hostAvgRating = r.host_avg_rating && Number(r.host_avg_rating) > 0 ? Number(r.host_avg_rating) : null;
+    const hostTotalReviews = Number(r.host_total_reviews) || 0;
+
     const listing = {
       id: r.id,
       name: r.name,
@@ -539,6 +542,10 @@ export async function getListingById(req: Request, res: Response) {
       hostUserId: typeof r.user_id === "number" ? r.user_id : null,
       hostUsername:
         typeof r.host_username === "string" ? r.host_username : undefined,
+      hostAvatarUrl:
+        typeof r.host_avatar_url === "string" ? r.host_avatar_url : null,
+      hostRating: hostAvgRating,
+      hostTotalReviews: hostTotalReviews,
       hostOpenDms: Boolean(r.host_open_dms),
       hostCreatedAt: r.host_created_at || null,
       type: categories[0] || "General",
