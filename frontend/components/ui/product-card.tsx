@@ -102,13 +102,13 @@ export function ProductCard({
     if (onClick) {
       onClick();
     } else {
-      navigate(`/listing/${id}`);
+      navigate(`/product/${id}`);
     }
   };
 
   return (
     <a
-      href={`/listing/${id}`}
+      href={`/product/${id}`}
       className={combineTokens(
         "group cursor-pointer block no-underline text-inherit",
         animations.combinations.productCard,
