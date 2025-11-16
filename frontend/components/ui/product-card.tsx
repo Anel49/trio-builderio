@@ -93,19 +93,34 @@ export function ProductCard({
     categories && categories.length > 0 ? categories : type ? [type] : []
   ).slice(0, 3);
 
+  const handleClick = (e: React.MouseEvent) => {
+    // Allow standard browser navigation (Ctrl+click, middle-click, etc.)
+    if (e.ctrlKey || e.metaKey || e.button === 1 || e.button === 2) {
+      return;
+    }
+    e.preventDefault();
+    if (onClick) {
+      onClick();
+    } else {
+      navigate(`/listing/${id}`);
+    }
+  };
+
   return (
-    <Card
+    <a
+      href={`/listing/${id}`}
       className={combineTokens(
-        "group cursor-pointer",
+        "group cursor-pointer block no-underline text-inherit",
         animations.combinations.productCard,
         shadows.hover.productCard,
         !enabled ? "opacity-25" : "",
         className || "",
       )}
-      onClick={onClick}
+      onClick={handleClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
+      <Card className="h-full">
       <div className="relative">
         <img
           src={image}
@@ -357,5 +372,6 @@ export function ProductCard({
         )}
       </CardContent>
     </Card>
+    </a>
   );
 }
