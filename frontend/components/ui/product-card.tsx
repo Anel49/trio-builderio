@@ -70,6 +70,7 @@ export function ProductCard({
   distance,
   listedTime,
   hideHostInfo,
+  hideDistance = false,
   onClick,
   onMouseEnter,
   onMouseLeave,
