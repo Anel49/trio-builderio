@@ -566,6 +566,7 @@ export default function ProductDetails() {
             dateValue: new Date(r.createdAt),
             text: r.comment || "",
             reviewerId: r.reviewerId,
+            reviewerUsername: r.reviewerUsername,
           }));
           setReviews(mapped);
         }
