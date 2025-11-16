@@ -54,7 +54,7 @@ export async function getListingReviews(req: Request, res: Response) {
 
     const result = await pool.query(
       `select lr.id, lr.listing_id, lr.reviewer_id, u.name as reviewer_name,
-              lr.rating, lr.comment, lr.helpful_count, lr.created_at
+              u.avatar_url, lr.rating, lr.comment, lr.helpful_count, lr.created_at
        from listing_reviews lr
        join users u on u.id = lr.reviewer_id
        where lr.listing_id = $1
@@ -68,6 +68,7 @@ export async function getListingReviews(req: Request, res: Response) {
       listingId: r.listing_id,
       reviewerId: r.reviewer_id,
       reviewerName: r.reviewer_name,
+      avatar: r.avatar_url,
       rating: r.rating ? Number(r.rating) : null,
       comment: r.comment,
       helpfulCount: r.helpful_count,
