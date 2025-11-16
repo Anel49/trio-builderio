@@ -253,6 +253,11 @@ export default function Profile() {
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
   const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false);
+  const [isPasswordChangeSuccessOpen, setIsPasswordChangeSuccessOpen] =
+    useState(false);
+  const [isEmailChangeSuccessOpen, setIsEmailChangeSuccessOpen] =
+    useState(false);
+  const [newEmailForConfirmation, setNewEmailForConfirmation] = useState("");
   const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
   const openAvatarFilePicker = () => avatarFileInputRef.current?.click();
   const handleAvatarUpload: React.ChangeEventHandler<HTMLInputElement> = (
