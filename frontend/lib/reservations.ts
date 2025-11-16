@@ -3,7 +3,7 @@ export interface ReservationPeriod {
   startDate: Date;
   endDate: Date;
   renterName?: string;
-  status: "accepted" | "pending" | "completed";
+  status: "accepted" | "pending" | "completed" | "rejected";
 }
 
 export interface ListingReservations {
