@@ -628,7 +628,7 @@ export default function Messages() {
                         navigate(`/profile/${selectedChat.otherUserId}`);
                       }
                     }}
-                    className="font-semibold text-lg mb-2 hover:underline text-left w-full transition-colors hover:text-primary"
+                    className="font-semibold text-lg mb-2 hover:underline text-center w-full transition-colors hover:text-primary"
                   >
                     {selectedChat.name}
                   </button>
