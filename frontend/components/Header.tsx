@@ -162,7 +162,6 @@ export default function Header() {
         </div>
       </header>
 
-
       <LoginModal
         isOpen={isLoginModalOpen}
         onOpenChange={setIsLoginModalOpen}
