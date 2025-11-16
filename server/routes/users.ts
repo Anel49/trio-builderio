@@ -635,22 +635,24 @@ export async function changeUsername(req: Request, res: Response) {
       });
     }
 
-    // Get user with password hash
-    const userResult = await pool.query(
-      `select users.id, user_credentials.password_hash
-       from users
-       inner join user_credentials on users.id = user_credentials.user_id
-       where users.id = $1`,
+    // Get user credentials for password verification
+    const credResult = await pool.query(
+      `select password from user_credentials where user_id = $1`,
       [session.userId],
     );
 
-    if (!userResult.rowCount || userResult.rowCount === 0) {
-      return res.status(401).json({ ok: false, error: "User not found" });
+    if (!credResult.rowCount || credResult.rowCount === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "User credentials not found",
+      });
     }
 
     // Verify password using argon2
-    const passwordHash = userResult.rows[0].password_hash;
-    const isPasswordValid = await argon2.verify(passwordHash, passwordStr);
+    const isPasswordValid = await argon2.verify(
+      credResult.rows[0].password,
+      passwordStr,
+    );
 
     if (!isPasswordValid) {
       return res.status(400).json({
