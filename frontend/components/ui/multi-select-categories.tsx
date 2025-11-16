@@ -115,8 +115,8 @@ export function MultiSelectCategories({
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           className={cn(
-            "border-0 p-0 focus-visible:ring-0 h-auto text-sm flex-1",
-            selected.length > 0 ? "w-full" : "min-w-[100px]"
+            "!border-0 !p-0 !h-auto !rounded-none !bg-transparent focus-visible:!ring-0 text-sm",
+            selected.length > 0 ? "w-full" : "flex-1 min-w-[100px]"
           )}
         />
       </div>
