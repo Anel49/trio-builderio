@@ -84,21 +84,19 @@ export function MultiSelectCategories({
 
   return (
     <div ref={containerRef} className="relative w-full">
-      <div className="border border-input rounded-md bg-background p-2 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-        <div className="flex flex-wrap gap-2 mb-2">
-          {selected.map((category) => (
-            <Badge key={category} variant="default" className="gap-1">
-              {category}
-              <button
-                onClick={() => handleRemoveCategory(category)}
-                className="ml-1 hover:opacity-70 focus:outline-none"
-                aria-label={`Remove ${category}`}
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </Badge>
-          ))}
-        </div>
+      <div className="border border-input rounded-md bg-background p-2 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 flex flex-wrap gap-2 items-center">
+        {selected.map((category) => (
+          <Badge key={category} variant="default" className="gap-1 flex-shrink-0">
+            {category}
+            <button
+              onClick={() => handleRemoveCategory(category)}
+              className="ml-1 hover:opacity-70 focus:outline-none"
+              aria-label={`Remove ${category}`}
+            >
+              <X className="h-3 w-3" />
+            </button>
+          </Badge>
+        ))}
         <Input
           ref={inputRef}
           type="text"
@@ -108,7 +106,7 @@ export function MultiSelectCategories({
           onFocus={handleInputFocus}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className="border-0 p-0 focus-visible:ring-0 h-auto text-sm"
+          className="border-0 p-0 focus-visible:ring-0 h-auto text-sm flex-1 min-w-[100px]"
         />
       </div>
 
