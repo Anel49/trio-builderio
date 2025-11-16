@@ -99,6 +99,8 @@ export default function UploadProduct() {
   const [offerDelivery, setOfferDelivery] = useState(false);
   const [offerFreeDelivery, setOfferFreeDelivery] = useState(false);
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
+  const [enableInstantBooking, setEnableInstantBooking] = useState(false);
+  const [showInstantBookingModal, setShowInstantBookingModal] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
