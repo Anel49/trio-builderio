@@ -37,7 +37,9 @@ export function MultiSelectCategories({
   const handleSelectCategory = (category: string) => {
     onSelectionChange([...selected, category]);
     setInputValue("");
-    inputRef.current?.focus();
+    if (autoFocus) {
+      inputRef.current?.focus();
+    }
   };
 
   const handleRemoveCategory = (category: string) => {
