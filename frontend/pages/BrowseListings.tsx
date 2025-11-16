@@ -513,52 +513,21 @@ export default function BrowseListings() {
 
         // Use filter location if available, otherwise use authenticated user coordinates
         const coordsToUse = filterLocation || coords;
-        console.log(
-          "[BrowseListings] filterLocation:",
-          filterLocation,
-          "userCoords:",
-          coords,
-          "coordsToUse:",
-          coordsToUse,
-          "authenticated:",
-          authenticated,
-        );
         const path = coordsToUse
           ? `listings?user_lat=${coordsToUse.latitude}&user_lng=${coordsToUse.longitude}&enabled=true`
           : "listings?enabled=true";
-        console.log("[BrowseListings] Fetching listings with path:", path);
         const response = await apiFetch(path);
-        console.log(
-          "[BrowseListings] Response status:",
-          response.status,
-          "ok:",
-          response.ok,
-        );
         if (!response.ok || cancelled) {
-          console.log("[BrowseListings] Response not ok, returning");
           // setPageLoading(false);
           return;
         }
         let d;
         try {
           d = await response.json();
-          console.log(
-            "[BrowseListings] Parsed JSON successfully, ok:",
-            d?.ok,
-            "listings count:",
-            Array.isArray(d?.listings) ? d.listings.length : "not array",
-          );
         } catch (e) {
-          console.error("[BrowseListings] Failed to parse JSON:", e);
           d = null;
         }
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) {
-          console.log(
-            "[BrowseListings] Data validation failed, d:",
-            d,
-            "cancelled:",
-            cancelled,
-          );
           // setPageLoading(false);
           return;
         }
@@ -613,16 +582,6 @@ export default function BrowseListings() {
             : mapped;
 
         if (!cancelled) {
-          console.log(
-            "[BrowseListings] Setting listings with distances:",
-            filtered.map((l: any) => ({
-              id: l.id,
-              distance: l.distance,
-              distanceMiles: l.distanceMiles,
-              delivery: l.delivery,
-              freeDelivery: l.freeDelivery,
-            })),
-          );
           setListings(filtered);
           setIsLoadingDistances(false);
           // setPageLoading(false);
@@ -1177,14 +1136,6 @@ export default function BrowseListings() {
               {filteredAndSortedListings.map((listing) => {
                 const hasRange = !!(dateRange.start && dateRange.end);
                 const listingRentalPeriod = normalizeRentalPeriod(
-                  (listing as any).rentalPeriod,
-                );
-                console.log(
-                  "[BrowseListings] Listing",
-                  listing.id,
-                  "rentalPeriod:",
-                  listingRentalPeriod,
-                  "from listing:",
                   (listing as any).rentalPeriod,
                 );
                 const display = (() => {
