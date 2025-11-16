@@ -10,6 +10,7 @@ interface MultiSelectCategoriesProps {
   selected: string[];
   onSelectionChange: (selected: string[]) => void;
   placeholder?: string;
+  variant?: "inline" | "stacked";
 }
 
 export function MultiSelectCategories({
