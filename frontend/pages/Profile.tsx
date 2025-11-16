@@ -2422,11 +2422,12 @@ export default function Profile() {
 
       {/* Mobile Profile Popup - Slides up from bottom */}
       <div
-        className={`fixed inset-x-0 top-24 bottom-0 z-20 bg-background border-t lg:hidden transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-x-0 top-24 bottom-0 z-20 border-t lg:hidden transition-transform duration-300 ease-in-out ${
           isMobileProfileOpen
             ? "translate-y-0" // Slide up to visible position
             : "translate-y-[115%]" // Slide down past viewport when hidden
         }`}
+        style={{ backgroundColor: "rgb(44, 51, 62)" }}
       >
         {/* Profile Header */}
         <div className="px-4 pb-4 pt-4 flex items-center justify-between">
