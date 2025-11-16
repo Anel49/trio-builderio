@@ -106,6 +106,7 @@ type ListedItem = {
   hostUserId?: number;
   hostUsername?: string;
   type: string;
+  categories?: string[];
   distance: string | null;
   distanceMiles?: number | null;
   latitude?: number | null;
