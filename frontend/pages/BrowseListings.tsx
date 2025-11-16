@@ -194,6 +194,8 @@ export default function BrowseListings() {
     maxDistance: "",
     zipCode: "",
     categories: [] as string[],
+    offersDelivery: false,
+    offersFreeDelivery: false,
   });
   const [appliedFilters, setAppliedFilters] = useState({
     minPrice: "",
@@ -201,6 +203,8 @@ export default function BrowseListings() {
     maxDistance: "",
     zipCode: "",
     categories: [] as string[],
+    offersDelivery: false,
+    offersFreeDelivery: false,
   });
 
   // Sort state
