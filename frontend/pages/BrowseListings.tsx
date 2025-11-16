@@ -998,8 +998,8 @@ export default function BrowseListings() {
                   Filters
                 </Button>
               </PopoverTrigger>
-              <PopoverContent align="start" className="w-80 p-4">
-                <div className="space-y-4">
+              <PopoverContent align="start" className="w-80 p-0 flex flex-col max-h-[90vh]">
+                <div className="overflow-y-auto flex-1 p-4 space-y-4">
                   {/* Price Filter */}
                   <div>
                     <Label className="text-sm font-medium">Price Range</Label>
@@ -1139,10 +1139,12 @@ export default function BrowseListings() {
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Apply Button */}
+                {/* Action Buttons - Fixed at Bottom */}
+                <div className="border-t p-4 space-y-2 flex-shrink-0">
                   <Button
-                    className="w-full mt-4"
+                    className="w-full"
                     onClick={() => {
                       setAppliedFilters(filters);
                       setIsFilterOpen(false);
@@ -1151,10 +1153,9 @@ export default function BrowseListings() {
                     Apply filter
                   </Button>
 
-                  {/* Clear Button */}
                   <Button
                     variant="outline"
-                    className="w-full mt-2"
+                    className="w-full"
                     onClick={() => {
                       const emptyFilters = {
                         minPrice: "",
