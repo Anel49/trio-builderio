@@ -241,7 +241,7 @@ export default function BrowseListings() {
         if (data.ok) {
           console.log(
             `Setting cache for listing ${listingId}:`,
-            data.reservations
+            data.reservations,
           );
           setReservationsCache((prev) => ({
             ...prev,
@@ -716,17 +716,19 @@ export default function BrowseListings() {
                 return false;
               }
               // Parse the dates properly - handle ISO strings
-              const resStart = typeof res.startDate === "string"
-                ? res.startDate.split("T")[0]
-                : new Date(res.startDate).toISOString().split("T")[0];
-              const resEnd = typeof res.endDate === "string"
-                ? res.endDate.split("T")[0]
-                : new Date(res.endDate).toISOString().split("T")[0];
+              const resStart =
+                typeof res.startDate === "string"
+                  ? res.startDate.split("T")[0]
+                  : new Date(res.startDate).toISOString().split("T")[0];
+              const resEnd =
+                typeof res.endDate === "string"
+                  ? res.endDate.split("T")[0]
+                  : new Date(res.endDate).toISOString().split("T")[0];
 
               const isConflict = dateStr >= resStart && dateStr <= resEnd;
               if (isConflict) {
                 console.log(
-                  `Conflict found for listing ${listingId}: ${dateStr} conflicts with reservation ${resStart} to ${resEnd} (status: ${res.status})`
+                  `Conflict found for listing ${listingId}: ${dateStr} conflicts with reservation ${resStart} to ${resEnd} (status: ${res.status})`,
                 );
               }
               return isConflict;
@@ -734,7 +736,7 @@ export default function BrowseListings() {
 
             if (hasConflict) {
               console.log(
-                `Listing ${listingId} hidden due to reservation conflict`
+                `Listing ${listingId} hidden due to reservation conflict`,
               );
               return false;
             }
