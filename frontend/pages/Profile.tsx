@@ -1692,8 +1692,9 @@ export default function Profile() {
                         hostUsername={item.hostUsername}
                         type={item.type}
                         categories={item.categories}
-                        distance={viewingOtherUser ? item.distance : null}
+                        distance={item.distance}
                         hideHostInfo={true}
+                        hideDistance={!viewingOtherUser}
                         priceUnitLabel="per day"
                         onFavorite={handleFavorite}
                         isFavorited={favoritedListingIds.has(item.id)}
