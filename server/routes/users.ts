@@ -593,7 +593,7 @@ export async function changeEmail(req: Request, res: Response) {
 
 export async function changeUsername(req: Request, res: Response) {
   try {
-    const session = req.session as any;
+    const session = (req as any).session;
 
     if (!session || !session.userId) {
       return res.status(401).json({ ok: false, error: "Not authenticated" });
