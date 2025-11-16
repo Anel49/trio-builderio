@@ -1066,31 +1066,10 @@ export default function ProductDetails() {
             </div>
 
             {/* Host Information */}
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-4 mb-4">
-                  <button
-                    onClick={() => {
-                      if (product?.hostUserId) {
-                        navigate(`/profile/${product.hostUserId}`);
-                      } else {
-                        navigate("/profile");
-                      }
-                    }}
-                    className="cursor-pointer hover:opacity-80 transition-opacity"
-                    aria-label="Open profile"
-                  >
-                    <Avatar className="h-16 w-16">
-                      <AvatarImage src={host.profileImage} alt={host.name} />
-                      <AvatarFallback>
-                        {host.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                  </button>
-                  <div>
+            {authUser?.id !== product?.hostUserId && (
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4 mb-4">
                     <button
                       onClick={() => {
                         if (product?.hostUserId) {
@@ -1099,47 +1078,70 @@ export default function ProductDetails() {
                           navigate("/profile");
                         }
                       }}
-                      className="font-semibold text-lg hover:underline text-left cursor-pointer"
+                      className="cursor-pointer hover:opacity-80 transition-opacity"
+                      aria-label="Open profile"
                     >
-                      {host.name}
+                      <Avatar className="h-16 w-16">
+                        <AvatarImage src={host.profileImage} alt={host.name} />
+                        <AvatarFallback>
+                          {host.name
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </AvatarFallback>
+                      </Avatar>
                     </button>
-                    <div className="flex items-center mt-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={cn(
-                            "h-3 w-3",
-                            i < Math.floor(host.rating)
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-300",
-                          )}
-                        />
-                      ))}
-                      <span className="ml-2 text-sm">
-                        ({host.totalReviews} reviews)
-                      </span>
+                    <div>
+                      <button
+                        onClick={() => {
+                          if (product?.hostUserId) {
+                            navigate(`/profile/${product.hostUserId}`);
+                          } else {
+                            navigate("/profile");
+                          }
+                        }}
+                        className="font-semibold text-lg hover:underline text-left cursor-pointer"
+                      >
+                        {host.name}
+                      </button>
+                      <div className="flex items-center mt-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={cn(
+                              "h-3 w-3",
+                              i < Math.floor(host.rating)
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300",
+                            )}
+                          />
+                        ))}
+                        <span className="ml-2 text-sm">
+                          ({host.totalReviews} reviews)
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <div className="flex justify-between">
-                    <span>Joined:</span>
-                    <span>{host.joinedDate}</span>
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <div className="flex justify-between">
+                      <span>Joined:</span>
+                      <span>{host.joinedDate}</span>
+                    </div>
+                    <div className="flex justify-between hidden">
+                      <span>Response time:</span>
+                      <span>{host.responseTime}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between hidden">
-                    <span>Response time:</span>
-                    <span>{host.responseTime}</span>
-                  </div>
-                </div>
 
-                {authUser && product?.hostOpenDms && (
-                  <Button variant="outline" className="w-full mt-4">
-                    Contact Host
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
+                  {authUser && product?.hostOpenDms && (
+                    <Button variant="outline" className="w-full mt-4">
+                      Contact Host
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </section>
