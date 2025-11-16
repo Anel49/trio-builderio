@@ -1612,6 +1612,21 @@ export default function ProductDetails() {
           </div>
         </DialogContent>
       </Dialog>
+      <Dialog open={showConflictModal} onOpenChange={setShowConflictModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Conflicting Reservation Created</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-base text-muted-foreground">
+              Oh no! It appears a user made a reservation with a conflicting booking period moments before you did. Please select a new booking period.
+            </p>
+          </div>
+          <Button onClick={() => setShowConflictModal(false)} className="w-full">
+            Got it
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
