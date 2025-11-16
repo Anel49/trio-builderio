@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,6 +24,16 @@ export function ForgotPasswordModal({
   const [resetEmailSent, setResetEmailSent] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
   const emailInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setEmail("");
+      setConfirmEmail("");
+      setResetEmailSent(false);
+      setSentEmail("");
+      setIsLoading(false);
+    }
+  }, [isOpen]);
 
   const validateEmail = (value: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
