@@ -442,6 +442,12 @@ export default function ProductDetails() {
             host: typeof l.host === "string" ? l.host : undefined,
             hostUserId:
               typeof l.hostUserId === "number" ? l.hostUserId : undefined,
+            hostAvatarUrl:
+              typeof l.hostAvatarUrl === "string" ? l.hostAvatarUrl : null,
+            hostRating:
+              typeof l.hostRating === "number" ? l.hostRating : null,
+            hostTotalReviews:
+              typeof l.hostTotalReviews === "number" ? l.hostTotalReviews : 0,
             hostOpenDms:
               typeof l.hostOpenDms === "boolean" ? l.hostOpenDms : true,
             hostCreatedAt:
