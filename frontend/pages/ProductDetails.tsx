@@ -1243,8 +1243,8 @@ export default function ProductDetails() {
                   <div className="flex items-start space-x-4">
                     <button
                       onClick={() => {
-                        if (review.reviewerId) {
-                          navigate(`/profile/${review.reviewerId}`);
+                        if (review.reviewerUsername) {
+                          navigate(`/profile/${review.reviewerUsername}`);
                         }
                       }}
                       className="cursor-pointer hover:opacity-80 transition-opacity"
