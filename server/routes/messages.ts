@@ -55,6 +55,7 @@ export async function listConversations(req: Request, res: Response) {
       username: r.username,
       lastMessage: r.last_message,
       lastMessageTime: r.last_message_time,
+      lastMessageFromId: r.last_message_from_id,
     }));
 
     res.json({ ok: true, conversations });
