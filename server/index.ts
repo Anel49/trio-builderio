@@ -38,11 +38,7 @@ import {
   updateListingReviewHelpful,
   deleteListingReview,
 } from "./routes/listing-reviews";
-import {
-  listConversations,
-  getMessages,
-  sendMessage,
-} from "./routes/messages";
+import { listConversations, getMessages, sendMessage } from "./routes/messages";
 
 export function createServer() {
   const app = express();

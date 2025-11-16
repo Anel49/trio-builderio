@@ -116,9 +116,7 @@ export default function Messages() {
     const fetchConversations = async () => {
       setConversationsLoading(true);
       try {
-        const response = await apiFetch(
-          `/messages/${user.id}/conversations`
-        );
+        const response = await apiFetch(`/messages/${user.id}/conversations`);
         const data = await response.json();
         if (data.ok) {
           setConversations(data.conversations || []);
@@ -149,7 +147,7 @@ export default function Messages() {
       setMessagesLoading(true);
       try {
         const response = await apiFetch(
-          `/messages/${user.id}/${selectedUserId}`
+          `/messages/${user.id}/${selectedUserId}`,
         );
         const data = await response.json();
         if (data.ok) {
@@ -169,7 +167,7 @@ export default function Messages() {
   useEffect(() => {
     if (messagesScrollRef.current) {
       const scrollElement = messagesScrollRef.current.querySelector(
-        '[data-radix-scroll-area-viewport]'
+        "[data-radix-scroll-area-viewport]",
       ) as HTMLElement;
       if (scrollElement) {
         setTimeout(() => {
@@ -223,7 +221,7 @@ export default function Messages() {
         // Refresh conversations to update last message
         if (user?.id) {
           const convoResponse = await apiFetch(
-            `/messages/${user.id}/conversations`
+            `/messages/${user.id}/conversations`,
           );
           const convoData = await convoResponse.json();
           if (convoData.ok) {
@@ -237,7 +235,7 @@ export default function Messages() {
   };
 
   const selectedChat = conversations.find(
-    (c) => c.otherUserId === selectedUserId
+    (c) => c.otherUserId === selectedUserId,
   );
 
   const filteredConversations = conversations.filter(
@@ -298,9 +296,7 @@ export default function Messages() {
 
           {/* Left Sidebar - Chat List */}
           <div
-            className={`overflow-hidden transition-transform duration-300 ease-in-out ${
-              "absolute left-0 top-0 h-full w-80 z-[80] bg-background md:relative md:w-1/4 md:bg-muted/30"
-            } ${
+            className={`overflow-hidden transition-transform duration-300 ease-in-out ${"absolute left-0 top-0 h-full w-80 z-[80] bg-background md:relative md:w-1/4 md:bg-muted/30"} ${
               leftSidebarOpen
                 ? "translate-x-0"
                 : "-translate-x-full md:translate-x-0"
@@ -510,7 +506,10 @@ export default function Messages() {
             )}
 
             {/* Chat Messages */}
-            <ScrollArea ref={messagesScrollRef} className="flex-1 px-4 [&>div>div]:md:block [&>div>div]:hidden">
+            <ScrollArea
+              ref={messagesScrollRef}
+              className="flex-1 px-4 [&>div>div]:md:block [&>div>div]:hidden"
+            >
               {messagesLoading ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center text-muted-foreground">
@@ -567,9 +566,7 @@ export default function Messages() {
                   placeholder="Type a message..."
                   value={messageInput}
                   onChange={(e) => setMessageInput(e.target.value)}
-                  onKeyPress={(e) =>
-                    e.key === "Enter" && handleSendMessage()
-                  }
+                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                   className="flex-1"
                   disabled={!selectedUserId}
                 />
@@ -585,9 +582,7 @@ export default function Messages() {
 
           {/* Right Sidebar - Chat Details */}
           <div
-            className={`transition-transform duration-300 ease-in-out ${
-              "absolute right-0 top-0 h-full w-80 z-[80] bg-background md:relative md:w-1/5 md:bg-muted/30"
-            } ${
+            className={`transition-transform duration-300 ease-in-out ${"absolute right-0 top-0 h-full w-80 z-[80] bg-background md:relative md:w-1/5 md:bg-muted/30"} ${
               rightSidebarOpen
                 ? "translate-x-0"
                 : "translate-x-full md:translate-x-0"

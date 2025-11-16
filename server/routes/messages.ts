@@ -5,9 +5,7 @@ export async function listConversations(req: Request, res: Response) {
   try {
     const userId = Number((req.params as any)?.userId || "0");
     if (!userId) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "userId is required" });
+      return res.status(400).json({ ok: false, error: "userId is required" });
     }
 
     const result = await pool.query(

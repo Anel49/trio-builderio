@@ -486,14 +486,15 @@ export async function dbSetup(_req: Request, res: Response) {
 
     // Seed messages between two users (will use first two users in the system)
     const usersResult = await pool.query(
-      `SELECT id FROM users ORDER BY id LIMIT 2`
+      `SELECT id FROM users ORDER BY id LIMIT 2`,
     );
 
     if (usersResult.rows.length >= 2) {
       const user1Id = usersResult.rows[0].id;
       const user2Id = usersResult.rows[1].id;
 
-      await pool.query(`
+      await pool.query(
+        `
         insert into messages (from_id, to_id, body, created_at)
         values
           ($1, $2, 'Hi! I''m interested in renting your lawn mower this weekend.', now() - interval '5 hours'),
@@ -508,9 +509,12 @@ export async function dbSetup(_req: Request, res: Response) {
           ($2, $1, 'Glad to hear it! Thanks for renting from me!', now() - interval '10 minutes')
         on conflict do nothing
       `,
-      [user1Id, user2Id]);
+        [user1Id, user2Id],
+      );
 
-      console.log(`[dbSetup] Created messages between users ${user1Id} and ${user2Id}`);
+      console.log(
+        `[dbSetup] Created messages between users ${user1Id} and ${user2Id}`,
+      );
     }
 
     res.json({ ok: true });
