@@ -968,6 +968,7 @@ export default function Profile() {
               reviewer: rev.user || "",
               avatar: rev.avatar,
               reviewerId: rev.reviewerId,
+              reviewerUsername: rev.reviewerUsername,
               rating: Number(rev.rating) || 0,
               date: rev.date || new Date().toLocaleDateString(),
               dateValue: new Date(rev.dateValue || Date.now()),
