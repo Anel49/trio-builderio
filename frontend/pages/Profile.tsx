@@ -1303,7 +1303,7 @@ export default function Profile() {
                       <Button
                         variant="ghost"
                         title="Settings"
-                        className="p-0 h-12 w-12"
+                        className="p-0 h-10 w-10"
                       >
                         <Settings className="!size-5" />
                       </Button>
