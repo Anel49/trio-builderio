@@ -1303,10 +1303,10 @@ export default function Profile() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-12 w-12"
                         title="Settings"
                       >
-                        <Settings className="h-4 w-4" />
+                        <Settings className="h-8 w-8" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
