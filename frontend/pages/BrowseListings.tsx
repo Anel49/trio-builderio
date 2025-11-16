@@ -1190,7 +1190,7 @@ export default function BrowseListings() {
                   Sort
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
+              <DropdownMenuContent align={isTabletOrMobile ? "center" : "start"} className="w-56">
                 <DropdownMenuRadioGroup
                   value={sortBy}
                   onValueChange={setSortBy}
