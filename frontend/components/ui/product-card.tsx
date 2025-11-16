@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Star, Heart, MapPin, X as XIcon, MoreVertical } from "lucide-react";
 import { colors, combineColors } from "@/lib/colors";
 import { ENABLE_FAVORITES } from "@/lib/constants";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   animations,
   spacing,
