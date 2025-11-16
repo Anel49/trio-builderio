@@ -72,12 +72,16 @@ export function MultiSelectCategories({
   };
 
   useEffect(() => {
+    // Auto-focus the input when component mounts (unless disabled)
+    if (autoFocus && inputRef.current) {
+      inputRef.current.focus();
+    }
     return () => {
       if (closeTimeoutRef.current) {
         clearTimeout(closeTimeoutRef.current);
       }
     };
-  }, []);
+  }, [autoFocus]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
