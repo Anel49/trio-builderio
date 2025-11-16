@@ -23,6 +23,7 @@ import {
   emailLogin,
   changePassword,
   changeEmail,
+  passwordResetRequest,
 } from "./routes/users";
 import { reverseGeocode } from "./routes/geocode";
 import {
