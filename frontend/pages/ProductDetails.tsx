@@ -1721,6 +1721,10 @@ export default function ProductDetails() {
           </Button>
         </DialogContent>
       </Dialog>
+      <RequestSentModal
+        open={showRequestSentModal}
+        onOpenChange={setShowRequestSentModal}
+      />
     </div>
   );
 }
