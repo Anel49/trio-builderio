@@ -88,6 +88,8 @@ export default function Messages() {
   // Ref for scrolling messages to bottom
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
 
+  usePageTitle();
+
   // Handle open_dms toggle change
   const handleOpenDmsToggle = async (checked: boolean) => {
     setIsUpdatingOpenDms(true);
