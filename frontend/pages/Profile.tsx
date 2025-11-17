@@ -1358,12 +1358,6 @@ export default function Profile() {
             <p className="text-muted-foreground">
               The user you're looking for doesn't exist or has been removed.
             </p>
-            <Button
-              onClick={() => navigate("/browse")}
-              className="mt-4"
-            >
-              Browse Listings
-            </Button>
           </div>
         </div>
         <Footer />
