@@ -388,6 +388,10 @@ export default function ProductDetails() {
     return imgs;
   }, [product?.images, product?.image]);
 
+  usePageTitle({
+    listingName: product?.name,
+  });
+
   useEffect(() => {
     setCurrentImageIndex(0);
   }, [params.id, product?.image, product?.images]);
