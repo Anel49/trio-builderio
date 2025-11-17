@@ -116,6 +116,7 @@ type ListedItem = {
   enabled?: boolean;
   delivery?: boolean;
   freeDelivery?: boolean;
+  instantBookings?: boolean;
 };
 import {
   Select,
