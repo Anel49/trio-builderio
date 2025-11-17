@@ -88,7 +88,8 @@ export default function FAQ() {
         "Instant Booking is an optional listing configuration that automatically approves eligible booking requests without requiring approval from the host. Upon submission, renters will be redirected to the checkout page for payment.",
     },
     {
-      question: "How long do renters have to complete payment after their reservation is approved?",
+      question:
+        "How long do renters have to complete payment after their reservation is approved?",
       answer:
         "Renters must complete payment within 24 hours of the reservation being approved, and in all cases, no later than 12 hours before the rental period begins. Failure to pay within these constraints will result in an automatic rejection of the reservation.",
     },
