@@ -136,6 +136,7 @@ export default function ProductDetails() {
     end: Date | null;
   }>({ start: null, end: null });
   const [showConflictModal, setShowConflictModal] = useState(false);
+  const [showRequestSentModal, setShowRequestSentModal] = useState(false);
   const conflictRecheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleFavorite = async (listingName: string, listingId: number) => {
