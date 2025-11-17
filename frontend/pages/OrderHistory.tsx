@@ -80,9 +80,7 @@ export default function OrderHistory() {
   const [requestSortBy, setRequestSortBy] = useState<"recent" | "oldest">(
     "recent",
   );
-  const [orderSortBy, setOrderSortBy] = useState<"recent" | "oldest">(
-    "recent",
-  );
+  const [orderSortBy, setOrderSortBy] = useState<"recent" | "oldest">("recent");
 
   // Cancel rental modal state
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
@@ -508,9 +506,7 @@ export default function OrderHistory() {
                       <ArrowDownUp className="h-4 w-4 mr-2" />
                       <span>
                         Sort:{" "}
-                        {orderSortBy === "recent"
-                          ? "Most recent"
-                          : "Oldest"}
+                        {orderSortBy === "recent" ? "Most recent" : "Oldest"}
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
