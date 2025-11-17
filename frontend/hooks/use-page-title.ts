@@ -35,7 +35,7 @@ export const usePageTitle = (dynamicData?: {
       }
     } else if (pathname === "/messages") {
       title = `Messages | ${COMPANY_NAME}`;
-    } else if (pathname === "/order-history") {
+    } else if (pathname === "/rentals-and-requests") {
       title = `Rentals and Requests | ${COMPANY_NAME}`;
     } else if (pathname === "/upload") {
       title = `Listing Creation | ${COMPANY_NAME}`;
