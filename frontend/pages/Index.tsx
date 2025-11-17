@@ -701,6 +701,7 @@ export default function Index() {
                     }
                     delivery={listing.delivery}
                     freeDelivery={listing.freeDelivery}
+                    instantBookings={listing.instantBookings}
                   />
                 </div>
               ))}
