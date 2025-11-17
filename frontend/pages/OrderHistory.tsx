@@ -500,6 +500,33 @@ export default function OrderHistory() {
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="justify-start">
+                      <ArrowDownUp className="h-4 w-4 mr-2" />
+                      <span>
+                        Sort:{" "}
+                        {orderSortBy === "recent"
+                          ? "Most recent"
+                          : "Oldest"}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuRadioGroup
+                      value={orderSortBy}
+                      onValueChange={setOrderSortBy as any}
+                    >
+                      <DropdownMenuRadioItem value="recent">
+                        Most recent
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="oldest">
+                        Oldest
+                      </DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </CardContent>
           </Card>
