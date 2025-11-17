@@ -916,3 +916,88 @@ export async function bulkUpdateListingsEnabled(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function createReservation(req: Request, res: Response) {
+  try {
+    const { listing_id, renter_id, start_date, end_date } = req.body || {};
+
+    if (!listing_id || Number.isNaN(Number(listing_id))) {
+      return res.status(400).json({ ok: false, error: "invalid listing_id" });
+    }
+
+    if (!renter_id || Number.isNaN(Number(renter_id))) {
+      return res.status(400).json({ ok: false, error: "invalid renter_id" });
+    }
+
+    if (!start_date || !end_date) {
+      return res.status(400).json({ ok: false, error: "start_date and end_date are required" });
+    }
+
+    const startDate = new Date(start_date);
+    const endDate = new Date(end_date);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      return res.status(400).json({ ok: false, error: "invalid date format" });
+    }
+
+    if (startDate >= endDate) {
+      return res.status(400).json({ ok: false, error: "start_date must be before end_date" });
+    }
+
+    console.log(
+      "[createReservation] Creating reservation for listing",
+      listing_id,
+      "renter",
+      renter_id,
+      "dates",
+      start_date,
+      "to",
+      end_date,
+    );
+
+    // Check for conflicting reservations (pending or accepted status)
+    const conflictCheck = await pool.query(
+      `select id from reservations
+       where listing_id = $1
+       and status in ('pending', 'accepted')
+       and (
+         (start_date::date <= $3::date and end_date::date >= $2::date)
+       )
+       limit 1`,
+      [listing_id, start_date, end_date],
+    );
+
+    if (conflictCheck.rows.length > 0) {
+      console.log("[createReservation] Conflict detected with existing reservation");
+      return res.status(409).json({ ok: false, error: "Date range conflicts with existing reservation" });
+    }
+
+    // Create the reservation
+    const result = await pool.query(
+      `insert into reservations (listing_id, renter_id, start_date, end_date, status, created_at)
+       values ($1, $2, $3::date, $4::date, 'pending', now())
+       returning id, listing_id, renter_id, start_date, end_date, status, created_at`,
+      [listing_id, renter_id, start_date, end_date],
+    );
+
+    const reservation = result.rows[0];
+
+    console.log("[createReservation] Reservation created with id", reservation.id);
+
+    res.json({
+      ok: true,
+      reservation: {
+        id: String(reservation.id),
+        listing_id: reservation.listing_id,
+        renter_id: reservation.renter_id,
+        start_date: new Date(reservation.start_date).toISOString(),
+        end_date: new Date(reservation.end_date).toISOString(),
+        status: reservation.status,
+        created_at: reservation.created_at,
+      },
+    });
+  } catch (error: any) {
+    console.error("[createReservation] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
