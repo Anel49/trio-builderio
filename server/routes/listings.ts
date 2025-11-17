@@ -930,7 +930,9 @@ export async function createReservation(req: Request, res: Response) {
     }
 
     if (!start_date || !end_date) {
-      return res.status(400).json({ ok: false, error: "start_date and end_date are required" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "start_date and end_date are required" });
     }
 
     const startDate = new Date(start_date);
@@ -941,7 +943,9 @@ export async function createReservation(req: Request, res: Response) {
     }
 
     if (startDate >= endDate) {
-      return res.status(400).json({ ok: false, error: "start_date must be before end_date" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "start_date must be before end_date" });
     }
 
     console.log(
@@ -968,8 +972,15 @@ export async function createReservation(req: Request, res: Response) {
     );
 
     if (conflictCheck.rows.length > 0) {
-      console.log("[createReservation] Conflict detected with existing reservation");
-      return res.status(409).json({ ok: false, error: "Date range conflicts with existing reservation" });
+      console.log(
+        "[createReservation] Conflict detected with existing reservation",
+      );
+      return res
+        .status(409)
+        .json({
+          ok: false,
+          error: "Date range conflicts with existing reservation",
+        });
     }
 
     // Create the reservation
@@ -982,7 +993,10 @@ export async function createReservation(req: Request, res: Response) {
 
     const reservation = result.rows[0];
 
-    console.log("[createReservation] Reservation created with id", reservation.id);
+    console.log(
+      "[createReservation] Reservation created with id",
+      reservation.id,
+    );
 
     res.json({
       ok: true,
