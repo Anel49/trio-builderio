@@ -636,8 +636,6 @@ export default function Messages() {
                     onClick={() => {
                       if (selectedChat.username) {
                         navigate(`/profile/${selectedChat.username}`);
-                      } else {
-                        navigate(`/profile/${selectedChat.otherUserId}`);
                       }
                     }}
                     className="font-semibold text-lg mb-2 hover:underline text-center w-full transition-colors hover:text-primary"
