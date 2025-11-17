@@ -32,10 +32,7 @@ export function RequestSentModal({
             to see your recent requests.
           </p>
         </div>
-        <Button
-          onClick={() => onOpenChange(false)}
-          className="w-full"
-        >
+        <Button onClick={() => onOpenChange(false)} className="w-full">
           Got it
         </Button>
       </DialogContent>

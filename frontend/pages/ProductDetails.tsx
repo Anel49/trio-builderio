@@ -461,7 +461,9 @@ export default function ProductDetails() {
             freeDelivery:
               typeof l.freeDelivery === "boolean" ? l.freeDelivery : false,
             instantBookings:
-              typeof l.instantBookings === "boolean" ? l.instantBookings : false,
+              typeof l.instantBookings === "boolean"
+                ? l.instantBookings
+                : false,
           });
         }
       } catch {

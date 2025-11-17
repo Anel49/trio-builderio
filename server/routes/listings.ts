@@ -976,12 +976,10 @@ export async function createReservation(req: Request, res: Response) {
       console.log(
         "[createReservation] Conflict detected with existing reservation",
       );
-      return res
-        .status(409)
-        .json({
-          ok: false,
-          error: "Date range conflicts with existing reservation",
-        });
+      return res.status(409).json({
+        ok: false,
+        error: "Date range conflicts with existing reservation",
+      });
     }
 
     // Create the reservation
