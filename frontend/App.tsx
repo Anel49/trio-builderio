@@ -174,7 +174,7 @@ const AppContent = () => {
             }
           />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/rentals-and-requests" element={<OrderHistory />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/TermsOfService" element={<TermsOfService />} />
           <Route path="/faq" element={<FAQ />} />
