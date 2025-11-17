@@ -1080,6 +1080,8 @@ export default function OrderHistory() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Footer />
     </div>
   );
 }
