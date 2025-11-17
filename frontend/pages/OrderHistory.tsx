@@ -361,8 +361,8 @@ export default function OrderHistory() {
   });
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
-    const aDate = new Date(a.rentalStart).getTime();
-    const bDate = new Date(b.rentalStart).getTime();
+    const aDate = new Date(a.startDate).getTime();
+    const bDate = new Date(b.startDate).getTime();
     return orderSortBy === "recent" ? bDate - aDate : aDate - bDate;
   });
 
