@@ -1088,7 +1088,7 @@ export default function ProductDetails() {
                 )}
                 disabled={!isDateRangeValid()}
                 onClick={async () => {
-                  if (!isDateRangeValid()) return;
+                  if (!isDateRangeValid() || !authUser?.id) return;
 
                   // Recheck for conflicts before proceeding
                   if (!params.id) return;
@@ -1136,12 +1136,53 @@ export default function ProductDetails() {
                         setReservations(mapped);
                         setShowConflictModal(true);
                       } else {
-                        // Proceed to checkout
-                        localStorage.setItem(
-                          "selectedDates",
-                          JSON.stringify(selectedDateRange),
-                        );
-                        window.location.href = "/checkout";
+                        // Create reservation
+                        if (start && end) {
+                          try {
+                            const reservationResponse = await apiFetch("reservations", {
+                              method: "POST",
+                              body: JSON.stringify({
+                                listing_id: Number(params.id),
+                                renter_id: authUser.id,
+                                start_date: start.toISOString().split('T')[0],
+                                end_date: end.toISOString().split('T')[0],
+                              }),
+                              headers: { "content-type": "application/json" },
+                            });
+
+                            const reservationData = await reservationResponse.json().catch(() => ({}));
+
+                            if (reservationData.ok && reservationData.reservation) {
+                              console.log("[ProductDetails] Reservation created:", reservationData.reservation.id);
+                              // Proceed to checkout
+                              localStorage.setItem(
+                                "selectedDates",
+                                JSON.stringify(selectedDateRange),
+                              );
+                              localStorage.setItem(
+                                "reservationId",
+                                String(reservationData.reservation.id),
+                              );
+                              window.location.href = "/checkout";
+                            } else {
+                              console.error("[ProductDetails] Failed to create reservation:", reservationData.error);
+                              // Proceed to checkout anyway
+                              localStorage.setItem(
+                                "selectedDates",
+                                JSON.stringify(selectedDateRange),
+                              );
+                              window.location.href = "/checkout";
+                            }
+                          } catch (reservationError) {
+                            console.error("[ProductDetails] Error creating reservation:", reservationError);
+                            // Proceed to checkout anyway
+                            localStorage.setItem(
+                              "selectedDates",
+                              JSON.stringify(selectedDateRange),
+                            );
+                            window.location.href = "/checkout";
+                          }
+                        }
                       }
                     }
                   } catch (error) {
