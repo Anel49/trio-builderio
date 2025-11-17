@@ -646,6 +646,7 @@ export default function ProductDetails() {
       distance: "1.5 miles",
       delivery: true,
       freeDelivery: false,
+      instantBookings: false,
     },
     {
       id: 2,
@@ -663,6 +664,7 @@ export default function ProductDetails() {
       distance: "2.8 miles",
       delivery: true,
       freeDelivery: true,
+      instantBookings: false,
     },
     {
       id: 3,
@@ -680,6 +682,7 @@ export default function ProductDetails() {
       distance: "4.2 miles",
       delivery: false,
       freeDelivery: false,
+      instantBookings: false,
     },
     {
       id: 4,
@@ -697,6 +700,7 @@ export default function ProductDetails() {
       distance: "3.7 miles",
       delivery: true,
       freeDelivery: false,
+      instantBookings: false,
     },
   ];
 
