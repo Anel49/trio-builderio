@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Header from "@/components/Header";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { usePageTitle } from "@/hooks/use-page-title";
 import {
   ArrowLeft,
   Search,
