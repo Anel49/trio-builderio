@@ -447,8 +447,7 @@ export default function ProductDetails() {
               typeof l.hostUsername === "string" ? l.hostUsername : undefined,
             hostAvatarUrl:
               typeof l.hostAvatarUrl === "string" ? l.hostAvatarUrl : null,
-            hostRating:
-              typeof l.hostRating === "number" ? l.hostRating : null,
+            hostRating: typeof l.hostRating === "number" ? l.hostRating : null,
             hostTotalReviews:
               typeof l.hostTotalReviews === "number" ? l.hostTotalReviews : 0,
             hostOpenDms:
@@ -495,7 +494,9 @@ export default function ProductDetails() {
     if (!params.id) return;
     try {
       const response = await apiFetch(`listings/${params.id}/reservations`);
-      const data = response.ok ? await response.json() : { ok: true, reservations: [] };
+      const data = response.ok
+        ? await response.json()
+        : { ok: true, reservations: [] };
       if (data && data.ok && Array.isArray(data.reservations)) {
         const mapped: ReservationPeriod[] = data.reservations.map((r: any) => ({
           id: String(r.id),
@@ -1092,16 +1093,22 @@ export default function ProductDetails() {
                   // Recheck for conflicts before proceeding
                   if (!params.id) return;
                   try {
-                    const response = await apiFetch(`listings/${params.id}/reservations`);
-                    const data = response.ok ? await response.json() : { ok: true, reservations: [] };
+                    const response = await apiFetch(
+                      `listings/${params.id}/reservations`,
+                    );
+                    const data = response.ok
+                      ? await response.json()
+                      : { ok: true, reservations: [] };
                     if (data && data.ok && Array.isArray(data.reservations)) {
-                      const mapped: ReservationPeriod[] = data.reservations.map((r: any) => ({
-                        id: String(r.id),
-                        startDate: new Date(r.startDate),
-                        endDate: new Date(r.endDate),
-                        renterName: r.renterName,
-                        status: r.status,
-                      }));
+                      const mapped: ReservationPeriod[] = data.reservations.map(
+                        (r: any) => ({
+                          id: String(r.id),
+                          startDate: new Date(r.startDate),
+                          endDate: new Date(r.endDate),
+                          renterName: r.renterName,
+                          status: r.status,
+                        }),
+                      );
 
                       // Check for conflicts with current selection
                       const start = selectedDateRange.start;
@@ -1110,7 +1117,10 @@ export default function ProductDetails() {
 
                       if (start && end) {
                         for (const r of mapped) {
-                          if (r.status !== "pending" && r.status !== "accepted") {
+                          if (
+                            r.status !== "pending" &&
+                            r.status !== "accepted"
+                          ) {
                             continue;
                           }
                           const rs = new Date(r.startDate);
@@ -1627,10 +1637,15 @@ export default function ProductDetails() {
           </DialogHeader>
           <div className="py-4">
             <p className="text-base text-muted-foreground">
-              Oh no! It appears a user made a reservation with a conflicting booking period moments before you did. Please select a new booking period.
+              Oh no! It appears a user made a reservation with a conflicting
+              booking period moments before you did. Please select a new booking
+              period.
             </p>
           </div>
-          <Button onClick={() => setShowConflictModal(false)} className="w-full">
+          <Button
+            onClick={() => setShowConflictModal(false)}
+            className="w-full"
+          >
             Got it
           </Button>
         </DialogContent>

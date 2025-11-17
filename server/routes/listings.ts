@@ -527,7 +527,10 @@ export async function getListingById(req: Request, res: Response) {
         : null;
     const reviewCount = Number(r.review_count) || 0;
 
-    const hostAvgRating = r.host_avg_rating && Number(r.host_avg_rating) > 0 ? Number(r.host_avg_rating) : null;
+    const hostAvgRating =
+      r.host_avg_rating && Number(r.host_avg_rating) > 0
+        ? Number(r.host_avg_rating)
+        : null;
     const hostTotalReviews = Number(r.host_total_reviews) || 0;
 
     const listing = {
