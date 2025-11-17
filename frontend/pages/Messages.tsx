@@ -41,6 +41,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "@/lib/api";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { Footer } from "@/components/Footer";
 
 interface Conversation {
   otherUserId: number;
