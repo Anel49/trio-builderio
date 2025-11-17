@@ -1529,6 +1529,7 @@ export default function ProductDetails() {
               }}
               delivery={item.delivery}
               freeDelivery={item.freeDelivery}
+              instantBookings={item.instantBookings}
             />
           ))}
         </div>
