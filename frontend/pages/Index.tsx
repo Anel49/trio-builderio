@@ -334,11 +334,6 @@ export default function Index() {
         const d = await response.json().catch(() => null);
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
 
-        const listing50 = d.listings.find((l: any) => l.id === 50);
-        if (listing50) {
-          console.log("[Index.tsx] API response for listing 50 - instantBookings:", listing50.instantBookings);
-        }
-
         // Only use user location if authenticated and has location
         const userCoords =
           authenticated &&
