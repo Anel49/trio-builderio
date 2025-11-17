@@ -114,10 +114,6 @@ export default function OrderHistory() {
     } catch {}
   }, [hideCompleted]);
 
-  useEffect(() => {
-    document.title = "Rentals and Requests";
-  }, []);
-
   const orders: Order[] = [
     {
       id: "ORD-2024-001",
