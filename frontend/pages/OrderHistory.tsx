@@ -79,6 +79,9 @@ export default function OrderHistory() {
   const [requestSortBy, setRequestSortBy] = useState<"recent" | "oldest">(
     "recent",
   );
+  const [orderSortBy, setOrderSortBy] = useState<"recent" | "oldest">(
+    "recent",
+  );
 
   // Cancel rental modal state
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
