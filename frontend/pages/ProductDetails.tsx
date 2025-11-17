@@ -1165,8 +1165,6 @@ export default function ProductDetails() {
                       onClick={() => {
                         if (product?.hostUsername) {
                           navigate(`/profile/${product.hostUsername}`);
-                        } else {
-                          navigate("/profile");
                         }
                       }}
                       className="cursor-pointer hover:opacity-80 transition-opacity"
@@ -1187,8 +1185,6 @@ export default function ProductDetails() {
                         onClick={() => {
                           if (product?.hostUsername) {
                             navigate(`/profile/${product.hostUsername}`);
-                          } else {
-                            navigate("/profile");
                           }
                         }}
                         className="font-semibold text-lg hover:underline text-left cursor-pointer"
