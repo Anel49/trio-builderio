@@ -18,6 +18,7 @@ import { getCurrentUserLocation, type UserLocation } from "@/lib/user-profile";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { cn } from "@/lib/utils";
+import { usePageTitle } from "@/hooks/use-page-title";
 import {
   Star,
   Heart,
