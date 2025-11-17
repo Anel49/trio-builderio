@@ -1312,6 +1312,7 @@ export default function BrowseListings() {
                       delivery={listing.delivery}
                       freeDelivery={listing.freeDelivery}
                       isFavorited={favoritedListingIds.has(listing.id)}
+                      instantBookings={listing.instantBookings}
                     />
                   </div>
                 );
