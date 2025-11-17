@@ -111,6 +111,8 @@ export default function UploadProduct() {
   const pricePlaceholder = "35";
   const [editListingId, setEditListingId] = useState<number | null>(null);
 
+  usePageTitle();
+
   // Load listing data when editing
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
