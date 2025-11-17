@@ -68,10 +68,6 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table listings add column if not exists user_id integer references users(id) on delete set null;
       alter table listings add column if not exists enabled boolean default true;
       alter table listings add column if not exists instant_bookings boolean default false;
-
-      -- Drop and recreate foreign key constraints to change from CASCADE to RESTRICT
-      alter table listing_images drop constraint if exists listing_images_listing_id_fkey;
-
       create table if not exists listing_images (
         id serial primary key,
         listing_id integer not null references listings(id) on delete restrict,
@@ -86,10 +82,6 @@ export async function dbSetup(_req: Request, res: Response) {
         and not exists (
           select 1 from listing_images li where li.listing_id = l.id
         );
-
-      -- Drop and recreate foreign key constraints for listing_categories
-      alter table listing_categories drop constraint if exists listing_categories_listing_id_fkey;
-
       create table if not exists listing_categories (
         id serial primary key,
         listing_id integer not null references listings(id) on delete restrict,
@@ -105,18 +97,6 @@ export async function dbSetup(_req: Request, res: Response) {
         and not exists (
           select 1 from listing_categories lc where lc.listing_id = l.id
         );
-
-      -- Drop and recreate foreign key constraints for other tables
-      alter table reservations drop constraint if exists reservations_listing_id_fkey;
-      alter table favorites drop constraint if exists favorites_listing_id_fkey;
-      alter table messages drop constraint if exists messages_from_id_fkey;
-      alter table messages drop constraint if exists messages_to_id_fkey;
-      alter table reviews drop constraint if exists reviews_listing_id_fkey;
-      alter table listing_reviews drop constraint if exists listing_reviews_listing_id_fkey;
-      alter table listing_reviews drop constraint if exists listing_reviews_reviewer_id_fkey;
-      alter table user_reviews drop constraint if exists user_reviews_reviewed_user_id_fkey;
-      alter table user_reviews drop constraint if exists user_reviews_reviewer_id_fkey;
-      alter table user_credentials drop constraint if exists user_credentials_user_id_fkey;
 
       create table if not exists users (
         id serial primary key,
@@ -135,19 +115,6 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table users add column if not exists first_name text;
       alter table users add column if not exists last_name text;
       alter table users add column if not exists username text unique;
-
-      -- Re-add foreign key constraints with RESTRICT behavior
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'reservations' and constraint_name = 'reservations_listing_id_fkey'
-        ) then
-          alter table reservations add constraint reservations_listing_id_fkey
-            foreign key (listing_id) references listings(id) on delete restrict;
-        end if;
-      end $$;
-
       create table if not exists reservations (
         id serial primary key,
         listing_id integer not null references listings(id) on delete restrict,
@@ -157,50 +124,12 @@ export async function dbSetup(_req: Request, res: Response) {
         status text default 'pending',
         created_at timestamptz default now()
       );
-
-      -- Re-add foreign key constraint for listing_images
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'listing_images' and constraint_name = 'listing_images_listing_id_fkey'
-        ) then
-          alter table listing_images add constraint listing_images_listing_id_fkey
-            foreign key (listing_id) references listings(id) on delete restrict;
-        end if;
-      end $$;
-
-      -- Re-add foreign key constraint for listing_categories
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'listing_categories' and constraint_name = 'listing_categories_listing_id_fkey'
-        ) then
-          alter table listing_categories add constraint listing_categories_listing_id_fkey
-            foreign key (listing_id) references listings(id) on delete restrict;
-        end if;
-      end $$;
-
       create table if not exists favorites (
         user_id text not null,
         listing_id integer not null references listings(id) on delete restrict,
         created_at timestamptz default now(),
         primary key (user_id, listing_id)
       );
-
-      -- Re-add foreign key constraint for favorites
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'favorites' and constraint_name = 'favorites_listing_id_fkey'
-        ) then
-          alter table favorites add constraint favorites_listing_id_fkey
-            foreign key (listing_id) references listings(id) on delete restrict;
-        end if;
-      end $$;
-
       create table if not exists messages (
         id serial primary key,
         thread_id text,
@@ -209,30 +138,6 @@ export async function dbSetup(_req: Request, res: Response) {
         body text,
         created_at timestamptz default now()
       );
-
-      -- Re-add foreign key constraints for messages
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'messages' and constraint_name = 'messages_from_id_fkey'
-        ) then
-          alter table messages add constraint messages_from_id_fkey
-            foreign key (from_id) references users(id) on delete set null;
-        end if;
-      end $$;
-
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'messages' and constraint_name = 'messages_to_id_fkey'
-        ) then
-          alter table messages add constraint messages_to_id_fkey
-            foreign key (to_id) references users(id) on delete set null;
-        end if;
-      end $$;
-
       -- Migration: Rename from_name/to_name to from_id/to_id if they still exist
       do $$
       begin
@@ -257,19 +162,6 @@ export async function dbSetup(_req: Request, res: Response) {
         comment text,
         created_at timestamptz default now()
       );
-
-      -- Re-add foreign key constraint for reviews
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'reviews' and constraint_name = 'reviews_listing_id_fkey'
-        ) then
-          alter table reviews add constraint reviews_listing_id_fkey
-            foreign key (listing_id) references listings(id) on delete restrict;
-        end if;
-      end $$;
-
       create table if not exists listing_reviews (
         id serial primary key,
         listing_id integer not null references listings(id) on delete restrict,
@@ -283,30 +175,6 @@ export async function dbSetup(_req: Request, res: Response) {
       create index if not exists idx_listing_reviews_listing_id on listing_reviews(listing_id);
       create index if not exists idx_listing_reviews_reviewer_id on listing_reviews(reviewer_id);
       create index if not exists idx_listing_reviews_created_at on listing_reviews(created_at);
-
-      -- Re-add foreign key constraints for listing_reviews
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'listing_reviews' and constraint_name = 'listing_reviews_listing_id_fkey'
-        ) then
-          alter table listing_reviews add constraint listing_reviews_listing_id_fkey
-            foreign key (listing_id) references listings(id) on delete restrict;
-        end if;
-      end $$;
-
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'listing_reviews' and constraint_name = 'listing_reviews_reviewer_id_fkey'
-        ) then
-          alter table listing_reviews add constraint listing_reviews_reviewer_id_fkey
-            foreign key (reviewer_id) references users(id) on delete restrict;
-        end if;
-      end $$;
-
       create table if not exists user_reviews (
         id serial primary key,
         reviewed_user_id integer not null references users(id) on delete restrict,
@@ -321,30 +189,6 @@ export async function dbSetup(_req: Request, res: Response) {
       create index if not exists idx_user_reviews_reviewer_id on user_reviews(reviewer_id);
       create index if not exists idx_user_reviews_related_listing_id on user_reviews(related_listing_id);
       create index if not exists idx_user_reviews_created_at on user_reviews(created_at);
-
-      -- Re-add foreign key constraints for user_reviews
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'user_reviews' and constraint_name = 'user_reviews_reviewed_user_id_fkey'
-        ) then
-          alter table user_reviews add constraint user_reviews_reviewed_user_id_fkey
-            foreign key (reviewed_user_id) references users(id) on delete restrict;
-        end if;
-      end $$;
-
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'user_reviews' and constraint_name = 'user_reviews_reviewer_id_fkey'
-        ) then
-          alter table user_reviews add constraint user_reviews_reviewer_id_fkey
-            foreign key (reviewer_id) references users(id) on delete restrict;
-        end if;
-      end $$;
-
       create table if not exists user_credentials (
         id serial primary key,
         user_id integer not null references users(id) on delete restrict,
@@ -355,19 +199,67 @@ export async function dbSetup(_req: Request, res: Response) {
         photo_id text,
         created_at timestamptz default now()
       );
-
-      -- Re-add foreign key constraint for user_credentials
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'user_credentials' and constraint_name = 'user_credentials_user_id_fkey'
-        ) then
-          alter table user_credentials add constraint user_credentials_user_id_fkey
-            foreign key (user_id) references users(id) on delete restrict;
-        end if;
-      end $$;
     `);
+
+    // Now fix any existing CASCADE constraints to be RESTRICT
+    try {
+      console.log("[dbSetup] Fixing foreign key constraints...");
+
+      // Drop CASCADE constraints and recreate with RESTRICT
+      const constraintFixes = [
+        { table: 'listing_images', column: 'listing_id', ref: 'listings' },
+        { table: 'listing_categories', column: 'listing_id', ref: 'listings' },
+        { table: 'reservations', column: 'listing_id', ref: 'listings' },
+        { table: 'favorites', column: 'listing_id', ref: 'listings' },
+        { table: 'reviews', column: 'listing_id', ref: 'listings' },
+        { table: 'listing_reviews', column: 'listing_id', ref: 'listings' },
+        { table: 'listing_reviews', column: 'reviewer_id', ref: 'users' },
+        { table: 'user_reviews', column: 'reviewed_user_id', ref: 'users' },
+        { table: 'user_reviews', column: 'reviewer_id', ref: 'users' },
+        { table: 'user_credentials', column: 'user_id', ref: 'users' },
+      ];
+
+      for (const fix of constraintFixes) {
+        const constraintName = `${fix.table}_${fix.column}_fkey`;
+        try {
+          await pool.query(
+            `alter table ${fix.table} drop constraint if exists ${constraintName}`
+          );
+
+          const deleteAction = fix.column === 'listing_id' ? 'restrict' : (fix.column.includes('from') || fix.column.includes('to')) ? 'set null' : 'restrict';
+          await pool.query(
+            `alter table ${fix.table} add constraint ${constraintName} foreign key (${fix.column}) references ${fix.ref}(id) on delete ${deleteAction}`
+          );
+          console.log(`[dbSetup] Fixed constraint ${constraintName}`);
+        } catch (e: any) {
+          console.log(`[dbSetup] Could not fix ${constraintName}:`, e?.message?.slice(0, 100));
+        }
+      }
+
+      // Fix message table constraints specially
+      const messageConstraints = [
+        { column: 'from_id', ref: 'users' },
+        { column: 'to_id', ref: 'users' },
+      ];
+
+      for (const msg of messageConstraints) {
+        const constraintName = `messages_${msg.column}_fkey`;
+        try {
+          await pool.query(
+            `alter table messages drop constraint if exists ${constraintName}`
+          );
+          await pool.query(
+            `alter table messages add constraint ${constraintName} foreign key (${msg.column}) references ${msg.ref}(id) on delete set null`
+          );
+          console.log(`[dbSetup] Fixed constraint ${constraintName}`);
+        } catch (e: any) {
+          console.log(`[dbSetup] Could not fix ${constraintName}:`, e?.message?.slice(0, 100));
+        }
+      }
+    } catch (e: any) {
+      console.log("[dbSetup] Error fixing constraints:", e?.message);
+    }
+
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
     );
