@@ -40,6 +40,7 @@ import { Switch } from "@/components/ui/switch";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "@/lib/api";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 interface Conversation {
   otherUserId: number;
