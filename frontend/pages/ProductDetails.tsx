@@ -817,9 +817,9 @@ export default function ProductDetails() {
 
   if (productNotFound) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
           <div className="flex flex-col items-center justify-center gap-4">
             <h1 className="text-3xl font-bold text-foreground">Listing not found</h1>
             <p className="text-muted-foreground">
