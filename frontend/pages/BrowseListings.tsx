@@ -1207,6 +1207,7 @@ export default function BrowseListings() {
                         categories: [] as string[],
                         offersDelivery: false,
                         offersFreeDelivery: false,
+                        instantBookings: false,
                       };
                       setFilters(emptyFilters);
                       setAppliedFilters(emptyFilters);
