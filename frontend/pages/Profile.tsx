@@ -286,6 +286,11 @@ export default function Profile() {
     e.currentTarget.value = "";
   };
 
+  const displayName = viewingOtherUser ? otherUserData?.name : authUser?.name;
+  usePageTitle({
+    userName: displayName || undefined,
+  });
+
   // Prevent page scrolling when mobile profile is open
   useEffect(() => {
     if (isMobileProfileOpen) {
