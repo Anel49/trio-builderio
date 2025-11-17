@@ -124,8 +124,8 @@ export default function Header() {
                     variant="ghost"
                     size="icon"
                     className="relative hidden sm:inline-flex"
-                    title="Orders and Requests"
-                    onClick={() => (window.location.href = "/order-history")}
+                    title="Rentals and Requests"
+                    onClick={() => (window.location.href = "/rentals-and-requests")}
                   >
                     <ClipboardList className="h-5 w-5" />
                   </Button>
