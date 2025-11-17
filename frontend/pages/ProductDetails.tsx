@@ -460,6 +460,8 @@ export default function ProductDetails() {
             delivery: typeof l.delivery === "boolean" ? l.delivery : false,
             freeDelivery:
               typeof l.freeDelivery === "boolean" ? l.freeDelivery : false,
+            instantBookings:
+              typeof l.instantBookings === "boolean" ? l.instantBookings : false,
           });
         }
       } catch {
