@@ -928,9 +928,9 @@ export default function OrderHistory() {
                         req.direction === "incoming" && (
                           <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
                             <Button size="sm" variant="outline">
-                              Decline
+                              Reject
                             </Button>
-                            <Button size="sm">Approve</Button>
+                            <Button size="sm">Accept</Button>
                           </div>
                         )}
 
