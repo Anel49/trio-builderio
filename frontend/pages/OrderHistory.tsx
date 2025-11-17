@@ -361,6 +361,12 @@ export default function OrderHistory() {
     return requestSortBy === "recent" ? bDate - aDate : aDate - bDate;
   });
 
+  const sortedOrders = [...filteredOrders].sort((a, b) => {
+    const aDate = new Date(a.rentalStart).getTime();
+    const bDate = new Date(b.rentalStart).getTime();
+    return orderSortBy === "recent" ? bDate - aDate : aDate - bDate;
+  });
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
