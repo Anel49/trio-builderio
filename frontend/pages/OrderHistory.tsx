@@ -533,7 +533,7 @@ export default function OrderHistory() {
                 </CardContent>
               </Card>
             ) : (
-              filteredOrders.map((order) => (
+              sortedOrders.map((order) => (
                 <Card
                   key={order.id}
                   className="hover:shadow-md transition-shadow"
