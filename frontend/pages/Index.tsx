@@ -356,11 +356,17 @@ export default function Index() {
             distance = formatDistanceLabel(distanceMiles);
           }
 
-          return {
+          const mapped = {
             ...l,
             distance,
             distanceMiles,
           };
+
+          if (l.id === 50) {
+            console.log("[Index.tsx] Listing 50 after mapping - instantBookings:", mapped.instantBookings);
+          }
+
+          return mapped;
         });
 
         // Filter out user's own listings
