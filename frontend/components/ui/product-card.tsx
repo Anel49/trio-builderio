@@ -367,8 +367,6 @@ export function ProductCard({
                   e.stopPropagation();
                   if (hostUsername) {
                     navigate(`/profile/${hostUsername}`);
-                  } else if (hostUserId) {
-                    navigate(`/profile/${hostUserId}`);
                   }
                 }}
                 className={`text-sm ${colors.text.muted} hover:underline cursor-pointer`}
