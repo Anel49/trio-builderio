@@ -90,7 +90,7 @@ export default function FAQ() {
     {
       question: "How long do renters have to complete payment after their reservation is approved?",
       answer:
-        "Renters must complete payment within 24 hours of the reservation being approved, and in all cases, no later than 12 hours before the rental period begins. Failure to pay within either of the required payment periods will result in automatic rejection of the reservation.",
+        "Renters must complete payment within 24 hours of the reservation being approved, and in all cases, no later than 12 hours before the rental period begins. Failure to pay within these constraints will result in an automatic rejection of the reservation.",
     },
     {
       question: "Do you offer delivery?",
