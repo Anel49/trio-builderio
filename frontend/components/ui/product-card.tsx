@@ -53,6 +53,7 @@ interface ProductCardProps {
   freeDelivery?: boolean;
   isFavorited?: boolean;
   enabled?: boolean;
+  instantBookings?: boolean;
 }
 
 export function ProductCard({
