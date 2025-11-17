@@ -102,6 +102,9 @@ export default function OrderHistory() {
       return false;
     }
   });
+
+  usePageTitle();
+
   useEffect(() => {
     try {
       localStorage.setItem(
