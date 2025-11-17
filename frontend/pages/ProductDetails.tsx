@@ -1171,7 +1171,6 @@ export default function ProductDetails() {
                                 "[ProductDetails] Reservation created:",
                                 reservationData.reservation.id,
                               );
-                              // Proceed to checkout
                               localStorage.setItem(
                                 "selectedDates",
                                 JSON.stringify(selectedDateRange),
@@ -1180,7 +1179,12 @@ export default function ProductDetails() {
                                 "reservationId",
                                 String(reservationData.reservation.id),
                               );
-                              window.location.href = "/checkout";
+
+                              if (product?.instantBookings) {
+                                window.location.href = "/checkout";
+                              } else {
+                                setShowRequestSentModal(true);
+                              }
                             } else {
                               console.error(
                                 "[ProductDetails] Failed to create reservation:",
