@@ -1347,6 +1347,30 @@ export default function Profile() {
     return null;
   }
 
+  // If viewing another user's profile and the user was not found
+  if (viewingOtherUser && otherUserNotFound) {
+    return (
+      <div className="flex flex-col min-h-screen bg-background">
+        <Header />
+        <div className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-4">
+            <h1 className="text-3xl font-bold text-foreground">User not found</h1>
+            <p className="text-muted-foreground">
+              The user you're looking for doesn't exist or has been removed.
+            </p>
+            <Button
+              onClick={() => navigate("/browse")}
+              className="mt-4"
+            >
+              Browse Listings
+            </Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
