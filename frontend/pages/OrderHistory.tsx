@@ -501,8 +501,8 @@ export default function OrderHistory() {
                 </DropdownMenu>
 
                 <Button
+                  variant="outline"
                   className="justify-start"
-                  style={{ backgroundColor: "#4373A9", color: "white", borderColor: "#4373A9" }}
                   onClick={() =>
                     setOrderSortBy(orderSortBy === "recent" ? "oldest" : "recent")
                   }
