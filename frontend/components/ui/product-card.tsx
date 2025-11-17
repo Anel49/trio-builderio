@@ -267,7 +267,7 @@ export function ProductCard({
                 "p-2",
               )}
             >
-              <Badge className={combineTokens("bg-blue-100 text-blue-700")}>
+              <Badge className={combineTokens("bg-[#4373A9] text-white")}>
                 Instant Booking
               </Badge>
             </div>
