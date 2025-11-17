@@ -8,6 +8,7 @@ import { MultiSelectCategories } from "@/components/ui/multi-select-categories";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import Header from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { useSearchParams } from "react-router-dom";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { Container } from "@/components/Container";
