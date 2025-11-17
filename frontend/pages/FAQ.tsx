@@ -13,6 +13,8 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { COMPANY_NAME } from "@/lib/constants";
+import { usePageTitle } from "@/hooks/use-page-title";
+import { useState, ReactNode } from "react";
 
 type FAQSection = "general" | "account" | "renter" | "host";
 
