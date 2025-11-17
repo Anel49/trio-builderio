@@ -305,6 +305,7 @@ export const layouts = {
   absolute: {
     topRight: "absolute top-3 right-3",
     bottomLeft: "absolute bottom-3 left-3",
+    bottomRight: "absolute bottom-3 right-3",
     center:
       "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
     topCenter: "absolute -top-14 left-1/2 transform -translate-x-1/2",
