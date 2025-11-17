@@ -27,7 +27,9 @@ export const usePageTitle = (
       } else {
         title = `Listing | ${COMPANY_NAME}`;
       }
-    } else if (pathname === "/profile" || pathname.startsWith("/profile/")) {
+    } else if (pathname === "/profile") {
+      title = `Your Profile | ${COMPANY_NAME}`;
+    } else if (pathname.startsWith("/profile/")) {
       if (dynamicData?.userName) {
         title = `${dynamicData.userName}'s Profile | ${COMPANY_NAME}`;
       } else {
