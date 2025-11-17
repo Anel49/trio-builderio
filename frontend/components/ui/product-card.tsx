@@ -92,10 +92,6 @@ export function ProductCard({
   const navigate = useNavigate();
   const { user } = useAuth();
   const [isHeartHovered, setIsHeartHovered] = useState(false);
-
-  if (id === 50) {
-    console.log(`[ProductCard] Listing 50 - instantBookings value: ${instantBookings} (type: ${typeof instantBookings})`);
-  }
   const distanceText =
     typeof distance === "string" && distance.trim() ? distance.trim() : null;
   const resolvedDistance = distanceText ?? "Distance unavailable";
