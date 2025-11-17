@@ -414,12 +414,20 @@ export default function ProductDetails() {
             : `listings/${params.id}`;
         const response = await apiFetch(path);
         if (!response.ok || cancelled) {
-          if (!cancelled) setProduct(null);
+          if (!cancelled) {
+            setProduct(null);
+            setProductNotFound(true);
+            setProductLoading(false);
+          }
           return;
         }
         const d = await response.json().catch(() => null);
         if (!d || !d.ok || !d.listing || cancelled) {
-          if (!cancelled) setProduct(null);
+          if (!cancelled) {
+            setProduct(null);
+            setProductNotFound(true);
+            setProductLoading(false);
+          }
           return;
         }
         const l = d.listing;
