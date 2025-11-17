@@ -172,6 +172,7 @@ export default function Profile() {
   const [isLoadingOtherUser, setIsLoadingOtherUser] = useState(
     Boolean(username),
   );
+  const [otherUserNotFound, setOtherUserNotFound] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const initialLocation = getCurrentUserLocation();
