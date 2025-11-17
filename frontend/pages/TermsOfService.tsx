@@ -13,7 +13,6 @@ import {
   COMPANY_EMAIL,
 } from "@/lib/constants";
 import { usePageTitle } from "@/hooks/use-page-title";
-import { useState } from "react";
 
 type PolicyType = "terms" | "privacy" | "cookies";
 
