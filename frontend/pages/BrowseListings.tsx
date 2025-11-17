@@ -212,6 +212,7 @@ export default function BrowseListings() {
     categories: [] as string[],
     offersDelivery: false,
     offersFreeDelivery: false,
+    instantBookings: false,
   });
   const [appliedFilters, setAppliedFilters] = useState({
     minPrice: "",
@@ -221,6 +222,7 @@ export default function BrowseListings() {
     categories: [] as string[],
     offersDelivery: false,
     offersFreeDelivery: false,
+    instantBookings: false,
   });
 
   // Sort state
