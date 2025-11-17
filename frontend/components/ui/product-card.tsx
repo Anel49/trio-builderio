@@ -269,7 +269,7 @@ export function ProductCard({
             >
               <Badge
                 variant="default"
-                style={{ backgroundColor: "#4373A9", color: "white", borderColor: "#4373A9" }}
+                style={{ backgroundColor: "rgba(67, 115, 169, 0.6)", color: "white", borderColor: "rgba(67, 115, 169, 0.6)" }}
               >
                 Instant Booking
               </Badge>
