@@ -691,6 +691,7 @@ export default function Index() {
                   key={listing.id}
                   className="snap-start min-w-[280px] sm:min-w-[320px]"
                 >
+                  {listing.id === 50 && console.log("[Index.tsx] Passing to ProductCard for listing 50 - instantBookings:", listing.instantBookings)}
                   <ProductCard
                     id={listing.id}
                     name={listing.name}
