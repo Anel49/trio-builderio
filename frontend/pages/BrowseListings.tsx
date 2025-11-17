@@ -170,6 +170,8 @@ export default function BrowseListings() {
   });
   const [isLoadingDistances, setIsLoadingDistances] = useState(false);
 
+  usePageTitle();
+
   React.useEffect(() => {
     try {
       const saved = localStorage.getItem("searchDateRange");
