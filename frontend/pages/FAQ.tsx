@@ -27,6 +27,8 @@ export default function FAQ() {
   const [selectedSection, setSelectedSection] = useState<FAQSection>("general");
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
+  usePageTitle();
+
   const sections = [
     {
       id: "general" as FAQSection,
