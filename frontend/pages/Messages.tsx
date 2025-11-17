@@ -711,6 +711,8 @@ export default function Messages() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Footer />
     </div>
   );
 }
