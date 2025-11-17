@@ -858,7 +858,7 @@ export default function OrderHistory() {
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="justify-start">
-                          <Filter className="h-4 w-4 mr-2" />
+                          <ArrowDownUp className="h-4 w-4 mr-2" />
                           <span>
                             Sort:{" "}
                             {requestSortBy === "recent"
