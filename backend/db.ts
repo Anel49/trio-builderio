@@ -105,7 +105,7 @@ export async function dbSetup(_req: Request, res: Response) {
     await pool.query(`
       create table if not exists reservations (
         id serial primary key,
-        listing_id integer not null references listings(id) on delete cascade,
+        listing_id integer not null references listings(id) on delete restrict,
         start_date date not null,
         end_date date not null,
         status text not null default 'pending',
