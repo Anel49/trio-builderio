@@ -442,6 +442,8 @@ export default function ProductDetails() {
             host: typeof l.host === "string" ? l.host : undefined,
             hostUserId:
               typeof l.hostUserId === "number" ? l.hostUserId : undefined,
+            hostUsername:
+              typeof l.hostUsername === "string" ? l.hostUsername : undefined,
             hostAvatarUrl:
               typeof l.hostAvatarUrl === "string" ? l.hostAvatarUrl : null,
             hostRating:
