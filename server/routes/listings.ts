@@ -568,6 +568,7 @@ export async function getListingById(req: Request, res: Response) {
       delivery: Boolean(r.delivery),
       freeDelivery: Boolean(r.free_delivery),
       enabled: typeof r.enabled === "boolean" ? r.enabled : true,
+      instantBookings: Boolean(r.instant_bookings),
     };
     res.json({ ok: true, listing });
   } catch (error: any) {
