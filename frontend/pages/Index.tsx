@@ -244,6 +244,7 @@ export default function Index() {
       distance: null,
       delivery: false,
       freeDelivery: false,
+      instantBookings: false,
     },
     {
       id: 7,
@@ -261,6 +262,7 @@ export default function Index() {
       distance: null,
       delivery: true,
       freeDelivery: false,
+      instantBookings: false,
     },
     {
       id: 8,
