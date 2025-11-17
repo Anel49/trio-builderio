@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import Header from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { format } from "date-fns";
 import { LoginModal } from "@/components/ui/login-modal";
