@@ -83,6 +83,16 @@ export default function FAQ() {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
+      question: "What is Instant Booking?",
+      answer:
+        "Instant Booking is an optional listing configuration that automatically approves eligible booking requests without requiring approval from the host. Upon submission, renters will be redirected to the checkout page for payment.",
+    },
+    {
+      question: "How long do renters have to complete payment after their reservation is approved?",
+      answer:
+        "Renters must complete payment within 24 hours of the reservation being approved, and in all cases, no later than 12 hours before the rental period begins. Failure to pay within either of the required payment periods will result in automatic rejection of the reservation.",
+    },
+    {
       question: "Do you offer delivery?",
       answer: `${COMPANY_NAME} does not offer delivery—yet. However, hosts can advertise that they will deliver to you. Look for listings marked with "Offers delivery" or "Offers free delivery". Delivery address and fee will be decided through messages between the host and renter.`,
     },
