@@ -821,14 +821,13 @@ export default function ProductDetails() {
         <Header />
         <div className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
           <div className="flex flex-col items-center justify-center gap-4">
-            <h1 className="text-3xl font-bold text-foreground">Listing not found</h1>
+            <h1 className="text-3xl font-bold text-foreground">
+              Listing not found
+            </h1>
             <p className="text-muted-foreground">
               The listing you're looking for doesn't exist or has been removed.
             </p>
-            <Button
-              onClick={() => navigate("/browse")}
-              className="mt-4"
-            >
+            <Button onClick={() => navigate("/browse")} className="mt-4">
               Browse Listings
             </Button>
           </div>

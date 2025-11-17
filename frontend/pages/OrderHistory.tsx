@@ -504,13 +504,14 @@ export default function OrderHistory() {
                   variant="outline"
                   className="justify-start"
                   onClick={() =>
-                    setOrderSortBy(orderSortBy === "recent" ? "oldest" : "recent")
+                    setOrderSortBy(
+                      orderSortBy === "recent" ? "oldest" : "recent",
+                    )
                   }
                 >
                   <ArrowDownUp className="h-4 w-4 mr-2" />
                   <span>
-                    Sort:{" "}
-                    {orderSortBy === "recent" ? "Most recent" : "Oldest"}
+                    Sort: {orderSortBy === "recent" ? "Most recent" : "Oldest"}
                   </span>
                 </Button>
               </div>
@@ -843,15 +844,15 @@ export default function OrderHistory() {
                     variant="outline"
                     className="justify-start"
                     onClick={() =>
-                      setRequestSortBy(requestSortBy === "recent" ? "oldest" : "recent")
+                      setRequestSortBy(
+                        requestSortBy === "recent" ? "oldest" : "recent",
+                      )
                     }
                   >
                     <ArrowDownUp className="h-4 w-4 mr-2" />
                     <span>
                       Sort:{" "}
-                      {requestSortBy === "recent"
-                        ? "Most recent"
-                        : "Oldest"}
+                      {requestSortBy === "recent" ? "Most recent" : "Oldest"}
                     </span>
                   </Button>
                 </div>
