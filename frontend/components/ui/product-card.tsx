@@ -87,6 +87,7 @@ export function ProductCard({
   freeDelivery,
   isFavorited = false,
   enabled = true,
+  instantBookings = false,
 }: ProductCardProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
