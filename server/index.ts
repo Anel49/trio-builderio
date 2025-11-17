@@ -328,6 +328,7 @@ export function createServer() {
   app.patch("/api/listings/bulk/update-enabled", bulkUpdateListingsEnabled);
   app.get("/api/listings/:id/reviews", listListingReviews);
   app.get("/api/listings/:id/reservations", listListingReservations);
+  app.post("/api/reservations", createReservation);
   // Users
   app.get("/api/users", getUserByEmail); // query: email
   app.get("/api/users/:id", getUserById); // param: id
