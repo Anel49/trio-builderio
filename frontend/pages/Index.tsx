@@ -60,6 +60,8 @@ export default function Index() {
   const { user: authUser, authenticated } = useAuth();
   // const { setPageLoading } = usePageLoading();
 
+  usePageTitle();
+
   // useEffect(() => {
   //   setPageLoading(false);
   // }, [setPageLoading]);
