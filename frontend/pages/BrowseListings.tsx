@@ -736,6 +736,11 @@ export default function BrowseListings() {
         return false;
       }
 
+      // Instant bookings filter
+      if (appliedFilters.instantBookings && !listing.instantBookings) {
+        return false;
+      }
+
       // Availability filter: only when a date range is selected
       if (dateRange.start && dateRange.end) {
         const listingId = String(listing.id);
