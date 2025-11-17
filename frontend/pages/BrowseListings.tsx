@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import Header from "@/components/Header";
 import { useSearchParams } from "react-router-dom";
+import { usePageTitle } from "@/hooks/use-page-title";
 import { Container } from "@/components/Container";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
