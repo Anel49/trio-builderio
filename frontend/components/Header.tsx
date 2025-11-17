@@ -119,7 +119,7 @@ export default function Header() {
                     <MessageCircle className="h-5 w-5" />
                   </Button>
 
-                  {/* Orders and Requests Link */}
+                  {/* Rentals and Requests Link */}
                   <Button
                     variant="ghost"
                     size="icon"
