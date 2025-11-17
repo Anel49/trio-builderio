@@ -517,7 +517,7 @@ export default function OrderHistory() {
 
           {/* Orders List */}
           <div className="space-y-4">
-            {filteredOrders.length === 0 ? (
+            {sortedOrders.length === 0 ? (
               <Card>
                 <CardContent className="p-12 text-center">
                   <div className="text-muted-foreground mb-4">
