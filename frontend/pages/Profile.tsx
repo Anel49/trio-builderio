@@ -1747,6 +1747,7 @@ export default function Profile() {
                         }}
                         delivery={item.delivery}
                         freeDelivery={item.freeDelivery}
+                        instantBookings={item.instantBookings}
                       />
                     ))}
                   </div>
