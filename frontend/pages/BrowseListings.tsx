@@ -1122,6 +1122,26 @@ export default function BrowseListings() {
                     </div>
                   </div>
 
+                  {/* Instant Bookings */}
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="instant-bookings"
+                      checked={filters.instantBookings}
+                      onCheckedChange={(checked) =>
+                        setFilters({
+                          ...filters,
+                          instantBookings: checked === true,
+                        })
+                      }
+                    />
+                    <label
+                      htmlFor="instant-bookings"
+                      className="text-sm cursor-pointer font-normal"
+                    >
+                      Instant Booking
+                    </label>
+                  </div>
+
                   {/* Delivery Options */}
                   <div>
                     <Label className="text-sm font-medium">
@@ -1162,24 +1182,6 @@ export default function BrowseListings() {
                           className="text-sm cursor-pointer font-normal"
                         >
                           Offers free delivery
-                        </label>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          id="instant-bookings"
-                          checked={filters.instantBookings}
-                          onCheckedChange={(checked) =>
-                            setFilters({
-                              ...filters,
-                              instantBookings: checked === true,
-                            })
-                          }
-                        />
-                        <label
-                          htmlFor="instant-bookings"
-                          className="text-sm cursor-pointer font-normal"
-                        >
-                          Instant Booking
                         </label>
                       </div>
                     </div>
