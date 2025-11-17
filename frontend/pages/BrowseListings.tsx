@@ -1520,6 +1520,8 @@ export default function BrowseListings() {
           </Card>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
