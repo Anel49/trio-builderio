@@ -828,12 +828,17 @@ export default function Profile() {
         return;
       }
 
+      setOtherUserNotFound(false);
+
       // setPageLoading(true);
 
       try {
         const response = await fetch(`/api/users/username/${username}`);
         if (!response.ok || cancelled) {
-          setIsLoadingOtherUser(false);
+          if (!cancelled) {
+            setOtherUserNotFound(true);
+            setIsLoadingOtherUser(false);
+          }
           // setPageLoading(false);
           return;
         }
@@ -841,9 +846,15 @@ export default function Profile() {
         const data = await response.json();
         if (data.ok && data.user && !cancelled) {
           setOtherUserData(data.user);
+          setOtherUserNotFound(false);
+        } else if (!cancelled) {
+          setOtherUserNotFound(true);
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
+        if (!cancelled) {
+          setOtherUserNotFound(true);
+        }
       } finally {
         if (!cancelled) {
           setIsLoadingOtherUser(false);
