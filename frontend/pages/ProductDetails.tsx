@@ -349,6 +349,7 @@ export default function ProductDetails() {
     hostCreatedAt?: string | null;
     delivery?: boolean;
     freeDelivery?: boolean;
+    instantBookings?: boolean;
   }>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
