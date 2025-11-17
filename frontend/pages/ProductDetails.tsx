@@ -981,12 +981,17 @@ export default function ProductDetails() {
                   </Tooltip>
                 </TooltipProvider>
               </div>
-              {(product.instantBookings || product.categories.filter(Boolean).length > 0) && (
+              {(product.instantBookings ||
+                product.categories.filter(Boolean).length > 0) && (
                 <div className="flex flex-wrap gap-2 mb-3">
                   {product.instantBookings && (
                     <Badge
                       variant="default"
-                      style={{ backgroundColor: "#4373A9", color: "white", borderColor: "#4373A9" }}
+                      style={{
+                        backgroundColor: "#4373A9",
+                        color: "white",
+                        borderColor: "#4373A9",
+                      }}
                     >
                       Instant Booking
                     </Badge>
