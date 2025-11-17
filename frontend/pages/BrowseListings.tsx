@@ -1163,6 +1163,24 @@ export default function BrowseListings() {
                           Offers free delivery
                         </label>
                       </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id="instant-bookings"
+                          checked={filters.instantBookings}
+                          onCheckedChange={(checked) =>
+                            setFilters({
+                              ...filters,
+                              instantBookings: checked === true,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor="instant-bookings"
+                          className="text-sm cursor-pointer font-normal"
+                        >
+                          Instant Booking
+                        </label>
+                      </div>
                     </div>
                   </div>
                   {/* Apply Button */}
