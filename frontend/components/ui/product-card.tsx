@@ -260,6 +260,18 @@ export function ProductCard({
               ))}
             </div>
           )}
+          {instantBookings && (
+            <div
+              className={combineTokens(
+                layouts.absolute.bottomRight,
+                "p-2",
+              )}
+            >
+              <Badge className={combineTokens("bg-blue-100 text-blue-700")}>
+                Instant Booking
+              </Badge>
+            </div>
+          )}
         </div>
 
         <CardContent className={spacing.padding.card}>
