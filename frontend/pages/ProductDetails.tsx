@@ -326,6 +326,8 @@ export default function ProductDetails() {
     "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=600&h=400&fit=crop&auto=format",
   ];
 
+  const [productLoading, setProductLoading] = useState(true);
+  const [productNotFound, setProductNotFound] = useState(false);
   const [product, setProduct] = useState<null | {
     name: string;
     price: string;
