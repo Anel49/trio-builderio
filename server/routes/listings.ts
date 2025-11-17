@@ -223,6 +223,7 @@ export async function listListings(req: Request, res: Response) {
         delivery: Boolean(r.delivery),
         freeDelivery: Boolean(r.free_delivery),
         enabled: typeof r.enabled === "boolean" ? r.enabled : true,
+        instantBookings: Boolean(r.instant_bookings),
       };
       if (r.id === 20) {
         console.log("[listListings] Listing 20:", JSON.stringify(listing));
