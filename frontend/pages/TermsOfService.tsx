@@ -20,6 +20,8 @@ type PolicyType = "terms" | "privacy" | "cookies";
 export default function TermsOfService() {
   const [selectedPolicy, setSelectedPolicy] = useState<PolicyType>("terms");
 
+  usePageTitle();
+
   const policies = [
     {
       id: "terms" as PolicyType,
