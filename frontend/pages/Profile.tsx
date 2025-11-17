@@ -931,6 +931,7 @@ export default function Profile() {
             delivery: typeof l.delivery === "boolean" ? l.delivery : false,
             freeDelivery:
               typeof l.freeDelivery === "boolean" ? l.freeDelivery : false,
+            instantBookings: Boolean(l.instantBookings),
           };
         });
         if (cancelled) return;
