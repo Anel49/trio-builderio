@@ -733,7 +733,7 @@ export default function OrderHistory() {
           </div>
 
           {/* Load More */}
-          {filteredOrders.length > 0 && (
+          {sortedOrders.length > 0 && (
             <div className="mt-8 text-center">
               <Button variant="outline" size="lg">
                 Load More Orders
