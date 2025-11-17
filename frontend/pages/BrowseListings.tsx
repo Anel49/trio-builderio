@@ -604,6 +604,7 @@ export default function BrowseListings() {
             ),
             delivery: Boolean(l.delivery || l.delivery_available),
             freeDelivery: Boolean(l.freeDelivery || l.free_delivery),
+            instantBookings: Boolean(l.instantBookings),
           };
         });
 
