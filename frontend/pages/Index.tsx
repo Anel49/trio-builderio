@@ -374,6 +374,7 @@ export default function Index() {
             ...l,
             distance,
             distanceMiles,
+            instantBookings: Boolean(l.instantBookings),
           };
         });
 
