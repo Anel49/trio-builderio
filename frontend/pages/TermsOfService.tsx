@@ -407,8 +407,8 @@ const TermsOfServiceContent = () => (
             Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental
             price, charged from the renter. This fee is to insure the renter
             throughout the rental period. This fee is not charged again with
-            rental extensions. The renter's maximum out-of-pocket insurance payment
-            is capped at $50.
+            rental extensions. The renter's maximum out-of-pocket insurance
+            payment is capped at $50.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
             These coverages are subject to change based on the platform’s
@@ -431,13 +431,17 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Tipping</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Did you have a positive experience with your host? Were they especially
-            helpful, accommodating, or attentive to your specific needs? After your
-            rental is complete, you have the option to leave a tip as a way to show
-            your appreciation. Hosts receive 100% of any tips provided. 
-            <span style={{ fontWeight: 700 }}> Listing items
-            at artificially low prices or soliciting tips to circumvent {COMPANY_NAME}’s
-            payment system is prohibited and will result in removal from the platform.</span>
+            Did you have a positive experience with your host? Were they
+            especially helpful, accommodating, or attentive to your specific
+            needs? After your rental is complete, you have the option to leave a
+            tip as a way to show your appreciation. Hosts receive 100% of any
+            tips provided.
+            <span style={{ fontWeight: 700 }}>
+              {" "}
+              Listing items at artificially low prices or soliciting tips to
+              circumvent {COMPANY_NAME}’s payment system is prohibited and will
+              result in removal from the platform.
+            </span>
           </p>
         </div>
         <div>

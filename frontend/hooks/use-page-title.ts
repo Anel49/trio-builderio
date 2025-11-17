@@ -3,12 +3,10 @@ import { useLocation, useParams } from "react-router-dom";
 
 const COMPANY_NAME = "LendIt";
 
-export const usePageTitle = (
-  dynamicData?: {
-    listingName?: string;
-    userName?: string;
-  },
-) => {
+export const usePageTitle = (dynamicData?: {
+  listingName?: string;
+  userName?: string;
+}) => {
   const location = useLocation();
   const params = useParams();
 
@@ -43,7 +41,10 @@ export const usePageTitle = (
       title = `Listing Creation | ${COMPANY_NAME}`;
     } else if (pathname === "/checkout") {
       title = `Checkout | ${COMPANY_NAME}`;
-    } else if (pathname === "/terms-of-service" || pathname === "/TermsOfService") {
+    } else if (
+      pathname === "/terms-of-service" ||
+      pathname === "/TermsOfService"
+    ) {
       title = `Terms of Service | ${COMPANY_NAME}`;
     } else if (pathname === "/faq") {
       title = `FAQs | ${COMPANY_NAME}`;
