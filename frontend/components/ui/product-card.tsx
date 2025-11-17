@@ -261,15 +261,14 @@ export function ProductCard({
             </div>
           )}
           {instantBookings && (
-            <div
-              className={combineTokens(
-                layouts.absolute.bottomRight,
-                "p-2",
-              )}
-            >
+            <div className={combineTokens(layouts.absolute.bottomRight, "p-2")}>
               <Badge
                 variant="default"
-                style={{ backgroundColor: "rgba(67, 115, 169, 0.6)", color: "white", borderColor: "rgba(67, 115, 169, 0.6)" }}
+                style={{
+                  backgroundColor: "rgba(67, 115, 169, 0.6)",
+                  color: "white",
+                  borderColor: "rgba(67, 115, 169, 0.6)",
+                }}
               >
                 Instant Booking
               </Badge>
