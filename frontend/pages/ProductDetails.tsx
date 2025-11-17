@@ -1134,6 +1134,7 @@ export default function ProductDetails() {
 
                       if (hasConflict) {
                         setReservations(mapped);
+                        setSelectedDateRange({ start: null, end: null });
                         setShowConflictModal(true);
                       } else {
                         // Create reservation
