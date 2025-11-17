@@ -1685,7 +1685,10 @@ export default function ProductDetails() {
             </p>
           </div>
           <Button
-            onClick={() => setShowConflictModal(false)}
+            onClick={() => {
+              setShowConflictModal(false);
+              setSelectedDateRange({ start: null, end: null });
+            }}
             className="w-full"
           >
             Got it
