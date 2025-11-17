@@ -480,9 +480,15 @@ export default function ProductDetails() {
                 ? l.instantBookings
                 : false,
           });
+          setProductLoading(false);
+          setProductNotFound(false);
         }
       } catch {
-        if (!cancelled) setProduct(null);
+        if (!cancelled) {
+          setProduct(null);
+          setProductNotFound(true);
+          setProductLoading(false);
+        }
       }
     })();
     return () => {
