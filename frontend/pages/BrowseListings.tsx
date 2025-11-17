@@ -1007,7 +1007,8 @@ export default function BrowseListings() {
                     (appliedFilters.categories &&
                       appliedFilters.categories.length > 0) ||
                     appliedFilters.offersDelivery ||
-                    appliedFilters.offersFreeDelivery
+                    appliedFilters.offersFreeDelivery ||
+                    appliedFilters.instantBookings
                       ? "default"
                       : "outline"
                   }
