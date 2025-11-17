@@ -839,34 +839,21 @@ export default function OrderHistory() {
                     </DropdownMenuContent>
                   </DropdownMenu>
 
-                  <div className="flex flex-col gap-2">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="justify-start">
-                          <ArrowDownUp className="h-4 w-4 mr-2" />
-                          <span>
-                            Sort:{" "}
-                            {requestSortBy === "recent"
-                              ? "Most recent"
-                              : "Oldest"}
-                          </span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuRadioGroup
-                          value={requestSortBy}
-                          onValueChange={setRequestSortBy as any}
-                        >
-                          <DropdownMenuRadioItem value="recent">
-                            Most recent
-                          </DropdownMenuRadioItem>
-                          <DropdownMenuRadioItem value="oldest">
-                            Oldest
-                          </DropdownMenuRadioItem>
-                        </DropdownMenuRadioGroup>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
+                  <Button
+                    className="justify-start"
+                    style={{ backgroundColor: "#4373A9", color: "white", borderColor: "#4373A9" }}
+                    onClick={() =>
+                      setRequestSortBy(requestSortBy === "recent" ? "oldest" : "recent")
+                    }
+                  >
+                    <ArrowDownUp className="h-4 w-4 mr-2" />
+                    <span>
+                      Sort:{" "}
+                      {requestSortBy === "recent"
+                        ? "Most recent"
+                        : "Oldest"}
+                    </span>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
