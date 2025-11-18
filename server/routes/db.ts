@@ -202,6 +202,43 @@ export async function dbSetup(_req: Request, res: Response) {
         photo_id text,
         created_at timestamptz default now()
       );
+
+      create table if not exists orders (
+        id serial primary key,
+        order_id integer not null unique,
+        host_id integer references users(id),
+        host_name text,
+        host_email text,
+        renter_id integer references users(id),
+        renter_name text,
+        renter_email text,
+        listing_title text,
+        listing_image text,
+        listing_latitude double precision,
+        listing_longitude double precision,
+        listing_zip_code text,
+        daily_price_cents integer,
+        platform_charge_cents integer,
+        total_days integer,
+        subtotal_cents integer,
+        discount_percentage numeric(5, 3),
+        discount_cents integer,
+        tax_percentage numeric(5, 3),
+        tax_cents integer,
+        total_cents integer,
+        currency text default 'USD',
+        payment_status text default 'pending',
+        start_date timestamptz,
+        end_date timestamptz,
+        rental_type text default 'item',
+        status text default 'confirmed',
+        review_id integer,
+        review_message text,
+        created_at timestamptz default now(),
+        last_modified timestamptz,
+        modified_by_id integer,
+        constraint fk_orders_reservation_review foreign key (review_id) references listing_reviews(id)
+      );
     `);
 
     // Add new columns to favorites table if they don't exist
