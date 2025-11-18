@@ -70,7 +70,7 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table listings add column if not exists instant_bookings boolean default false;
       create table if not exists listing_images (
         id serial primary key,
-        listing_id integer not null references listings(id) on delete restrict,
+        listing_id integer not null references listings(id),
         url text not null,
         position integer,
         created_at timestamptz default now()
@@ -84,7 +84,7 @@ export async function dbSetup(_req: Request, res: Response) {
         );
       create table if not exists listing_categories (
         id serial primary key,
-        listing_id integer not null references listings(id) on delete restrict,
+        listing_id integer not null references listings(id),
         category text not null,
         position integer,
         created_at timestamptz default now()
@@ -117,7 +117,7 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table users add column if not exists username text unique;
       create table if not exists reservations (
         id serial primary key,
-        listing_id integer not null references listings(id) on delete restrict,
+        listing_id integer not null references listings(id),
         renter_id integer references users(id) on delete set null,
         start_date date not null,
         end_date date not null,
@@ -126,7 +126,7 @@ export async function dbSetup(_req: Request, res: Response) {
       );
       create table if not exists favorites (
         user_id text not null,
-        listing_id integer not null references listings(id) on delete restrict,
+        listing_id integer not null references listings(id),
         listing_name text,
         listing_image text,
         listing_host text,
@@ -159,7 +159,7 @@ export async function dbSetup(_req: Request, res: Response) {
       end $$;
       create table if not exists reviews (
         id serial primary key,
-        listing_id integer not null references listings(id) on delete restrict,
+        listing_id integer not null references listings(id),
         reviewer text,
         rating numeric(2,1),
         comment text,
@@ -167,8 +167,8 @@ export async function dbSetup(_req: Request, res: Response) {
       );
       create table if not exists listing_reviews (
         id serial primary key,
-        listing_id integer not null references listings(id) on delete restrict,
-        reviewer_id integer not null references users(id) on delete restrict,
+        listing_id integer not null references listings(id),
+        reviewer_id integer not null references users(id),
         rating numeric(2,1) not null,
         comment text,
         helpful_count integer default 0,
@@ -180,11 +180,11 @@ export async function dbSetup(_req: Request, res: Response) {
       create index if not exists idx_listing_reviews_created_at on listing_reviews(created_at);
       create table if not exists user_reviews (
         id serial primary key,
-        reviewed_user_id integer not null references users(id) on delete restrict,
-        reviewer_id integer not null references users(id) on delete restrict,
+        reviewed_user_id integer not null references users(id),
+        reviewer_id integer not null references users(id),
         rating numeric(2,1) not null,
         comment text,
-        related_listing_id integer references listings(id) on delete set null,
+        related_listing_id integer references listings(id),
         created_at timestamptz default now(),
         updated_at timestamptz default now()
       );
@@ -194,7 +194,7 @@ export async function dbSetup(_req: Request, res: Response) {
       create index if not exists idx_user_reviews_created_at on user_reviews(created_at);
       create table if not exists user_credentials (
         id serial primary key,
-        user_id integer not null references users(id) on delete restrict,
+        user_id integer not null references users(id),
         first_name text not null,
         last_name text not null,
         email text not null unique,
