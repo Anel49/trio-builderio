@@ -853,10 +853,24 @@ export default function ProductDetails() {
 
   const hasSelectedDates =
     Boolean(selectedDateRange.start && selectedDateRange.end);
+
+  console.log("[DEBUG] hasSelectedDates:", hasSelectedDates, {
+    start: selectedDateRange.start,
+    end: selectedDateRange.end,
+  });
+
   const hasSelectedValidRange =
     hasSelectedDates && isDateRangeValid();
   const showTotalPrice =
     product.rentalPeriod === "Daily" && hasSelectedDates;
+
+  console.log("[DEBUG] showTotalPrice calculation:", {
+    rentalPeriod: product.rentalPeriod,
+    isDaily: product.rentalPeriod === "Daily",
+    hasSelectedDates,
+    showTotalPrice,
+  });
+
   const displayedPrice = showTotalPrice
     ? (() => {
         if (!selectedDateRange.start || !selectedDateRange.end)
@@ -867,6 +881,12 @@ export default function ProductDetails() {
           Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) +
           1;
         const numericRate = Number(product.price.replace(/[^0-9.]/g, ""));
+        console.log("[DEBUG] Price calculation:", {
+          days,
+          numericRate,
+          price: product.price,
+          total: numericRate * days,
+        });
         if (!Number.isFinite(numericRate)) return product.price;
         const total = numericRate * days;
         return `$${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}`;
@@ -874,18 +894,11 @@ export default function ProductDetails() {
     : product.price;
   const priceSubLabel = showTotalPrice ? "total" : "per day";
 
-  // DEBUG LOGGING
-  useEffect(() => {
-    console.log("[ProductDetails Price Debug]", {
-      hasSelectedDates,
-      showTotalPrice,
-      rentalPeriod: product.rentalPeriod,
-      selectedDateRange,
-      displayedPrice,
-      priceSubLabel,
-      productPrice: product.price,
-    });
-  }, [hasSelectedDates, showTotalPrice, product.rentalPeriod, selectedDateRange, displayedPrice, priceSubLabel, product.price]);
+  console.log("[DEBUG] Final price display:", {
+    displayedPrice,
+    priceSubLabel,
+    showTotalPrice,
+  });
 
   return (
     <div className="min-h-screen bg-background">
