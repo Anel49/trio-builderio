@@ -20,7 +20,6 @@ interface DateRangePickerProps {
   maxDate?: Date;
   className?: string;
   buttonClassName?: string;
-  rentalPeriod?: string;
 }
 
 export function DateRangePicker({
@@ -31,11 +30,9 @@ export function DateRangePicker({
   maxDate,
   className,
   buttonClassName,
-  rentalPeriod = "Daily",
 }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const isWeeklyRental = rentalPeriod === "Weekly";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
