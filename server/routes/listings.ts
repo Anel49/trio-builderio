@@ -7,17 +7,6 @@ import {
   normalizeZipCode,
 } from "../lib/geo";
 
-const VALID_RENTAL_PERIODS = ["Hourly", "Daily", "Weekly", "Monthly"];
-const DEFAULT_RENTAL_PERIOD = "Daily";
-
-function normalizeRentalPeriod(value: any): string {
-  if (typeof value !== "string") return DEFAULT_RENTAL_PERIOD;
-  const lower = value.trim().toLowerCase();
-  const match = VALID_RENTAL_PERIODS.find(
-    (period) => period.toLowerCase() === lower,
-  );
-  return match ?? DEFAULT_RENTAL_PERIOD;
-}
 
 function parseCoordinate(value: unknown): number | null {
   if (typeof value === "number" && Number.isFinite(value)) return value;
@@ -79,7 +68,7 @@ export async function listListings(req: Request, res: Response) {
 
     let result: any;
     try {
-      let sql = `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.latitude, l.longitude, l.rental_period, l.user_id,
+      let sql = `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.latitude, l.longitude, l.user_id,
                 coalesce(l.delivery, false) as delivery, coalesce(l.free_delivery, false) as free_delivery, coalesce(l.enabled, true) as enabled, coalesce(l.instant_bookings, false) as instant_bookings,
                 round(coalesce(avg(lr.rating)::numeric, 0), 1) as avg_review_rating,
                 count(lr.id)::int as review_count,
@@ -112,7 +101,7 @@ export async function listListings(req: Request, res: Response) {
         sql += ` where ${conditions.join(" and ")}`;
       }
 
-      sql += ` group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.latitude, l.longitude, l.rental_period, l.user_id, l.delivery, l.free_delivery, l.enabled, l.instant_bookings, u.open_dms, u.created_at, u.username
+      sql += ` group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.zip_code, l.created_at, l.latitude, l.longitude, l.user_id, l.delivery, l.free_delivery, l.enabled, l.instant_bookings, u.open_dms, u.created_at, u.username
                order by l.created_at desc limit 50`;
 
       console.log("[listListings] Executing SQL:", sql, "Params:", params);
