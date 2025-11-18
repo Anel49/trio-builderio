@@ -66,10 +66,6 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     console.log("[dbSetup] Added zip_code column");
 
-    await pool.query(
-      `alter table listings add column if not exists rental_period text`,
-    );
-    console.log("[dbSetup] Added rental_period column");
 
     await pool.query(
       `alter table listings add column if not exists description text`,
