@@ -874,6 +874,19 @@ export default function ProductDetails() {
     : product.price;
   const priceSubLabel = showTotalPrice ? "total" : "per day";
 
+  // DEBUG LOGGING
+  useEffect(() => {
+    console.log("[ProductDetails Price Debug]", {
+      hasSelectedDates,
+      showTotalPrice,
+      rentalPeriod: product.rentalPeriod,
+      selectedDateRange,
+      displayedPrice,
+      priceSubLabel,
+      productPrice: product.price,
+    });
+  }, [hasSelectedDates, showTotalPrice, product.rentalPeriod, selectedDateRange, displayedPrice, priceSubLabel, product.price]);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
