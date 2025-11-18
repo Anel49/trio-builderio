@@ -127,6 +127,9 @@ export async function dbSetup(_req: Request, res: Response) {
       create table if not exists favorites (
         user_id text not null,
         listing_id integer not null references listings(id) on delete restrict,
+        listing_name text,
+        listing_image text,
+        listing_host text,
         created_at timestamptz default now(),
         primary key (user_id, listing_id)
       );
