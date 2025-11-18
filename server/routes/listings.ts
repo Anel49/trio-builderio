@@ -298,7 +298,6 @@ export async function createListing(req: Request, res: Response) {
         ? [type]
         : [];
     const primaryCategory = cats[0] ?? null;
-    const rentalPeriodValue = normalizeRentalPeriod(rental_period);
     const deliveryValue = Boolean(delivery);
     const freeDeliveryValue = Boolean(free_delivery) && deliveryValue;
     const lat = parseCoordinate(latitude);
