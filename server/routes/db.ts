@@ -226,63 +226,52 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] listing_host column already exists");
     }
 
-    // Now fix any existing CASCADE constraints to be RESTRICT
+    // Remove any restrictive foreign key constraints to allow perpetual data
     try {
-      console.log("[dbSetup] Fixing foreign key constraints...");
+      console.log("[dbSetup] Removing restrictive foreign key constraints...");
 
-      // Drop CASCADE constraints and recreate with RESTRICT
-      const constraintFixes = [
-        { table: 'listing_images', column: 'listing_id', ref: 'listings' },
-        { table: 'listing_categories', column: 'listing_id', ref: 'listings' },
-        { table: 'reservations', column: 'listing_id', ref: 'listings' },
-        { table: 'favorites', column: 'listing_id', ref: 'listings' },
-        { table: 'reviews', column: 'listing_id', ref: 'listings' },
-        { table: 'listing_reviews', column: 'listing_id', ref: 'listings' },
-        { table: 'listing_reviews', column: 'reviewer_id', ref: 'users' },
-        { table: 'user_reviews', column: 'reviewed_user_id', ref: 'users' },
-        { table: 'user_reviews', column: 'reviewer_id', ref: 'users' },
-        { table: 'user_credentials', column: 'user_id', ref: 'users' },
+      // Drop RESTRICT constraints - keep references but allow deletion
+      const constraintsToDrop = [
+        { table: 'listing_images', column: 'listing_id' },
+        { table: 'listing_categories', column: 'listing_id' },
+        { table: 'reservations', column: 'listing_id' },
+        { table: 'favorites', column: 'listing_id' },
+        { table: 'reviews', column: 'listing_id' },
+        { table: 'listing_reviews', column: 'listing_id' },
+        { table: 'listing_reviews', column: 'reviewer_id' },
+        { table: 'user_reviews', column: 'reviewed_user_id' },
+        { table: 'user_reviews', column: 'reviewer_id' },
+        { table: 'user_credentials', column: 'user_id' },
       ];
 
-      for (const fix of constraintFixes) {
-        const constraintName = `${fix.table}_${fix.column}_fkey`;
+      for (const constraint of constraintsToDrop) {
+        const constraintName = `${constraint.table}_${constraint.column}_fkey`;
         try {
+          // Drop the constraint if it exists with RESTRICT
           await pool.query(
-            `alter table ${fix.table} drop constraint if exists ${constraintName}`
+            `alter table ${constraint.table} drop constraint if exists ${constraintName}`
           );
-
-          const deleteAction = fix.column === 'listing_id' ? 'restrict' : (fix.column.includes('from') || fix.column.includes('to')) ? 'set null' : 'restrict';
-          await pool.query(
-            `alter table ${fix.table} add constraint ${constraintName} foreign key (${fix.column}) references ${fix.ref}(id) on delete ${deleteAction}`
-          );
-          console.log(`[dbSetup] Fixed constraint ${constraintName}`);
+          console.log(`[dbSetup] Dropped constraint ${constraintName}`);
         } catch (e: any) {
-          console.log(`[dbSetup] Could not fix ${constraintName}:`, e?.message?.slice(0, 100));
+          console.log(`[dbSetup] Could not drop ${constraintName}:`, e?.message?.slice(0, 100));
         }
       }
 
-      // Fix message table constraints specially
-      const messageConstraints = [
-        { column: 'from_id', ref: 'users' },
-        { column: 'to_id', ref: 'users' },
-      ];
-
-      for (const msg of messageConstraints) {
-        const constraintName = `messages_${msg.column}_fkey`;
+      // Drop message constraints
+      const messageConstraints = ['from_id', 'to_id'];
+      for (const column of messageConstraints) {
+        const constraintName = `messages_${column}_fkey`;
         try {
           await pool.query(
             `alter table messages drop constraint if exists ${constraintName}`
           );
-          await pool.query(
-            `alter table messages add constraint ${constraintName} foreign key (${msg.column}) references ${msg.ref}(id) on delete set null`
-          );
-          console.log(`[dbSetup] Fixed constraint ${constraintName}`);
+          console.log(`[dbSetup] Dropped constraint ${constraintName}`);
         } catch (e: any) {
-          console.log(`[dbSetup] Could not fix ${constraintName}:`, e?.message?.slice(0, 100));
+          console.log(`[dbSetup] Could not drop ${constraintName}:`, e?.message?.slice(0, 100));
         }
       }
     } catch (e: any) {
-      console.log("[dbSetup] Error fixing constraints:", e?.message);
+      console.log("[dbSetup] Error removing constraints:", e?.message);
     }
 
     const countRes = await pool.query(
