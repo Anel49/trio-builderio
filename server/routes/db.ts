@@ -594,26 +594,13 @@ export async function dbSetup(_req: Request, res: Response) {
           -77.225,
         ],
       ];
-      const rentalPeriods = [
-        "Daily",
-        "Weekly",
-        "Daily",
-        "Monthly",
-        "Weekly",
-        "Daily",
-        "Hourly",
-        "Weekly",
-        "Daily",
-        "Monthly",
-      ];
       for (let i = 0; i < rows.length; i++) {
         const r = rows[i];
-        const rentalPeriod = rentalPeriods[i] || "Daily";
         const ins = await pool.query(
-          `insert into listings (name, price_cents, rating, image_url, host, category, zip_code, latitude, longitude, rental_period)
-           values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+          `insert into listings (name, price_cents, rating, image_url, host, category, zip_code, latitude, longitude)
+           values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
            returning id`,
-          [...r, rentalPeriod],
+          [...r],
         );
         const listingId = ins.rows[0].id;
         await pool.query(
