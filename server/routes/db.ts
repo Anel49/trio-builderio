@@ -545,28 +545,8 @@ export async function dbSetup(_req: Request, res: Response) {
     //   );
     // `);
 
-    // Seed favorites for demo user
-    const demoUserEmail = "demo@example.com";
-    await pool.query(
-      `
-      insert into favorites (user_id, listing_id)
-      select $1, l.id
-      from (
-        values
-          ('Riding Lawn Mower'),
-          ('Designer Dress'),
-          ('Professional Tool Set'),
-          ('Pro Camera Kit'),
-          ('Mountain Bike')
-      ) as f(listing_name)
-      join listings l on l.name = f.listing_name
-      where not exists (
-        select 1 from favorites x
-        where x.user_id = $1 and x.listing_id = l.id
-      );
-    `,
-      [demoUserEmail],
-    );
+    // Seed favorites disabled - user will add them manually after backend setup
+    // (favorites table now requires listing_name, listing_image, listing_host)
 
     // Seed messages between two users (will use first two users in the system)
     const usersResult = await pool.query(
