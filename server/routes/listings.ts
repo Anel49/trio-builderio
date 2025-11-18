@@ -887,7 +887,23 @@ export async function bulkUpdateListingsEnabled(req: Request, res: Response) {
 
 export async function createReservation(req: Request, res: Response) {
   try {
-    const { listing_id, renter_id, start_date, end_date } = req.body || {};
+    const {
+      listing_id,
+      renter_id,
+      host_id,
+      host_name,
+      renter_name,
+      start_date,
+      end_date,
+      listing_title,
+      listing_image,
+      listing_latitude,
+      listing_longitude,
+      daily_price_cents,
+      total_days,
+      rental_type,
+      status,
+    } = req.body || {};
 
     if (!listing_id || Number.isNaN(Number(listing_id))) {
       return res.status(400).json({ ok: false, error: "invalid listing_id" });
@@ -951,10 +967,34 @@ export async function createReservation(req: Request, res: Response) {
 
     // Create the reservation
     const result = await pool.query(
-      `insert into reservations (listing_id, renter_id, start_date, end_date, status, created_at)
-       values ($1, $2, $3::date, $4::date, 'pending', now())
-       returning id, listing_id, renter_id, start_date, end_date, status, created_at`,
-      [listing_id, renter_id, start_date, end_date],
+      `insert into reservations (
+        listing_id, renter_id, host_id, host_name, renter_name,
+        start_date, end_date, listing_title, listing_image,
+        listing_latitude, listing_longitude, daily_price_cents, total_days,
+        rental_type, status, created_at
+       )
+       values ($1, $2, $3, $4, $5, $6::date, $7::date, $8, $9, $10, $11, $12, $13, $14, $15, now())
+       returning id, listing_id, renter_id, host_id, host_name, renter_name,
+                 start_date, end_date, listing_title, listing_image,
+                 listing_latitude, listing_longitude, daily_price_cents, total_days,
+                 rental_type, status, created_at`,
+      [
+        listing_id,
+        renter_id,
+        host_id || null,
+        host_name || null,
+        renter_name || null,
+        start_date,
+        end_date,
+        listing_title || null,
+        listing_image || null,
+        listing_latitude || null,
+        listing_longitude || null,
+        daily_price_cents || null,
+        total_days || null,
+        rental_type || "item",
+        status || "pending",
+      ],
     );
 
     const reservation = result.rows[0];
@@ -970,8 +1010,18 @@ export async function createReservation(req: Request, res: Response) {
         id: String(reservation.id),
         listing_id: reservation.listing_id,
         renter_id: reservation.renter_id,
+        host_id: reservation.host_id,
+        host_name: reservation.host_name,
+        renter_name: reservation.renter_name,
         start_date: new Date(reservation.start_date).toISOString(),
         end_date: new Date(reservation.end_date).toISOString(),
+        listing_title: reservation.listing_title,
+        listing_image: reservation.listing_image,
+        listing_latitude: reservation.listing_latitude,
+        listing_longitude: reservation.listing_longitude,
+        daily_price_cents: reservation.daily_price_cents,
+        total_days: reservation.total_days,
+        rental_type: reservation.rental_type,
         status: reservation.status,
         created_at: reservation.created_at,
       },
