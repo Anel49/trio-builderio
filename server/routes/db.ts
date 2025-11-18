@@ -204,6 +204,28 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     `);
 
+    // Add new columns to favorites table if they don't exist
+    try {
+      await pool.query(`alter table favorites add column if not exists listing_name text`);
+      console.log("[dbSetup] Added listing_name column to favorites");
+    } catch (e: any) {
+      console.log("[dbSetup] listing_name column already exists");
+    }
+
+    try {
+      await pool.query(`alter table favorites add column if not exists listing_image text`);
+      console.log("[dbSetup] Added listing_image column to favorites");
+    } catch (e: any) {
+      console.log("[dbSetup] listing_image column already exists");
+    }
+
+    try {
+      await pool.query(`alter table favorites add column if not exists listing_host text`);
+      console.log("[dbSetup] Added listing_host column to favorites");
+    } catch (e: any) {
+      console.log("[dbSetup] listing_host column already exists");
+    }
+
     // Now fix any existing CASCADE constraints to be RESTRICT
     try {
       console.log("[dbSetup] Fixing foreign key constraints...");
