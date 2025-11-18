@@ -112,7 +112,7 @@ export function FavoritesModal({
             </p>
           </div>
         ) : (
-          <ScrollArea className="flex-1 -mx-6 px-6">
+          <ScrollArea className="h-[calc(80vh-200px)] -mx-6 px-6">
             <div className="space-y-2 pr-4">
               {favorites.map((favorite) => {
                 const isDisabled =
