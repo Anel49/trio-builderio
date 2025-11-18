@@ -9,30 +9,21 @@ export async function listFavorites(req: Request, res: Response) {
     }
 
     const result = await pool.query(
-      `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category,
-              l.latitude, l.longitude, l.zip_code, l.rental_period, l.description,
-              l.enabled, f.created_at as favorited_at
+      `select f.listing_id, f.listing_name, f.listing_image, f.listing_host,
+              f.created_at as favorited_at, l.id as listing_exists
        from favorites f
-       join listings l on f.listing_id = l.id
+       left join listings l on f.listing_id = l.id
        where f.user_id = $1
        order by f.created_at desc`,
       [userId],
     );
 
     const favorites = result.rows.map((r: any) => ({
-      id: r.id,
-      name: r.name,
-      price: `$${(r.price_cents / 100).toFixed(r.price_cents % 100 === 0 ? 0 : 2)}`,
-      rating: r.rating ? Number(r.rating) : null,
-      image: r.image_url,
-      host: r.host,
-      type: r.category,
-      latitude: r.latitude,
-      longitude: r.longitude,
-      zipCode: r.zip_code,
-      rentalPeriod: r.rental_period,
-      description: r.description,
-      enabled: r.enabled !== false,
+      id: r.listing_id,
+      name: r.listing_name,
+      image: r.listing_image,
+      host: r.listing_host,
+      listingExists: r.listing_exists !== null,
       favoritedAt: r.favorited_at,
     }));
 
@@ -55,12 +46,24 @@ export async function addFavorite(req: Request, res: Response) {
         .json({ ok: false, error: "listingId is required" });
     }
 
+    // First, get the listing details
+    const listingResult = await pool.query(
+      `select name, image_url, host from listings where id = $1`,
+      [listingId],
+    );
+
+    if (listingResult.rowCount === 0) {
+      return res.status(404).json({ ok: false, error: "Listing not found" });
+    }
+
+    const listing = listingResult.rows[0];
+
     const result = await pool.query(
-      `insert into favorites (user_id, listing_id)
-       values ($1, $2)
+      `insert into favorites (user_id, listing_id, listing_name, listing_image, listing_host)
+       values ($1, $2, $3, $4, $5)
        on conflict (user_id, listing_id) do nothing
        returning user_id, listing_id, created_at`,
-      [userId, listingId],
+      [userId, listingId, listing.name, listing.image_url, listing.host],
     );
 
     if (result.rowCount === 0) {
