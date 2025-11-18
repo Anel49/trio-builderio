@@ -140,6 +140,72 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     console.log("[dbSetup] Created index on reservations.listing_id");
 
+    // Add new columns to reservations table if they don't exist
+    await pool.query(
+      `alter table reservations add column if not exists renter_id integer`,
+    );
+    console.log("[dbSetup] Added renter_id column");
+
+    await pool.query(
+      `alter table reservations add column if not exists host_id integer`,
+    );
+    console.log("[dbSetup] Added host_id column");
+
+    await pool.query(
+      `alter table reservations add column if not exists host_name text`,
+    );
+    console.log("[dbSetup] Added host_name column");
+
+    await pool.query(
+      `alter table reservations add column if not exists renter_name text`,
+    );
+    console.log("[dbSetup] Added renter_name column");
+
+    await pool.query(
+      `alter table reservations add column if not exists listing_title text`,
+    );
+    console.log("[dbSetup] Added listing_title column");
+
+    await pool.query(
+      `alter table reservations add column if not exists listing_image text`,
+    );
+    console.log("[dbSetup] Added listing_image column");
+
+    await pool.query(
+      `alter table reservations add column if not exists listing_latitude double precision`,
+    );
+    console.log("[dbSetup] Added listing_latitude column");
+
+    await pool.query(
+      `alter table reservations add column if not exists listing_longitude double precision`,
+    );
+    console.log("[dbSetup] Added listing_longitude column");
+
+    await pool.query(
+      `alter table reservations add column if not exists daily_price_cents integer`,
+    );
+    console.log("[dbSetup] Added daily_price_cents column");
+
+    await pool.query(
+      `alter table reservations add column if not exists total_days integer`,
+    );
+    console.log("[dbSetup] Added total_days column");
+
+    await pool.query(
+      `alter table reservations add column if not exists rental_type text default 'item'`,
+    );
+    console.log("[dbSetup] Added rental_type column");
+
+    await pool.query(
+      `alter table reservations add column if not exists last_modified timestamptz default now()`,
+    );
+    console.log("[dbSetup] Added last_modified column");
+
+    await pool.query(
+      `alter table reservations add column if not exists modified_by_id integer`,
+    );
+    console.log("[dbSetup] Added modified_by_id column");
+
     // Handle user_id column - always try to fix constraints
     try {
       // First, try to make it nullable and set default
