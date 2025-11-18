@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, Menu, ClipboardList } from "lucide-react";
+import { MessageCircle, Menu, ClipboardList, Heart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { ThemeToggle } from "./ui/theme-toggle";
@@ -8,6 +8,7 @@ import { SignUpModal } from "./ui/signup-modal";
 import { EmailSignupModal } from "./ui/email-signup-modal";
 import { EmailLoginModal } from "./ui/email-login-modal";
 import { MobileMenu } from "./ui/mobile-menu";
+import { FavoritesModal } from "./ui/favorites-modal";
 import { useAuth } from "@/contexts/AuthContext";
 import { COMPANY_NAME } from "@/lib/constants";
 import {
@@ -26,6 +27,7 @@ export default function Header() {
   const [isEmailSignupModalOpen, setIsEmailSignupModalOpen] = useState(false);
   const [isEmailLoginModalOpen, setIsEmailLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
 
   const getInitials = (name: string | null): string => {
     if (!name) return "U";
@@ -117,6 +119,17 @@ export default function Header() {
                     onClick={() => (window.location.href = "/messages")}
                   >
                     <MessageCircle className="h-5 w-5" />
+                  </Button>
+
+                  {/* Favorites Link */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative"
+                    title="Favorites"
+                    onClick={() => setIsFavoritesModalOpen(true)}
+                  >
+                    <Heart className="h-5 w-5" />
                   </Button>
 
                   {/* Rentals and Requests Link */}
@@ -216,6 +229,12 @@ export default function Header() {
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
+      />
+
+      <FavoritesModal
+        isOpen={isFavoritesModalOpen}
+        onOpenChange={setIsFavoritesModalOpen}
+        userId={user?.id.toString()}
       />
     </>
   );
