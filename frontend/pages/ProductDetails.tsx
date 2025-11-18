@@ -324,7 +324,6 @@ export default function ProductDetails() {
     distanceMiles: number | null;
     latitude: number | null;
     longitude: number | null;
-    rentalPeriod: RentalPeriod;
     image?: string;
     images?: string[];
     host?: string;
