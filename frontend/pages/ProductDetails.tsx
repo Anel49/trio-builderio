@@ -1188,11 +1188,17 @@ export default function ProductDetails() {
                         if (start && end) {
                           try {
                             // Calculate total days (inclusive)
-                            const totalDays = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+                            const totalDays =
+                              Math.ceil(
+                                (end.getTime() - start.getTime()) /
+                                  (1000 * 60 * 60 * 24),
+                              ) + 1;
 
                             // Extract price cents from the price string (e.g., "$10" -> 1000)
                             const priceStr = product?.price || "0";
-                            const dailyPriceCents = Math.round(Number(priceStr.replace(/[^0-9.]/g, "")) * 100);
+                            const dailyPriceCents = Math.round(
+                              Number(priceStr.replace(/[^0-9.]/g, "")) * 100,
+                            );
 
                             const reservationResponse = await apiFetch(
                               "reservations",
@@ -1203,7 +1209,10 @@ export default function ProductDetails() {
                                   renter_id: authUser.id,
                                   host_id: product?.hostUserId || null,
                                   host_name: product?.host || null,
-                                  renter_name: authUser?.first_name || authUser?.name || null,
+                                  renter_name:
+                                    authUser?.first_name ||
+                                    authUser?.name ||
+                                    null,
                                   start_date: start.toISOString().split("T")[0],
                                   end_date: end.toISOString().split("T")[0],
                                   listing_title: product?.name || null,
