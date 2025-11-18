@@ -17,6 +17,7 @@ interface Favorite {
   image: string;
   host: string;
   listingExists?: boolean;
+  enabled?: boolean;
   favoritedAt?: string;
 }
 
