@@ -114,10 +114,23 @@ export async function dbSetup(_req: Request, res: Response) {
       create table if not exists reservations (
         id serial primary key,
         listing_id integer not null references listings(id),
+        renter_id integer,
+        host_id integer,
         start_date date not null,
         end_date date not null,
         status text not null default 'pending',
-        created_at timestamptz default now()
+        created_at timestamptz default now(),
+        host_name text,
+        renter_name text,
+        listing_title text,
+        listing_image text,
+        listing_latitude double precision,
+        listing_longitude double precision,
+        daily_price_cents integer,
+        total_days integer,
+        rental_type text default 'item',
+        last_modified timestamptz default now(),
+        modified_by_id integer
       )
     `);
     console.log("[dbSetup] Created reservations table");
