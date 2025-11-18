@@ -112,65 +112,67 @@ export function FavoritesModal({
             </p>
           </div>
         ) : (
-          <div className="overflow-y-auto flex-1 -mx-6 px-6 space-y-2">
-            {favorites.map((favorite) => {
-              const isDisabled =
-                favorite.listingExists === false || favorite.enabled === false;
-              return (
-                <div
-                  key={favorite.id}
-                  onClick={() => {
-                    if (!isDisabled) {
-                      window.location.href = `/listing/${favorite.id}`;
-                    }
-                  }}
-                  className={`flex gap-4 p-3 rounded-lg border bg-card transition-colors ${
-                    !isDisabled
-                      ? "hover:bg-accent/50 cursor-pointer"
-                      : "opacity-50 cursor-not-allowed"
-                  }`}
-                >
-                  {favorite.image && (
-                    <img
-                      src={favorite.image}
-                      alt={favorite.name}
-                      className={`h-20 w-20 rounded object-cover flex-shrink-0 ${
-                        isDisabled ? "grayscale" : ""
-                      }`}
-                    />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium line-clamp-1">
-                      {favorite.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-1">
-                      by {favorite.host}
-                    </p>
-                    {favorite.listingExists === false && (
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Listing not found
-                      </p>
-                    )}
-                    {favorite.enabled === false && (
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Listing disabled
-                      </p>
-                    )}
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRemoveFavorite(favorite.id);
+          <ScrollArea className="flex-1 -mx-6 px-6">
+            <div className="space-y-2 pr-4">
+              {favorites.map((favorite) => {
+                const isDisabled =
+                  favorite.listingExists === false || favorite.enabled === false;
+                return (
+                  <div
+                    key={favorite.id}
+                    onClick={() => {
+                      if (!isDisabled) {
+                        window.location.href = `/listing/${favorite.id}`;
+                      }
                     }}
-                    className="flex-shrink-0 p-1 h-fit hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors self-start"
-                    title="Remove from favorites"
+                    className={`flex gap-4 p-3 rounded-lg border bg-card transition-colors ${
+                      !isDisabled
+                        ? "hover:bg-accent/50 cursor-pointer"
+                        : "opacity-50 cursor-not-allowed"
+                    }`}
                   >
-                    <X className="h-4 w-4 text-red-500" />
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+                    {favorite.image && (
+                      <img
+                        src={favorite.image}
+                        alt={favorite.name}
+                        className={`h-20 w-20 rounded object-cover flex-shrink-0 ${
+                          isDisabled ? "grayscale" : ""
+                        }`}
+                      />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium line-clamp-1">
+                        {favorite.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground line-clamp-1">
+                        by {favorite.host}
+                      </p>
+                      {favorite.listingExists === false && (
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Listing not found
+                        </p>
+                      )}
+                      {favorite.enabled === false && (
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Listing disabled
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveFavorite(favorite.id);
+                      }}
+                      className="flex-shrink-0 p-1 h-fit hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors self-start"
+                      title="Remove from favorites"
+                    >
+                      <X className="h-4 w-4 text-red-500" />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </ScrollArea>
         )}
       </DialogContent>
 
