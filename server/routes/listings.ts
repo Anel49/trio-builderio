@@ -646,7 +646,6 @@ export async function updateListing(req: Request, res: Response) {
       categories,
       image,
       images,
-      rental_period,
       zip_code,
       location_city,
       latitude,
