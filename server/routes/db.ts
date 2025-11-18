@@ -51,7 +51,6 @@ export async function dbSetup(_req: Request, res: Response) {
         category text,
         description text,
         zip_code text,
-        rental_period text,
         latitude double precision,
         longitude double precision,
         created_at timestamptz default now()
