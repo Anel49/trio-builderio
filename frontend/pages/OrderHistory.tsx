@@ -691,39 +691,37 @@ export default function OrderHistory() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuRadioGroup
-                                onValueChange={(v) => {
-                                  if (v === "cancel") {
+                              <DropdownMenuItem onClick={() => {}}>
+                                View Details
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => {}}>
+                                Download Receipt
+                              </DropdownMenuItem>
+                              {order.status === "completed" &&
+                                order.type === "rented" && (
+                                  <DropdownMenuItem
+                                    onClick={() => {
+                                      setReviewOrder(order);
+                                      setReviewRating(null);
+                                      setReviewText("");
+                                      setReviewDialogOpen(true);
+                                    }}
+                                  >
+                                    Post Review
+                                  </DropdownMenuItem>
+                                )}
+                              {(order.status === "upcoming" ||
+                                order.status === "pending") && (
+                                <DropdownMenuItem
+                                  onClick={() => {
                                     setOrderToCancel(order);
                                     setCancelReason("");
                                     setCancelDialogOpen(true);
-                                  } else if (v === "post_review") {
-                                    setReviewOrder(order);
-                                    setReviewRating(null);
-                                    setReviewText("");
-                                    setReviewDialogOpen(true);
-                                  }
-                                }}
-                              >
-                                <DropdownMenuRadioItem value="view">
-                                  View Details
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="receipt">
-                                  Download Receipt
-                                </DropdownMenuRadioItem>
-                                {order.status === "completed" &&
-                                  order.type === "rented" && (
-                                    <DropdownMenuRadioItem value="post_review">
-                                      Post Review
-                                    </DropdownMenuRadioItem>
-                                  )}
-                                {(order.status === "upcoming" ||
-                                  order.status === "pending") && (
-                                  <DropdownMenuRadioItem value="cancel">
-                                    Cancel Rental
-                                  </DropdownMenuRadioItem>
-                                )}
-                              </DropdownMenuRadioGroup>
+                                  }}
+                                >
+                                  Cancel Rental
+                                </DropdownMenuItem>
+                              )}
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </div>
