@@ -57,7 +57,6 @@ export async function dbSetup(_req: Request, res: Response) {
       );
       alter table listings drop column if exists distance;
       alter table listings add column if not exists zip_code text;
-      alter table listings add column if not exists rental_period text;
       alter table listings add column if not exists description text;
       alter table listings add column if not exists latitude double precision;
       alter table listings add column if not exists longitude double precision;
