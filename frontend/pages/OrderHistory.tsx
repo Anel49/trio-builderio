@@ -948,17 +948,15 @@ export default function OrderHistory() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuRadioGroup>
-                              <DropdownMenuRadioItem value="view">
-                                View Details
-                              </DropdownMenuRadioItem>
-                              {req.status === "pending" &&
-                                req.direction === "outgoing" && (
-                                  <DropdownMenuRadioItem value="withdraw">
-                                    Withdraw Request
-                                  </DropdownMenuRadioItem>
-                                )}
-                            </DropdownMenuRadioGroup>
+                            <DropdownMenuItem onClick={() => {}}>
+                              View Details
+                            </DropdownMenuItem>
+                            {req.status === "pending" &&
+                              req.direction === "outgoing" && (
+                                <DropdownMenuItem onClick={() => {}}>
+                                  Withdraw Request
+                                </DropdownMenuItem>
+                              )}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
