@@ -909,7 +909,14 @@ export default function BrowseListings() {
               />
             </div>
             <Button
-              variant={filterLocation ? "default" : "outline"}
+              variant={
+                filterLocation ||
+                (authenticated &&
+                  authUser?.locationLatitude &&
+                  authUser?.locationLongitude)
+                  ? "default"
+                  : "outline"
+              }
               className="flex items-center gap-2"
               onClick={() => setIsLocationPickerOpen(true)}
             >
