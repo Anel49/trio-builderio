@@ -539,10 +539,6 @@ export async function getListingById(req: Request, res: Response) {
       description: r.description ?? null,
       zipCode: normalizedZip,
       createdAt: r.created_at,
-      rentalPeriod:
-        r.rental_period && typeof r.rental_period === "string"
-          ? normalizeRentalPeriod(r.rental_period)
-          : DEFAULT_RENTAL_PERIOD,
       delivery: Boolean(r.delivery),
       freeDelivery: Boolean(r.free_delivery),
       enabled: typeof r.enabled === "boolean" ? r.enabled : true,
