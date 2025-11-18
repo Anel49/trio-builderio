@@ -296,7 +296,7 @@ export async function apiFetch(path: string, init?: RequestInit) {
   if (!base) base = await resolveApiBase();
 
   const isDataEndpoint =
-    /^(listings($|\/\d+(?:\/(?:reviews|reservations))?)|users(\?|$)|favorites|reservations|stripe\/create-payment-intent|geocode\/reverse)/.test(
+    /^(listings($|\/\d+(?:\/(?:reviews|reservations))?)|users(\?|$)|favorites|reservations|listing-reviews|stripe\/create-payment-intent|geocode\/reverse)/.test(
       p,
     );
   if (base) {
