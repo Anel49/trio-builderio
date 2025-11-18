@@ -87,7 +87,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-
 const REVIEWS_PER_PAGE = 8;
 
 export default function ProductDetails() {
@@ -832,10 +831,10 @@ export default function ProductDetails() {
     );
   }
 
-  const hasSelectedDates =
-    Boolean(selectedDateRange.start && selectedDateRange.end);
-  const hasSelectedValidRange =
-    hasSelectedDates && isDateRangeValid();
+  const hasSelectedDates = Boolean(
+    selectedDateRange.start && selectedDateRange.end,
+  );
+  const hasSelectedValidRange = hasSelectedDates && isDateRangeValid();
   const showTotalPrice = hasSelectedDates;
 
   const displayedPrice = showTotalPrice

@@ -7,7 +7,6 @@ import {
   normalizeZipCode,
 } from "../lib/geo";
 
-
 function parseCoordinate(value: unknown): number | null {
   if (typeof value === "number" && Number.isFinite(value)) return value;
   if (typeof value === "string") {
@@ -346,10 +345,7 @@ export async function createListing(req: Request, res: Response) {
         ],
       );
     } catch (e) {
-      console.log(
-        "[createListing] Primary insert failed:",
-        e,
-      );
+      console.log("[createListing] Primary insert failed:", e);
       result = await pool.query(
         `insert into listings (name, price_cents, rating, image_url, host, user_id, category, description, zip_code, location_city, latitude, longitude, delivery, free_delivery)
          values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)

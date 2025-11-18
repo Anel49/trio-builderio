@@ -638,7 +638,6 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
-
     // Ensure a handful of listings have multiple images for testing the gallery UI
     await pool.query(`
       insert into listing_images (listing_id, url, position)
