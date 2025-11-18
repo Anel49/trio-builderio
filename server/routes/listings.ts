@@ -660,7 +660,6 @@ export async function updateListing(req: Request, res: Response) {
         .json({ ok: false, error: "name and price_cents are required" });
     }
 
-    const normalizedRentalPeriod = normalizeRentalPeriod(rental_period);
     const normalizedZip = normalizeZipCode(zip_code);
     const imgs: string[] = Array.isArray(images)
       ? (images as any[]).filter((u) => typeof u === "string" && u.trim())
