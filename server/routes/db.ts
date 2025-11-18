@@ -265,6 +265,115 @@ export async function dbSetup(_req: Request, res: Response) {
       create index if not exists idx_orders_created_at on orders(created_at);
     `);
 
+    // Add new columns to reservations table if they don't exist
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists host_id integer`,
+      );
+      console.log("[dbSetup] Added host_id column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] host_id column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists host_name text`,
+      );
+      console.log("[dbSetup] Added host_name column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] host_name column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists renter_name text`,
+      );
+      console.log("[dbSetup] Added renter_name column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] renter_name column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists listing_title text`,
+      );
+      console.log("[dbSetup] Added listing_title column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] listing_title column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists listing_image text`,
+      );
+      console.log("[dbSetup] Added listing_image column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] listing_image column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists listing_latitude double precision`,
+      );
+      console.log("[dbSetup] Added listing_latitude column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] listing_latitude column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists listing_longitude double precision`,
+      );
+      console.log("[dbSetup] Added listing_longitude column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] listing_longitude column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists daily_price_cents integer`,
+      );
+      console.log("[dbSetup] Added daily_price_cents column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] daily_price_cents column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists total_days integer`,
+      );
+      console.log("[dbSetup] Added total_days column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] total_days column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists rental_type text default 'item'`,
+      );
+      console.log("[dbSetup] Added rental_type column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] rental_type column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists last_modified timestamptz default now()`,
+      );
+      console.log("[dbSetup] Added last_modified column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] last_modified column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists modified_by_id integer`,
+      );
+      console.log("[dbSetup] Added modified_by_id column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] modified_by_id column already exists");
+    }
+
     // Add new columns to favorites table if they don't exist
     try {
       await pool.query(
