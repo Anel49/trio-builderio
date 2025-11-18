@@ -851,11 +851,12 @@ export default function ProductDetails() {
     );
   }
 
+  const hasSelectedDates =
+    Boolean(selectedDateRange.start && selectedDateRange.end);
   const hasSelectedValidRange =
-    Boolean(selectedDateRange.start && selectedDateRange.end) &&
-    isDateRangeValid();
+    hasSelectedDates && isDateRangeValid();
   const showTotalPrice =
-    product.rentalPeriod === "Daily" && hasSelectedValidRange;
+    product.rentalPeriod === "Daily" && hasSelectedDates;
   const displayedPrice = showTotalPrice
     ? (() => {
         if (!selectedDateRange.start || !selectedDateRange.end)
