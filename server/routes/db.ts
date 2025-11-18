@@ -367,11 +367,24 @@ export async function dbSetup(_req: Request, res: Response) {
 
     try {
       await pool.query(
-        `alter table reservations add column if not exists modified_by_id integer`,
+        `alter table reservations add column if not exists modified_by_id text`,
       );
       console.log("[dbSetup] Added modified_by_id column to reservations");
     } catch (e: any) {
       console.log("[dbSetup] modified_by_id column already exists");
+    }
+
+    // Change modified_by_id type to text if it exists as integer
+    try {
+      await pool.query(
+        `alter table reservations alter column modified_by_id type text`,
+      );
+      console.log("[dbSetup] Changed modified_by_id column type to text");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Could not change modified_by_id type:",
+        e?.message?.slice(0, 100),
+      );
     }
 
     // Add new columns to favorites table if they don't exist
