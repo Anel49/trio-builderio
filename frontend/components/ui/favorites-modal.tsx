@@ -116,7 +116,8 @@ export function FavoritesModal({
             <div className="space-y-2 pr-4">
               {favorites.map((favorite) => {
                 const isDisabled =
-                  favorite.listingExists === false || favorite.enabled === false;
+                  favorite.listingExists === false ||
+                  favorite.enabled === false;
                 return (
                   <div
                     key={favorite.id}
