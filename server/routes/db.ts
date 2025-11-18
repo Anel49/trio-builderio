@@ -637,38 +637,6 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
-    // Update existing listings with different rental periods (cycle through all periods)
-    const periods = ["Daily", "Weekly", "Monthly", "Hourly"];
-    const listingsResult = await pool.query(
-      "select id from listings order by id",
-    );
-    for (let i = 0; i < listingsResult.rows.length; i++) {
-      const id = listingsResult.rows[i].id;
-      const period = periods[i % periods.length];
-      try {
-        const result = await pool.query(
-          `update listings set rental_period = $1 where id = $2`,
-          [period, id],
-        );
-        console.log(
-          `Updated listing ${id} to ${period}, affected rows:`,
-          result.rowCount,
-        );
-      } catch (e) {
-        console.error(`Failed to update listing ${id}:`, e);
-      }
-    }
-
-    // Verify the updates
-    const verifyResult = await pool.query(
-      "select id, rental_period from listings order by id",
-    );
-    console.log(
-      "[dbSetup] Verified rental periods:",
-      verifyResult.rows
-        .map((r: any) => `${r.id}:${r.rental_period}`)
-        .join(", "),
-    );
 
     // Ensure a handful of listings have multiple images for testing the gallery UI
     await pool.query(`
