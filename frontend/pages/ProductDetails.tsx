@@ -848,24 +848,12 @@ export default function ProductDetails() {
           Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) +
           1;
         const numericRate = Number(product.price.replace(/[^0-9.]/g, ""));
-        console.log("[DEBUG] Price calculation:", {
-          days,
-          numericRate,
-          price: product.price,
-          total: numericRate * days,
-        });
         if (!Number.isFinite(numericRate)) return product.price;
         const total = numericRate * days;
         return `$${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}`;
       })()
     : product.price;
   const priceSubLabel = showTotalPrice ? "total" : "per day";
-
-  console.log("[DEBUG] Final price display:", {
-    displayedPrice,
-    priceSubLabel,
-    showTotalPrice,
-  });
 
   return (
     <div className="min-h-screen bg-background">
