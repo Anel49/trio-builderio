@@ -1111,30 +1111,34 @@ export default function ProductDetails() {
                 <div className="text-muted-foreground">{priceSubLabel}</div>
               </div>
 
-              {/* Date Range Picker */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">
-                  Select rental dates
-                </label>
-                <DateRangePicker
-                  value={selectedDateRange}
-                  onChange={setSelectedDateRange}
-                  reservations={reservations}
-                  buttonClassName="w-full"
-                />
-              </div>
+              {/* Date Range Picker - Only show for authenticated non-owners */}
+              {authUser?.id && authUser?.id !== product?.hostUserId && (
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">
+                    Select rental dates
+                  </label>
+                  <DateRangePicker
+                    value={selectedDateRange}
+                    onChange={setSelectedDateRange}
+                    reservations={reservations}
+                    buttonClassName="w-full"
+                  />
+                </div>
+              )}
 
-              <Button
-                size="lg"
-                className={cn(
-                  "w-full mb-4 transition-opacity",
-                  hasDateConflict() && "bg-red-600 hover:bg-red-700",
-                  !isDateRangeValid() &&
-                    !hasDateConflict() &&
-                    "opacity-50 cursor-not-allowed",
-                )}
-                disabled={!isDateRangeValid()}
-                onClick={async () => {
+              {/* Reserve Now Button - Only show for authenticated non-owners */}
+              {authUser?.id && authUser?.id !== product?.hostUserId && (
+                <Button
+                  size="lg"
+                  className={cn(
+                    "w-full mb-4 transition-opacity",
+                    hasDateConflict() && "bg-red-600 hover:bg-red-700",
+                    !isDateRangeValid() &&
+                      !hasDateConflict() &&
+                      "opacity-50 cursor-not-allowed",
+                  )}
+                  disabled={!isDateRangeValid()}
+                  onClick={async () => {
                   if (!isDateRangeValid() || !authUser?.id) return;
 
                   // Recheck for conflicts before proceeding
@@ -1300,7 +1304,8 @@ export default function ProductDetails() {
                     : isDateRangeValid()
                       ? "Reserve Now"
                       : "Select dates to reserve"}
-              </Button>
+                </Button>
+              )}
             </div>
 
             {/* Host Information */}
