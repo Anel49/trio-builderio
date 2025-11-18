@@ -102,16 +102,16 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     console.log("[dbSetup] Added enabled column");
 
-    // Drop and recreate foreign key constraint to ensure it's RESTRICT, not CASCADE
+    // Drop restrictive foreign key constraint to allow perpetual data
     await pool.query(
       `alter table if exists reservations drop constraint if exists reservations_listing_id_fkey`,
     );
-    console.log("[dbSetup] Dropped existing reservations foreign key constraint");
+    console.log("[dbSetup] Removed restrictive reservations foreign key constraint");
 
     await pool.query(`
       create table if not exists reservations (
         id serial primary key,
-        listing_id integer not null references listings(id) on delete restrict,
+        listing_id integer not null references listings(id),
         start_date date not null,
         end_date date not null,
         status text not null default 'pending',
@@ -119,21 +119,6 @@ export async function dbSetup(_req: Request, res: Response) {
       )
     `);
     console.log("[dbSetup] Created reservations table");
-
-    // Re-add constraint if table already existed
-    await pool.query(`
-      do $$
-      begin
-        if not exists (
-          select 1 from information_schema.table_constraints
-          where table_name = 'reservations' and constraint_name = 'reservations_listing_id_fkey'
-        ) then
-          alter table reservations add constraint reservations_listing_id_fkey
-            foreign key (listing_id) references listings(id) on delete restrict;
-        end if;
-      end $$;
-    `);
-    console.log("[dbSetup] Ensured reservations foreign key constraint is RESTRICT");
 
     await pool.query(
       `create index if not exists idx_reservations_listing_id on reservations(listing_id)`,
