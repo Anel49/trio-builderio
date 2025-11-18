@@ -130,7 +130,7 @@ export async function dbSetup(_req: Request, res: Response) {
         total_days integer,
         rental_type text default 'item',
         last_modified timestamptz default now(),
-        modified_by_id integer
+        modified_by_id text
       )
     `);
     console.log("[dbSetup] Created reservations table");
