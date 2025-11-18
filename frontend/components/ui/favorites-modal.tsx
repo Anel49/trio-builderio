@@ -14,13 +14,9 @@ import { apiFetch } from "@/lib/api";
 interface Favorite {
   id: number;
   name: string;
-  price: string;
-  rating: number | null;
   image: string;
   host: string;
-  type: string;
-  rentalPeriod?: string;
-  enabled?: boolean;
+  listingExists?: boolean;
   favoritedAt?: string;
 }
 
@@ -119,12 +115,12 @@ export function FavoritesModal({
               <div
                 key={favorite.id}
                 onClick={() => {
-                  if (favorite.enabled !== false) {
+                  if (favorite.listingExists !== false) {
                     window.location.href = `/listing/${favorite.id}`;
                   }
                 }}
                 className={`flex gap-4 p-3 rounded-lg border bg-card transition-colors ${
-                  favorite.enabled !== false
+                  favorite.listingExists !== false
                     ? "hover:bg-accent/50 cursor-pointer"
                     : "opacity-50 cursor-not-allowed"
                 }`}
@@ -134,7 +130,7 @@ export function FavoritesModal({
                     src={favorite.image}
                     alt={favorite.name}
                     className={`h-20 w-20 rounded object-cover flex-shrink-0 ${
-                      favorite.enabled === false ? "grayscale" : ""
+                      favorite.listingExists === false ? "grayscale" : ""
                     }`}
                   />
                 )}
@@ -143,20 +139,9 @@ export function FavoritesModal({
                   <p className="text-sm text-muted-foreground line-clamp-1">
                     by {favorite.host}
                   </p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="font-semibold">{favorite.price}</span>
-                    <span className="text-xs text-muted-foreground">
-                      per day
-                    </span>
-                  </div>
-                  {favorite.rating && (
-                    <p className="text-xs text-muted-foreground">
-                      ★ {favorite.rating}
-                    </p>
-                  )}
-                  {favorite.enabled === false && (
+                  {favorite.listingExists === false && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      Listing disabled
+                      Listing not found
                     </p>
                   )}
                 </div>
