@@ -347,7 +347,7 @@ export async function createListing(req: Request, res: Response) {
       );
     } catch (e) {
       console.log(
-        "[createListing] Primary insert failed, trying without rental_period:",
+        "[createListing] Primary insert failed:",
         e,
       );
       result = await pool.query(
