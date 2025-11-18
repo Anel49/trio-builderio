@@ -112,16 +112,18 @@ export function FavoritesModal({
           </div>
         ) : (
           <div className="overflow-y-auto flex-1 -mx-6 px-6 space-y-2">
-            {favorites.map((favorite) => (
+            {favorites.map((favorite) => {
+              const isDisabled = favorite.listingExists === false || favorite.enabled === false;
+              return (
               <div
                 key={favorite.id}
                 onClick={() => {
-                  if (favorite.listingExists !== false) {
+                  if (!isDisabled) {
                     window.location.href = `/listing/${favorite.id}`;
                   }
                 }}
                 className={`flex gap-4 p-3 rounded-lg border bg-card transition-colors ${
-                  favorite.listingExists !== false
+                  !isDisabled
                     ? "hover:bg-accent/50 cursor-pointer"
                     : "opacity-50 cursor-not-allowed"
                 }`}
@@ -131,7 +133,7 @@ export function FavoritesModal({
                     src={favorite.image}
                     alt={favorite.name}
                     className={`h-20 w-20 rounded object-cover flex-shrink-0 ${
-                      favorite.listingExists === false ? "grayscale" : ""
+                      isDisabled ? "grayscale" : ""
                     }`}
                   />
                 )}
@@ -143,6 +145,11 @@ export function FavoritesModal({
                   {favorite.listingExists === false && (
                     <p className="text-xs text-muted-foreground mt-1">
                       Listing not found
+                    </p>
+                  )}
+                  {favorite.enabled === false && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Listing disabled
                     </p>
                   )}
                 </div>
@@ -157,7 +164,8 @@ export function FavoritesModal({
                   <X className="h-4 w-4 text-red-500" />
                 </button>
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </DialogContent>
