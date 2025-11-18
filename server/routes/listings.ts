@@ -673,10 +673,10 @@ export async function updateListing(req: Request, res: Response) {
     const result = await pool.query(
       `update listings
        set name = $1, price_cents = $2, description = $3, category = $4,
-           image_url = $5, rental_period = $6, zip_code = $7,
-           location_city = $8, latitude = $9, longitude = $10,
-           delivery = $11, free_delivery = $12
-       where id = $13
+           image_url = $5, zip_code = $6,
+           location_city = $7, latitude = $8, longitude = $9,
+           delivery = $10, free_delivery = $11
+       where id = $12
        returning id`,
       [
         name,
@@ -684,7 +684,6 @@ export async function updateListing(req: Request, res: Response) {
         description || null,
         category || "Miscellaneous",
         primaryImage || null,
-        normalizedRentalPeriod,
         normalizedZip || null,
         location_city || null,
         lat,
