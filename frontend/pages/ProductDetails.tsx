@@ -437,9 +437,6 @@ export default function ProductDetails() {
             distanceMiles,
             latitude: typeof l.latitude === "number" ? l.latitude : null,
             longitude: typeof l.longitude === "number" ? l.longitude : null,
-            rentalPeriod: normalizeRentalPeriod(
-              l.rentalPeriod ?? l.rental_period,
-            ),
             image: l.image || undefined,
             images: Array.isArray(l.images) ? l.images : undefined,
             host: typeof l.host === "string" ? l.host : undefined,
