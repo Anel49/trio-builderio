@@ -1211,13 +1211,10 @@ export default function ProductDetails() {
                                   method: "POST",
                                   body: JSON.stringify({
                                     listing_id: Number(params.id),
-                                    renter_id: authUser.id,
-                                    host_id: product?.hostUserId || null,
-                                    host_name: product?.host || null,
-                                    renter_name:
-                                      authUser?.first_name ||
-                                      authUser?.name ||
-                                      null,
+                                    renter_id: authUser?.id ?? null,
+                                    host_id: product?.hostUserId ?? null,
+                                    host_name: product?.host ?? null,
+                                    renter_name: authUser?.name ?? authUser?.username ?? null,
                                     start_date: start
                                       .toISOString()
                                       .split("T")[0],
