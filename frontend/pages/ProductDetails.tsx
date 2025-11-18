@@ -834,23 +834,9 @@ export default function ProductDetails() {
 
   const hasSelectedDates =
     Boolean(selectedDateRange.start && selectedDateRange.end);
-
-  console.log("[DEBUG] hasSelectedDates:", hasSelectedDates, {
-    start: selectedDateRange.start,
-    end: selectedDateRange.end,
-  });
-
   const hasSelectedValidRange =
     hasSelectedDates && isDateRangeValid();
-  const showTotalPrice =
-    product.rentalPeriod === "Daily" && hasSelectedDates;
-
-  console.log("[DEBUG] showTotalPrice calculation:", {
-    rentalPeriod: product.rentalPeriod,
-    isDaily: product.rentalPeriod === "Daily",
-    hasSelectedDates,
-    showTotalPrice,
-  });
+  const showTotalPrice = hasSelectedDates;
 
   const displayedPrice = showTotalPrice
     ? (() => {
