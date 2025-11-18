@@ -206,21 +206,27 @@ export async function dbSetup(_req: Request, res: Response) {
 
     // Add new columns to favorites table if they don't exist
     try {
-      await pool.query(`alter table favorites add column if not exists listing_name text`);
+      await pool.query(
+        `alter table favorites add column if not exists listing_name text`,
+      );
       console.log("[dbSetup] Added listing_name column to favorites");
     } catch (e: any) {
       console.log("[dbSetup] listing_name column already exists");
     }
 
     try {
-      await pool.query(`alter table favorites add column if not exists listing_image text`);
+      await pool.query(
+        `alter table favorites add column if not exists listing_image text`,
+      );
       console.log("[dbSetup] Added listing_image column to favorites");
     } catch (e: any) {
       console.log("[dbSetup] listing_image column already exists");
     }
 
     try {
-      await pool.query(`alter table favorites add column if not exists listing_host text`);
+      await pool.query(
+        `alter table favorites add column if not exists listing_host text`,
+      );
       console.log("[dbSetup] Added listing_host column to favorites");
     } catch (e: any) {
       console.log("[dbSetup] listing_host column already exists");
@@ -232,16 +238,16 @@ export async function dbSetup(_req: Request, res: Response) {
 
       // Drop RESTRICT constraints - keep references but allow deletion
       const constraintsToDrop = [
-        { table: 'listing_images', column: 'listing_id' },
-        { table: 'listing_categories', column: 'listing_id' },
-        { table: 'reservations', column: 'listing_id' },
-        { table: 'favorites', column: 'listing_id' },
-        { table: 'reviews', column: 'listing_id' },
-        { table: 'listing_reviews', column: 'listing_id' },
-        { table: 'listing_reviews', column: 'reviewer_id' },
-        { table: 'user_reviews', column: 'reviewed_user_id' },
-        { table: 'user_reviews', column: 'reviewer_id' },
-        { table: 'user_credentials', column: 'user_id' },
+        { table: "listing_images", column: "listing_id" },
+        { table: "listing_categories", column: "listing_id" },
+        { table: "reservations", column: "listing_id" },
+        { table: "favorites", column: "listing_id" },
+        { table: "reviews", column: "listing_id" },
+        { table: "listing_reviews", column: "listing_id" },
+        { table: "listing_reviews", column: "reviewer_id" },
+        { table: "user_reviews", column: "reviewed_user_id" },
+        { table: "user_reviews", column: "reviewer_id" },
+        { table: "user_credentials", column: "user_id" },
       ];
 
       for (const constraint of constraintsToDrop) {
@@ -249,25 +255,31 @@ export async function dbSetup(_req: Request, res: Response) {
         try {
           // Drop the constraint if it exists with RESTRICT
           await pool.query(
-            `alter table ${constraint.table} drop constraint if exists ${constraintName}`
+            `alter table ${constraint.table} drop constraint if exists ${constraintName}`,
           );
           console.log(`[dbSetup] Dropped constraint ${constraintName}`);
         } catch (e: any) {
-          console.log(`[dbSetup] Could not drop ${constraintName}:`, e?.message?.slice(0, 100));
+          console.log(
+            `[dbSetup] Could not drop ${constraintName}:`,
+            e?.message?.slice(0, 100),
+          );
         }
       }
 
       // Drop message constraints
-      const messageConstraints = ['from_id', 'to_id'];
+      const messageConstraints = ["from_id", "to_id"];
       for (const column of messageConstraints) {
         const constraintName = `messages_${column}_fkey`;
         try {
           await pool.query(
-            `alter table messages drop constraint if exists ${constraintName}`
+            `alter table messages drop constraint if exists ${constraintName}`,
           );
           console.log(`[dbSetup] Dropped constraint ${constraintName}`);
         } catch (e: any) {
-          console.log(`[dbSetup] Could not drop ${constraintName}:`, e?.message?.slice(0, 100));
+          console.log(
+            `[dbSetup] Could not drop ${constraintName}:`,
+            e?.message?.slice(0, 100),
+          );
         }
       }
     } catch (e: any) {
@@ -607,7 +619,10 @@ export async function dbSetup(_req: Request, res: Response) {
 
       console.log(`[dbSetup] Created 25 messages between users 61-70`);
     } catch (e: any) {
-      console.log(`[dbSetup] Skipped messages for users 61-70 (they don't exist):`, e?.message?.slice(0, 100));
+      console.log(
+        `[dbSetup] Skipped messages for users 61-70 (they don't exist):`,
+        e?.message?.slice(0, 100),
+      );
     }
 
     res.json({ ok: true });

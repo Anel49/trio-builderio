@@ -106,7 +106,9 @@ export async function dbSetup(_req: Request, res: Response) {
     await pool.query(
       `alter table if exists reservations drop constraint if exists reservations_listing_id_fkey`,
     );
-    console.log("[dbSetup] Removed restrictive reservations foreign key constraint");
+    console.log(
+      "[dbSetup] Removed restrictive reservations foreign key constraint",
+    );
 
     await pool.query(`
       create table if not exists reservations (
