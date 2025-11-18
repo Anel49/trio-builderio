@@ -246,7 +246,6 @@ export async function createListing(req: Request, res: Response) {
       type,
       description,
       categories,
-      rental_period,
       zip_code,
       location_city,
       latitude,
