@@ -1141,129 +1141,145 @@ export default function ProductDetails() {
                   )}
                   disabled={!isDateRangeValid()}
                   onClick={async () => {
-                  if (!isDateRangeValid() || !authUser?.id) return;
+                    if (!isDateRangeValid() || !authUser?.id) return;
 
-                  // Recheck for conflicts before proceeding
-                  if (!params.id) return;
-                  try {
-                    const response = await apiFetch(
-                      `listings/${params.id}/reservations`,
-                    );
-                    const data = response.ok
-                      ? await response.json()
-                      : { ok: true, reservations: [] };
-                    if (data && data.ok && Array.isArray(data.reservations)) {
-                      const mapped: ReservationPeriod[] = data.reservations.map(
-                        (r: any) => ({
-                          id: String(r.id),
-                          startDate: new Date(r.startDate),
-                          endDate: new Date(r.endDate),
-                          renterName: r.renterName,
-                          status: r.status,
-                        }),
+                    // Recheck for conflicts before proceeding
+                    if (!params.id) return;
+                    try {
+                      const response = await apiFetch(
+                        `listings/${params.id}/reservations`,
                       );
+                      const data = response.ok
+                        ? await response.json()
+                        : { ok: true, reservations: [] };
+                      if (data && data.ok && Array.isArray(data.reservations)) {
+                        const mapped: ReservationPeriod[] =
+                          data.reservations.map((r: any) => ({
+                            id: String(r.id),
+                            startDate: new Date(r.startDate),
+                            endDate: new Date(r.endDate),
+                            renterName: r.renterName,
+                            status: r.status,
+                          }));
 
-                      // Check for conflicts with current selection
-                      const start = selectedDateRange.start;
-                      const end = selectedDateRange.end;
-                      let hasConflict = false;
+                        // Check for conflicts with current selection
+                        const start = selectedDateRange.start;
+                        const end = selectedDateRange.end;
+                        let hasConflict = false;
 
-                      if (start && end) {
-                        for (const r of mapped) {
-                          if (
-                            r.status !== "pending" &&
-                            r.status !== "accepted"
-                          ) {
-                            continue;
-                          }
-                          const rs = new Date(r.startDate);
-                          const re = new Date(r.endDate);
-                          if (start <= re && end >= rs) {
-                            hasConflict = true;
-                            break;
+                        if (start && end) {
+                          for (const r of mapped) {
+                            if (
+                              r.status !== "pending" &&
+                              r.status !== "accepted"
+                            ) {
+                              continue;
+                            }
+                            const rs = new Date(r.startDate);
+                            const re = new Date(r.endDate);
+                            if (start <= re && end >= rs) {
+                              hasConflict = true;
+                              break;
+                            }
                           }
                         }
-                      }
 
-                      if (hasConflict) {
-                        setReservations(mapped);
-                        setSelectedDateRange({ start: null, end: null });
-                        setShowConflictModal(true);
-                      } else {
-                        // Create reservation
-                        if (start && end) {
-                          try {
-                            // Calculate total days (inclusive)
-                            const totalDays =
-                              Math.ceil(
-                                (end.getTime() - start.getTime()) /
-                                  (1000 * 60 * 60 * 24),
-                              ) + 1;
+                        if (hasConflict) {
+                          setReservations(mapped);
+                          setSelectedDateRange({ start: null, end: null });
+                          setShowConflictModal(true);
+                        } else {
+                          // Create reservation
+                          if (start && end) {
+                            try {
+                              // Calculate total days (inclusive)
+                              const totalDays =
+                                Math.ceil(
+                                  (end.getTime() - start.getTime()) /
+                                    (1000 * 60 * 60 * 24),
+                                ) + 1;
 
-                            // Extract price cents from the price string (e.g., "$10" -> 1000)
-                            const priceStr = product?.price || "0";
-                            const dailyPriceCents = Math.round(
-                              Number(priceStr.replace(/[^0-9.]/g, "")) * 100,
-                            );
-
-                            const reservationResponse = await apiFetch(
-                              "reservations",
-                              {
-                                method: "POST",
-                                body: JSON.stringify({
-                                  listing_id: Number(params.id),
-                                  renter_id: authUser.id,
-                                  host_id: product?.hostUserId || null,
-                                  host_name: product?.host || null,
-                                  renter_name:
-                                    authUser?.first_name ||
-                                    authUser?.name ||
-                                    null,
-                                  start_date: start.toISOString().split("T")[0],
-                                  end_date: end.toISOString().split("T")[0],
-                                  listing_title: product?.name || null,
-                                  listing_image: product?.image || null,
-                                  listing_latitude: product?.latitude || null,
-                                  listing_longitude: product?.longitude || null,
-                                  daily_price_cents: dailyPriceCents,
-                                  total_days: totalDays,
-                                  rental_type: "item",
-                                  status: "pending",
-                                }),
-                                headers: { "content-type": "application/json" },
-                              },
-                            );
-
-                            const reservationData = await reservationResponse
-                              .json()
-                              .catch(() => ({}));
-
-                            if (
-                              reservationData.ok &&
-                              reservationData.reservation
-                            ) {
-                              console.log(
-                                "[ProductDetails] Reservation created:",
-                                reservationData.reservation.id,
-                              );
-                              localStorage.setItem(
-                                "selectedDates",
-                                JSON.stringify(selectedDateRange),
-                              );
-                              localStorage.setItem(
-                                "reservationId",
-                                String(reservationData.reservation.id),
+                              // Extract price cents from the price string (e.g., "$10" -> 1000)
+                              const priceStr = product?.price || "0";
+                              const dailyPriceCents = Math.round(
+                                Number(priceStr.replace(/[^0-9.]/g, "")) * 100,
                               );
 
-                              if (product?.instantBookings) {
-                                window.location.href = "/checkout";
+                              const reservationResponse = await apiFetch(
+                                "reservations",
+                                {
+                                  method: "POST",
+                                  body: JSON.stringify({
+                                    listing_id: Number(params.id),
+                                    renter_id: authUser.id,
+                                    host_id: product?.hostUserId || null,
+                                    host_name: product?.host || null,
+                                    renter_name:
+                                      authUser?.first_name ||
+                                      authUser?.name ||
+                                      null,
+                                    start_date: start
+                                      .toISOString()
+                                      .split("T")[0],
+                                    end_date: end.toISOString().split("T")[0],
+                                    listing_title: product?.name || null,
+                                    listing_image: product?.image || null,
+                                    listing_latitude: product?.latitude || null,
+                                    listing_longitude:
+                                      product?.longitude || null,
+                                    daily_price_cents: dailyPriceCents,
+                                    total_days: totalDays,
+                                    rental_type: "item",
+                                    status: "pending",
+                                  }),
+                                  headers: {
+                                    "content-type": "application/json",
+                                  },
+                                },
+                              );
+
+                              const reservationData = await reservationResponse
+                                .json()
+                                .catch(() => ({}));
+
+                              if (
+                                reservationData.ok &&
+                                reservationData.reservation
+                              ) {
+                                console.log(
+                                  "[ProductDetails] Reservation created:",
+                                  reservationData.reservation.id,
+                                );
+                                localStorage.setItem(
+                                  "selectedDates",
+                                  JSON.stringify(selectedDateRange),
+                                );
+                                localStorage.setItem(
+                                  "reservationId",
+                                  String(reservationData.reservation.id),
+                                );
+
+                                if (product?.instantBookings) {
+                                  window.location.href = "/checkout";
+                                } else {
+                                  setShowRequestSentModal(true);
+                                }
                               } else {
-                                setShowRequestSentModal(true);
+                                console.error(
+                                  "[ProductDetails] Failed to create reservation:",
+                                  reservationData.error,
+                                );
+                                // Proceed to checkout anyway
+                                localStorage.setItem(
+                                  "selectedDates",
+                                  JSON.stringify(selectedDateRange),
+                                );
+                                window.location.href = "/checkout";
                               }
-                            } else {
+                            } catch (reservationError) {
                               console.error(
-                                "[ProductDetails] Failed to create reservation:",
-                                reservationData.error,
+                                "[ProductDetails] Error creating reservation:",
+                                reservationError,
                               );
                               // Proceed to checkout anyway
                               localStorage.setItem(
@@ -1272,40 +1288,28 @@ export default function ProductDetails() {
                               );
                               window.location.href = "/checkout";
                             }
-                          } catch (reservationError) {
-                            console.error(
-                              "[ProductDetails] Error creating reservation:",
-                              reservationError,
-                            );
-                            // Proceed to checkout anyway
-                            localStorage.setItem(
-                              "selectedDates",
-                              JSON.stringify(selectedDateRange),
-                            );
-                            window.location.href = "/checkout";
                           }
                         }
                       }
+                    } catch (error) {
+                      console.error("Failed to check for conflicts:", error);
+                      // Proceed anyway if check fails
+                      localStorage.setItem(
+                        "selectedDates",
+                        JSON.stringify(selectedDateRange),
+                      );
+                      window.location.href = "/checkout";
                     }
-                  } catch (error) {
-                    console.error("Failed to check for conflicts:", error);
-                    // Proceed anyway if check fails
-                    localStorage.setItem(
-                      "selectedDates",
-                      JSON.stringify(selectedDateRange),
-                    );
-                    window.location.href = "/checkout";
-                  }
-                }}
-              >
-                <Calendar className="mr-2 h-5 w-5" />
-                {!selectedDateRange.start || !selectedDateRange.end
-                  ? "Select dates to reserve"
-                  : hasDateConflict()
-                    ? "Dates conflict with reservations"
-                    : isDateRangeValid()
-                      ? "Reserve Now"
-                      : "Select dates to reserve"}
+                  }}
+                >
+                  <Calendar className="mr-2 h-5 w-5" />
+                  {!selectedDateRange.start || !selectedDateRange.end
+                    ? "Select dates to reserve"
+                    : hasDateConflict()
+                      ? "Dates conflict with reservations"
+                      : isDateRangeValid()
+                        ? "Reserve Now"
+                        : "Select dates to reserve"}
                 </Button>
               )}
             </div>
