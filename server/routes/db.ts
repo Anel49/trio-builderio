@@ -134,7 +134,7 @@ export async function dbSetup(_req: Request, res: Response) {
         total_days integer,
         rental_type text default 'item',
         last_modified timestamptz default now(),
-        modified_by_id integer
+        modified_by_id text
       );
       create table if not exists favorites (
         user_id text not null,
