@@ -929,7 +929,10 @@ export async function createReservation(req: Request, res: Response) {
     if (startDate > endDate) {
       return res
         .status(400)
-        .json({ ok: false, error: "start_date must be before or equal to end_date" });
+        .json({
+          ok: false,
+          error: "start_date must be before or equal to end_date",
+        });
     }
 
     console.log(

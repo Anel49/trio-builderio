@@ -1282,10 +1282,7 @@ export default function ProductDetails() {
                                     .json()
                                     .catch(() => ({}));
 
-                                  if (
-                                    checkoutData.ok &&
-                                    checkoutData.url
-                                  ) {
+                                  if (checkoutData.ok && checkoutData.url) {
                                     console.log(
                                       "Redirecting to Stripe:",
                                       checkoutData.url,
