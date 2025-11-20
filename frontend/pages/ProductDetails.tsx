@@ -1033,8 +1033,7 @@ export default function ProductDetails() {
                       typeof displayRating === "number" &&
                       displayRating % 1 >= 0.5;
                     const isFullStar = i < fullStars;
-                    const isHalfStar =
-                      hasHalfStar && i === fullStars && i < 5;
+                    const isHalfStar = hasHalfStar && i === fullStars && i < 5;
 
                     if (isHalfStar) {
                       return (

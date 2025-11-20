@@ -1514,7 +1514,9 @@ export default function Profile() {
                   <div className="flex items-center justify-center space-x-2">
                     <div className="flex items-center">
                       {[...Array(5)].map((_, i) => {
-                        const fullStars = Math.floor(userProfile.avgRating ?? 0);
+                        const fullStars = Math.floor(
+                          userProfile.avgRating ?? 0,
+                        );
                         const hasHalfStar =
                           typeof userProfile.avgRating === "number" &&
                           userProfile.avgRating % 1 >= 0.5;
