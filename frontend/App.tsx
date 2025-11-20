@@ -11,6 +11,7 @@ import { CookieBanner, CookiePreferences } from "@/components/ui/cookie-banner";
 import { COMPANY_NAME } from "@/lib/constants";
 import SplashOnboarding from "@/components/ui/splash-onboarding";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 // import { PageLoadingProvider, usePageLoading } from "@/contexts/PageLoadingContext";
 // import { SessionLoginWall } from "@/components/SessionLoginWall";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -193,17 +194,19 @@ const AppContent = () => {
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        {/* <PageLoadingProvider> */}
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppContent />
-          </BrowserRouter>
-        </TooltipProvider>
-        {/* </PageLoadingProvider> */}
-      </AuthProvider>
+      <GoogleOAuthProvider clientId="351186828908-eftb2iad6u9k6kiesn15hd1i0ph7dio0.apps.googleusercontent.com">
+        <AuthProvider>
+          {/* <PageLoadingProvider> */}
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <AppContent />
+            </BrowserRouter>
+          </TooltipProvider>
+          {/* </PageLoadingProvider> */}
+        </AuthProvider>
+      </GoogleOAuthProvider>
     </QueryClientProvider>
   );
 };
