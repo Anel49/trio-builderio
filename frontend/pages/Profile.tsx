@@ -1513,17 +1513,38 @@ export default function Profile() {
                 <div className="mb-4">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={cn(
-                            "h-4 w-4",
-                            i < Math.floor(userProfile.avgRating)
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-300",
-                          )}
-                        />
-                      ))}
+                      {[...Array(5)].map((_, i) => {
+                        const fullStars = Math.floor(userProfile.avgRating ?? 0);
+                        const hasHalfStar =
+                          typeof userProfile.avgRating === "number" &&
+                          userProfile.avgRating % 1 >= 0.5;
+                        const isFullStar = i < fullStars;
+                        const isHalfStar =
+                          hasHalfStar && i === fullStars && i < 5;
+
+                        if (isHalfStar) {
+                          return (
+                            <div key={i} className="relative h-4 w-4">
+                              <Star className="absolute h-4 w-4 text-gray-300" />
+                              <div className="absolute h-4 w-2 overflow-hidden">
+                                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <Star
+                            key={i}
+                            className={cn(
+                              "h-4 w-4",
+                              isFullStar
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300",
+                            )}
+                          />
+                        );
+                      })}
                     </div>
                     <span className="font-medium">{userProfile.avgRating}</span>
                     <span className="text-sm text-muted-foreground">
@@ -2703,17 +2724,38 @@ export default function Profile() {
               <div className="mb-4">
                 <div className="flex items-center justify-center space-x-2">
                   <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={cn(
-                          "h-4 w-4",
-                          i < Math.floor(userProfile.avgRating)
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-gray-300",
-                        )}
-                      />
-                    ))}
+                    {[...Array(5)].map((_, i) => {
+                      const fullStars = Math.floor(userProfile.avgRating ?? 0);
+                      const hasHalfStar =
+                        typeof userProfile.avgRating === "number" &&
+                        userProfile.avgRating % 1 >= 0.5;
+                      const isFullStar = i < fullStars;
+                      const isHalfStar =
+                        hasHalfStar && i === fullStars && i < 5;
+
+                      if (isHalfStar) {
+                        return (
+                          <div key={i} className="relative h-4 w-4">
+                            <Star className="absolute h-4 w-4 text-gray-300" />
+                            <div className="absolute h-4 w-2 overflow-hidden">
+                              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                            </div>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <Star
+                          key={i}
+                          className={cn(
+                            "h-4 w-4",
+                            isFullStar
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-300",
+                          )}
+                        />
+                      );
+                    })}
                   </div>
                   <span className="font-medium">{userProfile.avgRating}</span>
                   <span className="text-sm text-muted-foreground">
