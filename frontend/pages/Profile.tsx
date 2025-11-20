@@ -395,7 +395,7 @@ export default function Profile() {
       const response = await apiFetch("/listings/bulk/update-enabled", {
         method: "PATCH",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ user_id: userId, enabled: true }),
+        body: JSON.stringify({ host_id: userId, enabled: true }),
       });
 
       if (response.ok) {
@@ -432,7 +432,7 @@ export default function Profile() {
       const response = await apiFetch("/listings/bulk/update-enabled", {
         method: "PATCH",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ user_id: userId, enabled: false }),
+        body: JSON.stringify({ host_id: userId, enabled: false }),
       });
 
       if (response.ok) {
