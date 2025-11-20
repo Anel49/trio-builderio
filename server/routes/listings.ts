@@ -90,8 +90,8 @@ export async function listListings(req: Request, res: Response) {
       }
 
       if (Number.isFinite(filterUserId) && filterUserId !== null) {
-        console.log("[listListings] Filtering user_id =", filterUserId);
-        conditions.push(`l.user_id = $${paramIndex}`);
+        console.log("[listListings] Filtering host_id =", filterUserId);
+        conditions.push(`l.host_id = $${paramIndex}`);
         params.push(filterUserId);
         paramIndex++;
       }
