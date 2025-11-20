@@ -407,6 +407,10 @@ export async function emailLogin(req: Request, res: Response) {
     (req as any).session.userId = user.id;
     (req as any).session.user = user;
 
+    if (staySignedInFlag) {
+      (req as any).session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+    }
+
     res.json({
       ok: true,
       user,
