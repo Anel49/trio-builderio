@@ -279,6 +279,17 @@ export default function Messages() {
 
       {/* Main Messages Interface */}
       <div className="h-[calc(100vh-4rem)]">
+        {/* Overlay for mobile/tablet when sidebars are open */}
+        {(leftSidebarOpen || rightSidebarOpen) && (
+          <div
+            className="fixed inset-0 top-16 bg-black/40 backdrop-blur-sm z-[70] md:hidden"
+            onClick={() => {
+              setLeftSidebarOpen(false);
+              setRightSidebarOpen(false);
+            }}
+          />
+        )}
+
         <div className="h-full flex overflow-hidden shadow-sm relative">
           {/* Mobile Edge Tab Strips - Only visible on tablet/mobile */}
           <div
