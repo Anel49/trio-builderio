@@ -1286,11 +1286,18 @@ export default function ProductDetails() {
                                     checkoutData.ok &&
                                     checkoutData.url
                                   ) {
+                                    console.log(
+                                      "Redirecting to Stripe:",
+                                      checkoutData.url,
+                                    );
                                     window.location.href = checkoutData.url;
                                   } else {
                                     console.error(
                                       "Failed to create checkout session:",
-                                      checkoutData.error,
+                                      checkoutData,
+                                    );
+                                    alert(
+                                      `Checkout error: ${checkoutData.error || "Unknown error"}`,
                                     );
                                   }
                                 } catch (checkoutError) {
