@@ -13,6 +13,7 @@ import { apiFetch } from "@/lib/api";
 import { ForgotPasswordModal } from "@/components/ui/forgot-password-modal";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useAuth } from "@/contexts/AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 interface EmailLoginModalProps {
   isOpen: boolean;
