@@ -199,9 +199,7 @@ export function EmailLoginModal({
               <Checkbox
                 id="staySignedIn"
                 checked={staySignedIn}
-                onCheckedChange={(checked) =>
-                  setStaySignedIn(checked === true)
-                }
+                onCheckedChange={(checked) => setStaySignedIn(checked === true)}
                 disabled={isLoading}
               />
               <label
