@@ -900,7 +900,7 @@ export default function Profile() {
 
         const coords = !viewingOtherUser ? getCurrentUserCoordinates() : null;
         const userZip = !viewingOtherUser ? getCurrentUserZipCode() : null;
-        let path = `listings?user_id=${targetUserId}`;
+        let path = `listings?host_id=${targetUserId}`;
 
         if (coords) {
           path += `&user_lat=${coords.latitude}&user_lng=${coords.longitude}`;
