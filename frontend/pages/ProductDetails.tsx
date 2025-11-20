@@ -1259,51 +1259,45 @@ export default function ProductDetails() {
                                   String(reservationData.reservation.id),
                                 );
 
-                                if (product?.instantBookings) {
-                                  // Create Stripe checkout session
-                                  try {
-                                    const checkoutResponse = await apiFetch(
-                                      "checkout/create-session",
-                                      {
-                                        method: "POST",
-                                        body: JSON.stringify({
-                                          listingId: Number(params.id),
-                                          listingTitle: product?.name,
-                                          amount: 3000,
-                                          successUrl: `${window.location.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-                                          cancelUrl: `${window.location.origin}/checkout/cancel`,
-                                        }),
-                                        headers: {
-                                          "content-type": "application/json",
-                                        },
+                                // Create Stripe checkout session
+                                try {
+                                  const checkoutResponse = await apiFetch(
+                                    "checkout/create-session",
+                                    {
+                                      method: "POST",
+                                      body: JSON.stringify({
+                                        listingId: Number(params.id),
+                                        listingTitle: product?.name,
+                                        amount: 3000,
+                                        successUrl: `${window.location.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+                                        cancelUrl: `${window.location.origin}/checkout/cancel`,
+                                      }),
+                                      headers: {
+                                        "content-type": "application/json",
                                       },
-                                    );
+                                    },
+                                  );
 
-                                    const checkoutData = await checkoutResponse
-                                      .json()
-                                      .catch(() => ({}));
+                                  const checkoutData = await checkoutResponse
+                                    .json()
+                                    .catch(() => ({}));
 
-                                    if (
-                                      checkoutData.ok &&
-                                      checkoutData.url
-                                    ) {
-                                      window.location.href = checkoutData.url;
-                                    } else {
-                                      console.error(
-                                        "Failed to create checkout session:",
-                                        checkoutData.error,
-                                      );
-                                      window.location.href = "/checkout";
-                                    }
-                                  } catch (checkoutError) {
+                                  if (
+                                    checkoutData.ok &&
+                                    checkoutData.url
+                                  ) {
+                                    window.location.href = checkoutData.url;
+                                  } else {
                                     console.error(
-                                      "Checkout error:",
-                                      checkoutError,
+                                      "Failed to create checkout session:",
+                                      checkoutData.error,
                                     );
-                                    window.location.href = "/checkout";
                                   }
-                                } else {
-                                  setShowRequestSentModal(true);
+                                } catch (checkoutError) {
+                                  console.error(
+                                    "Checkout error:",
+                                    checkoutError,
+                                  );
                                 }
                               } else {
                                 console.error(
