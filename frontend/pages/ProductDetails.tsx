@@ -1027,18 +1027,38 @@ export default function ProductDetails() {
 
               <div className="flex items-center space-x-4 mb-4">
                 <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={cn(
-                        "h-4 w-4",
-                        typeof displayRating === "number" &&
-                          i < Math.floor(displayRating)
-                          ? "fill-yellow-400 text-yellow-400"
-                          : "text-gray-300",
-                      )}
-                    />
-                  ))}
+                  {[...Array(5)].map((_, i) => {
+                    const fullStars = Math.floor(displayRating ?? 0);
+                    const hasHalfStar =
+                      typeof displayRating === "number" &&
+                      displayRating % 1 >= 0.5;
+                    const isFullStar = i < fullStars;
+                    const isHalfStar =
+                      hasHalfStar && i === fullStars && i < 5;
+
+                    if (isHalfStar) {
+                      return (
+                        <div key={i} className="relative h-4 w-4">
+                          <Star className="absolute h-4 w-4 text-gray-300" />
+                          <div className="absolute h-4 w-2 overflow-hidden">
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <Star
+                        key={i}
+                        className={cn(
+                          "h-4 w-4",
+                          isFullStar
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-gray-300",
+                        )}
+                      />
+                    );
+                  })}
                   <span className="ml-2 text-sm font-medium">
                     {displayRating == null ? "Not yet rated" : displayRating}
                   </span>
