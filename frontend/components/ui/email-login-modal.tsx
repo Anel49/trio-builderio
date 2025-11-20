@@ -69,6 +69,7 @@ export function EmailLoginModal({
         body: JSON.stringify({
           email: email.trim(),
           password,
+          staySignedIn,
         }),
       });
 
