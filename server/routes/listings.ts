@@ -57,7 +57,7 @@ export async function listListings(req: Request, res: Response) {
     const enabledParam = query.enabled;
     const filterEnabled =
       enabledParam === "true" ? true : enabledParam === "false" ? false : null;
-    const userIdParam = query.user_id;
+    const userIdParam = query.host_id;
     const filterUserId =
       typeof userIdParam === "string"
         ? Number.parseInt(userIdParam, 10)
