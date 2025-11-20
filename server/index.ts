@@ -390,6 +390,9 @@ export function createServer() {
   app.get("/messages/:userId/conversations", listConversations);
   app.get("/messages/:userId/:otherUserId", getMessages);
   app.post("/messages", sendMessage);
+  // Checkout
+  app.post("/api/checkout/create-session", createCheckoutSession);
+  app.post("/checkout/create-session", createCheckoutSession);
 
   return app;
 }
