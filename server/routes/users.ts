@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { pool } from "./db";
 import * as argon2 from "argon2";
+import { OAuth2Client } from "google-auth-library";
 
 function rowToUser(r: any) {
   return {
@@ -782,6 +783,121 @@ export async function passwordResetRequest(req: Request, res: Response) {
     });
   } catch (error: any) {
     console.error("Password reset request error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
+export async function googleOAuth(req: Request, res: Response) {
+  try {
+    const { token, staySignedIn } = (req.body || {}) as any;
+
+    if (!token || typeof token !== "string") {
+      return res.status(400).json({ ok: false, error: "token is required" });
+    }
+
+    const googleClientId =
+      "351186828908-eftb2iad6u9k6kiesn15hd1i0ph7dio0.apps.googleusercontent.com";
+    const client = new OAuth2Client(googleClientId);
+
+    let ticket;
+    try {
+      ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: googleClientId,
+      });
+    } catch (verifyError: any) {
+      console.error("Token verification failed:", verifyError.message);
+      return res.status(401).json({ ok: false, error: "Invalid token" });
+    }
+
+    const payload = ticket.getPayload();
+
+    if (!payload) {
+      return res.status(401).json({ ok: false, error: "Invalid token payload" });
+    }
+
+    const email = payload.email ? String(payload.email).toLowerCase().trim() : "";
+    const firstName = payload.given_name ? String(payload.given_name).trim() : "";
+    const lastName = payload.family_name ? String(payload.family_name).trim() : "";
+    const picture = payload.picture ? String(payload.picture).trim() : null;
+    const name = `${firstName}${lastName ? " " + lastName : ""}`.trim();
+
+    if (!email) {
+      return res.status(400).json({ ok: false, error: "Email is required" });
+    }
+
+    // Check if user already exists
+    const credResult = await pool.query(
+      `select user_id from user_credentials where email = $1`,
+      [email],
+    );
+
+    let userId: number;
+
+    if (credResult.rowCount && credResult.rowCount > 0) {
+      userId = credResult.rows[0].user_id;
+
+      // Update user with Google profile info
+      try {
+        await pool.query(
+          `update users set avatar_url = $1, first_name = $2, last_name = $3, name = $4
+           where id = $5`,
+          [picture, firstName || null, lastName || null, name || null, userId],
+        );
+      } catch (updateError) {
+        console.log("Error updating user with Google data:", updateError);
+      }
+    } else {
+      // Create new user
+      const userInsertResult = await pool.query(
+        `insert into users (name, email, avatar_url, first_name, last_name, created_at)
+         values ($1, $2, $3, $4, $5, now())
+         returning id`,
+        [name || null, email, picture, firstName || null, lastName || null],
+      );
+
+      userId = userInsertResult.rows[0].id;
+
+      // Create user credentials with "oauth" as password
+      await pool.query(
+        `insert into user_credentials (user_id, email, password, first_name, last_name, photo_id)
+         values ($1, $2, $3, $4, $5, $6)`,
+        [userId, email, "oauth", firstName || null, lastName || null, null],
+      );
+    }
+
+    // Fetch user data
+    const userResult = await pool.query(
+      `select id, name, email, username, avatar_url, latitude, longitude, location_city, created_at,
+              coalesce(founding_supporter,false) as founding_supporter,
+              coalesce(top_referrer,false) as top_referrer,
+              coalesce(ambassador,false) as ambassador,
+              coalesce(open_dms,true) as open_dms
+       from users where id = $1`,
+      [userId],
+    );
+
+    if (!userResult.rowCount || userResult.rowCount === 0) {
+      return res.status(500).json({ ok: false, error: "Failed to fetch user" });
+    }
+
+    const user = rowToUser(userResult.rows[0]);
+
+    // Set session
+    (req as any).session.userId = user.id;
+    (req as any).session.user = user;
+
+    if (staySignedIn === true) {
+      (req as any).session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+    }
+
+    res.json({
+      ok: true,
+      user,
+      message: "Google OAuth login successful",
+    });
+  } catch (error: any) {
+    console.error("Google OAuth error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
