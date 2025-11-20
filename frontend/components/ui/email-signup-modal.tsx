@@ -13,6 +13,7 @@ import { Eye, EyeOff, Upload, X, CheckCircle } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { GoogleLogin } from "@react-oauth/google";
 
 interface EmailSignupModalProps {
   isOpen: boolean;
@@ -45,6 +46,7 @@ export function EmailSignupModal({
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [successUser, setSuccessUser] = useState<any>(null);
+  const [useGoogleSignup, setUseGoogleSignup] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const usernameRegex = /^[a-zA-Z0-9_-]*$/;
