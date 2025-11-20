@@ -1,7 +1,12 @@
 import type { Request, Response } from "express";
+import Stripe from "stripe";
 
 const STRIPE_SECRET_KEY =
   process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_key";
+
+const stripe = new Stripe(STRIPE_SECRET_KEY, {
+  apiVersion: "2024-12-18",
+});
 
 export async function createCheckoutSession(req: Request, res: Response) {
   try {
@@ -14,8 +19,6 @@ export async function createCheckoutSession(req: Request, res: Response) {
         error: "listingId and amount are required",
       });
     }
-
-    const stripe = require("stripe")(STRIPE_SECRET_KEY);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
