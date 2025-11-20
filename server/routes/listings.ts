@@ -302,13 +302,13 @@ export async function createListing(req: Request, res: Response) {
     const lat = parseCoordinate(latitude);
     const lon = parseCoordinate(longitude);
 
-    // Fetch user's first_name if user_id is provided
+    // Fetch user's first_name if host_id is provided
     let hostValue = host ?? null;
-    if (typeof user_id === "number" && user_id > 0) {
+    if (typeof host_id === "number" && host_id > 0) {
       try {
         const userResult = await pool.query(
           `select first_name from users where id = $1`,
-          [user_id],
+          [host_id],
         );
         if (userResult.rows && userResult.rows.length > 0) {
           const firstName = userResult.rows[0].first_name;
