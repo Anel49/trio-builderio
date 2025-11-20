@@ -516,7 +516,7 @@ export async function getListingById(req: Request, res: Response) {
       images,
       image: r.image_url,
       host: r.host,
-      hostUserId: typeof r.user_id === "number" ? r.user_id : null,
+      hostUserId: typeof r.host_id === "number" ? r.host_id : null,
       hostUsername:
         typeof r.host_username === "string" ? r.host_username : undefined,
       hostAvatarUrl:
