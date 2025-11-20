@@ -1316,12 +1316,6 @@ export default function ProductDetails() {
                       }
                     } catch (error) {
                       console.error("Failed to check for conflicts:", error);
-                      // Proceed anyway if check fails
-                      localStorage.setItem(
-                        "selectedDates",
-                        JSON.stringify(selectedDateRange),
-                      );
-                      window.location.href = "/checkout";
                     }
                   }}
                 >
