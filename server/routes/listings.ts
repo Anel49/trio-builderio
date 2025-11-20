@@ -858,14 +858,14 @@ export async function bulkUpdateListingsEnabled(req: Request, res: Response) {
 
     console.log(
       "[bulkUpdateListingsEnabled] Updating listings for user",
-      user_id,
+      host_id,
       "to enabled =",
       enabled,
     );
 
     const result = await pool.query(
-      `update listings set enabled = $1 where user_id = $2 returning id`,
-      [enabled, user_id],
+      `update listings set enabled = $1 where host_id = $2 returning id`,
+      [enabled, host_id],
     );
 
     console.log(
