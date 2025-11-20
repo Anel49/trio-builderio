@@ -76,7 +76,7 @@ export async function listListings(req: Request, res: Response) {
                 u.username as host_username
          from listings l
          left join listing_reviews lr on l.id = lr.listing_id
-         left join users u on l.user_id = u.id`;
+         left join users u on l.host_id = u.id`;
 
       const params: any[] = [];
       let paramIndex = 1;
