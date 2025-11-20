@@ -200,45 +200,36 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     console.log("[dbSetup] Added modified_by_id column");
 
-    // Handle user_id column - always try to fix constraints
+    // Migrate user_id to host_id
     try {
-      // First, try to make it nullable and set default
       await pool.query(
-        `alter table listings alter column user_id drop not null`,
+        `alter table listings add column if not exists host_id integer`,
       );
-      console.log("[dbSetup] Dropped NOT NULL constraint on user_id");
+      console.log("[dbSetup] Added host_id column if not exists");
+    } catch (e: any) {
+      console.log("[dbSetup] Add host_id column error:", e?.message?.slice(0, 100));
+    }
+
+    try {
+      // Copy user_id to host_id if host_id is empty
+      await pool.query(
+        `update listings set host_id = user_id where host_id is null and user_id is not null`,
+      );
+      console.log("[dbSetup] Migrated user_id data to host_id");
     } catch (e: any) {
       console.log(
-        "[dbSetup] Drop NOT NULL error (may not exist):",
+        "[dbSetup] Migrate data error:",
         e?.message?.slice(0, 100),
       );
     }
 
     try {
-      await pool.query(
-        `alter table listings alter column user_id set default 0`,
-      );
-      console.log("[dbSetup] Set user_id default to 0");
-    } catch (e: any) {
-      console.log("[dbSetup] Set default error:", e?.message?.slice(0, 100));
-    }
-
-    try {
-      await pool.query(
-        `alter table listings add column if not exists user_id integer`,
-      );
-      console.log("[dbSetup] Added user_id column if not exists");
-    } catch (e: any) {
-      console.log("[dbSetup] Add column error:", e?.message?.slice(0, 100));
-    }
-
-    try {
-      // Update any existing NULL values to 0
-      await pool.query(`update listings set user_id = 0 where user_id is null`);
-      console.log("[dbSetup] Updated NULL user_id values to 0");
+      // Drop user_id column if it exists
+      await pool.query(`alter table listings drop column if exists user_id`);
+      console.log("[dbSetup] Dropped user_id column");
     } catch (e: any) {
       console.log(
-        "[dbSetup] Update NULL values error:",
+        "[dbSetup] Drop user_id column error:",
         e?.message?.slice(0, 100),
       );
     }
