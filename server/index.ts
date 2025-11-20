@@ -26,6 +26,7 @@ import {
   changeEmail,
   changeUsername,
   passwordResetRequest,
+  googleOAuth,
 } from "./routes/users";
 import { reverseGeocode } from "./routes/geocode";
 import {
