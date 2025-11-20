@@ -262,6 +262,8 @@ export function EmailSignupModal({
                   setError("Google signup failed. Please try again.");
                 }}
                 text="signup_with"
+                theme="outline"
+                size="large"
                 width="280"
               />
             </div>
