@@ -296,6 +296,8 @@ export function EmailLoginModal({
                 setError("Google login failed. Please try again.");
               }}
               text="signin_with"
+              theme="outline"
+              size="large"
               width="280"
             />
           </div>
