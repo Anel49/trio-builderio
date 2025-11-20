@@ -1389,6 +1389,13 @@ export default function BrowseListings() {
             </div>
           </div>
         </div>
+
+        {/* Load More Button */}
+        <div className="mt-8 text-center">
+          <Button variant="outline" size="lg">
+            Load more listings
+          </Button>
+        </div>
       </div>
 
       {isLoadingDistances && (
