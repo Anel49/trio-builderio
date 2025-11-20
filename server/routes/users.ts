@@ -352,10 +352,11 @@ export async function emailSignup(req: Request, res: Response) {
 
 export async function emailLogin(req: Request, res: Response) {
   try {
-    const { email, password } = (req.body || {}) as any;
+    const { email, password, staySignedIn } = (req.body || {}) as any;
 
     const emailStr = typeof email === "string" ? email.trim() : "";
     const passwordStr = typeof password === "string" ? password : "";
+    const staySignedInFlag = Boolean(staySignedIn);
 
     if (!emailStr || !emailStr.includes("@")) {
       return res
