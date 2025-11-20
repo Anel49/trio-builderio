@@ -190,7 +190,7 @@ export async function listListings(req: Request, res: Response) {
         images: [],
         image: r.image_url,
         host: r.host,
-        hostUserId: typeof r.user_id === "number" ? r.user_id : undefined,
+        hostUserId: typeof r.host_id === "number" ? r.host_id : undefined,
         hostUsername:
           typeof r.host_username === "string" ? r.host_username : undefined,
         hostOpenDms: Boolean(r.host_open_dms),
