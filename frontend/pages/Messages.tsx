@@ -410,35 +410,24 @@ export default function Messages() {
                   >
                     <div className="flex items-center space-x-3">
                       <div className="relative">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (chat.username) {
-                              navigate(`/profile/${chat.username}`);
-                            }
-                          }}
-                          className="cursor-pointer hover:opacity-80 transition-opacity"
-                          aria-label="Open profile"
+                        <Avatar
+                          className={`h-12 w-12 ${
+                            selectedUserId === chat.otherUserId
+                              ? "!bg-slate-400 dark:!bg-slate-600"
+                              : ""
+                          }`}
                         >
-                          <Avatar
-                            className={`h-12 w-12 ${
-                              selectedUserId === chat.otherUserId
-                                ? "!bg-slate-400 dark:!bg-slate-600"
-                                : ""
-                            }`}
-                          >
-                            <AvatarImage
-                              src={chat.avatarUrl || undefined}
-                              alt={chat.name}
-                            />
-                            <AvatarFallback>
-                              {chat.name
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")}
-                            </AvatarFallback>
-                          </Avatar>
-                        </button>
+                          <AvatarImage
+                            src={chat.avatarUrl || undefined}
+                            alt={chat.name}
+                          />
+                          <AvatarFallback>
+                            {chat.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </AvatarFallback>
+                        </Avatar>
                       </div>
                       <div className="flex-1 w-0">
                         <div className="font-semibold text-sm truncate text-left w-full">
