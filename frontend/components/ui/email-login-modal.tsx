@@ -104,6 +104,7 @@ export function EmailLoginModal({
     setEmail("");
     setPassword("");
     setShowPassword(false);
+    setStaySignedIn(false);
     setError("");
     setFieldErrors({});
     onOpenChange(false);
