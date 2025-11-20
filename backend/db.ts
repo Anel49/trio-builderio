@@ -202,34 +202,43 @@ export async function dbSetup(_req: Request, res: Response) {
 
     // Migrate user_id to host_id
     try {
-      await pool.query(
-        `alter table listings add column if not exists host_id integer`,
+      // First check if user_id column exists
+      const userIdCheckResult = await pool.query(
+        `select exists(
+          select 1 from information_schema.columns
+          where table_name = 'listings' and column_name = 'user_id'
+        ) as exists`,
       );
-      console.log("[dbSetup] Added host_id column if not exists");
-    } catch (e: any) {
-      console.log("[dbSetup] Add host_id column error:", e?.message?.slice(0, 100));
-    }
 
-    try {
-      // Copy user_id to host_id if host_id is empty
-      await pool.query(
-        `update listings set host_id = user_id where host_id is null and user_id is not null`,
-      );
-      console.log("[dbSetup] Migrated user_id data to host_id");
+      const userIdExists = userIdCheckResult.rows[0]?.exists || false;
+      console.log("[dbSetup] user_id column exists:", userIdExists);
+
+      if (userIdExists) {
+        // Add host_id column if it doesn't exist
+        await pool.query(
+          `alter table listings add column if not exists host_id integer`,
+        );
+        console.log("[dbSetup] Added host_id column if not exists");
+
+        // Copy user_id to host_id (including updating existing rows)
+        await pool.query(
+          `update listings set host_id = user_id where user_id is not null`,
+        );
+        console.log("[dbSetup] Migrated user_id data to host_id");
+
+        // Drop user_id column
+        await pool.query(`alter table listings drop column user_id`);
+        console.log("[dbSetup] Dropped user_id column");
+      } else {
+        // user_id doesn't exist, just ensure host_id exists
+        await pool.query(
+          `alter table listings add column if not exists host_id integer`,
+        );
+        console.log("[dbSetup] Added host_id column (user_id didn't exist)");
+      }
     } catch (e: any) {
       console.log(
-        "[dbSetup] Migrate data error:",
-        e?.message?.slice(0, 100),
-      );
-    }
-
-    try {
-      // Drop user_id column if it exists
-      await pool.query(`alter table listings drop column if exists user_id`);
-      console.log("[dbSetup] Dropped user_id column");
-    } catch (e: any) {
-      console.log(
-        "[dbSetup] Drop user_id column error:",
+        "[dbSetup] Migration error:",
         e?.message?.slice(0, 100),
       );
     }
