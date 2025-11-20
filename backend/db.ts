@@ -237,10 +237,7 @@ export async function dbSetup(_req: Request, res: Response) {
         console.log("[dbSetup] Added host_id column (user_id didn't exist)");
       }
     } catch (e: any) {
-      console.log(
-        "[dbSetup] Migration error:",
-        e?.message?.slice(0, 100),
-      );
+      console.log("[dbSetup] Migration error:", e?.message?.slice(0, 100));
     }
 
     console.log("[dbSetup] Database setup completed successfully");
