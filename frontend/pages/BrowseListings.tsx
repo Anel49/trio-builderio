@@ -1370,7 +1370,7 @@ export default function BrowseListings() {
 
           {/* Right Side - Interactive Map (30%) */}
           <div className="hidden lg:block" style={{ width: "30%" }}>
-            <div className="sticky top-8">
+            <div className="sticky top-0">
               <Card className="h-[750px] overflow-hidden">
                 <CardContent className="p-0 h-full relative">
                   <ListingsMap
