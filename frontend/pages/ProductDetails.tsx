@@ -1304,24 +1304,12 @@ export default function ProductDetails() {
                                   "[ProductDetails] Failed to create reservation:",
                                   reservationData.error,
                                 );
-                                // Proceed to checkout anyway
-                                localStorage.setItem(
-                                  "selectedDates",
-                                  JSON.stringify(selectedDateRange),
-                                );
-                                window.location.href = "/checkout";
                               }
                             } catch (reservationError) {
                               console.error(
                                 "[ProductDetails] Error creating reservation:",
                                 reservationError,
                               );
-                              // Proceed to checkout anyway
-                              localStorage.setItem(
-                                "selectedDates",
-                                JSON.stringify(selectedDateRange),
-                              );
-                              window.location.href = "/checkout";
                             }
                           }
                         }
