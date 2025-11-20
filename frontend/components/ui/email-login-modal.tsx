@@ -206,7 +206,7 @@ export function EmailLoginModal({
                 htmlFor="staySignedIn"
                 className="text-sm font-medium cursor-pointer"
               >
-                Stay signed in
+                Stay signed in for 30 days
               </label>
             </div>
 
