@@ -844,10 +844,10 @@ export async function listListingReservations(req: Request, res: Response) {
 
 export async function bulkUpdateListingsEnabled(req: Request, res: Response) {
   try {
-    const { user_id, enabled } = req.body || {};
+    const { host_id, enabled } = req.body || {};
 
-    if (typeof user_id !== "number" || Number.isNaN(user_id)) {
-      return res.status(400).json({ ok: false, error: "invalid user_id" });
+    if (typeof host_id !== "number" || Number.isNaN(host_id)) {
+      return res.status(400).json({ ok: false, error: "invalid host_id" });
     }
 
     if (typeof enabled !== "boolean") {
