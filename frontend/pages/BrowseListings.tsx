@@ -1281,7 +1281,7 @@ export default function BrowseListings() {
           </p>
         </div>
 
-        <div className="flex gap-8">
+        <div className="flex gap-8 items-start">
           {/* Left Side - Listings Grid (70%) */}
           <div className="flex-1" style={{ width: "70%" }}>
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
