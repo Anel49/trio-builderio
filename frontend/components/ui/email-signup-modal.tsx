@@ -253,7 +253,34 @@ export function EmailSignupModal({
             </DialogTitle>
           </DialogHeader>
 
-          <ScrollArea className="max-h-[calc(90vh-120px)] pr-4">
+          {/* Google OAuth Section */}
+          <div className="space-y-3 px-2">
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => {
+                  setError("Google signup failed. Please try again.");
+                }}
+                text="signup_with"
+                width="280"
+              />
+            </div>
+            {error && <div className="text-sm text-red-500 text-center">{error}</div>}
+
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or sign up with email
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <ScrollArea className="max-h-[calc(90vh-220px)] pr-4">
             <form onSubmit={handleSubmit} className="space-y-4 p-2">
               {/* First Name */}
               <div className="space-y-2">
