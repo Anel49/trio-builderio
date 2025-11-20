@@ -193,6 +193,24 @@ export function EmailLoginModal({
               )}
             </div>
 
+            {/* Stay Signed In Checkbox */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="staySignedIn"
+                checked={staySignedIn}
+                onCheckedChange={(checked) =>
+                  setStaySignedIn(checked === true)
+                }
+                disabled={isLoading}
+              />
+              <label
+                htmlFor="staySignedIn"
+                className="text-sm font-medium cursor-pointer"
+              >
+                Stay signed in
+              </label>
+            </div>
+
             {/* Error Message */}
             {error && <div className="text-sm text-red-500">{error}</div>}
             {fieldErrors.general && (
