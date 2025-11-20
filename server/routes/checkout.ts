@@ -4,9 +4,7 @@ import Stripe from "stripe";
 const STRIPE_SECRET_KEY =
   process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_key";
 
-const stripe = new Stripe(STRIPE_SECRET_KEY, {
-  apiVersion: "2024-12-18",
-});
+const stripe = new Stripe(STRIPE_SECRET_KEY);
 
 export async function createCheckoutSession(req: Request, res: Response) {
   try {
