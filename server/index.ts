@@ -371,6 +371,7 @@ export function createServer() {
   app.post("/users", upsertUser);
   app.post("/users/signup", emailSignup);
   app.post("/users/login", emailLogin);
+  app.post("/users/google-oauth", googleOAuth);
   app.post("/users/change-password", changePassword);
   app.post("/users/change-email", changeEmail);
   app.post("/users/change-username", changeUsername);
