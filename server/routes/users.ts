@@ -874,7 +874,7 @@ export async function passwordReset(req: Request, res: Response) {
 
     // Update the password in user_credentials
     await pool.query(
-      `update user_credentials set password_hash = $1 where user_id = $2`,
+      `update user_credentials set password = $1 where user_id = $2`,
       [hashedPassword, userId],
     );
 
