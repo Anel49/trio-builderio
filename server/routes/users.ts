@@ -809,7 +809,10 @@ export async function googleOAuth(req: Request, res: Response) {
       });
       payload = ticket.getPayload();
     } catch (verifyError: any) {
-      console.log("ID token verification failed, trying access token:", verifyError.message);
+      console.log(
+        "ID token verification failed, trying access token:",
+        verifyError.message,
+      );
 
       // If ID token verification fails, treat it as an access token
       // and fetch user info from Google's userinfo endpoint
@@ -820,16 +823,21 @@ export async function googleOAuth(req: Request, res: Response) {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
 
         if (!userInfoResponse.ok) {
-          throw new Error(`Failed to fetch user info: ${userInfoResponse.statusText}`);
+          throw new Error(
+            `Failed to fetch user info: ${userInfoResponse.statusText}`,
+          );
         }
 
         payload = await userInfoResponse.json();
       } catch (accessTokenError: any) {
-        console.error("Token verification and user info fetch failed:", accessTokenError.message);
+        console.error(
+          "Token verification and user info fetch failed:",
+          accessTokenError.message,
+        );
         return res.status(401).json({ ok: false, error: "Invalid token" });
       }
     }

@@ -73,7 +73,8 @@ export function LoginModal({
           await checkAuth();
           onOpenChange(false);
         } else {
-          const errorMsg = data.error || "Google login failed. Please try again.";
+          const errorMsg =
+            data.error || "Google login failed. Please try again.";
           setError(errorMsg);
         }
       } catch (err) {
@@ -289,7 +290,9 @@ export function LoginModal({
               </svg>
               {isLoading ? "Connecting..." : "Continue with Google"}
             </Button>
-            {error && <div className="text-sm text-red-500 text-center">{error}</div>}
+            {error && (
+              <div className="text-sm text-red-500 text-center">{error}</div>
+            )}
 
             {/* Facebook Login */}
             <Button
