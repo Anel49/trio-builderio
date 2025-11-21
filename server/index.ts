@@ -1,6 +1,12 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
+import {
+  generateRegistrationOptions,
+  verifyRegistrationResponse,
+  generateAuthenticationOptions,
+  verifyAuthenticationResponse,
+} from "@simplewebauthn/server";
 import { handleDemo } from "./routes/demo";
 import { dbHealth, dbSchema, dbSetup } from "./routes/db";
 import {
