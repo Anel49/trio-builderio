@@ -10,11 +10,13 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { apiFetch } from "@/lib/api";
+import { WebAuthnVerificationModal } from "@/components/ui/webauthn-verification-modal";
 
 interface ChangeUsernameModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   currentUsername?: string;
+  oauth?: string | null;
   onSuccess?: (newUsername: string) => void;
 }
 
