@@ -1404,11 +1404,13 @@ export default function Profile() {
                       >
                         Change username
                       </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => setIsChangePasswordModalOpen(true)}
-                      >
-                        Change password
-                      </DropdownMenuItem>
+                      {!authUser?.oauth && (
+                        <DropdownMenuItem
+                          onClick={() => setIsChangePasswordModalOpen(true)}
+                        >
+                          Change password
+                        </DropdownMenuItem>
+                      )}
                       <DropdownMenuItem
                         onClick={() => setIsChangeEmailModalOpen(true)}
                       >
@@ -2618,11 +2620,13 @@ export default function Profile() {
                 >
                   Change username
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => setIsChangePasswordModalOpen(true)}
-                >
-                  Change password
-                </DropdownMenuItem>
+                {!authUser?.oauth && (
+                  <DropdownMenuItem
+                    onClick={() => setIsChangePasswordModalOpen(true)}
+                  >
+                    Change password
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem
                   onClick={() => setIsChangeEmailModalOpen(true)}
                 >
@@ -2865,6 +2869,7 @@ export default function Profile() {
         isOpen={isChangeUsernameModalOpen}
         onOpenChange={setIsChangeUsernameModalOpen}
         currentUsername={authUser?.username}
+        oauth={authUser?.oauth}
         onSuccess={(newUsername) => {
           setNewUsernameForConfirmation(newUsername);
           setIsUsernameChangeSuccessOpen(true);
@@ -2885,6 +2890,7 @@ export default function Profile() {
         isOpen={isChangeEmailModalOpen}
         onOpenChange={setIsChangeEmailModalOpen}
         currentEmail={authUser?.email}
+        oauth={authUser?.oauth}
         onSuccess={(newEmail) => {
           setNewEmailForConfirmation(newEmail);
           setIsEmailChangeSuccessOpen(true);
