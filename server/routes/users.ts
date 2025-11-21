@@ -997,14 +997,14 @@ export async function googleOAuth(req: Request, res: Response) {
 
       userId = userInsertResult.rows[0].id;
 
-      // Create user credentials with "oauth" as password
+      // Create user credentials for OAuth user (password is NULL)
       await pool.query(
         `insert into user_credentials (user_id, email, password, first_name, last_name, photo_id, oauth)
          values ($1, $2, $3, $4, $5, $6, $7)`,
         [
           userId,
           email,
-          "oauth",
+          null,
           firstName || null,
           lastName || null,
           null,
