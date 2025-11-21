@@ -158,6 +158,9 @@ export function EmailSignupModal({
       if (response.ok && data.ok && data.user) {
         setSuccessUser(data.user);
         setIsSuccessModalOpen(true);
+      } else if (data.error === "email already registered") {
+        setEmailInUseError(email.trim());
+        setEmailInUseModalOpen(true);
       } else {
         const errorMsg =
           data.error ||
