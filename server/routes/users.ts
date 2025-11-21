@@ -215,6 +215,16 @@ export async function upsertUser(req: Request, res: Response) {
     );
 
     const user = rowToUser(result.rows[0]);
+    const userId = result.rows[0].id;
+
+    // Also update user_credentials table with first_name and last_name
+    if (firstNameValue !== null || lastNameValue !== null) {
+      await pool.query(
+        `update user_credentials set first_name = coalesce($1, first_name), last_name = coalesce($2, last_name) where user_id = $3`,
+        [firstNameValue, lastNameValue, userId],
+      );
+    }
+
     res.json({ ok: true, user });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
