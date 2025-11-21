@@ -354,6 +354,7 @@ export function createServer() {
   app.post("/api/users/change-email", changeEmail);
   app.post("/api/users/change-username", changeUsername);
   app.post("/api/password-reset-request", passwordResetRequest);
+  app.post("/api/password-reset", passwordReset);
   // Favorites
   app.get("/api/favorites/:userId", listFavorites);
   app.post("/api/favorites", addFavorite);
