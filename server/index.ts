@@ -223,12 +223,15 @@ export function createServer() {
       const { pool } = await import("./routes/db");
 
       const userResult = await pool.query(
-        `select id, name, email, username, avatar_url, latitude, longitude, location_city, created_at,
-                coalesce(founding_supporter,false) as founding_supporter,
-                coalesce(top_referrer,false) as top_referrer,
-                coalesce(ambassador,false) as ambassador,
-                coalesce(open_dms,true) as open_dms
-         from users where id = $1`,
+        `select u.id, u.name, u.email, u.username, u.avatar_url, u.latitude, u.longitude, u.location_city, u.created_at,
+                coalesce(u.founding_supporter,false) as founding_supporter,
+                coalesce(u.top_referrer,false) as top_referrer,
+                coalesce(u.ambassador,false) as ambassador,
+                coalesce(u.open_dms,true) as open_dms,
+                uc.oauth
+         from users u
+         left join user_credentials uc on u.id = uc.user_id
+         where u.id = $1`,
         [req.session.userId],
       );
 
@@ -255,6 +258,7 @@ export function createServer() {
         topReferrer: Boolean(row.top_referrer),
         ambassador: Boolean(row.ambassador),
         openDms: Boolean(row.open_dms),
+        oauth: row.oauth || null,
       };
 
       // Update the session with the latest user data
