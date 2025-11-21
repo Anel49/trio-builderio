@@ -60,12 +60,13 @@ export function ChangeEmailModal({
     return errors;
   };
 
-  const isFormValid =
-    newEmail &&
-    confirmEmail &&
-    password &&
-    newEmail === confirmEmail &&
-    validateEmail(newEmail);
+  const isFormValid = isOAuthUser
+    ? newEmail && confirmEmail && newEmail === confirmEmail && validateEmail(newEmail)
+    : newEmail &&
+      confirmEmail &&
+      password &&
+      newEmail === confirmEmail &&
+      validateEmail(newEmail);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
