@@ -167,3 +167,16 @@ input[type="password"]::-webkit-strong-password-auto-fill-button {
 input[type="password"]::-ms-reveal {
   display: none;
 }
+
+/* Google Login button styling to match outline theme */
+[data-client_id] {
+  width: 100%;
+}
+
+[data-client_id] iframe {
+  filter: brightness(0.8) !important;
+}
+
+.dark [data-client_id] iframe {
+  filter: brightness(1.2) invert(0.85) !important;
+}
