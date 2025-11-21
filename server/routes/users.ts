@@ -556,23 +556,14 @@ export async function changeEmail(req: Request, res: Response) {
 
     const isOAuthUser = credResult.rows[0].oauth !== null;
 
-    // For OAuth users, check WebAuthn verification
+    // OAuth users cannot change their email in user_credentials
+    // Their email is tied to their OAuth provider and must remain constant for login
     if (isOAuthUser) {
-      const webauthnVerified = (req as any).session.webauthnVerified;
-      const webauthnAction = (req as any).session.webauthnVerifiedAction;
-
-      if (!webauthnVerified || webauthnAction !== "change_email") {
-        return res.status(403).json({
-          ok: false,
-          error:
-            "WebAuthn verification required to change email for OAuth accounts",
-        });
-      }
-
-      // Clear the WebAuthn verification flag after use
-      delete (req as any).session.webauthnVerified;
-      delete (req as any).session.webauthnVerifiedAction;
-      delete (req as any).session.webauthnVerifiedAt;
+      return res.status(403).json({
+        ok: false,
+        error:
+          "Cannot change email for OAuth accounts. Your email is linked to your OAuth provider account.",
+      });
     } else {
       // For password users, verify password
       if (!passwordStr) {
