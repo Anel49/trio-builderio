@@ -184,37 +184,11 @@ export function LoginModal({
   // Handle successful OAuth login
   const handleOAuthSuccess = (provider: string, data: any) => {
     console.log(`${provider} login successful:`, data);
-    // Here you would typically:
-    // 1. Send the OAuth data to your backend
-    // 2. Create/update user account
-    // 3. Set authentication state
-    // 4. Close modal and redirect
-
     alert(
       `${provider} login successful! (This is a demo - implement your backend integration)`,
     );
     onOpenChange(false);
-    // Reload the current page to refresh auth state and show authenticated content
     window.location.reload();
-  };
-
-  // Load Google OAuth2 script
-  const loadGoogleScript = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      if (window.google) {
-        resolve();
-        return;
-      }
-
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      script.defer = true;
-      script.onload = () => resolve();
-      script.onerror = () =>
-        reject(new Error("Failed to load Google OAuth script"));
-      document.head.appendChild(script);
-    });
   };
 
   // Load Facebook SDK
