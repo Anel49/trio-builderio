@@ -799,18 +799,40 @@ export async function googleOAuth(req: Request, res: Response) {
       "351186828908-eftb2iad6u9k6kiesn15hd1i0ph7dio0.apps.googleusercontent.com";
     const client = new OAuth2Client(googleClientId);
 
-    let ticket;
+    let payload: any;
+
+    // Try to verify as ID token first
     try {
-      ticket = await client.verifyIdToken({
+      const ticket = await client.verifyIdToken({
         idToken: token,
         audience: googleClientId,
       });
+      payload = ticket.getPayload();
     } catch (verifyError: any) {
-      console.error("Token verification failed:", verifyError.message);
-      return res.status(401).json({ ok: false, error: "Invalid token" });
-    }
+      console.log("ID token verification failed, trying access token:", verifyError.message);
 
-    const payload = ticket.getPayload();
+      // If ID token verification fails, treat it as an access token
+      // and fetch user info from Google's userinfo endpoint
+      try {
+        const userInfoResponse = await fetch(
+          "https://www.googleapis.com/oauth2/v2/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!userInfoResponse.ok) {
+          throw new Error(`Failed to fetch user info: ${userInfoResponse.statusText}`);
+        }
+
+        payload = await userInfoResponse.json();
+      } catch (accessTokenError: any) {
+        console.error("Token verification and user info fetch failed:", accessTokenError.message);
+        return res.status(401).json({ ok: false, error: "Invalid token" });
+      }
+    }
 
     if (!payload) {
       return res
