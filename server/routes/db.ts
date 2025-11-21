@@ -213,7 +213,7 @@ export async function dbSetup(_req: Request, res: Response) {
         first_name text not null,
         last_name text not null,
         email text not null unique,
-        password text not null,
+        password text,
         photo_id text,
         oauth text,
         created_at timestamptz default now()
