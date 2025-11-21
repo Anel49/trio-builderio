@@ -96,7 +96,7 @@ export function ChangeEmailModal({
           confirmEmail: "Emails do not match",
         }));
       }
-      if (!password) {
+      if (!isOAuthUser && !password) {
         setFieldErrors((prev) => ({
           ...prev,
           password: "Password is required for security",
@@ -105,6 +105,14 @@ export function ChangeEmailModal({
       return;
     }
 
+    // For OAuth users, show WebAuthn verification modal first
+    if (isOAuthUser) {
+      setPendingEmail(newEmail);
+      setIsWebAuthnVerificationOpen(true);
+      return;
+    }
+
+    // For password users, proceed directly
     setIsLoading(true);
 
     try {
@@ -124,6 +132,44 @@ export function ChangeEmailModal({
         handleClose();
         if (onSuccess) {
           onSuccess(newEmail);
+        }
+      } else {
+        const errorMsg = data.error || "Failed to change email";
+        const mappedErrors = mapErrorToField(errorMsg);
+
+        if (Object.keys(mappedErrors).length > 0) {
+          setFieldErrors(mappedErrors);
+        } else {
+          setError(errorMsg);
+        }
+      }
+    } catch (error) {
+      console.error("Change email error:", error);
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleWebAuthnSuccess = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await apiFetch("/users/change-email", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          new_email: pendingEmail,
+          confirm_email: pendingEmail,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.ok) {
+        handleClose();
+        if (onSuccess) {
+          onSuccess(pendingEmail);
         }
       } else {
         const errorMsg = data.error || "Failed to change email";
