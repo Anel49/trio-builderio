@@ -54,35 +54,40 @@ export function SignUpModal({
   const [error, setError] = useState("");
 
   // Google OAuth Signup
-  const handleGoogleSuccess = async (credentialResponse: any) => {
-    setIsLoading(true);
-    setError("");
-    try {
-      const response = await apiFetch("/users/google-oauth", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          token: credentialResponse.credential,
-          staySignedIn: false,
-        }),
-      });
+  const handleGoogleSignup = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      setIsLoading(true);
+      setError("");
+      try {
+        const response = await apiFetch("/users/google-oauth", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            token: codeResponse.access_token,
+            staySignedIn: false,
+          }),
+        });
 
-      const data = await response.json().catch(() => ({}));
+        const data = await response.json().catch(() => ({}));
 
-      if (response.ok && data.ok && data.user) {
-        await checkAuth();
-        onOpenChange(false);
-      } else {
-        const errorMsg = data.error || "Google signup failed. Please try again.";
-        setError(errorMsg);
+        if (response.ok && data.ok && data.user) {
+          await checkAuth();
+          onOpenChange(false);
+        } else {
+          const errorMsg = data.error || "Google signup failed. Please try again.";
+          setError(errorMsg);
+        }
+      } catch (err) {
+        console.error("Google signup error:", err);
+        setError("An unexpected error occurred. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      console.error("Google signup error:", err);
-      setError("An unexpected error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    onError: () => {
+      setError("Google signup failed. Please try again.");
+    },
+  });
 
   // Facebook OAuth Signup
   const handleFacebookSignup = async () => {
