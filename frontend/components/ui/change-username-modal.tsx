@@ -63,11 +63,12 @@ export function ChangeUsernameModal({
     return errors;
   };
 
-  const isFormValid =
-    newUsername &&
-    password &&
-    validateUsername(newUsername) &&
-    newUsername !== currentUsername;
+  const isFormValid = isOAuthUser
+    ? newUsername && validateUsername(newUsername) && newUsername !== currentUsername
+    : newUsername &&
+      password &&
+      validateUsername(newUsername) &&
+      newUsername !== currentUsername;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
