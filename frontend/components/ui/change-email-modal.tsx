@@ -193,105 +193,122 @@ export function ChangeEmailModal({
     setNewEmail("");
     setConfirmEmail("");
     setPassword("");
+    setPendingEmail("");
     setError("");
     setFieldErrors({});
     onOpenChange(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Change Email</DialogTitle>
-          <DialogDescription>
-            {currentEmail && (
-              <p className="mb-2">Current email: {currentEmail}</p>
+    <>
+      <Dialog open={isOpen} onOpenChange={handleClose}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Change Email</DialogTitle>
+            <DialogDescription>
+              {currentEmail && (
+                <p className="mb-2">Current email: {currentEmail}</p>
+              )}
+              {isOAuthUser
+                ? "Enter your new email address and verify with your device."
+                : "Enter your new email address and confirm it with your password."}
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* New Email */}
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                New Email
+                <span className="text-red-500">*</span>
+              </label>
+              <Input
+                type="email"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+                placeholder="Enter your new email"
+                disabled={isLoading}
+                className={fieldErrors.newEmail ? "border-red-500" : ""}
+              />
+              {fieldErrors.newEmail && (
+                <p className="text-sm text-red-500 mt-1">
+                  {fieldErrors.newEmail}
+                </p>
+              )}
+            </div>
+
+            {/* Confirm Email */}
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Confirm Email
+                <span className="text-red-500">*</span>
+              </label>
+              <Input
+                type="email"
+                value={confirmEmail}
+                onChange={(e) => setConfirmEmail(e.target.value)}
+                placeholder="Confirm your new email"
+                disabled={isLoading}
+                className={fieldErrors.confirmEmail ? "border-red-500" : ""}
+              />
+              {fieldErrors.confirmEmail && (
+                <p className="text-sm text-red-500 mt-1">
+                  {fieldErrors.confirmEmail}
+                </p>
+              )}
+            </div>
+
+            {/* Password - Only for non-OAuth users */}
+            {!isOAuthUser && (
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Password
+                  <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password to confirm"
+                  disabled={isLoading}
+                  className={fieldErrors.password ? "border-red-500" : ""}
+                />
+                {fieldErrors.password && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {fieldErrors.password}
+                  </p>
+                )}
+              </div>
             )}
-            Enter your new email address and confirm it with your password.
-          </DialogDescription>
-        </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* New Email */}
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              New Email
-              <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="email"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              placeholder="Enter your new email"
-              disabled={isLoading}
-              className={fieldErrors.newEmail ? "border-red-500" : ""}
-            />
-            {fieldErrors.newEmail && (
-              <p className="text-sm text-red-500 mt-1">
-                {fieldErrors.newEmail}
-              </p>
-            )}
-          </div>
+            {error && <p className="text-sm text-red-500">{error}</p>}
 
-          {/* Confirm Email */}
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Confirm Email
-              <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="email"
-              value={confirmEmail}
-              onChange={(e) => setConfirmEmail(e.target.value)}
-              placeholder="Confirm your new email"
-              disabled={isLoading}
-              className={fieldErrors.confirmEmail ? "border-red-500" : ""}
-            />
-            {fieldErrors.confirmEmail && (
-              <p className="text-sm text-red-500 mt-1">
-                {fieldErrors.confirmEmail}
-              </p>
-            )}
-          </div>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleClose}
+                disabled={isLoading}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isLoading || !isFormValid}>
+                {isLoading ? "Changing..." : "Change Email"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Password
-              <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password to confirm"
-              disabled={isLoading}
-              className={fieldErrors.password ? "border-red-500" : ""}
-            />
-            {fieldErrors.password && (
-              <p className="text-sm text-red-500 mt-1">
-                {fieldErrors.password}
-              </p>
-            )}
-          </div>
-
-          {error && <p className="text-sm text-red-500">{error}</p>}
-
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleClose}
-              disabled={isLoading}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading || !isFormValid}>
-              {isLoading ? "Changing..." : "Change Email"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+      {/* WebAuthn Verification Modal for OAuth users */}
+      {isOAuthUser && (
+        <WebAuthnVerificationModal
+          isOpen={isWebAuthnVerificationOpen}
+          onOpenChange={setIsWebAuthnVerificationOpen}
+          onSuccess={handleWebAuthnSuccess}
+          action="change_email"
+        />
+      )}
+    </>
   );
 }
