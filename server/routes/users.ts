@@ -151,6 +151,28 @@ export async function upsertUser(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "email is required" });
     }
 
+    // Check if this is an OAuth user trying to change their email
+    const session = (req as any).session;
+    if (session && session.userId) {
+      const credResult = await pool.query(
+        `select email, oauth from user_credentials where user_id = $1`,
+        [session.userId],
+      );
+
+      if (credResult.rowCount && credResult.rowCount > 0) {
+        const currentEmail = credResult.rows[0].email;
+        const isOAuthUser = credResult.rows[0].oauth !== null;
+
+        if (isOAuthUser && emailStr !== currentEmail) {
+          return res.status(403).json({
+            ok: false,
+            error:
+              "Cannot change email for OAuth accounts. Your email is linked to your OAuth provider account.",
+          });
+        }
+      }
+    }
+
     await ensureBadgeColumns();
 
     const latParam = latitude;
