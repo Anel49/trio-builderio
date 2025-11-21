@@ -219,6 +219,7 @@ export async function dbSetup(_req: Request, res: Response) {
         created_at timestamptz default now()
       );
       alter table user_credentials add column if not exists oauth text;
+      alter table user_credentials alter column password drop not null;
 
       create table if not exists orders (
         id serial primary key,
