@@ -943,7 +943,15 @@ export async function googleOAuth(req: Request, res: Response) {
       await pool.query(
         `insert into user_credentials (user_id, email, password, first_name, last_name, photo_id, oauth)
          values ($1, $2, $3, $4, $5, $6, $7)`,
-        [userId, email, "oauth", firstName || null, lastName || null, null, "google_oauth"],
+        [
+          userId,
+          email,
+          "oauth",
+          firstName || null,
+          lastName || null,
+          null,
+          "google_oauth",
+        ],
       );
     }
 

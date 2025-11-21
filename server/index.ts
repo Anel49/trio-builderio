@@ -417,9 +417,7 @@ export function createServer() {
       const { action } = req.body;
 
       if (!action || !["change_username", "change_email"].includes(action)) {
-        return res
-          .status(400)
-          .json({ ok: false, error: "Invalid action" });
+        return res.status(400).json({ ok: false, error: "Invalid action" });
       }
 
       // Generate authentication options for device verification
@@ -435,7 +433,9 @@ export function createServer() {
 
       res.json({
         ok: true,
-        challenge: Array.from(new Uint8Array(Buffer.from(options.challenge, "base64"))),
+        challenge: Array.from(
+          new Uint8Array(Buffer.from(options.challenge, "base64")),
+        ),
         timeout: 60000,
       });
     } catch (error: any) {
@@ -456,9 +456,7 @@ export function createServer() {
       const { action } = req.body;
 
       if (!action || !["change_username", "change_email"].includes(action)) {
-        return res
-          .status(400)
-          .json({ ok: false, error: "Invalid action" });
+        return res.status(400).json({ ok: false, error: "Invalid action" });
       }
 
       // Generate authentication options for device verification
@@ -474,7 +472,9 @@ export function createServer() {
 
       res.json({
         ok: true,
-        challenge: Array.from(new Uint8Array(Buffer.from(options.challenge, "base64"))),
+        challenge: Array.from(
+          new Uint8Array(Buffer.from(options.challenge, "base64")),
+        ),
         timeout: 60000,
       });
     } catch (error: any) {
@@ -487,64 +487,69 @@ export function createServer() {
   });
 
   // WebAuthn assertion verification
-  app.post("/api/users/webauthn/verify-assertion", async (req: any, res: any) => {
-    try {
-      if (!req.session || !req.session.userId) {
-        return res.status(401).json({ ok: false, error: "Not authenticated" });
-      }
+  app.post(
+    "/api/users/webauthn/verify-assertion",
+    async (req: any, res: any) => {
+      try {
+        if (!req.session || !req.session.userId) {
+          return res
+            .status(401)
+            .json({ ok: false, error: "Not authenticated" });
+        }
 
-      // Check if challenge is still valid
-      if (!req.session.webauthnChallenge || !req.session.webauthnExpiry) {
-        return res
-          .status(400)
-          .json({ ok: false, error: "No verification in progress" });
-      }
+        // Check if challenge is still valid
+        if (!req.session.webauthnChallenge || !req.session.webauthnExpiry) {
+          return res
+            .status(400)
+            .json({ ok: false, error: "No verification in progress" });
+        }
 
-      if (Date.now() > req.session.webauthnExpiry) {
+        if (Date.now() > req.session.webauthnExpiry) {
+          delete req.session.webauthnChallenge;
+          delete req.session.webauthnAction;
+          delete req.session.webauthnExpiry;
+          return res
+            .status(400)
+            .json({ ok: false, error: "Verification challenge expired" });
+        }
+
+        // For this implementation, we just verify that a WebAuthn assertion was received
+        // In a production system, you would:
+        // 1. Store WebAuthn credentials when the user first authenticates
+        // 2. Verify the credential against stored keys
+        // For now, we accept any valid-looking assertion
+        const { id, rawId, type, response } = req.body;
+
+        if (!id || !type || !response) {
+          return res
+            .status(400)
+            .json({ ok: false, error: "Invalid assertion format" });
+        }
+
+        // Clear the challenge after successful verification
+        const action = req.session.webauthnAction;
         delete req.session.webauthnChallenge;
         delete req.session.webauthnAction;
         delete req.session.webauthnExpiry;
-        return res
-          .status(400)
-          .json({ ok: false, error: "Verification challenge expired" });
+
+        // Store a flag indicating that WebAuthn verification was successful
+        req.session.webauthnVerified = true;
+        req.session.webauthnVerifiedAction = action;
+        req.session.webauthnVerifiedAt = Date.now();
+
+        res.json({
+          ok: true,
+          message: "WebAuthn verification successful",
+        });
+      } catch (error: any) {
+        console.error("WebAuthn assertion verification error:", error);
+        res.status(500).json({
+          ok: false,
+          error: "Failed to verify assertion",
+        });
       }
-
-      // For this implementation, we just verify that a WebAuthn assertion was received
-      // In a production system, you would:
-      // 1. Store WebAuthn credentials when the user first authenticates
-      // 2. Verify the credential against stored keys
-      // For now, we accept any valid-looking assertion
-      const { id, rawId, type, response } = req.body;
-
-      if (!id || !type || !response) {
-        return res
-          .status(400)
-          .json({ ok: false, error: "Invalid assertion format" });
-      }
-
-      // Clear the challenge after successful verification
-      const action = req.session.webauthnAction;
-      delete req.session.webauthnChallenge;
-      delete req.session.webauthnAction;
-      delete req.session.webauthnExpiry;
-
-      // Store a flag indicating that WebAuthn verification was successful
-      req.session.webauthnVerified = true;
-      req.session.webauthnVerifiedAction = action;
-      req.session.webauthnVerifiedAt = Date.now();
-
-      res.json({
-        ok: true,
-        message: "WebAuthn verification successful",
-      });
-    } catch (error: any) {
-      console.error("WebAuthn assertion verification error:", error);
-      res.status(500).json({
-        ok: false,
-        error: "Failed to verify assertion",
-      });
-    }
-  });
+    },
+  );
 
   app.post("/users/webauthn/verify-assertion", async (req: any, res: any) => {
     try {

@@ -64,7 +64,9 @@ export function ChangeUsernameModal({
   };
 
   const isFormValid = isOAuthUser
-    ? newUsername && validateUsername(newUsername) && newUsername !== currentUsername
+    ? newUsername &&
+      validateUsername(newUsername) &&
+      newUsername !== currentUsername
     : newUsername &&
       password &&
       validateUsername(newUsername) &&

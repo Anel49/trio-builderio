@@ -61,7 +61,10 @@ export function ChangeEmailModal({
   };
 
   const isFormValid = isOAuthUser
-    ? newEmail && confirmEmail && newEmail === confirmEmail && validateEmail(newEmail)
+    ? newEmail &&
+      confirmEmail &&
+      newEmail === confirmEmail &&
+      validateEmail(newEmail)
     : newEmail &&
       confirmEmail &&
       password &&

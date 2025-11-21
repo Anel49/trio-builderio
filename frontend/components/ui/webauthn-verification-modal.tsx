@@ -34,7 +34,7 @@ export function WebAuthnVerificationModal({
       // Check if WebAuthn is supported
       if (!window.PublicKeyCredential) {
         setError(
-          "WebAuthn is not supported on this device. Please use a device with biometric or PIN authentication."
+          "WebAuthn is not supported on this device. Please use a device with biometric or PIN authentication.",
         );
         return;
       }
@@ -83,19 +83,21 @@ export function WebAuthnVerificationModal({
               type: assertion.type,
               response: {
                 clientDataJSON: Array.from(
-                  new Uint8Array(assertion.response.clientDataJSON)
+                  new Uint8Array(assertion.response.clientDataJSON),
                 ),
                 authenticatorData: Array.from(
-                  new Uint8Array(assertion.response.authenticatorData)
+                  new Uint8Array(assertion.response.authenticatorData),
                 ),
-                signature: Array.from(new Uint8Array(assertion.response.signature)),
+                signature: Array.from(
+                  new Uint8Array(assertion.response.signature),
+                ),
                 userHandle: assertion.response.userHandle
                   ? Array.from(new Uint8Array(assertion.response.userHandle))
                   : null,
               },
               action,
             }),
-          }
+          },
         );
 
         const verifyData = await verifyResponse.json().catch(() => ({}));
@@ -135,8 +137,8 @@ export function WebAuthnVerificationModal({
         <DialogHeader>
           <DialogTitle>Verify Your Identity</DialogTitle>
           <DialogDescription>
-            To {actionLabel}, please authenticate using your device's
-            biometric or PIN.
+            To {actionLabel}, please authenticate using your device's biometric
+            or PIN.
           </DialogDescription>
         </DialogHeader>
 
@@ -163,11 +165,7 @@ export function WebAuthnVerificationModal({
           >
             Cancel
           </Button>
-          <Button
-            type="button"
-            onClick={handleVerify}
-            disabled={isLoading}
-          >
+          <Button type="button" onClick={handleVerify} disabled={isLoading}>
             {isLoading ? "Verifying..." : "Verify with Device"}
           </Button>
         </DialogFooter>
