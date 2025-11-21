@@ -139,10 +139,45 @@ export function ForgotPasswordModal({
     }
   };
 
+  const handleClose = () => {
+    if (!resetComplete) {
+      setEmail("");
+      setConfirmEmail("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setShowNewPassword(false);
+      setShowConfirmPassword(false);
+      setEmailVerified(false);
+      setVerifiedEmail("");
+      setError("");
+      setFieldErrors({});
+    }
+    onOpenChange(false);
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open || resetComplete) {
+          if (resetComplete) {
+            setResetComplete(false);
+            setEmailVerified(false);
+            setEmail("");
+            setConfirmEmail("");
+            setNewPassword("");
+            setConfirmPassword("");
+            setShowNewPassword(false);
+            setShowConfirmPassword(false);
+            setError("");
+            setFieldErrors({});
+          }
+          onOpenChange(open);
+        }
+      }}
+    >
       <DialogContent className="max-w-md">
-        {!resetEmailSent ? (
+        {!emailVerified ? (
           <>
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold text-center">
@@ -153,8 +188,7 @@ export function ForgotPasswordModal({
             <div className="space-y-6 p-2">
               <div className="text-center">
                 <p className="text-muted-foreground text-sm">
-                  Enter your email address and we'll send you a link to reset
-                  your password.
+                  Enter your email address to reset your password.
                 </p>
               </div>
 
@@ -189,22 +223,142 @@ export function ForgotPasswordModal({
                 </div>
               </div>
 
+              {error && <p className="text-sm text-red-500">{error}</p>}
+
               <div className="space-y-2">
                 <Button
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                  onClick={handleSendResetLink}
-                  disabled={isButtonDisabled || isLoading}
+                  onClick={handleVerifyEmail}
+                  disabled={isEmailButtonDisabled || isLoading}
                 >
-                  {isLoading ? "Sending..." : "Email reset link"}
+                  {isLoading ? "Verifying..." : "Email reset link"}
                 </Button>
 
                 <Button
                   variant="outline"
                   className="w-full"
-                  onClick={() => onOpenChange(false)}
+                  onClick={handleClose}
                   disabled={isLoading}
                 >
                   Cancel
+                </Button>
+              </div>
+            </div>
+          </>
+        ) : !resetComplete ? (
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold text-center">
+                Set New Password
+              </DialogTitle>
+            </DialogHeader>
+
+            <div className="space-y-6 p-2">
+              <div className="text-center">
+                <p className="text-muted-foreground text-sm">
+                  Enter your new password. Password must be at least 6
+                  characters.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">
+                    New Password
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <Input
+                      type={showNewPassword ? "text" : "password"}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Enter your new password"
+                      disabled={isLoading}
+                      className={
+                        fieldErrors.newPassword ? "border-red-500" : ""
+                      }
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      {showNewPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {fieldErrors.newPassword && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {fieldErrors.newPassword}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block">
+                    Confirm New Password
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <Input
+                      type={showConfirmPassword ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Confirm your new password"
+                      disabled={isLoading}
+                      className={
+                        fieldErrors.confirmPassword ? "border-red-500" : ""
+                      }
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {fieldErrors.confirmPassword && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {fieldErrors.confirmPassword}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {error && <p className="text-sm text-red-500">{error}</p>}
+
+              <div className="space-y-2">
+                <Button
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  onClick={handleResetPassword}
+                  disabled={!isPasswordValid || isLoading}
+                >
+                  {isLoading ? "Resetting..." : "Reset Password"}
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    setEmailVerified(false);
+                    setNewPassword("");
+                    setConfirmPassword("");
+                    setError("");
+                    setFieldErrors({});
+                  }}
+                  disabled={isLoading}
+                >
+                  Back
                 </Button>
               </div>
             </div>
@@ -213,20 +367,25 @@ export function ForgotPasswordModal({
           <>
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold text-center">
-                Password reset email sent to {sentEmail}!
+                Password Reset Successful!
               </DialogTitle>
             </DialogHeader>
 
             <div className="space-y-6 p-2">
               <div className="text-center">
                 <p className="text-muted-foreground text-sm">
-                  Please allow up to 5 minutes to receive your email. If you do
-                  not receive the email within that time, please{" "}
-                  <a href="#" className="text-primary hover:underline">
-                    contact us
-                  </a>
-                  .
+                  Your password has been successfully reset. You can now log in
+                  with your new password.
                 </p>
+              </div>
+
+              <div className="space-y-2">
+                <Button
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  onClick={handleClose}
+                >
+                  Close
+                </Button>
               </div>
             </div>
           </>
