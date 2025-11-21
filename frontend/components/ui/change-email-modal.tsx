@@ -10,11 +10,13 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { apiFetch } from "@/lib/api";
+import { WebAuthnVerificationModal } from "@/components/ui/webauthn-verification-modal";
 
 interface ChangeEmailModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   currentEmail?: string;
+  oauth?: string | null;
   onSuccess?: (newEmail: string) => void;
 }
 
