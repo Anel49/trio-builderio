@@ -238,7 +238,7 @@ export function EmailSignupModal({
           if (onSignupSuccess) {
             onSignupSuccess();
           }
-        } else if (data.error === "email_in_use") {
+        } else if (!response.ok && data.error === "email_in_use") {
           setEmailInUseError(data.email || "");
           setEmailInUseModalOpen(true);
         } else {
