@@ -830,6 +830,64 @@ export async function passwordResetRequest(req: Request, res: Response) {
   }
 }
 
+export async function passwordReset(req: Request, res: Response) {
+  try {
+    const { email, new_password } = (req.body || {}) as any;
+
+    const emailStr = typeof email === "string" ? email.trim() : "";
+    const passwordStr = typeof new_password === "string" ? new_password : "";
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailStr || !emailRegex.test(emailStr)) {
+      return res.status(400).json({
+        ok: false,
+        error: "valid email is required",
+      });
+    }
+
+    if (!passwordStr || passwordStr.length < 6) {
+      return res.status(400).json({
+        ok: false,
+        error: "Password must be at least 6 characters",
+      });
+    }
+
+    // Check if user exists and get user_id
+    const credResult = await pool.query(
+      `select user_id from user_credentials where email = $1`,
+      [emailStr],
+    );
+
+    if (!credResult.rowCount || credResult.rowCount === 0) {
+      return res.status(404).json({
+        ok: false,
+        error: "Account with this email not found",
+      });
+    }
+
+    const userId = credResult.rows[0].user_id;
+
+    // Hash the new password
+    const hashedPassword = await argon2.hash(passwordStr);
+
+    // Update the password in user_credentials
+    await pool.query(
+      `update user_credentials set password_hash = $1 where user_id = $2`,
+      [hashedPassword, userId],
+    );
+
+    res.json({
+      ok: true,
+      message: "Password has been successfully reset",
+    });
+  } catch (error: any) {
+    console.error("Password reset error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function googleOAuth(req: Request, res: Response) {
   try {
     const { token, staySignedIn } = (req.body || {}) as any;
