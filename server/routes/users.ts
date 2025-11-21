@@ -898,9 +898,9 @@ export async function googleOAuth(req: Request, res: Response) {
 
       // Create user credentials with "oauth" as password
       await pool.query(
-        `insert into user_credentials (user_id, email, password, first_name, last_name, photo_id)
-         values ($1, $2, $3, $4, $5, $6)`,
-        [userId, email, "oauth", firstName || null, lastName || null, null],
+        `insert into user_credentials (user_id, email, password, first_name, last_name, photo_id, oauth)
+         values ($1, $2, $3, $4, $5, $6, $7)`,
+        [userId, email, "oauth", firstName || null, lastName || null, null, "google_oauth"],
       );
     }
 
