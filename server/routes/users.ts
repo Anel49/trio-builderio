@@ -531,16 +531,9 @@ export async function changeEmail(req: Request, res: Response) {
       });
     }
 
-    if (!passwordStr) {
-      return res.status(400).json({
-        ok: false,
-        error: "password is required for security",
-      });
-    }
-
-    // Verify password
+    // Get user credentials to check oauth status and password
     const credResult = await pool.query(
-      `select password from user_credentials where user_id = $1`,
+      `select password, oauth from user_credentials where user_id = $1`,
       [session.userId],
     );
 
@@ -551,16 +544,45 @@ export async function changeEmail(req: Request, res: Response) {
       });
     }
 
-    const isPasswordValid = await argon2.verify(
-      credResult.rows[0].password,
-      passwordStr,
-    );
+    const isOAuthUser = credResult.rows[0].oauth !== null;
 
-    if (!isPasswordValid) {
-      return res.status(400).json({
-        ok: false,
-        error: "password is incorrect",
-      });
+    // For OAuth users, check WebAuthn verification
+    if (isOAuthUser) {
+      const webauthnVerified = (req as any).session.webauthnVerified;
+      const webauthnAction = (req as any).session.webauthnVerifiedAction;
+
+      if (!webauthnVerified || webauthnAction !== "change_email") {
+        return res.status(403).json({
+          ok: false,
+          error:
+            "WebAuthn verification required to change email for OAuth accounts",
+        });
+      }
+
+      // Clear the WebAuthn verification flag after use
+      delete (req as any).session.webauthnVerified;
+      delete (req as any).session.webauthnVerifiedAction;
+      delete (req as any).session.webauthnVerifiedAt;
+    } else {
+      // For password users, verify password
+      if (!passwordStr) {
+        return res.status(400).json({
+          ok: false,
+          error: "password is required for security",
+        });
+      }
+
+      const isPasswordValid = await argon2.verify(
+        credResult.rows[0].password,
+        passwordStr,
+      );
+
+      if (!isPasswordValid) {
+        return res.status(400).json({
+          ok: false,
+          error: "password is incorrect",
+        });
+      }
     }
 
     // Check if new email is already in use
