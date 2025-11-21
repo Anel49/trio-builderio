@@ -388,6 +388,7 @@ export function createServer() {
   app.post("/users/change-email", changeEmail);
   app.post("/users/change-username", changeUsername);
   app.post("/password-reset-request", passwordResetRequest);
+  app.post("/password-reset", passwordReset);
   app.get("/favorites/:userId", listFavorites);
   app.post("/favorites", addFavorite);
   app.delete("/favorites/:userId/:listingId", removeFavorite);
