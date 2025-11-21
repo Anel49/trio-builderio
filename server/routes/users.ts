@@ -988,53 +988,46 @@ export async function googleOAuth(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "Email is required" });
     }
 
-    // Check if user already exists
+    // Check if email already exists in user_credentials
     const credResult = await pool.query(
       `select user_id from user_credentials where email = $1`,
       [email],
     );
 
-    let userId: number;
-
+    // If email already exists, prevent account creation
     if (credResult.rowCount && credResult.rowCount > 0) {
-      userId = credResult.rows[0].user_id;
-
-      // Update user with Google profile info
-      try {
-        await pool.query(
-          `update users set avatar_url = $1, first_name = $2, last_name = $3, name = $4
-           where id = $5`,
-          [picture, firstName || null, lastName || null, name || null, userId],
-        );
-      } catch (updateError) {
-        console.log("Error updating user with Google data:", updateError);
-      }
-    } else {
-      // Create new user
-      const userInsertResult = await pool.query(
-        `insert into users (name, email, avatar_url, first_name, last_name, created_at)
-         values ($1, $2, $3, $4, $5, now())
-         returning id`,
-        [name || null, email, picture, firstName || null, lastName || null],
-      );
-
-      userId = userInsertResult.rows[0].id;
-
-      // Create user credentials for OAuth user (password is NULL)
-      await pool.query(
-        `insert into user_credentials (user_id, email, password, first_name, last_name, photo_id, oauth)
-         values ($1, $2, $3, $4, $5, $6, $7)`,
-        [
-          userId,
-          email,
-          null,
-          firstName || null,
-          lastName || null,
-          null,
-          "google_oauth",
-        ],
-      );
+      return res.status(409).json({
+        ok: false,
+        error: "email_in_use",
+        email: email,
+        message: `An account associated with the email address ${email} already exists.`,
+      });
     }
+
+    // Create new user
+    const userInsertResult = await pool.query(
+      `insert into users (name, email, avatar_url, first_name, last_name, created_at)
+       values ($1, $2, $3, $4, $5, now())
+       returning id`,
+      [name || null, email, picture, firstName || null, lastName || null],
+    );
+
+    const userId = userInsertResult.rows[0].id;
+
+    // Create user credentials for OAuth user (password is NULL)
+    await pool.query(
+      `insert into user_credentials (user_id, email, password, first_name, last_name, photo_id, oauth)
+       values ($1, $2, $3, $4, $5, $6, $7)`,
+      [
+        userId,
+        email,
+        null,
+        firstName || null,
+        lastName || null,
+        null,
+        "google_oauth",
+      ],
+    );
 
     // Fetch user data
     const userResult = await pool.query(
