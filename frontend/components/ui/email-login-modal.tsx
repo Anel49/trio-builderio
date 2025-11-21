@@ -135,7 +135,8 @@ export function EmailLoginModal({
             onLoginSuccess();
           }
         } else {
-          const errorMsg = data.error || "Google login failed. Please try again.";
+          const errorMsg =
+            data.error || "Google login failed. Please try again.";
           setError(errorMsg);
         }
       } catch (err) {

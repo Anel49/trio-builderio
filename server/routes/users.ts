@@ -813,12 +813,20 @@ export async function googleOAuth(req: Request, res: Response) {
     const payload = ticket.getPayload();
 
     if (!payload) {
-      return res.status(401).json({ ok: false, error: "Invalid token payload" });
+      return res
+        .status(401)
+        .json({ ok: false, error: "Invalid token payload" });
     }
 
-    const email = payload.email ? String(payload.email).toLowerCase().trim() : "";
-    const firstName = payload.given_name ? String(payload.given_name).trim() : "";
-    const lastName = payload.family_name ? String(payload.family_name).trim() : "";
+    const email = payload.email
+      ? String(payload.email).toLowerCase().trim()
+      : "";
+    const firstName = payload.given_name
+      ? String(payload.given_name).trim()
+      : "";
+    const lastName = payload.family_name
+      ? String(payload.family_name).trim()
+      : "";
     const picture = payload.picture ? String(payload.picture).trim() : null;
     const name = `${firstName}${lastName ? " " + lastName : ""}`.trim();
 

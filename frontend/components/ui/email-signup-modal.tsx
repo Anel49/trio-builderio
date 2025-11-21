@@ -233,7 +233,8 @@ export function EmailSignupModal({
             onSignupSuccess();
           }
         } else {
-          const errorMsg = data.error || "Google signup failed. Please try again.";
+          const errorMsg =
+            data.error || "Google signup failed. Please try again.";
           setError(errorMsg);
         }
       } catch (err) {
@@ -286,7 +287,9 @@ export function EmailSignupModal({
               </svg>
               {isLoading ? "Connecting..." : "Continue with Google"}
             </Button>
-            {error && <div className="text-sm text-red-500 text-center">{error}</div>}
+            {error && (
+              <div className="text-sm text-red-500 text-center">{error}</div>
+            )}
 
             {/* Divider */}
             <div className="relative">
