@@ -88,7 +88,7 @@ export function ChangeUsernameModal({
             "Username must be 3-30 characters, containing only letters, numbers, underscores, and hyphens",
         }));
       }
-      if (!password) {
+      if (!isOAuthUser && !password) {
         setFieldErrors((prev) => ({
           ...prev,
           password: "Password is required for security",
@@ -103,6 +103,14 @@ export function ChangeUsernameModal({
       return;
     }
 
+    // For OAuth users, show WebAuthn verification modal first
+    if (isOAuthUser) {
+      setPendingUsername(newUsername);
+      setIsWebAuthnVerificationOpen(true);
+      return;
+    }
+
+    // For password users, proceed directly
     setIsLoading(true);
 
     try {
@@ -121,6 +129,43 @@ export function ChangeUsernameModal({
         handleClose();
         if (onSuccess) {
           onSuccess(newUsername);
+        }
+      } else {
+        const errorMsg = data.error || "Failed to change username";
+        const mappedErrors = mapErrorToField(errorMsg);
+
+        if (Object.keys(mappedErrors).length > 0) {
+          setFieldErrors(mappedErrors);
+        } else {
+          setError(errorMsg);
+        }
+      }
+    } catch (error) {
+      console.error("Change username error:", error);
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleWebAuthnSuccess = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await apiFetch("/users/change-username", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          new_username: pendingUsername,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.ok) {
+        handleClose();
+        if (onSuccess) {
+          onSuccess(pendingUsername);
         }
       } else {
         const errorMsg = data.error || "Failed to change username";
