@@ -188,87 +188,104 @@ export function ChangeUsernameModal({
   const handleClose = () => {
     setNewUsername("");
     setPassword("");
+    setPendingUsername("");
     setError("");
     setFieldErrors({});
     onOpenChange(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Change Username</DialogTitle>
-          <DialogDescription>
-            {currentUsername && (
-              <p className="mb-2">Current username: {currentUsername}</p>
-            )}
-            Choose a new username and confirm with your password.
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <Dialog open={isOpen} onOpenChange={handleClose}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Change Username</DialogTitle>
+            <DialogDescription>
+              {currentUsername && (
+                <p className="mb-2">Current username: {currentUsername}</p>
+              )}
+              {isOAuthUser
+                ? "Choose a new username and verify with your device."
+                : "Choose a new username and confirm with your password."}
+            </DialogDescription>
+          </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* New Username */}
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              New Username
-              <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="text"
-              value={newUsername}
-              onChange={(e) => setNewUsername(e.target.value)}
-              placeholder="Enter your new username"
-              disabled={isLoading}
-              className={fieldErrors.newUsername ? "border-red-500" : ""}
-            />
-            <p className="text-xs text-muted-foreground mt-1">
-              3-30 characters, letters, numbers, underscores, and hyphens only
-            </p>
-            {fieldErrors.newUsername && (
-              <p className="text-sm text-red-500 mt-1">
-                {fieldErrors.newUsername}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* New Username */}
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                New Username
+                <span className="text-red-500">*</span>
+              </label>
+              <Input
+                type="text"
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+                placeholder="Enter your new username"
+                disabled={isLoading}
+                className={fieldErrors.newUsername ? "border-red-500" : ""}
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                3-30 characters, letters, numbers, underscores, and hyphens only
               </p>
+              {fieldErrors.newUsername && (
+                <p className="text-sm text-red-500 mt-1">
+                  {fieldErrors.newUsername}
+                </p>
+              )}
+            </div>
+
+            {/* Password - Only for non-OAuth users */}
+            {!isOAuthUser && (
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Password
+                  <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password to confirm"
+                  disabled={isLoading}
+                  className={fieldErrors.password ? "border-red-500" : ""}
+                />
+                {fieldErrors.password && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {fieldErrors.password}
+                  </p>
+                )}
+              </div>
             )}
-          </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Password
-              <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password to confirm"
-              disabled={isLoading}
-              className={fieldErrors.password ? "border-red-500" : ""}
-            />
-            {fieldErrors.password && (
-              <p className="text-sm text-red-500 mt-1">
-                {fieldErrors.password}
-              </p>
-            )}
-          </div>
+            {error && <p className="text-sm text-red-500">{error}</p>}
 
-          {error && <p className="text-sm text-red-500">{error}</p>}
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleClose}
+                disabled={isLoading}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isLoading || !isFormValid}>
+                {isLoading ? "Changing..." : "Change Username"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleClose}
-              disabled={isLoading}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading || !isFormValid}>
-              {isLoading ? "Changing..." : "Change Username"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+      {/* WebAuthn Verification Modal for OAuth users */}
+      {isOAuthUser && (
+        <WebAuthnVerificationModal
+          isOpen={isWebAuthnVerificationOpen}
+          onOpenChange={setIsWebAuthnVerificationOpen}
+          onSuccess={handleWebAuthnSuccess}
+          action="change_username"
+        />
+      )}
+    </>
   );
 }
