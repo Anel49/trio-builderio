@@ -257,6 +257,11 @@ export function EmailSignupModal({
 
   return (
     <>
+      <EmailInUseModal
+        isOpen={emailInUseModalOpen}
+        onOpenChange={setEmailInUseModalOpen}
+        email={emailInUseError}
+      />
       <Dialog open={isOpen && !isSuccessModalOpen} onOpenChange={handleClose}>
         <DialogContent className="max-w-md max-h-[90vh]">
           <DialogHeader>
