@@ -15,6 +15,7 @@ export interface User {
   topReferrer: boolean;
   ambassador: boolean;
   openDms: boolean;
+  oauth: string | null;
 }
 
 interface AuthContextType {
