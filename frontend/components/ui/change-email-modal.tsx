@@ -24,6 +24,7 @@ export function ChangeEmailModal({
   isOpen,
   onOpenChange,
   currentEmail,
+  oauth,
   onSuccess,
 }: ChangeEmailModalProps) {
   const [newEmail, setNewEmail] = useState("");
@@ -32,6 +33,10 @@ export function ChangeEmailModal({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [isWebAuthnVerificationOpen, setIsWebAuthnVerificationOpen] =
+    useState(false);
+  const [pendingEmail, setPendingEmail] = useState("");
+  const isOAuthUser = !!oauth;
 
   const validateEmail = (email: string): boolean => {
     // Simple email regex validation: local@domain.tld
