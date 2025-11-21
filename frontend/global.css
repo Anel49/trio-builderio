@@ -167,3 +167,8 @@ input[type="password"]::-webkit-strong-password-auto-fill-button {
 input[type="password"]::-ms-reveal {
   display: none;
 }
+
+/* Google Login button styling to match dark outline buttons */
+div[data-client_id] iframe {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
