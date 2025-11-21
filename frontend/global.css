@@ -169,6 +169,6 @@ input[type="password"]::-ms-reveal {
 }
 
 /* Google Login button styling to match dark outline buttons */
-div[data-client_id] iframe {
-  filter: invert(1) hue-rotate(180deg) !important;
+[data-client_id] iframe {
+  filter: brightness(0) invert(1) !important;
 }
