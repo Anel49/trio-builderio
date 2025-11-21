@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Eye, EyeOff } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 
 interface ForgotPasswordModalProps {
@@ -20,9 +21,16 @@ export function ForgotPasswordModal({
 }: ForgotPasswordModalProps) {
   const [email, setEmail] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [resetEmailSent, setResetEmailSent] = useState(false);
-  const [sentEmail, setSentEmail] = useState("");
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [verifiedEmail, setVerifiedEmail] = useState("");
+  const [resetComplete, setResetComplete] = useState(false);
+  const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const validateEmail = (value: string): boolean => {
@@ -33,13 +41,21 @@ export function ForgotPasswordModal({
   const isEmailValid = validateEmail(email);
   const isConfirmEmailValid = validateEmail(confirmEmail);
   const emailsMatch = email === confirmEmail;
-  const isButtonDisabled =
+  const isEmailButtonDisabled =
     !isEmailValid || !isConfirmEmailValid || !emailsMatch;
 
-  const handleSendResetLink = async () => {
-    if (isButtonDisabled) return;
+  const isPasswordValid =
+    newPassword &&
+    confirmPassword &&
+    newPassword === confirmPassword &&
+    newPassword.length >= 6;
+
+  const handleVerifyEmail = async () => {
+    if (isEmailButtonDisabled) return;
 
     setIsLoading(true);
+    setError("");
+    setFieldErrors({});
     try {
       const response = await apiFetch("/password-reset-request", {
         method: "POST",
@@ -52,14 +68,72 @@ export function ForgotPasswordModal({
       const data = await response.json();
 
       if (data.ok) {
-        setSentEmail(email);
-        setResetEmailSent(true);
+        setEmailVerified(true);
+        setVerifiedEmail(email);
       } else {
-        alert(data.error || "Failed to send password reset email");
+        setError(data.error || "Email not found");
       }
     } catch (error) {
-      console.error("Error sending password reset email:", error);
-      alert("An error occurred while sending the password reset email");
+      console.error("Error verifying email:", error);
+      setError("An error occurred while verifying the email");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    setError("");
+    setFieldErrors({});
+
+    if (!isPasswordValid) {
+      if (!newPassword) {
+        setFieldErrors((prev) => ({
+          ...prev,
+          newPassword: "New password is required",
+        }));
+      } else if (newPassword.length < 6) {
+        setFieldErrors((prev) => ({
+          ...prev,
+          newPassword: "Password must be at least 6 characters",
+        }));
+      }
+      if (!confirmPassword) {
+        setFieldErrors((prev) => ({
+          ...prev,
+          confirmPassword: "Please confirm your password",
+        }));
+      } else if (newPassword !== confirmPassword) {
+        setFieldErrors((prev) => ({
+          ...prev,
+          confirmPassword: "Passwords do not match",
+        }));
+      }
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await apiFetch("/password-reset", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: verifiedEmail,
+          new_password: newPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.ok) {
+        setResetComplete(true);
+      } else {
+        setError(data.error || "Failed to reset password");
+      }
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      setError("An error occurred while resetting the password");
     } finally {
       setIsLoading(false);
     }
