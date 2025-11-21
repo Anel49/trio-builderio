@@ -24,6 +24,7 @@ export function ChangeUsernameModal({
   isOpen,
   onOpenChange,
   currentUsername,
+  oauth,
   onSuccess,
 }: ChangeUsernameModalProps) {
   const [newUsername, setNewUsername] = useState("");
@@ -31,6 +32,10 @@ export function ChangeUsernameModal({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [isWebAuthnVerificationOpen, setIsWebAuthnVerificationOpen] =
+    useState(false);
+  const [pendingUsername, setPendingUsername] = useState("");
+  const isOAuthUser = !!oauth;
 
   const validateUsername = (username: string): boolean => {
     // Username can contain letters, numbers, underscores, and hyphens
