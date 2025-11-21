@@ -48,35 +48,45 @@ export function LoginModal({
   onSwitchToSignUp,
   onContinueWithEmail,
 }: LoginModalProps) {
+  const { checkAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // Google OAuth Login
-  const handleGoogleLogin = async () => {
-    setIsLoading(true);
-    try {
-      // Load Google OAuth2 library
-      if (!window.google) {
-        await loadGoogleScript();
-      }
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      setIsLoading(true);
+      setError("");
+      try {
+        const response = await apiFetch("/users/google-oauth", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            token: codeResponse.access_token,
+            staySignedIn: false,
+          }),
+        });
 
-      window.google.accounts.oauth2
-        .initTokenClient({
-          client_id: GOOGLE_CLIENT_ID,
-          scope: "profile email",
-          callback: (response: any) => {
-            console.log("Google OAuth Response:", response);
-            // Handle successful Google login
-            handleOAuthSuccess("google", response);
-          },
-        })
-        .requestAccessToken();
-    } catch (error) {
-      console.error("Google login error:", error);
-      alert("Google login failed. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok && data.ok && data.user) {
+          await checkAuth();
+          onOpenChange(false);
+        } else {
+          const errorMsg = data.error || "Google login failed. Please try again.";
+          setError(errorMsg);
+        }
+      } catch (err) {
+        console.error("Google login error:", err);
+        setError("An unexpected error occurred. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    onError: () => {
+      setError("Google login failed. Please try again.");
+    },
+  });
 
   // Facebook OAuth Login
   const handleFacebookLogin = async () => {
