@@ -200,6 +200,21 @@ export default function UploadProduct() {
             } else if (listing.image && typeof listing.image === "string") {
               setUploadedImages([listing.image]);
             }
+
+            // Set addons if they exist
+            if (Array.isArray(listing.addons) && listing.addons.length > 0) {
+              setAddons(
+                listing.addons.map(
+                  (addon: any, index: number) => ({
+                    id: addon.id || `addon-${Date.now()}-${index}`,
+                    item: addon.item || "",
+                    style: addon.style || "",
+                    price: addon.price ? String(addon.price) : "",
+                  }),
+                ),
+              );
+              setIsAddonsExpanded(true);
+            }
           }
         } catch (error) {
           console.error("Failed to load listing data:", error);
