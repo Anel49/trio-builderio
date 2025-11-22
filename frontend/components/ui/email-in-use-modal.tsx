@@ -21,6 +21,13 @@ export function EmailInUseModal({
   email,
   onSignupModalToggle,
 }: EmailInUseModalProps) {
+  useEffect(() => {
+    // Close signup modal when email modal opens
+    if (isOpen && onSignupModalToggle) {
+      onSignupModalToggle(false);
+    }
+  }, [isOpen, onSignupModalToggle]);
+
   const handleClose = () => {
     onOpenChange(false);
     // Reopen signup modal when email modal closes
@@ -28,11 +35,6 @@ export function EmailInUseModal({
       onSignupModalToggle(true);
     }
   };
-
-  // Close signup modal when email modal opens
-  if (isOpen && onSignupModalToggle) {
-    onSignupModalToggle(false);
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
