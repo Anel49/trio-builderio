@@ -857,6 +857,7 @@ export async function updateListing(req: Request, res: Response) {
         }
       } catch (e) {
         console.log("[updateListing] Error updating addons:", e);
+        throw e;
       }
     }
 
