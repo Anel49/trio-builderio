@@ -258,7 +258,12 @@ export async function createListing(req: Request, res: Response) {
     } = req.body || {};
 
     // Verify that if host_id is provided, it matches the authenticated user
-    if (host_id && typeof host_id === "number" && userId && host_id !== userId) {
+    if (
+      host_id &&
+      typeof host_id === "number" &&
+      userId &&
+      host_id !== userId
+    ) {
       return res.status(403).json({
         ok: false,
         error: "You can only create listings for yourself",
