@@ -133,7 +133,7 @@ export default function Header() {
                   {/* Rentals and Requests Link */}
                   <a
                     href="/rentals-and-requests"
-                    className="relative hidden sm:inline-flex items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground transition-colors h-10 w-10"
+                    className="relative hidden sm:inline-flex items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground transition-colors h-10 w-10 [&_svg]:size-4"
                     title="Rentals and Requests"
                   >
                     <ClipboardList className="h-5 w-5" />
