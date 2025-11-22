@@ -54,6 +54,8 @@ export function SignUpModal({
   const { checkAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [emailInUseModalOpen, setEmailInUseModalOpen] = useState(false);
+  const [emailInUseError, setEmailInUseError] = useState<string>("");
 
   // Google OAuth Signup
   const handleGoogleSignup = useGoogleLogin({
