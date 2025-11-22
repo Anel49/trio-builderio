@@ -433,6 +433,30 @@ export default function UploadProduct() {
     navigationRef.current = null;
   };
 
+  const addAddonEntry = () => {
+    const newAddon = {
+      id: `addon-${Date.now()}`,
+      item: "",
+      style: "",
+      price: "",
+    };
+    setAddons([...addons, newAddon]);
+  };
+
+  const updateAddonField = (id: string, field: "item" | "style" | "price", value: string) => {
+    setAddons(
+      addons.map((addon) =>
+        addon.id === id
+          ? { ...addon, [field]: value }
+          : addon,
+      ),
+    );
+  };
+
+  const removeAddon = (id: string) => {
+    setAddons(addons.filter((addon) => addon.id !== id));
+  };
+
   const isFormValid = () => {
     const hasTitle = title.trim() !== "";
     const hasLocation =
