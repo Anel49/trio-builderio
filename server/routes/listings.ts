@@ -683,6 +683,29 @@ export async function updateListing(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
 
+    // Check authorization: user can only update their own listings
+    const userId = (req as any).session?.userId;
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    // Fetch the listing to verify ownership
+    const listingCheckResult = await pool.query(
+      `select host_id from listings where id = $1`,
+      [id],
+    );
+
+    if (listingCheckResult.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Listing not found" });
+    }
+
+    const listingHostId = listingCheckResult.rows[0].host_id;
+    if (listingHostId !== userId) {
+      return res
+        .status(403)
+        .json({ ok: false, error: "You can only edit your own listings" });
+    }
+
     const {
       name,
       price_cents,
