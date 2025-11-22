@@ -1346,6 +1346,117 @@ export default function UploadProduct() {
                   />
                 </div>
 
+                {/* Optional Addons Section */}
+                <div className="border rounded-lg">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddonsExpanded(!isAddonsExpanded)}
+                    className="w-full flex items-center justify-between p-4 hover:bg-accent/50 transition-colors"
+                  >
+                    <span className="text-sm font-medium">Optional Addons</span>
+                    {isAddonsExpanded ? (
+                      <ChevronUp className="h-4 w-4" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4" />
+                    )}
+                  </button>
+
+                  {isAddonsExpanded && (
+                    <div className="border-t p-4 space-y-4">
+                      <Button
+                        type="button"
+                        onClick={addAddonEntry}
+                        variant="outline"
+                        size="sm"
+                        className="w-full"
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Create Addon
+                      </Button>
+
+                      <div className="space-y-3">
+                        {addons.map((addon) => (
+                          <div
+                            key={addon.id}
+                            className="flex gap-3 items-end"
+                          >
+                            <div className="flex-1">
+                              <label className="block text-xs font-medium text-muted-foreground mb-1">
+                                Item
+                              </label>
+                              <Input
+                                type="text"
+                                placeholder="e.g., Popcorn Flavoring"
+                                value={addon.item}
+                                onChange={(e) =>
+                                  updateAddonField(addon.id, "item", e.target.value)
+                                }
+                                className="w-full"
+                              />
+                            </div>
+
+                            <div className="flex-1">
+                              <label className="block text-xs font-medium text-muted-foreground mb-1">
+                                Style
+                              </label>
+                              <Input
+                                type="text"
+                                placeholder="e.g., Siracha"
+                                value={addon.style}
+                                onChange={(e) =>
+                                  updateAddonField(addon.id, "style", e.target.value)
+                                }
+                                className="w-full"
+                              />
+                            </div>
+
+                            <div className="w-24">
+                              <label className="block text-xs font-medium text-muted-foreground mb-1">
+                                Price
+                              </label>
+                              <div className="relative">
+                                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground text-sm">
+                                  $
+                                </span>
+                                <Input
+                                  type="number"
+                                  min="0"
+                                  step="0.01"
+                                  placeholder="0"
+                                  value={addon.price}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value === "" || parseFloat(value) >= 0) {
+                                      updateAddonField(addon.id, "price", value);
+                                    }
+                                  }}
+                                  onWheel={(e) => e.currentTarget.blur()}
+                                  className="w-full pl-8"
+                                />
+                              </div>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => removeAddon(addon.id)}
+                              className="p-2 hover:bg-destructive/10 hover:text-destructive rounded transition-colors"
+                              title="Remove addon"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+
+                      {addons.length === 0 && (
+                        <p className="text-sm text-muted-foreground text-center py-4">
+                          No addons yet. Click "Create Addon" to add one.
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 {/* Preview Button */}
                 <Button
                   onClick={() => setIsPreviewOpen(true)}
