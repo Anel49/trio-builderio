@@ -284,6 +284,7 @@ export function SignUpModal({
         isOpen={emailInUseModalOpen}
         onOpenChange={setEmailInUseModalOpen}
         email={emailInUseError}
+        onSignupModalToggle={onOpenChange}
       />
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
