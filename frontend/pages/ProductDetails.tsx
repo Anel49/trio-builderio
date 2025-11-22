@@ -461,6 +461,7 @@ export default function ProductDetails() {
               typeof l.instantBookings === "boolean"
                 ? l.instantBookings
                 : false,
+            addons: Array.isArray(l.addons) ? l.addons : undefined,
           });
           setProductLoading(false);
           setProductNotFound(false);
