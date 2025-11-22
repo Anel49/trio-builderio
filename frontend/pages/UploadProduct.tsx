@@ -1386,7 +1386,7 @@ export default function UploadProduct() {
                               </label>
                               <Input
                                 type="text"
-                                placeholder="e.g., Popcorn Flavoring"
+                                placeholder="Tablecloth"
                                 value={addon.item}
                                 onChange={(e) =>
                                   updateAddonField(addon.id, "item", e.target.value)
@@ -1401,7 +1401,7 @@ export default function UploadProduct() {
                               </label>
                               <Input
                                 type="text"
-                                placeholder="e.g., Siracha"
+                                placeholder="Red"
                                 value={addon.style}
                                 onChange={(e) =>
                                   updateAddonField(addon.id, "style", e.target.value)
