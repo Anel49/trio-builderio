@@ -11,16 +11,27 @@ interface EmailInUseModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   email: string;
+  onSignupModalToggle?: (open: boolean) => void;
 }
 
 export function EmailInUseModal({
   isOpen,
   onOpenChange,
   email,
+  onSignupModalToggle,
 }: EmailInUseModalProps) {
   const handleClose = () => {
     onOpenChange(false);
+    // Reopen signup modal when email modal closes
+    if (onSignupModalToggle) {
+      onSignupModalToggle(true);
+    }
   };
+
+  // Close signup modal when email modal opens
+  if (isOpen && onSignupModalToggle) {
+    onSignupModalToggle(false);
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
