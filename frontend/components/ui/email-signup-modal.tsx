@@ -234,8 +234,16 @@ export function EmailSignupModal({
         console.log("[Google Signup Debug]", {
           status: response.status,
           ok: response.ok,
+          dataKeys: Object.keys(data),
           data,
           dataError: data.error,
+          dataErrorType: typeof data.error,
+          dataEmail: data.email,
+          conditionCheck: {
+            responseOk: response.ok,
+            dataOkDataUser: data.ok && data.user,
+            emailInUseMatch: !response.ok && data.error === "email_in_use",
+          },
         });
 
         if (response.ok && data.ok && data.user) {
@@ -244,7 +252,7 @@ export function EmailSignupModal({
           if (onSignupSuccess) {
             onSignupSuccess();
           }
-        } else if (!response.ok && data.error === "email_in_use") {
+        } else if (data.error === "email_in_use") {
           console.log("[Email In Use] Opening modal for:", data.email);
           setEmailInUseError(data.email || "");
           setEmailInUseModalOpen(true);
