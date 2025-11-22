@@ -394,6 +394,30 @@ export async function createListing(req: Request, res: Response) {
         }
       } catch {}
     }
+    if (Array.isArray(addons) && addons.length > 0) {
+      try {
+        for (const addon of addons) {
+          const item = typeof addon.item === "string" ? addon.item.trim() : "";
+          if (item === "") {
+            continue;
+          }
+          const style =
+            typeof addon.style === "string" && addon.style.trim()
+              ? addon.style.trim()
+              : null;
+          const price =
+            typeof addon.price === "number" && addon.price >= 0
+              ? addon.price
+              : null;
+          await pool.query(
+            `insert into listing_addons (listing_id, item, style, price) values ($1,$2,$3,$4)`,
+            [newId, item, style, price],
+          );
+        }
+      } catch (e) {
+        console.log("[createListing] Error inserting addons:", e);
+      }
+    }
     console.log(
       "[createListing] Successfully created listing with ID:",
       result.rows[0].id,
