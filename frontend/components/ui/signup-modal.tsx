@@ -280,7 +280,13 @@ export function SignUpModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <>
+      <EmailInUseModal
+        isOpen={emailInUseModalOpen}
+        onOpenChange={setEmailInUseModalOpen}
+        email={emailInUseError}
+      />
+      <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center">
@@ -403,6 +409,7 @@ export function SignUpModal({
         </div>
       </DialogContent>
     </Dialog>
+    </>
   );
 }
 
