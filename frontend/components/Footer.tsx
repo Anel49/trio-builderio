@@ -4,14 +4,31 @@ import { COMPANY_NAME } from "@/lib/constants";
 import { Button } from "./ui/button";
 
 export function Footer() {
-  const handleClearCookies = () => {
-    // Clear all cookies
+  const handleClearCookies = async () => {
+    // Clear all website cookies and session
+    try {
+      // Call logout to destroy the server-side session
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+
+    // Clear all browser cookies
     document.cookie.split(";").forEach((c) => {
       document.cookie = c
         .replace(/^ +/, "")
         .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
     });
+
+    // Clear localStorage items related to onboarding and preferences
+    localStorage.removeItem(`${COMPANY_NAME.toLowerCase()}-splash-completed`);
+    localStorage.removeItem(`${COMPANY_NAME.toLowerCase()}-terms-accepted`);
     resetCookiePreferences();
+
+    // Reload the page to reset all state
     window.location.reload();
   };
 
