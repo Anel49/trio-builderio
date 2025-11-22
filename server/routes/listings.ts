@@ -520,6 +520,29 @@ export async function getListingById(req: Request, res: Response) {
       }
     }
 
+    let addons: Array<{
+      id: number;
+      item: string;
+      style: string | null;
+      price: string | null;
+    }> = [];
+    try {
+      const addonsResult = await pool.query(
+        `select id, item, style, price from listing_addons where listing_id = $1 order by created_at asc`,
+        [id],
+      );
+      if (addonsResult.rows && Array.isArray(addonsResult.rows)) {
+        addons = addonsResult.rows.map((row: any) => ({
+          id: row.id,
+          item: row.item,
+          style: row.style || null,
+          price: row.price ? String(row.price) : null,
+        }));
+      }
+    } catch {
+      // If listing_addons table doesn't exist or query fails, continue with empty addons
+    }
+
     const avgRating =
       r.avg_review_rating && Number(r.avg_review_rating) > 0
         ? Number(r.avg_review_rating)
