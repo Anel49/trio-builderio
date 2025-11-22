@@ -105,7 +105,9 @@ export default function UploadProduct() {
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
   const [enableInstantBooking, setEnableInstantBooking] = useState(false);
   const [showInstantBookingModal, setShowInstantBookingModal] = useState(false);
-  const [addons, setAddons] = useState<Array<{ id: string; item: string; style: string; price: string }>>([]);
+  const [addons, setAddons] = useState<
+    Array<{ id: string; item: string; style: string; price: string }>
+  >([]);
   const [isAddonsExpanded, setIsAddonsExpanded] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
@@ -204,14 +206,12 @@ export default function UploadProduct() {
             // Set addons if they exist
             if (Array.isArray(listing.addons) && listing.addons.length > 0) {
               setAddons(
-                listing.addons.map(
-                  (addon: any, index: number) => ({
-                    id: addon.id || `addon-${Date.now()}-${index}`,
-                    item: addon.item || "",
-                    style: addon.style || "",
-                    price: addon.price ? String(addon.price) : "",
-                  }),
-                ),
+                listing.addons.map((addon: any, index: number) => ({
+                  id: addon.id || `addon-${Date.now()}-${index}`,
+                  item: addon.item || "",
+                  style: addon.style || "",
+                  price: addon.price ? String(addon.price) : "",
+                })),
               );
               setIsAddonsExpanded(true);
             }
@@ -443,12 +443,14 @@ export default function UploadProduct() {
     setAddons([...addons, newAddon]);
   };
 
-  const updateAddonField = (id: string, field: "item" | "style" | "price", value: string) => {
+  const updateAddonField = (
+    id: string,
+    field: "item" | "style" | "price",
+    value: string,
+  ) => {
     setAddons(
       addons.map((addon) =>
-        addon.id === id
-          ? { ...addon, [field]: value }
-          : addon,
+        addon.id === id ? { ...addon, [field]: value } : addon,
       ),
     );
   };
@@ -1376,10 +1378,7 @@ export default function UploadProduct() {
 
                       <div className="space-y-3">
                         {addons.map((addon) => (
-                          <div
-                            key={addon.id}
-                            className="flex gap-3 items-end"
-                          >
+                          <div key={addon.id} className="flex gap-3 items-end">
                             <div className="flex-1">
                               <label className="block text-xs font-medium text-muted-foreground mb-1">
                                 Item
@@ -1389,7 +1388,11 @@ export default function UploadProduct() {
                                 placeholder='"Tablecloth"'
                                 value={addon.item}
                                 onChange={(e) =>
-                                  updateAddonField(addon.id, "item", e.target.value)
+                                  updateAddonField(
+                                    addon.id,
+                                    "item",
+                                    e.target.value,
+                                  )
                                 }
                                 className="w-full"
                               />
@@ -1404,7 +1407,11 @@ export default function UploadProduct() {
                                 placeholder='"Red"'
                                 value={addon.style}
                                 onChange={(e) =>
-                                  updateAddonField(addon.id, "style", e.target.value)
+                                  updateAddonField(
+                                    addon.id,
+                                    "style",
+                                    e.target.value,
+                                  )
                                 }
                                 className="w-full"
                               />
@@ -1426,8 +1433,15 @@ export default function UploadProduct() {
                                   value={addon.price}
                                   onChange={(e) => {
                                     const value = e.target.value;
-                                    if (value === "" || parseFloat(value) >= 0) {
-                                      updateAddonField(addon.id, "price", value);
+                                    if (
+                                      value === "" ||
+                                      parseFloat(value) >= 0
+                                    ) {
+                                      updateAddonField(
+                                        addon.id,
+                                        "price",
+                                        value,
+                                      );
                                     }
                                   }}
                                   onWheel={(e) => e.currentTarget.blur()}
