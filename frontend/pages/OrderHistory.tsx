@@ -525,7 +525,9 @@ export default function OrderHistory() {
               <Checkbox
                 id="hide-completed"
                 checked={hideCompleted}
-                onCheckedChange={(checked) => setHideCompleted(checked === true)}
+                onCheckedChange={(checked) =>
+                  setHideCompleted(checked === true)
+                }
               />
               <label
                 htmlFor="hide-completed"

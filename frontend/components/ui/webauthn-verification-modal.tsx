@@ -73,7 +73,8 @@ export function WebAuthnVerificationModal({
 
         // Cast to PublicKeyCredential for proper TypeScript support
         const pkCredential = assertion as PublicKeyCredential;
-        const response = pkCredential.response as AuthenticatorAssertionResponse;
+        const response =
+          pkCredential.response as AuthenticatorAssertionResponse;
 
         // Send the assertion back to the server for verification
         const verifyResponse = await apiFetch(
@@ -92,9 +93,7 @@ export function WebAuthnVerificationModal({
                 authenticatorData: Array.from(
                   new Uint8Array(response.authenticatorData),
                 ),
-                signature: Array.from(
-                  new Uint8Array(response.signature),
-                ),
+                signature: Array.from(new Uint8Array(response.signature)),
                 userHandle: response.userHandle
                   ? Array.from(new Uint8Array(response.userHandle))
                   : null,
