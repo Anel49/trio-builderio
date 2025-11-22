@@ -136,6 +136,13 @@ export default function UploadProduct() {
           if (data.ok && data.listing) {
             const listing = data.listing;
 
+            // Check authorization: user can only edit their own listings
+            if (!authUser || authUser.id !== listing.hostUserId) {
+              alert("You can only edit your own listings.");
+              window.location.href = "/";
+              return;
+            }
+
             // Set all form fields from the listing data
             setTitle(listing.name || "");
 
