@@ -47,9 +47,10 @@ export function EmailInUseModal({
 
         <div className="space-y-6 p-2">
           <p className="text-muted-foreground text-sm">
-            An account associated with the email address <strong>{email}</strong>{" "}
-            already exists. The account creation process has been cancelled. If
-            you believe this is an error, please send us an email at{" "}
+            An account associated with the email address{" "}
+            <strong>{email}</strong> already exists. The account creation
+            process has been cancelled. If you believe this is an error, please
+            send us an email at{" "}
             <a
               href={`mailto:${COMPANY_EMAIL}`}
               className="text-primary hover:underline"
