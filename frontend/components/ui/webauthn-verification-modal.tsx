@@ -71,6 +71,10 @@ export function WebAuthnVerificationModal({
           return;
         }
 
+        // Cast to PublicKeyCredential for proper TypeScript support
+        const pkCredential = assertion as PublicKeyCredential;
+        const response = pkCredential.response as AuthenticatorAssertionResponse;
+
         // Send the assertion back to the server for verification
         const verifyResponse = await apiFetch(
           "/users/webauthn/verify-assertion",
@@ -78,21 +82,21 @@ export function WebAuthnVerificationModal({
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({
-              id: assertion.id,
-              rawId: Array.from(new Uint8Array(assertion.rawId)),
-              type: assertion.type,
+              id: pkCredential.id,
+              rawId: Array.from(new Uint8Array(pkCredential.rawId)),
+              type: pkCredential.type,
               response: {
                 clientDataJSON: Array.from(
-                  new Uint8Array(assertion.response.clientDataJSON),
+                  new Uint8Array(response.clientDataJSON),
                 ),
                 authenticatorData: Array.from(
-                  new Uint8Array(assertion.response.authenticatorData),
+                  new Uint8Array(response.authenticatorData),
                 ),
                 signature: Array.from(
-                  new Uint8Array(assertion.response.signature),
+                  new Uint8Array(response.signature),
                 ),
-                userHandle: assertion.response.userHandle
-                  ? Array.from(new Uint8Array(assertion.response.userHandle))
+                userHandle: response.userHandle
+                  ? Array.from(new Uint8Array(response.userHandle))
                   : null,
               },
               action,
