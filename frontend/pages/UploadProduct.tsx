@@ -530,6 +530,12 @@ export default function UploadProduct() {
         delivery: offerDelivery,
         free_delivery: offerFreeDelivery,
         instant_bookings: enableInstantBooking,
+        addons: addons.map((addon) => ({
+          id: addon.id.startsWith("addon-") ? undefined : Number(addon.id),
+          item: addon.item,
+          style: addon.style,
+          price: addon.price ? parseFloat(addon.price) : null,
+        })),
       };
       console.log("[UploadProduct] Sending payload:", payload);
 
