@@ -111,15 +111,13 @@ export default function Header() {
               {authenticated && (
                 <>
                   {/* Messages Link */}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="relative"
+                  <a
+                    href="/messages"
+                    className="relative inline-flex items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground transition-colors h-10 w-10"
                     title="Messages"
-                    onClick={() => (window.location.href = "/messages")}
                   >
                     <MessageCircle className="h-5 w-5" />
-                  </Button>
+                  </a>
 
                   {/* Favorites Link */}
                   <Button
