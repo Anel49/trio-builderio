@@ -1141,6 +1141,47 @@ export default function ProductDetails() {
                 <div className="text-muted-foreground">{priceSubLabel}</div>
               </div>
 
+              {/* Optional Addons Section */}
+              {product?.addons && product.addons.length > 0 && (
+                <Accordion type="single" collapsible className="mb-6">
+                  <AccordionItem value="addons">
+                    <AccordionTrigger className="text-sm font-semibold py-2">
+                      Optional addons
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-2">
+                      <div className="space-y-3">
+                        {product.addons.map((addon) => (
+                          <div
+                            key={addon.id}
+                            className="flex items-center justify-between gap-4 text-sm border-t pt-2"
+                          >
+                            <div className="flex-1">
+                              <span className="font-medium">{addon.item}</span>
+                              {addon.style && (
+                                <span className="text-muted-foreground ml-2">
+                                  ({addon.style})
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-right">
+                              {addon.price !== null ? (
+                                <span className="font-semibold text-primary">
+                                  ${addon.price.toFixed(2)}
+                                </span>
+                              ) : (
+                                <span className="text-muted-foreground text-xs">
+                                  Free
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              )}
+
               {/* Date Range Picker - Only show for authenticated non-owners */}
               {authUser?.id && authUser?.id !== product?.hostUserId && (
                 <div className="mb-4">
