@@ -140,19 +140,21 @@ export default function Header() {
                   </a>
 
                   {/* Profile Picture Link */}
-                  <Avatar
-                    className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
+                  <a
+                    href="/profile"
+                    className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity"
                     title="Profile"
-                    onClick={() => (window.location.href = "/profile")}
                   >
-                    <AvatarImage
-                      src={user?.avatarUrl || undefined}
-                      alt={user?.name || "Profile"}
-                    />
-                    <AvatarFallback>
-                      {getInitials(user?.name || null)}
-                    </AvatarFallback>
-                  </Avatar>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage
+                        src={user?.avatarUrl || undefined}
+                        alt={user?.name || "Profile"}
+                      />
+                      <AvatarFallback>
+                        {getInitials(user?.name || null)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </a>
                 </>
               )}
               <div className="hidden md:block">
