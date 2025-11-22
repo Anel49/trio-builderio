@@ -231,20 +231,6 @@ export function EmailSignupModal({
         });
 
         const data = await response.json().catch(() => ({}));
-        console.log("[Google Signup Debug]", {
-          status: response.status,
-          ok: response.ok,
-          dataKeys: Object.keys(data),
-          data,
-          dataError: data.error,
-          dataErrorType: typeof data.error,
-          dataEmail: data.email,
-          conditionCheck: {
-            responseOk: response.ok,
-            dataOkDataUser: data.ok && data.user,
-            emailInUseMatch: !response.ok && data.error === "email_in_use",
-          },
-        });
 
         if (response.ok && data.ok && data.user) {
           await checkAuth();
@@ -253,13 +239,11 @@ export function EmailSignupModal({
             onSignupSuccess();
           }
         } else if (data.error === "email_in_use") {
-          console.log("[Email In Use] Opening modal for:", data.email);
           setEmailInUseError(data.email || "");
           setEmailInUseModalOpen(true);
         } else {
           const errorMsg =
             data.error || "Google signup failed. Please try again.";
-          console.log("[Google Signup Error]", errorMsg);
           setError(errorMsg);
         }
       } catch (err) {
