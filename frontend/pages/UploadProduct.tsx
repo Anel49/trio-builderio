@@ -539,7 +539,8 @@ export default function UploadProduct() {
               price: addon.price ? parseFloat(addon.price) : null,
             };
             // Only include ID for existing addons (not newly created ones)
-            if (!addon.id.startsWith("addon-")) {
+            const addonIdStr = String(addon.id);
+            if (!addonIdStr.startsWith("addon-")) {
               addonData.id = Number(addon.id);
             }
             return addonData;
