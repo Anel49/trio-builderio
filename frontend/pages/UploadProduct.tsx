@@ -1353,7 +1353,7 @@ export default function UploadProduct() {
                   <button
                     type="button"
                     onClick={() => setIsAddonsExpanded(!isAddonsExpanded)}
-                    className="w-full flex items-center justify-between p-4 hover:bg-accent/50 transition-colors"
+                    className="w-full flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors"
                   >
                     <span className="text-sm font-medium">Optional Addons</span>
                     {isAddonsExpanded ? (
