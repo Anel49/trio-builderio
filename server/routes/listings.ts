@@ -805,7 +805,11 @@ export async function updateListing(req: Request, res: Response) {
 
         // Find addon IDs that are being kept (those in the new addons array)
         const newAddonIds = new Set<number>();
-        const addonsToInsert: Array<{ item: string; style: string | null; price: number | null }> = [];
+        const addonsToInsert: Array<{
+          item: string;
+          style: string | null;
+          price: number | null;
+        }> = [];
 
         for (const addon of addons) {
           const item = typeof addon.item === "string" ? addon.item.trim() : "";
