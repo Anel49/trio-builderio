@@ -131,17 +131,13 @@ export default function Header() {
                   </Button>
 
                   {/* Rentals and Requests Link */}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="relative hidden sm:inline-flex"
+                  <a
+                    href="/rentals-and-requests"
+                    className="relative hidden sm:inline-flex items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground transition-colors h-10 w-10"
                     title="Rentals and Requests"
-                    onClick={() =>
-                      (window.location.href = "/rentals-and-requests")
-                    }
                   >
                     <ClipboardList className="h-5 w-5" />
-                  </Button>
+                  </a>
 
                   {/* Profile Picture Link */}
                   <Avatar
