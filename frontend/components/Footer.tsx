@@ -1,6 +1,7 @@
 import { Container } from "./Container";
 import { resetCookiePreferences } from "@/lib/cookie-utils";
 import { COMPANY_NAME } from "@/lib/constants";
+import { Button } from "./ui/button";
 
 export function Footer() {
   return (
