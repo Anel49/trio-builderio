@@ -97,6 +97,16 @@ export async function dbSetup(_req: Request, res: Response) {
           select 1 from listing_categories lc where lc.listing_id = l.id
         );
 
+      create table if not exists listing_addons (
+        id serial primary key,
+        listing_id integer not null references listings(id),
+        item text not null,
+        style text,
+        price numeric(10, 2),
+        created_at timestamptz default now()
+      );
+      create index if not exists idx_listing_addons_listing_id on listing_addons(listing_id);
+
       create table if not exists users (
         id serial primary key,
         name text,
