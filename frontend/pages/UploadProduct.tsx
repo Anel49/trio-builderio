@@ -530,12 +530,20 @@ export default function UploadProduct() {
         delivery: offerDelivery,
         free_delivery: offerFreeDelivery,
         instant_bookings: enableInstantBooking,
-        addons: addons.map((addon) => ({
-          ...(addon.id.startsWith("addon-") ? {} : { id: Number(addon.id) }),
-          item: addon.item,
-          style: addon.style,
-          price: addon.price ? parseFloat(addon.price) : null,
-        })),
+        addons: addons
+          .filter((addon) => addon.item.trim() !== "")
+          .map((addon) => {
+            const addonData: any = {
+              item: addon.item,
+              style: addon.style,
+              price: addon.price ? parseFloat(addon.price) : null,
+            };
+            // Only include ID for existing addons (not newly created ones)
+            if (!addon.id.startsWith("addon-")) {
+              addonData.id = Number(addon.id);
+            }
+            return addonData;
+          }),
       };
       console.log("[UploadProduct] Sending payload:", payload);
 
