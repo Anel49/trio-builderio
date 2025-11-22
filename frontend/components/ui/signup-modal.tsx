@@ -77,6 +77,9 @@ export function SignUpModal({
         if (response.ok && data.ok && data.user) {
           await checkAuth();
           onOpenChange(false);
+        } else if (data.error === "email_in_use") {
+          setEmailInUseError(data.email || "");
+          setEmailInUseModalOpen(true);
         } else {
           const errorMsg =
             data.error || "Google signup failed. Please try again.";
