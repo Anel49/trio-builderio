@@ -1380,7 +1380,7 @@ export default function UploadProduct() {
 
                       <div className="space-y-3">
                         {addons.map((addon) => (
-                          <div key={addon.id} className="flex gap-3 items-end">
+                          <div key={addon.id} className="flex gap-3 items-center">
                             <div className="flex-1">
                               <label className="block text-xs font-medium text-muted-foreground mb-1">
                                 Item
