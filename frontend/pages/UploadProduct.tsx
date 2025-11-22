@@ -102,6 +102,8 @@ export default function UploadProduct() {
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
   const [enableInstantBooking, setEnableInstantBooking] = useState(false);
   const [showInstantBookingModal, setShowInstantBookingModal] = useState(false);
+  const [addons, setAddons] = useState<Array<{ id: string; item: string; style: string; price: string }>>([]);
+  const [isAddonsExpanded, setIsAddonsExpanded] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
