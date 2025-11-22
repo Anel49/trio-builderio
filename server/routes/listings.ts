@@ -697,6 +697,7 @@ export async function updateListing(req: Request, res: Response) {
       longitude,
       delivery,
       free_delivery,
+      addons,
     } = req.body || {};
 
     if (!name || typeof price_cents !== "number") {
