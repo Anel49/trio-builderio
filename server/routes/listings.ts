@@ -234,6 +234,9 @@ export async function createListing(req: Request, res: Response) {
       JSON.stringify(req.body, null, 2),
     );
 
+    // Check authorization: user can only create listings for themselves
+    const userId = (req as any).session?.userId;
+
     const {
       name,
       price_cents,
@@ -253,6 +256,14 @@ export async function createListing(req: Request, res: Response) {
       free_delivery,
       addons,
     } = req.body || {};
+
+    // Verify that if host_id is provided, it matches the authenticated user
+    if (host_id && typeof host_id === "number" && userId && host_id !== userId) {
+      return res.status(403).json({
+        ok: false,
+        error: "You can only create listings for yourself",
+      });
+    }
 
     console.log("[createListing] Extracted fields:", {
       name,
