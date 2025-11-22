@@ -531,7 +531,7 @@ export default function UploadProduct() {
         free_delivery: offerFreeDelivery,
         instant_bookings: enableInstantBooking,
         addons: addons.map((addon) => ({
-          id: addon.id.startsWith("addon-") ? undefined : Number(addon.id),
+          ...(addon.id.startsWith("addon-") ? {} : { id: Number(addon.id) }),
           item: addon.item,
           style: addon.style,
           price: addon.price ? parseFloat(addon.price) : null,
