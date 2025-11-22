@@ -791,6 +791,71 @@ export async function updateListing(req: Request, res: Response) {
       } catch {}
     }
 
+    // Update addons in listing_addons table
+    if (Array.isArray(addons)) {
+      try {
+        // Get existing addon IDs from the database
+        const existingAddonsResult = await pool.query(
+          `select id from listing_addons where listing_id = $1`,
+          [listingId],
+        );
+        const existingAddonIds = new Set(
+          existingAddonsResult.rows.map((row: any) => row.id),
+        );
+
+        // Find addon IDs that are being kept (those in the new addons array)
+        const newAddonIds = new Set<number>();
+        const addonsToInsert: Array<{ item: string; style: string | null; price: number | null }> = [];
+
+        for (const addon of addons) {
+          const item = typeof addon.item === "string" ? addon.item.trim() : "";
+          if (item === "") {
+            continue;
+          }
+          const style =
+            typeof addon.style === "string" && addon.style.trim()
+              ? addon.style.trim()
+              : null;
+          const price =
+            typeof addon.price === "number" && addon.price >= 0
+              ? addon.price
+              : null;
+
+          // If addon has an ID, it's an existing addon to be updated
+          if (typeof addon.id === "number" && addon.id > 0) {
+            newAddonIds.add(addon.id);
+            await pool.query(
+              `update listing_addons set item = $1, style = $2, price = $3 where id = $4 and listing_id = $5`,
+              [item, style, price, addon.id, listingId],
+            );
+          } else {
+            // New addon to be inserted
+            addonsToInsert.push({ item, style, price });
+          }
+        }
+
+        // Delete addons that are no longer in the list
+        for (const addonId of existingAddonIds) {
+          if (!newAddonIds.has(addonId)) {
+            await pool.query(
+              `delete from listing_addons where id = $1 and listing_id = $2`,
+              [addonId, listingId],
+            );
+          }
+        }
+
+        // Insert new addons
+        for (const addon of addonsToInsert) {
+          await pool.query(
+            `insert into listing_addons (listing_id, item, style, price) values ($1,$2,$3,$4)`,
+            [listingId, addon.item, addon.style, addon.price],
+          );
+        }
+      } catch (e) {
+        console.log("[updateListing] Error updating addons:", e);
+      }
+    }
+
     res.json({ ok: true, id: listingId });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
