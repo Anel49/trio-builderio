@@ -113,7 +113,7 @@ export default function Header() {
                   {/* Messages Link */}
                   <a
                     href="/messages"
-                    className="relative inline-flex items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground transition-colors h-10 w-10"
+                    className="relative inline-flex items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground transition-colors h-10 w-10 [&_svg]:size-4"
                     title="Messages"
                   >
                     <MessageCircle className="h-5 w-5" />
