@@ -521,14 +521,19 @@ export default function OrderHistory() {
           </Card>
 
           <div className="mb-6">
-            <label className="flex items-center gap-2 text-sm text-muted-foreground">
-              <input
-                type="checkbox"
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="hide-completed"
                 checked={hideCompleted}
-                onChange={(e) => setHideCompleted(e.target.checked)}
+                onCheckedChange={(checked) => setHideCompleted(checked === true)}
               />
-              Hide Completed
-            </label>
+              <label
+                htmlFor="hide-completed"
+                className="text-sm text-muted-foreground cursor-pointer"
+              >
+                Hide Completed
+              </label>
+            </div>
           </div>
 
           {/* Orders List */}
