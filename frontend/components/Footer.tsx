@@ -4,6 +4,17 @@ import { COMPANY_NAME } from "@/lib/constants";
 import { Button } from "./ui/button";
 
 export function Footer() {
+  const handleClearCookies = () => {
+    // Clear all cookies
+    document.cookie.split(";").forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+    });
+    resetCookiePreferences();
+    window.location.reload();
+  };
+
   return (
     <>
       <footer className="bg-muted py-12">
