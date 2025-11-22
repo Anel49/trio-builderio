@@ -1349,11 +1349,13 @@ export default function UploadProduct() {
                 </div>
 
                 {/* Optional Addons Section */}
-                <div className="border rounded-lg">
+                <div className="border border-border rounded-lg">
                   <button
                     type="button"
                     onClick={() => setIsAddonsExpanded(!isAddonsExpanded)}
-                    className="w-full flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors"
+                    className={`w-full flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors ${
+                      isAddonsExpanded ? "rounded-t-lg" : "rounded-lg"
+                    }`}
                   >
                     <span className="text-sm font-medium">Optional Addons</span>
                     {isAddonsExpanded ? (
@@ -1364,7 +1366,7 @@ export default function UploadProduct() {
                   </button>
 
                   {isAddonsExpanded && (
-                    <div className="border-t p-4 space-y-4">
+                    <div className="border-t border-border p-4 space-y-4">
                       <Button
                         type="button"
                         onClick={addAddonEntry}
