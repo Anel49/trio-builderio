@@ -115,6 +115,13 @@ export function Footer() {
               >
                 Cookie Preferences
               </button>
+              <Button
+                onClick={handleClearCookies}
+                className="bg-lime-500 hover:bg-lime-600 text-black font-semibold"
+                size="sm"
+              >
+                Clear Cookies
+              </Button>
             </div>
           </div>
         </Container>
