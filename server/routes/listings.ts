@@ -251,6 +251,7 @@ export async function createListing(req: Request, res: Response) {
       longitude,
       delivery,
       free_delivery,
+      addons,
     } = req.body || {};
 
     console.log("[createListing] Extracted fields:", {
