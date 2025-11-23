@@ -113,44 +113,6 @@ export function EmailLoginModal({
     onOpenChange(false);
   };
 
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async (codeResponse) => {
-      setIsLoading(true);
-      try {
-        const response = await apiFetch("/users/google-oauth", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            token: codeResponse.access_token,
-            staySignedIn,
-          }),
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (response.ok && data.ok && data.user) {
-          await checkAuth();
-          handleClose();
-          if (onLoginSuccess) {
-            onLoginSuccess();
-          }
-        } else {
-          const errorMsg =
-            data.error || "Google login failed. Please try again.";
-          setError(errorMsg);
-        }
-      } catch (err) {
-        console.error("Google login error:", err);
-        setError("An unexpected error occurred. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    onError: () => {
-      setError("Google login failed. Please try again.");
-    },
-  });
-
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-md">
