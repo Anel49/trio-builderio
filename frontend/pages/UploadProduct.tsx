@@ -696,41 +696,6 @@ export default function UploadProduct() {
     </Dialog>
   );
 
-  const ConfirmationModal = () => (
-    <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Confirm Listing</DialogTitle>
-        </DialogHeader>
-        <div className="py-4">
-          <p className="text-center text-muted-foreground">
-            Are you sure you want to list your product?
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <Button
-            className="flex-1"
-            onClick={confirmListProduct}
-            disabled={isConfirmingListing}
-          >
-            {isConfirmingListing ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Yes"
-            )}
-          </Button>
-          <Button
-            variant="outline"
-            className="flex-1"
-            onClick={handleCancelListing}
-            disabled={isConfirmingListing}
-          >
-            No
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
 
   const SuccessModal = () => (
     <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
