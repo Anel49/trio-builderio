@@ -201,7 +201,7 @@ export function ProductCard({
                   <DropdownMenuItem
                     onClick={(e) => {
                       e.stopPropagation();
-                      onEditClick();
+                      onEditClick(e);
                     }}
                   >
                     Edit
