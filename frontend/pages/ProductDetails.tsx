@@ -312,6 +312,163 @@ export default function ProductDetails() {
     return false;
   };
 
+  const handleAddonsConfirm = (selectedAddonsFromModal: SelectedAddon[]) => {
+    setSelectedAddons(selectedAddonsFromModal);
+    setShowAddonsModal(false);
+    setShowBookingSummaryModal(true);
+  };
+
+  const handleAddonsSkip = () => {
+    setSelectedAddons([]);
+    setShowAddonsModal(false);
+    setShowBookingSummaryModal(true);
+  };
+
+  const createReservation = async (addonsToStore: BookingSummaryAddon[]) => {
+    if (!isDateRangeValid() || !authUser?.id || !params.id) return;
+
+    const start = selectedDateRange.start;
+    const end = selectedDateRange.end;
+
+    if (!start || !end) return;
+
+    try {
+      // Calculate total days (inclusive)
+      const totalDays =
+        Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) +
+        1;
+
+      // Extract price cents from the price string (e.g., "$10" -> 1000)
+      const priceStr = product?.price || "0";
+      const dailyPriceCents = Math.round(
+        Number(priceStr.replace(/[^0-9.]/g, "")) * 100,
+      );
+
+      // Calculate consumable and non-consumable totals (in cents)
+      const consumableAddonTotal = addonsToStore.reduce((sum, addon) => {
+        if (addon.consumable && addon.price !== null) {
+          return sum + addon.price * (addon.qty || 0);
+        }
+        return sum;
+      }, 0);
+
+      const nonConsumableAddonTotal = addonsToStore.reduce((sum, addon) => {
+        if (!addon.consumable && addon.price !== null) {
+          return sum + addon.price;
+        }
+        return sum;
+      }, 0);
+
+      // Create addons JSON
+      const addonsJson = addonsToStore.map((addon) => ({
+        item: addon.item,
+        style: addon.style,
+        qty: addon.qty,
+      }));
+
+      const reservationResponse = await apiFetch("reservations", {
+        method: "POST",
+        body: JSON.stringify({
+          listing_id: Number(params.id),
+          renter_id: authUser?.id ?? null,
+          host_id: product?.hostUserId ?? null,
+          host_name: product?.host ?? null,
+          renter_name: authUser?.name ?? authUser?.username ?? null,
+          start_date: start.toISOString().split("T")[0],
+          end_date: end.toISOString().split("T")[0],
+          listing_title: product?.name || null,
+          listing_image: product?.image || null,
+          listing_latitude: product?.latitude || null,
+          listing_longitude: product?.longitude || null,
+          daily_price_cents: dailyPriceCents,
+          total_days: totalDays,
+          rental_type: "item",
+          status: "pending",
+          consumable_addon_total: consumableAddonTotal,
+          nonconsumable_addon_total: nonConsumableAddonTotal,
+          addons: JSON.stringify(addonsJson),
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      const reservationData = await reservationResponse
+        .json()
+        .catch(() => ({}));
+
+      if (reservationData.ok && reservationData.reservation) {
+        console.log(
+          "[ProductDetails] Reservation created:",
+          reservationData.reservation.id,
+        );
+        localStorage.setItem(
+          "selectedDates",
+          JSON.stringify(selectedDateRange),
+        );
+        localStorage.setItem(
+          "reservationId",
+          String(reservationData.reservation.id),
+        );
+
+        // Check if listing has instant booking enabled
+        if (product?.instantBookings) {
+          // Create Stripe checkout session for instant booking
+          try {
+            const checkoutResponse = await apiFetch(
+              "checkout/create-session",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  listingId: Number(params.id),
+                  listingTitle: product?.name,
+                  amount: 3000,
+                  successUrl: `${window.location.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+                  cancelUrl: `${window.location.origin}/checkout/cancel`,
+                }),
+                headers: {
+                  "content-type": "application/json",
+                },
+              },
+            );
+
+            const checkoutData = await checkoutResponse
+              .json()
+              .catch(() => ({}));
+
+            if (checkoutData.ok && checkoutData.url) {
+              console.log("Redirecting to Stripe:", checkoutData.url);
+              window.location.href = checkoutData.url;
+            } else {
+              console.error(
+                "Failed to create checkout session:",
+                checkoutData,
+              );
+              alert(
+                `Checkout error: ${checkoutData.error || "Unknown error"}`,
+              );
+            }
+          } catch (checkoutError) {
+            console.error("Checkout error:", checkoutError);
+          }
+        } else {
+          // Show request sent modal for non-instant-booking listings
+          setShowRequestSentModal(true);
+        }
+      } else {
+        console.error(
+          "[ProductDetails] Failed to create reservation:",
+          reservationData.error,
+        );
+      }
+    } catch (reservationError) {
+      console.error(
+        "[ProductDetails] Error creating reservation:",
+        reservationError,
+      );
+    }
+  };
+
   const productImages = [
     "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
     "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop&auto=format",
