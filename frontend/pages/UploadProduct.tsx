@@ -1573,7 +1573,7 @@ export default function UploadProduct() {
                                   </DropdownMenuItem>
                                   <DropdownMenuItem
                                     onClick={() => removeAddon(addon.id)}
-                                    className="text-destructive focus:text-destructive"
+                                    className="text-destructive dark:text-red-400 focus:text-destructive dark:focus:text-red-400"
                                   >
                                     Delete
                                   </DropdownMenuItem>
