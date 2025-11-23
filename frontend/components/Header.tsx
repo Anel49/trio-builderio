@@ -35,6 +35,9 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
 
+  const profileMenuRef = useRef<HTMLDivElement>(null);
+  const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+
   const getInitials = (name: string | null): string => {
     if (!name) return "U";
     return name
@@ -43,6 +46,12 @@ export default function Header() {
       .join("")
       .toUpperCase()
       .slice(0, 2);
+  };
+
+  const handleLogout = async () => {
+    setIsContextMenuOpen(false);
+    await logout();
+    window.location.reload();
   };
 
   return (
