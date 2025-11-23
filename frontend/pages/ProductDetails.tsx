@@ -2016,6 +2016,7 @@ export default function ProductDetails() {
           createReservation(selectedAddons);
           setShowBookingSummaryModal(false);
         }}
+        onBack={product?.addons && product.addons.length > 0 ? handleBackToAddons : undefined}
       />
     </div>
   );
