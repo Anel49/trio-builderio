@@ -1627,7 +1627,7 @@ export default function UploadProduct() {
 
                             {/* Divider line between entries (mobile only) */}
                             {index < addons.length - 1 && (
-                              <div className="md:hidden border-t border-border mt-3" />
+                              <div className="md:hidden border-t-2 border-foreground/25 dark:border-muted-foreground/40 mt-3" />
                             )}
                           </div>
                         ))}
