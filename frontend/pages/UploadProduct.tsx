@@ -1700,7 +1700,7 @@ export default function UploadProduct() {
 
                       {addons.length === 0 && (
                         <p className="text-sm text-muted-foreground text-center py-4">
-                          No addons yet. Click "Create Addon" to add one.
+                          No addons yet. Click "Create addon" to add one.
                         </p>
                       )}
                     </div>
