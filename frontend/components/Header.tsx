@@ -20,11 +20,11 @@ import {
   combineTokens,
 } from "@/lib/design-tokens";
 import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuTrigger,
-  ContextMenuItem,
-} from "./ui/context-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu";
 
 export default function Header() {
   const { authenticated, user, logout } = useAuth();
