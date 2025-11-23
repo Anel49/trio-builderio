@@ -164,7 +164,6 @@ export default function Header() {
                         }}
                         className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity cursor-pointer"
                         title="Profile"
-                        ref={profileMenuRef}
                       >
                         <Avatar className="h-8 w-8">
                           <AvatarImage
