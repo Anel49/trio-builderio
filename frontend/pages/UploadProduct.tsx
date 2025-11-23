@@ -1471,7 +1471,7 @@ export default function UploadProduct() {
                       </Button>
                       {addons.length > 0 && (
                         <p className="text-xs text-muted-foreground">
-                          Delete or mark addons consumable using (⋮)
+                          Delete or mark addons consumable by using the three vertical dots.
                         </p>
                       )}
 
