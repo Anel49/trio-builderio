@@ -329,6 +329,11 @@ export default function ProductDetails() {
     setShowBookingSummaryModal(true);
   };
 
+  const handleBackToAddons = () => {
+    setShowBookingSummaryModal(false);
+    setShowAddonsModal(true);
+  };
+
   const createReservation = async (addonsToStore: BookingSummaryAddon[]) => {
     if (!isDateRangeValid() || !authUser?.id || !params.id) return;
 
