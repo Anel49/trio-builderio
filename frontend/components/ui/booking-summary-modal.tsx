@@ -25,6 +25,7 @@ interface BookingSummaryModalProps {
   totalDays: number;
   selectedAddons: BookingSummaryAddon[];
   onConfirm: () => void;
+  onBack?: () => void;
 }
 
 export function BookingSummaryModal({
