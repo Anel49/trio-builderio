@@ -154,35 +154,40 @@ export default function Header() {
                   </a>
 
                   {/* Profile Picture with Right-Click Menu */}
-                  <DropdownMenu open={isContextMenuOpen} onOpenChange={setIsContextMenuOpen}>
-                    <DropdownMenuTrigger asChild>
-                      <a
-                        href="/profile"
-                        className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity"
-                        title="Profile"
-                        onContextMenu={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setIsContextMenuOpen(true);
-                        }}
+                  <div className="relative">
+                    <button
+                      onClick={() => window.location.href = "/profile"}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        setIsContextMenuOpen(true);
+                      }}
+                      className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity"
+                      title="Profile"
+                    >
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage
+                          src={user?.avatarUrl || undefined}
+                          alt={user?.name || "Profile"}
+                        />
+                        <AvatarFallback>
+                          {getInitials(user?.name || null)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </button>
+                    {isContextMenuOpen && (
+                      <div
+                        className="absolute right-0 mt-1 w-40 bg-popover border border-border rounded-md shadow-md z-50"
+                        onMouseLeave={() => setIsContextMenuOpen(false)}
                       >
-                        <Avatar className="h-8 w-8">
-                          <AvatarImage
-                            src={user?.avatarUrl || undefined}
-                            alt={user?.name || "Profile"}
-                          />
-                          <AvatarFallback>
-                            {getInitials(user?.name || null)}
-                          </AvatarFallback>
-                        </Avatar>
-                      </a>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={handleLogout}>
-                        Log out
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                        <button
+                          onClick={handleLogout}
+                          className="w-full text-left px-4 py-2 text-sm hover:bg-accent rounded-md"
+                        >
+                          Log out
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </>
               )}
               <div className="hidden md:block">
