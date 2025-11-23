@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MessageCircle, Menu, ClipboardList, Heart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -19,6 +19,12 @@ import {
   zIndex,
   combineTokens,
 } from "@/lib/design-tokens";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuTrigger,
+  ContextMenuItem,
+} from "./ui/context-menu";
 
 export default function Header() {
   const { authenticated, user, logout } = useAuth();
