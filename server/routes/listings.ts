@@ -421,13 +421,14 @@ export async function createListing(req: Request, res: Response) {
             typeof addon.style === "string" && addon.style.trim()
               ? addon.style.trim()
               : null;
-          const price =
+          const priceInCents =
             typeof addon.price === "number" && addon.price >= 0
-              ? addon.price
+              ? Math.round(addon.price * 100)
               : null;
+          const consumable = addon.consumable === true;
           await pool.query(
-            `insert into listing_addons (listing_id, item, style, price) values ($1,$2,$3,$4)`,
-            [newId, item, style, price],
+            `insert into listing_addons (listing_id, item, style, price, consumable) values ($1,$2,$3,$4,$5)`,
+            [newId, item, style, priceInCents, consumable],
           );
         }
       } catch (e) {
@@ -541,23 +542,25 @@ export async function getListingById(req: Request, res: Response) {
       item: string;
       style: string | null;
       price: number | null;
+      consumable: boolean;
     }> = [];
     try {
       const addonsResult = await pool.query(
-        `select id, item, style, price from listing_addons where listing_id = $1 order by created_at asc`,
+        `select id, item, style, price, consumable from listing_addons where listing_id = $1 order by created_at asc`,
         [id],
       );
       if (addonsResult.rows && Array.isArray(addonsResult.rows)) {
         addons = addonsResult.rows.map((row: any) => {
           const addonPrice =
             row.price !== null && row.price !== undefined
-              ? parseFloat(row.price)
+              ? row.price / 100
               : null;
           return {
             id: row.id,
             item: row.item,
             style: row.style || null,
             price: isNaN(addonPrice) ? null : addonPrice,
+            consumable: Boolean(row.consumable),
           };
         });
       }
@@ -854,6 +857,7 @@ export async function updateListing(req: Request, res: Response) {
           item: string;
           style: string | null;
           price: number | null;
+          consumable: boolean;
         }> = [];
 
         for (const addon of addons) {
@@ -865,21 +869,22 @@ export async function updateListing(req: Request, res: Response) {
             typeof addon.style === "string" && addon.style.trim()
               ? addon.style.trim()
               : null;
-          const price =
+          const priceInCents =
             typeof addon.price === "number" && addon.price >= 0
-              ? addon.price
+              ? Math.round(addon.price * 100)
               : null;
+          const consumable = addon.consumable === true;
 
           // If addon has an ID, it's an existing addon to be updated
           if (typeof addon.id === "number" && addon.id > 0) {
             newAddonIds.add(addon.id);
             await pool.query(
-              `update listing_addons set item = $1, style = $2, price = $3 where id = $4 and listing_id = $5`,
-              [item, style, price, addon.id, listingId],
+              `update listing_addons set item = $1, style = $2, price = $3, consumable = $4 where id = $5 and listing_id = $6`,
+              [item, style, priceInCents, consumable, addon.id, listingId],
             );
           } else {
             // New addon to be inserted
-            addonsToInsert.push({ item, style, price });
+            addonsToInsert.push({ item, style, price: priceInCents, consumable });
           }
         }
 
@@ -896,8 +901,8 @@ export async function updateListing(req: Request, res: Response) {
         // Insert new addons
         for (const addon of addonsToInsert) {
           await pool.query(
-            `insert into listing_addons (listing_id, item, style, price) values ($1,$2,$3,$4)`,
-            [listingId, addon.item, addon.style, addon.price],
+            `insert into listing_addons (listing_id, item, style, price, consumable) values ($1,$2,$3,$4,$5)`,
+            [listingId, addon.item, addon.style, addon.price, addon.consumable],
           );
         }
       } catch (e) {
