@@ -1294,7 +1294,7 @@ export default function UploadProduct() {
                       <Info className="h-4 w-4" />
                     </button>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-start gap-3">
                     <button
                       type="button"
                       onClick={() => {
