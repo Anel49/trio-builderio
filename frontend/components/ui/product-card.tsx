@@ -201,7 +201,15 @@ export function ProductCard({
                   <DropdownMenuItem
                     onClick={(e) => {
                       e.stopPropagation();
-                      onEditClick(e);
+                      if ((e as any).nativeEvent?.button !== 1) {
+                        onEditClick(e);
+                      }
+                    }}
+                    onMouseDown={(e) => {
+                      if ((e as any).button === 1) {
+                        e.preventDefault();
+                        onEditClick(e);
+                      }
                     }}
                   >
                     Edit
