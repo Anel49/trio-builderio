@@ -119,6 +119,7 @@ export default function UploadProduct() {
   const pricePlaceholder = "35";
   const [editListingId, setEditListingId] = useState<number | null>(null);
   const [listingNotFound, setListingNotFound] = useState(false);
+  const [isCheckingListing, setIsCheckingListing] = useState(false);
 
   usePageTitle();
 
@@ -129,6 +130,7 @@ export default function UploadProduct() {
     if (listingIdParam) {
       const listingId = Number.parseInt(listingIdParam, 10);
       setEditListingId(listingId);
+      setIsCheckingListing(true);
 
       // Fetch the complete listing data from the API
       (async () => {
@@ -223,13 +225,16 @@ export default function UploadProduct() {
               );
               setIsAddonsExpanded(true);
             }
+            setIsCheckingListing(false);
           } else {
             // Listing not found or invalid response
             setListingNotFound(true);
+            setIsCheckingListing(false);
           }
         } catch (error) {
           console.error("Failed to load listing data:", error);
           setListingNotFound(true);
+          setIsCheckingListing(false);
         }
       })();
 
@@ -979,6 +984,20 @@ export default function UploadProduct() {
       </DialogContent>
     </Dialog>
   );
+
+  if (editListingId && isCheckingListing) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 w-48 bg-muted rounded" />
+            <div className="h-64 bg-muted rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (listingNotFound && editListingId) {
     return (
