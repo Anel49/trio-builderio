@@ -42,7 +42,7 @@ export function BookingSummaryModal({
   // Calculate addon totals
   const consumableTotal = selectedAddons.reduce((sum, addon) => {
     if (addon.consumable && addon.price !== null) {
-      return sum + (addon.price * (addon.qty || 0));
+      return sum + addon.price * (addon.qty || 0);
     }
     return sum;
   }, 0);
@@ -59,7 +59,7 @@ export function BookingSummaryModal({
   const finalTotal = dailyTotal + addonTotal;
 
   const formatPrice = (cents: number) => {
-    return `$${(cents / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    return `$${(cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
   return (
@@ -88,7 +88,8 @@ export function BookingSummaryModal({
             <div className="flex justify-between items-center">
               <p className="text-sm font-medium">Daily total</p>
               <p className="text-sm">
-                {formatPrice(dailyPrice)} × {totalDays} {totalDays === 1 ? "day" : "days"}
+                {formatPrice(dailyPrice)} × {totalDays}{" "}
+                {totalDays === 1 ? "day" : "days"}
               </p>
             </div>
             <div className="flex justify-between items-center mt-2">
@@ -103,7 +104,10 @@ export function BookingSummaryModal({
               <p className="text-sm font-medium mb-2">Addons</p>
               <div className="space-y-1 mb-2">
                 {selectedAddons.map((addon) => (
-                  <div key={addon.id} className="flex justify-between items-center text-sm">
+                  <div
+                    key={addon.id}
+                    className="flex justify-between items-center text-sm"
+                  >
                     <span className="text-muted-foreground">
                       {addon.item}
                       {addon.style && ` (${addon.style})`}
@@ -116,14 +120,18 @@ export function BookingSummaryModal({
                           : formatPrice(addon.price)}
                       </span>
                     ) : (
-                      <span className="text-muted-foreground text-xs">Free</span>
+                      <span className="text-muted-foreground text-xs">
+                        Free
+                      </span>
                     )}
                   </div>
                 ))}
               </div>
               <div className="flex justify-between items-center pt-2 border-t">
                 <p className="text-sm font-medium">Addon total</p>
-                <p className="text-sm font-semibold">{formatPrice(addonTotal)}</p>
+                <p className="text-sm font-semibold">
+                  {formatPrice(addonTotal)}
+                </p>
               </div>
             </div>
           )}

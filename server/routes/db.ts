@@ -403,7 +403,9 @@ export async function dbSetup(_req: Request, res: Response) {
       await pool.query(
         `alter table reservations add column if not exists consumable_addon_total integer default 0`,
       );
-      console.log("[dbSetup] Added consumable_addon_total column to reservations");
+      console.log(
+        "[dbSetup] Added consumable_addon_total column to reservations",
+      );
     } catch (e: any) {
       console.log("[dbSetup] consumable_addon_total column already exists");
     }
@@ -412,7 +414,9 @@ export async function dbSetup(_req: Request, res: Response) {
       await pool.query(
         `alter table reservations add column if not exists nonconsumable_addon_total integer default 0`,
       );
-      console.log("[dbSetup] Added nonconsumable_addon_total column to reservations");
+      console.log(
+        "[dbSetup] Added nonconsumable_addon_total column to reservations",
+      );
     } catch (e: any) {
       console.log("[dbSetup] nonconsumable_addon_total column already exists");
     }

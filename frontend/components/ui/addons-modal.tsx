@@ -41,12 +41,14 @@ export function AddonsModal({
   onConfirm,
   onSkip,
 }: AddonsModalProps) {
-  const [selectedAddons, setSelectedAddons] = useState<Map<number, SelectedAddon>>(new Map());
+  const [selectedAddons, setSelectedAddons] = useState<
+    Map<number, SelectedAddon>
+  >(new Map());
   const [quantities, setQuantities] = useState<Map<number, string>>(new Map());
 
   const handleAddonToggle = (addon: Addon, checked: boolean) => {
     const newSelected = new Map(selectedAddons);
-    
+
     if (checked) {
       newSelected.set(addon.id, {
         ...addon,
@@ -60,7 +62,7 @@ export function AddonsModal({
         return updated;
       });
     }
-    
+
     setSelectedAddons(newSelected);
   };
 
@@ -99,14 +101,17 @@ export function AddonsModal({
         <DialogHeader>
           <DialogTitle>Addons</DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-4 max-h-[400px] overflow-y-auto">
           {addons.map((addon) => {
             const isSelected = selectedAddons.has(addon.id);
             const qty = quantities.get(addon.id) || "";
-            
+
             return (
-              <div key={addon.id} className="flex items-start gap-3 pb-3 border-b last:border-b-0">
+              <div
+                key={addon.id}
+                className="flex items-start gap-3 pb-3 border-b last:border-b-0"
+              >
                 <Checkbox
                   id={`addon-${addon.id}`}
                   checked={isSelected}
@@ -115,9 +120,12 @@ export function AddonsModal({
                   }
                   className="mt-1 flex-shrink-0"
                 />
-                
+
                 <div className="flex-1 min-w-0">
-                  <label htmlFor={`addon-${addon.id}`} className="text-sm font-medium cursor-pointer">
+                  <label
+                    htmlFor={`addon-${addon.id}`}
+                    className="text-sm font-medium cursor-pointer"
+                  >
                     {addon.item}
                     {addon.style && (
                       <span className="text-muted-foreground ml-2">
@@ -125,17 +133,24 @@ export function AddonsModal({
                       </span>
                     )}
                   </label>
-                  
+
                   {addon.price !== null && (
                     <div className="text-xs text-muted-foreground mt-1">
-                      ${addon.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      $
+                      {addon.price.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                       {!addon.consumable && " per item"}
                     </div>
                   )}
-                  
+
                   {addon.consumable && isSelected && (
                     <div className="mt-2 flex items-center gap-2">
-                      <label htmlFor={`qty-${addon.id}`} className="text-xs font-medium">
+                      <label
+                        htmlFor={`qty-${addon.id}`}
+                        className="text-xs font-medium"
+                      >
                         Qty <span className="text-red-600">*</span>
                       </label>
                       <Input
@@ -166,11 +181,7 @@ export function AddonsModal({
           >
             Confirm addons
           </Button>
-          <Button
-            variant="outline"
-            onClick={onSkip}
-            className="flex-1"
-          >
+          <Button variant="outline" onClick={onSkip} className="flex-1">
             Skip
           </Button>
         </div>

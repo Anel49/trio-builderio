@@ -50,7 +50,10 @@ import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { ListingLocationModal } from "@/components/ui/listing-location-modal";
 import { AddonsModal, type SelectedAddon } from "@/components/ui/addons-modal";
-import { BookingSummaryModal, type BookingSummaryAddon } from "@/components/ui/booking-summary-modal";
+import {
+  BookingSummaryModal,
+  type BookingSummaryAddon,
+} from "@/components/ui/booking-summary-modal";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -425,22 +428,19 @@ export default function ProductDetails() {
         if (product?.instantBookings) {
           // Create Stripe checkout session for instant booking
           try {
-            const checkoutResponse = await apiFetch(
-              "checkout/create-session",
-              {
-                method: "POST",
-                body: JSON.stringify({
-                  listingId: Number(params.id),
-                  listingTitle: product?.name,
-                  amount: 3000,
-                  successUrl: `${window.location.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-                  cancelUrl: `${window.location.origin}/checkout/cancel`,
-                }),
-                headers: {
-                  "content-type": "application/json",
-                },
+            const checkoutResponse = await apiFetch("checkout/create-session", {
+              method: "POST",
+              body: JSON.stringify({
+                listingId: Number(params.id),
+                listingTitle: product?.name,
+                amount: 3000,
+                successUrl: `${window.location.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+                cancelUrl: `${window.location.origin}/checkout/cancel`,
+              }),
+              headers: {
+                "content-type": "application/json",
               },
-            );
+            });
 
             const checkoutData = await checkoutResponse
               .json()
@@ -450,13 +450,8 @@ export default function ProductDetails() {
               console.log("Redirecting to Stripe:", checkoutData.url);
               window.location.href = checkoutData.url;
             } else {
-              console.error(
-                "Failed to create checkout session:",
-                checkoutData,
-              );
-              alert(
-                `Checkout error: ${checkoutData.error || "Unknown error"}`,
-              );
+              console.error("Failed to create checkout session:", checkoutData);
+              alert(`Checkout error: ${checkoutData.error || "Unknown error"}`);
             }
           } catch (checkoutError) {
             console.error("Checkout error:", checkoutError);
@@ -1997,9 +1992,7 @@ export default function ProductDetails() {
         endDate={selectedDateRange.end}
         dailyPrice={
           product?.price
-            ? Math.round(
-                Number(product.price.replace(/[^0-9.]/g, "")) * 100,
-              )
+            ? Math.round(Number(product.price.replace(/[^0-9.]/g, "")) * 100)
             : 0
         }
         totalDays={
@@ -2016,7 +2009,11 @@ export default function ProductDetails() {
           createReservation(selectedAddons);
           setShowBookingSummaryModal(false);
         }}
-        onBack={product?.addons && product.addons.length > 0 ? handleBackToAddons : undefined}
+        onBack={
+          product?.addons && product.addons.length > 0
+            ? handleBackToAddons
+            : undefined
+        }
       />
     </div>
   );
