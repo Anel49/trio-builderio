@@ -696,7 +696,6 @@ export default function UploadProduct() {
     </Dialog>
   );
 
-
   const SuccessModal = () => (
     <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
       <DialogContent className="max-w-md">
