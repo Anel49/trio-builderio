@@ -35,9 +35,9 @@ import {
   MessageCircle,
   Info,
   Loader2,
-  Trash2,
   ChevronDown,
   ChevronUp,
+  MoreVertical,
 } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ENABLE_UPLOAD_PREVIEW_FAVORITES } from "@/lib/constants";
