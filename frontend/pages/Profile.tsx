@@ -1347,6 +1347,21 @@ export default function Profile() {
     return null;
   }
 
+  // Show loading state while checking other user's profile
+  if (viewingOtherUser && isLoadingOtherUser) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 w-48 bg-muted rounded" />
+            <div className="h-64 bg-muted rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // If viewing another user's profile and the user was not found
   if (viewingOtherUser && otherUserNotFound) {
     return (
