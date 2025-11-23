@@ -378,10 +378,19 @@ export default function Profile() {
     }
   };
 
-  const handleEdit = (item: ListedItem) => {
+  const handleEdit = (item: ListedItem, e?: React.MouseEvent) => {
     setItemToEdit(item);
     sessionStorage.setItem("editListingData", JSON.stringify(item));
-    window.location.href = `/upload?edit=${item.id}`;
+    const editUrl = `/upload?edit=${item.id}`;
+
+    const isCtrlOrCmd = e?.ctrlKey || e?.metaKey;
+    const isMiddleClick = e?.button === 1;
+
+    if (isCtrlOrCmd || isMiddleClick) {
+      window.open(editUrl, "_blank");
+    } else {
+      window.location.href = editUrl;
+    }
   };
 
   const handleBulkEnableAll = async () => {
