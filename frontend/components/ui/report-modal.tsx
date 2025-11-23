@@ -173,7 +173,7 @@ export function ReportModal({
                   placeholder="Please provide any additional information about this report..."
                   value={additionalDetails}
                   onChange={(e) => setAdditionalDetails(e.target.value)}
-                  className="min-h-[100px] resize-none"
+                  className="min-h-[100px] resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
               </div>
 
