@@ -1805,7 +1805,7 @@ export default function Profile() {
                         onFavorite={handleFavorite}
                         isFavorited={favoritedListingIds.has(item.id)}
                         onEditClick={
-                          !viewingOtherUser ? () => handleEdit(item) : undefined
+                          !viewingOtherUser ? (e) => handleEdit(item, e) : undefined
                         }
                         enabled={item.enabled ?? true}
                         onDisableClick={
