@@ -154,31 +154,28 @@ export default function Header() {
                   </a>
 
                   {/* Profile Picture with Right-Click Menu */}
-                  <div
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      setIsContextMenuOpen(true);
-                    }}
-                  >
-                    <a
-                      href="/profile"
-                      className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity"
-                      title="Profile"
-                    >
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage
-                          src={user?.avatarUrl || undefined}
-                          alt={user?.name || "Profile"}
-                        />
-                        <AvatarFallback>
-                          {getInitials(user?.name || null)}
-                        </AvatarFallback>
-                      </Avatar>
-                    </a>
-                  </div>
                   <DropdownMenu open={isContextMenuOpen} onOpenChange={setIsContextMenuOpen}>
                     <DropdownMenuTrigger asChild>
-                      <div className="hidden" />
+                      <a
+                        href="/profile"
+                        className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity"
+                        title="Profile"
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setIsContextMenuOpen(true);
+                        }}
+                      >
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage
+                            src={user?.avatarUrl || undefined}
+                            alt={user?.name || "Profile"}
+                          />
+                          <AvatarFallback>
+                            {getInitials(user?.name || null)}
+                          </AvatarFallback>
+                        </Avatar>
+                      </a>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={handleLogout}>
