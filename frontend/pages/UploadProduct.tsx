@@ -1655,14 +1655,34 @@ export default function UploadProduct() {
                                     </div>
                                   </div>
 
-                                  <button
-                                    type="button"
-                                    onClick={() => removeAddon(addon.id)}
-                                    className="p-2 hover:bg-destructive/10 hover:text-destructive rounded transition-colors"
-                                    title="Remove addon"
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                  </button>
+                                  <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                      <button
+                                        type="button"
+                                        className="p-2 hover:bg-muted rounded transition-colors"
+                                        title="Addon options"
+                                      >
+                                        <MoreVertical className="h-4 w-4" />
+                                      </button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                      <DropdownMenuItem
+                                        onClick={() =>
+                                          toggleAddonConsumable(addon.id)
+                                        }
+                                      >
+                                        {addon.consumable
+                                          ? "Mark reusable"
+                                          : "Mark consumable"}
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem
+                                        onClick={() => removeAddon(addon.id)}
+                                        className="text-destructive focus:text-destructive"
+                                      >
+                                        Delete
+                                      </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
                                 </div>
                               </div>
                             </div>
