@@ -136,7 +136,7 @@ export function ProductCard({
               spacing.dimensions.productImage,
             )}
           />
-          {ENABLE_FAVORITES && user && (
+          {ENABLE_FAVORITES && user && user.id !== hostUserId && (
             <Button
               size="icon"
               variant="ghost"
