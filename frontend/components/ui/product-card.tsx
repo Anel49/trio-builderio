@@ -267,7 +267,7 @@ export function ProductCard({
                 style={{
                   backgroundColor: "rgba(67, 115, 169, 0.6)",
                   color: "white",
-                  borderColor: "rgba(67, 115, 169, 0.6)",
+                  borderColor: "transparent",
                 }}
               >
                 Instant Booking
