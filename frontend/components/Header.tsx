@@ -155,10 +155,14 @@ export default function Header() {
                   </a>
 
                   {/* Profile Picture with Right-Click Menu */}
-                  <ContextMenu open={isContextMenuOpen} onOpenChange={setIsContextMenuOpen}>
-                    <ContextMenuTrigger asChild>
-                      <a
-                        href="/profile"
+                  <DropdownMenu open={isContextMenuOpen} onOpenChange={setIsContextMenuOpen}>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        onClick={() => window.location.href = "/profile"}
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          setIsContextMenuOpen(true);
+                        }}
                         className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity cursor-pointer"
                         title="Profile"
                         ref={profileMenuRef}
@@ -172,14 +176,14 @@ export default function Header() {
                             {getInitials(user?.name || null)}
                           </AvatarFallback>
                         </Avatar>
-                      </a>
-                    </ContextMenuTrigger>
-                    <ContextMenuContent side="bottom" align="end">
-                      <ContextMenuItem onClick={handleLogout}>
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={handleLogout}>
                         Log out
-                      </ContextMenuItem>
-                    </ContextMenuContent>
-                  </ContextMenu>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </>
               )}
               <div className="hidden md:block">
