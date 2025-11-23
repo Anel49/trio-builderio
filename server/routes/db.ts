@@ -399,6 +399,33 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists consumable_addon_total integer default 0`,
+      );
+      console.log("[dbSetup] Added consumable_addon_total column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] consumable_addon_total column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists nonconsumable_addon_total integer default 0`,
+      );
+      console.log("[dbSetup] Added nonconsumable_addon_total column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] nonconsumable_addon_total column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists addons text`,
+      );
+      console.log("[dbSetup] Added addons column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] addons column already exists");
+    }
+
     // Add new columns to favorites table if they don't exist
     try {
       await pool.query(
