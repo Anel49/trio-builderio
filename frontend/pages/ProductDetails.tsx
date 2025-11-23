@@ -1544,7 +1544,7 @@ export default function ProductDetails() {
             </div>
 
             {/* Post/Edit a Review Button */}
-            {authUser && (
+            {authUser && authUser.id !== product?.hostUserId && (
               <Button
                 onClick={() => {
                   if (userReview) {
