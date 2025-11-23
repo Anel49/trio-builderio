@@ -107,7 +107,7 @@ export default function UploadProduct() {
   const [enableInstantBooking, setEnableInstantBooking] = useState(false);
   const [showInstantBookingModal, setShowInstantBookingModal] = useState(false);
   const [addons, setAddons] = useState<
-    Array<{ id: string; item: string; style: string; price: string }>
+    Array<{ id: string; item: string; style: string; price: string; consumable?: boolean }>
   >([]);
   const [isAddonsExpanded, setIsAddonsExpanded] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
@@ -451,12 +451,21 @@ export default function UploadProduct() {
     navigationRef.current = null;
   };
 
+  const toggleAddonConsumable = (id: string) => {
+    setAddons(
+      addons.map((addon) =>
+        addon.id === id ? { ...addon, consumable: !addon.consumable } : addon,
+      ),
+    );
+  };
+
   const addAddonEntry = () => {
     const newAddon = {
       id: `addon-${Date.now()}`,
       item: "",
       style: "",
       price: "",
+      consumable: false,
     };
     setAddons([...addons, newAddon]);
   };
@@ -1453,6 +1462,11 @@ export default function UploadProduct() {
                         <Plus className="h-4 w-4 mr-2" />
                         Create Addon
                       </Button>
+                      {addons.length > 0 && (
+                        <p className="text-xs text-muted-foreground">
+                          Delete or mark addons consumable using (⋮)
+                        </p>
+                      )}
 
                       <div className="space-y-3">
                         {addons.map((addon, index) => (
