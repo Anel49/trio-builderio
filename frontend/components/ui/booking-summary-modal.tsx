@@ -37,6 +37,7 @@ export function BookingSummaryModal({
   totalDays,
   selectedAddons,
   onConfirm,
+  onBack,
 }: BookingSummaryModalProps) {
   // Calculate addon totals
   const consumableTotal = selectedAddons.reduce((sum, addon) => {
