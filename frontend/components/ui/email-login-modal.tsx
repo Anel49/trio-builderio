@@ -11,7 +11,6 @@ import {
 import { Eye, EyeOff } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { ForgotPasswordModal } from "@/components/ui/forgot-password-modal";
-import { useGoogleLogin } from "@react-oauth/google";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface EmailLoginModalProps {
