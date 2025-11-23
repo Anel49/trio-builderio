@@ -708,13 +708,22 @@ export default function UploadProduct() {
           </p>
         </div>
         <div className="flex gap-4">
-          <Button className="flex-1" onClick={confirmListProduct}>
-            Yes
+          <Button
+            className="flex-1"
+            onClick={confirmListProduct}
+            disabled={isConfirmingListing}
+          >
+            {isConfirmingListing ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              "Yes"
+            )}
           </Button>
           <Button
             variant="outline"
             className="flex-1"
             onClick={handleCancelListing}
+            disabled={isConfirmingListing}
           >
             No
           </Button>
