@@ -1473,7 +1473,7 @@ export default function UploadProduct() {
                         className="w-full"
                       >
                         <Plus className="h-4 w-4 mr-2" />
-                        Create Addon
+                        Create addon
                       </Button>
                       {addons.length > 0 && (
                         <p className="text-xs text-muted-foreground">
