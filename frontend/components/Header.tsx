@@ -35,7 +35,6 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
 
-  const profileMenuRef = useRef<HTMLDivElement>(null);
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
 
   const getInitials = (name: string | null): string => {
