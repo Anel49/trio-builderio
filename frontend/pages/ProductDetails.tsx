@@ -1973,6 +1973,40 @@ export default function ProductDetails() {
         open={showRequestSentModal}
         onOpenChange={setShowRequestSentModal}
       />
+      <AddonsModal
+        isOpen={showAddonsModal}
+        onOpenChange={setShowAddonsModal}
+        addons={product?.addons || []}
+        onConfirm={handleAddonsConfirm}
+        onSkip={handleAddonsSkip}
+      />
+      <BookingSummaryModal
+        isOpen={showBookingSummaryModal}
+        onOpenChange={setShowBookingSummaryModal}
+        startDate={selectedDateRange.start}
+        endDate={selectedDateRange.end}
+        dailyPrice={
+          product?.price
+            ? Math.round(
+                Number(product.price.replace(/[^0-9.]/g, "")) * 100,
+              )
+            : 0
+        }
+        totalDays={
+          selectedDateRange.start && selectedDateRange.end
+            ? Math.ceil(
+                (selectedDateRange.end.getTime() -
+                  selectedDateRange.start.getTime()) /
+                  (1000 * 60 * 60 * 24),
+              ) + 1
+            : 0
+        }
+        selectedAddons={selectedAddons}
+        onConfirm={() => {
+          createReservation(selectedAddons);
+          setShowBookingSummaryModal(false);
+        }}
+      />
     </div>
   );
 }
