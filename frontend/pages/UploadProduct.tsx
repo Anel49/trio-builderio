@@ -986,7 +986,10 @@ export default function UploadProduct() {
     </Dialog>
   );
 
-  if (editListingId && isCheckingListing) {
+  const params = new URLSearchParams(window.location.search);
+  const urlEditId = params.get("edit");
+
+  if (urlEditId && (isCheckingListing || !editListingId)) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
