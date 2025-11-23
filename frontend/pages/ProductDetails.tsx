@@ -1196,7 +1196,7 @@ export default function ProductDetails() {
                             <div className="text-right">
                               {addon.price !== null ? (
                                 <span className="font-semibold text-primary">
-                                  ${addon.price.toFixed(2)}
+                                  ${addon.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                 </span>
                               ) : (
                                 <span className="text-muted-foreground text-xs">
