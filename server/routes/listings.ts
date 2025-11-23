@@ -1252,6 +1252,9 @@ export async function createReservation(req: Request, res: Response) {
         total_days: reservation.total_days,
         rental_type: reservation.rental_type,
         status: reservation.status,
+        consumable_addon_total: reservation.consumable_addon_total,
+        nonconsumable_addon_total: reservation.nonconsumable_addon_total,
+        addons: reservation.addons,
         created_at: reservation.created_at,
       },
     });
