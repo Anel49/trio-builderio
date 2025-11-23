@@ -635,9 +635,10 @@ export default function UploadProduct() {
       setIsListed(true);
       setShowConfirmModal(false);
       setShowSuccessModal(true);
+      setIsConfirmingListing(false);
       // Skip immediate refresh to avoid redundant network calls; pages load fresh on navigation
     } catch (e) {
-      setShowConfirmModal(false);
+      setIsConfirmingListing(false);
       alert(
         editListingId
           ? "Failed to update product. Please try again."
