@@ -1358,7 +1358,7 @@ export default function ProductDetails() {
                                 );
 
                                 // Check if listing has instant booking enabled
-                                if (product?.instantBooking) {
+                                if (product?.instantBookings) {
                                   // Create Stripe checkout session for instant booking
                                   try {
                                     const checkoutResponse = await apiFetch(
