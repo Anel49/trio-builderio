@@ -154,22 +154,32 @@ export default function Header() {
                     <ClipboardList className="h-5 w-5" />
                   </a>
 
-                  {/* Profile Picture Link */}
-                  <a
-                    href="/profile"
-                    className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity"
-                    title="Profile"
-                  >
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage
-                        src={user?.avatarUrl || undefined}
-                        alt={user?.name || "Profile"}
-                      />
-                      <AvatarFallback>
-                        {getInitials(user?.name || null)}
-                      </AvatarFallback>
-                    </Avatar>
-                  </a>
+                  {/* Profile Picture with Right-Click Menu */}
+                  <ContextMenu open={isContextMenuOpen} onOpenChange={setIsContextMenuOpen}>
+                    <ContextMenuTrigger asChild>
+                      <a
+                        href="/profile"
+                        className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity cursor-pointer"
+                        title="Profile"
+                        ref={profileMenuRef}
+                      >
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage
+                            src={user?.avatarUrl || undefined}
+                            alt={user?.name || "Profile"}
+                          />
+                          <AvatarFallback>
+                            {getInitials(user?.name || null)}
+                          </AvatarFallback>
+                        </Avatar>
+                      </a>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent>
+                      <ContextMenuItem onClick={handleLogout}>
+                        Log out
+                      </ContextMenuItem>
+                    </ContextMenuContent>
+                  </ContextMenu>
                 </>
               )}
               <div className="hidden md:block">
