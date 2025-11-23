@@ -1617,7 +1617,7 @@ export default function UploadProduct() {
                                 <button
                                   type="button"
                                   onClick={() => removeAddon(addon.id)}
-                                  className="p-2 hover:bg-destructive/10 hover:text-destructive rounded transition-colors"
+                                  className="p-2 hover:bg-destructive/10 hover:text-destructive rounded transition-colors mb-1"
                                   title="Remove addon"
                                 >
                                   <Trash2 className="h-4 w-4" />
