@@ -313,7 +313,12 @@ export default function ProductDetails() {
   };
 
   const handleAddonsConfirm = (selectedAddonsFromModal: SelectedAddon[]) => {
-    setSelectedAddons(selectedAddonsFromModal);
+    // Convert addon prices from dollars to cents for BookingSummaryModal calculations
+    const addonsWithCentPrices = selectedAddonsFromModal.map((addon) => ({
+      ...addon,
+      price: addon.price !== null ? Math.round(addon.price * 100) : null,
+    }));
+    setSelectedAddons(addonsWithCentPrices);
     setShowAddonsModal(false);
     setShowBookingSummaryModal(true);
   };
