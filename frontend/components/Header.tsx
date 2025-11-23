@@ -174,7 +174,7 @@ export default function Header() {
                         </Avatar>
                       </a>
                     </ContextMenuTrigger>
-                    <ContextMenuContent>
+                    <ContextMenuContent side="bottom" align="end">
                       <ContextMenuItem onClick={handleLogout}>
                         Log out
                       </ContextMenuItem>
