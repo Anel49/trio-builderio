@@ -143,6 +143,7 @@ export default function UploadProduct() {
             // Check authorization: user can only edit their own listings
             if (!authUser || authUser.id !== listing.hostUserId) {
               setListingNotFound(true);
+              setIsCheckingListing(false);
               return;
             }
 
