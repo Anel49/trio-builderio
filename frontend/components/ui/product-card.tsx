@@ -46,7 +46,7 @@ interface ProductCardProps {
   priceUnitLabel?: string;
   underlinePrice?: boolean;
   onDeleteClick?: () => void;
-  onEditClick?: () => void;
+  onEditClick?: (e?: React.MouseEvent) => void;
   onDisableClick?: () => void;
   onEnableClick?: () => void;
   delivery?: boolean;
