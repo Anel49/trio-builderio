@@ -885,7 +885,7 @@ export async function updateListing(req: Request, res: Response) {
 
         // Delete addons that are no longer in the list
         for (const addonId of existingAddonIds) {
-          if (!newAddonIds.has(addonId)) {
+          if (!newAddonIds.has(addonId as number)) {
             await pool.query(
               `delete from listing_addons where id = $1 and listing_id = $2`,
               [addonId, listingId],
