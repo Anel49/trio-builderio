@@ -1151,7 +1151,24 @@ export default function ProductDetails() {
                 <Accordion type="single" collapsible className="mb-6">
                   <AccordionItem value="addons">
                     <AccordionTrigger className="text-sm font-semibold py-2">
-                      Optional addons
+                      <span className="flex items-center gap-2">
+                        Optional addons
+                        <TooltipProvider>
+                          <Tooltip delayDuration={200}>
+                            <TooltipTrigger asChild>
+                              <button
+                                className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-muted text-muted-foreground hover:bg-muted hover:text-foreground cursor-help"
+                                aria-label="Information about addons"
+                              >
+                                <span className="text-xs font-semibold">i</span>
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Addons can be added after rental date(s) selection.</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </span>
                     </AccordionTrigger>
                     <AccordionContent className="pt-2">
                       <div className="space-y-3">
