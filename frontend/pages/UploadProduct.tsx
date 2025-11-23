@@ -55,6 +55,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const rentalPeriods = ["Hourly", "Daily", "Weekly", "Monthly"] as const;
 type RentalPeriod = (typeof rentalPeriods)[number];
