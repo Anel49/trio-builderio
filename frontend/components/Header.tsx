@@ -156,7 +156,7 @@ export default function Header() {
                   {/* Profile Picture with Right-Click Menu */}
                   <div className="relative">
                     <button
-                      onClick={() => window.location.href = "/profile"}
+                      onClick={() => (window.location.href = "/profile")}
                       onContextMenu={(e) => {
                         e.preventDefault();
                         setIsContextMenuOpen(true);
