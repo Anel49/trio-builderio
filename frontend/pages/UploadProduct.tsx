@@ -1365,7 +1365,7 @@ export default function UploadProduct() {
                             </svg>
                           )}
                         </button>
-                        <label className="text-sm font-medium cursor-pointer whitespace-nowrap">
+                        <label className="text-sm font-medium cursor-pointer">
                           Offer free delivery
                         </label>
                       </div>
