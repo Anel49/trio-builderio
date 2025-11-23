@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import Header from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import {
   LocationPickerModal,
   type LocationSelection,
@@ -117,6 +118,7 @@ export default function UploadProduct() {
   const priceLabel = "Price per day";
   const pricePlaceholder = "35";
   const [editListingId, setEditListingId] = useState<number | null>(null);
+  const [listingNotFound, setListingNotFound] = useState(false);
 
   usePageTitle();
 
@@ -138,8 +140,7 @@ export default function UploadProduct() {
 
             // Check authorization: user can only edit their own listings
             if (!authUser || authUser.id !== listing.hostUserId) {
-              alert("You can only edit your own listings.");
-              window.location.href = "/";
+              setListingNotFound(true);
               return;
             }
 
@@ -222,16 +223,20 @@ export default function UploadProduct() {
               );
               setIsAddonsExpanded(true);
             }
+          } else {
+            // Listing not found or invalid response
+            setListingNotFound(true);
           }
         } catch (error) {
           console.error("Failed to load listing data:", error);
+          setListingNotFound(true);
         }
       })();
 
       // Clear session storage if it exists
       sessionStorage.removeItem("editListingData");
     }
-  }, []);
+  }, [authUser]);
 
   // Mock user profile data - in real app this would come from context/API
   const hasListingCoordinates =
@@ -974,6 +979,28 @@ export default function UploadProduct() {
       </DialogContent>
     </Dialog>
   );
+
+  if (listingNotFound && editListingId) {
+    return (
+      <div className="flex flex-col min-h-screen bg-background">
+        <Header />
+        <div className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-4">
+            <h1 className="text-3xl font-bold text-foreground">
+              Listing not found
+            </h1>
+            <p className="text-muted-foreground">
+              The listing you're trying to edit doesn't exist or you don't have permission to edit it.
+            </p>
+            <Button onClick={() => window.location.href = "/"} className="mt-4">
+              Return to Home
+            </Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
