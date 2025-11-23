@@ -547,19 +547,12 @@ export async function getListingById(req: Request, res: Response) {
         `select id, item, style, price from listing_addons where listing_id = $1 order by created_at asc`,
         [id],
       );
-      console.log(
-        `[getListingById] Addon query result for listing ${id}:`,
-        addonsResult.rows,
-      );
       if (addonsResult.rows && Array.isArray(addonsResult.rows)) {
         addons = addonsResult.rows.map((row: any) => {
           const addonPrice =
             row.price !== null && row.price !== undefined
               ? parseFloat(row.price)
               : null;
-          console.log(
-            `[getListingById] Processing addon: id=${row.id}, item=${row.item}, price=${row.price} (type: ${typeof row.price}) -> ${addonPrice}`,
-          );
           return {
             id: row.id,
             item: row.item,
@@ -568,9 +561,7 @@ export async function getListingById(req: Request, res: Response) {
           };
         });
       }
-      console.log(`[getListingById] Final addons for listing ${id}:`, addons);
-    } catch (e) {
-      console.error(`[getListingById] Error fetching addons for listing ${id}:`, e);
+    } catch {
       // If listing_addons table doesn't exist or query fails, continue with empty addons
     }
 
