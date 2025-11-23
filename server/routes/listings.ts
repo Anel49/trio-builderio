@@ -1125,6 +1125,9 @@ export async function createReservation(req: Request, res: Response) {
       total_days,
       rental_type,
       status,
+      consumable_addon_total,
+      nonconsumable_addon_total,
+      addons,
     } = req.body || {};
 
     if (!listing_id || Number.isNaN(Number(listing_id))) {
