@@ -1540,8 +1540,8 @@ export default function UploadProduct() {
                               </button>
                             </div>
 
-                            {/* Mobile Layout - Stacked fields */}
-                            <div className="md:hidden space-y-2">
+                            {/* Mobile Layout - Stacked fields in boxes */}
+                            <div className="md:hidden border border-border rounded-lg p-3 bg-muted/30">
                               <div>
                                 <label className="block text-xs font-medium text-muted-foreground mb-1">
                                   Item
