@@ -570,6 +570,7 @@ export default function UploadProduct() {
               item: addon.item,
               style: addon.style,
               price: addon.price ? parseFloat(addon.price) : null,
+              consumable: addon.consumable || false,
             };
             // Only include ID for existing addons (not newly created ones)
             const addonIdStr = String(addon.id);
