@@ -413,6 +413,7 @@ export default function ProductDetails() {
           return;
         }
         const d = await response.json().catch(() => null);
+        console.log(`[ProductDetails] API response for listing ${params.id}:`, d);
         if (!d || !d.ok || !d.listing || cancelled) {
           if (!cancelled) {
             setProduct(null);
@@ -422,6 +423,18 @@ export default function ProductDetails() {
           return;
         }
         const l = d.listing;
+        if (l.addons) {
+          console.log(
+            `[ProductDetails] Listing ${params.id} has addons:`,
+            l.addons.map((a: any) => ({
+              id: a.id,
+              item: a.item,
+              style: a.style,
+              price: a.price,
+              priceType: typeof a.price,
+            })),
+          );
+        }
         const listingCoords = extractCoordinates(l);
         const userCoords = coords ?? getCurrentUserCoordinates();
         const distanceMiles = computeDistanceMiles(userCoords, listingCoords);
