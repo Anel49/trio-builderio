@@ -1542,38 +1542,19 @@ export default function UploadProduct() {
 
                             {/* Mobile Layout - Stacked fields in boxes */}
                             <div className="md:hidden border border-border rounded-lg p-3 bg-muted/30">
-                              <div>
-                                <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                  Item
-                                </label>
-                                <Input
-                                  type="text"
-                                  placeholder='"Tablecloth"'
-                                  value={addon.item}
-                                  onChange={(e) =>
-                                    updateAddonField(
-                                      addon.id,
-                                      "item",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full"
-                                />
-                              </div>
-
-                              <div className="flex gap-3 items-end">
-                                <div className="flex-1">
+                              <div className="space-y-2">
+                                <div>
                                   <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                    Style
+                                    Item
                                   </label>
                                   <Input
                                     type="text"
-                                    placeholder='"Red"'
-                                    value={addon.style}
+                                    placeholder='"Tablecloth"'
+                                    value={addon.item}
                                     onChange={(e) =>
                                       updateAddonField(
                                         addon.id,
-                                        "style",
+                                        "item",
                                         e.target.value,
                                       )
                                     }
@@ -1581,54 +1562,70 @@ export default function UploadProduct() {
                                   />
                                 </div>
 
-                                <div className="flex-1">
-                                  <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                    Price
-                                  </label>
-                                  <div className="relative">
-                                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground text-sm">
-                                      $
-                                    </span>
+                                <div className="flex gap-3 items-end">
+                                  <div className="flex-1">
+                                    <label className="block text-xs font-medium text-muted-foreground mb-1">
+                                      Style
+                                    </label>
                                     <Input
-                                      type="number"
-                                      min="0"
-                                      step="0.01"
-                                      placeholder="0"
-                                      value={addon.price}
-                                      onChange={(e) => {
-                                        const value = e.target.value;
-                                        if (
-                                          value === "" ||
-                                          parseFloat(value) >= 0
-                                        ) {
-                                          updateAddonField(
-                                            addon.id,
-                                            "price",
-                                            value,
-                                          );
-                                        }
-                                      }}
-                                      onWheel={(e) => e.currentTarget.blur()}
-                                      className="w-full pl-8"
+                                      type="text"
+                                      placeholder='"Red"'
+                                      value={addon.style}
+                                      onChange={(e) =>
+                                        updateAddonField(
+                                          addon.id,
+                                          "style",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="w-full"
                                     />
                                   </div>
-                                </div>
 
-                                <button
-                                  type="button"
-                                  onClick={() => removeAddon(addon.id)}
-                                  className="p-2 hover:bg-destructive/10 hover:text-destructive rounded transition-colors mb-1"
-                                  title="Remove addon"
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </button>
+                                  <div className="flex-1">
+                                    <label className="block text-xs font-medium text-muted-foreground mb-1">
+                                      Price
+                                    </label>
+                                    <div className="relative">
+                                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground text-sm">
+                                        $
+                                      </span>
+                                      <Input
+                                        type="number"
+                                        min="0"
+                                        step="0.01"
+                                        placeholder="0"
+                                        value={addon.price}
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+                                          if (
+                                            value === "" ||
+                                            parseFloat(value) >= 0
+                                          ) {
+                                            updateAddonField(
+                                              addon.id,
+                                              "price",
+                                              value,
+                                            );
+                                          }
+                                        }}
+                                        onWheel={(e) => e.currentTarget.blur()}
+                                        className="w-full pl-8"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => removeAddon(addon.id)}
+                                    className="p-2 hover:bg-destructive/10 hover:text-destructive rounded transition-colors"
+                                    title="Remove addon"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </button>
+                                </div>
                               </div>
                             </div>
-
-                            {/* Divider line between entries (mobile only) */}
-                            {index < addons.length - 1 && (
-                              <div className="md:hidden border-t-2 border-foreground/25 dark:border-muted-foreground/40 mt-3" />
-                            )}
                           </div>
                         ))}
                       </div>
