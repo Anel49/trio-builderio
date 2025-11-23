@@ -106,6 +106,7 @@ export default function UploadProduct() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isConfirmingListing, setIsConfirmingListing] = useState(false);
   const [isPriceInfoOpen, setIsPriceInfoOpen] = useState(false);
   const [offerDelivery, setOfferDelivery] = useState(false);
   const [offerFreeDelivery, setOfferFreeDelivery] = useState(false);
