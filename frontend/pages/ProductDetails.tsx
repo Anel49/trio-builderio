@@ -76,6 +76,7 @@ import {
   Flag,
   MessageCircle,
   ArrowLeft,
+  Info,
 } from "lucide-react";
 import {
   Dialog,
@@ -1157,10 +1158,11 @@ export default function ProductDetails() {
                           <Tooltip delayDuration={200}>
                             <TooltipTrigger asChild>
                               <button
-                                className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-muted text-muted-foreground hover:bg-muted hover:text-foreground cursor-help"
+                                type="button"
                                 aria-label="Information about addons"
+                                className="p-0 h-4 w-4 text-muted-foreground hover:text-primary focus:outline-none"
                               >
-                                <span className="text-xs font-semibold">i</span>
+                                <Info className="h-4 w-4" />
                               </button>
                             </TooltipTrigger>
                             <TooltipContent>
