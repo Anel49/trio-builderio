@@ -145,10 +145,10 @@ export function BookingSummaryModal({
           </Button>
           <Button
             variant="outline"
-            onClick={() => onOpenChange(false)}
+            onClick={onBack || (() => onOpenChange(false))}
             className="flex-1"
           >
-            Cancel
+            {onBack ? "Back" : "Cancel"}
           </Button>
         </div>
       </DialogContent>
