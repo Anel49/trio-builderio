@@ -1345,7 +1345,7 @@ export default function UploadProduct() {
                             setOfferFreeDelivery(!offerFreeDelivery)
                           }
                           className={cn(
-                            "w-5 h-5 rounded border-2 flex items-center justify-center transition-colors",
+                            "w-5 h-5 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0",
                             offerFreeDelivery
                               ? "bg-primary border-primary text-primary-foreground"
                               : "border-input bg-background hover:border-primary/50",
