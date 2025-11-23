@@ -1170,6 +1170,7 @@ export default function ProductDetails() {
                               type="button"
                               aria-label="Information about addons"
                               className="p-0 h-4 w-4 text-muted-foreground hover:text-primary focus:outline-none"
+                              onClick={(e) => e.stopPropagation()}
                             >
                               <Info className="h-4 w-4" />
                             </button>
