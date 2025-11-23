@@ -342,7 +342,12 @@ export default function ProductDetails() {
     delivery?: boolean;
     freeDelivery?: boolean;
     instantBookings?: boolean;
-    addons?: Array<{ id: number; item: string; style: string | null; price: number | null }>;
+    addons?: Array<{
+      id: number;
+      item: string;
+      style: string | null;
+      price: number | null;
+    }>;
   }>(null);
   const [isAddonsExpanded, setIsAddonsExpanded] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
