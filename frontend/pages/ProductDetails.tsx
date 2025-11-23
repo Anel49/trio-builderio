@@ -132,6 +132,9 @@ export default function ProductDetails() {
   }>({ start: null, end: null });
   const [showConflictModal, setShowConflictModal] = useState(false);
   const [showRequestSentModal, setShowRequestSentModal] = useState(false);
+  const [showAddonsModal, setShowAddonsModal] = useState(false);
+  const [showBookingSummaryModal, setShowBookingSummaryModal] = useState(false);
+  const [selectedAddons, setSelectedAddons] = useState<SelectedAddon[]>([]);
   const conflictRecheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleFavorite = async (listingName: string, listingId: number) => {
