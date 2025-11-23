@@ -898,29 +898,31 @@ export default function ProductDetails() {
                 className="w-full h-96 object-cover rounded-lg cursor-zoom-in"
                 onClick={() => setIsLightboxOpen(true)}
               />
-              {ENABLE_FAVORITES && authUser?.id && authUser.id !== product?.hostUserId && (
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="absolute top-4 right-4 bg-white/80 hover:bg-white heart-button-transition"
-                  onMouseEnter={() => setIsHeartHovered(true)}
-                  onMouseLeave={() => setIsHeartHovered(false)}
-                  onClick={() =>
-                    handleFavorite(product.name, Number(params.id))
-                  }
-                >
-                  <Heart
-                    className="h-5 w-5 heart-transition"
-                    style={{
-                      stroke: "#ff6f6f",
-                      fill:
-                        isHeartHovered || isFavorited
-                          ? "#ff6f6f"
-                          : "transparent",
-                    }}
-                  />
-                </Button>
-              )}
+              {ENABLE_FAVORITES &&
+                authUser?.id &&
+                authUser.id !== product?.hostUserId && (
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="absolute top-4 right-4 bg-white/80 hover:bg-white heart-button-transition"
+                    onMouseEnter={() => setIsHeartHovered(true)}
+                    onMouseLeave={() => setIsHeartHovered(false)}
+                    onClick={() =>
+                      handleFavorite(product.name, Number(params.id))
+                    }
+                  >
+                    <Heart
+                      className="h-5 w-5 heart-transition"
+                      style={{
+                        stroke: "#ff6f6f",
+                        fill:
+                          isHeartHovered || isFavorited
+                            ? "#ff6f6f"
+                            : "transparent",
+                      }}
+                    />
+                  </Button>
+                )}
             </div>
 
             {/* Image Carousel */}
@@ -1158,7 +1160,10 @@ export default function ProductDetails() {
                         <TooltipProvider>
                           <TouchTooltip
                             content={
-                              <p>Addons can be added after rental date(s) selection.</p>
+                              <p>
+                                Addons can be added after rental date(s)
+                                selection.
+                              </p>
                             }
                           >
                             <button

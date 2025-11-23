@@ -28,7 +28,10 @@ export function TouchTooltip({
     if (!isMobile || !isOpen) return;
 
     const handleClickOutside = (e: MouseEvent) => {
-      if (triggerRef.current && !triggerRef.current.contains(e.target as Node)) {
+      if (
+        triggerRef.current &&
+        !triggerRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
