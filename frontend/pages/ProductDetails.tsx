@@ -898,7 +898,7 @@ export default function ProductDetails() {
                 className="w-full h-96 object-cover rounded-lg cursor-zoom-in"
                 onClick={() => setIsLightboxOpen(true)}
               />
-              {ENABLE_FAVORITES && authUser?.id !== product?.hostUserId && (
+              {ENABLE_FAVORITES && authUser?.id && authUser.id !== product?.hostUserId && (
                 <Button
                   size="icon"
                   variant="ghost"
