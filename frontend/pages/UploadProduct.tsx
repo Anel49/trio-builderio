@@ -524,10 +524,12 @@ export default function UploadProduct() {
   };
 
   const confirmListProduct = async () => {
+    setIsConfirmingListing(true);
     try {
       const userId = authUser?.id;
       if (!userId) {
         console.error("User not authenticated");
+        setIsConfirmingListing(false);
         return;
       }
 
