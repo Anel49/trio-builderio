@@ -176,12 +176,12 @@ export default function Header() {
                     </button>
                     {isContextMenuOpen && (
                       <div
-                        className="absolute right-0 mt-1 w-40 bg-popover border border-border rounded-md shadow-md z-50"
+                        className="absolute right-0 mt-1 bg-popover border border-border rounded-md shadow-md z-50"
                         onMouseLeave={() => setIsContextMenuOpen(false)}
                       >
                         <button
                           onClick={handleLogout}
-                          className="w-full text-left px-4 py-2 text-sm hover:bg-accent rounded-md"
+                          className="text-left px-3 py-1.5 text-sm hover:bg-accent rounded-md whitespace-nowrap"
                         >
                           Log out
                         </button>
