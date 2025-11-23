@@ -49,6 +49,8 @@ import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { ListingLocationModal } from "@/components/ui/listing-location-modal";
+import { AddonsModal, type SelectedAddon } from "@/components/ui/addons-modal";
+import { BookingSummaryModal, type BookingSummaryAddon } from "@/components/ui/booking-summary-modal";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import {
