@@ -1711,7 +1711,13 @@ export default function UploadProduct() {
       </div>
 
       <DraftDialog />
-      <ConfirmationModal />
+      <ConfirmationModal
+        showConfirmModal={showConfirmModal}
+        isConfirmingListing={isConfirmingListing}
+        onConfirm={confirmListProduct}
+        onCancel={handleCancelListing}
+        onOpenChange={setShowConfirmModal}
+      />
       <SuccessModal />
       <DeliveryModal />
       <InstantBookingModal />
