@@ -113,7 +113,13 @@ export default function UploadProduct() {
   const [enableInstantBooking, setEnableInstantBooking] = useState(false);
   const [showInstantBookingModal, setShowInstantBookingModal] = useState(false);
   const [addons, setAddons] = useState<
-    Array<{ id: string; item: string; style: string; price: string; consumable?: boolean }>
+    Array<{
+      id: string;
+      item: string;
+      style: string;
+      price: string;
+      consumable?: boolean;
+    }>
   >([]);
   const [isAddonsExpanded, setIsAddonsExpanded] = useState(false);
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
@@ -1471,7 +1477,8 @@ export default function UploadProduct() {
                       </Button>
                       {addons.length > 0 && (
                         <p className="text-xs text-muted-foreground">
-                          Delete or mark addons consumable by using the three vertical dots.
+                          Delete or mark addons consumable by using the three
+                          vertical dots.
                         </p>
                       )}
 

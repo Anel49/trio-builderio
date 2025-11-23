@@ -884,7 +884,12 @@ export async function updateListing(req: Request, res: Response) {
             );
           } else {
             // New addon to be inserted
-            addonsToInsert.push({ item, style, price: priceInCents, consumable });
+            addonsToInsert.push({
+              item,
+              style,
+              price: priceInCents,
+              consumable,
+            });
           }
         }
 
