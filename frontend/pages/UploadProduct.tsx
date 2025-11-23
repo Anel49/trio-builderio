@@ -990,9 +990,13 @@ export default function UploadProduct() {
               Listing not found
             </h1>
             <p className="text-muted-foreground">
-              The listing you're trying to edit doesn't exist or you don't have permission to edit it.
+              The listing you're trying to edit doesn't exist or you don't have
+              permission to edit it.
             </p>
-            <Button onClick={() => window.location.href = "/"} className="mt-4">
+            <Button
+              onClick={() => (window.location.href = "/")}
+              className="mt-4"
+            >
               Return to Home
             </Button>
           </div>
