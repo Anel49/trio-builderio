@@ -24,14 +24,13 @@ import { Elements, CardElement } from "@stripe/react-stripe-js";
 declare global {
   interface Window {
     google: any;
-    paypal: any;
     ApplePaySession: any;
   }
 }
 
 export default function Checkout() {
   const { user: authUser } = useAuth();
-  const [paymentMethod, setPaymentMethod] = useState("paypal");
+  const [paymentMethod, setPaymentMethod] = useState("card");
   const publishableKey = (import.meta as any).env
     ?.VITE_STRIPE_PUBLISHABLE_KEY as string | undefined;
   const stripePromise = useMemo(
@@ -40,7 +39,6 @@ export default function Checkout() {
   );
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
-  const [paypalReady, setPaypalReady] = useState(false);
 
   // Form states
   const [cardForm] = useState({
@@ -69,93 +67,7 @@ export default function Checkout() {
   // Initialize payment providers
   useEffect(() => {
     initializePaymentProviders();
-    checkPayPalSDK();
   }, []);
-
-  // Check if PayPal SDK is ready
-  const checkPayPalSDK = () => {
-    let attempts = 0;
-    const maxAttempts = 30; // 3 seconds max wait time
-
-    const checkSDK = () => {
-      if (window.paypal && typeof window.paypal.Buttons === "function") {
-        setPaypalReady(true);
-        return;
-      }
-
-      attempts++;
-      if (attempts < maxAttempts) {
-        setTimeout(checkSDK, 100);
-      } else {
-        console.error("PayPal SDK failed to load");
-        setPaypalReady(false);
-      }
-    };
-
-    checkSDK();
-  };
-
-  // Initialize PayPal when payment method changes and SDK is ready
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
-    if (paymentMethod === "paypal" && paypalReady) {
-      timeoutId = setTimeout(() => {
-        const paypalContainer = document.getElementById(
-          "paypal-button-container",
-        );
-
-        if (
-          window.paypal &&
-          typeof window.paypal.Buttons === "function" &&
-          paypalContainer &&
-          !paypalContainer.hasChildNodes()
-        ) {
-          try {
-            window.paypal
-              .Buttons({
-                createOrder: createPayPalOrder,
-                onApprove: handlePayPalApprove,
-                onCancel: () => {
-                  console.log("PayPal payment cancelled");
-                  setIsProcessing(false);
-                },
-                onError: (err: any) => {
-                  console.error("PayPal SDK error:", err);
-                  setIsProcessing(false);
-                  alert("PayPal encountered an error. Please try again.");
-                },
-              })
-              .render("#paypal-button-container")
-              .catch((err: any) => {
-                console.error("PayPal render error:", err);
-                alert(
-                  "Failed to load PayPal. Please refresh the page or try another payment method.",
-                );
-              });
-          } catch (error) {
-            console.error("PayPal initialization error:", error);
-            alert(
-              "PayPal is not available. Please try another payment method.",
-            );
-          }
-        }
-      }, 100);
-    }
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      // Clean up PayPal buttons when component unmounts or payment method changes
-      const paypalContainer = document.getElementById(
-        "paypal-button-container",
-      );
-      if (paypalContainer) {
-        paypalContainer.innerHTML = "";
-      }
-    };
-  }, [paymentMethod, paypalReady]);
 
   const initializePaymentProviders = async () => {
     // Initialize other payment providers (Google Pay, Apple Pay, etc.)
@@ -362,49 +274,6 @@ export default function Checkout() {
     }
   };
 
-  const createPayPalOrder = (data: any, actions: any) => {
-    return actions.order.create({
-      purchase_units: [
-        {
-          amount: {
-            currency_code: "USD",
-            value: booking.total.toString(),
-          },
-          description: `Rental: ${booking.item} (${booking.startDate} - ${booking.endDate})`,
-        },
-      ],
-      application_context: {
-        brand_name: MARKETPLACE_NAME,
-        locale: "en-US",
-        landing_page: "BILLING",
-        shipping_preference: "NO_SHIPPING",
-        user_action: "PAY_NOW",
-      },
-    });
-  };
-
-  const handlePayPalApprove = async (data: any, actions: any) => {
-    setIsProcessing(true);
-    try {
-      // Capture the order directly with PayPal SDK
-      const details = await actions.order.capture();
-
-      console.log("PayPal payment completed:", details);
-
-      // For demo purposes, complete the order
-      // In production, you would verify this with your backend
-      if (details.status === "COMPLETED") {
-        setOrderComplete(true);
-      } else {
-        throw new Error("Payment not completed");
-      }
-    } catch (error) {
-      console.error("PayPal error:", error);
-      alert("PayPal payment failed. Please try again.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
 
   const handleCardPayment = async () => {
     setIsProcessing(true);
@@ -544,35 +413,6 @@ export default function Checkout() {
                   onValueChange={setPaymentMethod}
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* PayPal */}
-                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
-                      <RadioGroupItem value="paypal" id="paypal" />
-                      <Label htmlFor="paypal" className="flex-1 cursor-pointer">
-                        <div className="flex items-center space-x-3">
-                          <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                          >
-                            <path
-                              fill="#001C64"
-                              d="M37.972 13.82c.107-5.565-4.485-9.837-10.799-9.837H14.115a1.278 1.278 0 0 0-1.262 1.079L7.62 37.758a1.038 1.038 0 0 0 1.025 1.2h7.737l-1.21 7.572a1.038 1.038 0 0 0 1.026 1.2H22.5c.305 0 .576-.11.807-.307.231-.198.269-.471.316-.772l1.85-10.885c.047-.3.2-.69.432-.888.231-.198.433-.306.737-.307H30.5c6.183 0 11.43-4.394 12.389-10.507.678-4.34-1.182-8.287-4.916-10.244Z"
-                            />
-
-                            <path
-                              fill="#0070E0"
-                              d="m18.056 26.9-1.927 12.22-1.21 7.664a1.038 1.038 0 0 0 1.026 1.2h6.67a1.278 1.278 0 0 0 1.261-1.079l1.758-11.14a1.277 1.277 0 0 1 1.261-1.078h3.927c6.183 0 11.429-4.51 12.388-10.623.68-4.339-1.504-8.286-5.238-10.244-.01.462-.05.923-.121 1.38-.959 6.112-6.206 10.623-12.389 10.623h-6.145a1.277 1.277 0 0 0-1.261 1.077Z"
-                            />
-
-                            <path
-                              fill="#003087"
-                              d="M16.128 39.12h-7.76a1.037 1.037 0 0 1-1.025-1.2l5.232-33.182a1.277 1.277 0 0 1 1.262-1.078h13.337c6.313 0 10.905 4.595 10.798 10.16-1.571-.824-3.417-1.295-5.44-1.295H21.413a1.278 1.278 0 0 0-1.261 1.078L18.057 26.9l-1.93 12.22Z"
-                            />
-                          </svg>
-                          <span>PayPal</span>
-                        </div>
-                      </Label>
-                    </div>
 
                     {/* Apple Pay */}
                     <div className="flex items-center space-x-2 p-4 border rounded-lg">
@@ -660,23 +500,6 @@ export default function Checkout() {
                   </div>
                 </RadioGroup>
 
-                {/* PayPal Container */}
-                {paymentMethod === "paypal" && (
-                  <div className="p-4">
-                    {!paypalReady ? (
-                      <div className="flex items-center justify-center py-8 text-foreground dark:text-muted-foreground">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mr-3"></div>
-                        Loading PayPal...
-                      </div>
-                    ) : (
-                      <div
-                        key="paypal-container"
-                        id="paypal-button-container"
-                      ></div>
-                    )}
-                  </div>
-                )}
-
                 {/* Stripe Card Element */}
                 {paymentMethod === "card" && (
                   <div className="p-4">
@@ -716,19 +539,12 @@ export default function Checkout() {
                       case "card":
                         handleCardPayment();
                         break;
-                      case "paypal":
-                        // PayPal handles its own button clicks
-                        if (!paypalReady) {
-                          alert(
-                            "PayPal is still loading. Please wait a moment.",
-                          );
-                        }
+                      case "venmo":
+                        // Handle Venmo if implemented
                         break;
                     }
                   }}
-                  disabled={
-                    isProcessing || (paymentMethod === "paypal" && paypalReady)
-                  }
+                  disabled={isProcessing}
                   className="w-full"
                   size="lg"
                 >
@@ -738,15 +554,9 @@ export default function Checkout() {
                       ? "Pay with Google Pay"
                       : paymentMethod === "apple-pay"
                         ? "Pay with Apple Pay"
-                        : paymentMethod === "paypal"
-                          ? paypalReady
-                            ? "Use PayPal Button Above"
-                            : "Loading PayPal..."
-                          : paymentMethod === "venmo"
-                            ? "Pay with Venmo"
-                            : paymentMethod === "card"
-                              ? `Pay $${booking.total}`
-                              : `Pay $${booking.total}`}
+                        : paymentMethod === "venmo"
+                          ? "Pay with Venmo"
+                          : `Pay $${booking.total}`}
                 </Button>
               </CardContent>
             </Card>
