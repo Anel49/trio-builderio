@@ -400,14 +400,15 @@ const TermsOfServiceContent = () => (
           <p className="text-muted-foreground leading-relaxed mb-4">
             Profits from listings incur a {SERVICE_FEE}% platform usage fee,
             charged from the host. This fee covers platform maintenance,
-            customer support, and payment processing. Sales tax is charged
-            separately.
+            customer support, and payment processing.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
             Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental
             price, charged from the renter. This fee is to insure the renter
             throughout the rental period. This fee is not charged again with
-            rental extensions. The renter's maximum out-of-pocket insurance
+            rental extensions. Sales tax is charged separately.
+
+            The renter's maximum out-of-pocket insurance
             payment is capped at $50.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
