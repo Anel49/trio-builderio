@@ -427,7 +427,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Tipping</h3>
           <p className="text-muted-foreground leading-relaxed">
-            After a rental completes, renters have the option to leave a
+            After a booking completes, renters have the option to leave a
             tip as a way to show their appreciation. Hosts receive 100% of any
             tips provided.
             <span style={{ fontWeight: 700 }}>
@@ -487,7 +487,7 @@ const TermsOfServiceContent = () => (
           <p className="text-muted-foreground leading-relaxed">
             Do not share personal information such as your full address, phone
             number, or financial details through our messaging system. Keep
-            communications relevant to the rental transaction.
+            communications relevant to bookings.
           </p>
         </div>
       </div>
