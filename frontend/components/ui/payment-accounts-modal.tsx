@@ -115,8 +115,6 @@ export function PaymentAccountsModal({
                     <span>Venmo</span>
                   </div>
                 </Button>
-
-
               </div>
             </div>
           </div>

@@ -274,7 +274,6 @@ export default function Checkout() {
     }
   };
 
-
   const handleCardPayment = async () => {
     setIsProcessing(true);
     try {
@@ -413,7 +412,6 @@ export default function Checkout() {
                   onValueChange={setPaymentMethod}
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
                     {/* Apple Pay */}
                     <div className="flex items-center space-x-2 p-4 border rounded-lg">
                       <RadioGroupItem value="apple-pay" id="apple-pay" />
