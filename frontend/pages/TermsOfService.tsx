@@ -408,11 +408,11 @@ const TermsOfServiceContent = () => (
             throughout the rental period. This fee is not charged again with
             rental extensions. Sales tax is charged separately.
           </p>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed mb-4">
             The renter's maximum out-of-pocket insurance
             payment is capped at $50.
           </p>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed mb-4">
             These coverages are subject to change based on the platform’s
             performance and growth.
           </p>
