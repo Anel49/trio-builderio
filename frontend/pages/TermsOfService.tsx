@@ -407,11 +407,11 @@ const TermsOfServiceContent = () => (
             price, charged from the renter. This fee is to insure the renter
             throughout the rental period. This fee is not charged again with
             rental extensions. Listings providing a service do not incur this fee. 
-            Sales tax is charged separately.
+            Sales tax is charged separately. The renter's maximum out-of-pocket insurance
+            payment is capped at $50.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            The renter's maximum out-of-pocket insurance
-            payment is capped at $50.
+            
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
             These coverages are subject to change based on the platform’s
