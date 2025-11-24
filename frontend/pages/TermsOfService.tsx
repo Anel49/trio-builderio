@@ -412,7 +412,7 @@ const TermsOfServiceContent = () => (
             The renter's maximum out-of-pocket insurance
             payment is capped at $50.
           </p>
-          <p className="text-muted-foreground leading-relaxed mb-4">
+          <p className="text-muted-foreground leading-relaxed">
             These coverages are subject to change based on the platform’s
             performance and growth.
           </p>
