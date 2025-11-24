@@ -52,19 +52,6 @@ export function PaymentAccountsModal({
                 <Button
                   variant="outline"
                   className="w-full justify-start h-12"
-                  onClick={() => handlePaymentConnect("PayPal")}
-                >
-                  <div className="flex items-center space-x-3">
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#0070ba">
-                      <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.26-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l1.506-9.587-.506.062h2.19c4.638 0 7.709-1.89 8.638-6.699.015-.076.025-.175.038-.26a3.35 3.35 0 0 0-.607.541z" />
-                    </svg>
-                    <span>PayPal</span>
-                  </div>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className="w-full justify-start h-12"
                   onClick={() => handlePaymentConnect("Apple Pay")}
                 >
                   <div className="flex items-center space-x-3">
