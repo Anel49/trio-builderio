@@ -405,8 +405,8 @@ const TermsOfServiceContent = () => (
           <p className="text-muted-foreground leading-relaxed mb-4">
             Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental
             price, charged from the renter. This fee is to insure the renter
-            throughout the rental period. This fee is not charged again with
-            rental extensions. Listings providing a service do not incur this fee.
+            throughout the booking period. This fee is not charged again with
+            booking extensions. Listings providing a service do not incur this fee.
             The renter's maximum out-of-pocket insurance payment is capped at $50.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
