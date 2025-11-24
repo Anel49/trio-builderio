@@ -406,8 +406,8 @@ const TermsOfServiceContent = () => (
             Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental
             price, charged from the renter. This fee is to insure the renter
             throughout the rental period. This fee is not charged again with
-            rental extensions.  
-            Sales tax is charged separately. Listings providing a service do not incur this fee.
+            rental extensions. Listings providing a service do not incur this fee. 
+            Sales tax is charged separately.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
             The renter's maximum out-of-pocket insurance
