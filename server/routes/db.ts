@@ -231,6 +231,18 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table user_credentials add column if not exists oauth text;
       alter table user_credentials alter column password drop not null;
 
+      create table if not exists user_email_preferences (
+        id serial primary key,
+        user_id integer not null references users(id),
+        newsletter boolean default false,
+        platform_updates boolean default true,
+        marketing boolean default false,
+        security_alerts boolean default true,
+        created_at timestamptz default now(),
+        updated_at timestamptz default now()
+      );
+      create index if not exists idx_user_email_preferences_user_id on user_email_preferences(user_id);
+
       create table if not exists orders (
         id serial primary key,
         order_id integer not null unique,
