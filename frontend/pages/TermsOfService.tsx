@@ -427,10 +427,8 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Tipping</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Did you have a positive experience with your host? Were they
-            especially helpful, accommodating, or attentive to your specific
-            needs? After your rental is complete, you have the option to leave a
-            tip as a way to show your appreciation. Hosts receive 100% of any
+            After a rental completes, renters have the option to leave a
+            tip as a way to show their appreciation. Hosts receive 100% of any
             tips provided.
             <span style={{ fontWeight: 700 }}>
               {" "}
