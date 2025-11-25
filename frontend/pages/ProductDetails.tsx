@@ -1981,7 +1981,7 @@ export default function ProductDetails() {
       <AddonsModal
         isOpen={showAddonsModal}
         onOpenChange={setShowAddonsModal}
-        addons={product?.addons || []}
+        addons={(product?.addons || []) as Addon[]}
         onConfirm={handleAddonsConfirm}
         onSkip={handleAddonsSkip}
       />
