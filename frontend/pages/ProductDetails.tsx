@@ -49,7 +49,11 @@ import { SignUpModal } from "@/components/ui/signup-modal";
 import { LoginModal } from "@/components/ui/login-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { ListingLocationModal } from "@/components/ui/listing-location-modal";
-import { AddonsModal, type SelectedAddon, type Addon } from "@/components/ui/addons-modal";
+import {
+  AddonsModal,
+  type SelectedAddon,
+  type Addon,
+} from "@/components/ui/addons-modal";
 import {
   BookingSummaryModal,
   type BookingSummaryAddon,
