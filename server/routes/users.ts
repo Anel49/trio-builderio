@@ -863,26 +863,39 @@ export async function passwordResetRequest(req: Request, res: Response) {
     const resetLink = `${baseUrl}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(emailStr)}`;
 
     // Send email
+    let emailSent = false;
+    let emailError: any = null;
     try {
       console.log(`[passwordResetRequest] Attempting to send reset email to ${emailStr}`);
       const { sendPasswordResetEmail } = await import("../lib/email");
       const emailResult = await sendPasswordResetEmail(emailStr, resetLink, userName);
       console.log(`[passwordResetRequest] Email sent successfully:`, emailResult);
-    } catch (emailError: any) {
-      console.error(`[passwordResetRequest] Failed to send password reset email to ${emailStr}:`, emailError);
-      console.error(`[passwordResetRequest] Error details:`, {
-        message: emailError?.message,
-        code: emailError?.$metadata?.httpStatusCode,
-        stack: emailError?.stack?.split('\n').slice(0, 3),
-      });
+      emailSent = true;
+    } catch (err: any) {
+      emailError = err;
+      console.error(`[passwordResetRequest] Failed to send password reset email to ${emailStr}:`, err);
+      console.error(`[passwordResetRequest] Error code:`, err?.Code);
+      console.error(`[passwordResetRequest] Error message:`, err?.message);
       // Still return success to not leak email existence
     }
 
-    res.json({
+    // Return debug info in development
+    const isProduction = process.env.NODE_ENV === "production";
+    const response: any = {
       ok: true,
       message:
         "If an account exists with this email, a password reset link has been sent",
-    });
+    };
+
+    // Add debug info if email failed (helps diagnose issues)
+    if (!emailSent && emailError) {
+      response.debug = {
+        emailError: emailError?.Code || emailError?.message || "Unknown error",
+        errorType: emailError?.constructor?.name,
+      };
+    }
+
+    res.json(response);
   } catch (error: any) {
     console.error("Password reset request error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
