@@ -846,11 +846,7 @@ export async function passwordResetRequest(req: Request, res: Response) {
     const userName = userResult.rows?.[0]?.name || emailStr;
 
     // Generate a secure random token (32 bytes = 256 bits)
-    const token = Buffer.from(
-      Array.from(crypto.getRandomValues(new Uint8Array(32)))
-        .map((b) => b.toString(16).padStart(2, "0"))
-        .join(""),
-    ).toString("base64");
+    const token = crypto.randomBytes(32).toString("hex");
 
     // Store token in database with 24 hour expiration
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
