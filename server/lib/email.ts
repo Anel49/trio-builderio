@@ -1,14 +1,25 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
-const sesClient = new SESClient({
-  region: process.env.AWS_SES_REGION || "us-east-2",
-  credentials: {
-    accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY || "",
-  },
+const accessKeyId = process.env.AWS_SES_ACCESS_KEY_ID || "";
+const secretAccessKey = process.env.AWS_SES_SECRET_ACCESS_KEY || "";
+const region = process.env.AWS_SES_REGION || "us-east-2";
+const fromEmail = process.env.AWS_SES_FROM_EMAIL || "noreply@lendit.com";
+
+// Log configuration on startup (without exposing secrets)
+console.log("[Email Service] Initializing with:", {
+  region,
+  hasAccessKey: !!accessKeyId,
+  hasSecretKey: !!secretAccessKey,
+  fromEmail,
 });
 
-const fromEmail = process.env.AWS_SES_FROM_EMAIL || "noreply@lendit.com";
+const sesClient = new SESClient({
+  region,
+  credentials: {
+    accessKeyId,
+    secretAccessKey,
+  },
+});
 
 export async function sendPasswordResetEmail(
   toEmail: string,
