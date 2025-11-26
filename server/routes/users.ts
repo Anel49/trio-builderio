@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { pool } from "./db";
 import * as argon2 from "argon2";
 import { OAuth2Client } from "google-auth-library";
+import crypto from "crypto";
 
 function rowToUser(r: any) {
   return {
