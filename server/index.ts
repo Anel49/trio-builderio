@@ -32,6 +32,7 @@ import {
   changeEmail,
   changeUsername,
   passwordResetRequest,
+  passwordResetVerify,
   passwordReset,
   googleOAuth,
 } from "./routes/users";
