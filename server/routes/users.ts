@@ -864,10 +864,17 @@ export async function passwordResetRequest(req: Request, res: Response) {
 
     // Send email
     try {
+      console.log(`[passwordResetRequest] Attempting to send reset email to ${emailStr}`);
       const { sendPasswordResetEmail } = await import("../lib/email");
-      await sendPasswordResetEmail(emailStr, resetLink, userName);
+      const emailResult = await sendPasswordResetEmail(emailStr, resetLink, userName);
+      console.log(`[passwordResetRequest] Email sent successfully:`, emailResult);
     } catch (emailError: any) {
-      console.error("Failed to send password reset email:", emailError);
+      console.error(`[passwordResetRequest] Failed to send password reset email to ${emailStr}:`, emailError);
+      console.error(`[passwordResetRequest] Error details:`, {
+        message: emailError?.message,
+        code: emailError?.$metadata?.httpStatusCode,
+        stack: emailError?.stack?.split('\n').slice(0, 3),
+      });
       // Still return success to not leak email existence
     }
 
