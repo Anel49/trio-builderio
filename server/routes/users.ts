@@ -834,13 +834,45 @@ export async function passwordResetRequest(req: Request, res: Response) {
       });
     }
 
-    // TODO: Generate a password reset token and send it via email
-    // This would typically involve:
-    // 1. Creating a reset token (JWT or random string)
-    // 2. Storing the token with an expiration time in the database
-    // 3. Sending an email with a reset link containing the token
-    // For now, just log the request
-    console.log(`Password reset requested for email: ${emailStr}`);
+    const userId = credResult.rows[0].user_id;
+
+    // Get user name
+    const userResult = await pool.query(
+      `select name from users where id = $1`,
+      [userId],
+    );
+
+    const userName = userResult.rows?.[0]?.name || emailStr;
+
+    // Generate a secure random token (32 bytes = 256 bits)
+    const token = Buffer.from(
+      Array.from(crypto.getRandomValues(new Uint8Array(32)))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join(""),
+    ).toString("base64");
+
+    // Store token in database with 24 hour expiration
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    await pool.query(
+      `insert into password_reset_tokens (user_id, email, token, expires_at)
+       values ($1, $2, $3, $4)`,
+      [userId, emailStr, token, expiresAt],
+    );
+
+    // Build reset link
+    const baseUrl =
+      process.env.FRONTEND_URL ||
+      `${(req as any).protocol}://${(req as any).get("host")}`;
+    const resetLink = `${baseUrl}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(emailStr)}`;
+
+    // Send email
+    try {
+      const { sendPasswordResetEmail } = await import("../lib/email");
+      await sendPasswordResetEmail(emailStr, resetLink, userName);
+    } catch (emailError: any) {
+      console.error("Failed to send password reset email:", emailError);
+      // Still return success to not leak email existence
+    }
 
     res.json({
       ok: true,
