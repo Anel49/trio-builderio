@@ -315,6 +315,87 @@ export function createServer() {
     res.json({ message: "Hello from Express server v2!" });
   });
 
+  // Test SES configuration endpoint (for debugging email issues)
+  app.get("/api/test-ses", async (_req, res) => {
+    const config = {
+      hasAccessKey: !!process.env.AWS_SES_ACCESS_KEY_ID,
+      hasSecretKey: !!process.env.AWS_SES_SECRET_ACCESS_KEY,
+      region: process.env.AWS_SES_REGION || "not set",
+      fromEmail: process.env.AWS_SES_FROM_EMAIL || "not set",
+    };
+
+    try {
+      const { sendPasswordResetEmail } = await import("./lib/email");
+      const testEmail = process.env.AWS_SES_FROM_EMAIL;
+      if (!testEmail) {
+        return res.json({
+          ok: false,
+          config,
+          error: "AWS_SES_FROM_EMAIL not configured",
+        });
+      }
+
+      await sendPasswordResetEmail(
+        testEmail,
+        "https://example.com/test",
+        "Test User"
+      );
+
+      res.json({
+        ok: true,
+        config,
+        message: "Test email sent successfully",
+      });
+    } catch (error: any) {
+      res.json({
+        ok: false,
+        config,
+        error: error?.Code || error?.message,
+        errorType: error?.constructor?.name,
+      });
+    }
+  });
+
+  app.get("/test-ses", async (_req, res) => {
+    const config = {
+      hasAccessKey: !!process.env.AWS_SES_ACCESS_KEY_ID,
+      hasSecretKey: !!process.env.AWS_SES_SECRET_ACCESS_KEY,
+      region: process.env.AWS_SES_REGION || "not set",
+      fromEmail: process.env.AWS_SES_FROM_EMAIL || "not set",
+    };
+
+    try {
+      const { sendPasswordResetEmail } = await import("./lib/email");
+      const testEmail = process.env.AWS_SES_FROM_EMAIL;
+      if (!testEmail) {
+        return res.json({
+          ok: false,
+          config,
+          error: "AWS_SES_FROM_EMAIL not configured",
+        });
+      }
+
+      await sendPasswordResetEmail(
+        testEmail,
+        "https://example.com/test",
+        "Test User"
+      );
+
+      res.json({
+        ok: true,
+        config,
+        message: "Test email sent successfully",
+      });
+    } catch (error: any) {
+      res.json({
+        ok: false,
+        config,
+        error: error?.Code || error?.message,
+        errorType: error?.constructor?.name,
+      });
+    }
+  });
+
   // TEMPORARILY DISABLED - requireAuth removed while login wall is disabled
   // Re-add requireAuth middleware when login wall is re-enabled
   app.get("/api/demo", handleDemo);
