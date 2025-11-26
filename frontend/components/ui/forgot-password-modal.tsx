@@ -53,6 +53,16 @@ export function ForgotPasswordModal({
 
       const data = await response.json();
 
+      // Log debug info if available
+      if (data.debug) {
+        console.error("Password reset debug info:", data.debug);
+        setError(
+          `Error sending email: ${data.debug.emailError}. Check browser console for details.`
+        );
+        setIsLoading(false);
+        return;
+      }
+
       if (data.ok) {
         setEmailSent(true);
       } else {
@@ -60,7 +70,7 @@ export function ForgotPasswordModal({
       }
     } catch (error) {
       console.error("Error sending reset email:", error);
-      setError("An error occurred while sending the reset email");
+      setError("An error occurred while sending the reset email. Check browser console.");
     } finally {
       setIsLoading(false);
     }
