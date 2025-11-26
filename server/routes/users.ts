@@ -885,10 +885,67 @@ export async function passwordResetRequest(req: Request, res: Response) {
   }
 }
 
+export async function passwordResetVerify(req: Request, res: Response) {
+  try {
+    const { token, email } = (req.body || {}) as any;
+
+    const tokenStr = typeof token === "string" ? token.trim() : "";
+    const emailStr = typeof email === "string" ? email.trim() : "";
+
+    if (!tokenStr || !emailStr) {
+      return res.status(400).json({
+        ok: false,
+        error: "token and email are required",
+      });
+    }
+
+    // Check if token exists and is valid
+    const tokenResult = await pool.query(
+      `select id, user_id, expires_at, used from password_reset_tokens
+       where token = $1 and email = $2`,
+      [tokenStr, emailStr],
+    );
+
+    if (!tokenResult.rowCount || tokenResult.rowCount === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "Invalid or expired reset link",
+      });
+    }
+
+    const tokenRecord = tokenResult.rows[0];
+
+    // Check if token is expired
+    if (new Date(tokenRecord.expires_at) < new Date()) {
+      return res.status(400).json({
+        ok: false,
+        error: "Reset link has expired. Please request a new one.",
+      });
+    }
+
+    // Check if token has already been used
+    if (tokenRecord.used) {
+      return res.status(400).json({
+        ok: false,
+        error: "This reset link has already been used",
+      });
+    }
+
+    res.json({
+      ok: true,
+      message: "Token is valid",
+    });
+  } catch (error: any) {
+    console.error("Password reset verify error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function passwordReset(req: Request, res: Response) {
   try {
-    const { email, new_password } = (req.body || {}) as any;
+    const { token, email, new_password } = (req.body || {}) as any;
 
+    const tokenStr = typeof token === "string" ? token.trim() : "";
     const emailStr = typeof email === "string" ? email.trim() : "";
     const passwordStr = typeof new_password === "string" ? new_password : "";
 
@@ -909,6 +966,47 @@ export async function passwordReset(req: Request, res: Response) {
       });
     }
 
+    if (!tokenStr) {
+      return res.status(400).json({
+        ok: false,
+        error: "reset token is required",
+      });
+    }
+
+    // Check if token exists and is valid
+    const tokenResult = await pool.query(
+      `select id, user_id, expires_at, used from password_reset_tokens
+       where token = $1 and email = $2`,
+      [tokenStr, emailStr],
+    );
+
+    if (!tokenResult.rowCount || tokenResult.rowCount === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "Invalid or expired reset link",
+      });
+    }
+
+    const tokenRecord = tokenResult.rows[0];
+
+    // Check if token is expired
+    if (new Date(tokenRecord.expires_at) < new Date()) {
+      return res.status(400).json({
+        ok: false,
+        error: "Reset link has expired. Please request a new one.",
+      });
+    }
+
+    // Check if token has already been used
+    if (tokenRecord.used) {
+      return res.status(400).json({
+        ok: false,
+        error: "This reset link has already been used",
+      });
+    }
+
+    const userId = tokenRecord.user_id;
+
     // Check if user exists and get user_id
     const credResult = await pool.query(
       `select user_id from user_credentials where email = $1`,
@@ -922,8 +1020,6 @@ export async function passwordReset(req: Request, res: Response) {
       });
     }
 
-    const userId = credResult.rows[0].user_id;
-
     // Hash the new password
     const hashedPassword = await argon2.hash(passwordStr);
 
@@ -931,6 +1027,12 @@ export async function passwordReset(req: Request, res: Response) {
     await pool.query(
       `update user_credentials set password = $1 where user_id = $2`,
       [hashedPassword, userId],
+    );
+
+    // Mark token as used
+    await pool.query(
+      `update password_reset_tokens set used = true where id = $1`,
+      [tokenRecord.id],
     );
 
     res.json({
