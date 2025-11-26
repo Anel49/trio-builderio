@@ -243,6 +243,19 @@ export async function dbSetup(_req: Request, res: Response) {
       );
       create index if not exists idx_user_email_preferences_user_id on user_email_preferences(user_id);
 
+      create table if not exists password_reset_tokens (
+        id serial primary key,
+        user_id integer not null references users(id),
+        email text not null,
+        token text not null unique,
+        expires_at timestamptz not null,
+        used boolean default false,
+        created_at timestamptz default now()
+      );
+      create index if not exists idx_password_reset_tokens_token on password_reset_tokens(token);
+      create index if not exists idx_password_reset_tokens_email on password_reset_tokens(email);
+      create index if not exists idx_password_reset_tokens_expires_at on password_reset_tokens(expires_at);
+
       create table if not exists orders (
         id serial primary key,
         order_id integer not null unique,
