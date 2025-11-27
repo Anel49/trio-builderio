@@ -295,65 +295,28 @@ export default function OrderHistory() {
     setOrdersState(orders);
   }, []);
 
-  type RequestStatus = "pending" | "approved" | "rejected" | "cancelled";
-  interface RequestItem {
-    id: string;
-    itemName: string;
-    itemImage: string;
-    requester: string;
-    requesterAvatar: string;
-    requestedStart: string;
-    requestedEnd: string;
-    location: string;
-    message?: string;
-    status: RequestStatus;
-    direction: "incoming" | "outgoing";
-  }
+  const getRequestDirection = (
+    reservation: Reservation
+  ): "incoming" | "outgoing" => {
+    if (!currentUser?.id) return "incoming";
+    return reservation.host_id === currentUser.id ? "incoming" : "outgoing";
+  };
 
-  const requests: RequestItem[] = [
-    {
-      id: "REQ-1001",
-      itemName: "Party Sound System",
-      itemImage:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=200&fit=crop&auto=format",
-      requester: "Emily",
-      requesterAvatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
-      requestedStart: "Jan 12, 2025",
-      requestedEnd: "Jan 14, 2025",
-      location: "94607",
-      status: "pending",
-      direction: "incoming",
-    },
-    {
-      id: "REQ-1002",
-      itemName: "Professional Camera Kit",
-      itemImage:
-        "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=300&h=200&fit=crop&auto=format",
-      requester: "You",
-      requesterAvatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&auto=format",
-      requestedStart: "Jan 20, 2025",
-      requestedEnd: "Jan 22, 2025",
-      location: "94102",
-      status: "approved",
-      direction: "outgoing",
-    },
-    {
-      id: "REQ-1003",
-      itemName: "Complete Tool Set",
-      itemImage:
-        "https://images.pexels.com/photos/6790973/pexels-photo-6790973.jpeg?w=300&h=200&fit=crop&auto=format",
-      requester: "David",
-      requesterAvatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
-      requestedStart: "Feb 2, 2025",
-      requestedEnd: "Feb 4, 2025",
-      location: "94301",
-      status: "rejected",
-      direction: "incoming",
-    },
-  ];
+  const getRequesterName = (reservation: Reservation): string => {
+    if (!currentUser?.id) return "Unknown";
+    const direction = getRequestDirection(reservation);
+    if (direction === "incoming") {
+      return reservation.renter_name || "Unknown";
+    } else {
+      return reservation.host_name || "Unknown";
+    }
+  };
+
+  const getRequesterUserId = (reservation: Reservation): number | null => {
+    if (!currentUser?.id) return null;
+    const direction = getRequestDirection(reservation);
+    return direction === "incoming" ? reservation.renter_id : reservation.host_id;
+  };
 
   const getRequestStatusBadge = (status: RequestStatus) => {
     switch (status) {
