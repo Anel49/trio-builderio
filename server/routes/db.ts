@@ -106,6 +106,7 @@ export async function dbSetup(_req: Request, res: Response) {
         created_at timestamptz default now()
       );
       create index if not exists idx_listing_addons_listing_id on listing_addons(listing_id);
+      alter table listing_addons add column if not exists consumable boolean default false;
 
       create table if not exists users (
         id serial primary key,
