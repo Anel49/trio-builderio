@@ -22,6 +22,7 @@ import {
   createReservation,
   getUserReservations,
   getPresignedUploadUrl,
+  deleteImage,
 } from "./routes/listings";
 import {
   getUserByEmail,
