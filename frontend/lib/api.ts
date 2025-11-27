@@ -496,76 +496,55 @@ export async function apiFetch(path: string, init?: RequestInit) {
 }
 
 /**
- * Upload a listing image to S3 via the backend
+ * Get a presigned URL for uploading a file to S3
  * @param listingId - The listing ID (can be a temporary value like 0 for new listings)
  * @param filename - The original filename
- * @param file - The File object
- * @returns An object with s3Url
+ * @param contentType - The MIME type (e.g., "image/jpeg")
+ * @returns An object with presignedUrl and s3Url
  */
-export async function uploadListingImageToS3(
+export async function getS3PresignedUrl(
   listingId: number,
   filename: string,
-  file: File,
+  contentType: string,
 ): Promise<{
   ok: boolean;
+  presignedUrl?: string;
   s3Url?: string;
   s3Key?: string;
   error?: string;
 }> {
   try {
-    console.log("[uploadListingImageToS3] Starting upload for:", filename);
-
-    // Convert file to base64
-    const reader = new FileReader();
-    const base64Promise = new Promise<string>((resolve, reject) => {
-      reader.onload = () => {
-        const result = reader.result as string;
-        resolve(result.split(",")[1]); // Remove the "data:..." prefix
-      };
-      reader.onerror = reject;
-    });
-
-    reader.readAsDataURL(file);
-    const fileData = await base64Promise;
-
-    console.log("[uploadListingImageToS3] Sending to backend...");
-
     const response = await apiFetch(
-      `/listings/${listingId}/upload-image`,
+      `/listings/${listingId}/presigned-url`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fileData,
           filename,
-          contentType: file.type,
+          contentType,
         }),
       },
     );
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error(
-        "[uploadListingImageToS3] Upload failed:",
-        errorData?.error,
-      );
       return {
         ok: false,
-        error: errorData?.error || "Failed to upload image",
+        error: errorData?.error || "Failed to get presigned URL",
       };
     }
 
     const data = await response.json();
-    console.log("[uploadListingImageToS3] Upload successful. S3 URL:", data.s3Url);
     return {
       ok: data.ok,
+      presignedUrl: data.presignedUrl,
       s3Url: data.s3Url,
       s3Key: data.s3Key,
     };
   } catch (error: any) {
-    console.error("[uploadListingImageToS3] Error:", error);
+    console.error("[getS3PresignedUrl] Error:", error);
     return {
       ok: false,
       error: error?.message || "Network error",
