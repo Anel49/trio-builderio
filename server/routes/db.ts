@@ -256,6 +256,24 @@ export async function dbSetup(_req: Request, res: Response) {
       create index if not exists idx_password_reset_tokens_email on password_reset_tokens(email);
       create index if not exists idx_password_reset_tokens_expires_at on password_reset_tokens(expires_at);
 
+      create table if not exists email_log (
+        id serial primary key,
+        message_direction text not null,
+        email_type text not null,
+        recipient_email text not null,
+        sender_email text,
+        subject text,
+        message_id text,
+        status text default 'sent',
+        error_message text,
+        metadata jsonb,
+        created_at timestamptz default now()
+      );
+      create index if not exists idx_email_log_recipient on email_log(recipient_email);
+      create index if not exists idx_email_log_email_type on email_log(email_type);
+      create index if not exists idx_email_log_direction on email_log(message_direction);
+      create index if not exists idx_email_log_created_at on email_log(created_at);
+
       create table if not exists orders (
         id serial primary key,
         order_id integer not null unique,
