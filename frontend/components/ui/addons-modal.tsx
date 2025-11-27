@@ -123,12 +123,6 @@ export function AddonsModal({
                   </div>
 
                   <div className="flex-1">
-                    <label
-                      htmlFor={`addon-${addon.id}`}
-                      className="block text-xs font-medium text-muted-foreground mb-1 cursor-pointer"
-                    >
-                      Item
-                    </label>
                     <div className="text-sm font-medium cursor-pointer">
                       {addon.item}
                       {addon.style && (
@@ -140,9 +134,6 @@ export function AddonsModal({
                   </div>
 
                   <div className="w-32">
-                    <label className="block text-xs font-medium text-muted-foreground mb-1">
-                      Price
-                    </label>
                     <div className="text-sm">
                       {addon.price !== null ? (
                         <>
