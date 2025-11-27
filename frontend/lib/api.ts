@@ -409,6 +409,13 @@ export async function apiFetch(path: string, init?: RequestInit) {
       headers: { "Content-Type": "application/json" },
     });
   }
+  const m4 = p.match(/^api\/reservations\/(\d+)$/);
+  if (m4) {
+    return new Response(JSON.stringify({ ok: true, reservations: [] }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
   if (
     /^users(\?|$)/.test(p) &&
     (finalInit?.method || "GET").toUpperCase() === "GET"
