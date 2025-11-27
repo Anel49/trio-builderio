@@ -1326,8 +1326,12 @@ export default function ProductDetails() {
               {product?.addons && product.addons.length > 0 && (
                 <div className="border border-border rounded-lg mb-6">
                   <Accordion type="single" collapsible>
-                    <AccordionItem value="addons">
-                      <AccordionTrigger className="w-full flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors rounded-md [&>svg]:hidden data-[state=open]:rounded-t-md">
+                    <AccordionItem value="addons" className="border-0">
+                      <AccordionTrigger className={`w-full flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors [&>svg]:hidden`}
+                        style={{
+                          borderRadius: 'var(--radius, 0.375rem)',
+                        }}
+                      >
                         <span className="text-sm font-medium flex items-center gap-2">
                           Optional Addons
                           <TooltipProvider>
