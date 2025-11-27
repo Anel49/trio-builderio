@@ -133,6 +133,13 @@ export default function OrderHistory() {
   // Local state for orders so we can mutate (e.g., cancel)
   const [ordersState, setOrdersState] = useState<Order[]>([]);
 
+  // State for reservations
+  const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [userProfiles, setUserProfiles] = useState<Map<number, UserProfile>>(
+    new Map()
+  );
+  const [loadingReservations, setLoadingReservations] = useState(false);
+
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
     try {
@@ -152,6 +159,49 @@ export default function OrderHistory() {
       );
     } catch {}
   }, [hideCompleted]);
+
+  // Fetch reservations and user profiles
+  useEffect(() => {
+    const fetchReservationsAndProfiles = async () => {
+      if (!currentUser?.id) return;
+
+      setLoadingReservations(true);
+      try {
+        const response = await apiFetch(`/reservations/${currentUser.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setReservations(data.reservations || []);
+
+          // Fetch user profiles for renters and hosts
+          const userIds = new Set<number>();
+          data.reservations?.forEach((r: Reservation) => {
+            if (r.renter_id) userIds.add(r.renter_id);
+            if (r.host_id) userIds.add(r.host_id);
+          });
+
+          const profiles = new Map<number, UserProfile>();
+          for (const userId of Array.from(userIds)) {
+            try {
+              const userRes = await apiFetch(`/users/${userId}`);
+              if (userRes.ok) {
+                const userData = await userRes.json();
+                profiles.set(userId, userData.user || userData);
+              }
+            } catch (e) {
+              console.error(`Failed to fetch user ${userId}:`, e);
+            }
+          }
+          setUserProfiles(profiles);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reservations:", error);
+      } finally {
+        setLoadingReservations(false);
+      }
+    };
+
+    fetchReservationsAndProfiles();
+  }, [currentUser?.id]);
 
   const orders: Order[] = [
     {
