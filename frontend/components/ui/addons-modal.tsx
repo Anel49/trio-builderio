@@ -123,7 +123,10 @@ export function AddonsModal({
                       />
                     </div>
 
-                    <div className="flex-1 cursor-pointer" onClick={() => handleAddonToggle(addon, !isSelected)}>
+                    <div
+                      className="flex-1 cursor-pointer"
+                      onClick={() => handleAddonToggle(addon, !isSelected)}
+                    >
                       <div className="text-sm font-medium no-underline">
                         {addon.item}
                         {addon.style && (
@@ -134,7 +137,10 @@ export function AddonsModal({
                       </div>
                     </div>
 
-                    <div className="w-32 cursor-pointer" onClick={() => handleAddonToggle(addon, !isSelected)}>
+                    <div
+                      className="w-32 cursor-pointer"
+                      onClick={() => handleAddonToggle(addon, !isSelected)}
+                    >
                       <div className="text-sm">
                         {addon.price !== null ? (
                           <>
@@ -194,7 +200,10 @@ export function AddonsModal({
                       />
                     </div>
 
-                    <div className="flex-1 cursor-pointer" onClick={() => handleAddonToggle(addon, !isSelected)}>
+                    <div
+                      className="flex-1 cursor-pointer"
+                      onClick={() => handleAddonToggle(addon, !isSelected)}
+                    >
                       <div className="text-sm font-medium no-underline">
                         {addon.item}
                         {addon.style && (
@@ -205,7 +214,10 @@ export function AddonsModal({
                       </div>
                     </div>
 
-                    <div className="w-32 cursor-pointer" onClick={() => handleAddonToggle(addon, !isSelected)}>
+                    <div
+                      className="w-32 cursor-pointer"
+                      onClick={() => handleAddonToggle(addon, !isSelected)}
+                    >
                       <div className="text-sm">
                         {addon.price !== null ? (
                           <>
