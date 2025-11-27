@@ -386,54 +386,32 @@ export default function UploadProduct() {
     for (const file of files) {
       if (file.type.startsWith("image/")) {
         try {
-          console.log("[UploadProduct] Getting presigned URL for:", file.name);
+          console.log("[UploadProduct] Uploading image:", file.name);
 
-          // Get presigned URL from backend
-          const presignedResponse = await getS3PresignedUrl(
+          // Upload to S3 via backend
+          const uploadResponse = await uploadListingImageToS3(
             listingId,
             file.name,
-            file.type,
+            file,
           );
-
-          if (!presignedResponse.ok || !presignedResponse.presignedUrl) {
-            console.error(
-              "[UploadProduct] Failed to get presigned URL:",
-              presignedResponse.error,
-            );
-            continue;
-          }
-
-          console.log(
-            "[UploadProduct] Uploading to S3 with presigned URL",
-          );
-
-          // Upload directly to S3 using the presigned URL
-          const uploadResponse = await fetch(presignedResponse.presignedUrl, {
-            method: "PUT",
-            headers: {
-              "Content-Type": file.type,
-            },
-            body: file,
-          });
 
           if (!uploadResponse.ok) {
             console.error(
-              "[UploadProduct] S3 upload failed:",
-              uploadResponse.status,
-              uploadResponse.statusText,
+              "[UploadProduct] Upload failed:",
+              uploadResponse.error,
             );
             continue;
           }
 
           console.log(
-            "[UploadProduct] S3 upload successful. S3 URL:",
-            presignedResponse.s3Url,
+            "[UploadProduct] Upload successful. S3 URL:",
+            uploadResponse.s3Url,
           );
 
-          // Store the S3 URL instead of base64
+          // Store the S3 URL
           setUploadedImages((prev) => [
             ...prev,
-            presignedResponse.s3Url || "",
+            uploadResponse.s3Url || "",
           ]);
         } catch (error) {
           console.error("[UploadProduct] Error processing file:", error);
