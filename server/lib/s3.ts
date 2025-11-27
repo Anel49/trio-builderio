@@ -132,31 +132,3 @@ export function isValidS3Url(url: string): boolean {
     return false;
   }
 }
-
-/**
- * Upload a file directly to S3 from the server
- * @param key - The S3 object key (file path)
- * @param body - The file contents (Buffer or string)
- * @param contentType - The MIME type of the file
- * @returns True if successful
- */
-export async function uploadToS3(
-  key: string,
-  body: Buffer | string | Readable,
-  contentType: string,
-): Promise<void> {
-  try {
-    const command = new PutObjectCommand({
-      Bucket: bucketName,
-      Key: key,
-      Body: body,
-      ContentType: contentType,
-    });
-
-    await s3Client.send(command);
-    console.log("[S3] Successfully uploaded file to S3:", key);
-  } catch (error) {
-    console.error("[S3] Error uploading file to S3:", error);
-    throw error;
-  }
-}
