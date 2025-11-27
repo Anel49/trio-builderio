@@ -34,17 +34,24 @@ export async function generatePresignedUploadUrl(
       Bucket: bucketName,
       Key: key,
       ContentType: contentType,
-      // Disable flexible checksums to avoid signature mismatches
-      ChecksumAlgorithm: undefined,
     });
 
     const presignedUrl = await getSignedUrl(s3Client, command, {
       expiresIn,
-      // Disable checksum signing which can invalidate the signature
-      signableHeaders: new Set(["host", "content-type"]),
     });
 
-    return presignedUrl;
+    // Remove checksum parameters that can invalidate the signature
+    // The SDK adds these but they interfere with direct browser uploads
+    const urlWithoutChecksums = presignedUrl
+      .split("&")
+      .filter(
+        (param) =>
+          !param.startsWith("x-amz-checksum") &&
+          !param.startsWith("x-amz-sdk-checksum"),
+      )
+      .join("&");
+
+    return urlWithoutChecksums;
   } catch (error) {
     console.error("[S3] Error generating presigned upload URL:", error);
     throw error;
