@@ -1109,11 +1109,16 @@ export async function bulkUpdateListingsEnabled(req: Request, res: Response) {
 
 export async function getUserReservations(req: Request, res: Response) {
   try {
+    console.log("[getUserReservations] Called with params:", req.params);
     const userId = Number((req.params as any)?.userId);
+    console.log("[getUserReservations] Parsed userId:", userId);
+
     if (!userId || Number.isNaN(userId)) {
+      console.log("[getUserReservations] Invalid userId");
       return res.status(400).json({ ok: false, error: "invalid userId" });
     }
 
+    console.log("[getUserReservations] Querying reservations for user:", userId);
     const result = await pool.query(
       `select id, listing_id, renter_id, host_id, host_name, renter_name,
               start_date, end_date, listing_title, listing_image,
