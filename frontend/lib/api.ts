@@ -551,3 +551,42 @@ export async function getS3PresignedUrl(
     };
   }
 }
+
+/**
+ * Delete an image from S3
+ * @param imageUrl - The S3 URL of the image to delete
+ * @returns An object with ok status
+ */
+export async function deleteS3Image(
+  imageUrl: string,
+): Promise<{
+  ok: boolean;
+  error?: string;
+}> {
+  try {
+    const response = await apiFetch(
+      `/listings/delete-image`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageUrl,
+        }),
+      },
+    );
+
+    const data = await response.json();
+    return {
+      ok: data.ok,
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[deleteS3Image] Error:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
