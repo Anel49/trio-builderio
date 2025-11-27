@@ -67,6 +67,7 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table listings add column if not exists host_id integer references users(id) on delete set null;
       alter table listings add column if not exists enabled boolean default true;
       alter table listings add column if not exists instant_bookings boolean default false;
+      alter table listings add column if not exists currency text default 'USD';
       create table if not exists listing_images (
         id serial primary key,
         listing_id integer not null references listings(id),
