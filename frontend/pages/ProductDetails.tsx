@@ -521,7 +521,6 @@ export default function ProductDetails() {
       price: number | null;
     }>;
   }>(null);
-  const [isAddonsExpanded, setIsAddonsExpanded] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   // Host information from the product listing
