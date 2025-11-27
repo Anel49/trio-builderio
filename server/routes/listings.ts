@@ -1345,3 +1345,47 @@ export async function createReservation(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function getPresignedUploadUrl(req: Request, res: Response) {
+  try {
+    const listingId = Number((req.params as any)?.listingId);
+    if (!listingId || Number.isNaN(listingId)) {
+      return res.status(400).json({ ok: false, error: "invalid listingId" });
+    }
+
+    const { filename, contentType } = req.body || {};
+
+    if (!filename || typeof filename !== "string" || filename.trim() === "") {
+      return res.status(400).json({ ok: false, error: "filename is required" });
+    }
+
+    if (!contentType || typeof contentType !== "string") {
+      return res.status(400).json({ ok: false, error: "contentType is required" });
+    }
+
+    // Validate that it's an image file
+    if (!contentType.startsWith("image/")) {
+      return res.status(400).json({ ok: false, error: "Only image files are allowed" });
+    }
+
+    // Import S3 utilities
+    const { generatePresignedUploadUrl, generateS3Key } = await import("../lib/s3");
+
+    // Generate S3 key
+    const s3Key = generateS3Key(listingId, filename);
+
+    // Generate presigned URL
+    const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
+
+    // Return both the presigned URL and the S3 key that will be used to store in the database
+    res.json({
+      ok: true,
+      presignedUrl,
+      s3Key,
+      s3Url: `https://lendit-listing-images.s3.${process.env.AWS_REGION || "us-east-1"}.amazonaws.com/${s3Key}`,
+    });
+  } catch (error: any) {
+    console.error("[getPresignedUploadUrl] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
