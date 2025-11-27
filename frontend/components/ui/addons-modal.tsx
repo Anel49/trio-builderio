@@ -97,7 +97,7 @@ export function AddonsModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl">
+      <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Optional Addons</DialogTitle>
         </DialogHeader>
