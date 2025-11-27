@@ -102,7 +102,7 @@ export function AddonsModal({
           <DialogTitle>Optional Addons</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-3 max-h-[500px] overflow-y-auto">
+        <div className="space-y-3 max-h-[500px] overflow-y-auto pt-1">
           {addons.map((addon) => {
             const isSelected = selectedAddons.has(addon.id);
             const qty = quantities.get(addon.id) || "";
