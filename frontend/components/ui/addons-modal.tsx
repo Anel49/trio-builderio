@@ -222,6 +222,29 @@ export function AddonsModal({
                       )}
                     </div>
                   </div>
+
+                  {addon.consumable && isSelected && (
+                    <div className="w-24">
+                      <label
+                        htmlFor={`qty-mobile-${addon.id}`}
+                        className="block text-xs font-medium text-muted-foreground mb-1"
+                      >
+                        Qty <span className="text-red-600">*</span>
+                      </label>
+                      <Input
+                        id={`qty-mobile-${addon.id}`}
+                        type="number"
+                        min="1"
+                        step="1"
+                        value={qty}
+                        onChange={(e) =>
+                          handleQuantityChange(addon.id, e.target.value)
+                        }
+                        placeholder="0"
+                        className="w-full h-8"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             );
