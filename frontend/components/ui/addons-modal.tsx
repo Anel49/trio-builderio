@@ -109,53 +109,55 @@ export function AddonsModal({
 
             return (
               <div key={addon.id}>
-                {/* Desktop Layout - All fields in one row */}
-                <div className="hidden md:flex gap-3 items-end">
-                  <div className="flex-shrink-0">
-                    <Checkbox
-                      id={`addon-${addon.id}`}
-                      checked={isSelected}
-                      onCheckedChange={(checked) =>
-                        handleAddonToggle(addon, checked as boolean)
-                      }
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div className="flex-1 cursor-pointer" onClick={() => handleAddonToggle(addon, !isSelected)}>
-                    <div className="text-sm font-medium no-underline">
-                      {addon.item}
-                      {addon.style && (
-                        <span className="text-muted-foreground ml-2">
-                          ({addon.style})
-                        </span>
-                      )}
+                {/* Desktop Layout - Item name and price in top row, qty below if needed */}
+                <div className="hidden md:flex flex-col gap-2">
+                  <div className="flex gap-3 items-center">
+                    <div className="flex-shrink-0">
+                      <Checkbox
+                        id={`addon-${addon.id}`}
+                        checked={isSelected}
+                        onCheckedChange={(checked) =>
+                          handleAddonToggle(addon, checked as boolean)
+                        }
+                        className="mt-1"
+                      />
                     </div>
-                  </div>
 
-                  <div className="w-32 cursor-pointer" onClick={() => handleAddonToggle(addon, !isSelected)}>
-                    <div className="text-sm">
-                      {addon.price !== null ? (
-                        <>
-                          $
-                          {addon.price.toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })}
-                          {addon.consumable && (
-                            <span className="text-xs text-muted-foreground ml-1">
-                              per item
-                            </span>
-                          )}
-                        </>
-                      ) : (
-                        <span className="text-muted-foreground">Free</span>
-                      )}
+                    <div className="flex-1 cursor-pointer" onClick={() => handleAddonToggle(addon, !isSelected)}>
+                      <div className="text-sm font-medium no-underline">
+                        {addon.item}
+                        {addon.style && (
+                          <span className="text-muted-foreground ml-2">
+                            ({addon.style})
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="w-32 cursor-pointer" onClick={() => handleAddonToggle(addon, !isSelected)}>
+                      <div className="text-sm">
+                        {addon.price !== null ? (
+                          <>
+                            $
+                            {addon.price.toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
+                            {addon.consumable && (
+                              <span className="text-xs text-muted-foreground ml-1">
+                                per item
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="text-muted-foreground">Free</span>
+                        )}
+                      </div>
                     </div>
                   </div>
 
                   {addon.consumable && isSelected && (
-                    <div className="w-24">
+                    <div className="ml-8 w-32">
                       <label
                         htmlFor={`qty-${addon.id}`}
                         className="block text-xs font-medium text-muted-foreground mb-1"
