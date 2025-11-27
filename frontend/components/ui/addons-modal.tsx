@@ -142,7 +142,7 @@ export function AddonsModal({
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                           })}
-                          {!addon.consumable && (
+                          {addon.consumable && (
                             <span className="text-xs text-muted-foreground ml-1">
                               per item
                             </span>
@@ -211,7 +211,7 @@ export function AddonsModal({
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                           })}
-                          {!addon.consumable && (
+                          {addon.consumable && (
                             <span className="text-xs text-muted-foreground ml-1">
                               per item
                             </span>
