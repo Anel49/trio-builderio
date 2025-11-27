@@ -136,7 +136,7 @@ export default function OrderHistory() {
   // State for reservations
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [userProfiles, setUserProfiles] = useState<Map<number, UserProfile>>(
-    new Map()
+    new Map(),
   );
   const [loadingReservations, setLoadingReservations] = useState(false);
 
@@ -167,13 +167,18 @@ export default function OrderHistory() {
 
       setLoadingReservations(true);
       try {
-        console.log(`[OrderHistory] Fetching reservations for user ${currentUser.id}`);
+        console.log(
+          `[OrderHistory] Fetching reservations for user ${currentUser.id}`,
+        );
         const response = await apiFetch(`/reservations/${currentUser.id}`);
         console.log(`[OrderHistory] Response status: ${response.status}`);
 
         if (response.status !== 200 && response.status !== 204) {
           const text = await response.text();
-          console.error(`[OrderHistory] Non-200 response: ${response.status}`, text.substring(0, 200));
+          console.error(
+            `[OrderHistory] Non-200 response: ${response.status}`,
+            text.substring(0, 200),
+          );
           setReservations([]);
           setLoadingReservations(false);
           return;
@@ -209,9 +214,14 @@ export default function OrderHistory() {
         console.error("Failed to fetch reservations:", error);
         // Try to get the actual response to debug
         try {
-          const debugResponse = await apiFetch(`/reservations/${currentUser.id}`);
+          const debugResponse = await apiFetch(
+            `/reservations/${currentUser.id}`,
+          );
           const debugText = await debugResponse.text();
-          console.log("[OrderHistory] Debug response text (first 500 chars):", debugText.substring(0, 500));
+          console.log(
+            "[OrderHistory] Debug response text (first 500 chars):",
+            debugText.substring(0, 500),
+          );
         } catch (debugError) {
           console.log("[OrderHistory] Debug fetch also failed:", debugError);
         }
@@ -316,7 +326,7 @@ export default function OrderHistory() {
   }, []);
 
   const getRequestDirection = (
-    reservation: Reservation
+    reservation: Reservation,
   ): "incoming" | "outgoing" => {
     if (!currentUser?.id) return "incoming";
     return reservation.host_id === currentUser.id ? "incoming" : "outgoing";
@@ -335,7 +345,9 @@ export default function OrderHistory() {
   const getRequesterUserId = (reservation: Reservation): number | null => {
     if (!currentUser?.id) return null;
     const direction = getRequestDirection(reservation);
-    return direction === "incoming" ? reservation.renter_id : reservation.host_id;
+    return direction === "incoming"
+      ? reservation.renter_id
+      : reservation.host_id;
   };
 
   const getRequestStatusBadge = (status: RequestStatus) => {
@@ -423,8 +435,7 @@ export default function OrderHistory() {
       requestStatusFilter === "all" ||
       res.status.toLowerCase() === requestStatusFilter.toLowerCase();
     const matchesRequester =
-      requesterFilter === "all" ||
-      getRequestDirection(res) === requesterFilter;
+      requesterFilter === "all" || getRequestDirection(res) === requesterFilter;
     return matchesSearch && matchesStatus && matchesRequester;
   });
 
@@ -1001,7 +1012,7 @@ export default function OrderHistory() {
                                 </h3>
                                 <Badge
                                   className={getRequestStatusBadge(
-                                    res.status as RequestStatus
+                                    res.status as RequestStatus,
                                   )}
                                 >
                                   {res.status.charAt(0).toUpperCase() +

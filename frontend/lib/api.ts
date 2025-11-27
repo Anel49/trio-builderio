@@ -327,7 +327,12 @@ export async function apiFetch(path: string, init?: RequestInit) {
           const res = await tryFetch(url, finalInit, 15000);
           if (res) {
             if (p.includes("reservations")) {
-              console.log("[apiFetch] Reservations response status:", res.status, "content-type:", res.headers.get("content-type"));
+              console.log(
+                "[apiFetch] Reservations response status:",
+                res.status,
+                "content-type:",
+                res.headers.get("content-type"),
+              );
             }
             return res;
           }
@@ -344,7 +349,12 @@ export async function apiFetch(path: string, init?: RequestInit) {
         const res = await tryFetch(url, finalInit, 15000);
         if (res) {
           if (p.includes("reservations")) {
-            console.log("[apiFetch] Reservations response status:", res.status, "content-type:", res.headers.get("content-type"));
+            console.log(
+              "[apiFetch] Reservations response status:",
+              res.status,
+              "content-type:",
+              res.headers.get("content-type"),
+            );
           }
           return res;
         }

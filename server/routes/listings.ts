@@ -1112,14 +1112,22 @@ export async function getUserReservations(req: Request, res: Response) {
     console.log("[getUserReservations] Called with url:", req.url);
     console.log("[getUserReservations] Called with params:", req.params);
     const userId = Number((req.params as any)?.userId);
-    console.log("[getUserReservations] Parsed userId:", userId, "type:", typeof userId);
+    console.log(
+      "[getUserReservations] Parsed userId:",
+      userId,
+      "type:",
+      typeof userId,
+    );
 
     if (!userId || Number.isNaN(userId)) {
       console.log("[getUserReservations] Invalid userId, returning 400");
       return res.status(400).json({ ok: false, error: "invalid userId" });
     }
 
-    console.log("[getUserReservations] Querying reservations for user:", userId);
+    console.log(
+      "[getUserReservations] Querying reservations for user:",
+      userId,
+    );
     const result = await pool.query(
       `select id, listing_id, renter_id, host_id, host_name, renter_name,
               start_date, end_date, listing_title, listing_image,
@@ -1132,7 +1140,11 @@ export async function getUserReservations(req: Request, res: Response) {
       [userId],
     );
 
-    console.log("[getUserReservations] Query returned", result.rows.length, "rows");
+    console.log(
+      "[getUserReservations] Query returned",
+      result.rows.length,
+      "rows",
+    );
 
     const reservations = result.rows.map((r: any) => ({
       id: String(r.id),
@@ -1157,13 +1169,23 @@ export async function getUserReservations(req: Request, res: Response) {
       created_at: r.created_at,
     }));
 
-    console.log("[getUserReservations] Returning", reservations.length, "reservations");
+    console.log(
+      "[getUserReservations] Returning",
+      reservations.length,
+      "reservations",
+    );
     res.setHeader("Content-Type", "application/json");
     return res.json({ ok: true, reservations });
   } catch (error: any) {
-    console.error("[getUserReservations] Error caught:", error?.message || error, error?.stack);
+    console.error(
+      "[getUserReservations] Error caught:",
+      error?.message || error,
+      error?.stack,
+    );
     res.setHeader("Content-Type", "application/json");
-    return res.status(500).json({ ok: false, error: String(error?.message || error) });
+    return res
+      .status(500)
+      .json({ ok: false, error: String(error?.message || error) });
   }
 }
 
