@@ -854,8 +854,8 @@ export default function OrderHistory() {
                         <DropdownMenuRadioItem value="pending">
                           Pending
                         </DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="approved">
-                          Approved
+                        <DropdownMenuRadioItem value="accepted">
+                          Accepted
                         </DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="rejected">
                           Rejected
