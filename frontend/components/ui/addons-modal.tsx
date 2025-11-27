@@ -149,7 +149,7 @@ export function AddonsModal({
                           )}
                         </>
                       ) : (
-                        <span className="text-muted-foreground">$0.00</span>
+                        <span className="text-muted-foreground">Free</span>
                       )}
                     </div>
                   </div>
@@ -218,7 +218,7 @@ export function AddonsModal({
                           )}
                         </>
                       ) : (
-                        <span className="text-muted-foreground">$0.00</span>
+                        <span className="text-muted-foreground">Free</span>
                       )}
                     </div>
                   </div>
