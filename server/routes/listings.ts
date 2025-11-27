@@ -1154,8 +1154,10 @@ export async function getUserReservations(req: Request, res: Response) {
       created_at: r.created_at,
     }));
 
+    console.log("[getUserReservations] Returning", reservations.length, "reservations");
     res.json({ ok: true, reservations });
   } catch (error: any) {
+    console.error("[getUserReservations] Error:", error?.message || error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
