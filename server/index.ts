@@ -438,6 +438,50 @@ export function createServer() {
   app.post("/api/password-reset-request", passwordResetRequest);
   app.post("/api/password-reset-verify", passwordResetVerify);
   app.post("/api/password-reset", passwordReset);
+  // Email Logs
+  app.get("/api/email-logs", async (_req, res) => {
+    try {
+      const result = await pool.query(
+        `select id, message_direction, email_type, recipient_email, sender_email, subject, status, created_at
+         from email_log
+         order by created_at desc
+         limit 100`
+      );
+      res.json({ ok: true, logs: result.rows });
+    } catch (error: any) {
+      res.status(500).json({ ok: false, error: String(error?.message || error) });
+    }
+  });
+  app.get("/api/email-logs/:emailType", async (req, res) => {
+    try {
+      const { emailType } = req.params;
+      const result = await pool.query(
+        `select id, message_direction, email_type, recipient_email, sender_email, subject, status, created_at
+         from email_log
+         where email_type = $1
+         order by created_at desc
+         limit 100`,
+        [emailType]
+      );
+      res.json({ ok: true, logs: result.rows });
+    } catch (error: any) {
+      res.status(500).json({ ok: false, error: String(error?.message || error) });
+    }
+  });
+  // Alias routes
+  app.get("/email-logs", async (_req, res) => {
+    try {
+      const result = await pool.query(
+        `select id, message_direction, email_type, recipient_email, sender_email, subject, status, created_at
+         from email_log
+         order by created_at desc
+         limit 100`
+      );
+      res.json({ ok: true, logs: result.rows });
+    } catch (error: any) {
+      res.status(500).json({ ok: false, error: String(error?.message || error) });
+    }
+  });
   // Favorites
   app.get("/api/favorites/:userId", listFavorites);
   app.post("/api/favorites", addFavorite);
