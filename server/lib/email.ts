@@ -31,7 +31,7 @@ async function logEmail(
   messageId: string | null,
   status: "sent" | "failed" = "sent",
   errorMessage: string | null = null,
-  metadata: Record<string, any> | null = null
+  metadata: Record<string, any> | null = null,
 ) {
   try {
     await pool.query(
@@ -47,7 +47,7 @@ async function logEmail(
         status,
         errorMessage,
         metadata ? JSON.stringify(metadata) : null,
-      ]
+      ],
     );
   } catch (error: any) {
     console.error("[Email Logging] Failed to log email:", error);
@@ -138,7 +138,10 @@ LendIt Support
     });
 
     const response = await sesClient.send(command);
-    console.log(`[Email] Password reset sent to ${toEmail}:`, response.MessageId);
+    console.log(
+      `[Email] Password reset sent to ${toEmail}:`,
+      response.MessageId,
+    );
 
     // Log successful email
     await logEmail(
@@ -150,12 +153,15 @@ LendIt Support
       response.MessageId,
       "sent",
       null,
-      { userName }
+      { userName },
     );
 
     return { ok: true, messageId: response.MessageId };
   } catch (error: any) {
-    console.error(`[Email] Failed to send password reset email to ${toEmail}:`, error);
+    console.error(
+      `[Email] Failed to send password reset email to ${toEmail}:`,
+      error,
+    );
 
     // Log failed email
     await logEmail(
@@ -167,17 +173,14 @@ LendIt Support
       null,
       "failed",
       error?.Code || error?.message || "Unknown error",
-      { userName, errorType: error?.constructor?.name }
+      { userName, errorType: error?.constructor?.name },
     );
 
     throw error;
   }
 }
 
-export async function sendWelcomeEmail(
-  toEmail: string,
-  userName: string,
-) {
+export async function sendWelcomeEmail(toEmail: string, userName: string) {
   const htmlBody = `
     <!DOCTYPE html>
     <html>
@@ -249,7 +252,10 @@ The LendIt Team
     });
 
     const response = await sesClient.send(command);
-    console.log(`[Email] Welcome email sent to ${toEmail}:`, response.MessageId);
+    console.log(
+      `[Email] Welcome email sent to ${toEmail}:`,
+      response.MessageId,
+    );
 
     // Log successful email
     await logEmail(
@@ -261,7 +267,7 @@ The LendIt Team
       response.MessageId,
       "sent",
       null,
-      { userName }
+      { userName },
     );
 
     return { ok: true, messageId: response.MessageId };
@@ -278,7 +284,7 @@ The LendIt Team
       null,
       "failed",
       error?.Code || error?.message || "Unknown error",
-      { userName, errorType: error?.constructor?.name }
+      { userName, errorType: error?.constructor?.name },
     );
 
     throw error;

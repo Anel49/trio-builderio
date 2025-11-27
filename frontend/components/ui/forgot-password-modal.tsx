@@ -57,7 +57,7 @@ export function ForgotPasswordModal({
       if (data.debug) {
         console.error("Password reset debug info:", data.debug);
         setError(
-          `Error sending email: ${data.debug.emailError}. Check browser console for details.`
+          `Error sending email: ${data.debug.emailError}. Check browser console for details.`,
         );
         setIsLoading(false);
         return;
@@ -70,7 +70,9 @@ export function ForgotPasswordModal({
       }
     } catch (error) {
       console.error("Error sending reset email:", error);
-      setError("An error occurred while sending the reset email. Check browser console.");
+      setError(
+        "An error occurred while sending the reset email. Check browser console.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +107,8 @@ export function ForgotPasswordModal({
             <div className="space-y-6 p-2">
               <div className="text-center">
                 <p className="text-muted-foreground text-sm">
-                  Enter your email address and we'll send you a link to reset your password.
+                  Enter your email address and we'll send you a link to reset
+                  your password.
                 </p>
               </div>
 
@@ -184,13 +187,15 @@ export function ForgotPasswordModal({
                   Reset link sent to {email}
                 </p>
                 <p className="text-muted-foreground text-sm">
-                  We've sent a password reset link to your email. Click the link to set a new password. The link will expire in 24 hours.
+                  We've sent a password reset link to your email. Click the link
+                  to set a new password. The link will expire in 24 hours.
                 </p>
               </div>
 
               <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
                 <p className="text-sm text-blue-900 dark:text-blue-100">
-                  <strong>Tip:</strong> Check your spam folder if you don't see the email.
+                  <strong>Tip:</strong> Check your spam folder if you don't see
+                  the email.
                 </p>
               </div>
 

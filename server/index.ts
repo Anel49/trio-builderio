@@ -338,7 +338,7 @@ export function createServer() {
       await sendPasswordResetEmail(
         testEmail,
         "https://example.com/test",
-        "Test User"
+        "Test User",
       );
 
       res.json({
@@ -378,7 +378,7 @@ export function createServer() {
       await sendPasswordResetEmail(
         testEmail,
         "https://example.com/test",
-        "Test User"
+        "Test User",
       );
 
       res.json({
@@ -445,11 +445,13 @@ export function createServer() {
         `select id, message_direction, email_type, recipient_email, sender_email, subject, status, created_at
          from email_log
          order by created_at desc
-         limit 100`
+         limit 100`,
       );
       res.json({ ok: true, logs: result.rows });
     } catch (error: any) {
-      res.status(500).json({ ok: false, error: String(error?.message || error) });
+      res
+        .status(500)
+        .json({ ok: false, error: String(error?.message || error) });
     }
   });
   app.get("/api/email-logs/:emailType", async (req, res) => {
@@ -461,11 +463,13 @@ export function createServer() {
          where email_type = $1
          order by created_at desc
          limit 100`,
-        [emailType]
+        [emailType],
       );
       res.json({ ok: true, logs: result.rows });
     } catch (error: any) {
-      res.status(500).json({ ok: false, error: String(error?.message || error) });
+      res
+        .status(500)
+        .json({ ok: false, error: String(error?.message || error) });
     }
   });
   // Alias routes
@@ -475,11 +479,13 @@ export function createServer() {
         `select id, message_direction, email_type, recipient_email, sender_email, subject, status, created_at
          from email_log
          order by created_at desc
-         limit 100`
+         limit 100`,
       );
       res.json({ ok: true, logs: result.rows });
     } catch (error: any) {
-      res.status(500).json({ ok: false, error: String(error?.message || error) });
+      res
+        .status(500)
+        .json({ ok: false, error: String(error?.message || error) });
     }
   });
   // Favorites
