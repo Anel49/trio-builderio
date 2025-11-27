@@ -412,6 +412,7 @@ export default function UploadProduct() {
             method: "PUT",
             headers: {
               "Content-Type": file.type,
+              // Don't set any other headers - they weren't part of the signature
             },
             body: file,
           });
