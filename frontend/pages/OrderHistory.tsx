@@ -207,6 +207,14 @@ export default function OrderHistory() {
         }
       } catch (error) {
         console.error("Failed to fetch reservations:", error);
+        // Try to get the actual response to debug
+        try {
+          const debugResponse = await apiFetch(`/api/reservations/${currentUser.id}`);
+          const debugText = await debugResponse.text();
+          console.log("[OrderHistory] Debug response text (first 500 chars):", debugText.substring(0, 500));
+        } catch (debugError) {
+          console.log("[OrderHistory] Debug fetch also failed:", debugError);
+        }
       } finally {
         setLoadingReservations(false);
       }
