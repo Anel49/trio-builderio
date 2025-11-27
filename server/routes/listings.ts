@@ -1346,18 +1346,14 @@ export async function createReservation(req: Request, res: Response) {
   }
 }
 
-export async function uploadListingImage(req: Request, res: Response) {
+export async function getPresignedUploadUrl(req: Request, res: Response) {
   try {
     const listingId = Number((req.params as any)?.listingId);
     if (!listingId || Number.isNaN(listingId)) {
       return res.status(400).json({ ok: false, error: "invalid listingId" });
     }
 
-    const { fileData, filename, contentType } = req.body || {};
-
-    if (!fileData || typeof fileData !== "string") {
-      return res.status(400).json({ ok: false, error: "fileData is required" });
-    }
+    const { filename, contentType } = req.body || {};
 
     if (!filename || typeof filename !== "string" || filename.trim() === "") {
       return res.status(400).json({ ok: false, error: "filename is required" });
@@ -1373,35 +1369,23 @@ export async function uploadListingImage(req: Request, res: Response) {
     }
 
     // Import S3 utilities
-    const { uploadToS3, generateS3Key, getS3Url } = await import("../lib/s3");
+    const { generatePresignedUploadUrl, generateS3Key } = await import("../lib/s3");
 
     // Generate S3 key
     const s3Key = generateS3Key(listingId, filename);
 
-    // Convert base64 or blob data to buffer
-    let buffer: Buffer;
-    if (fileData.startsWith("data:")) {
-      // Data URL format
-      const base64Data = fileData.split(",")[1];
-      buffer = Buffer.from(base64Data, "base64");
-    } else {
-      // Assume it's already base64
-      buffer = Buffer.from(fileData, "base64");
-    }
+    // Generate presigned URL
+    const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
 
-    // Upload to S3
-    await uploadToS3(s3Key, buffer, contentType);
-
-    // Return the S3 URL
+    // Return both the presigned URL and the S3 key that will be used to store in the database
     res.json({
       ok: true,
+      presignedUrl,
       s3Key,
-      s3Url: getS3Url(s3Key),
+      s3Url: `https://lendit-listing-images.s3.${process.env.AWS_REGION || "us-east-1"}.amazonaws.com/${s3Key}`,
     });
   } catch (error: any) {
-    console.error("[uploadListingImage] Error:", error);
-    res
-      .status(500)
-      .json({ ok: false, error: String(error?.message || error) });
+    console.error("[getPresignedUploadUrl] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
