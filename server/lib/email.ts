@@ -1,4 +1,5 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { pool } from "../routes/db";
 
 const accessKeyId = process.env.AWS_SES_ACCESS_KEY_ID || "";
 const secretAccessKey = process.env.AWS_SES_SECRET_ACCESS_KEY || "";
