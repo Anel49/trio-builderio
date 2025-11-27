@@ -305,6 +305,12 @@ export async function apiFetch(path: string, init?: RequestInit) {
     /^(api\/)?(listings($|\/\d+(?:\/(?:reviews|reservations))?)|users(\?|$)|favorites|reservations|listing-reviews|stripe\/create-payment-intent|geocode\/reverse)/.test(
       p,
     );
+
+  // DEBUG: Log all API calls for reservations
+  if (p.includes("reservations")) {
+    console.log("[apiFetch] Reservations call:", { p, base, isDataEndpoint });
+  }
+
   if (base) {
     // For data endpoints, ensure backend is responsive recently; otherwise avoid failing fetches
     if (isDataEndpoint) {
@@ -315,13 +321,13 @@ export async function apiFetch(path: string, init?: RequestInit) {
         if (ok) {
           lastPingOkAt = Date.now();
           const url = cleanJoin(base, path);
-          if (p.startsWith("listings") && !p.includes("/")) {
-            console.log("[apiFetch] Fetching listings from:", url);
+          if (p.includes("reservations")) {
+            console.log("[apiFetch] Fetching reservations from:", url);
           }
           const res = await tryFetch(url, finalInit, 15000);
           if (res) {
-            if (p.startsWith("listings") && !p.includes("/")) {
-              console.log("[apiFetch] Listings response status:", res.status);
+            if (p.includes("reservations")) {
+              console.log("[apiFetch] Reservations response status:", res.status, "content-type:", res.headers.get("content-type"));
             }
             return res;
           }
@@ -332,13 +338,13 @@ export async function apiFetch(path: string, init?: RequestInit) {
         }
       } else {
         const url = cleanJoin(base, path);
-        if (p.startsWith("listings") && !p.includes("/")) {
-          console.log("[apiFetch] Fetching listings from:", url);
+        if (p.includes("reservations")) {
+          console.log("[apiFetch] Fetching reservations from:", url);
         }
         const res = await tryFetch(url, finalInit, 15000);
         if (res) {
-          if (p.startsWith("listings") && !p.includes("/")) {
-            console.log("[apiFetch] Listings response status:", res.status);
+          if (p.includes("reservations")) {
+            console.log("[apiFetch] Reservations response status:", res.status, "content-type:", res.headers.get("content-type"));
           }
           return res;
         }
