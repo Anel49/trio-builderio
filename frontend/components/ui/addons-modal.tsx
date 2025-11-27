@@ -97,59 +97,77 @@ export function AddonsModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-4xl">
         <DialogHeader>
-          <DialogTitle>Addons</DialogTitle>
+          <DialogTitle>Optional Addons</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4 max-h-[400px] overflow-y-auto">
+        <div className="space-y-3 max-h-[500px] overflow-y-auto">
           {addons.map((addon) => {
             const isSelected = selectedAddons.has(addon.id);
             const qty = quantities.get(addon.id) || "";
 
             return (
-              <div
-                key={addon.id}
-                className="flex items-start gap-3 pb-3 border-b last:border-b-0"
-              >
-                <Checkbox
-                  id={`addon-${addon.id}`}
-                  checked={isSelected}
-                  onCheckedChange={(checked) =>
-                    handleAddonToggle(addon, checked as boolean)
-                  }
-                  className="mt-1 flex-shrink-0"
-                />
+              <div key={addon.id}>
+                {/* Desktop Layout - All fields in one row */}
+                <div className="hidden md:flex gap-3 items-end">
+                  <div className="flex-shrink-0">
+                    <Checkbox
+                      id={`addon-${addon.id}`}
+                      checked={isSelected}
+                      onCheckedChange={(checked) =>
+                        handleAddonToggle(addon, checked as boolean)
+                      }
+                      className="mt-1"
+                    />
+                  </div>
 
-                <div className="flex-1 min-w-0">
-                  <label
-                    htmlFor={`addon-${addon.id}`}
-                    className="text-sm font-medium cursor-pointer"
-                  >
-                    {addon.item}
-                    {addon.style && (
-                      <span className="text-muted-foreground ml-2">
-                        ({addon.style})
-                      </span>
-                    )}
-                  </label>
-
-                  {addon.price !== null && (
-                    <div className="text-xs text-muted-foreground mt-1">
-                      $
-                      {addon.price.toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                      {!addon.consumable && " per item"}
+                  <div className="flex-1">
+                    <label
+                      htmlFor={`addon-${addon.id}`}
+                      className="block text-xs font-medium text-muted-foreground mb-1 cursor-pointer"
+                    >
+                      Item
+                    </label>
+                    <div className="text-sm font-medium cursor-pointer">
+                      {addon.item}
+                      {addon.style && (
+                        <span className="text-muted-foreground ml-2">
+                          ({addon.style})
+                        </span>
+                      )}
                     </div>
-                  )}
+                  </div>
+
+                  <div className="w-32">
+                    <label className="block text-xs font-medium text-muted-foreground mb-1">
+                      Price
+                    </label>
+                    <div className="text-sm">
+                      {addon.price !== null ? (
+                        <>
+                          $
+                          {addon.price.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}
+                          {!addon.consumable && (
+                            <span className="text-xs text-muted-foreground ml-1">
+                              per item
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <span className="text-muted-foreground">$0.00</span>
+                      )}
+                    </div>
+                  </div>
 
                   {addon.consumable && isSelected && (
-                    <div className="mt-2 flex items-center gap-2">
+                    <div className="w-24">
                       <label
                         htmlFor={`qty-${addon.id}`}
-                        className="text-xs font-medium"
+                        className="block text-xs font-medium text-muted-foreground mb-1"
                       >
                         Qty <span className="text-red-600">*</span>
                       </label>
@@ -163,10 +181,86 @@ export function AddonsModal({
                           handleQuantityChange(addon.id, e.target.value)
                         }
                         placeholder="0"
-                        className="w-20 h-8"
+                        className="w-full h-8"
                       />
                     </div>
                   )}
+                </div>
+
+                {/* Mobile Layout - Stacked with border card */}
+                <div className="md:hidden border border-border rounded-lg p-3 bg-muted/30">
+                  <div className="flex items-start gap-3 mb-3">
+                    <Checkbox
+                      id={`addon-mobile-${addon.id}`}
+                      checked={isSelected}
+                      onCheckedChange={(checked) =>
+                        handleAddonToggle(addon, checked as boolean)
+                      }
+                      className="mt-1 flex-shrink-0"
+                    />
+                    <div className="flex-1">
+                      <label
+                        htmlFor={`addon-mobile-${addon.id}`}
+                        className="text-sm font-medium cursor-pointer"
+                      >
+                        {addon.item}
+                        {addon.style && (
+                          <span className="text-muted-foreground ml-2">
+                            ({addon.style})
+                          </span>
+                        )}
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1">
+                        Price
+                      </label>
+                      <div className="text-sm">
+                        {addon.price !== null ? (
+                          <>
+                            $
+                            {addon.price.toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
+                            {!addon.consumable && (
+                              <span className="text-xs text-muted-foreground ml-1">
+                                per item
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="text-muted-foreground">$0.00</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {addon.consumable && isSelected && (
+                      <div>
+                        <label
+                          htmlFor={`qty-mobile-${addon.id}`}
+                          className="block text-xs font-medium text-muted-foreground mb-1"
+                        >
+                          Qty <span className="text-red-600">*</span>
+                        </label>
+                        <Input
+                          id={`qty-mobile-${addon.id}`}
+                          type="number"
+                          min="1"
+                          step="1"
+                          value={qty}
+                          onChange={(e) =>
+                            handleQuantityChange(addon.id, e.target.value)
+                          }
+                          placeholder="0"
+                          className="w-full h-8"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );
