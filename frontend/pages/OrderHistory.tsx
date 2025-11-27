@@ -167,9 +167,21 @@ export default function OrderHistory() {
 
       setLoadingReservations(true);
       try {
+        console.log(`[OrderHistory] Fetching reservations for user ${currentUser.id}`);
         const response = await apiFetch(`/reservations/${currentUser.id}`);
+        console.log(`[OrderHistory] Response status: ${response.status}`);
+
+        if (response.status !== 200 && response.status !== 204) {
+          const text = await response.text();
+          console.error(`[OrderHistory] Non-200 response: ${response.status}`, text.substring(0, 200));
+          setReservations([]);
+          setLoadingReservations(false);
+          return;
+        }
+
         if (response.ok) {
           const data = await response.json();
+          console.log(`[OrderHistory] Got reservations:`, data);
           setReservations(data.reservations || []);
 
           // Fetch user profiles for renters and hosts
