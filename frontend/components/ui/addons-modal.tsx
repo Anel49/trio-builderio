@@ -180,7 +180,7 @@ export function AddonsModal({
                           handleQuantityChange(addon.id, e.target.value)
                         }
                         placeholder="0"
-                        className="w-full h-8"
+                        className="w-full h-8 focus-visible:ring-0 focus-visible:ring-offset-0"
                       />
                     </div>
                   )}
@@ -257,7 +257,7 @@ export function AddonsModal({
                           handleQuantityChange(addon.id, e.target.value)
                         }
                         placeholder="0"
-                        className="w-full h-8"
+                        className="w-full h-8 focus-visible:ring-0 focus-visible:ring-offset-0"
                       />
                     </div>
                   )}
