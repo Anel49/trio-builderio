@@ -1107,6 +1107,54 @@ export async function bulkUpdateListingsEnabled(req: Request, res: Response) {
   }
 }
 
+export async function getUserReservations(req: Request, res: Response) {
+  try {
+    const userId = Number((req.params as any)?.userId);
+    if (!userId || Number.isNaN(userId)) {
+      return res.status(400).json({ ok: false, error: "invalid userId" });
+    }
+
+    const result = await pool.query(
+      `select id, listing_id, renter_id, host_id, host_name, renter_name,
+              start_date, end_date, listing_title, listing_image,
+              listing_latitude, listing_longitude, daily_price_cents, total_days,
+              rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at
+       from reservations
+       where renter_id = $1 or host_id = $1
+       order by created_at desc
+       limit 500`,
+      [userId],
+    );
+
+    const reservations = result.rows.map((r: any) => ({
+      id: String(r.id),
+      listing_id: r.listing_id,
+      renter_id: r.renter_id,
+      host_id: r.host_id,
+      host_name: r.host_name,
+      renter_name: r.renter_name,
+      start_date: new Date(r.start_date).toISOString(),
+      end_date: new Date(r.end_date).toISOString(),
+      listing_title: r.listing_title,
+      listing_image: r.listing_image,
+      listing_latitude: r.listing_latitude,
+      listing_longitude: r.listing_longitude,
+      daily_price_cents: r.daily_price_cents,
+      total_days: r.total_days,
+      rental_type: r.rental_type,
+      status: r.status,
+      consumable_addon_total: r.consumable_addon_total,
+      nonconsumable_addon_total: r.nonconsumable_addon_total,
+      addons: r.addons,
+      created_at: r.created_at,
+    }));
+
+    res.json({ ok: true, reservations });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function createReservation(req: Request, res: Response) {
   try {
     const {
