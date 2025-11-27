@@ -13,7 +13,7 @@ import {
   LocationPickerModal,
   type LocationSelection,
 } from "@/components/LocationPickerModal";
-import { apiFetch, uploadListingImageToS3 } from "@/lib/api";
+import { apiFetch, getS3PresignedUrl } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
 import { getCurrentUserLocation, type UserLocation } from "@/lib/user-profile";
 import { LoginModal } from "@/components/ui/login-modal";
