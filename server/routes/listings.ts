@@ -1389,3 +1389,35 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function deleteImage(req: Request, res: Response) {
+  try {
+    const { imageUrl } = req.body || {};
+
+    if (!imageUrl || typeof imageUrl !== "string") {
+      return res.status(400).json({ ok: false, error: "imageUrl is required" });
+    }
+
+    // Import S3 utilities
+    const { deleteS3Object, extractS3KeyFromUrl, isValidS3Url } = await import("../lib/s3");
+
+    // Validate that it's an S3 URL
+    if (!isValidS3Url(imageUrl)) {
+      return res.status(400).json({ ok: false, error: "Invalid S3 URL" });
+    }
+
+    // Extract S3 key from the URL
+    const s3Key = extractS3KeyFromUrl(imageUrl);
+    if (!s3Key) {
+      return res.status(400).json({ ok: false, error: "Could not extract S3 key from URL" });
+    }
+
+    // Delete the object from S3
+    await deleteS3Object(s3Key);
+
+    res.json({ ok: true, message: "Image deleted successfully" });
+  } catch (error: any) {
+    console.error("[deleteImage] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
