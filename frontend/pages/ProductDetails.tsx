@@ -1327,7 +1327,7 @@ export default function ProductDetails() {
                 <div className="border border-border rounded-lg mb-6">
                   <Accordion type="single" collapsible>
                     <AccordionItem value="addons">
-                      <AccordionTrigger className="flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors [&>svg]:hidden">
+                      <AccordionTrigger className="w-full flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors rounded-md [&>svg]:hidden data-[state=open]:rounded-t-md">
                         <span className="text-sm font-medium flex items-center gap-2">
                           Optional Addons
                           <TooltipProvider>
