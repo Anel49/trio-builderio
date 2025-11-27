@@ -168,7 +168,7 @@ export default function OrderHistory() {
       setLoadingReservations(true);
       try {
         console.log(`[OrderHistory] Fetching reservations for user ${currentUser.id}`);
-        const response = await apiFetch(`/api/reservations/${currentUser.id}`);
+        const response = await apiFetch(`/reservations/${currentUser.id}`);
         console.log(`[OrderHistory] Response status: ${response.status}`);
 
         if (response.status !== 200 && response.status !== 204) {
