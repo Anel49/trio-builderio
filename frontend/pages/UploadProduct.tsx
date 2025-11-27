@@ -235,6 +235,7 @@ export default function UploadProduct() {
                   item: addon.item || "",
                   style: addon.style || "",
                   price: addon.price ? String(addon.price) : "",
+                  consumable: addon.consumable === true,
                 })),
               );
               setIsAddonsExpanded(true);
