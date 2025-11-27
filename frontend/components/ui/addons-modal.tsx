@@ -180,71 +180,47 @@ export function AddonsModal({
 
                 {/* Mobile Layout - Same as desktop */}
                 <div className="md:hidden flex gap-3 items-start">
-                  <div className="flex items-start gap-3 mb-3">
+                  <div className="flex-shrink-0">
                     <Checkbox
                       id={`addon-mobile-${addon.id}`}
                       checked={isSelected}
                       onCheckedChange={(checked) =>
                         handleAddonToggle(addon, checked as boolean)
                       }
-                      className="mt-1 flex-shrink-0"
+                      className="mt-1"
                     />
-                    <div className="flex-1">
-                      <div className="text-sm font-medium cursor-pointer no-underline">
-                        {addon.item}
-                        {addon.style && (
-                          <span className="text-muted-foreground ml-2">
-                            ({addon.style})
-                          </span>
-                        )}
-                      </div>
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="text-sm font-medium cursor-pointer no-underline">
+                      {addon.item}
+                      {addon.style && (
+                        <span className="text-muted-foreground ml-2">
+                          ({addon.style})
+                        </span>
+                      )}
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <div>
-                      <div className="text-sm">
-                        {addon.price !== null ? (
-                          <>
-                            $
-                            {addon.price.toLocaleString("en-US", {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })}
-                            {!addon.consumable && (
-                              <span className="text-xs text-muted-foreground ml-1">
-                                per item
-                              </span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="text-muted-foreground">$0.00</span>
-                        )}
-                      </div>
+                  <div className="w-32">
+                    <div className="text-sm">
+                      {addon.price !== null ? (
+                        <>
+                          $
+                          {addon.price.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}
+                          {!addon.consumable && (
+                            <span className="text-xs text-muted-foreground ml-1">
+                              per item
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <span className="text-muted-foreground">$0.00</span>
+                      )}
                     </div>
-
-                    {addon.consumable && isSelected && (
-                      <div>
-                        <label
-                          htmlFor={`qty-mobile-${addon.id}`}
-                          className="block text-xs font-medium text-muted-foreground mb-1"
-                        >
-                          Qty <span className="text-red-600">*</span>
-                        </label>
-                        <Input
-                          id={`qty-mobile-${addon.id}`}
-                          type="number"
-                          min="1"
-                          step="1"
-                          value={qty}
-                          onChange={(e) =>
-                            handleQuantityChange(addon.id, e.target.value)
-                          }
-                          placeholder="0"
-                          className="w-full h-8"
-                        />
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>
