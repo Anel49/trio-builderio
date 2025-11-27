@@ -1359,9 +1359,6 @@ export default function ProductDetails() {
                               {/* Desktop Layout - All fields in one row */}
                               <div className="hidden md:flex gap-3 items-end">
                                 <div className="flex-1">
-                                  <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                    Item
-                                  </label>
                                   <div className="text-sm font-medium">
                                     {addon.item}
                                     {addon.style && (
@@ -1373,9 +1370,6 @@ export default function ProductDetails() {
                                 </div>
 
                                 <div className="w-32">
-                                  <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                    Price
-                                  </label>
                                   <div className="text-sm">
                                     {addon.price !== null ? (
                                       <span className="font-semibold text-primary">
@@ -1397,9 +1391,6 @@ export default function ProductDetails() {
                               {/* Mobile Layout - Stacked with border card */}
                               <div className="md:hidden border border-border rounded-lg p-3 bg-muted/30">
                                 <div className="mb-2">
-                                  <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                    Item
-                                  </label>
                                   <div className="text-sm font-medium">
                                     {addon.item}
                                     {addon.style && (
@@ -1411,9 +1402,6 @@ export default function ProductDetails() {
                                 </div>
 
                                 <div>
-                                  <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                    Price
-                                  </label>
                                   <div className="text-sm">
                                     {addon.price !== null ? (
                                       <span className="font-semibold text-primary">
