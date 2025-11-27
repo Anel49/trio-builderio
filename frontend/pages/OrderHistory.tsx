@@ -917,116 +917,166 @@ export default function OrderHistory() {
                 </div>
               </CardContent>
             </Card>
-            {sortedRequests.map((req) => (
-              <Card key={req.id} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    <div className="lg:col-span-2">
-                      <div className="flex space-x-4">
-                        <img
-                          src={req.itemImage}
-                          alt={req.itemName}
-                          className="w-20 h-20 object-cover rounded-lg"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between mb-2">
-                            <h3 className="font-semibold text-lg">
-                              {req.itemName}
-                            </h3>
-                            <Badge
-                              className={getRequestStatusBadge(req.status)}
-                            >
-                              {req.status.charAt(0).toUpperCase() +
-                                req.status.slice(1)}
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-1">
-                            Request #{req.id}
-                          </p>
-                          <div className="flex items-center text-sm text-muted-foreground mb-2">
-                            <MapPin className="h-4 w-4 mr-1" />
-                            {req.location}
-                          </div>
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Calendar className="h-4 w-4 mr-1" />
-                            {req.requestedStart} - {req.requestedEnd}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-sm font-medium mb-2">
-                          {req.direction === "incoming"
-                            ? "Requester"
-                            : "You requested"}
-                        </p>
-                        <div className="flex items-center space-x-2">
-                          <a href="/profile" aria-label="Open profile">
-                            <Avatar className="h-8 w-8">
-                              <AvatarImage
-                                src={req.requesterAvatar}
-                                alt={req.requester}
-                              />
-                              <AvatarFallback>
-                                {req.requester
-                                  .split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
-                              </AvatarFallback>
-                            </Avatar>
-                          </a>
-                          <span className="text-sm">{req.requester}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 items-end sm:flex-row sm:items-center sm:justify-end">
-                      {req.status === "pending" &&
-                        req.direction === "incoming" && (
-                          <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
-                            <Button size="sm" variant="outline">
-                              Reject
-                            </Button>
-                            <Button size="sm">Accept</Button>
-                          </div>
-                        )}
-
-                      <div className="order-1 sm:order-2 flex gap-2 flex-wrap sm:flex-nowrap">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => (window.location.href = `/messages`)}
-                        >
-                          <MessageCircle className="h-4 w-4 mr-1" />
-                          Message
-                        </Button>
-
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => {}}>
-                              View Details
-                            </DropdownMenuItem>
-                            {req.status === "pending" &&
-                              req.direction === "outgoing" && (
-                                <DropdownMenuItem onClick={() => {}}>
-                                  Withdraw Request
-                                </DropdownMenuItem>
-                              )}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    </div>
+            {loadingReservations ? (
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <div className="text-muted-foreground">
+                    <p>Loading requests...</p>
                   </div>
                 </CardContent>
               </Card>
-            ))}
+            ) : sortedRequests.length === 0 ? (
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <div className="text-muted-foreground mb-4">
+                    <MessageCircle className="h-12 w-12 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">
+                      No requests found
+                    </h3>
+                    <p>You don't have any rental requests yet</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              sortedRequests.map((res) => {
+                const direction = getRequestDirection(res);
+                const requesterName = getRequesterName(res);
+                const requesterUserId = getRequesterUserId(res);
+                const requesterProfile = requesterUserId
+                  ? userProfiles.get(requesterUserId)
+                  : null;
+                const startDate = new Date(res.start_date);
+                const endDate = new Date(res.end_date);
+                const formattedStart = startDate.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                });
+                const formattedEnd = endDate.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                });
+
+                return (
+                  <Card
+                    key={res.id}
+                    className="hover:shadow-md transition-shadow"
+                  >
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <div className="lg:col-span-2">
+                          <div className="flex space-x-4">
+                            {res.listing_image && (
+                              <img
+                                src={res.listing_image}
+                                alt={res.listing_title || "Item"}
+                                className="w-20 h-20 object-cover rounded-lg"
+                              />
+                            )}
+                            <div className="flex-1">
+                              <div className="flex items-start justify-between mb-2">
+                                <h3 className="font-semibold text-lg">
+                                  {res.listing_title || "Item"}
+                                </h3>
+                                <Badge
+                                  className={getRequestStatusBadge(
+                                    res.status as RequestStatus
+                                  )}
+                                >
+                                  {res.status.charAt(0).toUpperCase() +
+                                    res.status.slice(1)}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-muted-foreground mb-1">
+                                Request #{res.id}
+                              </p>
+                              <div className="flex items-center text-sm text-muted-foreground">
+                                <Calendar className="h-4 w-4 mr-1" />
+                                {formattedStart} - {formattedEnd}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          <div>
+                            <p className="text-sm font-medium mb-2">
+                              {direction === "incoming"
+                                ? "Requester"
+                                : "You requested"}
+                            </p>
+                            <div className="flex items-center space-x-2">
+                              <a href="/profile" aria-label="Open profile">
+                                <Avatar className="h-8 w-8">
+                                  <AvatarImage
+                                    src={
+                                      requesterProfile?.avatarUrl || undefined
+                                    }
+                                    alt={requesterName}
+                                  />
+                                  <AvatarFallback>
+                                    {requesterName
+                                      .split(" ")
+                                      .map((n) => n[0])
+                                      .join("")}
+                                  </AvatarFallback>
+                                </Avatar>
+                              </a>
+                              <span className="text-sm">{requesterName}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2 items-end sm:flex-row sm:items-center sm:justify-end">
+                          {res.status.toLowerCase() === "pending" &&
+                            direction === "incoming" && (
+                              <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
+                                <Button size="sm" variant="outline">
+                                  Reject
+                                </Button>
+                                <Button size="sm">Accept</Button>
+                              </div>
+                            )}
+
+                          <div className="order-1 sm:order-2 flex gap-2 flex-wrap sm:flex-nowrap">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                (window.location.href = `/messages`)
+                              }
+                            >
+                              <MessageCircle className="h-4 w-4 mr-1" />
+                              Message
+                            </Button>
+
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="sm">
+                                  <MoreVertical className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem onClick={() => {}}>
+                                  View Details
+                                </DropdownMenuItem>
+                                {res.status.toLowerCase() === "pending" &&
+                                  direction === "outgoing" && (
+                                    <DropdownMenuItem onClick={() => {}}>
+                                      Withdraw Request
+                                    </DropdownMenuItem>
+                                  )}
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })
+            )}
 
             {sortedRequests.length > 0 && (
               <div className="mt-8 text-center">
