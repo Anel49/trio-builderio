@@ -139,9 +139,37 @@ LendIt Support
 
     const response = await sesClient.send(command);
     console.log(`[Email] Password reset sent to ${toEmail}:`, response.MessageId);
+
+    // Log successful email
+    await logEmail(
+      "outgoing",
+      "password_reset",
+      toEmail,
+      fromEmail,
+      "Reset Your LendIt Password",
+      response.MessageId,
+      "sent",
+      null,
+      { userName }
+    );
+
     return { ok: true, messageId: response.MessageId };
   } catch (error: any) {
     console.error(`[Email] Failed to send password reset email to ${toEmail}:`, error);
+
+    // Log failed email
+    await logEmail(
+      "outgoing",
+      "password_reset",
+      toEmail,
+      fromEmail,
+      "Reset Your LendIt Password",
+      null,
+      "failed",
+      error?.Code || error?.message || "Unknown error",
+      { userName, errorType: error?.constructor?.name }
+    );
+
     throw error;
   }
 }
