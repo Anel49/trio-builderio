@@ -379,18 +379,67 @@ export default function UploadProduct() {
     }
   };
 
-  const processFiles = (files: File[]) => {
-    files.forEach((file) => {
+  const processFiles = async (files: File[]) => {
+    // Use userId as a placeholder for listing ID until the listing is created
+    const listingId = authUser?.id || 0;
+
+    for (const file of files) {
       if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          if (e.target?.result) {
-            setUploadedImages((prev) => [...prev, e.target.result as string]);
+        try {
+          console.log("[UploadProduct] Getting presigned URL for:", file.name);
+
+          // Get presigned URL from backend
+          const presignedResponse = await getS3PresignedUrl(
+            listingId,
+            file.name,
+            file.type,
+          );
+
+          if (!presignedResponse.ok || !presignedResponse.presignedUrl) {
+            console.error(
+              "[UploadProduct] Failed to get presigned URL:",
+              presignedResponse.error,
+            );
+            continue;
           }
-        };
-        reader.readAsDataURL(file);
+
+          console.log(
+            "[UploadProduct] Uploading to S3 with presigned URL",
+          );
+
+          // Upload directly to S3 using the presigned URL
+          const uploadResponse = await fetch(presignedResponse.presignedUrl, {
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+            },
+            body: file,
+          });
+
+          if (!uploadResponse.ok) {
+            console.error(
+              "[UploadProduct] S3 upload failed:",
+              uploadResponse.status,
+              uploadResponse.statusText,
+            );
+            continue;
+          }
+
+          console.log(
+            "[UploadProduct] S3 upload successful. S3 URL:",
+            presignedResponse.s3Url,
+          );
+
+          // Store the S3 URL instead of base64
+          setUploadedImages((prev) => [
+            ...prev,
+            presignedResponse.s3Url || "",
+          ]);
+        } catch (error) {
+          console.error("[UploadProduct] Error processing file:", error);
+        }
       }
-    });
+    }
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
