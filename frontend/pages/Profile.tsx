@@ -1774,7 +1774,7 @@ export default function Profile() {
                           onClick={() => (window.location.href = "/upload")}
                         >
                           <Package className="h-4 w-4 mr-2" />
-                          Add New Item
+                          Add New Listing
                         </Button>
                       </div>
                     )}
