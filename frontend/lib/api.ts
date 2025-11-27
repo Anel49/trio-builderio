@@ -494,3 +494,60 @@ export async function apiFetch(path: string, init?: RequestInit) {
     { status: 503, headers: { "Content-Type": "application/json" } },
   );
 }
+
+/**
+ * Get a presigned URL for uploading a file to S3
+ * @param listingId - The listing ID (can be a temporary value like 0 for new listings)
+ * @param filename - The original filename
+ * @param contentType - The MIME type (e.g., "image/jpeg")
+ * @returns An object with presignedUrl and s3Url
+ */
+export async function getS3PresignedUrl(
+  listingId: number,
+  filename: string,
+  contentType: string,
+): Promise<{
+  ok: boolean;
+  presignedUrl?: string;
+  s3Url?: string;
+  s3Key?: string;
+  error?: string;
+}> {
+  try {
+    const response = await apiFetch(
+      `/listings/${listingId}/presigned-url`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          filename,
+          contentType,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return {
+        ok: false,
+        error: errorData?.error || "Failed to get presigned URL",
+      };
+    }
+
+    const data = await response.json();
+    return {
+      ok: data.ok,
+      presignedUrl: data.presignedUrl,
+      s3Url: data.s3Url,
+      s3Key: data.s3Key,
+    };
+  } catch (error: any) {
+    console.error("[getS3PresignedUrl] Error:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
