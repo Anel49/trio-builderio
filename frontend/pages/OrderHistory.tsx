@@ -50,6 +50,7 @@ type OrderStatus =
   | "upcoming"
   | "pending";
 type OrderType = "rented" | "hosted";
+type RequestStatus = "pending" | "approved" | "rejected" | "cancelled";
 
 interface Order {
   id: string;
@@ -69,7 +70,38 @@ interface Order {
   reviewText?: string;
 }
 
+interface Reservation {
+  id: string;
+  listing_id: number;
+  renter_id: number;
+  host_id: number | null;
+  host_name: string | null;
+  renter_name: string | null;
+  start_date: string;
+  end_date: string;
+  listing_title: string | null;
+  listing_image: string | null;
+  listing_latitude: number | null;
+  listing_longitude: number | null;
+  daily_price_cents: number | null;
+  total_days: number | null;
+  rental_type: string;
+  status: string;
+  consumable_addon_total: number;
+  nonconsumable_addon_total: number;
+  addons: any;
+  created_at: string;
+}
+
+interface UserProfile {
+  id: number;
+  name: string | null;
+  avatarUrl: string | null;
+  username: string | null;
+}
+
 export default function OrderHistory() {
+  const { user: currentUser } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<OrderType | "all">("all");
