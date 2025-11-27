@@ -20,6 +20,7 @@ import {
   listListingReservations,
   bulkUpdateListingsEnabled,
   createReservation,
+  getUserReservations,
 } from "./routes/listings";
 import {
   getUserByEmail,
