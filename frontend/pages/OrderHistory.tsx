@@ -392,20 +392,25 @@ export default function OrderHistory() {
     return matchesSearch && matchesStatus && matchesType && notCompletedHidden;
   });
 
-  const filteredRequests = requests.filter((req) => {
+  const filteredRequests = reservations.filter((res) => {
+    const requesterName = getRequesterName(res);
     const matchesSearch =
-      req.itemName.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
-      req.requester.toLowerCase().includes(requestSearchQuery.toLowerCase());
+      (res.listing_title || "")
+        .toLowerCase()
+        .includes(requestSearchQuery.toLowerCase()) ||
+      requesterName.toLowerCase().includes(requestSearchQuery.toLowerCase());
     const matchesStatus =
-      requestStatusFilter === "all" || req.status === requestStatusFilter;
+      requestStatusFilter === "all" ||
+      res.status.toLowerCase() === requestStatusFilter.toLowerCase();
     const matchesRequester =
-      requesterFilter === "all" || req.direction === requesterFilter;
+      requesterFilter === "all" ||
+      getRequestDirection(res) === requesterFilter;
     return matchesSearch && matchesStatus && matchesRequester;
   });
 
   const sortedRequests = [...filteredRequests].sort((a, b) => {
-    const aDate = new Date(a.requestedStart).getTime();
-    const bDate = new Date(b.requestedStart).getTime();
+    const aDate = new Date(a.created_at).getTime();
+    const bDate = new Date(b.created_at).getTime();
     return requestSortBy === "recent" ? bDate - aDate : aDate - bDate;
   });
 
