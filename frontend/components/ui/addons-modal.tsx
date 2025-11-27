@@ -267,7 +267,7 @@ export function AddonsModal({
           })}
         </div>
 
-        <div className="flex gap-3 pt-3">
+        <div className="flex gap-3 pt-1">
           <Button
             onClick={handleConfirm}
             disabled={!validateSelection()}
