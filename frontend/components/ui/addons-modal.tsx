@@ -178,8 +178,8 @@ export function AddonsModal({
                   )}
                 </div>
 
-                {/* Mobile Layout - Stacked with border card */}
-                <div className="md:hidden border border-border rounded-lg p-3 bg-muted/30">
+                {/* Mobile Layout - Same as desktop */}
+                <div className="md:hidden flex gap-3 items-start">
                   <div className="flex items-start gap-3 mb-3">
                     <Checkbox
                       id={`addon-mobile-${addon.id}`}
