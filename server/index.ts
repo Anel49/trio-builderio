@@ -510,6 +510,12 @@ export function createServer() {
   app.patch("/listings/bulk/update-enabled", bulkUpdateListingsEnabled);
   app.get("/listings/:id/reviews", listListingReviews);
   app.get("/listings/:id/reservations", listListingReservations);
+  // Test route to verify routing works
+  app.get("/api/reservations/test", (req, res) => {
+    console.log("[TEST ROUTE] /api/reservations/test was hit");
+    res.json({ ok: true, message: "test route works" });
+  });
+
   app.get("/api/reservations/:userId", getUserReservations);
   app.post("/api/reservations", createReservation);
   // Alias routes for backwards compatibility
