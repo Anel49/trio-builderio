@@ -514,6 +514,8 @@ export function createServer() {
   app.patch("/listings/bulk/update-enabled", bulkUpdateListingsEnabled);
   app.get("/listings/:id/reviews", listListingReviews);
   app.get("/listings/:id/reservations", listListingReservations);
+  app.post("/listings/:listingId/presigned-url", getPresignedUploadUrl);
+  app.post("/listings/delete-image", deleteImage);
   // Test route to verify routing works
   app.get("/api/reservations/test", (req, res) => {
     console.log("[TEST ROUTE] /api/reservations/test was hit");
