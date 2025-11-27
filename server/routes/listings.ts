@@ -1109,12 +1109,13 @@ export async function bulkUpdateListingsEnabled(req: Request, res: Response) {
 
 export async function getUserReservations(req: Request, res: Response) {
   try {
+    console.log("[getUserReservations] Called with url:", req.url);
     console.log("[getUserReservations] Called with params:", req.params);
     const userId = Number((req.params as any)?.userId);
-    console.log("[getUserReservations] Parsed userId:", userId);
+    console.log("[getUserReservations] Parsed userId:", userId, "type:", typeof userId);
 
     if (!userId || Number.isNaN(userId)) {
-      console.log("[getUserReservations] Invalid userId");
+      console.log("[getUserReservations] Invalid userId, returning 400");
       return res.status(400).json({ ok: false, error: "invalid userId" });
     }
 
@@ -1130,6 +1131,8 @@ export async function getUserReservations(req: Request, res: Response) {
        limit 500`,
       [userId],
     );
+
+    console.log("[getUserReservations] Query returned", result.rows.length, "rows");
 
     const reservations = result.rows.map((r: any) => ({
       id: String(r.id),
@@ -1155,10 +1158,12 @@ export async function getUserReservations(req: Request, res: Response) {
     }));
 
     console.log("[getUserReservations] Returning", reservations.length, "reservations");
-    res.json({ ok: true, reservations });
+    res.setHeader("Content-Type", "application/json");
+    return res.json({ ok: true, reservations });
   } catch (error: any) {
-    console.error("[getUserReservations] Error:", error?.message || error);
-    res.status(500).json({ ok: false, error: String(error?.message || error) });
+    console.error("[getUserReservations] Error caught:", error?.message || error, error?.stack);
+    res.setHeader("Content-Type", "application/json");
+    return res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
 
