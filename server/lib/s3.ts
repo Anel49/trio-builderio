@@ -34,10 +34,14 @@ export async function generatePresignedUploadUrl(
       Bucket: bucketName,
       Key: key,
       ContentType: contentType,
+      // Disable flexible checksums to avoid signature mismatches
+      ChecksumAlgorithm: undefined,
     });
 
     const presignedUrl = await getSignedUrl(s3Client, command, {
       expiresIn,
+      // Disable checksum signing which can invalidate the signature
+      signableHeaders: new Set(["host", "content-type"]),
     });
 
     return presignedUrl;
