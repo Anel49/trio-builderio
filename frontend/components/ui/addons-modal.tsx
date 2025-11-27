@@ -190,25 +190,19 @@ export function AddonsModal({
                       className="mt-1 flex-shrink-0"
                     />
                     <div className="flex-1">
-                      <label
-                        htmlFor={`addon-mobile-${addon.id}`}
-                        className="text-sm font-medium cursor-pointer"
-                      >
+                      <div className="text-sm font-medium cursor-pointer">
                         {addon.item}
                         {addon.style && (
                           <span className="text-muted-foreground ml-2">
                             ({addon.style})
                           </span>
                         )}
-                      </label>
+                      </div>
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <div>
-                      <label className="block text-xs font-medium text-muted-foreground mb-1">
-                        Price
-                      </label>
                       <div className="text-sm">
                         {addon.price !== null ? (
                           <>
