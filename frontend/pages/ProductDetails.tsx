@@ -1324,130 +1324,118 @@ export default function ProductDetails() {
               {/* Optional Addons Section */}
               {product?.addons && product.addons.length > 0 && (
                 <div className="border border-border rounded-lg mb-6">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const accordion = document.querySelector(
-                        '[data-addons-accordion]',
-                      ) as HTMLElement;
-                      if (accordion) {
-                        const isOpen = accordion.getAttribute('data-state') === 'open';
-                        accordion.setAttribute(
-                          'data-state',
-                          isOpen ? 'closed' : 'open',
-                        );
-                      }
-                    }}
-                    className="w-full flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors rounded-md"
-                  >
-                    <span className="text-sm font-medium flex items-center gap-2">
-                      Optional Addons
-                      <TooltipProvider>
-                        <TouchTooltip
-                          content={
-                            <p>
-                              Addons can be added after rental date(s)
-                              selection.
-                            </p>
-                          }
-                        >
-                          <button
-                            type="button"
-                            aria-label="Information about addons"
-                            className="p-0 h-4 w-4 text-muted-foreground hover:text-primary focus:outline-none"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Info className="h-4 w-4" />
-                          </button>
-                        </TouchTooltip>
-                      </TooltipProvider>
-                    </span>
-                    <ChevronDown className="h-4 w-4 transition-transform" />
-                  </button>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="addons">
+                      <AccordionTrigger className="flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors [&>svg]:hidden">
+                        <span className="text-sm font-medium flex items-center gap-2">
+                          Optional Addons
+                          <TooltipProvider>
+                            <TouchTooltip
+                              content={
+                                <p>
+                                  Addons can be added after rental date(s)
+                                  selection.
+                                </p>
+                              }
+                            >
+                              <button
+                                type="button"
+                                aria-label="Information about addons"
+                                className="p-0 h-4 w-4 text-muted-foreground hover:text-primary focus:outline-none"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <Info className="h-4 w-4" />
+                              </button>
+                            </TouchTooltip>
+                          </TooltipProvider>
+                        </span>
+                        <ChevronDown className="h-4 w-4 transition-transform" />
+                      </AccordionTrigger>
+                      <AccordionContent className="border-t border-border p-4 pt-4">
+                        <div className="space-y-3">
+                          {product.addons.map((addon) => (
+                            <div key={addon.id}>
+                              {/* Desktop Layout - All fields in one row */}
+                              <div className="hidden md:flex gap-3 items-end">
+                                <div className="flex-1">
+                                  <label className="block text-xs font-medium text-muted-foreground mb-1">
+                                    Item
+                                  </label>
+                                  <div className="text-sm font-medium">
+                                    {addon.item}
+                                    {addon.style && (
+                                      <span className="text-muted-foreground ml-2">
+                                        ({addon.style})
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
 
-                  <div className="border-t border-border p-4">
-                    <div className="space-y-3">
-                      {product.addons.map((addon) => (
-                        <div key={addon.id}>
-                          {/* Desktop Layout - All fields in one row */}
-                          <div className="hidden md:flex gap-3 items-end">
-                            <div className="flex-1">
-                              <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                Item
-                              </label>
-                              <div className="text-sm font-medium">
-                                {addon.item}
-                                {addon.style && (
-                                  <span className="text-muted-foreground ml-2">
-                                    ({addon.style})
-                                  </span>
-                                )}
+                                <div className="w-32">
+                                  <label className="block text-xs font-medium text-muted-foreground mb-1">
+                                    Price
+                                  </label>
+                                  <div className="text-sm">
+                                    {addon.price !== null ? (
+                                      <span className="font-semibold text-primary">
+                                        $
+                                        {addon.price.toLocaleString("en-US", {
+                                          minimumFractionDigits: 2,
+                                          maximumFractionDigits: 2,
+                                        })}
+                                      </span>
+                                    ) : (
+                                      <span className="text-muted-foreground">
+                                        Free
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Mobile Layout - Stacked with border card */}
+                              <div className="md:hidden border border-border rounded-lg p-3 bg-muted/30">
+                                <div className="mb-2">
+                                  <label className="block text-xs font-medium text-muted-foreground mb-1">
+                                    Item
+                                  </label>
+                                  <div className="text-sm font-medium">
+                                    {addon.item}
+                                    {addon.style && (
+                                      <span className="text-muted-foreground ml-2">
+                                        ({addon.style})
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <label className="block text-xs font-medium text-muted-foreground mb-1">
+                                    Price
+                                  </label>
+                                  <div className="text-sm">
+                                    {addon.price !== null ? (
+                                      <span className="font-semibold text-primary">
+                                        $
+                                        {addon.price.toLocaleString("en-US", {
+                                          minimumFractionDigits: 2,
+                                          maximumFractionDigits: 2,
+                                        })}
+                                      </span>
+                                    ) : (
+                                      <span className="text-muted-foreground">
+                                        Free
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
                               </div>
                             </div>
-
-                            <div className="w-32">
-                              <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                Price
-                              </label>
-                              <div className="text-sm">
-                                {addon.price !== null ? (
-                                  <span className="font-semibold text-primary">
-                                    $
-                                    {addon.price.toLocaleString("en-US", {
-                                      minimumFractionDigits: 2,
-                                      maximumFractionDigits: 2,
-                                    })}
-                                  </span>
-                                ) : (
-                                  <span className="text-muted-foreground">
-                                    Free
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Mobile Layout - Stacked with border card */}
-                          <div className="md:hidden border border-border rounded-lg p-3 bg-muted/30">
-                            <div className="mb-2">
-                              <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                Item
-                              </label>
-                              <div className="text-sm font-medium">
-                                {addon.item}
-                                {addon.style && (
-                                  <span className="text-muted-foreground ml-2">
-                                    ({addon.style})
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-
-                            <div>
-                              <label className="block text-xs font-medium text-muted-foreground mb-1">
-                                Price
-                              </label>
-                              <div className="text-sm">
-                                {addon.price !== null ? (
-                                  <span className="font-semibold text-primary">
-                                    $
-                                    {addon.price.toLocaleString("en-US", {
-                                      minimumFractionDigits: 2,
-                                      maximumFractionDigits: 2,
-                                    })}
-                                  </span>
-                                ) : (
-                                  <span className="text-muted-foreground">
-                                    Free
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                 </div>
               )}
 
