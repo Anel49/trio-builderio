@@ -32,16 +32,14 @@ export async function generatePresignedUploadUrl(
       Bucket: bucketName,
       Key: key,
       ContentType: contentType,
-      // Disable flexible checksums to avoid signature issues with direct browser uploads
-      ChecksumAlgorithm: undefined,
-    } as any);
+    });
 
     const presignedUrl = await getSignedUrl(s3Client, command, {
       expiresIn,
-      // Only sign the host header to minimize issues with browser PUT requests
-      signingRegion: process.env.AWS_REGION,
-      signingService: "s3",
     });
+
+    console.log("[S3] Generated presigned URL for key:", key);
+    console.log("[S3] URL includes:", presignedUrl.substring(0, 200) + "...");
 
     return presignedUrl;
   } catch (error) {
