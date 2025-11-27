@@ -250,9 +250,37 @@ The LendIt Team
 
     const response = await sesClient.send(command);
     console.log(`[Email] Welcome email sent to ${toEmail}:`, response.MessageId);
+
+    // Log successful email
+    await logEmail(
+      "outgoing",
+      "welcome",
+      toEmail,
+      fromEmail,
+      "Welcome to LendIt!",
+      response.MessageId,
+      "sent",
+      null,
+      { userName }
+    );
+
     return { ok: true, messageId: response.MessageId };
   } catch (error: any) {
     console.error(`[Email] Failed to send welcome email to ${toEmail}:`, error);
+
+    // Log failed email
+    await logEmail(
+      "outgoing",
+      "welcome",
+      toEmail,
+      fromEmail,
+      "Welcome to LendIt!",
+      null,
+      "failed",
+      error?.Code || error?.message || "Unknown error",
+      { userName, errorType: error?.constructor?.name }
+    );
+
     throw error;
   }
 }
