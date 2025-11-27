@@ -519,6 +519,7 @@ export function createServer() {
   app.get("/api/reservations/:userId", getUserReservations);
   app.post("/api/reservations", createReservation);
   // Alias routes for backwards compatibility
+  app.get("/reservations/:userId", getUserReservations);
   app.post("/reservations", createReservation);
   app.get("/users", getUserByEmail);
   app.get("/users/:id", getUserById);
