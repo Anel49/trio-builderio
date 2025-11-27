@@ -1327,10 +1327,10 @@ export default function ProductDetails() {
                     type="button"
                     onClick={() => setIsAddonsExpanded(!isAddonsExpanded)}
                     className={`w-full flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors ${
-                      isAddonsExpanded ? "rounded-t-md" : "rounded-md"
+                      isAddonsExpanded ? "rounded-t-md rounded-b-none" : "rounded-md"
                     }`}
                   >
-                    <span className="text-sm font-medium flex items-center gap-2">
+                    <span className="text-sm font-medium flex items-center gap-2 no-underline">
                       Optional Addons
                       <TooltipProvider>
                         <TouchTooltip
