@@ -461,8 +461,26 @@ export default function UploadProduct() {
     processFiles(files);
   };
 
-  const removeImage = (index: number) => {
+  const removeImage = async (index: number) => {
+    const imageUrl = uploadedImages[index];
+
+    // First remove from the frontend state
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
+
+    // Then delete from S3 if it's a valid S3 URL
+    if (imageUrl && imageUrl.includes(".amazonaws.com")) {
+      try {
+        console.log("[UploadProduct] Deleting image from S3:", imageUrl);
+        const result = await deleteS3Image(imageUrl);
+        if (!result.ok) {
+          console.warn("[UploadProduct] Failed to delete from S3:", result.error);
+        } else {
+          console.log("[UploadProduct] Successfully deleted image from S3");
+        }
+      } catch (error) {
+        console.error("[UploadProduct] Error deleting image from S3:", error);
+      }
+    }
   };
 
   // Handle navigation with draft protection
