@@ -403,9 +403,7 @@ export default function UploadProduct() {
             continue;
           }
 
-          console.log(
-            "[UploadProduct] Uploading to S3 with presigned URL",
-          );
+          console.log("[UploadProduct] Uploading to S3 with presigned URL");
 
           // Upload directly to S3 using the presigned URL
           const uploadResponse = await fetch(presignedResponse.presignedUrl, {
@@ -432,10 +430,7 @@ export default function UploadProduct() {
           );
 
           // Store the S3 URL instead of base64
-          setUploadedImages((prev) => [
-            ...prev,
-            presignedResponse.s3Url || "",
-          ]);
+          setUploadedImages((prev) => [...prev, presignedResponse.s3Url || ""]);
         } catch (error) {
           console.error("[UploadProduct] Error processing file:", error);
         }
@@ -473,7 +468,10 @@ export default function UploadProduct() {
         console.log("[UploadProduct] Deleting image from S3:", imageUrl);
         const result = await deleteS3Image(imageUrl);
         if (!result.ok) {
-          console.warn("[UploadProduct] Failed to delete from S3:", result.error);
+          console.warn(
+            "[UploadProduct] Failed to delete from S3:",
+            result.error,
+          );
         } else {
           console.log("[UploadProduct] Successfully deleted image from S3");
         }

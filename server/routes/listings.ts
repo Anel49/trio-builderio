@@ -1360,16 +1360,22 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
     }
 
     if (!contentType || typeof contentType !== "string") {
-      return res.status(400).json({ ok: false, error: "contentType is required" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "contentType is required" });
     }
 
     // Validate that it's an image file
     if (!contentType.startsWith("image/")) {
-      return res.status(400).json({ ok: false, error: "Only image files are allowed" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "Only image files are allowed" });
     }
 
     // Import S3 utilities
-    const { generatePresignedUploadUrl, generateS3Key } = await import("../lib/s3");
+    const { generatePresignedUploadUrl, generateS3Key } = await import(
+      "../lib/s3"
+    );
 
     // Generate S3 key
     const s3Key = generateS3Key(listingId, filename);
@@ -1399,7 +1405,9 @@ export async function deleteImage(req: Request, res: Response) {
     }
 
     // Import S3 utilities
-    const { deleteS3Object, extractS3KeyFromUrl, isValidS3Url } = await import("../lib/s3");
+    const { deleteS3Object, extractS3KeyFromUrl, isValidS3Url } = await import(
+      "../lib/s3"
+    );
 
     // Validate that it's an S3 URL
     if (!isValidS3Url(imageUrl)) {
@@ -1409,7 +1417,9 @@ export async function deleteImage(req: Request, res: Response) {
     // Extract S3 key from the URL
     const s3Key = extractS3KeyFromUrl(imageUrl);
     if (!s3Key) {
-      return res.status(400).json({ ok: false, error: "Could not extract S3 key from URL" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "Could not extract S3 key from URL" });
     }
 
     // Delete the object from S3

@@ -514,19 +514,16 @@ export async function getS3PresignedUrl(
   error?: string;
 }> {
   try {
-    const response = await apiFetch(
-      `/listings/${listingId}/presigned-url`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          filename,
-          contentType,
-        }),
+    const response = await apiFetch(`/listings/${listingId}/presigned-url`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        filename,
+        contentType,
+      }),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -557,25 +554,20 @@ export async function getS3PresignedUrl(
  * @param imageUrl - The S3 URL of the image to delete
  * @returns An object with ok status
  */
-export async function deleteS3Image(
-  imageUrl: string,
-): Promise<{
+export async function deleteS3Image(imageUrl: string): Promise<{
   ok: boolean;
   error?: string;
 }> {
   try {
-    const response = await apiFetch(
-      `/listings/delete-image`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          imageUrl,
-        }),
+    const response = await apiFetch(`/listings/delete-image`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        imageUrl,
+      }),
+    });
 
     const data = await response.json();
     return {
