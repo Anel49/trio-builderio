@@ -150,10 +150,10 @@ export function AddonsModal({
                               maximumFractionDigits: 2,
                             })}
                             {addon.consumable && (
-                            <span className="text-xs text-muted-foreground ml-2">
-                              per item
-                            </span>
-                          )}
+                              <span className="text-xs text-muted-foreground ml-2">
+                                per item
+                              </span>
+                            )}
                           </>
                         ) : (
                           <span className="text-muted-foreground">Free</span>
@@ -227,10 +227,10 @@ export function AddonsModal({
                               maximumFractionDigits: 2,
                             })}
                             {addon.consumable && (
-                            <span className="text-xs text-muted-foreground ml-2">
-                              per item
-                            </span>
-                          )}
+                              <span className="text-xs text-muted-foreground ml-2">
+                                per item
+                              </span>
+                            )}
                           </>
                         ) : (
                           <span className="text-muted-foreground">Free</span>
