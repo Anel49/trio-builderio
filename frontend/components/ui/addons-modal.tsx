@@ -123,7 +123,7 @@ export function AddonsModal({
                   </div>
 
                   <div className="flex-1">
-                    <div className="text-sm font-medium cursor-pointer">
+                    <div className="text-sm font-medium cursor-pointer no-underline">
                       {addon.item}
                       {addon.style && (
                         <span className="text-muted-foreground ml-2">
@@ -190,7 +190,7 @@ export function AddonsModal({
                       className="mt-1 flex-shrink-0"
                     />
                     <div className="flex-1">
-                      <div className="text-sm font-medium cursor-pointer">
+                      <div className="text-sm font-medium cursor-pointer no-underline">
                         {addon.item}
                         {addon.style && (
                           <span className="text-muted-foreground ml-2">
