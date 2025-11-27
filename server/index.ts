@@ -510,7 +510,9 @@ export function createServer() {
   app.patch("/listings/bulk/update-enabled", bulkUpdateListingsEnabled);
   app.get("/listings/:id/reviews", listListingReviews);
   app.get("/listings/:id/reservations", listListingReservations);
-  app.get("/reservations/:userId", getUserReservations);
+  app.get("/api/reservations/:userId", getUserReservations);
+  app.post("/api/reservations", createReservation);
+  // Alias routes for backwards compatibility
   app.post("/reservations", createReservation);
   app.get("/users", getUserByEmail);
   app.get("/users/:id", getUserById);
