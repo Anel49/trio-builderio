@@ -8,7 +8,7 @@ import {
   verifyAuthenticationResponse,
 } from "@simplewebauthn/server";
 import { handleDemo } from "./routes/demo";
-import { dbHealth, dbSchema, dbSetup } from "./routes/db";
+import { dbHealth, dbSchema, dbSetup, pool } from "./routes/db";
 import {
   listListings,
   createListing,
