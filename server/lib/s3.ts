@@ -108,6 +108,50 @@ export function generateS3Key(
 }
 
 /**
+ * Delete an object from S3
+ * @param key - The S3 object key (file path)
+ * @returns True if the delete was successful
+ */
+export async function deleteS3Object(key: string): Promise<boolean> {
+  try {
+    const command = new DeleteObjectCommand({
+      Bucket: bucketName,
+      Key: key,
+    });
+
+    await s3Client.send(command);
+    console.log("[S3] Deleted object:", key);
+    return true;
+  } catch (error) {
+    console.error("[S3] Error deleting object:", key, error);
+    throw error;
+  }
+}
+
+/**
+ * Extract S3 key from a public S3 URL
+ * @param url - The S3 URL
+ * @returns The S3 key or null if invalid
+ */
+export function extractS3KeyFromUrl(url: string): string | null {
+  try {
+    const urlObj = new URL(url);
+    // Handle path-style S3 URLs: https://bucket.s3.region.amazonaws.com/key
+    // Handle virtual-hosted-style URLs: https://bucket.s3.amazonaws.com/key
+    let path = urlObj.pathname;
+
+    // Remove leading slash if present
+    if (path.startsWith("/")) {
+      path = path.slice(1);
+    }
+
+    return path || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Validate S3 URL format
  * @param url - The URL to validate
  * @returns True if the URL is a valid S3 URL
