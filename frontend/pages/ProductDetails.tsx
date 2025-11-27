@@ -1395,9 +1395,9 @@ export default function ProductDetails() {
                               </div>
                             </div>
 
-                            {/* Mobile Layout - Stacked with border card */}
-                            <div className="md:hidden border border-border rounded-lg p-3 bg-muted/30">
-                              <div className="mb-2">
+                            {/* Mobile Layout - Same as desktop */}
+                            <div className="md:hidden flex gap-3 items-end">
+                              <div className="flex-1">
                                 <div className="text-sm font-medium">
                                   {addon.item}
                                   {addon.style && (
@@ -1408,7 +1408,7 @@ export default function ProductDetails() {
                                 </div>
                               </div>
 
-                              <div>
+                              <div className="w-32">
                                 <div className="text-sm">
                                   {addon.price !== null ? (
                                     <span className="font-semibold text-primary">
