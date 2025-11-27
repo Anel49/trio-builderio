@@ -22,6 +22,38 @@ const sesClient = new SESClient({
   },
 });
 
+async function logEmail(
+  direction: "incoming" | "outgoing",
+  emailType: string,
+  recipientEmail: string,
+  senderEmail: string | null,
+  subject: string | null,
+  messageId: string | null,
+  status: "sent" | "failed" = "sent",
+  errorMessage: string | null = null,
+  metadata: Record<string, any> | null = null
+) {
+  try {
+    await pool.query(
+      `insert into email_log (message_direction, email_type, recipient_email, sender_email, subject, message_id, status, error_message, metadata)
+       values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [
+        direction,
+        emailType,
+        recipientEmail,
+        senderEmail,
+        subject,
+        messageId,
+        status,
+        errorMessage,
+        metadata ? JSON.stringify(metadata) : null,
+      ]
+    );
+  } catch (error: any) {
+    console.error("[Email Logging] Failed to log email:", error);
+  }
+}
+
 export async function sendPasswordResetEmail(
   toEmail: string,
   resetLink: string,
