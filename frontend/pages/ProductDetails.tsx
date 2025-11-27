@@ -1323,7 +1323,7 @@ export default function ProductDetails() {
                   <button
                     type="button"
                     onClick={() => setIsAddonsExpanded(!isAddonsExpanded)}
-                    className={`w-full flex items-center justify-between p-4 bg-background hover:bg-accent/50 transition-colors ${
+                    className={`w-full flex items-center justify-between pt-11 pb-12 px-4 bg-background hover:bg-accent/50 transition-colors ${
                       isAddonsExpanded
                         ? "rounded-t-md rounded-b-none"
                         : "rounded-md"
