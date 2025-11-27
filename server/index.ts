@@ -21,7 +21,7 @@ import {
   bulkUpdateListingsEnabled,
   createReservation,
   getUserReservations,
-  getPresignedUploadUrl,
+  uploadListingImage,
 } from "./routes/listings";
 import {
   getUserByEmail,
