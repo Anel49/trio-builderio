@@ -143,6 +143,15 @@ export default function OrderHistory() {
     string | null
   >(null);
 
+  // Request confirmation modal state
+  const [requestConfirmModalOpen, setRequestConfirmModalOpen] = useState(false);
+  const [requestConfirmAction, setRequestConfirmAction] = useState<
+    "accept" | "reject" | null
+  >(null);
+  const [requestToConfirm, setRequestToConfirm] = useState<Reservation | null>(
+    null,
+  );
+
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
     try {
