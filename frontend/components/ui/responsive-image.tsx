@@ -18,7 +18,9 @@ export const ResponsiveImage = React.forwardRef<
 >(({ src, webpSrc, alt, fallbackSrc, className, ...props }, ref) => {
   // If no webpSrc is provided, just use the original src
   if (!webpSrc) {
-    return <img ref={ref} src={src} alt={alt} className={className} {...props} />;
+    return (
+      <img ref={ref} src={src} alt={alt} className={className} {...props} />
+    );
   }
 
   return (

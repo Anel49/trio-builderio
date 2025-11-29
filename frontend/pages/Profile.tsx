@@ -305,12 +305,8 @@ export default function Profile() {
           return;
         }
 
-        const {
-          presignedUrl,
-          presignedWebpUrl,
-          s3Url,
-          s3WebpUrl,
-        } = await presignedResponse.json();
+        const { presignedUrl, presignedWebpUrl, s3Url, s3WebpUrl } =
+          await presignedResponse.json();
         console.log("[Profile] Got presigned URLs, uploading to S3");
 
         // Upload original image to S3
@@ -350,7 +346,10 @@ export default function Profile() {
             });
 
             if (webpUploadResponse.ok) {
-              console.log("[Profile] Successfully uploaded WEBP to S3:", s3WebpUrl);
+              console.log(
+                "[Profile] Successfully uploaded WEBP to S3:",
+                s3WebpUrl,
+              );
               // Use WEBP URL if available
               setProfileImageUrl(s3WebpUrl);
             } else {
@@ -358,7 +357,10 @@ export default function Profile() {
               setProfileImageUrl(s3Url);
             }
           } catch (webpError) {
-            console.warn("[Profile] Failed to convert to WEBP, using original:", webpError);
+            console.warn(
+              "[Profile] Failed to convert to WEBP, using original:",
+              webpError,
+            );
             setProfileImageUrl(s3Url);
           }
         } else {
