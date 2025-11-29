@@ -44,6 +44,9 @@ export async function generatePresignedUploadUrl(
   expiresIn: number = 3600,
 ): Promise<string> {
   try {
+    console.log("[S3] Generating presigned URL for:", key);
+    console.log("[S3] Using bucket:", bucketName);
+
     const command = new PutObjectCommand({
       Bucket: bucketName,
       Key: key,
@@ -55,16 +58,24 @@ export async function generatePresignedUploadUrl(
       expiresIn,
     });
 
-    // Strip checksum parameters that AWS SDK adds but would cause signature mismatches
-    const urlObj = new URL(presignedUrl);
-    urlObj.searchParams.delete("x-amz-checksum-crc32");
-    urlObj.searchParams.delete("x-amz-checksum-sha1");
-    urlObj.searchParams.delete("x-amz-checksum-sha256");
-    urlObj.searchParams.delete("x-amz-sdk-checksum-algorithm");
-    presignedUrl = urlObj.toString();
+    console.log("[S3] Raw presigned URL (before cleanup):", presignedUrl.substring(0, 300) + "...");
 
-    console.log("[S3] Generated presigned URL for key:", key);
-    console.log("[S3] URL includes:", presignedUrl.substring(0, 200) + "...");
+    // Check X-Amz-Credential before stripping
+    const urlObjBefore = new URL(presignedUrl);
+    const credentialBefore = urlObjBefore.searchParams.get("X-Amz-Credential");
+    console.log("[S3] X-Amz-Credential before cleanup:", credentialBefore ? credentialBefore.substring(0, 50) + "..." : "MISSING");
+
+    // Strip checksum parameters that AWS SDK adds but would cause signature mismatches
+    urlObjBefore.searchParams.delete("x-amz-checksum-crc32");
+    urlObjBefore.searchParams.delete("x-amz-checksum-sha1");
+    urlObjBefore.searchParams.delete("x-amz-checksum-sha256");
+    urlObjBefore.searchParams.delete("x-amz-sdk-checksum-algorithm");
+    presignedUrl = urlObjBefore.toString();
+
+    const urlObjAfter = new URL(presignedUrl);
+    const credentialAfter = urlObjAfter.searchParams.get("X-Amz-Credential");
+    console.log("[S3] X-Amz-Credential after cleanup:", credentialAfter ? credentialAfter.substring(0, 50) + "..." : "MISSING");
+    console.log("[S3] Final presigned URL:", presignedUrl.substring(0, 300) + "...");
 
     return presignedUrl;
   } catch (error) {
