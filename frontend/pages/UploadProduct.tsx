@@ -431,6 +431,17 @@ export default function UploadProduct() {
             continue;
           }
 
+          console.log("[UploadProduct] Received presigned URL");
+          console.log("[UploadProduct] URL preview:", presignedResponse.presignedUrl.substring(0, 200) + "...");
+
+          // Check if X-Amz-Credential is present
+          const urlObj = new URL(presignedResponse.presignedUrl);
+          const credential = urlObj.searchParams.get("X-Amz-Credential");
+          console.log("[UploadProduct] X-Amz-Credential present:", !!credential);
+          if (credential) {
+            console.log("[UploadProduct] Credential preview:", credential.substring(0, 40) + "...");
+          }
+
           console.log("[UploadProduct] Uploading to S3 with presigned URL");
 
           // Calculate CRC32 checksum for the file
@@ -447,6 +458,8 @@ export default function UploadProduct() {
             },
             body: file,
           });
+
+          console.log("[UploadProduct] S3 upload response status:", uploadResponse.status);
 
           if (!uploadResponse.ok) {
             console.error(
