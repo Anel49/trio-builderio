@@ -438,6 +438,10 @@ export default function UploadProduct() {
       setImageFiles((prev) => prev.filter((_, i) => i !== index));
       setImagePreviewUrls((prev) => prev.filter((_, i) => i !== index));
       console.log("[UploadProduct] Removed image from memory");
+      // Reset the file input so the same file can be re-uploaded
+      if (imageInputRef.current) {
+        imageInputRef.current.value = "";
+      }
       return;
     }
 
