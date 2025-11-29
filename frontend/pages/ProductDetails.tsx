@@ -1157,8 +1157,9 @@ export default function ProductDetails() {
                     <ChevronLeft className="h-6 w-6" />
                   </button>
 
-                  <img
+                  <ResponsiveImage
                     src={images[currentImageIndex]}
+                    webpSrc={getWebpUrl(images[currentImageIndex]) || undefined}
                     alt={`${product.name} ${currentImageIndex + 1}`}
                     className="max-w-[100%] max-h-[100%] w-auto h-auto object-contain"
                   />
