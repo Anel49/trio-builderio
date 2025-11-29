@@ -1427,8 +1427,11 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
     }
 
     // Import S3 utilities
-    const { generatePresignedUploadUrl, generateListingImageS3Key } =
-      await import("../lib/s3");
+    const {
+      generatePresignedUploadUrl,
+      generateListingImageS3Key,
+      generateListingImageWebpS3Key,
+    } = await import("../lib/s3");
 
     // Extract file extension
     const fileExtension = filename.split(".").pop() || "jpg";
@@ -1440,23 +1443,34 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
       fileExtension,
     );
 
-    // Generate presigned URL
-    const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
+    // Generate S3 key for WEBP version
+    const s3WebpKey = generateListingImageWebpS3Key(listingId, imageNumber);
 
-    console.log("[getPresignedUploadUrl] Generated URL successfully");
-    console.log("[getPresignedUploadUrl] S3 key:", s3Key);
+    // Generate presigned URLs for both original and WEBP versions
+    const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
+    const presignedWebpUrl = await generatePresignedUploadUrl(
+      s3WebpKey,
+      "image/webp",
+    );
+
+    console.log("[getPresignedUploadUrl] Generated URLs successfully");
+    console.log("[getPresignedUploadUrl] Original S3 key:", s3Key);
+    console.log("[getPresignedUploadUrl] WEBP S3 key:", s3WebpKey);
     console.log(
       "[getPresignedUploadUrl] URL preview:",
       presignedUrl.substring(0, 200) + "...",
     );
 
-    // Return both the presigned URL and the S3 key that will be used to store in the database
+    // Return both the presigned URLs and the S3 keys that will be used to store in the database
     const { getS3Url } = await import("../lib/s3");
     res.json({
       ok: true,
       presignedUrl,
+      presignedWebpUrl,
       s3Key,
+      s3WebpKey,
       s3Url: getS3Url(s3Key),
+      s3WebpUrl: getS3Url(s3WebpKey),
     });
   } catch (error: any) {
     console.error("[getPresignedUploadUrl] Error:", error);
