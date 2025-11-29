@@ -500,6 +500,7 @@ export async function apiFetch(path: string, init?: RequestInit) {
  * @param listingId - The listing ID (can be a temporary value like 0 for new listings)
  * @param filename - The original filename
  * @param contentType - The MIME type (e.g., "image/jpeg")
+ * @param imageNumber - The sequential image number (1, 2, 3, etc.)
  * @returns An object with presignedUrl and s3Url
  */
 export async function getS3PresignedUrl(
