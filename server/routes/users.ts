@@ -1227,3 +1227,67 @@ export async function googleOAuth(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function getPresignedProfileImageUrl(
+  req: Request,
+  res: Response,
+) {
+  try {
+    const userId = Number((req.params as any)?.userId);
+    if (!userId || Number.isNaN(userId)) {
+      return res.status(400).json({ ok: false, error: "invalid userId" });
+    }
+
+    const { filename, contentType } = req.body || {};
+
+    if (!filename || typeof filename !== "string" || filename.trim() === "") {
+      return res.status(400).json({ ok: false, error: "filename is required" });
+    }
+
+    if (!contentType || typeof contentType !== "string") {
+      return res
+        .status(400)
+        .json({ ok: false, error: "contentType is required" });
+    }
+
+    // Validate that it's an image file
+    if (!contentType.startsWith("image/")) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "Only image files are allowed" });
+    }
+
+    // Import S3 utilities
+    const {
+      generatePresignedUploadUrl,
+      generateUserProfilePictureS3Key,
+    } = await import("../lib/s3");
+
+    // Generate S3 key for user profile picture
+    const s3Key = generateUserProfilePictureS3Key(userId, filename);
+
+    // Generate presigned URL
+    const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
+
+    console.log("[getPresignedProfileImageUrl] Generated URL successfully");
+    console.log("[getPresignedProfileImageUrl] S3 key:", s3Key);
+    console.log(
+      "[getPresignedProfileImageUrl] URL preview:",
+      presignedUrl.substring(0, 200) + "...",
+    );
+
+    // Return both the presigned URL and the S3 key that will be used to store in the database
+    const { getS3Url } = await import("../lib/s3");
+    res.json({
+      ok: true,
+      presignedUrl,
+      s3Key,
+      s3Url: getS3Url(s3Key),
+    });
+  } catch (error: any) {
+    console.error("[getPresignedProfileImageUrl] Error:", error);
+    res
+      .status(500)
+      .json({ ok: false, error: String(error?.message || error) });
+  }
+}
