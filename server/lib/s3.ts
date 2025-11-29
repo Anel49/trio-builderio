@@ -135,6 +135,23 @@ export function generateListingImageS3Key(
 }
 
 /**
+ * Generate an S3 key for a WEBP version of a listing image
+ * @param listingId - The listing ID
+ * @param imageNumber - The sequential image number (1, 2, 3, etc.)
+ * @returns A unique S3 key for the WEBP version
+ */
+export function generateListingImageWebpS3Key(
+  listingId: number,
+  imageNumber: number,
+): string {
+  // Ensure image number is padded to 3 digits (001, 002, etc.)
+  const paddedNumber = String(imageNumber).padStart(3, "0");
+
+  // Create key: listings/{listingId}/{listingId}_img_{imageNumber}.webp
+  return `listings/${listingId}/${listingId}_img_${paddedNumber}.webp`;
+}
+
+/**
  * Generate an S3 key for a user profile picture
  * @param userId - The user ID
  * @param originalFileName - The original file name
