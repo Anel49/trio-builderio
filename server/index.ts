@@ -433,6 +433,7 @@ export function createServer() {
   app.post("/api/listings/delete-image", deleteImage);
   app.post("/api/reservations", createReservation);
   app.patch("/api/reservations/:reservationId/status", updateReservationStatus);
+  app.patch("/api/reservations/:reservationId/dates", updateReservationDates);
   // Users
   app.get("/api/users", getUserByEmail); // query: email
   app.get("/api/users/:id", getUserById); // param: id
