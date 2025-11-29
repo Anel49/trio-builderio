@@ -706,9 +706,42 @@ export default function UploadProduct() {
           );
 
           try {
+            const priceCents =
+              Math.round(Number(price.replace(/[^0-9.]/g, "")) * 100) || 0;
+
             const updatePayload = {
+              name: title || "Untitled",
+              price_cents: priceCents,
               image: allImageUrls[0],
               images: allImageUrls,
+              description,
+              categories: selectedTags.length > 0 ? selectedTags : ["General"],
+              location_city: listingLocation.city,
+              latitude: listingLocation.latitude,
+              longitude: listingLocation.longitude,
+              zip_code:
+                listingLocation.postalCode ||
+                initialListingLocationRef.current.postalCode ||
+                (typeof authUser?.zipCode === "string"
+                  ? authUser.zipCode.trim()
+                  : "00000"),
+              delivery: offerDelivery,
+              free_delivery: offerFreeDelivery,
+              addons: addons
+                .filter((addon) => addon.item.trim() !== "")
+                .map((addon) => {
+                  const addonData: any = {
+                    item: addon.item,
+                    style: addon.style,
+                    price: addon.price ? parseFloat(addon.price) : null,
+                    consumable: addon.consumable || false,
+                  };
+                  const addonIdStr = String(addon.id);
+                  if (!addonIdStr.startsWith("addon-")) {
+                    addonData.id = Number(addon.id);
+                  }
+                  return addonData;
+                }),
             };
 
             const updateRes = await apiFetch(`listings/${resultId}`, {
