@@ -77,6 +77,7 @@ export async function generatePresignedDownloadUrl(
   expiresIn: number = 3600,
 ): Promise<string> {
   try {
+    const s3Client = getS3Client();
     const command = new GetObjectCommand({
       Bucket: bucketName,
       Key: key,
