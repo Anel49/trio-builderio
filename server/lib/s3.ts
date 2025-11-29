@@ -37,7 +37,7 @@ const s3Client = new S3Client({
   },
 });
 
-const bucketName = process.env.AWS_S3_BUCKET_NAME || "lendit-listing-images";
+const bucketName = "lendit-files";
 
 /**
  * Generate a presigned URL for uploading a file to S3
@@ -59,7 +59,6 @@ export async function generatePresignedUploadUrl(
       Bucket: bucketName,
       Key: key,
       ContentType: contentType,
-      // Don't set ChecksumAlgorithm - let it use the SDK default but don't add it to signature
     });
 
     const presignedUrl = await getSignedUrl(s3Client, command, {
@@ -110,17 +109,17 @@ export async function generatePresignedDownloadUrl(
  * @returns The public S3 URL
  */
 export function getS3Url(key: string): string {
-  return `https://${bucketName}.s3.${process.env.AWS_REGION || "us-east-1"}.amazonaws.com/${key}`;
+  return `https://${bucketName}.s3.${process.env.AWS_REGION || "us-east-2"}.amazonaws.com/${key}`;
 }
 
 /**
- * Generate a unique S3 key for an uploaded file
+ * Generate a unique S3 key for a listing image
  * @param listingId - The listing ID
  * @param originalFileName - The original file name
  * @param timestamp - Optional timestamp for uniqueness
  * @returns A unique S3 key
  */
-export function generateS3Key(
+export function generateListingImageS3Key(
   listingId: number,
   originalFileName: string,
   timestamp: number = Date.now(),
@@ -132,6 +131,36 @@ export function generateS3Key(
 
   // Create a unique key: listings/{listingId}/{timestamp}_{filename}
   return `listings/${listingId}/${timestamp}_${sanitized}`;
+}
+
+/**
+ * Generate an S3 key for a user profile picture
+ * @param userId - The user ID
+ * @param originalFileName - The original file name
+ * @returns An S3 key for the user's profile picture
+ */
+export function generateUserProfilePictureS3Key(
+  userId: number,
+  originalFileName: string,
+): string {
+  // Remove special characters from filename and sanitize
+  const sanitized = originalFileName
+    .replace(/[^a-zA-Z0-9.-]/g, "_")
+    .toLowerCase();
+
+  // Create a key: users/{userId}/profile_{filename}
+  return `users/${userId}/profile_${sanitized}`;
+}
+
+/**
+ * Legacy function - kept for compatibility
+ */
+export function generateS3Key(
+  listingId: number,
+  originalFileName: string,
+  timestamp: number = Date.now(),
+): string {
+  return generateListingImageS3Key(listingId, originalFileName, timestamp);
 }
 
 /**
