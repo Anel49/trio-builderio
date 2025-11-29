@@ -1146,9 +1146,10 @@ export default function UploadProduct() {
                     {price
                       ? (() => {
                           const num = parseFloat(price);
-                          return num % 1 === 0
-                            ? num.toString()
-                            : num.toFixed(2);
+                          return num.toLocaleString("en-US", {
+                            minimumFractionDigits: num % 1 === 0 ? 0 : 2,
+                            maximumFractionDigits: 2,
+                          });
                         })()
                       : "0"}
                   </div>
