@@ -517,7 +517,10 @@ export default function OrderHistory() {
       accept: "accepted",
       reject: "rejected",
     };
-    handleRequestStatusUpdate(requestToConfirm.id, statusMap[requestConfirmAction]);
+    handleRequestStatusUpdate(
+      requestToConfirm.id,
+      statusMap[requestConfirmAction],
+    );
   };
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
@@ -1193,7 +1196,10 @@ export default function OrderHistory() {
                                   canReacceptRequest(res) && (
                                     <DropdownMenuItem
                                       onClick={() =>
-                                        handleOpenRequestConfirmModal(res, "accept")
+                                        handleOpenRequestConfirmModal(
+                                          res,
+                                          "accept",
+                                        )
                                       }
                                     >
                                       Accept request
@@ -1203,7 +1209,10 @@ export default function OrderHistory() {
                                   direction === "incoming" && (
                                     <DropdownMenuItem
                                       onClick={() =>
-                                        handleOpenRequestConfirmModal(res, "reject")
+                                        handleOpenRequestConfirmModal(
+                                          res,
+                                          "reject",
+                                        )
                                       }
                                     >
                                       Reject listing

@@ -616,18 +616,15 @@ export async function updateReservationStatus(
       "with status",
       status,
     );
-    const response = await apiFetch(
-      `/reservations/${reservationId}/status`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status,
-        }),
+    const response = await apiFetch(`/reservations/${reservationId}/status`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        status,
+      }),
+    });
 
     if (!response) {
       console.error("[updateReservationStatus] No response from apiFetch");
