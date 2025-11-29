@@ -685,3 +685,107 @@ export async function updateReservationStatus(
     };
   }
 }
+
+/**
+ * Update reservation dates (propose new dates)
+ * @param reservationId - The reservation ID
+ * @param startDate - The new start date (ISO string)
+ * @param endDate - The new end date (ISO string)
+ * @returns An object with ok status and updated reservation
+ */
+export async function updateReservationDates(
+  reservationId: string | number,
+  startDate: string,
+  endDate: string,
+): Promise<{
+  ok: boolean;
+  reservation?: {
+    id: string | number;
+    startDate: string;
+    endDate: string;
+    lastModified: string;
+    modifiedById: string | number;
+  };
+  error?: string;
+}> {
+  try {
+    console.log(
+      "[updateReservationDates] Sending PATCH request for reservation",
+      reservationId,
+      "with dates",
+      startDate,
+      endDate,
+    );
+    const response = await apiFetch(
+      `/reservations/${reservationId}/dates`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          startDate,
+          endDate,
+        }),
+      },
+    );
+
+    if (!response) {
+      console.error("[updateReservationDates] No response from apiFetch");
+      return {
+        ok: false,
+        error: "No response from server",
+      };
+    }
+
+    console.log(
+      "[updateReservationDates] Response status:",
+      response.status,
+      "headers:",
+      response.headers,
+    );
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error(
+        "[updateReservationDates] Non-JSON response:",
+        response.status,
+        text.substring(0, 200),
+      );
+      return {
+        ok: false,
+        error: `Server returned ${response.status}: ${text.substring(0, 100)}`,
+      };
+    }
+
+    const data = await response.json();
+    console.log("[updateReservationDates] Response data:", data);
+
+    // Check if response indicates success
+    if (!response.ok) {
+      console.error(
+        "[updateReservationDates] HTTP error",
+        response.status,
+        "data:",
+        data,
+      );
+      return {
+        ok: false,
+        error: data.error || `HTTP ${response.status}`,
+      };
+    }
+
+    return {
+      ok: data.ok,
+      reservation: data.reservation,
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[updateReservationDates] Exception:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
