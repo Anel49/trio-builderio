@@ -1158,7 +1158,7 @@ export default function ProductDetails() {
                   <img
                     src={images[currentImageIndex]}
                     alt={`${product.name} ${currentImageIndex + 1}`}
-                    className="max-w-[90%] max-h-[90%] w-auto h-auto object-contain"
+                    className="max-w-[100%] max-h-[100%] w-auto h-auto object-contain"
                   />
 
                   <button
