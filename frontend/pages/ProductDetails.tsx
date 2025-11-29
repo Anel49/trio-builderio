@@ -1058,7 +1058,7 @@ export default function ProductDetails() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <Button
           variant="ghost"
-          onClick={() => window.history.back()}
+          onClick={() => navigate("/browse")}
           className="mr-4"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
