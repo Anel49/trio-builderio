@@ -1627,7 +1627,9 @@ export async function updateReservationDates(req: Request, res: Response) {
     );
 
     if (reservationCheckResult.rows.length === 0) {
-      return res.status(404).json({ ok: false, error: "Reservation not found" });
+      return res
+        .status(404)
+        .json({ ok: false, error: "Reservation not found" });
     }
 
     const { host_id, renter_id } = reservationCheckResult.rows[0];
@@ -1653,7 +1655,9 @@ export async function updateReservationDates(req: Request, res: Response) {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ ok: false, error: "Reservation not found" });
+      return res
+        .status(404)
+        .json({ ok: false, error: "Reservation not found" });
     }
 
     res.json({

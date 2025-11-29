@@ -717,19 +717,16 @@ export async function updateReservationDates(
       startDate,
       endDate,
     );
-    const response = await apiFetch(
-      `/reservations/${reservationId}/dates`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          startDate,
-          endDate,
-        }),
+    const response = await apiFetch(`/reservations/${reservationId}/dates`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        startDate,
+        endDate,
+      }),
+    });
 
     if (!response) {
       console.error("[updateReservationDates] No response from apiFetch");
