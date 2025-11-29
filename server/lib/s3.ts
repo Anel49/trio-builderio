@@ -114,22 +114,23 @@ export function getS3Url(key: string): string {
 /**
  * Generate a unique S3 key for a listing image
  * @param listingId - The listing ID
- * @param originalFileName - The original file name
- * @param timestamp - Optional timestamp for uniqueness
+ * @param imageNumber - The sequential image number (1, 2, 3, etc.)
+ * @param fileExtension - The file extension (e.g., "jpg", "png")
  * @returns A unique S3 key
  */
 export function generateListingImageS3Key(
   listingId: number,
-  originalFileName: string,
-  timestamp: number = Date.now(),
+  imageNumber: number,
+  fileExtension: string,
 ): string {
-  // Remove special characters from filename and sanitize
-  const sanitized = originalFileName
-    .replace(/[^a-zA-Z0-9.-]/g, "_")
-    .toLowerCase();
+  // Ensure image number is padded to 3 digits (001, 002, etc.)
+  const paddedNumber = String(imageNumber).padStart(3, "0");
 
-  // Create a unique key: listings/{listingId}/{timestamp}_{filename}
-  return `listings/${listingId}/${timestamp}_${sanitized}`;
+  // Normalize the file extension
+  const ext = fileExtension.toLowerCase().replace(/^\./, "");
+
+  // Create key: listings/{listingId}/{listingId}_img_{imageNumber}.{ext}
+  return `listings/${listingId}/${listingId}_img_${paddedNumber}.${ext}`;
 }
 
 /**
