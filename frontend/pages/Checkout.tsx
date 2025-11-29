@@ -18,6 +18,7 @@ import {
 import { COMPANY_NAME, MARKETPLACE_NAME } from "@/lib/constants";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+import { ResponsiveImage, getWebpUrl } from "@/components/ui/responsive-image";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement } from "@stripe/react-stripe-js";
 
