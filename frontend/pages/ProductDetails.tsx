@@ -1134,7 +1134,7 @@ export default function ProductDetails() {
             </ScrollArea>
 
             <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
-              <DialogContent className="w-[92vw] max-w-5xl p-0 bg-transparent border-none shadow-none rounded-none [&>button]:right-4 [&>button]:top-7 [&>button]:text-white [&>button:hover]:text-white [&>button]:bg-black/30 [&>button]:rounded-full [&>button]:z-20 [&>button]:w-10 [&>button]:h-10 [&>button]:flex [&>button]:items-center [&>button]:justify-center">
+              <DialogContent className="w-[92vw] max-w-5xl p-0 bg-transparent border-none shadow-none rounded-none [&>button]:right-4 [&>button]:top-7 [&>button]:text-white [&>button:hover]:text-white [&>button]:bg-black/40 [&>button]:rounded-full [&>button]:z-20 [&>button]:w-7 [&>button]:h-7 [&>button]:flex [&>button]:items-center [&>button]:justify-center">
                 <DialogHeader>
                   <DialogTitle className="sr-only">Image viewer</DialogTitle>
                 </DialogHeader>
