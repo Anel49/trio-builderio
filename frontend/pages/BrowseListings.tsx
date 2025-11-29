@@ -248,6 +248,12 @@ export default function BrowseListings() {
           setFilters(parsed);
         }
       } catch {}
+      try {
+        const saved = localStorage.getItem("browseSortBy");
+        if (saved) {
+          setSortBy(saved);
+        }
+      } catch {}
     }
   }, [location.pathname]);
 
