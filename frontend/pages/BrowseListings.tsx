@@ -245,7 +245,10 @@ export default function BrowseListings() {
 
   // Save filter preferences to localStorage whenever they change
   React.useEffect(() => {
-    localStorage.setItem("browseAppliedFilters", JSON.stringify(appliedFilters));
+    localStorage.setItem(
+      "browseAppliedFilters",
+      JSON.stringify(appliedFilters),
+    );
   }, [appliedFilters]);
 
   // Apply category filter from URL query parameter
