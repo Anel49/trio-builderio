@@ -444,7 +444,9 @@ export default function UploadProduct() {
     const uploadedImageIndex = index - imageFiles.length;
     if (uploadedImageIndex >= 0 && uploadedImageIndex < uploadedImages.length) {
       const imageUrl = uploadedImages[uploadedImageIndex];
-      setUploadedImages((prev) => prev.filter((_, i) => i !== uploadedImageIndex));
+      setUploadedImages((prev) =>
+        prev.filter((_, i) => i !== uploadedImageIndex),
+      );
 
       // Delete from S3 if it's a valid S3 URL
       if (imageUrl && imageUrl.includes(".amazonaws.com")) {
@@ -590,8 +592,18 @@ export default function UploadProduct() {
       const defaultImage =
         "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format";
       // Use placeholder for now if we have pending files, actual URLs will be added after listing creation
-      const placeholderImage = imageFiles.length > 0 ? imagePreviewUrls[0] || defaultImage : (uploadedImages.length > 0 ? uploadedImages[0] : defaultImage);
-      const imgs = uploadedImages.length > 0 ? uploadedImages : (imageFiles.length > 0 ? imagePreviewUrls : [defaultImage]);
+      const placeholderImage =
+        imageFiles.length > 0
+          ? imagePreviewUrls[0] || defaultImage
+          : uploadedImages.length > 0
+            ? uploadedImages[0]
+            : defaultImage;
+      const imgs =
+        uploadedImages.length > 0
+          ? uploadedImages
+          : imageFiles.length > 0
+            ? imagePreviewUrls
+            : [defaultImage];
       const fallbackZip = (() => {
         if (listingLocation.postalCode) {
           return listingLocation.postalCode;
@@ -1041,7 +1053,7 @@ export default function UploadProduct() {
               </div>
 
               {/* Image Carousel */}
-              {(imagePreviewUrls.length + uploadedImages.length) > 1 && (
+              {imagePreviewUrls.length + uploadedImages.length > 1 && (
                 <ScrollArea className="w-full">
                   <div className="flex space-x-3 pb-4">
                     {imagePreviewUrls.map((image, index) => (
@@ -1343,10 +1355,14 @@ export default function UploadProduct() {
                   </div>
 
                   {/* Uploaded Images Grid */}
-                  {(imagePreviewUrls.length > 0 || uploadedImages.length > 0) && (
+                  {(imagePreviewUrls.length > 0 ||
+                    uploadedImages.length > 0) && (
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {imagePreviewUrls.map((image, index) => (
-                        <div key={`preview-${index}`} className="relative group">
+                        <div
+                          key={`preview-${index}`}
+                          className="relative group"
+                        >
                           <img
                             src={image}
                             alt={`Preview ${index + 1}`}
@@ -1361,7 +1377,10 @@ export default function UploadProduct() {
                         </div>
                       ))}
                       {uploadedImages.map((image, index) => (
-                        <div key={`uploaded-${index}`} className="relative group">
+                        <div
+                          key={`uploaded-${index}`}
+                          className="relative group"
+                        >
                           <img
                             src={image}
                             alt={`Upload ${imagePreviewUrls.length + index + 1}`}
@@ -1377,7 +1396,9 @@ export default function UploadProduct() {
                             crossOrigin="anonymous"
                           />
                           <button
-                            onClick={() => removeImage(imagePreviewUrls.length + index)}
+                            onClick={() =>
+                              removeImage(imagePreviewUrls.length + index)
+                            }
                             className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-60 group-hover:opacity-100 transition-opacity"
                           >
                             <X className="h-4 w-4" />
