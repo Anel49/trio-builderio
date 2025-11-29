@@ -1297,6 +1297,16 @@ export default function OrderHistory() {
                                       Reject listing
                                     </DropdownMenuItem>
                                   )}
+                                {(res.status.toLowerCase() === "pending" ||
+                                  res.status.toLowerCase() === "rejected") && (
+                                  <DropdownMenuItem
+                                    onClick={() =>
+                                      handleOpenProposeDateModal(res)
+                                    }
+                                  >
+                                    Propose new date(s)
+                                  </DropdownMenuItem>
+                                )}
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
