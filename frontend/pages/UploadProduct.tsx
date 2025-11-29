@@ -695,15 +695,15 @@ export default function UploadProduct() {
         const newS3Urls = await uploadPendingImages(resultId);
 
         if (newS3Urls.length > 0) {
-          // Update the uploadedImages state with the S3 URLs
-          setUploadedImages((prev) => [...prev, ...newS3Urls]);
-
-          // Update the listing with the new image URLs
+          // Build the complete list of image URLs before any state updates
           const allImageUrls = [...uploadedImages, ...newS3Urls];
           console.log(
             "[UploadProduct] Updating listing with image URLs:",
             allImageUrls,
           );
+
+          // Update the uploadedImages state with the S3 URLs
+          setUploadedImages((prev) => [...prev, ...newS3Urls]);
 
           try {
             const priceCents =
