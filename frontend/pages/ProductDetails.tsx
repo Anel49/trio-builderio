@@ -1121,8 +1121,9 @@ export default function ProductDetails() {
                         : "border-transparent hover:border-gray-300",
                     )}
                   >
-                    <img
+                    <ResponsiveImage
                       src={image}
+                      webpSrc={getWebpUrl(image) || undefined}
                       alt={`${product.name} ${index + 1}`}
                       className="w-20 h-20 object-cover"
                     />
