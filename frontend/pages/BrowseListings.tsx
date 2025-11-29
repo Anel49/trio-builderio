@@ -157,12 +157,15 @@ export default function BrowseListings() {
     longitude: number;
     city: string | null;
   } | null>(() => {
-    // Initialize from localStorage if available
+    // Initialize from localStorage if available (check both keys for compatibility)
     try {
-      const saved = localStorage.getItem("browseFilterLocation");
+      let saved = localStorage.getItem("browseFilterLocation");
       if (saved) {
-        const parsed = JSON.parse(saved);
-        return parsed;
+        return JSON.parse(saved);
+      }
+      saved = localStorage.getItem("searchLocation");
+      if (saved) {
+        return JSON.parse(saved);
       }
     } catch {
       // Ignore parsing errors
