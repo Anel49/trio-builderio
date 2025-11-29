@@ -1368,7 +1368,7 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
     if (typeof imageNumber !== "number" || imageNumber < 1) {
       return res.status(400).json({
         ok: false,
-        error: "imageNumber is required and must be >= 1"
+        error: "imageNumber is required and must be >= 1",
       });
     }
 
@@ -1380,15 +1380,18 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
     }
 
     // Import S3 utilities
-    const { generatePresignedUploadUrl, generateListingImageS3Key } = await import(
-      "../lib/s3"
-    );
+    const { generatePresignedUploadUrl, generateListingImageS3Key } =
+      await import("../lib/s3");
 
     // Extract file extension
     const fileExtension = filename.split(".").pop() || "jpg";
 
     // Generate S3 key with sequential numbering
-    const s3Key = generateListingImageS3Key(listingId, imageNumber, fileExtension);
+    const s3Key = generateListingImageS3Key(
+      listingId,
+      imageNumber,
+      fileExtension,
+    );
 
     // Generate presigned URL
     const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
