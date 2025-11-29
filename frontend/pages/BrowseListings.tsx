@@ -1315,8 +1315,12 @@ export default function BrowseListings() {
                     };
                   }
                   const total = baseRate * days;
+                  const formatted = total.toLocaleString("en-US", {
+                    minimumFractionDigits: total % 1 === 0 ? 0 : 2,
+                    maximumFractionDigits: 2,
+                  });
                   return {
-                    price: `$${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}`,
+                    price: `$${formatted}`,
                     label: "total",
                     underline: true,
                   };
