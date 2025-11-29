@@ -513,7 +513,11 @@ export default function OrderHistory() {
 
   const handleConfirmRequestAction = () => {
     if (!requestToConfirm || !requestConfirmAction) return;
-    handleRequestStatusUpdate(requestToConfirm.id, requestConfirmAction);
+    const statusMap: Record<"accept" | "reject", "accepted" | "rejected"> = {
+      accept: "accepted",
+      reject: "rejected",
+    };
+    handleRequestStatusUpdate(requestToConfirm.id, statusMap[requestConfirmAction]);
   };
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
