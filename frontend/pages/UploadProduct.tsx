@@ -388,11 +388,15 @@ export default function UploadProduct() {
         try {
           console.log("[UploadProduct] Getting presigned URL for:", file.name);
 
+          // Calculate image number (1-based, accounting for currently uploaded images)
+          const imageNumber = uploadedImages.length + 1;
+
           // Get presigned URL from backend
           const presignedResponse = await getS3PresignedUrl(
             listingId,
             file.name,
             file.type,
+            imageNumber,
           );
 
           if (!presignedResponse.ok || !presignedResponse.presignedUrl) {
