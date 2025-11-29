@@ -132,8 +132,9 @@ export function ProductCard({
     >
       <Card className="h-full">
         <div className="relative">
-          <img
+          <ResponsiveImage
             src={image}
+            webpSrc={getWebpUrl(image) || undefined}
             alt={name}
             className={combineTokens(
               "w-full object-cover rounded-t-md",
