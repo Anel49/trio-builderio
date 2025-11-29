@@ -215,6 +215,8 @@ export async function deleteS3Prefix(prefix: string): Promise<number> {
   try {
     console.log("[S3] Deleting all objects under prefix:", prefix);
 
+    const s3Client = getS3Client();
+
     // List all objects under the prefix
     const listCommand = new ListObjectsV2Command({
       Bucket: bucketName,
