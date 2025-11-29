@@ -410,12 +410,14 @@ export default function BrowseListings() {
     [reservationsCache],
   );
 
-  // Fetch reservations for all listings when they load
+  // Fetch reservations for all listings when they load, but only if a date filter is applied
   React.useEffect(() => {
-    listings.forEach((listing) => {
-      fetchReservations(String(listing.id));
-    });
-  }, [listings, fetchReservations]);
+    if (dateRange.start && dateRange.end) {
+      listings.forEach((listing) => {
+        fetchReservations(String(listing.id));
+      });
+    }
+  }, [listings, fetchReservations, dateRange.start, dateRange.end]);
 
   // Save filter location to localStorage whenever it changes
   React.useEffect(() => {
