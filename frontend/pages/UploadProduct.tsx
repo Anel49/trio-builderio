@@ -1250,7 +1250,7 @@ export default function UploadProduct() {
                   Product Images
                   <span
                     className={
-                      uploadedImages.length === 0
+                      imageFiles.length === 0 && uploadedImages.length === 0
                         ? "text-red-500"
                         : "text-gray-400"
                     }
@@ -1325,9 +1325,6 @@ export default function UploadProduct() {
                           >
                             <X className="h-4 w-4" />
                           </button>
-                          <div className="absolute bottom-2 left-2 bg-blue-600/80 text-white px-2 py-1 rounded text-xs">
-                            Pending Upload
-                          </div>
                         </div>
                       ))}
                       {uploadedImages.map((image, index) => (
