@@ -405,12 +405,17 @@ export default function UploadProduct() {
 
           console.log("[UploadProduct] Uploading to S3 with presigned URL");
 
+          // Calculate CRC32 checksum for the file
+          const fileBuffer = await file.arrayBuffer();
+          const crc32 = calculateCRC32(new Uint8Array(fileBuffer));
+          const crc32Base64 = Buffer.from(crc32).toString("base64");
+
           // Upload directly to S3 using the presigned URL
           const uploadResponse = await fetch(presignedResponse.presignedUrl, {
             method: "PUT",
             headers: {
               "Content-Type": file.type,
-              // Don't set any other headers - they weren't part of the signature
+              "x-amz-checksum-crc32": crc32Base64,
             },
             body: file,
           });
