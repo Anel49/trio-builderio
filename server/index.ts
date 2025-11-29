@@ -431,6 +431,7 @@ export function createServer() {
   app.post("/api/listings/:listingId/presigned-url", getPresignedUploadUrl);
   app.post("/api/listings/delete-image", deleteImage);
   app.post("/api/reservations", createReservation);
+  app.patch("/api/reservations/:reservationId/status", updateReservationStatus);
   // Users
   app.get("/api/users", getUserByEmail); // query: email
   app.get("/api/users/:id", getUserById); // param: id
