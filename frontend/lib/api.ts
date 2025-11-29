@@ -600,7 +600,7 @@ export async function deleteS3Image(imageUrl: string): Promise<{
  */
 export async function updateReservationStatus(
   reservationId: string | number,
-  status: "accepted" | "rejected",
+  status: "pending" | "accepted" | "rejected",
 ): Promise<{
   ok: boolean;
   reservation?: {
