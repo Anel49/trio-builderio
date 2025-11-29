@@ -487,11 +487,12 @@ export default function OrderHistory() {
         setRequestConfirmAction(null);
         setRequestToConfirm(null);
       } else {
+        const errorMsg = result.error || "Unknown error";
         console.error(
           "[handleRequestStatusUpdate] Failed to update status:",
-          result.error,
+          errorMsg,
         );
-        alert("Failed to update request status. Please try again.");
+        alert(`Failed to update request status: ${errorMsg}`);
       }
     } catch (error) {
       console.error("[handleRequestStatusUpdate] Error:", error);
