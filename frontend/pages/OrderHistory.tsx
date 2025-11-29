@@ -157,6 +157,16 @@ export default function OrderHistory() {
     null,
   );
 
+  // Date proposal modal state
+  const [proposeDateModalOpen, setProposeDateModalOpen] = useState(false);
+  const [dateProposalRange, setDateProposalRange] = useState<{
+    start: Date | null;
+    end: Date | null;
+  }>({ start: null, end: null });
+  const [reservationToProposeDates, setReservationToProposeDates] =
+    useState<Reservation | null>(null);
+  const [dateConfirmModalOpen, setDateConfirmModalOpen] = useState(false);
+
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
     try {
