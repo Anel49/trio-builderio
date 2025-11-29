@@ -1139,7 +1139,7 @@ export default function ProductDetails() {
                   <DialogTitle className="sr-only">Image viewer</DialogTitle>
                 </DialogHeader>
                 <div
-                  className="relative w-full h-[80vh] flex items-center justify-center select-none bg-black rounded-lg overflow-hidden"
+                  className="relative w-full h-[80vh] flex items-center justify-center select-none bg-black rounded-lg"
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
                 >
@@ -1158,7 +1158,7 @@ export default function ProductDetails() {
                   <img
                     src={images[currentImageIndex]}
                     alt={`${product.name} ${currentImageIndex + 1}`}
-                    className="max-w-[92vw] max-h-[80vh] w-auto h-auto object-contain"
+                    className="max-w-[90%] max-h-[90%] w-auto h-auto object-contain"
                   />
 
                   <button
