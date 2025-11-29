@@ -383,9 +383,13 @@ export default function BrowseListings() {
     });
   }, [listings, fetchReservations]);
 
+  // Save filter location to localStorage whenever it changes
   React.useEffect(() => {
     if (filterLocation) {
+      localStorage.setItem("browseFilterLocation", JSON.stringify(filterLocation));
       setSortBy("distance-asc");
+    } else {
+      localStorage.removeItem("browseFilterLocation");
     }
 
     // Detect location removal (was set, now null)
