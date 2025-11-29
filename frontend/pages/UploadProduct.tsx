@@ -382,74 +382,28 @@ export default function UploadProduct() {
   };
 
   const processFiles = async (files: File[]) => {
-    // Use userId as a placeholder for listing ID until the listing is created
-    const listingId = authUser?.id || 0;
+    console.log("[UploadProduct] Processing files:", files.length);
 
     for (const file of files) {
       if (file.type.startsWith("image/")) {
         try {
-          console.log("[UploadProduct] Getting presigned URL for:", file.name);
+          // Create a preview URL for immediate display
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const previewUrl = e.target?.result as string;
+            console.log("[UploadProduct] Created preview URL for:", file.name);
+            setImagePreviewUrls((prev) => [...prev, previewUrl]);
+          };
+          reader.readAsDataURL(file);
 
-          // Calculate image number (1-based, accounting for currently uploaded images)
-          const imageNumber = uploadedImages.length + 1;
-
-          // Get presigned URL from backend
-          const presignedResponse = await getS3PresignedUrl(
-            listingId,
+          // Store the file for later upload
+          setImageFiles((prev) => [...prev, file]);
+          console.log(
+            "[UploadProduct] Stored file in memory:",
             file.name,
-            file.type,
-            imageNumber,
+            "Size:",
+            file.size,
           );
-
-          if (!presignedResponse.ok || !presignedResponse.presignedUrl) {
-            console.error(
-              "[UploadProduct] Failed to get presigned URL:",
-              presignedResponse.error,
-            );
-            continue;
-          }
-
-          console.log("[UploadProduct] Received presigned URL");
-          console.log(
-            "[UploadProduct] URL preview:",
-            presignedResponse.presignedUrl.substring(0, 200) + "...",
-          );
-
-          console.log("[UploadProduct] Uploading to S3 with presigned URL");
-
-          // Upload directly to S3 using the presigned URL
-          // The presigned URL already contains all auth parameters, don't add extra headers
-          const uploadResponse = await fetch(presignedResponse.presignedUrl, {
-            method: "PUT",
-            headers: {
-              "Content-Type": file.type,
-            },
-            body: file,
-          });
-
-          console.log(
-            "[UploadProduct] S3 upload response status:",
-            uploadResponse.status,
-          );
-
-          if (!uploadResponse.ok) {
-            const errorText = await uploadResponse.text();
-            console.error(
-              "[UploadProduct] S3 upload failed:",
-              uploadResponse.status,
-              uploadResponse.statusText,
-            );
-            console.error("[UploadProduct] S3 error response:", errorText);
-            continue;
-          }
-
-          console.log(
-            "[UploadProduct] S3 upload successful. S3 URL:",
-            presignedResponse.s3Url,
-          );
-
-          // Store the S3 URL instead of base64
-          setUploadedImages((prev) => [...prev, presignedResponse.s3Url || ""]);
         } catch (error) {
           console.error("[UploadProduct] Error processing file:", error);
         }
