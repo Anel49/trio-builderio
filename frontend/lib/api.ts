@@ -506,6 +506,7 @@ export async function getS3PresignedUrl(
   listingId: number,
   filename: string,
   contentType: string,
+  imageNumber: number,
 ): Promise<{
   ok: boolean;
   presignedUrl?: string;
@@ -522,6 +523,7 @@ export async function getS3PresignedUrl(
       body: JSON.stringify({
         filename,
         contentType,
+        imageNumber,
       }),
     });
 
