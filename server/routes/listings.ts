@@ -1390,11 +1390,12 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
     );
 
     // Return both the presigned URL and the S3 key that will be used to store in the database
+    const { getS3Url } = await import("../lib/s3");
     res.json({
       ok: true,
       presignedUrl,
       s3Key,
-      s3Url: `https://lendit-listing-images.s3.${process.env.AWS_REGION || "us-east-1"}.amazonaws.com/${s3Key}`,
+      s3Url: getS3Url(s3Key),
     });
   } catch (error: any) {
     console.error("[getPresignedUploadUrl] Error:", error);
