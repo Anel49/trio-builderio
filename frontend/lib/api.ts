@@ -610,6 +610,12 @@ export async function updateReservationStatus(
   error?: string;
 }> {
   try {
+    console.log(
+      "[updateReservationStatus] Sending PATCH request for reservation",
+      reservationId,
+      "with status",
+      status,
+    );
     const response = await apiFetch(
       `/reservations/${reservationId}/status`,
       {
@@ -631,6 +637,13 @@ export async function updateReservationStatus(
       };
     }
 
+    console.log(
+      "[updateReservationStatus] Response status:",
+      response.status,
+      "headers:",
+      response.headers,
+    );
+
     const contentType = response.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
       const text = await response.text();
@@ -647,13 +660,28 @@ export async function updateReservationStatus(
 
     const data = await response.json();
     console.log("[updateReservationStatus] Response data:", data);
+
+    // Check if response indicates success
+    if (!response.ok) {
+      console.error(
+        "[updateReservationStatus] HTTP error",
+        response.status,
+        "data:",
+        data,
+      );
+      return {
+        ok: false,
+        error: data.error || `HTTP ${response.status}`,
+      };
+    }
+
     return {
       ok: data.ok,
       reservation: data.reservation,
       error: data.error,
     };
   } catch (error: any) {
-    console.error("[updateReservationStatus] Error:", error);
+    console.error("[updateReservationStatus] Exception:", error);
     return {
       ok: false,
       error: error?.message || "Network error",
