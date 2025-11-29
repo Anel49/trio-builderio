@@ -1838,7 +1838,7 @@ export default function Profile() {
                       {viewingOtherUser ? "Listings" : "Your Listings"}
                     </h2>
                     {!viewingOtherUser && (
-                      <div className="flex flex-col md:flex-row gap-2 md:gap-3 max-w-[220px] md:max-w-none">
+                      <div className="flex flex-col md:flex-row gap-2 md:gap-3 max-w-[220px] md:max-w-none mx-auto md:mx-0">
                         <Button
                           onClick={() => (window.location.href = "/upload")}
                         >
