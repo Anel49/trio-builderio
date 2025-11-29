@@ -686,6 +686,57 @@ export default function UploadProduct() {
         throw new Error(data?.error || errorMsg);
       }
       setCreatedListingId(resultId);
+
+      // Upload pending images if any
+      if (imageFiles.length > 0) {
+        console.log(
+          "[UploadProduct] Listing created, uploading pending images...",
+        );
+        const newS3Urls = await uploadPendingImages(resultId);
+
+        if (newS3Urls.length > 0) {
+          // Update the uploadedImages state with the S3 URLs
+          setUploadedImages((prev) => [...prev, ...newS3Urls]);
+
+          // Update the listing with the new image URLs
+          const allImageUrls = [...uploadedImages, ...newS3Urls];
+          console.log(
+            "[UploadProduct] Updating listing with image URLs:",
+            allImageUrls,
+          );
+
+          try {
+            const updatePayload = {
+              image: allImageUrls[0],
+              images: allImageUrls,
+            };
+
+            const updateRes = await apiFetch(`listings/${resultId}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(updatePayload),
+            });
+
+            if (!updateRes.ok) {
+              console.warn(
+                "[UploadProduct] Failed to update listing with image URLs",
+              );
+            } else {
+              console.log("[UploadProduct] Listing updated with image URLs");
+            }
+          } catch (error) {
+            console.error(
+              "[UploadProduct] Error updating listing with images:",
+              error,
+            );
+          }
+        }
+
+        // Clear the pending images from state after upload
+        setImageFiles([]);
+        setImagePreviewUrls([]);
+      }
+
       setIsListed(true);
       setShowConfirmModal(false);
       setShowSuccessModal(true);
