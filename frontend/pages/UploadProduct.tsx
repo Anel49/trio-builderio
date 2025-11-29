@@ -434,27 +434,14 @@ export default function UploadProduct() {
           console.log("[UploadProduct] Received presigned URL");
           console.log("[UploadProduct] URL preview:", presignedResponse.presignedUrl.substring(0, 200) + "...");
 
-          // Check if X-Amz-Credential is present
-          const urlObj = new URL(presignedResponse.presignedUrl);
-          const credential = urlObj.searchParams.get("X-Amz-Credential");
-          console.log("[UploadProduct] X-Amz-Credential present:", !!credential);
-          if (credential) {
-            console.log("[UploadProduct] Credential preview:", credential.substring(0, 40) + "...");
-          }
-
           console.log("[UploadProduct] Uploading to S3 with presigned URL");
 
-          // Calculate CRC32 checksum for the file
-          const fileBuffer = await file.arrayBuffer();
-          const crc32 = calculateCRC32(new Uint8Array(fileBuffer));
-          const crc32Base64 = btoa(String.fromCharCode(...crc32));
-
           // Upload directly to S3 using the presigned URL
+          // The presigned URL already contains all auth parameters, don't add extra headers
           const uploadResponse = await fetch(presignedResponse.presignedUrl, {
             method: "PUT",
             headers: {
               "Content-Type": file.type,
-              "x-amz-checksum-crc32": crc32Base64,
             },
             body: file,
           });
