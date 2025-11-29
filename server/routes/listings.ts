@@ -955,11 +955,25 @@ export async function deleteListing(req: Request, res: Response) {
         .json({ ok: false, error: "You can only delete your own listings" });
     }
 
+    // Delete S3 folder/prefix for this listing
+    try {
+      const { deleteS3Prefix } = await import("../lib/s3");
+      const s3Prefix = `listings/${id}/`;
+      console.log("[deleteListing] Deleting S3 prefix:", s3Prefix);
+      await deleteS3Prefix(s3Prefix);
+    } catch (error) {
+      console.warn("[deleteListing] Warning: Failed to delete S3 objects:", error);
+      // Continue with database deletion even if S3 deletion fails
+    }
+
+    // Delete listing images from database
     try {
       await pool.query("delete from listing_images where listing_id = $1", [
         id,
       ]);
     } catch {}
+
+    // Delete the listing from database
     const result = await pool.query("delete from listings where id = $1", [id]);
     res.json({ ok: true, deleted: result.rowCount || 0 });
   } catch (error: any) {
