@@ -1484,6 +1484,98 @@ export default function OrderHistory() {
         </DialogContent>
       </Dialog>
 
+      {/* Date Proposal Modal */}
+      <Dialog
+        open={proposeDateModalOpen}
+        onOpenChange={setProposeDateModalOpen}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Propose new date(s)</DialogTitle>
+            <DialogDescription>
+              Select new start and end dates for this reservation
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <DateRangePicker
+              value={dateProposalRange}
+              onChange={setDateProposalRange}
+              minDate={new Date()}
+            />
+          </div>
+          <Separator />
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => {
+                setProposeDateModalOpen(false);
+                setReservationToProposeDates(null);
+                setDateProposalRange({ start: null, end: null });
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="flex-1"
+              disabled={!dateProposalRange.start || !dateProposalRange.end}
+              onClick={handleConfirmDateProposal}
+            >
+              Confirm
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Date Confirmation Modal */}
+      <Dialog
+        open={dateConfirmModalOpen}
+        onOpenChange={setDateConfirmModalOpen}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirm date change</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-base text-muted-foreground">
+              Are you sure you want to propose these new dates for the
+              reservation?
+            </p>
+            {dateProposalRange.start && dateProposalRange.end && (
+              <div className="mt-4 p-3 bg-muted rounded">
+                <p className="text-sm font-semibold">New dates:</p>
+                <p className="text-sm">
+                  {dateProposalRange.start.toLocaleDateString()} to{" "}
+                  {dateProposalRange.end.toLocaleDateString()}
+                </p>
+              </div>
+            )}
+          </div>
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => {
+                setDateConfirmModalOpen(false);
+                setProposeDateModalOpen(true);
+              }}
+            >
+              Back
+            </Button>
+            <Button
+              className="flex-1"
+              onClick={handleSubmitDateProposal}
+              disabled={
+                processingReservationId === reservationToProposeDates?.id ||
+                !reservationToProposeDates
+              }
+            >
+              Confirm
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
