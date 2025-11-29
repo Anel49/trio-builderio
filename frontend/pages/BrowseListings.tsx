@@ -237,6 +237,20 @@ export default function BrowseListings() {
     } catch {}
   }, []);
 
+  // Reload filter preferences when navigating back to /browse
+  React.useEffect(() => {
+    if (location.pathname === "/browse") {
+      try {
+        const saved = localStorage.getItem("browseAppliedFilters");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          setAppliedFilters(parsed);
+          setFilters(parsed);
+        }
+      } catch {}
+    }
+  }, [location.pathname]);
+
   // Save sort preference to localStorage whenever it changes
   React.useEffect(() => {
     if (sortBy) {
