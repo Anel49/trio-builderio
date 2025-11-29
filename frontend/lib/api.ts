@@ -591,3 +591,49 @@ export async function deleteS3Image(imageUrl: string): Promise<{
     };
   }
 }
+
+/**
+ * Update a reservation status (accept or reject)
+ * @param reservationId - The reservation ID
+ * @param status - The new status ('accepted' or 'rejected')
+ * @returns An object with ok status and updated reservation
+ */
+export async function updateReservationStatus(
+  reservationId: string | number,
+  status: "accepted" | "rejected",
+): Promise<{
+  ok: boolean;
+  reservation?: {
+    id: string | number;
+    status: string;
+  };
+  error?: string;
+}> {
+  try {
+    const response = await apiFetch(
+      `/reservations/${reservationId}/status`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status,
+        }),
+      },
+    );
+
+    const data = await response.json();
+    return {
+      ok: data.ok,
+      reservation: data.reservation,
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[updateReservationStatus] Error:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
