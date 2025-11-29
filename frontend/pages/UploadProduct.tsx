@@ -1335,6 +1335,7 @@ export default function UploadProduct() {
                       Drag and drop or click to select files
                     </p>
                     <input
+                      ref={imageInputRef}
                       type="file"
                       multiple
                       accept="image/*"
