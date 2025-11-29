@@ -1580,3 +1580,93 @@ export async function updateReservationStatus(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function updateReservationDates(req: Request, res: Response) {
+  try {
+    const reservationId = Number((req.params as any)?.reservationId);
+    if (!reservationId || Number.isNaN(reservationId)) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "invalid reservationId" });
+    }
+
+    const userId = (req as any).session?.userId;
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    const { startDate, endDate } = req.body || {};
+    if (!startDate || !endDate) {
+      return res.status(400).json({
+        ok: false,
+        error: "startDate and endDate are required",
+      });
+    }
+
+    // Validate dates
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return res.status(400).json({
+        ok: false,
+        error: "Invalid date format",
+      });
+    }
+
+    if (start >= end) {
+      return res.status(400).json({
+        ok: false,
+        error: "Start date must be before end date",
+      });
+    }
+
+    // Fetch the reservation to verify ownership (host or renter)
+    const reservationCheckResult = await pool.query(
+      `select host_id, renter_id from reservations where id = $1`,
+      [reservationId],
+    );
+
+    if (reservationCheckResult.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Reservation not found" });
+    }
+
+    const { host_id, renter_id } = reservationCheckResult.rows[0];
+    // Allow both host and renter to propose new dates
+    if (host_id !== userId && renter_id !== userId) {
+      return res.status(403).json({
+        ok: false,
+        error: "You can only update dates on your own reservations",
+      });
+    }
+
+    // Update the reservation dates and modified tracking
+    const result = await pool.query(
+      `update reservations
+       set start_date = $1,
+           end_date = $2,
+           last_modified = now(),
+           modified_by_id = $3
+       where id = $4
+       returning id, start_date, end_date, last_modified, modified_by_id`,
+      [startDate, endDate, userId, reservationId],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Reservation not found" });
+    }
+
+    res.json({
+      ok: true,
+      reservation: {
+        id: result.rows[0].id,
+        startDate: result.rows[0].start_date,
+        endDate: result.rows[0].end_date,
+        lastModified: result.rows[0].last_modified,
+        modifiedById: result.rows[0].modified_by_id,
+      },
+    });
+  } catch (error: any) {
+    console.error("[updateReservationDates] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
