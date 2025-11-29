@@ -1639,15 +1639,16 @@ export async function updateReservationDates(req: Request, res: Response) {
       });
     }
 
-    // Update the reservation dates and modified tracking
+    // Update the reservation dates, status, and modified tracking
     const result = await pool.query(
       `update reservations
        set start_date = $1,
            end_date = $2,
+           status = 'pending',
            last_modified = now(),
            modified_by_id = $3
        where id = $4
-       returning id, start_date, end_date, last_modified, modified_by_id`,
+       returning id, start_date, end_date, status, last_modified, modified_by_id`,
       [startDate, endDate, userId, reservationId],
     );
 
