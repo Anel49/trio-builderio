@@ -22,11 +22,17 @@ export const ResponsiveImage = React.forwardRef<
   }
 
   return (
-    <picture className={className}>
+    <picture style={{ display: "contents" }}>
       {/* Use WEBP format first for modern browsers */}
       <source srcSet={webpSrc} type="image/webp" />
       {/* Fall back to original format */}
-      <img ref={ref} src={src || fallbackSrc} alt={alt} {...props} />
+      <img
+        ref={ref}
+        src={src || fallbackSrc}
+        alt={alt}
+        className={className}
+        {...props}
+      />
     </picture>
   );
 });
