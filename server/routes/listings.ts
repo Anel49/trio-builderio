@@ -976,6 +976,20 @@ export async function deleteListing(req: Request, res: Response) {
       ]);
     } catch {}
 
+    // Delete listing addons from database
+    try {
+      await pool.query("delete from listing_addons where listing_id = $1", [
+        id,
+      ]);
+    } catch {}
+
+    // Delete listing categories from database
+    try {
+      await pool.query("delete from listing_categories where listing_id = $1", [
+        id,
+      ]);
+    } catch {}
+
     // Delete the listing from database
     const result = await pool.query("delete from listings where id = $1", [id]);
     res.json({ ok: true, deleted: result.rowCount || 0 });
