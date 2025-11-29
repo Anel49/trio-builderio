@@ -22,9 +22,9 @@ export function useIsMobile() {
 }
 
 export function useIsTabletOrMobile() {
-  const [isTabletOrMobile, setIsTabletOrMobile] = React.useState<boolean | undefined>(
-    undefined,
-  );
+  const [isTabletOrMobile, setIsTabletOrMobile] = React.useState<
+    boolean | undefined
+  >(undefined);
 
   React.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${TABLET_BREAKPOINT - 1}px)`);
