@@ -266,29 +266,32 @@ export default function BrowseListings() {
   // Handle browser back/forward button to reload filters
   React.useEffect(() => {
     const handlePopState = () => {
-      if (window.location.pathname === "/browse") {
-        try {
-          const saved = localStorage.getItem("browseAppliedFilters");
-          if (saved) {
-            const parsed = JSON.parse(saved);
-            setAppliedFilters(parsed);
-            setFilters(parsed);
-          }
-        } catch {}
-        try {
-          const saved = localStorage.getItem("browseSortBy");
-          if (saved) {
-            setSortBy(saved);
-          }
-        } catch {}
-        try {
-          const saved = localStorage.getItem("browseFilterLocation");
-          if (saved) {
-            const parsed = JSON.parse(saved);
-            setFilterLocation(parsed);
-          }
-        } catch {}
-      }
+      // Add a small delay to ensure React Router has updated
+      setTimeout(() => {
+        if (window.location.pathname === "/browse") {
+          try {
+            const saved = localStorage.getItem("browseAppliedFilters");
+            if (saved) {
+              const parsed = JSON.parse(saved);
+              setAppliedFilters(parsed);
+              setFilters(parsed);
+            }
+          } catch {}
+          try {
+            const saved = localStorage.getItem("browseSortBy");
+            if (saved) {
+              setSortBy(saved);
+            }
+          } catch {}
+          try {
+            const saved = localStorage.getItem("browseFilterLocation");
+            if (saved) {
+              const parsed = JSON.parse(saved);
+              setFilterLocation(parsed);
+            }
+          } catch {}
+        }
+      }, 0);
     };
 
     window.addEventListener("popstate", handlePopState);
