@@ -258,6 +258,7 @@ export async function createListing(req: Request, res: Response) {
       longitude,
       delivery,
       free_delivery,
+      instant_bookings,
       addons,
     } = req.body || {};
 
