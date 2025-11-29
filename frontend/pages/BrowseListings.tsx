@@ -436,6 +436,8 @@ export default function BrowseListings() {
   React.useEffect(() => {
     if (pendingReservationFetches.size > 0) {
       setIsLoadingDistances(true);
+      // Close date picker when loading starts (but keep dates populated)
+      setIsDatePickerOpen(false);
     } else if (dateRange.start && dateRange.end) {
       // Keep showing if date range is active (will hide when loading state changes)
       setIsLoadingDistances(false);
