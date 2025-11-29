@@ -6,14 +6,22 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const region = process.env.AWS_REGION || "us-east-2";
+
+if (!accessKeyId || !secretAccessKey) {
+  console.error("[S3] WARNING: AWS credentials not found in environment variables");
+  console.error("[S3] AWS_ACCESS_KEY_ID:", accessKeyId ? "✓ Set" : "✗ Missing");
+  console.error("[S3] AWS_SECRET_ACCESS_KEY:", secretAccessKey ? "✓ Set" : "✗ Missing");
+}
+
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION || "us-east-1",
+  region,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+    accessKeyId: accessKeyId || "",
+    secretAccessKey: secretAccessKey || "",
   },
-  // Disable flexible checksums to avoid signature mismatch errors
-  disableFlexibleChecksums: true,
 });
 
 const bucketName = process.env.AWS_S3_BUCKET_NAME || "lendit-listing-images";
