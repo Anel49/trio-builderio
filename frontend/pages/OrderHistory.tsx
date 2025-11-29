@@ -1138,7 +1138,7 @@ export default function OrderHistory() {
                                   variant="outline"
                                   disabled={processingReservationId === res.id}
                                   onClick={() =>
-                                    handleRequestStatusUpdate(res.id, "rejected")
+                                    handleOpenRequestConfirmModal(res, "reject")
                                   }
                                 >
                                   Reject
@@ -1147,7 +1147,7 @@ export default function OrderHistory() {
                                   size="sm"
                                   disabled={processingReservationId === res.id}
                                   onClick={() =>
-                                    handleRequestStatusUpdate(res.id, "accepted")
+                                    handleOpenRequestConfirmModal(res, "accept")
                                   }
                                 >
                                   Accept
