@@ -1255,29 +1255,43 @@ export async function getPresignedProfileImageUrl(req: Request, res: Response) {
     }
 
     // Import S3 utilities
-    const { generatePresignedUploadUrl, generateUserProfilePictureS3Key } =
-      await import("../lib/s3");
+    const {
+      generatePresignedUploadUrl,
+      generateUserProfilePictureS3Key,
+      generateUserProfilePictureWebpS3Key,
+    } = await import("../lib/s3");
 
     // Generate S3 key for user profile picture
     const s3Key = generateUserProfilePictureS3Key(userId, filename);
 
-    // Generate presigned URL
-    const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
+    // Generate S3 key for WEBP version
+    const s3WebpKey = generateUserProfilePictureWebpS3Key(userId);
 
-    console.log("[getPresignedProfileImageUrl] Generated URL successfully");
-    console.log("[getPresignedProfileImageUrl] S3 key:", s3Key);
+    // Generate presigned URLs for both original and WEBP versions
+    const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
+    const presignedWebpUrl = await generatePresignedUploadUrl(
+      s3WebpKey,
+      "image/webp",
+    );
+
+    console.log("[getPresignedProfileImageUrl] Generated URLs successfully");
+    console.log("[getPresignedProfileImageUrl] Original S3 key:", s3Key);
+    console.log("[getPresignedProfileImageUrl] WEBP S3 key:", s3WebpKey);
     console.log(
       "[getPresignedProfileImageUrl] URL preview:",
       presignedUrl.substring(0, 200) + "...",
     );
 
-    // Return both the presigned URL and the S3 key that will be used to store in the database
+    // Return both the presigned URLs and the S3 keys that will be used to store in the database
     const { getS3Url } = await import("../lib/s3");
     res.json({
       ok: true,
       presignedUrl,
+      presignedWebpUrl,
       s3Key,
+      s3WebpKey,
       s3Url: getS3Url(s3Key),
+      s3WebpUrl: getS3Url(s3WebpKey),
     });
   } catch (error: any) {
     console.error("[getPresignedProfileImageUrl] Error:", error);
