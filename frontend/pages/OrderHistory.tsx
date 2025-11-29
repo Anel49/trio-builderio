@@ -28,6 +28,18 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useAuth } from "@/contexts/AuthContext";
+
+// Utility to parse dates without timezone conversion
+const parseDateString = (dateStr: string): Date => {
+  // Handle YYYY-MM-DD format or ISO format
+  const parts = dateStr.split("T")[0].split("-");
+  if (parts.length === 3) {
+    // Manually create date to avoid timezone conversion
+    const [year, month, day] = parts.map(Number);
+    return new Date(year, month - 1, day);
+  }
+  return new Date(dateStr);
+};
 import {
   apiFetch,
   updateReservationStatus,
