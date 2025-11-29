@@ -417,16 +417,19 @@ export default function BrowseListings() {
 
   // Save filter location to localStorage whenever it changes
   React.useEffect(() => {
+    console.log("[BrowseListings] filterLocation changed:", filterLocation);
     if (filterLocation) {
       localStorage.setItem(
         "browseFilterLocation",
         JSON.stringify(filterLocation),
       );
       localStorage.setItem("searchLocation", JSON.stringify(filterLocation));
+      console.log("[BrowseListings] Saved location to localStorage:", filterLocation);
       setSortBy("distance-asc");
     } else {
       localStorage.removeItem("browseFilterLocation");
       localStorage.removeItem("searchLocation");
+      console.log("[BrowseListings] Cleared location from localStorage");
     }
 
     // Detect location removal (was set, now null)
