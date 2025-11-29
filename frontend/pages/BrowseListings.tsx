@@ -694,11 +694,11 @@ export default function BrowseListings() {
 
       // Price filter
       if (appliedFilters.minPrice) {
-        const price = parseInt(listing.price.replace("$", ""));
+        const price = parseInt(listing.price.replace(/[\$,]/g, ""));
         if (price < parseInt(appliedFilters.minPrice)) return false;
       }
       if (appliedFilters.maxPrice) {
-        const price = parseInt(listing.price.replace("$", ""));
+        const price = parseInt(listing.price.replace(/[\$,]/g, ""));
         if (price > parseInt(appliedFilters.maxPrice)) return false;
       }
 
