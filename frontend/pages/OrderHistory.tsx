@@ -1345,9 +1345,10 @@ export default function OrderHistory() {
                 : "Are you sure you want to reject this listing?"}
             </p>
           </div>
-          <div className="flex gap-3 justify-end">
+          <div className="flex gap-3">
             <Button
               variant="outline"
+              className="flex-1"
               onClick={() => {
                 setRequestConfirmModalOpen(false);
                 setRequestConfirmAction(null);
@@ -1357,6 +1358,7 @@ export default function OrderHistory() {
               No
             </Button>
             <Button
+              className="flex-1"
               onClick={handleConfirmRequestAction}
               disabled={
                 processingReservationId === requestToConfirm?.id ||
