@@ -24,6 +24,7 @@ import {
   getPresignedUploadUrl,
   deleteImage,
   updateReservationStatus,
+  updateReservationDates,
 } from "./routes/listings";
 import {
   getUserByEmail,
