@@ -1199,6 +1199,16 @@ export default function OrderHistory() {
                                       Accept request
                                     </DropdownMenuItem>
                                   )}
+                                {res.status.toLowerCase() === "accepted" &&
+                                  direction === "incoming" && (
+                                    <DropdownMenuItem
+                                      onClick={() =>
+                                        handleOpenRequestConfirmModal(res, "reject")
+                                      }
+                                    >
+                                      Reject listing
+                                    </DropdownMenuItem>
+                                  )}
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
