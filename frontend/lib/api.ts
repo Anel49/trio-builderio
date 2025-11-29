@@ -703,6 +703,7 @@ export async function updateReservationDates(
     id: string | number;
     startDate: string;
     endDate: string;
+    status: string;
     lastModified: string;
     modifiedById: string | number;
   };
