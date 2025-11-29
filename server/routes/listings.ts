@@ -1353,7 +1353,7 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "invalid listingId" });
     }
 
-    const { filename, contentType } = req.body || {};
+    const { filename, contentType, imageNumber } = req.body || {};
 
     if (!filename || typeof filename !== "string" || filename.trim() === "") {
       return res.status(400).json({ ok: false, error: "filename is required" });
@@ -1365,6 +1365,13 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
         .json({ ok: false, error: "contentType is required" });
     }
 
+    if (typeof imageNumber !== "number" || imageNumber < 1) {
+      return res.status(400).json({
+        ok: false,
+        error: "imageNumber is required and must be >= 1"
+      });
+    }
+
     // Validate that it's an image file
     if (!contentType.startsWith("image/")) {
       return res
@@ -1373,17 +1380,21 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
     }
 
     // Import S3 utilities
-    const { generatePresignedUploadUrl, generateS3Key } = await import(
+    const { generatePresignedUploadUrl, generateListingImageS3Key } = await import(
       "../lib/s3"
     );
 
-    // Generate S3 key
-    const s3Key = generateS3Key(listingId, filename);
+    // Extract file extension
+    const fileExtension = filename.split(".").pop() || "jpg";
+
+    // Generate S3 key with sequential numbering
+    const s3Key = generateListingImageS3Key(listingId, imageNumber, fileExtension);
 
     // Generate presigned URL
     const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
 
     console.log("[getPresignedUploadUrl] Generated URL successfully");
+    console.log("[getPresignedUploadUrl] S3 key:", s3Key);
     console.log(
       "[getPresignedUploadUrl] URL preview:",
       presignedUrl.substring(0, 200) + "...",
