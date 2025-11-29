@@ -468,7 +468,7 @@ export default function OrderHistory() {
 
   const handleRequestStatusUpdate = async (
     reservationId: string,
-    status: "accepted" | "rejected",
+    status: "pending" | "accepted" | "rejected",
   ) => {
     setProcessingReservationId(reservationId);
     try {
