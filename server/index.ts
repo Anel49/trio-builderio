@@ -38,6 +38,7 @@ import {
   passwordResetVerify,
   passwordReset,
   googleOAuth,
+  getPresignedProfileImageUrl,
 } from "./routes/users";
 import { reverseGeocode } from "./routes/geocode";
 import {
