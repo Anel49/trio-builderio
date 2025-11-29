@@ -257,6 +257,31 @@ export default function BrowseListings() {
     }
   }, [location.pathname]);
 
+  // Handle browser back/forward button to reload filters
+  React.useEffect(() => {
+    const handlePopState = () => {
+      if (window.location.pathname === "/browse") {
+        try {
+          const saved = localStorage.getItem("browseAppliedFilters");
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            setAppliedFilters(parsed);
+            setFilters(parsed);
+          }
+        } catch {}
+        try {
+          const saved = localStorage.getItem("browseSortBy");
+          if (saved) {
+            setSortBy(saved);
+          }
+        } catch {}
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
   // Save sort preference to localStorage whenever it changes
   React.useEffect(() => {
     if (sortBy) {
