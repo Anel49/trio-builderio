@@ -1008,17 +1008,29 @@ export default function UploadProduct() {
               </div>
 
               {/* Image Carousel */}
-              {uploadedImages.length > 1 && (
+              {(imagePreviewUrls.length + uploadedImages.length) > 1 && (
                 <ScrollArea className="w-full">
                   <div className="flex space-x-3 pb-4">
+                    {imagePreviewUrls.map((image, index) => (
+                      <div
+                        key={`preview-carousel-${index}`}
+                        className="flex-shrink-0 rounded-lg overflow-hidden border-2 border-blue-400 transition-all hover:border-primary opacity-75"
+                      >
+                        <img
+                          src={image}
+                          alt={`Preview ${index + 1}`}
+                          className="w-20 h-20 object-cover"
+                        />
+                      </div>
+                    ))}
                     {uploadedImages.map((image, index) => (
                       <div
-                        key={index}
+                        key={`uploaded-carousel-${index}`}
                         className="flex-shrink-0 rounded-lg overflow-hidden border-2 border-gray-300 transition-all hover:border-primary"
                       >
                         <img
                           src={image}
-                          alt={`${title} ${index + 1}`}
+                          alt={`${title} ${imagePreviewUrls.length + index + 1}`}
                           className="w-20 h-20 object-cover"
                         />
                       </div>
