@@ -372,7 +372,8 @@ export default function BrowseListings() {
   >({});
 
   // Track reservation fetching progress
-  const [pendingReservationFetches, setPendingReservationFetches] = React.useState<Set<string>>(new Set());
+  const [pendingReservationFetches, setPendingReservationFetches] =
+    React.useState<Set<string>>(new Set());
 
   // Track previous location to detect removal
   const [prevFilterLocation, setPrevFilterLocation] = React.useState<{
@@ -392,7 +393,9 @@ export default function BrowseListings() {
       setPendingReservationFetches((prev) => new Set(prev).add(listingIdStr));
 
       try {
-        const response = await apiFetch(`/listings/${listingIdStr}/reservations`);
+        const response = await apiFetch(
+          `/listings/${listingIdStr}/reservations`,
+        );
         const data = await response.json();
 
         if (data.ok) {
@@ -1559,7 +1562,9 @@ export default function BrowseListings() {
           <div className="bg-card rounded-lg p-8 flex flex-col items-center gap-4 shadow-lg max-w-sm mx-4 border border-border">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
             <p className="text-lg font-semibold text-center text-foreground">
-              {dateRange.start && dateRange.end ? "Filtering for available listings" : "Calculating new distances"}
+              {dateRange.start && dateRange.end
+                ? "Filtering for available listings"
+                : "Calculating new distances"}
             </p>
           </div>
         </div>
