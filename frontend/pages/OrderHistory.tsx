@@ -599,14 +599,14 @@ export default function OrderHistory() {
       );
 
       if (result.ok) {
-        // Update the reservation in local state
+        // Update the reservation in local state with the formatted dates
         setReservations((prev) =>
           prev.map((r) =>
             r.id === reservationToProposeDates.id
               ? {
                   ...r,
-                  start_date: dateProposalRange.start.toISOString(),
-                  end_date: dateProposalRange.end.toISOString(),
+                  start_date: startDate,
+                  end_date: endDate,
                   status: "pending",
                 }
               : r,
