@@ -1157,8 +1157,8 @@ export default function OrderHistory() {
                 const requesterProfile = requesterUserId
                   ? userProfiles.get(requesterUserId)
                   : null;
-                const startDate = new Date(res.start_date);
-                const endDate = new Date(res.end_date);
+                const startDate = parseDateString(res.start_date);
+                const endDate = parseDateString(res.end_date);
                 const formattedStart = startDate.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
