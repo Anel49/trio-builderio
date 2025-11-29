@@ -1012,9 +1012,9 @@ export default function UploadProduct() {
             <div className="lg:col-span-3">
               {/* Main Image */}
               <div className="relative mb-4">
-                {uploadedImages[0] ? (
+                {uploadedImages[0] || imagePreviewUrls[0] ? (
                   <img
-                    src={uploadedImages[0]}
+                    src={uploadedImages[0] || imagePreviewUrls[0]}
                     alt={title || "Product preview"}
                     className="w-full h-96 object-cover rounded-lg"
                   />
