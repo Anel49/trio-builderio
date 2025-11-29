@@ -187,6 +187,40 @@ export default function BrowseListings() {
     } catch {}
   }, []);
 
+  // Load sort preference from localStorage on mount
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem("browseSortBy");
+      if (saved) {
+        setSortBy(saved);
+      }
+    } catch {}
+  }, []);
+
+  // Load filter preferences from localStorage on mount
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem("browseAppliedFilters");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setAppliedFilters(parsed);
+        setFilters(parsed);
+      }
+    } catch {}
+  }, []);
+
+  // Save sort preference to localStorage whenever it changes
+  React.useEffect(() => {
+    if (sortBy) {
+      localStorage.setItem("browseSortBy", sortBy);
+    }
+  }, [sortBy]);
+
+  // Save filter preferences to localStorage whenever they change
+  React.useEffect(() => {
+    localStorage.setItem("browseAppliedFilters", JSON.stringify(appliedFilters));
+  }, [appliedFilters]);
+
   // Apply category filter from URL query parameter
   React.useEffect(() => {
     const categories = searchParams.get("categories");
