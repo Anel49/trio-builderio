@@ -441,6 +441,7 @@ export function createServer() {
   app.post("/api/users/change-password", changePassword);
   app.post("/api/users/change-email", changeEmail);
   app.post("/api/users/change-username", changeUsername);
+  app.post("/api/users/:userId/presigned-url", getPresignedProfileImageUrl);
   app.post("/api/password-reset-request", passwordResetRequest);
   app.post("/api/password-reset-verify", passwordResetVerify);
   app.post("/api/password-reset", passwordReset);
