@@ -462,11 +462,13 @@ export default function UploadProduct() {
           console.log("[UploadProduct] S3 upload response status:", uploadResponse.status);
 
           if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
             console.error(
               "[UploadProduct] S3 upload failed:",
               uploadResponse.status,
               uploadResponse.statusText,
             );
+            console.error("[UploadProduct] S3 error response:", errorText);
             continue;
           }
 
