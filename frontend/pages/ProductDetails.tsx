@@ -1076,7 +1076,7 @@ export default function ProductDetails() {
               <img
                 src={images[currentImageIndex]}
                 alt={product.name}
-                className="w-full h-96 object-cover rounded-lg cursor-zoom-in"
+                className="w-full h-96 object-cover object-center rounded-lg cursor-zoom-in"
                 onClick={() => setIsLightboxOpen(true)}
               />
               {ENABLE_FAVORITES &&
