@@ -792,16 +792,19 @@ export default function UploadProduct() {
           imageNumber,
         );
 
-        if (
-          !presignedResponse.ok ||
-          !presignedResponse.presignedUrl ||
-          !presignedResponse.presignedWebpUrl
-        ) {
+        if (!presignedResponse.ok || !presignedResponse.presignedUrl) {
           console.error(
-            "[UploadProduct] Failed to get presigned URLs:",
+            "[UploadProduct] Failed to get presigned URL for original:",
             presignedResponse.error,
           );
           continue;
+        }
+
+        // WEBP URL is optional - we'll use it if available
+        if (!presignedResponse.presignedWebpUrl) {
+          console.warn(
+            "[UploadProduct] WEBP presigned URL not available, will only upload original",
+          );
         }
 
         console.log("[UploadProduct] Uploading original to S3");
