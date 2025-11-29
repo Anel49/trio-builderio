@@ -1228,10 +1228,7 @@ export async function googleOAuth(req: Request, res: Response) {
   }
 }
 
-export async function getPresignedProfileImageUrl(
-  req: Request,
-  res: Response,
-) {
+export async function getPresignedProfileImageUrl(req: Request, res: Response) {
   try {
     const userId = Number((req.params as any)?.userId);
     if (!userId || Number.isNaN(userId)) {
@@ -1258,10 +1255,8 @@ export async function getPresignedProfileImageUrl(
     }
 
     // Import S3 utilities
-    const {
-      generatePresignedUploadUrl,
-      generateUserProfilePictureS3Key,
-    } = await import("../lib/s3");
+    const { generatePresignedUploadUrl, generateUserProfilePictureS3Key } =
+      await import("../lib/s3");
 
     // Generate S3 key for user profile picture
     const s3Key = generateUserProfilePictureS3Key(userId, filename);
@@ -1286,8 +1281,6 @@ export async function getPresignedProfileImageUrl(
     });
   } catch (error: any) {
     console.error("[getPresignedProfileImageUrl] Error:", error);
-    res
-      .status(500)
-      .json({ ok: false, error: String(error?.message || error) });
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
