@@ -15,14 +15,14 @@ interface ResponsiveImageProps
 export const ResponsiveImage = React.forwardRef<
   HTMLImageElement,
   ResponsiveImageProps
->(({ src, webpSrc, alt, fallbackSrc, ...props }, ref) => {
+>(({ src, webpSrc, alt, fallbackSrc, className, ...props }, ref) => {
   // If no webpSrc is provided, just use the original src
   if (!webpSrc) {
-    return <img ref={ref} src={src} alt={alt} {...props} />;
+    return <img ref={ref} src={src} alt={alt} className={className} {...props} />;
   }
 
   return (
-    <picture>
+    <picture className={className}>
       {/* Use WEBP format first for modern browsers */}
       <source srcSet={webpSrc} type="image/webp" />
       {/* Fall back to original format */}
