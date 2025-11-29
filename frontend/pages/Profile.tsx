@@ -1833,12 +1833,18 @@ export default function Profile() {
               {/* Tab Content (Works for both mobile and desktop) */}
               {activeTab === "listings" && (
                 <div className="space-y-6">
-                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0">
                     <h2 className="text-2xl font-bold">
                       {viewingOtherUser ? "Listings" : "Your Listings"}
                     </h2>
                     {!viewingOtherUser && (
-                      <div className="flex flex-col lg:flex-row gap-2 lg:gap-3">
+                      <div className="flex flex-col md:flex-row gap-2 md:gap-3">
+                        <Button
+                          onClick={() => (window.location.href = "/upload")}
+                        >
+                          <Package className="h-4 w-4 mr-2" />
+                          Add New Listing
+                        </Button>
                         {listedItems.length > 0 && (
                           <>
                             <Button
@@ -1855,12 +1861,6 @@ export default function Profile() {
                             </Button>
                           </>
                         )}
-                        <Button
-                          onClick={() => (window.location.href = "/upload")}
-                        >
-                          <Package className="h-4 w-4 mr-2" />
-                          Add New Listing
-                        </Button>
                       </div>
                     )}
                   </div>
