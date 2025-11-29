@@ -1134,7 +1134,7 @@ export default function ProductDetails() {
             </ScrollArea>
 
             <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
-              <DialogContent className="w-[92vw] max-w-5xl p-0 bg-transparent border-none shadow-none rounded-none">
+              <DialogContent className="w-[92vw] max-w-5xl pt-4 pr-4 pb-0 pl-0 bg-transparent border-none shadow-none rounded-none">
                 <DialogHeader>
                   <DialogTitle className="sr-only">Image viewer</DialogTitle>
                 </DialogHeader>
