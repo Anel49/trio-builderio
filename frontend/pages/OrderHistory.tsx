@@ -28,7 +28,12 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useAuth } from "@/contexts/AuthContext";
-import { apiFetch, updateReservationStatus } from "@/lib/api";
+import {
+  apiFetch,
+  updateReservationStatus,
+  updateReservationDates,
+} from "@/lib/api";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 import {
   ArrowLeft,
   Search,
