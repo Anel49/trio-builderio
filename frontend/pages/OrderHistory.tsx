@@ -139,6 +139,9 @@ export default function OrderHistory() {
     new Map(),
   );
   const [loadingReservations, setLoadingReservations] = useState(false);
+  const [processingReservationId, setProcessingReservationId] = useState<
+    string | null
+  >(null);
 
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
