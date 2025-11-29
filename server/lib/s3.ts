@@ -9,24 +9,58 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const bucketName = "lendit-files";
 
+let cachedS3Client: S3Client | null = null;
+let cachedAccessKeyId: string | null = null;
+
 function getS3Client(): S3Client {
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
   const region = process.env.AWS_REGION || "us-east-2";
 
-  if (!accessKeyId || !secretAccessKey) {
-    console.error(
-      "[S3] ERROR: AWS credentials not found! Image uploads will fail.",
+  // Only log if credentials are newly available
+  if (accessKeyId && accessKeyId !== cachedAccessKeyId) {
+    cachedAccessKeyId = accessKeyId;
+    console.log("[S3] Initializing S3Client with:");
+    console.log("[S3] Region:", region);
+    console.log("[S3] Bucket:", bucketName);
+    console.log(
+      "[S3] AWS_ACCESS_KEY_ID:",
+      `✓ Set (${accessKeyId.substring(0, 5)}...)`,
     );
+    console.log("[S3] AWS_SECRET_ACCESS_KEY:", "✓ Set");
   }
 
-  return new S3Client({
-    region,
-    credentials: {
-      accessKeyId: accessKeyId || "",
-      secretAccessKey: secretAccessKey || "",
-    },
-  });
+  if (!accessKeyId || !secretAccessKey) {
+    if (!cachedS3Client) {
+      console.error(
+        "[S3] ERROR: AWS credentials not found! Image uploads will fail.",
+      );
+    }
+    // Return cached client if it exists, or create one with empty credentials
+    if (!cachedS3Client) {
+      cachedS3Client = new S3Client({
+        region,
+        credentials: {
+          accessKeyId: "",
+          secretAccessKey: "",
+        },
+      });
+    }
+    return cachedS3Client;
+  }
+
+  // Credentials are available, create or update cached client
+  if (!cachedS3Client) {
+    cachedS3Client = new S3Client({
+      region,
+      credentials: {
+        accessKeyId,
+        secretAccessKey,
+      },
+    });
+  }
+
+  return cachedS3Client;
 }
 
 /**
