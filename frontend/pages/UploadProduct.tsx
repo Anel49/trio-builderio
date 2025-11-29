@@ -430,26 +430,38 @@ export default function UploadProduct() {
   };
 
   const removeImage = async (index: number) => {
-    const imageUrl = uploadedImages[index];
+    console.log("[UploadProduct] Removing image at index:", index);
 
-    // First remove from the frontend state
-    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
+    // Remove from in-memory files and preview URLs first (before upload)
+    if (index < imageFiles.length) {
+      setImageFiles((prev) => prev.filter((_, i) => i !== index));
+      setImagePreviewUrls((prev) => prev.filter((_, i) => i !== index));
+      console.log("[UploadProduct] Removed image from memory");
+      return;
+    }
 
-    // Then delete from S3 if it's a valid S3 URL
-    if (imageUrl && imageUrl.includes(".amazonaws.com")) {
-      try {
-        console.log("[UploadProduct] Deleting image from S3:", imageUrl);
-        const result = await deleteS3Image(imageUrl);
-        if (!result.ok) {
-          console.warn(
-            "[UploadProduct] Failed to delete from S3:",
-            result.error,
-          );
-        } else {
-          console.log("[UploadProduct] Successfully deleted image from S3");
+    // Remove from already uploaded images
+    const uploadedImageIndex = index - imageFiles.length;
+    if (uploadedImageIndex >= 0 && uploadedImageIndex < uploadedImages.length) {
+      const imageUrl = uploadedImages[uploadedImageIndex];
+      setUploadedImages((prev) => prev.filter((_, i) => i !== uploadedImageIndex));
+
+      // Delete from S3 if it's a valid S3 URL
+      if (imageUrl && imageUrl.includes(".amazonaws.com")) {
+        try {
+          console.log("[UploadProduct] Deleting image from S3:", imageUrl);
+          const result = await deleteS3Image(imageUrl);
+          if (!result.ok) {
+            console.warn(
+              "[UploadProduct] Failed to delete from S3:",
+              result.error,
+            );
+          } else {
+            console.log("[UploadProduct] Successfully deleted image from S3");
+          }
+        } catch (error) {
+          console.error("[UploadProduct] Error deleting image from S3:", error);
         }
-      } catch (error) {
-        console.error("[UploadProduct] Error deleting image from S3:", error);
       }
     }
   };
