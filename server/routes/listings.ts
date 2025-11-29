@@ -43,8 +43,12 @@ function extractUserZip(req: Request): string | null {
 }
 
 function formatPrice(price_cents: number) {
-  if (price_cents % 100 === 0) return `$${(price_cents / 100).toFixed(0)}`;
-  return `$${(price_cents / 100).toFixed(2)}`;
+  const dollars = price_cents / 100;
+  const formatted = dollars.toLocaleString("en-US", {
+    minimumFractionDigits: dollars % 1 === 0 ? 0 : 2,
+    maximumFractionDigits: 2,
+  });
+  return `$${formatted}`;
 }
 
 export async function listListings(req: Request, res: Response) {
