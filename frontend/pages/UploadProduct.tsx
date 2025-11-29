@@ -92,6 +92,8 @@ export default function UploadProduct() {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [description, setDescription] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>("Daily");
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
