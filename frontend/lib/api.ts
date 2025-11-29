@@ -501,7 +501,7 @@ export async function apiFetch(path: string, init?: RequestInit) {
  * @param filename - The original filename
  * @param contentType - The MIME type (e.g., "image/jpeg")
  * @param imageNumber - The sequential image number (1, 2, 3, etc.)
- * @returns An object with presignedUrl and s3Url
+ * @returns An object with presignedUrl, presignedWebpUrl, and s3Urls
  */
 export async function getS3PresignedUrl(
   listingId: number,
@@ -511,8 +511,11 @@ export async function getS3PresignedUrl(
 ): Promise<{
   ok: boolean;
   presignedUrl?: string;
+  presignedWebpUrl?: string;
   s3Url?: string;
+  s3WebpUrl?: string;
   s3Key?: string;
+  s3WebpKey?: string;
   error?: string;
 }> {
   try {
@@ -540,8 +543,11 @@ export async function getS3PresignedUrl(
     return {
       ok: data.ok,
       presignedUrl: data.presignedUrl,
+      presignedWebpUrl: data.presignedWebpUrl,
       s3Url: data.s3Url,
+      s3WebpUrl: data.s3WebpUrl,
       s3Key: data.s3Key,
+      s3WebpKey: data.s3WebpKey,
     };
   } catch (error: any) {
     console.error("[getS3PresignedUrl] Error:", error);
