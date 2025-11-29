@@ -77,34 +77,6 @@ const pricePlaceholderByPeriod: Record<RentalPeriod, string> = {
   Monthly: "400",
 };
 
-// CRC32 checksum calculation for S3 flexible checksums
-function calculateCRC32(data: Uint8Array): Uint8Array {
-  const CRC32_TABLE = new Uint32Array(256);
-
-  // Generate CRC32 lookup table
-  for (let i = 0; i < 256; i++) {
-    let crc = i;
-    for (let j = 0; j < 8; j++) {
-      crc = (crc >>> 1) ^ ((crc & 1) ? 0xedb88320 : 0);
-    }
-    CRC32_TABLE[i] = crc >>> 0;
-  }
-
-  let crc = 0xffffffff;
-  for (let i = 0; i < data.length; i++) {
-    crc = (crc >>> 8) ^ CRC32_TABLE[(crc ^ data[i]) & 0xff];
-  }
-  crc = crc ^ 0xffffffff;
-
-  // Return 4-byte little-endian representation
-  const result = new Uint8Array(4);
-  result[0] = (crc >>> 0) & 0xff;
-  result[1] = (crc >>> 8) & 0xff;
-  result[2] = (crc >>> 16) & 0xff;
-  result[3] = (crc >>> 24) & 0xff;
-  return result;
-}
-
 export default function UploadProduct() {
   const { user: authUser } = useAuth();
   const [createdListingId, setCreatedListingId] = useState<number | null>(null);
