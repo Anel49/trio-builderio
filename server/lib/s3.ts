@@ -51,31 +51,15 @@ export async function generatePresignedUploadUrl(
       Bucket: bucketName,
       Key: key,
       ContentType: contentType,
-      ChecksumAlgorithm: "CRC32",
-    } as any);
+      // Don't set ChecksumAlgorithm - let it use the SDK default but don't add it to signature
+    });
 
-    let presignedUrl = await getSignedUrl(s3Client, command, {
+    const presignedUrl = await getSignedUrl(s3Client, command, {
       expiresIn,
     });
 
-    console.log("[S3] Raw presigned URL (before cleanup):", presignedUrl.substring(0, 300) + "...");
-
-    // Check X-Amz-Credential before stripping
-    const urlObjBefore = new URL(presignedUrl);
-    const credentialBefore = urlObjBefore.searchParams.get("X-Amz-Credential");
-    console.log("[S3] X-Amz-Credential before cleanup:", credentialBefore ? credentialBefore.substring(0, 50) + "..." : "MISSING");
-
-    // Strip checksum parameters that AWS SDK adds but would cause signature mismatches
-    urlObjBefore.searchParams.delete("x-amz-checksum-crc32");
-    urlObjBefore.searchParams.delete("x-amz-checksum-sha1");
-    urlObjBefore.searchParams.delete("x-amz-checksum-sha256");
-    urlObjBefore.searchParams.delete("x-amz-sdk-checksum-algorithm");
-    presignedUrl = urlObjBefore.toString();
-
-    const urlObjAfter = new URL(presignedUrl);
-    const credentialAfter = urlObjAfter.searchParams.get("X-Amz-Credential");
-    console.log("[S3] X-Amz-Credential after cleanup:", credentialAfter ? credentialAfter.substring(0, 50) + "..." : "MISSING");
-    console.log("[S3] Final presigned URL:", presignedUrl.substring(0, 300) + "...");
+    console.log("[S3] Generated presigned URL successfully");
+    console.log("[S3] URL preview:", presignedUrl.substring(0, 300) + "...");
 
     return presignedUrl;
   } catch (error) {
