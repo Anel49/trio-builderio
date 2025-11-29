@@ -111,6 +111,7 @@ export default function BrowseListings() {
   const { user: authUser, authenticated } = useAuth();
   // const { setPageLoading } = usePageLoading();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [isTabletOrMobile, setIsTabletOrMobile] = React.useState(
     window.innerWidth < 1024,
   );
