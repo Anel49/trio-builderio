@@ -1662,6 +1662,7 @@ export async function updateReservationDates(req: Request, res: Response) {
         id: result.rows[0].id,
         startDate: result.rows[0].start_date,
         endDate: result.rows[0].end_date,
+        status: result.rows[0].status,
         lastModified: result.rows[0].last_modified,
         modifiedById: result.rows[0].modified_by_id,
       },
