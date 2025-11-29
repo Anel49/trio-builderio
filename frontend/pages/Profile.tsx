@@ -26,6 +26,7 @@ import { RemoveFromFavoritesModal } from "@/components/ui/remove-from-favorites-
 import { LocationPickerModal } from "@/components/LocationPickerModal";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
+import { convertImageToWebp } from "@/lib/image-conversion";
 import { useAuth } from "@/contexts/AuthContext";
 // import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
