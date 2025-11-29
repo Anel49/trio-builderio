@@ -331,7 +331,11 @@ export default function BrowseListings() {
     };
 
     window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
+    console.log("[BrowseListings] Popstate listener attached");
+    return () => {
+      console.log("[BrowseListings] Popstate listener removed");
+      window.removeEventListener("popstate", handlePopState);
+    };
   }, []);
 
   // Save sort preference to localStorage whenever it changes
