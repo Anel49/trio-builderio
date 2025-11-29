@@ -46,9 +46,17 @@ export async function generatePresignedUploadUrl(
       ChecksumAlgorithm: "CRC32",
     } as any);
 
-    const presignedUrl = await getSignedUrl(s3Client, command, {
+    let presignedUrl = await getSignedUrl(s3Client, command, {
       expiresIn,
     });
+
+    // Strip checksum parameters that AWS SDK adds but would cause signature mismatches
+    const urlObj = new URL(presignedUrl);
+    urlObj.searchParams.delete("x-amz-checksum-crc32");
+    urlObj.searchParams.delete("x-amz-checksum-sha1");
+    urlObj.searchParams.delete("x-amz-checksum-sha256");
+    urlObj.searchParams.delete("x-amz-sdk-checksum-algorithm");
+    presignedUrl = urlObj.toString();
 
     console.log("[S3] Generated presigned URL for key:", key);
     console.log("[S3] URL includes:", presignedUrl.substring(0, 200) + "...");
