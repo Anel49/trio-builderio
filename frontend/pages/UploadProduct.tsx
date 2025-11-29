@@ -561,7 +561,7 @@ export default function UploadProduct() {
         Number.isFinite(listingLocation.longitude));
     const hasPrice = price.trim() !== "" && parseFloat(price) > 0;
     const hasDescription = description.trim() !== "";
-    const hasImage = uploadedImages.length > 0;
+    const hasImage = imageFiles.length > 0 || uploadedImages.length > 0;
     return hasTitle && hasLocation && hasPrice && hasDescription && hasImage;
   };
 
