@@ -209,7 +209,12 @@ export async function deleteS3Prefix(prefix: string): Promise<number> {
       return 0;
     }
 
-    console.log("[S3] Found", objects.length, "objects to delete under prefix:", prefix);
+    console.log(
+      "[S3] Found",
+      objects.length,
+      "objects to delete under prefix:",
+      prefix,
+    );
 
     // Delete all objects
     for (const obj of objects) {
@@ -223,7 +228,12 @@ export async function deleteS3Prefix(prefix: string): Promise<number> {
       }
     }
 
-    console.log("[S3] Successfully deleted", objects.length, "objects under prefix:", prefix);
+    console.log(
+      "[S3] Successfully deleted",
+      objects.length,
+      "objects under prefix:",
+      prefix,
+    );
     return objects.length;
   } catch (error) {
     console.error("[S3] Error deleting objects under prefix:", prefix, error);

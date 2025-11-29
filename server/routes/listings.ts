@@ -962,7 +962,10 @@ export async function deleteListing(req: Request, res: Response) {
       console.log("[deleteListing] Deleting S3 prefix:", s3Prefix);
       await deleteS3Prefix(s3Prefix);
     } catch (error) {
-      console.warn("[deleteListing] Warning: Failed to delete S3 objects:", error);
+      console.warn(
+        "[deleteListing] Warning: Failed to delete S3 objects:",
+        error,
+      );
       // Continue with database deletion even if S3 deletion fails
     }
 
