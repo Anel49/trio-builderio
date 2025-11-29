@@ -778,13 +778,13 @@ export default function UploadProduct() {
 
       try {
         console.log(
-          "[UploadProduct] Getting presigned URL for image",
+          "[UploadProduct] Getting presigned URLs for image",
           imageNumber,
           ":",
           file.name,
         );
 
-        // Get presigned URL from backend with correct listing ID
+        // Get presigned URLs from backend with correct listing ID
         const presignedResponse = await getS3PresignedUrl(
           listingId,
           file.name,
@@ -792,17 +792,21 @@ export default function UploadProduct() {
           imageNumber,
         );
 
-        if (!presignedResponse.ok || !presignedResponse.presignedUrl) {
+        if (
+          !presignedResponse.ok ||
+          !presignedResponse.presignedUrl ||
+          !presignedResponse.presignedWebpUrl
+        ) {
           console.error(
-            "[UploadProduct] Failed to get presigned URL:",
+            "[UploadProduct] Failed to get presigned URLs:",
             presignedResponse.error,
           );
           continue;
         }
 
-        console.log("[UploadProduct] Uploading to S3 with correct listing ID");
+        console.log("[UploadProduct] Uploading original to S3");
 
-        // Upload to S3
+        // Upload original image to S3
         const uploadResponse = await fetch(presignedResponse.presignedUrl, {
           method: "PUT",
           headers: {
@@ -822,11 +826,67 @@ export default function UploadProduct() {
         }
 
         console.log(
-          "[UploadProduct] S3 upload successful. S3 URL:",
+          "[UploadProduct] Original upload successful. S3 URL:",
           presignedResponse.s3Url,
         );
 
-        uploadedS3Urls.push(presignedResponse.s3Url || "");
+        // Convert image to WEBP
+        let webpBlob: Blob | null = null;
+        try {
+          console.log("[UploadProduct] Converting image to WEBP format");
+          webpBlob = await convertImageToWebp(file);
+          console.log(
+            "[UploadProduct] WEBP conversion successful. Size:",
+            webpBlob.size,
+            "bytes",
+          );
+        } catch (conversionError) {
+          console.warn(
+            "[UploadProduct] Failed to convert image to WEBP:",
+            conversionError,
+          );
+          // If conversion fails, still use the original image
+          webpBlob = null;
+        }
+
+        // Upload WEBP version if conversion was successful
+        if (webpBlob && presignedResponse.presignedWebpUrl) {
+          try {
+            console.log("[UploadProduct] Uploading WEBP to S3");
+            const webpUploadResponse = await fetch(
+              presignedResponse.presignedWebpUrl,
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "image/webp",
+                },
+                body: webpBlob,
+              },
+            );
+
+            if (!webpUploadResponse.ok) {
+              const errorText = await webpUploadResponse.text();
+              console.warn(
+                "[UploadProduct] WEBP S3 upload failed:",
+                webpUploadResponse.status,
+                errorText,
+              );
+              // Continue with original image URL if WEBP upload fails
+            } else {
+              console.log(
+                "[UploadProduct] WEBP upload successful. S3 URL:",
+                presignedResponse.s3WebpUrl,
+              );
+            }
+          } catch (error) {
+            console.warn("[UploadProduct] Error uploading WEBP image:", error);
+            // Continue with original image URL if WEBP upload fails
+          }
+        }
+
+        // Use WEBP URL if available, otherwise fall back to original
+        const finalUrl = presignedResponse.s3WebpUrl || presignedResponse.s3Url;
+        uploadedS3Urls.push(finalUrl || "");
       } catch (error) {
         console.error("[UploadProduct] Error uploading image:", error);
       }
