@@ -457,6 +457,15 @@ export default function OrderHistory() {
     return requestSortBy === "recent" ? bDate - aDate : aDate - bDate;
   });
 
+  const canReacceptRequest = (reservation: Reservation): boolean => {
+    if (reservation.status.toLowerCase() !== "rejected") return false;
+    const now = new Date();
+    const startDate = new Date(reservation.start_date);
+    const oneDayInMs = 24 * 60 * 60 * 1000;
+    // Check if current date is at least 1 day before start date
+    return startDate.getTime() - now.getTime() >= oneDayInMs;
+  };
+
   const handleRequestStatusUpdate = async (
     reservationId: string,
     status: "accepted" | "rejected",
@@ -473,6 +482,10 @@ export default function OrderHistory() {
               : res,
           ),
         );
+        // Close the confirmation modal
+        setRequestConfirmModalOpen(false);
+        setRequestConfirmAction(null);
+        setRequestToConfirm(null);
       } else {
         console.error(
           "[handleRequestStatusUpdate] Failed to update status:",
@@ -486,6 +499,20 @@ export default function OrderHistory() {
     } finally {
       setProcessingReservationId(null);
     }
+  };
+
+  const handleOpenRequestConfirmModal = (
+    reservation: Reservation,
+    action: "accept" | "reject",
+  ) => {
+    setRequestToConfirm(reservation);
+    setRequestConfirmAction(action);
+    setRequestConfirmModalOpen(true);
+  };
+
+  const handleConfirmRequestAction = () => {
+    if (!requestToConfirm || !requestConfirmAction) return;
+    handleRequestStatusUpdate(requestToConfirm.id, requestConfirmAction);
   };
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
