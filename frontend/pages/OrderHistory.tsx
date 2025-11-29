@@ -357,7 +357,7 @@ export default function OrderHistory() {
     switch (status) {
       case "pending":
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
-      case "approved":
+      case "accepted":
         return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
       case "rejected":
       case "cancelled":
