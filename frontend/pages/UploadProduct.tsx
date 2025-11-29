@@ -14,6 +14,7 @@ import {
   type LocationSelection,
 } from "@/components/LocationPickerModal";
 import { apiFetch, getS3PresignedUrl, deleteS3Image } from "@/lib/api";
+import { convertImageToWebp } from "@/lib/image-conversion";
 import { useAuth } from "@/contexts/AuthContext";
 import { getCurrentUserLocation, type UserLocation } from "@/lib/user-profile";
 import { LoginModal } from "@/components/ui/login-modal";
