@@ -16,6 +16,7 @@ import {
   layouts,
   combineTokens,
 } from "@/lib/design-tokens";
+import { ResponsiveImage, getWebpUrl } from "@/components/ui/responsive-image";
 import {
   DropdownMenu,
   DropdownMenuContent,
