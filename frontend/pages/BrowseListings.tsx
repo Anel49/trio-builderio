@@ -159,10 +159,9 @@ export default function BrowseListings() {
   } | null>(() => {
     // Initialize from localStorage if available
     try {
-      const saved = localStorage.getItem("searchLocation");
+      const saved = localStorage.getItem("browseFilterLocation");
       if (saved) {
         const parsed = JSON.parse(saved);
-        localStorage.removeItem("searchLocation"); // Clear after reading
         return parsed;
       }
     } catch {
