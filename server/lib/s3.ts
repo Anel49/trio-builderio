@@ -191,6 +191,7 @@ export function generateS3Key(
  */
 export async function deleteS3Object(key: string): Promise<boolean> {
   try {
+    const s3Client = getS3Client();
     const command = new DeleteObjectCommand({
       Bucket: bucketName,
       Key: key,
