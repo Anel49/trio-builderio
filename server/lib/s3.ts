@@ -153,14 +153,15 @@ export function generateUserProfilePictureS3Key(
 }
 
 /**
- * Legacy function - kept for compatibility
+ * Legacy function - kept for backward compatibility
+ * Now deprecated - use generateListingImageS3Key instead
  */
 export function generateS3Key(
   listingId: number,
-  originalFileName: string,
-  timestamp: number = Date.now(),
+  imageNumber: number,
+  fileExtension: string,
 ): string {
-  return generateListingImageS3Key(listingId, originalFileName, timestamp);
+  return generateListingImageS3Key(listingId, imageNumber, fileExtension);
 }
 
 /**
