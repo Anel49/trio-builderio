@@ -212,8 +212,8 @@ export default function UploadProduct() {
             }
 
             // Set instant booking
-            if (typeof listing.instantBooking === "boolean") {
-              setEnableInstantBooking(listing.instantBooking);
+            if (typeof listing.instantBookings === "boolean") {
+              setEnableInstantBooking(listing.instantBookings);
             }
 
             // Set images
