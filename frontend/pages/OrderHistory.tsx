@@ -569,10 +569,20 @@ export default function OrderHistory() {
 
     setProcessingReservationId(reservationToProposeDates.id);
     try {
+      // Convert dates to YYYY-MM-DD format to avoid timezone issues
+      const startDate = dateProposalRange.start
+        .toLocaleDateString("en-CA")
+        .split("/")
+        .join("-");
+      const endDate = dateProposalRange.end
+        .toLocaleDateString("en-CA")
+        .split("/")
+        .join("-");
+
       const result = await updateReservationDates(
         reservationToProposeDates.id,
-        dateProposalRange.start.toISOString(),
-        dateProposalRange.end.toISOString(),
+        startDate,
+        endDate,
       );
 
       if (result.ok) {
