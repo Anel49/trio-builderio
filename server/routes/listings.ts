@@ -1513,3 +1513,66 @@ export async function deleteImage(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function updateReservationStatus(req: Request, res: Response) {
+  try {
+    const reservationId = Number((req.params as any)?.reservationId);
+    if (!reservationId || Number.isNaN(reservationId)) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "invalid reservationId" });
+    }
+
+    const userId = (req as any).session?.userId;
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    const { status } = req.body || {};
+    if (!status || !["accepted", "rejected"].includes(status)) {
+      return res.status(400).json({
+        ok: false,
+        error: "status must be 'accepted' or 'rejected'",
+      });
+    }
+
+    // Fetch the reservation to verify ownership
+    const reservationCheckResult = await pool.query(
+      `select host_id from reservations where id = $1`,
+      [reservationId],
+    );
+
+    if (reservationCheckResult.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Reservation not found" });
+    }
+
+    const reservationHostId = reservationCheckResult.rows[0].host_id;
+    if (reservationHostId !== userId) {
+      return res.status(403).json({
+        ok: false,
+        error: "You can only update your own reservation requests",
+      });
+    }
+
+    // Update the reservation status
+    const result = await pool.query(
+      `update reservations set status = $1 where id = $2 returning id, status`,
+      [status, reservationId],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Reservation not found" });
+    }
+
+    res.json({
+      ok: true,
+      reservation: {
+        id: result.rows[0].id,
+        status: result.rows[0].status,
+      },
+    });
+  } catch (error: any) {
+    console.error("[updateReservationStatus] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
