@@ -1298,17 +1298,35 @@ export default function UploadProduct() {
                   </div>
 
                   {/* Uploaded Images Grid */}
-                  {uploadedImages.length > 0 && (
+                  {(imagePreviewUrls.length > 0 || uploadedImages.length > 0) && (
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {uploadedImages.map((image, index) => (
-                        <div key={index} className="relative group">
+                      {imagePreviewUrls.map((image, index) => (
+                        <div key={`preview-${index}`} className="relative group">
                           <img
                             src={image}
-                            alt={`Upload ${index + 1}`}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-32 object-cover rounded-lg opacity-75"
+                          />
+                          <button
+                            onClick={() => removeImage(index)}
+                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-60 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                          <div className="absolute bottom-2 left-2 bg-blue-600/80 text-white px-2 py-1 rounded text-xs">
+                            Pending Upload
+                          </div>
+                        </div>
+                      ))}
+                      {uploadedImages.map((image, index) => (
+                        <div key={`uploaded-${index}`} className="relative group">
+                          <img
+                            src={image}
+                            alt={`Upload ${imagePreviewUrls.length + index + 1}`}
                             className="w-full h-32 object-cover rounded-lg"
                             onError={(e) => {
                               console.error(
-                                `[UploadProduct] Failed to load image ${index + 1}:`,
+                                `[UploadProduct] Failed to load image ${imagePreviewUrls.length + index + 1}:`,
                                 image,
                               );
                               (e.target as HTMLImageElement).src =
@@ -1317,12 +1335,12 @@ export default function UploadProduct() {
                             crossOrigin="anonymous"
                           />
                           <button
-                            onClick={() => removeImage(index)}
+                            onClick={() => removeImage(imagePreviewUrls.length + index)}
                             className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-60 group-hover:opacity-100 transition-opacity"
                           >
                             <X className="h-4 w-4" />
                           </button>
-                          {index === 0 && (
+                          {imagePreviewUrls.length + index === 0 && (
                             <div className="absolute bottom-2 left-2 bg-black/60 text-white px-2 py-1 rounded text-xs">
                               Main
                             </div>
