@@ -1053,7 +1053,7 @@ export default function UploadProduct() {
               </div>
 
               {/* Image Carousel */}
-              {(uploadedImages.length + imagePreviewUrls.length) > 1 && (
+              {uploadedImages.length + imagePreviewUrls.length > 1 && (
                 <ScrollArea className="w-full">
                   <div className="flex space-x-3 pb-4">
                     {imagePreviewUrls.map((image, index) => (
