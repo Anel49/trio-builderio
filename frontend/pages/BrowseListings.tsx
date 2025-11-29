@@ -825,15 +825,15 @@ export default function BrowseListings() {
             return db - da;
           }
           case "price-asc":
-            const pa = parseInt(String(a.price ?? "").replace("$", ""));
-            const pb = parseInt(String(b.price ?? "").replace("$", ""));
+            const pa = parseInt(String(a.price ?? "").replace(/[\$,]/g, ""));
+            const pb = parseInt(String(b.price ?? "").replace(/[\$,]/g, ""));
             return (
               (Number.isFinite(pa) ? pa : Number.MAX_SAFE_INTEGER) -
               (Number.isFinite(pb) ? pb : Number.MAX_SAFE_INTEGER)
             );
           case "price-desc":
-            const pa2 = parseInt(String(a.price ?? "").replace("$", ""));
-            const pb2 = parseInt(String(b.price ?? "").replace("$", ""));
+            const pa2 = parseInt(String(a.price ?? "").replace(/[\$,]/g, ""));
+            const pb2 = parseInt(String(b.price ?? "").replace(/[\$,]/g, ""));
             return (
               (Number.isFinite(pb2) ? pb2 : Number.MAX_SAFE_INTEGER) -
               (Number.isFinite(pa2) ? pa2 : Number.MAX_SAFE_INTEGER)
