@@ -99,10 +99,6 @@ export default function UploadProduct() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isListed, setIsListed] = useState(false);
-  const [showDraftDialog, setShowDraftDialog] = useState(false);
-  const [pendingNavigation, setPendingNavigation] = useState<string | null>(
-    null,
-  );
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -314,14 +310,8 @@ export default function UploadProduct() {
       }
     };
 
-    const handlePopState = (e: PopStateEvent) => {
-      if (!isListed && hasContent()) {
-        e.preventDefault();
-        setShowDraftDialog(true);
-        setPendingNavigation("back");
-        // Push current state back to prevent navigation
-        window.history.pushState(null, "", window.location.href);
-      }
+    const handlePopState = (_e: PopStateEvent) => {
+      // Allow navigation - beforeunload will warn if there's unsaved content
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -481,54 +471,13 @@ export default function UploadProduct() {
     }
   };
 
-  // Handle navigation with draft protection
+  // Handle navigation
   const handleNavigation = (href: string, callback?: () => void) => {
-    if (!isListed && hasContent()) {
-      navigationRef.current = { href, callback };
-      setShowDraftDialog(true);
-      setPendingNavigation(href);
+    if (callback) {
+      callback();
     } else {
-      if (callback) {
-        callback();
-      } else {
-        window.location.href = href;
-      }
+      window.location.href = href;
     }
-  };
-
-  // Handle draft dialog responses
-  const handleSaveDraft = () => {
-    // Save draft logic here (API call, localStorage, etc.)
-    console.log("Saving draft:", {
-      title,
-      price,
-      location: listingLocation,
-      description,
-      selectedTags,
-      uploadedImages,
-    });
-
-    setShowDraftDialog(false);
-    proceedWithNavigation();
-  };
-
-  const handleDiscardDraft = () => {
-    setShowDraftDialog(false);
-    proceedWithNavigation();
-  };
-
-  const proceedWithNavigation = () => {
-    if (pendingNavigation === "back") {
-      window.history.back();
-    } else if (navigationRef.current) {
-      if (navigationRef.current.callback) {
-        navigationRef.current.callback();
-      } else {
-        window.location.href = navigationRef.current.href;
-      }
-    }
-    setPendingNavigation(null);
-    navigationRef.current = null;
   };
 
   const toggleAddonConsumable = (id: string) => {
@@ -909,34 +858,6 @@ export default function UploadProduct() {
     responseTime: "within an hour",
   };
 
-  const DraftDialog = () => (
-    <Dialog open={showDraftDialog} onOpenChange={() => {}}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Save as Draft?</DialogTitle>
-        </DialogHeader>
-        <div className="py-4">
-          <p className="text-muted-foreground">
-            You have unsaved changes. Would you like to save this listing as a
-            draft before leaving?
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <Button
-            variant="outline"
-            className="flex-1"
-            onClick={handleDiscardDraft}
-          >
-            No, Discard
-          </Button>
-          <Button className="flex-1" onClick={handleSaveDraft}>
-            <Save className="h-4 w-4 mr-2" />
-            Yes, Save Draft
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
 
   const SuccessModal = () => (
     <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
@@ -1998,7 +1919,6 @@ export default function UploadProduct() {
         </div>
       </div>
 
-      <DraftDialog />
       <ConfirmationModal
         showConfirmModal={showConfirmModal}
         isConfirmingListing={isConfirmingListing}
