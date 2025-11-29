@@ -345,8 +345,9 @@ export default function Checkout() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex space-x-3">
-                  <img
+                  <ResponsiveImage
                     src={booking.image}
+                    webpSrc={getWebpUrl(booking.image) || undefined}
                     alt={booking.item}
                     className="w-16 h-16 object-cover rounded-md"
                   />
