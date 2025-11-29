@@ -10,10 +10,11 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 const region = process.env.AWS_REGION || "us-east-2";
+const bucketName = process.env.AWS_S3_BUCKET_NAME || "lendit-files";
 
 console.log("[S3] Initializing S3Client with:");
 console.log("[S3] Region:", region);
-console.log("[S3] Bucket: lendit-files");
+console.log("[S3] Bucket:", bucketName);
 console.log(
   "[S3] AWS_ACCESS_KEY_ID:",
   accessKeyId ? `✓ Set (${accessKeyId.substring(0, 5)}...)` : "✗ Missing",
@@ -36,8 +37,6 @@ const s3Client = new S3Client({
     secretAccessKey: secretAccessKey || "",
   },
 });
-
-const bucketName = "lendit-files";
 
 /**
  * Generate a presigned URL for uploading a file to S3
