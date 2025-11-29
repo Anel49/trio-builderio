@@ -584,6 +584,7 @@ export default function OrderHistory() {
                   ...r,
                   start_date: dateProposalRange.start.toISOString(),
                   end_date: dateProposalRange.end.toISOString(),
+                  status: "pending",
                 }
               : r,
           ),
