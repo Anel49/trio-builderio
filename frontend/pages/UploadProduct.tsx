@@ -128,6 +128,7 @@ export default function UploadProduct() {
   const navigationRef = useRef<{ href: string; callback?: () => void } | null>(
     null,
   );
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
   // Price label is now always "Daily" since rental period is fixed to Daily
   const priceUnit = "day";
   const priceLabel = "Price per day";
