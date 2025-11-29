@@ -623,7 +623,30 @@ export async function updateReservationStatus(
       },
     );
 
+    if (!response) {
+      console.error("[updateReservationStatus] No response from apiFetch");
+      return {
+        ok: false,
+        error: "No response from server",
+      };
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error(
+        "[updateReservationStatus] Non-JSON response:",
+        response.status,
+        text.substring(0, 200),
+      );
+      return {
+        ok: false,
+        error: `Server returned ${response.status}: ${text.substring(0, 100)}`,
+      };
+    }
+
     const data = await response.json();
+    console.log("[updateReservationStatus] Response data:", data);
     return {
       ok: data.ok,
       reservation: data.reservation,
