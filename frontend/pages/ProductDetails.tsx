@@ -1139,7 +1139,7 @@ export default function ProductDetails() {
                   <DialogTitle className="sr-only">Image viewer</DialogTitle>
                 </DialogHeader>
                 <div
-                  className="relative w-full flex items-center justify-center select-none bg-black rounded-lg"
+                  className="relative w-full h-[80vh] flex items-center justify-center select-none bg-black rounded-lg overflow-hidden"
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
                 >
