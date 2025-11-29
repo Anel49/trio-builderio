@@ -371,6 +371,9 @@ export default function BrowseListings() {
     >
   >({});
 
+  // Track reservation fetching progress
+  const [pendingReservationFetches, setPendingReservationFetches] = React.useState<Set<string>>(new Set());
+
   // Track previous location to detect removal
   const [prevFilterLocation, setPrevFilterLocation] = React.useState<{
     latitude: number;
@@ -385,26 +388,35 @@ export default function BrowseListings() {
         return; // Already cached
       }
 
+      const listingIdStr = String(listingId);
+      setPendingReservationFetches((prev) => new Set(prev).add(listingIdStr));
+
       try {
-        const response = await apiFetch(`/listings/${listingId}/reservations`);
+        const response = await apiFetch(`/listings/${listingIdStr}/reservations`);
         const data = await response.json();
 
         if (data.ok) {
           setReservationsCache((prev) => ({
             ...prev,
-            [listingId]: data.reservations || [],
+            [listingIdStr]: data.reservations || [],
           }));
         }
       } catch (error) {
         console.error(
-          `Error fetching reservations for listing ${listingId}:`,
+          `Error fetching reservations for listing ${listingIdStr}:`,
           error,
         );
         // Set empty array if fetch fails
         setReservationsCache((prev) => ({
           ...prev,
-          [listingId]: [],
+          [listingIdStr]: [],
         }));
+      } finally {
+        setPendingReservationFetches((prev) => {
+          const updated = new Set(prev);
+          updated.delete(listingIdStr);
+          return updated;
+        });
       }
     },
     [reservationsCache],
@@ -413,11 +425,22 @@ export default function BrowseListings() {
   // Fetch reservations for all listings when they load, but only if a date filter is applied
   React.useEffect(() => {
     if (dateRange.start && dateRange.end) {
+      setIsLoadingDistances(true);
       listings.forEach((listing) => {
         fetchReservations(String(listing.id));
       });
     }
   }, [listings, fetchReservations, dateRange.start, dateRange.end]);
+
+  // Update loading state based on pending fetches
+  React.useEffect(() => {
+    if (pendingReservationFetches.size > 0) {
+      setIsLoadingDistances(true);
+    } else if (dateRange.start && dateRange.end) {
+      // Keep showing if date range is active (will hide when loading state changes)
+      setIsLoadingDistances(false);
+    }
+  }, [pendingReservationFetches, dateRange.start, dateRange.end]);
 
   // Save filter location to localStorage whenever it changes
   React.useEffect(() => {
