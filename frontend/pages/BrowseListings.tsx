@@ -108,10 +108,12 @@ const fadeInStyle = `
 `;
 
 export default function BrowseListings() {
+  console.log("[BrowseListings] Component mounted/rendered");
   const { user: authUser, authenticated } = useAuth();
   // const { setPageLoading } = usePageLoading();
   const [searchParams] = useSearchParams();
   const location = useLocation();
+  console.log("[BrowseListings] Current location:", location.pathname);
   const [isTabletOrMobile, setIsTabletOrMobile] = React.useState(
     window.innerWidth < 1024,
   );
