@@ -404,7 +404,8 @@ const TermsOfServiceContent = () => (
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
             Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental
-            price, charged from the renter. This fee is to insure the renter
+            price, plus {INSURANCE_FEE}% of all non-consumable addons selected,
+            charged from the renter. This fee is to insure the renter
             throughout the booking period. This fee is not charged again with
             booking extensions. Listings providing a service do not incur this fee.
             The renter's maximum out-of-pocket insurance payment is capped at $50.
