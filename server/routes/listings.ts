@@ -840,6 +840,11 @@ export async function updateListing(req: Request, res: Response) {
             [listingId, cat, i + 1],
           );
         }
+        // When updating a listing with new categories, delete the "General" default category
+        await pool.query(
+          `delete from listing_categories where listing_id = $1 and category = 'General'`,
+          [listingId],
+        );
       } catch {}
     }
 
