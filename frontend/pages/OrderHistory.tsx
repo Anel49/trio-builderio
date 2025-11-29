@@ -1183,6 +1183,17 @@ export default function OrderHistory() {
                                       Withdraw Request
                                     </DropdownMenuItem>
                                   )}
+                                {res.status.toLowerCase() === "rejected" &&
+                                  direction === "incoming" &&
+                                  canReacceptRequest(res) && (
+                                    <DropdownMenuItem
+                                      onClick={() =>
+                                        handleOpenRequestConfirmModal(res, "accept")
+                                      }
+                                    >
+                                      Accept request
+                                    </DropdownMenuItem>
+                                  )}
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
