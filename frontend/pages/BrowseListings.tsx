@@ -160,16 +160,24 @@ export default function BrowseListings() {
     // Initialize from localStorage if available (check both keys for compatibility)
     try {
       let saved = localStorage.getItem("browseFilterLocation");
+      console.log("[BrowseListings] Init - browseFilterLocation:", saved);
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        console.log("[BrowseListings] Init - parsed browseFilterLocation:", parsed);
+        return parsed;
       }
       saved = localStorage.getItem("searchLocation");
+      console.log("[BrowseListings] Init - searchLocation:", saved);
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        console.log("[BrowseListings] Init - parsed searchLocation:", parsed);
+        return parsed;
       }
     } catch {
       // Ignore parsing errors
+      console.log("[BrowseListings] Init - error parsing location");
     }
+    console.log("[BrowseListings] Init - no location found");
     return null;
   });
   const [isLoadingDistances, setIsLoadingDistances] = useState(false);
