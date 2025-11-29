@@ -534,6 +534,7 @@ export function createServer() {
   app.get("/reservations/:userId", getUserReservations);
   app.post("/reservations", createReservation);
   app.patch("/reservations/:reservationId/status", updateReservationStatus);
+  app.patch("/reservations/:reservationId/dates", updateReservationDates);
   app.get("/users", getUserByEmail);
   app.get("/users/:id", getUserById);
   app.get("/users/username/:username", getUserByUsername);
