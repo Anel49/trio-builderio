@@ -92,13 +92,15 @@ export function ProductCard({
 }: ProductCardProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const isTabletOrMobile = useIsTabletOrMobile();
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const distanceText =
     typeof distance === "string" && distance.trim() ? distance.trim() : null;
   const resolvedDistance = distanceText ?? "Distance unavailable";
+  const maxCategories = isTabletOrMobile && instantBookings ? 2 : 3;
   const displayCategories = (
     categories && categories.length > 0 ? categories : type ? [type] : []
-  ).slice(0, 3);
+  ).slice(0, maxCategories);
 
   const handleClick = (e: React.MouseEvent) => {
     // Allow standard browser navigation (Ctrl+click, middle-click, etc.)
