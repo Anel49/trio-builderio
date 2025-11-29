@@ -410,6 +410,10 @@ export default function UploadProduct() {
         }
       }
     }
+    // Reset the file input to allow re-selection of the same file
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
