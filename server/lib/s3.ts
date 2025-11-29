@@ -45,6 +45,7 @@ export async function generatePresignedUploadUrl(
     console.log("[S3] Generating presigned URL for:", key);
     console.log("[S3] Using bucket:", bucketName);
 
+    const s3Client = getS3Client();
     const command = new PutObjectCommand({
       Bucket: bucketName,
       Key: key,
