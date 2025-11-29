@@ -1325,6 +1325,50 @@ export default function OrderHistory() {
         </DialogContent>
       </Dialog>
 
+      {/* Request Confirmation Modal */}
+      <Dialog
+        open={requestConfirmModalOpen}
+        onOpenChange={setRequestConfirmModalOpen}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {requestConfirmAction === "accept"
+                ? "Accept listing"
+                : "Reject listing"}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-base text-muted-foreground">
+              {requestConfirmAction === "accept"
+                ? "Are you sure you want to accept this listing?"
+                : "Are you sure you want to reject this listing?"}
+            </p>
+          </div>
+          <div className="flex gap-3 justify-end">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setRequestConfirmModalOpen(false);
+                setRequestConfirmAction(null);
+                setRequestToConfirm(null);
+              }}
+            >
+              No
+            </Button>
+            <Button
+              onClick={handleConfirmRequestAction}
+              disabled={
+                processingReservationId === requestToConfirm?.id ||
+                !requestToConfirm
+              }
+            >
+              Yes
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
