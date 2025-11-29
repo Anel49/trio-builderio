@@ -274,6 +274,13 @@ export default function BrowseListings() {
             setSortBy(saved);
           }
         } catch {}
+        try {
+          const saved = localStorage.getItem("browseFilterLocation");
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            setFilterLocation(parsed);
+          }
+        } catch {}
       }
     };
 
