@@ -7,37 +7,27 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
-const region = process.env.AWS_REGION || "us-east-2";
-
-console.log("[S3] Initializing S3Client with:");
-console.log("[S3] Region:", region);
-console.log("[S3] Bucket: lendit-files");
-console.log(
-  "[S3] AWS_ACCESS_KEY_ID:",
-  accessKeyId ? `✓ Set (${accessKeyId.substring(0, 5)}...)` : "✗ Missing",
-);
-console.log(
-  "[S3] AWS_SECRET_ACCESS_KEY:",
-  secretAccessKey ? "✓ Set" : "✗ Missing",
-);
-
-if (!accessKeyId || !secretAccessKey) {
-  console.error(
-    "[S3] ERROR: AWS credentials not found! Image uploads will fail.",
-  );
-}
-
-const s3Client = new S3Client({
-  region,
-  credentials: {
-    accessKeyId: accessKeyId || "",
-    secretAccessKey: secretAccessKey || "",
-  },
-});
-
 const bucketName = "lendit-files";
+
+function getS3Client(): S3Client {
+  const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+  const region = process.env.AWS_REGION || "us-east-2";
+
+  if (!accessKeyId || !secretAccessKey) {
+    console.error(
+      "[S3] ERROR: AWS credentials not found! Image uploads will fail.",
+    );
+  }
+
+  return new S3Client({
+    region,
+    credentials: {
+      accessKeyId: accessKeyId || "",
+      secretAccessKey: secretAccessKey || "",
+    },
+  });
+}
 
 /**
  * Generate a presigned URL for uploading a file to S3
