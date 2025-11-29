@@ -1020,10 +1020,20 @@ export default function ProductDetails() {
   const hasSelectedValidRange = hasSelectedDates && isDateRangeValid();
   const showTotalPrice = hasSelectedDates;
 
+  const formatPriceWithCommas = (priceStr: string): string => {
+    const numericValue = Number(priceStr.replace(/[^0-9.]/g, ""));
+    if (!Number.isFinite(numericValue)) return priceStr;
+    const formatted = numericValue.toLocaleString("en-US", {
+      minimumFractionDigits: numericValue % 1 === 0 ? 0 : 2,
+      maximumFractionDigits: 2,
+    });
+    return `$${formatted}`;
+  };
+
   const displayedPrice = showTotalPrice
     ? (() => {
         if (!selectedDateRange.start || !selectedDateRange.end)
-          return product.price;
+          return formatPriceWithCommas(product.price);
         const start = selectedDateRange.start as Date;
         const end = selectedDateRange.end as Date;
         const days =
@@ -1032,9 +1042,13 @@ export default function ProductDetails() {
         const numericRate = Number(product.price.replace(/[^0-9.]/g, ""));
         if (!Number.isFinite(numericRate)) return product.price;
         const total = numericRate * days;
-        return `$${total % 1 === 0 ? total.toFixed(0) : total.toFixed(2)}`;
+        const formatted = total.toLocaleString("en-US", {
+          minimumFractionDigits: total % 1 === 0 ? 0 : 2,
+          maximumFractionDigits: 2,
+        });
+        return `$${formatted}`;
       })()
-    : product.price;
+    : formatPriceWithCommas(product.price);
   const priceSubLabel = showTotalPrice ? "total" : "per day";
 
   return (
