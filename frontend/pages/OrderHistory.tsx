@@ -448,6 +448,37 @@ export default function OrderHistory() {
     return requestSortBy === "recent" ? bDate - aDate : aDate - bDate;
   });
 
+  const handleRequestStatusUpdate = async (
+    reservationId: string,
+    status: "accepted" | "rejected",
+  ) => {
+    setProcessingReservationId(reservationId);
+    try {
+      const result = await updateReservationStatus(reservationId, status);
+      if (result.ok && result.reservation) {
+        // Update the reservation in the local state
+        setReservations((prev) =>
+          prev.map((res) =>
+            res.id === reservationId
+              ? { ...res, status: result.reservation!.status }
+              : res,
+          ),
+        );
+      } else {
+        console.error(
+          "[handleRequestStatusUpdate] Failed to update status:",
+          result.error,
+        );
+        alert("Failed to update request status. Please try again.");
+      }
+    } catch (error) {
+      console.error("[handleRequestStatusUpdate] Error:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setProcessingReservationId(null);
+    }
+  };
+
   const sortedOrders = [...filteredOrders].sort((a, b) => {
     const aDate = new Date(a.startDate).getTime();
     const bDate = new Date(b.startDate).getTime();
