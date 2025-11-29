@@ -1097,10 +1097,25 @@ export default function OrderHistory() {
                           {res.status.toLowerCase() === "pending" &&
                             direction === "incoming" && (
                               <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
-                                <Button size="sm" variant="outline">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  disabled={processingReservationId === res.id}
+                                  onClick={() =>
+                                    handleRequestStatusUpdate(res.id, "rejected")
+                                  }
+                                >
                                   Reject
                                 </Button>
-                                <Button size="sm">Accept</Button>
+                                <Button
+                                  size="sm"
+                                  disabled={processingReservationId === res.id}
+                                  onClick={() =>
+                                    handleRequestStatusUpdate(res.id, "accepted")
+                                  }
+                                >
+                                  Accept
+                                </Button>
                               </div>
                             )}
 
