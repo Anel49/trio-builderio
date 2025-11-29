@@ -772,14 +772,15 @@ export async function updateListing(req: Request, res: Response) {
     const primaryImage = imgs[0] ?? null;
     const lat = parseCoordinate(latitude);
     const lon = parseCoordinate(longitude);
+    const instantBookingsValue = Boolean(instant_bookings);
 
     const result = await pool.query(
       `update listings
        set name = $1, price_cents = $2, description = $3, category = $4,
            image_url = $5, zip_code = $6,
            location_city = $7, latitude = $8, longitude = $9,
-           delivery = $10, free_delivery = $11
-       where id = $12
+           delivery = $10, free_delivery = $11, instant_bookings = $12
+       where id = $13
        returning id`,
       [
         name,
@@ -793,6 +794,7 @@ export async function updateListing(req: Request, res: Response) {
         lon,
         delivery || false,
         free_delivery || false,
+        instantBookingsValue,
         id,
       ],
     );
