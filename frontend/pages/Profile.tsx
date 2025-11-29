@@ -287,7 +287,7 @@ export default function Profile() {
         };
         reader.readAsDataURL(file);
 
-        // Get presigned URL from backend
+        // Get presigned URLs from backend for both original and WEBP versions
         const presignedResponse = await fetch(
           `/api/users/${authUser.id}/presigned-url`,
           {
@@ -305,10 +305,15 @@ export default function Profile() {
           return;
         }
 
-        const { presignedUrl, s3Url } = await presignedResponse.json();
-        console.log("[Profile] Got presigned URL, uploading to S3");
+        const {
+          presignedUrl,
+          presignedWebpUrl,
+          s3Url,
+          s3WebpUrl,
+        } = await presignedResponse.json();
+        console.log("[Profile] Got presigned URLs, uploading to S3");
 
-        // Upload to S3
+        // Upload original image to S3
         const uploadResponse = await fetch(presignedUrl, {
           method: "PUT",
           body: file,
@@ -322,9 +327,44 @@ export default function Profile() {
           return;
         }
 
-        console.log("[Profile] Successfully uploaded to S3:", s3Url);
-        // Update the profile image URL to the S3 URL
-        setProfileImageUrl(s3Url);
+        console.log("[Profile] Successfully uploaded original to S3:", s3Url);
+
+        // Convert and upload WEBP version if presigned URL is available
+        if (presignedWebpUrl) {
+          try {
+            console.log("[Profile] Converting image to WEBP format");
+            const webpBlob = await convertImageToWebp(file);
+            console.log(
+              "[Profile] WEBP conversion successful. Size:",
+              webpBlob.size,
+              "bytes",
+            );
+
+            console.log("[Profile] Uploading WEBP to S3");
+            const webpUploadResponse = await fetch(presignedWebpUrl, {
+              method: "PUT",
+              body: webpBlob,
+              headers: {
+                "Content-Type": "image/webp",
+              },
+            });
+
+            if (webpUploadResponse.ok) {
+              console.log("[Profile] Successfully uploaded WEBP to S3:", s3WebpUrl);
+              // Use WEBP URL if available
+              setProfileImageUrl(s3WebpUrl);
+            } else {
+              console.warn("[Profile] Failed to upload WEBP, using original");
+              setProfileImageUrl(s3Url);
+            }
+          } catch (webpError) {
+            console.warn("[Profile] Failed to convert to WEBP, using original:", webpError);
+            setProfileImageUrl(s3Url);
+          }
+        } else {
+          // No WEBP URL available, use original
+          setProfileImageUrl(s3Url);
+        }
       } catch (error) {
         console.error("[Profile] Error uploading profile image:", error);
       }
