@@ -187,6 +187,33 @@ export default function BrowseListings() {
     } catch {}
   }, []);
 
+  // Filter state
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    minPrice: "",
+    maxPrice: "",
+    maxDistance: "",
+    zipCode: "",
+    categories: [] as string[],
+    offersDelivery: false,
+    offersFreeDelivery: false,
+    instantBookings: false,
+  });
+  const [appliedFilters, setAppliedFilters] = useState({
+    minPrice: "",
+    maxPrice: "",
+    maxDistance: "",
+    zipCode: "",
+    categories: [] as string[],
+    offersDelivery: false,
+    offersFreeDelivery: false,
+    instantBookings: false,
+  });
+
+  // Sort state
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [sortBy, setSortBy] = useState("");
+
   // Load sort preference from localStorage on mount
   React.useEffect(() => {
     try {
@@ -236,33 +263,6 @@ export default function BrowseListings() {
       }));
     }
   }, [searchParams]);
-
-  // Filter state
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [filters, setFilters] = useState({
-    minPrice: "",
-    maxPrice: "",
-    maxDistance: "",
-    zipCode: "",
-    categories: [] as string[],
-    offersDelivery: false,
-    offersFreeDelivery: false,
-    instantBookings: false,
-  });
-  const [appliedFilters, setAppliedFilters] = useState({
-    minPrice: "",
-    maxPrice: "",
-    maxDistance: "",
-    zipCode: "",
-    categories: [] as string[],
-    offersDelivery: false,
-    offersFreeDelivery: false,
-    instantBookings: false,
-  });
-
-  // Sort state
-  const [isSortOpen, setIsSortOpen] = useState(false);
-  const [sortBy, setSortBy] = useState("");
 
   // Prevent auto-focus on mobile/tablet when filter opens
   React.useEffect(() => {
