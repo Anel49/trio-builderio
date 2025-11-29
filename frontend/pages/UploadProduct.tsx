@@ -589,7 +589,9 @@ export default function UploadProduct() {
         Math.round(Number(price.replace(/[^0-9.]/g, "")) * 100) || 0;
       const defaultImage =
         "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format";
-      const imgs = uploadedImages.length > 0 ? uploadedImages : [defaultImage];
+      // Use placeholder for now if we have pending files, actual URLs will be added after listing creation
+      const placeholderImage = imageFiles.length > 0 ? imagePreviewUrls[0] || defaultImage : (uploadedImages.length > 0 ? uploadedImages[0] : defaultImage);
+      const imgs = uploadedImages.length > 0 ? uploadedImages : (imageFiles.length > 0 ? imagePreviewUrls : [defaultImage]);
       const fallbackZip = (() => {
         if (listingLocation.postalCode) {
           return listingLocation.postalCode;
