@@ -753,6 +753,7 @@ export async function updateListing(req: Request, res: Response) {
       longitude,
       delivery,
       free_delivery,
+      instant_bookings,
       addons,
     } = req.body || {};
 
