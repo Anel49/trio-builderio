@@ -470,6 +470,10 @@ export default function UploadProduct() {
           console.error("[UploadProduct] Error deleting image from S3:", error);
         }
       }
+      // Reset the file input so new files can be uploaded
+      if (imageInputRef.current) {
+        imageInputRef.current.value = "";
+      }
     }
   };
 
