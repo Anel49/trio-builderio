@@ -538,6 +538,70 @@ export default function OrderHistory() {
     );
   };
 
+  const handleOpenProposeDateModal = (reservation: Reservation) => {
+    setReservationToProposeDates(reservation);
+    setDateProposalRange({ start: null, end: null });
+    setProposeDateModalOpen(true);
+  };
+
+  const handleConfirmDateProposal = async () => {
+    if (
+      !reservationToProposeDates ||
+      !dateProposalRange.start ||
+      !dateProposalRange.end
+    ) {
+      return;
+    }
+
+    // Show confirmation modal
+    setDateConfirmModalOpen(true);
+    setProposeDateModalOpen(false);
+  };
+
+  const handleSubmitDateProposal = async () => {
+    if (
+      !reservationToProposeDates ||
+      !dateProposalRange.start ||
+      !dateProposalRange.end
+    ) {
+      return;
+    }
+
+    setProcessingReservationId(reservationToProposeDates.id);
+    try {
+      const result = await updateReservationDates(
+        reservationToProposeDates.id,
+        dateProposalRange.start.toISOString(),
+        dateProposalRange.end.toISOString(),
+      );
+
+      if (result.ok) {
+        // Update the reservation in local state
+        setReservations((prev) =>
+          prev.map((r) =>
+            r.id === reservationToProposeDates.id
+              ? {
+                  ...r,
+                  start_date: dateProposalRange.start.toISOString(),
+                  end_date: dateProposalRange.end.toISOString(),
+                }
+              : r,
+          ),
+        );
+
+        setDateConfirmModalOpen(false);
+        setReservationToProposeDates(null);
+        setDateProposalRange({ start: null, end: null });
+        alert("Dates updated successfully");
+      } else {
+        console.error("[handleSubmitDateProposal] Failed:", result.error);
+        alert(`Failed to update dates: ${result.error}`);
+      }
+    } finally {
+      setProcessingReservationId(null);
+    }
+  };
+
   const sortedOrders = [...filteredOrders].sort((a, b) => {
     const aDate = new Date(a.startDate).getTime();
     const bDate = new Date(b.startDate).getTime();
