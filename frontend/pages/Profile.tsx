@@ -272,17 +272,61 @@ export default function Profile() {
     useState("");
   const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
   const openAvatarFilePicker = () => avatarFileInputRef.current?.click();
-  const handleAvatarUpload: React.ChangeEventHandler<HTMLInputElement> = (
+  const handleAvatarUpload: React.ChangeEventHandler<HTMLInputElement> = async (
     e,
   ) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const dataUrl = event.target?.result as string;
-        setProfileImageUrl(dataUrl);
-      };
-      reader.readAsDataURL(file);
+    if (file && authUser?.id) {
+      try {
+        // First, create a preview while uploading to S3
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const dataUrl = event.target?.result as string;
+          setProfileImageUrl(dataUrl);
+        };
+        reader.readAsDataURL(file);
+
+        // Get presigned URL from backend
+        const presignedResponse = await fetch(
+          `/api/users/${authUser.id}/presigned-url`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              filename: file.name,
+              contentType: file.type,
+            }),
+          },
+        );
+
+        if (!presignedResponse.ok) {
+          console.error("[Profile] Failed to get presigned URL");
+          return;
+        }
+
+        const { presignedUrl, s3Url } = await presignedResponse.json();
+        console.log("[Profile] Got presigned URL, uploading to S3");
+
+        // Upload to S3
+        const uploadResponse = await fetch(presignedUrl, {
+          method: "PUT",
+          body: file,
+          headers: {
+            "Content-Type": file.type,
+          },
+        });
+
+        if (!uploadResponse.ok) {
+          console.error("[Profile] Failed to upload to S3");
+          return;
+        }
+
+        console.log("[Profile] Successfully uploaded to S3:", s3Url);
+        // Update the profile image URL to the S3 URL
+        setProfileImageUrl(s3Url);
+      } catch (error) {
+        console.error("[Profile] Error uploading profile image:", error);
+      }
     }
     // reset so same file re-triggers change
     e.currentTarget.value = "";
