@@ -274,12 +274,9 @@ export default function BrowseListings() {
 
   // Handle browser back/forward button to reload filters
   React.useEffect(() => {
-    console.log("[BrowseListings] Setting up popstate listener");
     const handlePopState = () => {
-      console.log("[BrowseListings] POPSTATE EVENT FIRED!");
       // Add a small delay to ensure React Router has updated
       setTimeout(() => {
-        console.log("[BrowseListings] popstate handler fired, pathname:", window.location.pathname);
         if (window.location.pathname === "/browse") {
           try {
             const saved = localStorage.getItem("browseAppliedFilters");
@@ -287,43 +284,33 @@ export default function BrowseListings() {
               const parsed = JSON.parse(saved);
               setAppliedFilters(parsed);
               setFilters(parsed);
-              console.log("[BrowseListings] popstate - restored filters:", parsed);
             }
           } catch {}
           try {
             const saved = localStorage.getItem("browseSortBy");
             if (saved) {
               setSortBy(saved);
-              console.log("[BrowseListings] popstate - restored sort:", saved);
             }
           } catch {}
           try {
             let saved = localStorage.getItem("browseFilterLocation");
-            console.log("[BrowseListings] popstate - browseFilterLocation:", saved);
             if (saved) {
               const parsed = JSON.parse(saved);
               setFilterLocation(parsed);
-              console.log("[BrowseListings] popstate - set location from browseFilterLocation:", parsed);
             } else {
               saved = localStorage.getItem("searchLocation");
-              console.log("[BrowseListings] popstate - searchLocation:", saved);
               if (saved) {
                 const parsed = JSON.parse(saved);
                 setFilterLocation(parsed);
-                console.log("[BrowseListings] popstate - set location from searchLocation:", parsed);
               }
             }
-          } catch (e) {
-            console.log("[BrowseListings] popstate - error:", e);
-          }
+          } catch {}
         }
       }, 0);
     };
 
     window.addEventListener("popstate", handlePopState);
-    console.log("[BrowseListings] Popstate listener attached");
     return () => {
-      console.log("[BrowseListings] Popstate listener removed");
       window.removeEventListener("popstate", handlePopState);
     };
   }, []);
