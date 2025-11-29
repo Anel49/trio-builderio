@@ -701,6 +701,85 @@ export default function UploadProduct() {
     }
   };
 
+  const uploadPendingImages = async (listingId: number) => {
+    if (imageFiles.length === 0) {
+      console.log("[UploadProduct] No pending images to upload");
+      return [];
+    }
+
+    console.log(
+      "[UploadProduct] Uploading",
+      imageFiles.length,
+      "pending images for listing:",
+      listingId,
+    );
+
+    const uploadedS3Urls: string[] = [];
+
+    for (let i = 0; i < imageFiles.length; i++) {
+      const file = imageFiles[i];
+      const imageNumber = (uploadedImages.length || 0) + i + 1;
+
+      try {
+        console.log(
+          "[UploadProduct] Getting presigned URL for image",
+          imageNumber,
+          ":",
+          file.name,
+        );
+
+        // Get presigned URL from backend with correct listing ID
+        const presignedResponse = await getS3PresignedUrl(
+          listingId,
+          file.name,
+          file.type,
+          imageNumber,
+        );
+
+        if (!presignedResponse.ok || !presignedResponse.presignedUrl) {
+          console.error(
+            "[UploadProduct] Failed to get presigned URL:",
+            presignedResponse.error,
+          );
+          continue;
+        }
+
+        console.log("[UploadProduct] Uploading to S3 with correct listing ID");
+
+        // Upload to S3
+        const uploadResponse = await fetch(presignedResponse.presignedUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": file.type,
+          },
+          body: file,
+        });
+
+        if (!uploadResponse.ok) {
+          const errorText = await uploadResponse.text();
+          console.error(
+            "[UploadProduct] S3 upload failed:",
+            uploadResponse.status,
+            errorText,
+          );
+          continue;
+        }
+
+        console.log(
+          "[UploadProduct] S3 upload successful. S3 URL:",
+          presignedResponse.s3Url,
+        );
+
+        uploadedS3Urls.push(presignedResponse.s3Url || "");
+      } catch (error) {
+        console.error("[UploadProduct] Error uploading image:", error);
+      }
+    }
+
+    console.log("[UploadProduct] Uploaded", uploadedS3Urls.length, "images");
+    return uploadedS3Urls;
+  };
+
   const handleCancelListing = () => {
     setShowConfirmModal(false);
   };
