@@ -284,7 +284,9 @@ export default function BrowseListings() {
 
   // Handle browser back/forward button to reload filters
   React.useEffect(() => {
+    console.log("[BrowseListings] Setting up popstate listener");
     const handlePopState = () => {
+      console.log("[BrowseListings] POPSTATE EVENT FIRED!");
       // Add a small delay to ensure React Router has updated
       setTimeout(() => {
         console.log("[BrowseListings] popstate handler fired, pathname:", window.location.pathname);
