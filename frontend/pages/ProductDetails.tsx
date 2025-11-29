@@ -1817,7 +1817,7 @@ export default function ProductDetails() {
       </section>
 
       {/* Similar Products Carousel */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="hidden container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Similar products nearby</h2>
           <ViewAllButton />
