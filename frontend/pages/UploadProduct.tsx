@@ -404,7 +404,10 @@ export default function UploadProduct() {
           }
 
           console.log("[UploadProduct] Received presigned URL");
-          console.log("[UploadProduct] URL preview:", presignedResponse.presignedUrl.substring(0, 200) + "...");
+          console.log(
+            "[UploadProduct] URL preview:",
+            presignedResponse.presignedUrl.substring(0, 200) + "...",
+          );
 
           console.log("[UploadProduct] Uploading to S3 with presigned URL");
 
@@ -418,7 +421,10 @@ export default function UploadProduct() {
             body: file,
           });
 
-          console.log("[UploadProduct] S3 upload response status:", uploadResponse.status);
+          console.log(
+            "[UploadProduct] S3 upload response status:",
+            uploadResponse.status,
+          );
 
           if (!uploadResponse.ok) {
             const errorText = await uploadResponse.text();

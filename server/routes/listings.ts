@@ -1384,7 +1384,10 @@ export async function getPresignedUploadUrl(req: Request, res: Response) {
     const presignedUrl = await generatePresignedUploadUrl(s3Key, contentType);
 
     console.log("[getPresignedUploadUrl] Generated URL successfully");
-    console.log("[getPresignedUploadUrl] URL preview:", presignedUrl.substring(0, 200) + "...");
+    console.log(
+      "[getPresignedUploadUrl] URL preview:",
+      presignedUrl.substring(0, 200) + "...",
+    );
 
     // Return both the presigned URL and the S3 key that will be used to store in the database
     res.json({

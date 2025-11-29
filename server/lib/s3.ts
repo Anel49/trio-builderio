@@ -14,11 +14,19 @@ const bucketNameEnv = process.env.AWS_S3_BUCKET_NAME;
 console.log("[S3] Initializing S3Client with:");
 console.log("[S3] Region:", region);
 console.log("[S3] Bucket:", bucketNameEnv);
-console.log("[S3] AWS_ACCESS_KEY_ID:", accessKeyId ? `✓ Set (${accessKeyId.substring(0, 5)}...)` : "✗ Missing");
-console.log("[S3] AWS_SECRET_ACCESS_KEY:", secretAccessKey ? "✓ Set" : "✗ Missing");
+console.log(
+  "[S3] AWS_ACCESS_KEY_ID:",
+  accessKeyId ? `✓ Set (${accessKeyId.substring(0, 5)}...)` : "✗ Missing",
+);
+console.log(
+  "[S3] AWS_SECRET_ACCESS_KEY:",
+  secretAccessKey ? "✓ Set" : "✗ Missing",
+);
 
 if (!accessKeyId || !secretAccessKey) {
-  console.error("[S3] ERROR: AWS credentials not found! Image uploads will fail.");
+  console.error(
+    "[S3] ERROR: AWS credentials not found! Image uploads will fail.",
+  );
 }
 
 const s3Client = new S3Client({
