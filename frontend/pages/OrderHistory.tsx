@@ -570,14 +570,15 @@ export default function OrderHistory() {
     setProcessingReservationId(reservationToProposeDates.id);
     try {
       // Convert dates to YYYY-MM-DD format to avoid timezone issues
-      const startDate = dateProposalRange.start
-        .toLocaleDateString("en-CA")
-        .split("/")
-        .join("-");
-      const endDate = dateProposalRange.end
-        .toLocaleDateString("en-CA")
-        .split("/")
-        .join("-");
+      const formatDateToYYYYMMDD = (date: Date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      };
+
+      const startDate = formatDateToYYYYMMDD(dateProposalRange.start);
+      const endDate = formatDateToYYYYMMDD(dateProposalRange.end);
 
       const result = await updateReservationDates(
         reservationToProposeDates.id,
