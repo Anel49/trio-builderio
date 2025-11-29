@@ -171,6 +171,16 @@ export function generateUserProfilePictureS3Key(
 }
 
 /**
+ * Generate an S3 key for a WEBP version of a user profile picture
+ * @param userId - The user ID
+ * @returns An S3 key for the user's WEBP profile picture
+ */
+export function generateUserProfilePictureWebpS3Key(userId: number): string {
+  // Create a key: users/{userId}/profile.webp
+  return `users/${userId}/profile.webp`;
+}
+
+/**
  * Legacy function - kept for backward compatibility
  * Now deprecated - use generateListingImageS3Key instead
  */
