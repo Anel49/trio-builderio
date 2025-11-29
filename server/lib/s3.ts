@@ -187,6 +187,51 @@ export async function deleteS3Object(key: string): Promise<boolean> {
 }
 
 /**
+ * Delete all objects under a prefix (e.g., all images in a listing folder)
+ * @param prefix - The S3 prefix (e.g., "listings/123/")
+ * @returns The number of objects deleted
+ */
+export async function deleteS3Prefix(prefix: string): Promise<number> {
+  try {
+    console.log("[S3] Deleting all objects under prefix:", prefix);
+
+    // List all objects under the prefix
+    const listCommand = new ListObjectsV2Command({
+      Bucket: bucketName,
+      Prefix: prefix,
+    });
+
+    const listResult = await s3Client.send(listCommand);
+    const objects = listResult.Contents || [];
+
+    if (objects.length === 0) {
+      console.log("[S3] No objects found under prefix:", prefix);
+      return 0;
+    }
+
+    console.log("[S3] Found", objects.length, "objects to delete under prefix:", prefix);
+
+    // Delete all objects
+    for (const obj of objects) {
+      if (obj.Key) {
+        const deleteCommand = new DeleteObjectCommand({
+          Bucket: bucketName,
+          Key: obj.Key,
+        });
+        await s3Client.send(deleteCommand);
+        console.log("[S3] Deleted:", obj.Key);
+      }
+    }
+
+    console.log("[S3] Successfully deleted", objects.length, "objects under prefix:", prefix);
+    return objects.length;
+  } catch (error) {
+    console.error("[S3] Error deleting objects under prefix:", prefix, error);
+    throw error;
+  }
+}
+
+/**
  * Extract S3 key from a public S3 URL
  * @param url - The S3 URL
  * @returns The S3 key or null if invalid
