@@ -467,11 +467,11 @@ export default function OrderHistory() {
           </Button>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="hidden">
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="hidden">
               <RefreshCw className="h-4 w-4 mr-2" />
               Refresh
             </Button>
