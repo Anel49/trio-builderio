@@ -618,7 +618,7 @@ export default function OrderHistory() {
         setDateConfirmModalOpen(false);
         setReservationToProposeDates(null);
         setDateProposalRange({ start: null, end: null });
-        alert("Dates updated successfully");
+        setDateProposalSuccessModalOpen(true);
       } else {
         console.error("[handleSubmitDateProposal] Failed:", result.error);
         alert(`Failed to update dates: ${result.error}`);
