@@ -1244,6 +1244,7 @@ export async function createReservation(req: Request, res: Response) {
       host_id,
       host_name,
       renter_name,
+      renter_email,
       start_date,
       end_date,
       listing_title,
