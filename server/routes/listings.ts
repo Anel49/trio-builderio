@@ -1324,13 +1324,13 @@ export async function createReservation(req: Request, res: Response) {
     // Create the reservation
     const result = await pool.query(
       `insert into reservations (
-        listing_id, renter_id, host_id, host_name, renter_name,
+        listing_id, renter_id, host_id, host_name, renter_name, renter_email,
         start_date, end_date, listing_title, listing_image,
         listing_latitude, listing_longitude, daily_price_cents, total_days,
         rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at
        )
-       values ($1, $2, $3, $4, $5, $6::date, $7::date, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, now())
-       returning id, listing_id, renter_id, host_id, host_name, renter_name,
+       values ($1, $2, $3, $4, $5, $6, $7::date, $8::date, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, now())
+       returning id, listing_id, renter_id, host_id, host_name, renter_name, renter_email,
                  start_date, end_date, listing_title, listing_image,
                  listing_latitude, listing_longitude, daily_price_cents, total_days,
                  rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at`,
@@ -1340,6 +1340,7 @@ export async function createReservation(req: Request, res: Response) {
         host_id || null,
         host_name || null,
         renter_name || null,
+        renter_email || null,
         start_date,
         end_date,
         listing_title || null,
