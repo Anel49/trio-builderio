@@ -1616,6 +1616,31 @@ export default function OrderHistory() {
         </DialogContent>
       </Dialog>
 
+      {/* Date Proposal Success Modal */}
+      <Dialog
+        open={dateProposalSuccessModalOpen}
+        onOpenChange={setDateProposalSuccessModalOpen}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>New date(s) proposal sent!</DialogTitle>
+          </DialogHeader>
+          <div className="text-center py-4">
+            <p className="text-muted-foreground mb-4">
+              Your date change proposal has been sent to the other party. They will review and respond soon.
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <Button
+              onClick={() => setDateProposalSuccessModalOpen(false)}
+              className="flex-1 sm:flex-none"
+            >
+              Done
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
