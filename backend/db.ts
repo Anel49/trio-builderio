@@ -81,6 +81,46 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] Migration check error:", e?.message?.slice(0, 80));
     }
 
+    // Migrate order_number column type and add number column
+    try {
+      const orderNumberTypeResult = await pool.query(
+        `select data_type from information_schema.columns
+         where table_name = 'orders' and column_name = 'order_number'`,
+      );
+
+      if (orderNumberTypeResult.rows.length > 0) {
+        const currentType = orderNumberTypeResult.rows[0].data_type;
+
+        // If order_number is still integer, change it to varchar(20)
+        if (currentType !== 'character varying') {
+          await pool.query(
+            `alter table orders alter column order_number type varchar(20)`,
+          );
+          console.log("[dbSetup] Changed order_number column type to varchar(20)");
+        }
+      }
+
+      // Add number column if it doesn't exist
+      const numberColResult = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'orders' and column_name = 'number'`,
+      );
+
+      if (numberColResult.rows.length === 0) {
+        // First ensure the sequence exists
+        await pool.query(
+          `create sequence if not exists orders_number_seq start with 1000`,
+        );
+
+        await pool.query(
+          `alter table orders add column number bigint not null unique default nextval('orders_number_seq')`,
+        );
+        console.log("[dbSetup] Added number column to orders table");
+      }
+    } catch (e: any) {
+      console.log("[dbSetup] Orders table migration error:", e?.message?.slice(0, 100));
+    }
+
     await pool.query(`
       create table if not exists listings (
         id serial primary key,
