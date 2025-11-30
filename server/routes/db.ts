@@ -274,7 +274,8 @@ export async function dbSetup(_req: Request, res: Response) {
 
       create table if not exists orders (
         id serial primary key,
-        order_id integer not null unique,
+        order_number integer not null unique,
+        listing_id integer references listings(id),
         host_id integer references users(id),
         host_name text,
         host_email text,
@@ -301,6 +302,7 @@ export async function dbSetup(_req: Request, res: Response) {
         end_date timestamptz,
         rental_type text default 'item',
         status text default 'confirmed',
+        addons text,
         review_id integer,
         review_message text,
         created_at timestamptz default now(),
