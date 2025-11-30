@@ -1487,15 +1487,15 @@ export default function OrderHistory() {
           <DialogHeader>
             <DialogTitle>
               {requestConfirmAction === "accept"
-                ? "Accept listing"
-                : "Reject listing"}
+                ? "Accept request"
+                : "Reject request"}
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
             <p className="text-base text-muted-foreground">
               {requestConfirmAction === "accept"
-                ? "Are you sure you want to accept this listing?"
-                : "Are you sure you want to reject this listing?"}
+                ? "Are you sure you want to accept this request?"
+                : "Are you sure you want to reject this request?"}
             </p>
           </div>
           <div className="flex gap-3">
