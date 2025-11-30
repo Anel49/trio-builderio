@@ -109,7 +109,7 @@ export async function dbSetup(_req: Request, res: Response) {
       if (numberColResult.rows.length === 0) {
         // First ensure the sequence exists
         await pool.query(
-          `create sequence if not exists orders_number_seq start with 1000`,
+          `create sequence if not exists orders_number_seq start with 1`,
         );
 
         await pool.query(
