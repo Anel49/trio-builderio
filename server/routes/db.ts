@@ -483,6 +483,16 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] renter_email column already exists");
     }
 
+    // Add host_email column to reservations if it doesn't exist
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists host_email text`,
+      );
+      console.log("[dbSetup] Added host_email column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] host_email column already exists");
+    }
+
     // Add new columns to favorites table if they don't exist
     try {
       await pool.query(
