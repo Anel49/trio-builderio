@@ -274,7 +274,7 @@ export async function dbSetup(_req: Request, res: Response) {
 
       create table if not exists orders (
         id serial primary key,
-        order_number integer not null unique,
+        order_id integer not null unique,
         listing_id integer references listings(id),
         host_id integer references users(id),
         host_name text,
