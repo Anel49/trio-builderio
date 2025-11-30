@@ -388,6 +388,7 @@ export default function ProductDetails() {
           renter_id: authUser?.id ?? null,
           host_id: product?.hostUserId ?? null,
           host_name: product?.host ?? null,
+          host_email: product?.hostEmail ?? null,
           renter_name: authUser?.name ?? authUser?.username ?? null,
           renter_email: authUser?.email ?? null,
           start_date: start.toISOString().split("T")[0],
