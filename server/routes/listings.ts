@@ -1243,6 +1243,7 @@ export async function createReservation(req: Request, res: Response) {
       renter_id,
       host_id,
       host_name,
+      host_email,
       renter_name,
       renter_email,
       start_date,
