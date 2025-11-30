@@ -1374,6 +1374,7 @@ export async function createReservation(req: Request, res: Response) {
         renter_id: reservation.renter_id,
         host_id: reservation.host_id,
         host_name: reservation.host_name,
+        host_email: reservation.host_email,
         renter_name: reservation.renter_name,
         renter_email: reservation.renter_email,
         start_date: new Date(reservation.start_date).toISOString(),
