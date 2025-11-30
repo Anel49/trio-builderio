@@ -587,6 +587,26 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] new_dates_proposed column already exists");
     }
 
+    // Add start_date_proposed column to reservations table if it doesn't exist
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists start_date_proposed timestamptz`,
+      );
+      console.log("[dbSetup] Added start_date_proposed column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] start_date_proposed column already exists");
+    }
+
+    // Add end_date_proposed column to reservations table if it doesn't exist
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists end_date_proposed timestamptz`,
+      );
+      console.log("[dbSetup] Added end_date_proposed column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] end_date_proposed column already exists");
+    }
+
     // Add new columns to favorites table if they don't exist
     try {
       await pool.query(
