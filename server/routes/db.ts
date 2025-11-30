@@ -110,28 +110,10 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table listing_addons add column if not exists consumable boolean default false;
 
       -- Ensure foreign key has ON DELETE CASCADE (fix if it was created without it)
-      do $$
-      begin
-        -- Drop the old constraint if it exists without ON DELETE CASCADE
-        if exists (
-          select 1 from information_schema.table_constraints
-          where table_schema = 'public' and table_name = 'listing_addons'
-            and constraint_name = 'listing_addons_listing_id_fkey'
-            and constraint_type = 'FOREIGN KEY'
-        ) then
-          -- Check if constraint has CASCADE action (if not, drop and recreate)
-          if not exists (
-            select 1 from information_schema.referential_constraints
-            where table_schema = 'public' and table_name = 'listing_addons'
-              and constraint_name = 'listing_addons_listing_id_fkey'
-              and delete_rule = 'CASCADE'
-          ) then
-            alter table listing_addons drop constraint listing_addons_listing_id_fkey;
-            alter table listing_addons add constraint listing_addons_listing_id_fkey
-              foreign key (listing_id) references listings(id) on delete cascade;
-          end if;
-        end if;
-      end $$;
+      -- Note: Simplified to avoid information_schema issues
+      alter table if exists listing_addons drop constraint if exists listing_addons_listing_id_fkey;
+      alter table if exists listing_addons add constraint listing_addons_listing_id_fkey
+        foreign key (listing_id) references listings(id) on delete cascade;
 
       create table if not exists users (
         id serial primary key,
