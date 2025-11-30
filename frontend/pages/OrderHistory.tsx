@@ -1486,16 +1486,24 @@ export default function OrderHistory() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>
-              {requestConfirmAction === "accept"
-                ? "Accept request"
-                : "Reject request"}
+              {currentUser?.id === requestToConfirm?.renter_id
+                ? requestConfirmAction === "accept"
+                  ? "Accept new date(s)"
+                  : "Reject new date(s)"
+                : requestConfirmAction === "accept"
+                  ? "Accept request"
+                  : "Reject request"}
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
             <p className="text-base text-muted-foreground">
-              {requestConfirmAction === "accept"
-                ? "Are you sure you want to accept this request?"
-                : "Are you sure you want to reject this request?"}
+              {currentUser?.id === requestToConfirm?.renter_id
+                ? requestConfirmAction === "accept"
+                  ? "Are you sure you want to accept the proposed date(s)?"
+                  : "Are you sure you want to reject the proposed date(s)?"
+                : requestConfirmAction === "accept"
+                  ? "Are you sure you want to accept this request?"
+                  : "Are you sure you want to reject this request?"}
             </p>
           </div>
           <div className="flex gap-3">
