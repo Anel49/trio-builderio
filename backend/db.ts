@@ -240,6 +240,22 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] Migration error:", e?.message?.slice(0, 100));
     }
 
+    // Add renter_email column to reservations if it doesn't exist
+    await pool.query(
+      `alter table reservations add column if not exists renter_email text`,
+    );
+    console.log("[dbSetup] Added renter_email column to reservations");
+
+    // Add listing_id column to orders table if it doesn't exist
+    try {
+      await pool.query(
+        `alter table orders add column if not exists listing_id integer references listings(id)`,
+      );
+      console.log("[dbSetup] Added listing_id column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] listing_id column already exists or orders table doesn't exist");
+    }
+
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
