@@ -115,14 +115,14 @@ export async function dbSetup(_req: Request, res: Response) {
         -- Drop the old constraint if it exists without ON DELETE CASCADE
         if exists (
           select 1 from information_schema.table_constraints
-          where table_name = 'listing_addons'
+          where table_schema = 'public' and table_name = 'listing_addons'
             and constraint_name = 'listing_addons_listing_id_fkey'
             and constraint_type = 'FOREIGN KEY'
         ) then
           -- Check if constraint has CASCADE action (if not, drop and recreate)
           if not exists (
             select 1 from information_schema.referential_constraints
-            where table_name = 'listing_addons'
+            where table_schema = 'public' and table_name = 'listing_addons'
               and constraint_name = 'listing_addons_listing_id_fkey'
               and delete_rule = 'CASCADE'
           ) then
