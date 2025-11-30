@@ -1654,7 +1654,8 @@ export async function updateReservationDates(req: Request, res: Response) {
            end_date = $2,
            status = 'pending',
            last_modified = now(),
-           modified_by_id = $3
+           modified_by_id = $3,
+           new_dates_proposed = 'sent'
        where id = $4
        returning id, start_date, end_date, status, last_modified, modified_by_id`,
       [startDate, endDate, userId, reservationId],
