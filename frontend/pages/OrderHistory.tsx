@@ -1334,7 +1334,7 @@ export default function OrderHistory() {
                                         )
                                       }
                                     >
-                                      Reject listing
+                                      Reject request
                                     </DropdownMenuItem>
                                   )}
                                 {(res.status.toLowerCase() === "pending" ||
