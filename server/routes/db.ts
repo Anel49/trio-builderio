@@ -250,8 +250,8 @@ export async function dbSetup(_req: Request, res: Response) {
       create index if not exists idx_user_reviews_related_listing_id on user_reviews(related_listing_id);
       create index if not exists idx_user_reviews_created_at on user_reviews(created_at);
 
-      -- Create sequence for order_number starting at 10000
-      create sequence if not exists order_number_seq start with 10000;
+      -- Create sequence for number column starting at 1000
+      create sequence if not exists orders_number_seq start with 1000;
 
       create table if not exists user_credentials (
         id serial primary key,
