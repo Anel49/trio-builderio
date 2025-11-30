@@ -258,6 +258,46 @@ export async function dbSetup(_req: Request, res: Response) {
     );
     console.log("[dbSetup] Added renter_email column to reservations");
 
+    // Migrate order_id to order_number if the old column exists
+    try {
+      const colCheckResult = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'orders' and column_name = 'order_id'`,
+      );
+
+      if (colCheckResult.rows.length > 0) {
+        // Column exists, rename it
+        await pool.query(
+          `alter table if exists orders rename column order_id to order_number`,
+        );
+        console.log("[dbSetup] Renamed order_id column to order_number");
+
+        // Rename index if it exists
+        try {
+          await pool.query(
+            `alter index if exists idx_orders_order_id rename to idx_orders_order_number`,
+          );
+          console.log("[dbSetup] Renamed idx_orders_order_id to idx_orders_order_number");
+        } catch (e: any) {
+          console.log("[dbSetup] Could not rename index:", e?.message?.slice(0, 80));
+        }
+
+        // Rename sequence if it exists
+        try {
+          await pool.query(
+            `alter sequence if exists order_id_seq rename to order_number_seq`,
+          );
+          console.log("[dbSetup] Renamed order_id_seq to order_number_seq");
+        } catch (e: any) {
+          console.log("[dbSetup] Could not rename sequence:", e?.message?.slice(0, 80));
+        }
+      } else {
+        console.log("[dbSetup] order_id column does not exist, using order_number");
+      }
+    } catch (e: any) {
+      console.log("[dbSetup] Migration check error:", e?.message?.slice(0, 80));
+    }
+
     // Add listing_id column to orders table if it doesn't exist
     try {
       await pool.query(
