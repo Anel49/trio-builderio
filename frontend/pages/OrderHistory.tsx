@@ -1621,8 +1621,8 @@ export default function OrderHistory() {
         open={dateProposalSuccessModalOpen}
         onOpenChange={setDateProposalSuccessModalOpen}
       >
-        <DialogContent className="sm:max-w-md border-0 bg-transparent shadow-none">
-          <div className="text-center">
+        <DialogContent className="sm:max-w-md">
+          <div className="text-center py-8">
             <p className="text-lg font-semibold">
               New date(s) proposal sent!
             </p>
