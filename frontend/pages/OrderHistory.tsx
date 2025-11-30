@@ -1574,7 +1574,7 @@ export default function OrderHistory() {
       >
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Confirm date change</DialogTitle>
+            <DialogTitle>Confirm new date(s) proposal</DialogTitle>
           </DialogHeader>
           <div className="py-4">
             <p className="text-base text-muted-foreground">
