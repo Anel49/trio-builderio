@@ -1650,8 +1650,8 @@ export async function updateReservationDates(req: Request, res: Response) {
     // Update the reservation dates, status, and modified tracking
     const result = await pool.query(
       `update reservations
-       set start_date = $1,
-           end_date = $2,
+       set start_date = $1::date,
+           end_date = $2::date,
            status = 'pending',
            last_modified = now(),
            modified_by_id = $3,
