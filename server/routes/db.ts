@@ -191,16 +191,16 @@ export async function dbSetup(_req: Request, res: Response) {
       -- Migration: Rename from_name/to_name to from_id/to_id if they still exist
       do $$
       begin
-        if exists (select 1 from information_schema.columns where table_name = 'messages' and column_name = 'from_name') then
+        if exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'messages' and column_name = 'from_name') then
           alter table messages drop column from_name;
         end if;
-        if exists (select 1 from information_schema.columns where table_name = 'messages' and column_name = 'to_name') then
+        if exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'messages' and column_name = 'to_name') then
           alter table messages drop column to_name;
         end if;
-        if not exists (select 1 from information_schema.columns where table_name = 'messages' and column_name = 'from_id') then
+        if not exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'messages' and column_name = 'from_id') then
           alter table messages add column from_id integer references users(id) on delete set null;
         end if;
-        if not exists (select 1 from information_schema.columns where table_name = 'messages' and column_name = 'to_id') then
+        if not exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'messages' and column_name = 'to_id') then
           alter table messages add column to_id integer references users(id) on delete set null;
         end if;
       end $$;
