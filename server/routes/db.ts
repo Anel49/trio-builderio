@@ -97,6 +97,16 @@ export async function dbSetup(_req: Request, res: Response) {
         }
       }
 
+      // Ensure the sequence exists and reset it to start at 1
+      try {
+        await pool.query(
+          `alter sequence if exists orders_number_seq restart with 1`,
+        );
+        console.log("[dbSetup] Reset orders_number_seq to start at 1");
+      } catch (e: any) {
+        console.log("[dbSetup] Could not reset sequence:", e?.message?.slice(0, 80));
+      }
+
       // Add number column if it doesn't exist
       const numberColResult = await pool.query(
         `select column_name from information_schema.columns
