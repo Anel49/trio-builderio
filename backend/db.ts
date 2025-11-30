@@ -376,6 +376,16 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] host_email column already exists");
     }
 
+    // Add new_dates_proposed column to reservations if it doesn't exist
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists new_dates_proposed text`,
+      );
+      console.log("[dbSetup] Added new_dates_proposed column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] new_dates_proposed column already exists");
+    }
+
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
