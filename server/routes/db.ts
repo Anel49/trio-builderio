@@ -537,6 +537,16 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] listing_host column already exists");
     }
 
+    // Add listing_id column to orders table if it doesn't exist
+    try {
+      await pool.query(
+        `alter table orders add column if not exists listing_id integer references listings(id)`,
+      );
+      console.log("[dbSetup] Added listing_id column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] listing_id column already exists");
+    }
+
     // Remove any restrictive foreign key constraints to allow perpetual data
     try {
       console.log("[dbSetup] Removing restrictive foreign key constraints...");
