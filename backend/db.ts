@@ -62,9 +62,14 @@ export async function dbSetup(_req: Request, res: Response) {
           await pool.query(
             `alter index if exists idx_orders_order_id rename to idx_orders_order_number`,
           );
-          console.log("[dbSetup] Renamed idx_orders_order_id to idx_orders_order_number");
+          console.log(
+            "[dbSetup] Renamed idx_orders_order_id to idx_orders_order_number",
+          );
         } catch (e: any) {
-          console.log("[dbSetup] Could not rename index:", e?.message?.slice(0, 80));
+          console.log(
+            "[dbSetup] Could not rename index:",
+            e?.message?.slice(0, 80),
+          );
         }
 
         // Rename sequence if it exists
@@ -74,7 +79,10 @@ export async function dbSetup(_req: Request, res: Response) {
           );
           console.log("[dbSetup] Renamed order_id_seq to order_number_seq");
         } catch (e: any) {
-          console.log("[dbSetup] Could not rename sequence:", e?.message?.slice(0, 80));
+          console.log(
+            "[dbSetup] Could not rename sequence:",
+            e?.message?.slice(0, 80),
+          );
         }
       }
     } catch (e: any) {
@@ -92,11 +100,13 @@ export async function dbSetup(_req: Request, res: Response) {
         const currentType = orderNumberTypeResult.rows[0].data_type;
 
         // If order_number is still integer, change it to varchar(20)
-        if (currentType !== 'character varying') {
+        if (currentType !== "character varying") {
           await pool.query(
             `alter table orders alter column order_number type varchar(20)`,
           );
-          console.log("[dbSetup] Changed order_number column type to varchar(20)");
+          console.log(
+            "[dbSetup] Changed order_number column type to varchar(20)",
+          );
         }
       }
 
@@ -110,7 +120,10 @@ export async function dbSetup(_req: Request, res: Response) {
         );
         console.log("[dbSetup] Reset orders_number_seq to start at 1");
       } catch (e: any) {
-        console.log("[dbSetup] Could not reset sequence:", e?.message?.slice(0, 80));
+        console.log(
+          "[dbSetup] Could not reset sequence:",
+          e?.message?.slice(0, 80),
+        );
       }
 
       // Add number column if it doesn't exist
@@ -126,7 +139,10 @@ export async function dbSetup(_req: Request, res: Response) {
         console.log("[dbSetup] Added number column to orders table");
       }
     } catch (e: any) {
-      console.log("[dbSetup] Orders table migration error:", e?.message?.slice(0, 100));
+      console.log(
+        "[dbSetup] Orders table migration error:",
+        e?.message?.slice(0, 100),
+      );
     }
 
     await pool.query(`
@@ -352,9 +368,10 @@ export async function dbSetup(_req: Request, res: Response) {
       );
       console.log("[dbSetup] Added listing_id column to orders");
     } catch (e: any) {
-      console.log("[dbSetup] listing_id column already exists or orders table doesn't exist");
+      console.log(
+        "[dbSetup] listing_id column already exists or orders table doesn't exist",
+      );
     }
-
 
     // Add addons column to orders table if it doesn't exist
     try {
