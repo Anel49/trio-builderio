@@ -531,35 +531,6 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] listing_id column already exists");
     }
 
-    // Rename order_id to order_number in orders table if it exists
-    try {
-      await pool.query(
-        `alter table if exists orders rename column if exists order_id to order_number`,
-      );
-      console.log("[dbSetup] Renamed order_id to order_number in orders table");
-    } catch (e: any) {
-      console.log("[dbSetup] order_id column already renamed or doesn't exist");
-    }
-
-    // Rename the sequence if it exists
-    try {
-      await pool.query(
-        `alter sequence if exists order_id_seq rename to order_number_seq`,
-      );
-      console.log("[dbSetup] Renamed order_id_seq to order_number_seq");
-    } catch (e: any) {
-      console.log("[dbSetup] order_id_seq already renamed or doesn't exist");
-    }
-
-    // Rename the index if it exists
-    try {
-      await pool.query(
-        `alter index if exists idx_orders_order_id rename to idx_orders_order_number`,
-      );
-      console.log("[dbSetup] Renamed idx_orders_order_id to idx_orders_order_number");
-    } catch (e: any) {
-      console.log("[dbSetup] idx_orders_order_id already renamed or doesn't exist");
-    }
 
     // Add addons column to orders table if it doesn't exist
     try {
