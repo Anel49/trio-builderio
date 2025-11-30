@@ -268,15 +268,6 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] listing_id column already exists or orders table doesn't exist");
     }
 
-    // Rename order_id to order_number in orders table if it exists
-    try {
-      await pool.query(
-        `alter table if exists orders rename column if exists order_id to order_number`,
-      );
-      console.log("[dbSetup] Renamed order_id to order_number in orders table");
-    } catch (e: any) {
-      console.log("[dbSetup] order_id column already renamed or doesn't exist");
-    }
 
     // Add addons column to orders table if it doesn't exist
     try {
