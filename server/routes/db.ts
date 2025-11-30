@@ -189,21 +189,11 @@ export async function dbSetup(_req: Request, res: Response) {
         created_at timestamptz default now()
       );
       -- Migration: Rename from_name/to_name to from_id/to_id if they still exist
-      do $$
-      begin
-        if exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'messages' and column_name = 'from_name') then
-          alter table messages drop column from_name;
-        end if;
-        if exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'messages' and column_name = 'to_name') then
-          alter table messages drop column to_name;
-        end if;
-        if not exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'messages' and column_name = 'from_id') then
-          alter table messages add column from_id integer references users(id) on delete set null;
-        end if;
-        if not exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'messages' and column_name = 'to_id') then
-          alter table messages add column to_id integer references users(id) on delete set null;
-        end if;
-      end $$;
+      -- Note: using IF EXISTS on DROP and IF NOT EXISTS on ADD for compatibility
+      alter table if exists messages drop column if exists from_name;
+      alter table if exists messages drop column if exists to_name;
+      alter table if exists messages add column if not exists from_id integer references users(id) on delete set null;
+      alter table if exists messages add column if not exists to_id integer references users(id) on delete set null;
       create table if not exists reviews (
         id serial primary key,
         listing_id integer not null references listings(id),
