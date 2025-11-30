@@ -312,7 +312,7 @@ export async function dbSetup(_req: Request, res: Response) {
       );
 
       -- Create indexes for orders table
-      create index if not exists idx_orders_order_id on orders(order_id);
+      create index if not exists idx_orders_order_number on orders(order_number);
       create index if not exists idx_orders_host_id on orders(host_id);
       create index if not exists idx_orders_renter_id on orders(renter_id);
       create index if not exists idx_orders_payment_status on orders(payment_status);
