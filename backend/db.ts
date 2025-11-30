@@ -268,6 +268,36 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] listing_id column already exists or orders table doesn't exist");
     }
 
+    // Rename order_id to order_number in orders table if it exists
+    try {
+      await pool.query(
+        `alter table if exists orders rename column if exists order_id to order_number`,
+      );
+      console.log("[dbSetup] Renamed order_id to order_number in orders table");
+    } catch (e: any) {
+      console.log("[dbSetup] order_id column already renamed or doesn't exist");
+    }
+
+    // Add addons column to orders table if it doesn't exist
+    try {
+      await pool.query(
+        `alter table orders add column if not exists addons text`,
+      );
+      console.log("[dbSetup] Added addons column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] addons column already exists");
+    }
+
+    // Add host_email column to reservations if it doesn't exist
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists host_email text`,
+      );
+      console.log("[dbSetup] Added host_email column to reservations");
+    } catch (e: any) {
+      console.log("[dbSetup] host_email column already exists");
+    }
+
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
