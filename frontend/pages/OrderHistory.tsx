@@ -1180,17 +1180,31 @@ export default function OrderHistory() {
                         <div className="lg:col-span-2">
                           <div className="flex space-x-4">
                             {res.listing_image && (
-                              <img
-                                src={res.listing_image}
-                                alt={res.listing_title || "Item"}
-                                className="w-20 h-20 object-cover rounded-lg"
-                              />
+                              <a
+                                href={`/listing/${res.listing_id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-shrink-0 hover:opacity-80 transition-opacity"
+                              >
+                                <img
+                                  src={res.listing_image}
+                                  alt={res.listing_title || "Item"}
+                                  className="w-20 h-20 object-cover rounded-lg cursor-pointer"
+                                />
+                              </a>
                             )}
                             <div className="flex-1">
                               <div className="flex items-start justify-between mb-2">
-                                <h3 className="font-semibold text-lg">
-                                  {res.listing_title || "Item"}
-                                </h3>
+                                <a
+                                  href={`/listing/${res.listing_id}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="hover:text-primary transition-colors no-underline"
+                                >
+                                  <h3 className="font-semibold text-lg">
+                                    {res.listing_title || "Item"}
+                                  </h3>
+                                </a>
                                 <Badge
                                   className={getRequestStatusBadge(
                                     res.status as RequestStatus,
