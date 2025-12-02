@@ -952,7 +952,11 @@ export default function OrderHistory() {
                           <div>
                             <p className="text-sm font-medium mb-2">Host</p>
                             <div className="flex items-center space-x-2">
-                              <a href="/profile" aria-label="Open profile">
+                              <a
+                                href={`/profile/${order.host_username || ""}`}
+                                aria-label="Open profile"
+                                className="no-underline"
+                              >
                                 <Avatar className="h-8 w-8">
                                   <AvatarImage
                                     src={order.hostAvatar}
@@ -966,14 +970,23 @@ export default function OrderHistory() {
                                   </AvatarFallback>
                                 </Avatar>
                               </a>
-                              <span className="text-sm">{order.host}</span>
+                              <a
+                                href={`/profile/${order.host_username || ""}`}
+                                className="text-sm no-underline hover:text-primary transition-colors"
+                              >
+                                {order.host}
+                              </a>
                             </div>
                           </div>
                         ) : (
                           <div>
                             <p className="text-sm font-medium mb-2">Renter</p>
                             <div className="flex items-center space-x-2">
-                              <a href="/profile" aria-label="Open profile">
+                              <a
+                                href={`/profile/${order.renter_username || ""}`}
+                                aria-label="Open profile"
+                                className="no-underline"
+                              >
                                 <Avatar className="h-8 w-8">
                                   <AvatarImage
                                     src={order.renterAvatar}
@@ -987,7 +1000,12 @@ export default function OrderHistory() {
                                   </AvatarFallback>
                                 </Avatar>
                               </a>
-                              <span className="text-sm">{order.renter}</span>
+                              <a
+                                href={`/profile/${order.renter_username || ""}`}
+                                className="text-sm no-underline hover:text-primary transition-colors"
+                              >
+                                {order.renter}
+                              </a>
                             </div>
                           </div>
                         )}
