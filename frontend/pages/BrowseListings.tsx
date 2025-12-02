@@ -202,7 +202,13 @@ export default function BrowseListings() {
       });
       hasInitializedLocationFromAuth.current = true;
     }
-  }, [authenticated, authUser, filterLocation]);
+  }, [
+    authenticated,
+    authUser?.locationLatitude,
+    authUser?.locationLongitude,
+    authUser?.locationCity,
+    filterLocation,
+  ]);
   const [isLoadingDistances, setIsLoadingDistances] = useState(false);
 
   usePageTitle();
