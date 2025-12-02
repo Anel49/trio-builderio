@@ -1545,9 +1545,8 @@ export default function OrderHistory() {
         open={bookingConfirmedModalOpen}
         onOpenChange={(open) => {
           setBookingConfirmedModalOpen(open);
-          // Refresh rental history when modal closes
+          // Refresh rental history tab when modal closes
           if (!open) {
-            fetchReservationsAndProfiles();
             fetchOrders();
           }
         }}
