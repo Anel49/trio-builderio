@@ -920,22 +920,34 @@ export default function OrderHistory() {
                       {/* Item Info */}
                       <div className="lg:col-span-2">
                         <div className="flex space-x-4">
-                          <img
-                            src={order.itemImage}
-                            alt={order.itemName}
-                            className="w-20 h-20 object-cover rounded-lg"
-                          />
+                          <a
+                            href={`/listings/${order.listing_id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-shrink-0"
+                          >
+                            <img
+                              src={order.itemImage || order.listing_image}
+                              alt={order.itemName || order.listing_title}
+                              className="w-20 h-20 object-cover rounded-lg hover:opacity-80 transition-opacity"
+                            />
+                          </a>
                           <div className="flex-1">
                             <div className="flex items-start justify-between mb-2">
-                              <h3 className="font-semibold text-lg">
-                                {order.itemName}
-                              </h3>
+                              <a
+                                href={`/listings/${order.listing_id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-semibold text-lg hover:underline"
+                              >
+                                {order.itemName || order.listing_title}
+                              </a>
                               <Badge className={getStatusColor(order.status)}>
                                 {getStatusText(order.status)}
                               </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground mb-1">
-                              Order #{order.id}
+                              Order #{order.order_number || order.id}
                             </p>
                             <div className="flex items-center text-sm text-muted-foreground mb-2">
                               <MapPin className="h-4 w-4 mr-1" />
@@ -943,7 +955,15 @@ export default function OrderHistory() {
                             </div>
                             <div className="flex items-center text-sm text-muted-foreground">
                               <Calendar className="h-4 w-4 mr-1" />
-                              {order.startDate} - {order.endDate}
+                              {order.start_date
+                                ? `${new Date(order.start_date).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                  })} - ${new Date(order.end_date).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                  })}`
+                                : `${order.startDate} - ${order.endDate}`}
                             </div>
                           </div>
                         </div>
