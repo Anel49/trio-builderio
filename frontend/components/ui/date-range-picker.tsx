@@ -30,6 +30,7 @@ export function DateRangePicker({
   value,
   onChange,
   reservations = [],
+  disabledDateRanges = [],
   minDate = new Date(),
   maxDate,
   className,
