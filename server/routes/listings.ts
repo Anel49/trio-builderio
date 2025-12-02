@@ -1520,6 +1520,105 @@ export async function deleteImage(req: Request, res: Response) {
   }
 }
 
+async function createOrderFromReservation(
+  reservation: any,
+): Promise<{ ok: boolean; orderId?: number; error?: string }> {
+  try {
+    console.log("[createOrderFromReservation] Creating order for reservation:", reservation.id);
+
+    const dailyPriceCents = reservation.daily_price_cents || 0;
+    const totalDays = reservation.total_days || 0;
+    const consumableAddonTotal = reservation.consumable_addon_total || 0;
+    const nonconsumableAddonTotal = reservation.nonconsumable_addon_total || 0;
+
+    // Calculate financial values
+    const dailyTotal = dailyPriceCents * totalDays;
+    const subtotalCents = dailyTotal + nonconsumableAddonTotal + consumableAddonTotal;
+    const taxPercentage = 0.06;
+    const taxCents = Math.round(subtotalCents * taxPercentage);
+    const platformCommissionHost = Math.round(subtotalCents * 0.12);
+    const hostEarns = subtotalCents - platformCommissionHost;
+    const platformCommissionRenter = Math.round((dailyPriceCents + nonconsumableAddonTotal) * 0.1);
+    const renterPays = subtotalCents + platformCommissionRenter + taxCents;
+    const platformCommissionTotal = platformCommissionHost + platformCommissionRenter;
+    const totalCents = renterPays;
+
+    console.log("[createOrderFromReservation] Calculated values:", {
+      dailyTotal,
+      subtotalCents,
+      taxCents,
+      platformCommissionHost,
+      hostEarns,
+      platformCommissionRenter,
+      renterPays,
+      platformCommissionTotal,
+      totalCents,
+    });
+
+    const orderResult = await pool.query(
+      `insert into orders (
+        order_number, listing_id, host_id, host_name, host_email,
+        renter_id, renter_name, renter_email, listing_title, listing_image,
+        listing_latitude, listing_longitude, daily_price_cents, total_days,
+        rental_type, start_date, end_date, currency, discount_cents,
+        discount_percentage, listing_zip_code, payment_status, status,
+        addons, review_id, review_message, subtotal_cents, daily_total,
+        tax_percentage, tax_cents, platform_commissions_host, host_earns,
+        platform_commission_renter, renter_pays, platform_commission_total,
+        total_cents, nonconsumable_addon_total, consumable_addon_total, created_at
+      ) values (
+        'ORD-' || nextval('orders_number_seq')::text,
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16,
+        'USD', null, null, null, 'pending', 'upcoming',
+        $17, null, null, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27,
+        $28, $29, now()
+      ) returning id`,
+      [
+        reservation.listing_id,
+        reservation.host_id,
+        reservation.host_name,
+        reservation.host_email,
+        reservation.renter_id,
+        reservation.renter_name,
+        reservation.renter_email,
+        reservation.listing_title,
+        reservation.listing_image,
+        reservation.listing_latitude,
+        reservation.listing_longitude,
+        reservation.daily_price_cents,
+        reservation.total_days,
+        reservation.rental_type,
+        reservation.start_date,
+        reservation.end_date,
+        reservation.addons,
+        subtotalCents,
+        dailyTotal,
+        taxPercentage,
+        taxCents,
+        platformCommissionHost,
+        hostEarns,
+        platformCommissionRenter,
+        renterPays,
+        platformCommissionTotal,
+        totalCents,
+        nonconsumableAddonTotal,
+        consumableAddonTotal,
+      ],
+    );
+
+    const orderId = orderResult.rows[0].id;
+    console.log("[createOrderFromReservation] Order created with id:", orderId);
+
+    return { ok: true, orderId };
+  } catch (error: any) {
+    console.error("[createOrderFromReservation] Error:", error);
+    return {
+      ok: false,
+      error: `Failed to create order: ${error?.message || error}`,
+    };
+  }
+}
+
 export async function updateReservationStatus(req: Request, res: Response) {
   try {
     const reservationId = Number((req.params as any)?.reservationId);
@@ -1542,9 +1641,13 @@ export async function updateReservationStatus(req: Request, res: Response) {
       });
     }
 
-    // Fetch the reservation to verify ownership and current status
+    // Fetch the full reservation to verify ownership, current status, and get all data for order creation
     const reservationCheckResult = await pool.query(
-      `select host_id, status from reservations where id = $1`,
+      `select id, listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
+              start_date, end_date, listing_title, listing_image,
+              listing_latitude, listing_longitude, daily_price_cents, total_days,
+              rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at
+       from reservations where id = $1`,
       [reservationId],
     );
 
@@ -1554,8 +1657,10 @@ export async function updateReservationStatus(req: Request, res: Response) {
         .json({ ok: false, error: "Reservation not found" });
     }
 
-    const reservationHostId = reservationCheckResult.rows[0].host_id;
-    const currentStatus = reservationCheckResult.rows[0].status;
+    const reservation = reservationCheckResult.rows[0];
+    const reservationHostId = reservation.host_id;
+    const currentStatus = reservation.status;
+
     if (reservationHostId !== userId) {
       return res.status(403).json({
         ok: false,
@@ -1581,6 +1686,16 @@ export async function updateReservationStatus(req: Request, res: Response) {
       return res
         .status(404)
         .json({ ok: false, error: "Reservation not found" });
+    }
+
+    // If status is being set to accepted, create an order record
+    if (status === "accepted") {
+      const orderResult = await createOrderFromReservation(reservation);
+      if (!orderResult.ok) {
+        console.warn("[updateReservationStatus] Failed to create order:", orderResult.error);
+      } else {
+        console.log("[updateReservationStatus] Order created successfully with id:", orderResult.orderId);
+      }
     }
 
     res.json({
