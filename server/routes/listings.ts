@@ -1917,3 +1917,78 @@ export async function updateReservationDates(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function createOrderFromReservationRenter(
+  req: Request,
+  res: Response,
+) {
+  try {
+    const reservationId = Number((req.params as any)?.reservationId);
+    if (!reservationId || Number.isNaN(reservationId)) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "invalid reservationId" });
+    }
+
+    const userId = (req as any).session?.userId;
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    // Fetch the full reservation to verify renter ownership and get all data for order creation
+    const reservationCheckResult = await pool.query(
+      `select id, listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
+              start_date, end_date, listing_title, listing_image,
+              listing_latitude, listing_longitude, daily_price_cents, total_days,
+              rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at
+       from reservations where id = $1`,
+      [reservationId],
+    );
+
+    if (reservationCheckResult.rows.length === 0) {
+      return res
+        .status(404)
+        .json({ ok: false, error: "Reservation not found" });
+    }
+
+    const reservation = reservationCheckResult.rows[0];
+    const reservationRenterId = reservation.renter_id;
+    const reservationStatus = reservation.status;
+
+    // Verify that the current user is the renter of this reservation
+    if (reservationRenterId !== userId) {
+      return res.status(403).json({
+        ok: false,
+        error: "You can only create orders for your own reservations",
+      });
+    }
+
+    // Verify that the reservation is in accepted status
+    if (
+      reservationStatus.toLowerCase() !== "accepted" &&
+      reservationStatus.toLowerCase() !== "pending"
+    ) {
+      return res.status(400).json({
+        ok: false,
+        error: `Cannot create order for reservation with status: ${reservationStatus}`,
+      });
+    }
+
+    // Create the order
+    const orderResult = await createOrderFromReservation(reservation);
+    if (!orderResult.ok) {
+      return res.status(400).json({
+        ok: false,
+        error: orderResult.error || "Failed to create order",
+      });
+    }
+
+    res.json({
+      ok: true,
+      orderId: orderResult.orderId,
+    });
+  } catch (error: any) {
+    console.error("[createOrderFromReservationRenter] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
