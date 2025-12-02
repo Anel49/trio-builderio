@@ -1566,7 +1566,7 @@ async function createOrderFromReservation(
 
     const orderResult = await pool.query(
       `insert into orders (
-        order_number, listing_id, host_id, host_name, host_email,
+        order_number, number, listing_id, host_id, host_name, host_email,
         renter_id, renter_name, renter_email, listing_title, listing_image,
         listing_latitude, listing_longitude, daily_price_cents, total_days,
         rental_type, start_date, end_date, currency, discount_cents,
@@ -1577,6 +1577,7 @@ async function createOrderFromReservation(
         total_cents, nonconsumable_addon_total, consumable_addon_total, created_at
       ) values (
         'ORD-' || nextval('orders_number_seq')::text,
+        currval('orders_number_seq'),
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16,
         'USD', null, null, null, 'pending', 'upcoming',
         $17, null, null, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27,
