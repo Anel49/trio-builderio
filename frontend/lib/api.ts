@@ -787,3 +787,86 @@ export async function updateReservationDates(
     };
   }
 }
+
+/**
+ * Create an order from a reservation (for renters to confirm booking)
+ * @param reservationId - The reservation ID
+ * @returns An object with ok status and orderId
+ */
+export async function createOrderFromReservation(
+  reservationId: string | number,
+): Promise<{
+  ok: boolean;
+  orderId?: number;
+  error?: string;
+}> {
+  try {
+    console.log(
+      "[createOrderFromReservation] Sending POST request to create order for reservation",
+      reservationId,
+    );
+    const response = await apiFetch(`/reservations/${reservationId}/create-order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response) {
+      console.error("[createOrderFromReservation] No response from apiFetch");
+      return {
+        ok: false,
+        error: "No response from server",
+      };
+    }
+
+    console.log(
+      "[createOrderFromReservation] Response status:",
+      response.status,
+      "headers:",
+      response.headers,
+    );
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error(
+        "[createOrderFromReservation] Non-JSON response:",
+        response.status,
+        text.substring(0, 200),
+      );
+      return {
+        ok: false,
+        error: `Server returned ${response.status}: ${text.substring(0, 100)}`,
+      };
+    }
+
+    const data = await response.json();
+    console.log("[createOrderFromReservation] Response data:", data);
+
+    if (!response.ok) {
+      console.error(
+        "[createOrderFromReservation] HTTP error",
+        response.status,
+        "data:",
+        data,
+      );
+      return {
+        ok: false,
+        error: data.error || `HTTP ${response.status}`,
+      };
+    }
+
+    return {
+      ok: data.ok,
+      orderId: data.orderId,
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[createOrderFromReservation] Exception:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
