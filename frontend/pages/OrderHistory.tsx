@@ -580,7 +580,6 @@ export default function OrderHistory() {
           "[handleConfirmBooking] Order created successfully:",
           result.orderId,
         );
-        alert("Booking confirmed! Your order has been created.");
         // Update the reservation status in local state to 'confirmed'
         setReservations((prev) =>
           prev.map((res) =>
@@ -589,6 +588,8 @@ export default function OrderHistory() {
               : res,
           ),
         );
+        // Open the booking confirmed modal
+        setBookingConfirmedModalOpen(true);
       } else {
         console.error(
           "[handleConfirmBooking] Failed to create order:",
