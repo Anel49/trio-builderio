@@ -32,6 +32,7 @@ import { ViewAllButton } from "@/components/ui/view-all-button";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+import { getLocationFromLocalStorage } from "@/lib/location-storage";
 // import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
   computeDistanceMiles,
