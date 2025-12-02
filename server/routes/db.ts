@@ -420,6 +420,88 @@ export async function dbSetup(_req: Request, res: Response) {
       create index if not exists idx_orders_created_at on orders(created_at);
     `);
 
+    // Add new columns to orders table if they don't exist
+    try {
+      await pool.query(
+        `alter table orders add column if not exists nonconsumable_addon_total integer`,
+      );
+      console.log("[dbSetup] Added nonconsumable_addon_total column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] nonconsumable_addon_total column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table orders add column if not exists consumable_addon_total integer`,
+      );
+      console.log("[dbSetup] Added consumable_addon_total column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] consumable_addon_total column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table orders add column if not exists daily_total integer`,
+      );
+      console.log("[dbSetup] Added daily_total column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] daily_total column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table orders add column if not exists host_earns integer`,
+      );
+      console.log("[dbSetup] Added host_earns column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] host_earns column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table orders add column if not exists renter_pays integer`,
+      );
+      console.log("[dbSetup] Added renter_pays column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] renter_pays column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table orders add column if not exists platform_commissions_host integer`,
+      );
+      console.log("[dbSetup] Added platform_commissions_host column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] platform_commissions_host column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table orders add column if not exists platform_commission_renter integer`,
+      );
+      console.log("[dbSetup] Added platform_commission_renter column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] platform_commission_renter column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table orders add column if not exists platform_commission_total integer`,
+      );
+      console.log("[dbSetup] Added platform_commission_total column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] platform_commission_total column already exists");
+    }
+
+    try {
+      await pool.query(
+        `alter table orders drop column if exists platform_charge_cents`,
+      );
+      console.log("[dbSetup] Dropped platform_charge_cents column from orders");
+    } catch (e: any) {
+      console.log("[dbSetup] Could not drop platform_charge_cents column:", e?.message?.slice(0, 80));
+    }
+
     // Add new columns to reservations table if they don't exist
     try {
       await pool.query(
