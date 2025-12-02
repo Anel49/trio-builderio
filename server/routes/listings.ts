@@ -1757,6 +1757,68 @@ export async function updateReservationStatus(req: Request, res: Response) {
   }
 }
 
+export async function getUserOrders(req: Request, res: Response) {
+  try {
+    const userId = Number((req.params as any)?.userId);
+    if (!userId || Number.isNaN(userId)) {
+      return res.status(400).json({ ok: false, error: "invalid userId" });
+    }
+
+    console.log("[getUserOrders] Fetching orders for user:", userId);
+
+    const result = await pool.query(
+      `select id, order_number, listing_id, host_id, host_name, host_email,
+              renter_id, renter_name, renter_email, listing_title, listing_image,
+              listing_latitude, listing_longitude, daily_price_cents, total_days,
+              rental_type, start_date, end_date, status, currency,
+              subtotal_cents, daily_total, tax_cents, host_earns, renter_pays,
+              platform_commission_total, total_cents, created_at
+       from orders
+       where host_id = $1 or renter_id = $1
+       order by created_at desc`,
+      [userId],
+    );
+
+    console.log("[getUserOrders] Query returned", result.rows.length, "rows");
+
+    const orders = result.rows.map((row: any) => ({
+      id: String(row.id),
+      order_number: row.order_number,
+      listing_id: row.listing_id,
+      host_id: row.host_id,
+      host_name: row.host_name,
+      host_email: row.host_email,
+      renter_id: row.renter_id,
+      renter_name: row.renter_name,
+      renter_email: row.renter_email,
+      listing_title: row.listing_title,
+      listing_image: row.listing_image,
+      listing_latitude: row.listing_latitude,
+      listing_longitude: row.listing_longitude,
+      daily_price_cents: row.daily_price_cents,
+      total_days: row.total_days,
+      rental_type: row.rental_type,
+      start_date: row.start_date,
+      end_date: row.end_date,
+      status: row.status,
+      currency: row.currency,
+      subtotal_cents: row.subtotal_cents,
+      daily_total: row.daily_total,
+      tax_cents: row.tax_cents,
+      host_earns: row.host_earns,
+      renter_pays: row.renter_pays,
+      platform_commission_total: row.platform_commission_total,
+      total_cents: row.total_cents,
+      created_at: row.created_at,
+    }));
+
+    res.json({ ok: true, orders });
+  } catch (error: any) {
+    console.error("[getUserOrders] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function updateReservationDates(req: Request, res: Response) {
   try {
     const reservationId = Number((req.params as any)?.reservationId);
