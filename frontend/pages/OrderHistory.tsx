@@ -484,7 +484,9 @@ export default function OrderHistory() {
       order.itemName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.host.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (order.renter &&
-        order.renter.toLowerCase().includes(searchQuery.toLowerCase()));
+        order.renter.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (order.order_number &&
+        order.order_number.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesStatus =
       statusFilter === "all" || order.status === statusFilter;
     const matchesType = typeFilter === "all" || order.type === typeFilter;
