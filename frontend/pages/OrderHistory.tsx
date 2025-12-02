@@ -1013,13 +1013,13 @@ export default function OrderHistory() {
                             <>
                               <p className="text-2xl font-bold">
                                 $
-                                {currentUser?.id === order.host_id
-                                  ? (
-                                      ((order.host_earns || 0) / 100).toFixed(2)
-                                    )
-                                  : (
-                                      ((order.renter_pays || 0) / 100).toFixed(2)
-                                    )}
+                                {(currentUser?.id === order.host_id
+                                  ? ((order.host_earns || 0) / 100)
+                                  : ((order.renter_pays || 0) / 100)
+                                ).toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })}
                               </p>
                               <p className="text-sm text-muted-foreground">
                                 {currentUser?.id === order.host_id
@@ -1029,7 +1029,13 @@ export default function OrderHistory() {
                             </>
                           ) : (
                             <>
-                              <p className="text-2xl font-bold">${order.amount}</p>
+                              <p className="text-2xl font-bold">
+                                $
+                                {(order.amount || 0).toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })}
+                              </p>
                               <p className="text-sm text-muted-foreground">
                                 {order.type === "rented" ? "paid" : "earned"}
                               </p>
