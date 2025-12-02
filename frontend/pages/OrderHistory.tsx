@@ -161,7 +161,16 @@ export default function OrderHistory() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<OrderType | "all">("all");
-  const [activeTab, setActiveTab] = useState<"orders" | "requests">("orders");
+
+  // Check URL query parameter for initial tab
+  const [activeTab, setActiveTab] = useState<"orders" | "requests">(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab");
+      return tab === "requests" ? "requests" : "orders";
+    }
+    return "orders";
+  });
   const [requestSearchQuery, setRequestSearchQuery] = useState("");
   const [requestStatusFilter, setRequestStatusFilter] = useState<
     RequestStatus | "all"
