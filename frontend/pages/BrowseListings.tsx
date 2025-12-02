@@ -60,6 +60,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+import { getLocationFromLocalStorage } from "@/lib/location-storage";
 // import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
   ensureCurrentUserProfile,
