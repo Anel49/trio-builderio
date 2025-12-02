@@ -797,9 +797,9 @@ export default function BrowseListings() {
           };
         });
 
-        // Filter out user's own listings
+        // Filter out user's own listings only if user is authenticated and has an ID
         const filtered =
-          authenticated && authUser?.id
+          authenticated && authUser?.id && typeof authUser.id === "number"
             ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
             : mapped;
 
@@ -808,7 +808,7 @@ export default function BrowseListings() {
           setIsLoadingDistances(false);
           // setPageLoading(false);
         }
-      } catch {
+      } catch (error) {
         if (!cancelled) {
           setIsLoadingDistances(false);
           // setPageLoading(false);
@@ -822,6 +822,7 @@ export default function BrowseListings() {
   }, [
     filterLocation,
     authenticated,
+    authUser?.id,
   ]);
 
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
