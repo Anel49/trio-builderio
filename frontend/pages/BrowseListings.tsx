@@ -158,7 +158,8 @@ export default function BrowseListings() {
     longitude: number;
     city: string | null;
   } | null>(() => {
-    // Initialize from localStorage if available (check both keys for compatibility)
+    // Initialize from localStorage (single source of truth)
+    // Check both keys for backward compatibility
     try {
       let saved = localStorage.getItem("browseFilterLocation");
       if (saved) {
@@ -171,45 +172,15 @@ export default function BrowseListings() {
     } catch {
       // Ignore parsing errors
     }
+
+    // Fall back to location stored by AuthContext
+    const storedLocation = getLocationFromLocalStorage();
+    if (storedLocation) {
+      return storedLocation;
+    }
+
     return null;
   });
-
-  // Default to user's location if logged in and location is set, but only on initial load
-  const hasInitializedLocationFromAuth = React.useRef(false);
-
-  React.useEffect(() => {
-    // Skip if already initialized from auth
-    if (hasInitializedLocationFromAuth.current) {
-      return;
-    }
-
-    // Skip if location filter is already set (from localStorage or manual selection)
-    if (filterLocation) {
-      hasInitializedLocationFromAuth.current = true;
-      return;
-    }
-
-    // If user is authenticated and has location data, default the filter to their location
-    if (
-      authenticated &&
-      authUser?.locationLatitude &&
-      authUser?.locationLongitude &&
-      authUser?.locationCity
-    ) {
-      setFilterLocation({
-        latitude: authUser.locationLatitude,
-        longitude: authUser.locationLongitude,
-        city: authUser.locationCity,
-      });
-      hasInitializedLocationFromAuth.current = true;
-    }
-  }, [
-    authenticated,
-    authUser?.locationLatitude,
-    authUser?.locationLongitude,
-    authUser?.locationCity,
-    filterLocation,
-  ]);
   const [isLoadingDistances, setIsLoadingDistances] = useState(false);
 
   usePageTitle();
