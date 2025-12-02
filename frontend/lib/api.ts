@@ -873,3 +873,95 @@ export async function createOrderFromReservation(
     };
   }
 }
+
+/**
+ * Get conflicting dates for a listing (for date proposal conflict checking)
+ * @param listingId - The listing ID
+ * @param excludeReservationId - Optional reservation ID to exclude from conflict check
+ * @returns An object with ok status and array of conflicting dates
+ */
+export async function getListingConflictingDates(
+  listingId: number,
+  excludeReservationId?: number,
+): Promise<{
+  ok: boolean;
+  conflictingDates?: Array<{
+    startDate: string;
+    endDate: string;
+    status: string;
+  }>;
+  error?: string;
+}> {
+  try {
+    console.log(
+      "[getListingConflictingDates] Fetching conflicting dates for listing",
+      listingId,
+      "excluding reservation",
+      excludeReservationId,
+    );
+
+    let url = `/listings/${listingId}/conflicts`;
+    if (excludeReservationId) {
+      url += `?excludeReservationId=${excludeReservationId}`;
+    }
+
+    const response = await apiFetch(url);
+
+    if (!response) {
+      console.error(
+        "[getListingConflictingDates] No response from apiFetch",
+      );
+      return {
+        ok: false,
+        error: "No response from server",
+      };
+    }
+
+    console.log(
+      "[getListingConflictingDates] Response status:",
+      response.status,
+    );
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error(
+        "[getListingConflictingDates] Non-JSON response:",
+        response.status,
+        text.substring(0, 200),
+      );
+      return {
+        ok: false,
+        error: `Server returned ${response.status}`,
+      };
+    }
+
+    const data = await response.json();
+    console.log("[getListingConflictingDates] Response data:", data);
+
+    if (!response.ok) {
+      console.error(
+        "[getListingConflictingDates] HTTP error",
+        response.status,
+        "data:",
+        data,
+      );
+      return {
+        ok: false,
+        error: data.error || `HTTP ${response.status}`,
+      };
+    }
+
+    return {
+      ok: data.ok,
+      conflictingDates: data.conflictingDates || [],
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[getListingConflictingDates] Exception:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
