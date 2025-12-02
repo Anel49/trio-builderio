@@ -1802,6 +1802,7 @@ export default function OrderHistory() {
               value={dateProposalRange}
               onChange={setDateProposalRange}
               minDate={new Date()}
+              disabledDateRanges={conflictingDates}
             />
           </div>
           <Separator />
