@@ -194,6 +194,11 @@ export default function OrderHistory() {
     string | null
   >(null);
 
+  // Map of reservation_id to order_number for confirmed reservations
+  const [reservationOrderNumbers, setReservationOrderNumbers] = useState<
+    Map<string, string>
+  >(new Map());
+
   // Request confirmation modal state
   const [requestConfirmModalOpen, setRequestConfirmModalOpen] = useState(false);
   const [requestConfirmAction, setRequestConfirmAction] = useState<
