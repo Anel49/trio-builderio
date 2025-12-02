@@ -68,7 +68,7 @@ type OrderStatus =
   | "upcoming"
   | "pending";
 type OrderType = "rented" | "hosted";
-type RequestStatus = "pending" | "accepted" | "rejected" | "cancelled";
+type RequestStatus = "pending" | "accepted" | "rejected" | "cancelled" | "confirmed";
 
 interface Order {
   id: string;
