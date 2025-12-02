@@ -1175,6 +1175,9 @@ export default function OrderHistory() {
                         <DropdownMenuRadioItem value="accepted">
                           Accepted
                         </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="confirmed">
+                          Confirmed
+                        </DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="rejected">
                           Rejected
                         </DropdownMenuRadioItem>
