@@ -25,6 +25,7 @@ import {
   deleteImage,
   updateReservationStatus,
   updateReservationDates,
+  createOrderFromReservationRenter,
   getUserOrders,
 } from "./routes/listings";
 import {
