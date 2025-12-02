@@ -921,26 +921,28 @@ export default function OrderHistory() {
                       <div className="lg:col-span-2">
                         <div className="flex space-x-4">
                           <a
-                            href={`/listings/${order.listing_id}`}
+                            href={`/listing/${order.listing_id}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-shrink-0"
+                            className="flex-shrink-0 hover:opacity-80 transition-opacity"
                           >
                             <img
                               src={order.itemImage || order.listing_image}
                               alt={order.itemName || order.listing_title}
-                              className="w-20 h-20 object-cover rounded-lg hover:opacity-80 transition-opacity"
+                              className="w-20 h-20 object-cover rounded-lg cursor-pointer"
                             />
                           </a>
                           <div className="flex-1">
                             <div className="flex items-start justify-between mb-2">
                               <a
-                                href={`/listings/${order.listing_id}`}
+                                href={`/listing/${order.listing_id}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="font-semibold text-lg hover:underline"
+                                className="hover:text-primary transition-colors no-underline"
                               >
-                                {order.itemName || order.listing_title}
+                                <h3 className="font-semibold text-lg">
+                                  {order.itemName || order.listing_title}
+                                </h3>
                               </a>
                               <Badge className={getStatusColor(order.status)}>
                                 {getStatusText(order.status)}
@@ -959,9 +961,11 @@ export default function OrderHistory() {
                                 ? `${new Date(order.start_date).toLocaleDateString("en-US", {
                                     month: "short",
                                     day: "numeric",
+                                    year: "numeric",
                                   })} - ${new Date(order.end_date).toLocaleDateString("en-US", {
                                     month: "short",
                                     day: "numeric",
+                                    year: "numeric",
                                   })}`
                                 : `${order.startDate} - ${order.endDate}`}
                             </div>
