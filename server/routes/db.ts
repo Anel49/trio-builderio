@@ -123,9 +123,7 @@ export async function dbSetup(_req: Request, res: Response) {
           console.log(`[dbSetup] Set orders_number_seq to ${maxNumber + 1}`);
         } else {
           // If no orders exist, reset to 1000
-          await pool.query(
-            `select setval('orders_number_seq', 1000)`,
-          );
+          await pool.query(`select setval('orders_number_seq', 1000)`);
           console.log("[dbSetup] Set orders_number_seq to 1000");
         }
       } catch (e: any) {

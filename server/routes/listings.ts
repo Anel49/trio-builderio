@@ -1542,7 +1542,9 @@ async function createOrderFromReservation(
       );
       if (hostResult.rows.length > 0) {
         hostEmail = hostResult.rows[0].email;
-        console.log("[createOrderFromReservation] Fetched host email from users table");
+        console.log(
+          "[createOrderFromReservation] Fetched host email from users table",
+        );
       }
     }
 
@@ -1553,7 +1555,9 @@ async function createOrderFromReservation(
       );
       if (renterResult.rows.length > 0) {
         renterEmail = renterResult.rows[0].email;
-        console.log("[createOrderFromReservation] Fetched renter email from users table");
+        console.log(
+          "[createOrderFromReservation] Fetched renter email from users table",
+        );
       }
     }
 
