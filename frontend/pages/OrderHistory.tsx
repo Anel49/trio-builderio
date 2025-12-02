@@ -1383,6 +1383,12 @@ export default function OrderHistory() {
                               <p className="text-sm text-muted-foreground mb-1">
                                 Request #{res.id}
                               </p>
+                              {res.status.toLowerCase() === "confirmed" &&
+                                reservationOrderNumbers.get(res.id) && (
+                                  <p className="text-sm text-muted-foreground mb-1">
+                                    Order #{reservationOrderNumbers.get(res.id)}
+                                  </p>
+                                )}
                               <div className="flex items-center text-sm text-muted-foreground">
                                 <Calendar className="h-4 w-4 mr-1" />
                                 {formattedStart} - {formattedEnd}
