@@ -71,20 +71,47 @@ type RequestStatus = "pending" | "accepted" | "rejected" | "cancelled";
 
 interface Order {
   id: string;
-  itemName: string;
-  itemImage: string;
-  host: string;
-  hostAvatar: string;
+  itemName?: string;
+  itemImage?: string;
+  host?: string;
+  hostAvatar?: string;
   renter?: string;
   renterAvatar?: string;
-  startDate: string;
-  endDate: string;
-  amount: number;
+  startDate?: string;
+  endDate?: string;
+  amount?: number;
   status: OrderStatus;
-  type: OrderType;
-  location: string;
+  type?: OrderType;
+  location?: string;
   rating?: number;
   reviewText?: string;
+  // Database fields for orders
+  order_number?: string;
+  listing_id?: number;
+  host_id?: number | null;
+  host_name?: string | null;
+  host_email?: string | null;
+  renter_id?: number | null;
+  renter_name?: string | null;
+  renter_email?: string | null;
+  listing_title?: string | null;
+  listing_image?: string | null;
+  listing_latitude?: number | null;
+  listing_longitude?: number | null;
+  daily_price_cents?: number;
+  total_days?: number;
+  rental_type?: string;
+  start_date?: string;
+  end_date?: string;
+  currency?: string;
+  subtotal_cents?: number;
+  daily_total?: number;
+  tax_cents?: number;
+  host_earns?: number;
+  renter_pays?: number;
+  platform_commission_total?: number;
+  total_cents?: number;
+  created_at?: string;
 }
 
 interface Reservation {
