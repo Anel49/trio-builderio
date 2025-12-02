@@ -112,6 +112,7 @@ interface Order {
   renter_pays?: number;
   platform_commission_total?: number;
   total_cents?: number;
+  reservation_id?: number | null;
   created_at?: string;
 }
 
