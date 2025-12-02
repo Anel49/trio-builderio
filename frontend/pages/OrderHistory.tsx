@@ -134,6 +134,7 @@ interface Reservation {
   consumable_addon_total: number;
   nonconsumable_addon_total: number;
   addons: any;
+  new_dates_proposed?: string;
   created_at: string;
 }
 
