@@ -241,75 +241,75 @@ export default function OrderHistory() {
   }, [hideCompleted]);
 
   // Fetch reservations and user profiles
-  useEffect(() => {
-    const fetchReservationsAndProfiles = async () => {
-      if (!currentUser?.id) return;
+  const fetchReservationsAndProfiles = async () => {
+    if (!currentUser?.id) return;
 
-      setLoadingReservations(true);
-      try {
-        console.log(
-          `[OrderHistory] Fetching reservations for user ${currentUser.id}`,
+    setLoadingReservations(true);
+    try {
+      console.log(
+        `[OrderHistory] Fetching reservations for user ${currentUser.id}`,
+      );
+      const response = await apiFetch(`/reservations/${currentUser.id}`);
+      console.log(`[OrderHistory] Response status: ${response.status}`);
+
+      if (response.status !== 200 && response.status !== 204) {
+        const text = await response.text();
+        console.error(
+          `[OrderHistory] Non-200 response: ${response.status}`,
+          text.substring(0, 200),
         );
-        const response = await apiFetch(`/reservations/${currentUser.id}`);
-        console.log(`[OrderHistory] Response status: ${response.status}`);
-
-        if (response.status !== 200 && response.status !== 204) {
-          const text = await response.text();
-          console.error(
-            `[OrderHistory] Non-200 response: ${response.status}`,
-            text.substring(0, 200),
-          );
-          setReservations([]);
-          setLoadingReservations(false);
-          return;
-        }
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log(`[OrderHistory] Got reservations:`, data);
-          setReservations(data.reservations || []);
-
-          // Fetch user profiles for renters and hosts
-          const userIds = new Set<number>();
-          data.reservations?.forEach((r: Reservation) => {
-            if (r.renter_id) userIds.add(r.renter_id);
-            if (r.host_id) userIds.add(r.host_id);
-          });
-
-          const profiles = new Map<number, UserProfile>();
-          for (const userId of Array.from(userIds)) {
-            try {
-              const userRes = await apiFetch(`/users/${userId}`);
-              if (userRes.ok) {
-                const userData = await userRes.json();
-                profiles.set(userId, userData.user || userData);
-              }
-            } catch (e) {
-              console.error(`Failed to fetch user ${userId}:`, e);
-            }
-          }
-          setUserProfiles(profiles);
-        }
-      } catch (error) {
-        console.error("Failed to fetch reservations:", error);
-        // Try to get the actual response to debug
-        try {
-          const debugResponse = await apiFetch(
-            `/reservations/${currentUser.id}`,
-          );
-          const debugText = await debugResponse.text();
-          console.log(
-            "[OrderHistory] Debug response text (first 500 chars):",
-            debugText.substring(0, 500),
-          );
-        } catch (debugError) {
-          console.log("[OrderHistory] Debug fetch also failed:", debugError);
-        }
-      } finally {
+        setReservations([]);
         setLoadingReservations(false);
+        return;
       }
-    };
 
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`[OrderHistory] Got reservations:`, data);
+        setReservations(data.reservations || []);
+
+        // Fetch user profiles for renters and hosts
+        const userIds = new Set<number>();
+        data.reservations?.forEach((r: Reservation) => {
+          if (r.renter_id) userIds.add(r.renter_id);
+          if (r.host_id) userIds.add(r.host_id);
+        });
+
+        const profiles = new Map<number, UserProfile>();
+        for (const userId of Array.from(userIds)) {
+          try {
+            const userRes = await apiFetch(`/users/${userId}`);
+            if (userRes.ok) {
+              const userData = await userRes.json();
+              profiles.set(userId, userData.user || userData);
+            }
+          } catch (e) {
+            console.error(`Failed to fetch user ${userId}:`, e);
+          }
+        }
+        setUserProfiles(profiles);
+      }
+    } catch (error) {
+      console.error("Failed to fetch reservations:", error);
+      // Try to get the actual response to debug
+      try {
+        const debugResponse = await apiFetch(
+          `/reservations/${currentUser.id}`,
+        );
+        const debugText = await debugResponse.text();
+        console.log(
+          "[OrderHistory] Debug response text (first 500 chars):",
+          debugText.substring(0, 500),
+        );
+      } catch (debugError) {
+        console.log("[OrderHistory] Debug fetch also failed:", debugError);
+      }
+    } finally {
+      setLoadingReservations(false);
+    }
+  };
+
+  useEffect(() => {
     fetchReservationsAndProfiles();
   }, [currentUser?.id]);
 
