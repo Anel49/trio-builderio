@@ -198,6 +198,11 @@ export default function OrderHistory() {
     null,
   );
 
+  // Order creation from reservation (for renters)
+  const [creatingOrderReservationId, setCreatingOrderReservationId] = useState<
+    string | null
+  >(null);
+
   // Date proposal modal state
   const [proposeDateModalOpen, setProposeDateModalOpen] = useState(false);
   const [dateProposalRange, setDateProposalRange] = useState<{
