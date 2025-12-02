@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { saveLocationToLocalStorage } from "@/lib/location-storage";
 
 export interface User {
   id: number;
