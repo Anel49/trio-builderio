@@ -389,9 +389,70 @@ export default function OrderHistory() {
     },
   ];
 
+  // Fetch orders from the API
   useEffect(() => {
-    setOrdersState(orders);
-  }, []);
+    const fetchOrders = async () => {
+      if (!currentUser?.id) return;
+
+      try {
+        console.log(`[OrderHistory] Fetching orders for user ${currentUser.id}`);
+        const response = await apiFetch(`/orders/${currentUser.id}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(`[OrderHistory] Got orders:`, data);
+
+          // Convert database orders to Order format
+          const dbOrders = (data.orders || []).map((dbOrder: any) => ({
+            id: dbOrder.id,
+            order_number: dbOrder.order_number,
+            listing_id: dbOrder.listing_id,
+            host_id: dbOrder.host_id,
+            host_name: dbOrder.host_name,
+            host_email: dbOrder.host_email,
+            renter_id: dbOrder.renter_id,
+            renter_name: dbOrder.renter_name,
+            renter_email: dbOrder.renter_email,
+            listing_title: dbOrder.listing_title,
+            listing_image: dbOrder.listing_image,
+            listing_latitude: dbOrder.listing_latitude,
+            listing_longitude: dbOrder.listing_longitude,
+            daily_price_cents: dbOrder.daily_price_cents,
+            total_days: dbOrder.total_days,
+            rental_type: dbOrder.rental_type,
+            start_date: dbOrder.start_date,
+            end_date: dbOrder.end_date,
+            status: dbOrder.status || "upcoming",
+            currency: dbOrder.currency,
+            subtotal_cents: dbOrder.subtotal_cents,
+            daily_total: dbOrder.daily_total,
+            tax_cents: dbOrder.tax_cents,
+            host_earns: dbOrder.host_earns,
+            renter_pays: dbOrder.renter_pays,
+            platform_commission_total: dbOrder.platform_commission_total,
+            total_cents: dbOrder.total_cents,
+            created_at: dbOrder.created_at,
+            itemName: dbOrder.listing_title,
+            itemImage: dbOrder.listing_image,
+            host: dbOrder.host_name,
+            renter: dbOrder.renter_name,
+            type: currentUser.id === dbOrder.host_id ? "hosted" : "rented",
+          }));
+
+          // Combine with mock orders
+          setOrdersState([...orders, ...dbOrders]);
+        } else {
+          console.error("[OrderHistory] Failed to fetch orders");
+          setOrdersState(orders);
+        }
+      } catch (error) {
+        console.error("[OrderHistory] Error fetching orders:", error);
+        setOrdersState(orders);
+      }
+    };
+
+    fetchOrders();
+  }, [currentUser?.id]);
 
   const getRequestDirection = (
     reservation: Reservation,
