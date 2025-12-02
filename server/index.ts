@@ -25,6 +25,7 @@ import {
   deleteImage,
   updateReservationStatus,
   updateReservationDates,
+  getUserOrders,
 } from "./routes/listings";
 import {
   getUserByEmail,
