@@ -117,8 +117,7 @@ export async function dbSetup(_req: Request, res: Response) {
         const nextNumber = Math.max(maxNumber + 1, 1000);
 
         await pool.query(
-          `alter sequence if exists orders_number_seq restart with $1`,
-          [nextNumber],
+          `alter sequence if exists orders_number_seq restart with ${nextNumber}`,
         );
         console.log(`[dbSetup] Reset orders_number_seq to start at ${nextNumber}`);
       } catch (e: any) {
