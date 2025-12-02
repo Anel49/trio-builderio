@@ -240,6 +240,13 @@ export default function OrderHistory() {
   }>({ start: null, end: null });
   const [reservationToProposeDates, setReservationToProposeDates] =
     useState<Reservation | null>(null);
+  const [conflictingDates, setConflictingDates] = useState<
+    Array<{
+      startDate: string;
+      endDate: string;
+      status: string;
+    }>
+  >([]);
   const [dateConfirmModalOpen, setDateConfirmModalOpen] = useState(false);
   const [dateProposalSuccessModalOpen, setDateProposalSuccessModalOpen] =
     useState(false);
