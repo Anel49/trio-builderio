@@ -908,9 +908,7 @@ export async function getListingConflictingDates(
     const response = await apiFetch(url);
 
     if (!response) {
-      console.error(
-        "[getListingConflictingDates] No response from apiFetch",
-      );
+      console.error("[getListingConflictingDates] No response from apiFetch");
       return {
         ok: false,
         error: "No response from server",

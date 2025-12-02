@@ -1933,9 +1933,7 @@ export async function getListingConflictingDates(req: Request, res: Response) {
   try {
     const listingId = Number((req.params as any)?.listingId);
     if (!listingId || Number.isNaN(listingId)) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "invalid listingId" });
+      return res.status(400).json({ ok: false, error: "invalid listingId" });
     }
 
     const reservationId = (req.query as any)?.excludeReservationId
@@ -1975,9 +1973,7 @@ export async function getListingConflictingDates(req: Request, res: Response) {
     });
   } catch (error: any) {
     console.error("[getListingConflictingDates] Error:", error);
-    res
-      .status(500)
-      .json({ ok: false, error: String(error?.message || error) });
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
 
