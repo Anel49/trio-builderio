@@ -603,6 +603,7 @@ export async function getListingById(req: Request, res: Response) {
         typeof r.host_username === "string" ? r.host_username : undefined,
       hostAvatarUrl:
         typeof r.host_avatar_url === "string" ? r.host_avatar_url : null,
+      hostEmail: typeof r.host_email === "string" ? r.host_email : null,
       hostRating: hostAvgRating,
       hostTotalReviews: hostTotalReviews,
       hostOpenDms: Boolean(r.host_open_dms),
