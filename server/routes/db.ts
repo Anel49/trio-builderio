@@ -546,6 +546,15 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    try {
+      await pool.query(
+        `alter table orders add column if not exists reservation_id integer references reservations(id)`,
+      );
+      console.log("[dbSetup] Added reservation_id column to orders");
+    } catch (e: any) {
+      console.log("[dbSetup] reservation_id column already exists");
+    }
+
     // Add new columns to reservations table if they don't exist
     try {
       await pool.query(
