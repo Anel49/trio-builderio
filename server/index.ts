@@ -432,6 +432,7 @@ export function createServer() {
   app.patch("/api/listings/bulk/update-enabled", bulkUpdateListingsEnabled);
   app.get("/api/listings/:id/reviews", listListingReviews);
   app.get("/api/listings/:id/reservations", listListingReservations);
+  app.get("/api/listings/:listingId/conflicts", getListingConflictingDates);
   app.post("/api/listings/:listingId/presigned-url", getPresignedUploadUrl);
   app.post("/api/listings/delete-image", deleteImage);
   app.post("/api/reservations", createReservation);
