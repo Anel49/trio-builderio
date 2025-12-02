@@ -638,6 +638,8 @@ export default function ProductDetails() {
               typeof l.hostOpenDms === "boolean" ? l.hostOpenDms : true,
             hostCreatedAt:
               typeof l.hostCreatedAt === "string" ? l.hostCreatedAt : null,
+            hostEmail:
+              typeof l.hostEmail === "string" ? l.hostEmail : null,
             delivery: typeof l.delivery === "boolean" ? l.delivery : false,
             freeDelivery:
               typeof l.freeDelivery === "boolean" ? l.freeDelivery : false,
