@@ -109,20 +109,28 @@ export async function dbSetup(_req: Request, res: Response) {
 
       // Ensure the sequence exists and reset it to start at 1
       try {
-        // Get the maximum existing number in orders table
+        // Get the maximum existing number in orders table and set sequence to that + 1
         const maxNumberResult = await pool.query(
-          `select max(number) as max_number from orders where number is not null`,
+          `select max(number) as max_number from orders`,
         );
-        const maxNumber = maxNumberResult.rows[0]?.max_number || 999;
-        const nextNumber = Math.max(maxNumber + 1, 1000);
+        const maxNumber = maxNumberResult.rows[0]?.max_number;
 
-        await pool.query(
-          `alter sequence if exists orders_number_seq restart with ${nextNumber}`,
-        );
-        console.log(`[dbSetup] Reset orders_number_seq to start at ${nextNumber}`);
+        if (maxNumber !== null && maxNumber !== undefined) {
+          // If there are existing orders, set sequence to max + 1
+          await pool.query(
+            `select setval('orders_number_seq', ${maxNumber} + 1)`,
+          );
+          console.log(`[dbSetup] Set orders_number_seq to ${maxNumber + 1}`);
+        } else {
+          // If no orders exist, reset to 1000
+          await pool.query(
+            `select setval('orders_number_seq', 1000)`,
+          );
+          console.log("[dbSetup] Set orders_number_seq to 1000");
+        }
       } catch (e: any) {
         console.log(
-          "[dbSetup] Could not reset sequence:",
+          "[dbSetup] Could not set sequence:",
           e?.message?.slice(0, 80),
         );
       }
