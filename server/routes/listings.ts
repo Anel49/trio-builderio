@@ -1775,7 +1775,8 @@ export async function getUserOrders(req: Request, res: Response) {
               o.rental_type, o.start_date, o.end_date, o.status, o.currency,
               o.subtotal_cents, o.daily_total, o.tax_cents, o.host_earns, o.renter_pays,
               o.platform_commission_total, o.total_cents, o.reservation_id, o.created_at,
-              h.username as host_username, r.username as renter_username
+              h.username as host_username, h.avatar_url as host_avatar_url,
+              r.username as renter_username, r.avatar_url as renter_avatar_url
        from orders o
        left join users h on o.host_id = h.id
        left join users r on o.renter_id = r.id
