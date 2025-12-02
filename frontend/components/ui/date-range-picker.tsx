@@ -16,6 +16,10 @@ interface DateRangePickerProps {
   value: DateRange;
   onChange: (range: DateRange) => void;
   reservations?: ReservationPeriod[];
+  disabledDateRanges?: Array<{
+    startDate: string | Date;
+    endDate: string | Date;
+  }>;
   minDate?: Date;
   maxDate?: Date;
   className?: string;
