@@ -172,6 +172,34 @@ export default function BrowseListings() {
     }
     return null;
   });
+
+  // Default to user's location if logged in and location is set, but only on initial load
+  const [hasInitializedLocationFilter, setHasInitializedLocationFilter] =
+    useState(false);
+
+  React.useEffect(() => {
+    // Skip if location filter is already set (from localStorage or previous user action)
+    if (filterLocation || hasInitializedLocationFilter) {
+      setHasInitializedLocationFilter(true);
+      return;
+    }
+
+    // If user is authenticated and has location data, default the filter to their location
+    if (
+      authenticated &&
+      authUser?.locationLatitude &&
+      authUser?.locationLongitude &&
+      authUser?.locationCity
+    ) {
+      setFilterLocation({
+        latitude: authUser.locationLatitude,
+        longitude: authUser.locationLongitude,
+        city: authUser.locationCity,
+      });
+    }
+
+    setHasInitializedLocationFilter(true);
+  }, [authenticated, authUser, filterLocation, hasInitializedLocationFilter]);
   const [isLoadingDistances, setIsLoadingDistances] = useState(false);
 
   usePageTitle();
