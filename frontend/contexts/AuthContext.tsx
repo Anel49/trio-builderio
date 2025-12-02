@@ -105,7 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return false;
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("[AuthContext] Login failed:", error);
       return false;
     }
   };
