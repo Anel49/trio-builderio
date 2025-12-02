@@ -1774,7 +1774,7 @@ export async function getUserOrders(req: Request, res: Response) {
               listing_latitude, listing_longitude, daily_price_cents, total_days,
               rental_type, start_date, end_date, status, currency,
               subtotal_cents, daily_total, tax_cents, host_earns, renter_pays,
-              platform_commission_total, total_cents, created_at
+              platform_commission_total, total_cents, reservation_id, created_at
        from orders
        where host_id = $1 or renter_id = $1
        order by created_at desc`,
@@ -1811,6 +1811,7 @@ export async function getUserOrders(req: Request, res: Response) {
       renter_pays: row.renter_pays,
       platform_commission_total: row.platform_commission_total,
       total_cents: row.total_cents,
+      reservation_id: row.reservation_id,
       created_at: row.created_at,
     }));
 
