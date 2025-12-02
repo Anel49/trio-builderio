@@ -1543,13 +1543,23 @@ export default function OrderHistory() {
       {/* Booking Confirmed Modal */}
       <Dialog
         open={bookingConfirmedModalOpen}
-        onOpenChange={setBookingConfirmedModalOpen}
+        onOpenChange={(open) => {
+          setBookingConfirmedModalOpen(open);
+          // Refresh rental history when modal closes
+          if (!open) {
+            fetchReservationsAndProfiles();
+            fetchOrders();
+          }
+        }}
       >
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center">
-              Booking confirmed! Your order has been created.
-            </DialogTitle>
+            <DialogTitle>Booking confirmed</DialogTitle>
+            <DialogDescription>
+              Your booking has been confirmed! For complete booking information,
+              check the Rental History tab, click or tap the 3 dots, and select
+              "View details".
+            </DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>
