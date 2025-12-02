@@ -1929,6 +1929,58 @@ export async function updateReservationDates(req: Request, res: Response) {
   }
 }
 
+export async function getListingConflictingDates(req: Request, res: Response) {
+  try {
+    const listingId = Number((req.params as any)?.listingId);
+    if (!listingId || Number.isNaN(listingId)) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "invalid listingId" });
+    }
+
+    const reservationId = (req.query as any)?.excludeReservationId
+      ? Number((req.query as any).excludeReservationId)
+      : null;
+
+    // Get all reservations for this listing with status 'pending', 'accepted', or 'confirmed'
+    // Exclude the specified reservation if provided
+    let query = `
+      select id, start_date, end_date, status
+      from reservations
+      where listing_id = $1
+        and status in ('pending', 'accepted', 'confirmed')
+    `;
+
+    const params: any[] = [listingId];
+    let paramIndex = 2;
+
+    if (reservationId && !Number.isNaN(reservationId)) {
+      query += ` and id != $${paramIndex}`;
+      params.push(reservationId);
+      paramIndex++;
+    }
+
+    const result = await pool.query(query, params);
+
+    // Convert to date ranges for the frontend
+    const conflictingDates = result.rows.map((row: any) => ({
+      startDate: row.start_date,
+      endDate: row.end_date,
+      status: row.status,
+    }));
+
+    res.json({
+      ok: true,
+      conflictingDates,
+    });
+  } catch (error: any) {
+    console.error("[getListingConflictingDates] Error:", error);
+    res
+      .status(500)
+      .json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function createOrderFromReservationRenter(
   req: Request,
   res: Response,
