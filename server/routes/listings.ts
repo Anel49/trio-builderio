@@ -1542,9 +1542,9 @@ export async function updateReservationStatus(req: Request, res: Response) {
       });
     }
 
-    // Fetch the reservation to verify ownership
+    // Fetch the reservation to verify ownership and current status
     const reservationCheckResult = await pool.query(
-      `select host_id from reservations where id = $1`,
+      `select host_id, status from reservations where id = $1`,
       [reservationId],
     );
 
@@ -1555,10 +1555,19 @@ export async function updateReservationStatus(req: Request, res: Response) {
     }
 
     const reservationHostId = reservationCheckResult.rows[0].host_id;
+    const currentStatus = reservationCheckResult.rows[0].status;
     if (reservationHostId !== userId) {
       return res.status(403).json({
         ok: false,
         error: "You can only update your own reservation requests",
+      });
+    }
+
+    // Prevent changing from accepted to rejected
+    if (currentStatus === "accepted" && status === "rejected") {
+      return res.status(400).json({
+        ok: false,
+        error: "Cannot change a reservation from accepted to rejected",
       });
     }
 
