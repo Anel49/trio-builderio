@@ -699,25 +699,19 @@ export default function BrowseListings() {
 
         if (cancelled) return;
 
-        // Only use authenticated user's location
-        let coords = null;
-        if (
-          authenticated &&
-          authUser?.locationLatitude &&
-          authUser?.locationLongitude
-        ) {
-          coords = {
-            latitude: authUser.locationLatitude,
-            longitude: authUser.locationLongitude,
-          };
-          setUserCoordinates(coords);
+        // Use filter location for API call (includes user's stored location)
+        const path = filterLocation
+          ? `listings?user_lat=${filterLocation.latitude}&user_lng=${filterLocation.longitude}&enabled=true`
+          : "listings?enabled=true";
+
+        // Store user coordinates for map display (from filter location)
+        if (filterLocation) {
+          setUserCoordinates({
+            latitude: filterLocation.latitude,
+            longitude: filterLocation.longitude,
+          });
         }
 
-        // Use filter location if available, otherwise use authenticated user coordinates
-        const coordsToUse = filterLocation || coords;
-        const path = coordsToUse
-          ? `listings?user_lat=${coordsToUse.latitude}&user_lng=${coordsToUse.longitude}&enabled=true`
-          : "listings?enabled=true";
         const response = await apiFetch(path);
         if (!response.ok || cancelled) {
           // setPageLoading(false);
@@ -778,7 +772,7 @@ export default function BrowseListings() {
           };
         });
 
-        // Filter out user's own listings only if user is authenticated and has an ID
+        // Filter out user's own listings
         const filtered =
           authenticated && authUser?.id && typeof authUser.id === "number"
             ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
