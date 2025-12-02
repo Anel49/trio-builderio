@@ -1996,10 +1996,10 @@ export async function createOrderFromReservationRenter(
 
     // Update reservation status to 'confirmed' after successful order creation
     try {
-      await pool.query(
-        `update reservations set status = $1 where id = $2`,
-        ["confirmed", reservationId],
-      );
+      await pool.query(`update reservations set status = $1 where id = $2`, [
+        "confirmed",
+        reservationId,
+      ]);
       console.log(
         "[createOrderFromReservationRenter] Updated reservation status to confirmed",
       );

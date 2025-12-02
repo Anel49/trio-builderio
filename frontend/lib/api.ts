@@ -805,12 +805,15 @@ export async function createOrderFromReservation(
       "[createOrderFromReservation] Sending POST request to create order for reservation",
       reservationId,
     );
-    const response = await apiFetch(`/reservations/${reservationId}/create-order`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await apiFetch(
+      `/reservations/${reservationId}/create-order`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
 
     if (!response) {
       console.error("[createOrderFromReservation] No response from apiFetch");

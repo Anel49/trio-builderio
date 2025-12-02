@@ -436,7 +436,10 @@ export function createServer() {
   app.post("/api/reservations", createReservation);
   app.patch("/api/reservations/:reservationId/status", updateReservationStatus);
   app.patch("/api/reservations/:reservationId/dates", updateReservationDates);
-  app.post("/api/reservations/:reservationId/create-order", createOrderFromReservationRenter);
+  app.post(
+    "/api/reservations/:reservationId/create-order",
+    createOrderFromReservationRenter,
+  );
   app.get("/api/orders/:userId", getUserOrders);
   // Users
   app.get("/api/users", getUserByEmail); // query: email
@@ -539,7 +542,10 @@ export function createServer() {
   app.post("/reservations", createReservation);
   app.patch("/reservations/:reservationId/status", updateReservationStatus);
   app.patch("/reservations/:reservationId/dates", updateReservationDates);
-  app.post("/reservations/:reservationId/create-order", createOrderFromReservationRenter);
+  app.post(
+    "/reservations/:reservationId/create-order",
+    createOrderFromReservationRenter,
+  );
   app.get("/users", getUserByEmail);
   app.get("/users/:id", getUserById);
   app.get("/users/username/:username", getUserByUsername);

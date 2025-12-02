@@ -68,7 +68,12 @@ type OrderStatus =
   | "upcoming"
   | "pending";
 type OrderType = "rented" | "hosted";
-type RequestStatus = "pending" | "accepted" | "rejected" | "cancelled" | "confirmed";
+type RequestStatus =
+  | "pending"
+  | "accepted"
+  | "rejected"
+  | "cancelled"
+  | "confirmed";
 
 interface Order {
   id: string;
@@ -320,9 +325,7 @@ export default function OrderHistory() {
       console.error("Failed to fetch reservations:", error);
       // Try to get the actual response to debug
       try {
-        const debugResponse = await apiFetch(
-          `/reservations/${currentUser.id}`,
-        );
+        const debugResponse = await apiFetch(`/reservations/${currentUser.id}`);
         const debugText = await debugResponse.text();
         console.log(
           "[OrderHistory] Debug response text (first 500 chars):",
@@ -347,9 +350,7 @@ export default function OrderHistory() {
     if (!currentUser?.id) return;
 
     try {
-      console.log(
-        `[OrderHistory] Fetching orders for user ${currentUser.id}`,
-      );
+      console.log(`[OrderHistory] Fetching orders for user ${currentUser.id}`);
       const response = await apiFetch(`/orders/${currentUser.id}`);
 
       if (response.ok) {
@@ -617,9 +618,7 @@ export default function OrderHistory() {
         // Update the reservation status in local state to 'confirmed'
         setReservations((prev) =>
           prev.map((res) =>
-            res.id === reservation.id
-              ? { ...res, status: "confirmed" }
-              : res,
+            res.id === reservation.id ? { ...res, status: "confirmed" } : res,
           ),
         );
         // Open the booking confirmed modal
@@ -1525,14 +1524,14 @@ export default function OrderHistory() {
                                 {(res.status.toLowerCase() === "pending" ||
                                   res.status.toLowerCase() === "rejected") &&
                                   res.status.toLowerCase() !== "confirmed" && (
-                                  <DropdownMenuItem
-                                    onClick={() =>
-                                      handleOpenProposeDateModal(res)
-                                    }
-                                  >
-                                    Propose new date(s)
-                                  </DropdownMenuItem>
-                                )}
+                                    <DropdownMenuItem
+                                      onClick={() =>
+                                        handleOpenProposeDateModal(res)
+                                      }
+                                    >
+                                      Propose new date(s)
+                                    </DropdownMenuItem>
+                                  )}
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
