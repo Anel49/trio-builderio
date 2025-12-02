@@ -1393,9 +1393,21 @@ export default function OrderHistory() {
                               </p>
                               {res.status.toLowerCase() === "confirmed" &&
                                 reservationOrderNumbers.get(res.id) && (
-                                  <p className="text-sm text-muted-foreground mb-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const orderNum = reservationOrderNumbers.get(
+                                        res.id,
+                                      );
+                                      if (orderNum) {
+                                        setSearchQuery(orderNum);
+                                        setActiveTab("orders");
+                                      }
+                                    }}
+                                    className="text-sm text-primary hover:underline cursor-pointer transition-colors mb-1 block"
+                                  >
                                     Order #{reservationOrderNumbers.get(res.id)}
-                                  </p>
+                                  </button>
                                 )}
                               <div className="flex items-center text-sm text-muted-foreground">
                                 <Calendar className="h-4 w-4 mr-1" />
