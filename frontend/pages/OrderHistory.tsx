@@ -297,6 +297,24 @@ export default function OrderHistory() {
           }
         }
         setUserProfiles(profiles);
+
+        // Build map of reservation_id to order_number for confirmed reservations
+        const orderMap = new Map<string, string>();
+        data.reservations?.forEach((res: Reservation) => {
+          if (res.status.toLowerCase() === "confirmed" && res.id) {
+            // Find matching order in ordersState
+            const matchingOrder = ordersState.find(
+              (o) => o.reservation_id === Number(res.id),
+            );
+            if (matchingOrder && matchingOrder.order_number) {
+              orderMap.set(res.id, matchingOrder.order_number);
+              console.log(
+                `[OrderHistory] Reservation ${res.id} has order ${matchingOrder.order_number}`,
+              );
+            }
+          }
+        });
+        setReservationOrderNumbers(orderMap);
       }
     } catch (error) {
       console.error("Failed to fetch reservations:", error);
