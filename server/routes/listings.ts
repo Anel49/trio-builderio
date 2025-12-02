@@ -1986,6 +1986,23 @@ export async function createOrderFromReservationRenter(
       });
     }
 
+    // Update reservation status to 'confirmed' after successful order creation
+    try {
+      await pool.query(
+        `update reservations set status = $1 where id = $2`,
+        ["confirmed", reservationId],
+      );
+      console.log(
+        "[createOrderFromReservationRenter] Updated reservation status to confirmed",
+      );
+    } catch (updateError: any) {
+      console.error(
+        "[createOrderFromReservationRenter] Error updating reservation status:",
+        updateError,
+      );
+      // Don't fail the entire request if status update fails
+    }
+
     res.json({
       ok: true,
       orderId: orderResult.orderId,
