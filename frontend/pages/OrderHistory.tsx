@@ -338,7 +338,7 @@ export default function OrderHistory() {
 
   useEffect(() => {
     fetchReservationsAndProfiles();
-  }, [currentUser?.id]);
+  }, [currentUser?.id, ordersState]);
 
   const orders: Order[] = [];
 
