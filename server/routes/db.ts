@@ -109,10 +109,18 @@ export async function dbSetup(_req: Request, res: Response) {
 
       // Ensure the sequence exists and reset it to start at 1
       try {
-        await pool.query(
-          `alter sequence if exists orders_number_seq restart with 1000`,
+        // Get the maximum existing number in orders table
+        const maxNumberResult = await pool.query(
+          `select max(number) as max_number from orders where number is not null`,
         );
-        console.log("[dbSetup] Reset orders_number_seq to start at 1000");
+        const maxNumber = maxNumberResult.rows[0]?.max_number || 999;
+        const nextNumber = Math.max(maxNumber + 1, 1000);
+
+        await pool.query(
+          `alter sequence if exists orders_number_seq restart with $1`,
+          [nextNumber],
+        );
+        console.log(`[dbSetup] Reset orders_number_seq to start at ${nextNumber}`);
       } catch (e: any) {
         console.log(
           "[dbSetup] Could not reset sequence:",
