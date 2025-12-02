@@ -963,7 +963,7 @@ export default function OrderHistory() {
                               >
                                 <Avatar className="h-8 w-8">
                                   <AvatarImage
-                                    src={order.hostAvatar}
+                                    src={order.host_avatar_url || undefined}
                                     alt={order.host}
                                   />
                                   <AvatarFallback>
@@ -993,7 +993,7 @@ export default function OrderHistory() {
                               >
                                 <Avatar className="h-8 w-8">
                                   <AvatarImage
-                                    src={order.renterAvatar}
+                                    src={order.renter_avatar_url || undefined}
                                     alt={order.renter}
                                   />
                                   <AvatarFallback>
