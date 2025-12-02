@@ -1531,6 +1531,32 @@ async function createOrderFromReservation(
       reservation.id,
     );
 
+    // Fetch emails from users table if they're missing from reservation
+    let hostEmail = reservation.host_email;
+    let renterEmail = reservation.renter_email;
+
+    if (!hostEmail && reservation.host_id) {
+      const hostResult = await pool.query(
+        `select email from users where id = $1`,
+        [reservation.host_id],
+      );
+      if (hostResult.rows.length > 0) {
+        hostEmail = hostResult.rows[0].email;
+        console.log("[createOrderFromReservation] Fetched host email from users table");
+      }
+    }
+
+    if (!renterEmail && reservation.renter_id) {
+      const renterResult = await pool.query(
+        `select email from users where id = $1`,
+        [reservation.renter_id],
+      );
+      if (renterResult.rows.length > 0) {
+        renterEmail = renterResult.rows[0].email;
+        console.log("[createOrderFromReservation] Fetched renter email from users table");
+      }
+    }
+
     const dailyPriceCents = reservation.daily_price_cents || 0;
     const totalDays = reservation.total_days || 0;
     const consumableAddonTotal = reservation.consumable_addon_total || 0;
