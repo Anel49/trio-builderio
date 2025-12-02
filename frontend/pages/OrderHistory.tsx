@@ -355,6 +355,7 @@ export default function OrderHistory() {
             renter_pays: dbOrder.renter_pays,
             platform_commission_total: dbOrder.platform_commission_total,
             total_cents: dbOrder.total_cents,
+            reservation_id: dbOrder.reservation_id,
             created_at: dbOrder.created_at,
             itemName: dbOrder.listing_title,
             itemImage: dbOrder.listing_image,
