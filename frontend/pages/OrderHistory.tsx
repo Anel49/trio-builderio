@@ -1396,9 +1396,8 @@ export default function OrderHistory() {
                                   <button
                                     type="button"
                                     onClick={() => {
-                                      const orderNum = reservationOrderNumbers.get(
-                                        res.id,
-                                      );
+                                      const orderNum =
+                                        reservationOrderNumbers.get(res.id);
                                       if (orderNum) {
                                         setSearchQuery(orderNum);
                                         setActiveTab("orders");
