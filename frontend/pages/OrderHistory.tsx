@@ -395,7 +395,9 @@ export default function OrderHistory() {
       if (!currentUser?.id) return;
 
       try {
-        console.log(`[OrderHistory] Fetching orders for user ${currentUser.id}`);
+        console.log(
+          `[OrderHistory] Fetching orders for user ${currentUser.id}`,
+        );
         const response = await apiFetch(`/orders/${currentUser.id}`);
 
         if (response.ok) {
@@ -958,11 +960,15 @@ export default function OrderHistory() {
                             <div className="flex items-center text-sm text-muted-foreground">
                               <Calendar className="h-4 w-4 mr-1" />
                               {order.start_date
-                                ? `${new Date(order.start_date).toLocaleDateString("en-US", {
+                                ? `${new Date(
+                                    order.start_date,
+                                  ).toLocaleDateString("en-US", {
                                     month: "short",
                                     day: "numeric",
                                     year: "numeric",
-                                  })} - ${new Date(order.end_date).toLocaleDateString("en-US", {
+                                  })} - ${new Date(
+                                    order.end_date,
+                                  ).toLocaleDateString("en-US", {
                                     month: "short",
                                     day: "numeric",
                                     year: "numeric",
@@ -1038,8 +1044,8 @@ export default function OrderHistory() {
                               <p className="text-2xl font-bold">
                                 $
                                 {(currentUser?.id === order.host_id
-                                  ? ((order.host_earns || 0) / 100)
-                                  : ((order.renter_pays || 0) / 100)
+                                  ? (order.host_earns || 0) / 100
+                                  : (order.renter_pays || 0) / 100
                                 ).toLocaleString("en-US", {
                                   minimumFractionDigits: 2,
                                   maximumFractionDigits: 2,
