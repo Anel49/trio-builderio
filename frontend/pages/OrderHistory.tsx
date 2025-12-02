@@ -563,6 +563,33 @@ export default function OrderHistory() {
     );
   };
 
+  const handleConfirmBooking = async (reservation: Reservation) => {
+    setCreatingOrderReservationId(reservation.id);
+    try {
+      const result = await createOrderFromReservation(reservation.id);
+      if (result.ok) {
+        console.log(
+          "[handleConfirmBooking] Order created successfully:",
+          result.orderId,
+        );
+        alert("Booking confirmed! Your order has been created.");
+        // Optionally refresh the reservations to update the UI
+        // You could also navigate to the order page or close a modal
+      } else {
+        console.error(
+          "[handleConfirmBooking] Failed to create order:",
+          result.error,
+        );
+        alert(`Failed to confirm booking: ${result.error}`);
+      }
+    } catch (error) {
+      console.error("[handleConfirmBooking] Exception:", error);
+      alert("An error occurred while confirming your booking.");
+    } finally {
+      setCreatingOrderReservationId(null);
+    }
+  };
+
   const handleOpenProposeDateModal = (reservation: Reservation) => {
     setReservationToProposeDates(reservation);
     setDateProposalRange({ start: null, end: null });
