@@ -1531,6 +1531,17 @@ async function createOrderFromReservation(
       reservation.id,
     );
 
+    // Check if an order already exists for this reservation
+    const existingOrderResult = await pool.query(
+      `select id from orders where listing_id = $1 and renter_id = $2 and host_id = $3 and start_date = $4 and end_date = $5`,
+      [reservation.listing_id, reservation.renter_id, reservation.host_id, reservation.start_date, reservation.end_date],
+    );
+
+    if (existingOrderResult.rows.length > 0) {
+      console.log("[createOrderFromReservation] Order already exists for this reservation, skipping creation");
+      return { ok: true, orderId: existingOrderResult.rows[0].id };
+    }
+
     // Fetch emails from users table if they're missing from reservation
     let hostEmail = reservation.host_email;
     let renterEmail = reservation.renter_email;
