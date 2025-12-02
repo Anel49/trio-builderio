@@ -352,22 +352,19 @@ export default function Index() {
         const d = await response.json().catch(() => null);
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
 
-        // Only use user location if authenticated and has location
-        const userCoords =
-          authenticated &&
-          authUser?.locationLatitude &&
-          authUser?.locationLongitude
-            ? {
-                latitude: authUser.locationLatitude,
-                longitude: authUser.locationLongitude,
-              }
-            : null;
+        // Use location from localStorage (single source of truth)
+        const userCoords = searchLocation
+          ? {
+              latitude: searchLocation.latitude,
+              longitude: searchLocation.longitude,
+            }
+          : null;
 
         const mapped = d.listings.map((l: any) => {
           let distance = null;
           let distanceMiles = null;
 
-          // Only calculate distance if user is authenticated and has location
+          // Only calculate distance if location is available
           if (userCoords) {
             const listingCoords = extractCoordinates(l);
             distanceMiles = computeDistanceMiles(userCoords, listingCoords);
@@ -388,7 +385,7 @@ export default function Index() {
             ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
             : mapped;
 
-        // Sort by distance if user is authenticated and has location, otherwise by most recent
+        // Sort by distance if location is available, otherwise by most recent
         const sorted = userCoords
           ? filtered.sort(
               (a, b) =>
@@ -413,7 +410,7 @@ export default function Index() {
     return () => {
       cancelled = true;
     };
-  }, [authenticated, authUser]);
+  }, [authenticated, authUser?.id, searchLocation]);
 
   const categories = [
     { name: "Furniture", icon: "🪑" },
