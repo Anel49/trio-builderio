@@ -204,6 +204,10 @@ export default function OrderHistory() {
     string | null
   >(null);
 
+  // Booking confirmation modal state
+  const [bookingConfirmedModalOpen, setBookingConfirmedModalOpen] =
+    useState(false);
+
   // Date proposal modal state
   const [proposeDateModalOpen, setProposeDateModalOpen] = useState(false);
   const [dateProposalRange, setDateProposalRange] = useState<{
