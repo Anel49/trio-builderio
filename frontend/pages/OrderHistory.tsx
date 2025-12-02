@@ -575,8 +575,14 @@ export default function OrderHistory() {
           result.orderId,
         );
         alert("Booking confirmed! Your order has been created.");
-        // Optionally refresh the reservations to update the UI
-        // You could also navigate to the order page or close a modal
+        // Update the reservation status in local state to 'confirmed'
+        setReservations((prev) =>
+          prev.map((res) =>
+            res.id === reservation.id
+              ? { ...res, status: "confirmed" }
+              : res,
+          ),
+        );
       } else {
         console.error(
           "[handleConfirmBooking] Failed to create order:",
