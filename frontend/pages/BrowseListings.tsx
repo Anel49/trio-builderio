@@ -794,8 +794,6 @@ export default function BrowseListings() {
   }, [
     filterLocation,
     authenticated,
-    authUser?.locationLatitude,
-    authUser?.locationLongitude,
   ]);
 
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
