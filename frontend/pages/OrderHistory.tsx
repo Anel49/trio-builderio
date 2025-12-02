@@ -1380,7 +1380,8 @@ export default function OrderHistory() {
 
                           {direction === "outgoing" &&
                             (res.status.toLowerCase() === "accepted" ||
-                              res.new_dates_proposed === "sent") && (
+                              res.new_dates_proposed === "sent") &&
+                            res.status.toLowerCase() !== "confirmed" && (
                               <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
                                 <Button
                                   size="sm"
