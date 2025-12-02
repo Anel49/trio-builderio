@@ -655,9 +655,26 @@ export default function OrderHistory() {
     }
   };
 
-  const handleOpenProposeDateModal = (reservation: Reservation) => {
+  const handleOpenProposeDateModal = async (reservation: Reservation) => {
     setReservationToProposeDates(reservation);
     setDateProposalRange({ start: null, end: null });
+    setConflictingDates([]);
+
+    // Fetch conflicting dates for the listing
+    if (reservation.listing_id) {
+      const result = await getListingConflictingDates(
+        reservation.listing_id,
+        Number(reservation.id),
+      );
+      if (result.ok && result.conflictingDates) {
+        setConflictingDates(result.conflictingDates);
+        console.log(
+          "[handleOpenProposeDateModal] Fetched conflicting dates:",
+          result.conflictingDates,
+        );
+      }
+    }
+
     setProposeDateModalOpen(true);
   };
 
