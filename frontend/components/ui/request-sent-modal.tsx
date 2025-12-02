@@ -26,7 +26,7 @@ export function RequestSentModal({
           <p className="text-base text-muted-foreground">
             Your reservation request has been submitted! You will be notified by
             email when the status of your request changes.{" "}
-            <a href="/rentals-and-requests" className="text-primary hover:underline">
+            <a href="/rentals-and-requests?tab=requests" className="text-primary hover:underline">
               Click here
             </a>{" "}
             to see your recent requests.
