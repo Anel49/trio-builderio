@@ -92,9 +92,11 @@ interface Order {
   host_id?: number | null;
   host_name?: string | null;
   host_email?: string | null;
+  host_username?: string | null;
   renter_id?: number | null;
   renter_name?: string | null;
   renter_email?: string | null;
+  renter_username?: string | null;
   listing_title?: string | null;
   listing_image?: string | null;
   listing_latitude?: number | null;
