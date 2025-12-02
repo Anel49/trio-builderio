@@ -1376,6 +1376,24 @@ export default function OrderHistory() {
                               </div>
                             )}
 
+                          {direction === "outgoing" &&
+                            (res.status.toLowerCase() === "accepted" ||
+                              res.new_dates_proposed === "sent") && (
+                              <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
+                                <Button
+                                  size="sm"
+                                  disabled={
+                                    creatingOrderReservationId === res.id
+                                  }
+                                  onClick={() => handleConfirmBooking(res)}
+                                >
+                                  {creatingOrderReservationId === res.id
+                                    ? "Confirming..."
+                                    : "Confirm Booking"}
+                                </Button>
+                              </div>
+                            )}
+
                           <div className="order-1 sm:order-2 flex gap-2 flex-wrap sm:flex-nowrap">
                             <Button
                               variant="outline"
