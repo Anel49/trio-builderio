@@ -1540,6 +1540,20 @@ export default function OrderHistory() {
         </DialogContent>
       </Dialog>
 
+      {/* Booking Confirmed Modal */}
+      <Dialog
+        open={bookingConfirmedModalOpen}
+        onOpenChange={setBookingConfirmedModalOpen}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">
+              Booking confirmed! Your order has been created.
+            </DialogTitle>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
       {/* Post Review Modal */}
       <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
         <DialogContent className="max-w-lg">
