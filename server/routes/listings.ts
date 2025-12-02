@@ -1526,7 +1526,10 @@ async function createOrderFromReservation(
   reservation: any,
 ): Promise<{ ok: boolean; orderId?: number; error?: string }> {
   try {
-    console.log("[createOrderFromReservation] Creating order for reservation:", reservation.id);
+    console.log(
+      "[createOrderFromReservation] Creating order for reservation:",
+      reservation.id,
+    );
 
     const dailyPriceCents = reservation.daily_price_cents || 0;
     const totalDays = reservation.total_days || 0;
@@ -1535,14 +1538,18 @@ async function createOrderFromReservation(
 
     // Calculate financial values
     const dailyTotal = dailyPriceCents * totalDays;
-    const subtotalCents = dailyTotal + nonconsumableAddonTotal + consumableAddonTotal;
+    const subtotalCents =
+      dailyTotal + nonconsumableAddonTotal + consumableAddonTotal;
     const taxPercentage = 0.06;
     const taxCents = Math.round(subtotalCents * taxPercentage);
     const platformCommissionHost = Math.round(subtotalCents * 0.12);
     const hostEarns = subtotalCents - platformCommissionHost;
-    const platformCommissionRenter = Math.round((dailyPriceCents + nonconsumableAddonTotal) * 0.1);
+    const platformCommissionRenter = Math.round(
+      (dailyPriceCents + nonconsumableAddonTotal) * 0.1,
+    );
     const renterPays = subtotalCents + platformCommissionRenter + taxCents;
-    const platformCommissionTotal = platformCommissionHost + platformCommissionRenter;
+    const platformCommissionTotal =
+      platformCommissionHost + platformCommissionRenter;
     const totalCents = renterPays;
 
     console.log("[createOrderFromReservation] Calculated values:", {
@@ -1694,9 +1701,15 @@ export async function updateReservationStatus(req: Request, res: Response) {
     if (status === "accepted") {
       const orderResult = await createOrderFromReservation(reservation);
       if (!orderResult.ok) {
-        console.warn("[updateReservationStatus] Failed to create order:", orderResult.error);
+        console.warn(
+          "[updateReservationStatus] Failed to create order:",
+          orderResult.error,
+        );
       } else {
-        console.log("[updateReservationStatus] Order created successfully with id:", orderResult.orderId);
+        console.log(
+          "[updateReservationStatus] Order created successfully with id:",
+          orderResult.orderId,
+        );
       }
     }
 

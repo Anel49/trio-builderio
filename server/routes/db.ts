@@ -479,7 +479,9 @@ export async function dbSetup(_req: Request, res: Response) {
       await pool.query(
         `alter table orders add column if not exists platform_commission_renter integer`,
       );
-      console.log("[dbSetup] Added platform_commission_renter column to orders");
+      console.log(
+        "[dbSetup] Added platform_commission_renter column to orders",
+      );
     } catch (e: any) {
       console.log("[dbSetup] platform_commission_renter column already exists");
     }
@@ -499,7 +501,10 @@ export async function dbSetup(_req: Request, res: Response) {
       );
       console.log("[dbSetup] Dropped platform_charge_cents column from orders");
     } catch (e: any) {
-      console.log("[dbSetup] Could not drop platform_charge_cents column:", e?.message?.slice(0, 80));
+      console.log(
+        "[dbSetup] Could not drop platform_charge_cents column:",
+        e?.message?.slice(0, 80),
+      );
     }
 
     // Add new columns to reservations table if they don't exist
