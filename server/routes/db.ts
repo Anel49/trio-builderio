@@ -145,6 +145,19 @@ export async function dbSetup(_req: Request, res: Response) {
         );
         console.log("[dbSetup] Added number column to orders table");
       }
+
+      // Ensure order_number has a unique constraint
+      try {
+        await pool.query(
+          `alter table if exists orders add constraint orders_order_number_key unique (order_number)`,
+        );
+        console.log("[dbSetup] Added unique constraint to order_number");
+      } catch (e: any) {
+        console.log(
+          "[dbSetup] Could not add order_number unique constraint (may already exist):",
+          e?.message?.slice(0, 80),
+        );
+      }
     } catch (e: any) {
       console.log(
         "[dbSetup] Orders table migration error:",
