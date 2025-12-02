@@ -104,6 +104,7 @@ export function DateRangePicker({
     if (minDate && date < minDate) return true;
     if (maxDate && date > maxDate) return true;
     if (isDateReserved(date)) return true;
+    if (isDateInDisabledRange(date)) return true;
 
     return false;
   };
