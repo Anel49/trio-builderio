@@ -86,6 +86,16 @@ export function DateRangePicker({
     return getReservationForDate(date) !== null;
   };
 
+  const isDateInDisabledRange = (date: Date): boolean => {
+    return disabledDateRanges.some((range) => {
+      const rangeStart = new Date(range.startDate);
+      const rangeEnd = new Date(range.endDate);
+      // Add 1 day to end date to make it inclusive
+      rangeEnd.setDate(rangeEnd.getDate() + 1);
+      return date >= rangeStart && date < rangeEnd;
+    });
+  };
+
   const isDateDisabled = (date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
