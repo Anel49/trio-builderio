@@ -1347,7 +1347,11 @@ export default function OrderHistory() {
                                 : "You requested"}
                             </p>
                             <div className="flex items-center space-x-2">
-                              <a href="/profile" aria-label="Open profile">
+                              <a
+                                href={`/profile/${requesterProfile?.username || ""}`}
+                                aria-label="Open profile"
+                                className="no-underline"
+                              >
                                 <Avatar className="h-8 w-8">
                                   <AvatarImage
                                     src={
@@ -1363,7 +1367,12 @@ export default function OrderHistory() {
                                   </AvatarFallback>
                                 </Avatar>
                               </a>
-                              <span className="text-sm">{requesterName}</span>
+                              <a
+                                href={`/profile/${requesterProfile?.username || ""}`}
+                                className="text-sm no-underline hover:text-primary transition-colors"
+                              >
+                                {requesterName}
+                              </a>
                             </div>
                           </div>
                         </div>
