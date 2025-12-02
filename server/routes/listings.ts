@@ -1181,7 +1181,7 @@ export async function getUserReservations(req: Request, res: Response) {
       `select id, listing_id, renter_id, host_id, host_name, renter_name,
               start_date, end_date, listing_title, listing_image,
               listing_latitude, listing_longitude, daily_price_cents, total_days,
-              rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at
+              rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at, new_dates_proposed
        from reservations
        where renter_id = $1 or host_id = $1
        order by created_at desc
@@ -1215,6 +1215,7 @@ export async function getUserReservations(req: Request, res: Response) {
       consumable_addon_total: r.consumable_addon_total,
       nonconsumable_addon_total: r.nonconsumable_addon_total,
       addons: r.addons,
+      new_dates_proposed: r.new_dates_proposed,
       created_at: r.created_at,
     }));
 
