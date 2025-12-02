@@ -512,6 +512,7 @@ export default function ProductDetails() {
     hostTotalReviews?: number;
     hostOpenDms?: boolean;
     hostCreatedAt?: string | null;
+    hostEmail?: string | null;
     delivery?: boolean;
     freeDelivery?: boolean;
     instantBookings?: boolean;
