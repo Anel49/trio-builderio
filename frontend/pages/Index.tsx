@@ -89,7 +89,10 @@ export default function Index() {
     latitude: number;
     longitude: number;
     city: string | null;
-  } | null>(null);
+  } | null>(() => {
+    // Initialize from localStorage (single source of truth for location)
+    return getLocationFromLocalStorage();
+  });
 
   const handleDateSelect = (range: any) => {
     if (range?.from) {
