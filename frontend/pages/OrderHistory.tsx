@@ -1440,7 +1440,8 @@ export default function OrderHistory() {
                                     </DropdownMenuItem>
                                   )}
                                 {(res.status.toLowerCase() === "pending" ||
-                                  res.status.toLowerCase() === "rejected") && (
+                                  res.status.toLowerCase() === "rejected") &&
+                                  res.status.toLowerCase() !== "confirmed" && (
                                   <DropdownMenuItem
                                     onClick={() =>
                                       handleOpenProposeDateModal(res)
