@@ -76,8 +76,10 @@ interface Order {
   itemImage?: string;
   host?: string;
   hostAvatar?: string;
+  host_avatar_url?: string | null;
   renter?: string;
   renterAvatar?: string;
+  renter_avatar_url?: string | null;
   startDate?: string;
   endDate?: string;
   amount?: number;
