@@ -500,7 +500,8 @@ export default function OrderHistory() {
       (res.listing_title || "")
         .toLowerCase()
         .includes(requestSearchQuery.toLowerCase()) ||
-      requesterName.toLowerCase().includes(requestSearchQuery.toLowerCase());
+      requesterName.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
+      res.id.toLowerCase().includes(requestSearchQuery.toLowerCase());
     const matchesStatus =
       requestStatusFilter === "all" ||
       res.status.toLowerCase() === requestStatusFilter.toLowerCase();
