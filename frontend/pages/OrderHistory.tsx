@@ -355,15 +355,15 @@ export default function OrderHistory() {
             type: currentUser.id === dbOrder.host_id ? "hosted" : "rented",
           }));
 
-          // Combine with mock orders
-          setOrdersState([...orders, ...dbOrders]);
+          // Set orders from database
+          setOrdersState(dbOrders);
         } else {
           console.error("[OrderHistory] Failed to fetch orders");
-          setOrdersState(orders);
+          setOrdersState([]);
         }
       } catch (error) {
         console.error("[OrderHistory] Error fetching orders:", error);
-        setOrdersState(orders);
+        setOrdersState([]);
       }
     };
 
