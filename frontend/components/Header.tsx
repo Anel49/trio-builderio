@@ -181,7 +181,7 @@ export default function Header() {
                       >
                         <button
                           onClick={handleLogout}
-                          className="text-left px-3 py-1.5 text-sm hover:bg-accent rounded-md whitespace-nowrap"
+                          className="text-left px-3 py-1.5 text-sm hover:bg-accent rounded-sm whitespace-nowrap"
                         >
                           Log out
                         </button>
