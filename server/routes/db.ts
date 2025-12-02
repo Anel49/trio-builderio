@@ -120,6 +120,19 @@ export async function dbSetup(_req: Request, res: Response) {
         );
       }
 
+      // Drop old order_id_key constraint if it exists
+      try {
+        await pool.query(
+          `alter table if exists orders drop constraint if exists orders_order_id_key`,
+        );
+        console.log("[dbSetup] Dropped old orders_order_id_key constraint");
+      } catch (e: any) {
+        console.log(
+          "[dbSetup] Could not drop orders_order_id_key constraint:",
+          e?.message?.slice(0, 80),
+        );
+      }
+
       // Add number column if it doesn't exist
       const numberColResult = await pool.query(
         `select column_name from information_schema.columns
