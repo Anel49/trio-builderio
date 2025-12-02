@@ -56,6 +56,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           console.log("[AuthContext] Auth user data:", data);
           setUser(data.user);
           setAuthenticated(true);
+
+          // Save user's location to localStorage if available
+          if (data.user) {
+            saveLocationToLocalStorage(
+              data.user.locationLatitude,
+              data.user.locationLongitude,
+              data.user.locationCity,
+            );
+          }
         } catch (e) {
           console.log("[AuthContext] Failed to parse auth response");
           setUser(null);
