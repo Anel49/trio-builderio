@@ -174,14 +174,17 @@ export default function BrowseListings() {
   });
 
   // Default to user's location if logged in and location is set, but only on initial load
-  const hasLocationFromStorage = React.useRef(
-    localStorage.getItem("browseFilterLocation") ||
-      localStorage.getItem("searchLocation"),
-  );
+  const hasInitializedLocationFromAuth = React.useRef(false);
 
   React.useEffect(() => {
-    // Skip if location filter is already set (from localStorage)
-    if (filterLocation || hasLocationFromStorage.current) {
+    // Skip if already initialized from auth
+    if (hasInitializedLocationFromAuth.current) {
+      return;
+    }
+
+    // Skip if location filter is already set (from localStorage or manual selection)
+    if (filterLocation) {
+      hasInitializedLocationFromAuth.current = true;
       return;
     }
 
@@ -197,14 +200,9 @@ export default function BrowseListings() {
         longitude: authUser.locationLongitude,
         city: authUser.locationCity,
       });
+      hasInitializedLocationFromAuth.current = true;
     }
-  }, [
-    authenticated,
-    authUser?.locationLatitude,
-    authUser?.locationLongitude,
-    authUser?.locationCity,
-    filterLocation,
-  ]);
+  }, [authenticated, authUser, filterLocation]);
   const [isLoadingDistances, setIsLoadingDistances] = useState(false);
 
   usePageTitle();
