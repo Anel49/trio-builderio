@@ -1009,10 +1009,32 @@ export default function OrderHistory() {
                       {/* Actions & Amount */}
                       <div className="flex flex-col justify-between">
                         <div className="text-right mb-4">
-                          <p className="text-2xl font-bold">${order.amount}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {order.type === "rented" ? "Paid" : "Earned"}
-                          </p>
+                          {order.host_id || order.renter_id ? (
+                            <>
+                              <p className="text-2xl font-bold">
+                                $
+                                {currentUser?.id === order.host_id
+                                  ? (
+                                      ((order.host_earns || 0) / 100).toFixed(2)
+                                    )
+                                  : (
+                                      ((order.renter_pays || 0) / 100).toFixed(2)
+                                    )}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {currentUser?.id === order.host_id
+                                  ? "earned"
+                                  : "paid"}
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <p className="text-2xl font-bold">${order.amount}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {order.type === "rented" ? "paid" : "earned"}
+                              </p>
+                            </>
+                          )}
                         </div>
 
                         <div className="flex gap-2 lg:justify-end">
