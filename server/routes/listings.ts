@@ -1769,15 +1769,18 @@ export async function getUserOrders(req: Request, res: Response) {
     console.log("[getUserOrders] Fetching orders for user:", userId);
 
     const result = await pool.query(
-      `select id, order_number, listing_id, host_id, host_name, host_email,
-              renter_id, renter_name, renter_email, listing_title, listing_image,
-              listing_latitude, listing_longitude, daily_price_cents, total_days,
-              rental_type, start_date, end_date, status, currency,
-              subtotal_cents, daily_total, tax_cents, host_earns, renter_pays,
-              platform_commission_total, total_cents, reservation_id, created_at
-       from orders
-       where host_id = $1 or renter_id = $1
-       order by created_at desc`,
+      `select o.id, o.order_number, o.listing_id, o.host_id, o.host_name, o.host_email,
+              o.renter_id, o.renter_name, o.renter_email, o.listing_title, o.listing_image,
+              o.listing_latitude, o.listing_longitude, o.daily_price_cents, o.total_days,
+              o.rental_type, o.start_date, o.end_date, o.status, o.currency,
+              o.subtotal_cents, o.daily_total, o.tax_cents, o.host_earns, o.renter_pays,
+              o.platform_commission_total, o.total_cents, o.reservation_id, o.created_at,
+              h.username as host_username, r.username as renter_username
+       from orders o
+       left join users h on o.host_id = h.id
+       left join users r on o.renter_id = r.id
+       where o.host_id = $1 or o.renter_id = $1
+       order by o.created_at desc`,
       [userId],
     );
 
@@ -1790,9 +1793,11 @@ export async function getUserOrders(req: Request, res: Response) {
       host_id: row.host_id,
       host_name: row.host_name,
       host_email: row.host_email,
+      host_username: row.host_username,
       renter_id: row.renter_id,
       renter_name: row.renter_name,
       renter_email: row.renter_email,
+      renter_username: row.renter_username,
       listing_title: row.listing_title,
       listing_image: row.listing_image,
       listing_latitude: row.listing_latitude,
