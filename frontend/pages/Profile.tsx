@@ -1171,18 +1171,20 @@ export default function Profile() {
     }[]
   >([]);
 
-  // Seller reviews from DB (none loaded here)
-  const sellerReviews: {
-    id: number;
-    reviewer: string;
-    avatar?: string;
-    reviewerId?: number;
-    reviewerUsername?: string;
-    rating: number;
-    date: string;
-    dateValue: Date;
-    comment: string;
-  }[] = [
+  // Seller reviews from DB
+  const [sellerReviews, setSellerReviews] = useState<
+    {
+      id: number;
+      reviewer: string;
+      avatar?: string;
+      reviewerId?: number;
+      reviewerUsername?: string;
+      rating: number;
+      date: string;
+      dateValue: Date;
+      comment: string;
+    }[]
+  >([
     {
       id: 1,
       reviewer: "Emily",
@@ -1222,7 +1224,7 @@ export default function Profile() {
       comment:
         "Great host with quality items. Sarah was very accommodating with timing and provided helpful usage tips.",
     },
-  ];
+  ]);
 
   const tabs = [
     {
