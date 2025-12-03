@@ -1972,6 +1972,20 @@ export default function Profile() {
                       />
                     ))}
                   </div>
+
+                  {/* Empty State */}
+                  {filteredListings.length === 0 && (
+                    <div className="flex flex-col items-center justify-center py-12">
+                      <Package className="h-12 w-12 text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground">
+                        {listingsSearchQuery
+                          ? "No listings match your search"
+                          : viewingOtherUser
+                            ? "No listings available"
+                            : "No listings yet"}
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
