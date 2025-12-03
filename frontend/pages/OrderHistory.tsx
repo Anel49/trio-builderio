@@ -1148,7 +1148,13 @@ export default function OrderHistory() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => (window.location.href = `/messages`)}
+                            onClick={() => {
+                              const recipientId =
+                                order.type === "rented" ? order.host_id : order.renter_id;
+                              if (recipientId) {
+                                window.open(`/messages?userId=${recipientId}`, "_blank");
+                              }
+                            }}
                           >
                             <MessageCircle className="h-4 w-4 mr-1" />
                             Message
