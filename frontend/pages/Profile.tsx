@@ -3148,6 +3148,121 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      {/* Review User Modal */}
+      <Dialog open={isReviewUserModalOpen} onOpenChange={setIsReviewUserModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Review {otherUserData?.name || "User"}</DialogTitle>
+            <DialogDescription>
+              Share your experience with this user
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            {/* Rating Selection */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Rating</label>
+              <div className="flex gap-2">
+                {[1, 2, 3, 4, 5].map((rating) => (
+                  <button
+                    key={rating}
+                    onClick={() => setReviewUserRating(rating)}
+                    className="p-2 hover:bg-accent rounded-lg transition-colors"
+                    aria-label={`Rate ${rating} stars`}
+                  >
+                    <Star
+                      className={cn(
+                        "h-6 w-6",
+                        rating <= reviewUserRating
+                          ? "fill-yellow-400 text-yellow-400"
+                          : "text-gray-300",
+                      )}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Comment Input */}
+            <div className="space-y-2">
+              <label htmlFor="review-comment" className="text-sm font-medium">
+                Comment
+              </label>
+              <textarea
+                id="review-comment"
+                placeholder="Share your experience..."
+                value={reviewUserComment}
+                onChange={(e) => setReviewUserComment(e.target.value)}
+                className="w-full min-h-24 rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsReviewUserModalOpen(false);
+                setReviewUserRating(5);
+                setReviewUserComment("");
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={async () => {
+                if (!reviewUserComment.trim()) {
+                  alert("Please enter a comment");
+                  return;
+                }
+
+                setIsSubmittingReview(true);
+                try {
+                  const response = await apiFetch(
+                    `/users/${otherUserData?.id}/reviews`,
+                    {
+                      method: "POST",
+                      body: JSON.stringify({
+                        rating: reviewUserRating,
+                        comment: reviewUserComment,
+                      }),
+                    },
+                  );
+
+                  const data = await response.json().catch(() => ({}));
+                  if (data.ok) {
+                    setIsReviewUserModalOpen(false);
+                    setReviewUserRating(5);
+                    setReviewUserComment("");
+                    // Refetch reviews
+                    const reviewsRes = await apiFetch(
+                      `/users/${otherUserData?.id}/reviews`,
+                    );
+                    const reviewsData = await reviewsRes
+                      .json()
+                      .catch(() => ({}));
+                    if (reviewsData.ok) {
+                      setSellerReviews(reviewsData.reviews || []);
+                    }
+                  } else {
+                    alert(data.error || "Failed to submit review");
+                  }
+                } catch (error) {
+                  console.error("Error submitting review:", error);
+                  alert("Failed to submit review");
+                } finally {
+                  setIsSubmittingReview(false);
+                }
+              }}
+              disabled={isSubmittingReview || !reviewUserComment.trim()}
+              className="flex-1"
+            >
+              {isSubmittingReview ? "Submitting..." : "Submit Review"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
