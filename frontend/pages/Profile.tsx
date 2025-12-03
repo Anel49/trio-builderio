@@ -207,6 +207,9 @@ export default function Profile() {
     ambassador: boolean;
   }>(null);
 
+  // Listings search state
+  const [listingsSearchQuery, setListingsSearchQuery] = useState("");
+
   // Item reviews search and filter state
   const [itemReviewSearchQuery, setItemReviewSearchQuery] = useState("");
   const [itemReviewSortBy, setItemReviewSortBy] = useState("newest");
