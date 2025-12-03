@@ -2249,8 +2249,12 @@ export default function Profile() {
                               <SelectValue placeholder="Sort by" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="newest">Newest first</SelectItem>
-                              <SelectItem value="oldest">Oldest first</SelectItem>
+                              <SelectItem value="newest">
+                                Newest first
+                              </SelectItem>
+                              <SelectItem value="oldest">
+                                Oldest first
+                              </SelectItem>
                               <SelectItem value="rating-high">
                                 Highest rating
                               </SelectItem>
@@ -3151,7 +3155,10 @@ export default function Profile() {
       </Dialog>
 
       {/* Review User Modal */}
-      <Dialog open={isReviewUserModalOpen} onOpenChange={setIsReviewUserModalOpen}>
+      <Dialog
+        open={isReviewUserModalOpen}
+        onOpenChange={setIsReviewUserModalOpen}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Review {otherUserData?.name || "User"}</DialogTitle>
