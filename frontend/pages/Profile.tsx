@@ -177,6 +177,7 @@ export default function Profile() {
   const [otherUserNotFound, setOtherUserNotFound] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isReviewUserModalOpen, setIsReviewUserModalOpen] = useState(false);
   const initialLocation = getCurrentUserLocation();
   const [locationCity, setLocationCity] = useState<string | null>(
     initialLocation.city,
