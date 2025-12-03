@@ -1283,9 +1283,8 @@ export default function Profile() {
       (item) =>
         item.name.toLowerCase().includes(query) ||
         item.type.toLowerCase().includes(query) ||
-        (item.categories?.some((cat) =>
-          cat.toLowerCase().includes(query),
-        ) ?? false),
+        (item.categories?.some((cat) => cat.toLowerCase().includes(query)) ??
+          false),
     );
   }, [listedItems, listingsSearchQuery, viewingOtherUser]);
 
