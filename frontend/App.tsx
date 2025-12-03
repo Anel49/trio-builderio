@@ -176,7 +176,14 @@ const AppContent = () => {
             }
           />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/rentals-and-requests" element={<OrderHistory />} />
+          <Route
+            path="/rentals-and-requests"
+            element={
+              <ProtectedRoute>
+                <OrderHistory />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/TermsOfService" element={<TermsOfService />} />
