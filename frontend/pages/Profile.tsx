@@ -1893,11 +1893,27 @@ export default function Profile() {
                     )}
                   </div>
 
+                  {/* Listings Search Bar */}
+                  <div className="relative max-w-md">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search listings..."
+                      value={listingsSearchQuery}
+                      onChange={(e) => setListingsSearchQuery(e.target.value)}
+                      className="pl-9"
+                    />
+                  </div>
+
+                  {/* Results Count */}
+                  {listingsSearchQuery && (
+                    <div className="text-sm text-muted-foreground">
+                      Found {filteredListings.length} listing
+                      {filteredListings.length !== 1 ? "s" : ""}
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {(viewingOtherUser
-                      ? listedItems.filter((item) => item.enabled !== false)
-                      : listedItems
-                    ).map((item) => (
+                    {filteredListings.map((item) => (
                       <ProductCard
                         key={item.id}
                         id={item.id}
