@@ -1266,6 +1266,29 @@ export default function Profile() {
     return (total / sellerReviews.length).toFixed(1);
   };
 
+  // Filter listings by search query
+  const filteredListings = useMemo(() => {
+    if (!listingsSearchQuery.trim()) {
+      return viewingOtherUser
+        ? listedItems.filter((item) => item.enabled !== false)
+        : listedItems;
+    }
+
+    const query = listingsSearchQuery.toLowerCase();
+    const items = viewingOtherUser
+      ? listedItems.filter((item) => item.enabled !== false)
+      : listedItems;
+
+    return items.filter(
+      (item) =>
+        item.name.toLowerCase().includes(query) ||
+        item.type.toLowerCase().includes(query) ||
+        (item.categories?.some((cat) =>
+          cat.toLowerCase().includes(query),
+        ) ?? false),
+    );
+  }, [listedItems, listingsSearchQuery, viewingOtherUser]);
+
   // Filter and sort item reviews
   const filteredAndSortedItemReviews = useMemo(() => {
     let filtered = itemReviews;
