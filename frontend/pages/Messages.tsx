@@ -65,10 +65,14 @@ interface Message {
 export default function Messages() {
   const { user, checkAuth } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(() => {
+    const userIdFromUrl = searchParams.get("userId");
+    return userIdFromUrl ? parseInt(userIdFromUrl) : null;
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const [messageInput, setMessageInput] = useState("");
   const [isSafetyBannerExpanded, setIsSafetyBannerExpanded] = useState(false);
