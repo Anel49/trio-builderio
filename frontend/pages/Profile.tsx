@@ -178,6 +178,9 @@ export default function Profile() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isReviewUserModalOpen, setIsReviewUserModalOpen] = useState(false);
+  const [reviewUserRating, setReviewUserRating] = useState(5);
+  const [reviewUserComment, setReviewUserComment] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const initialLocation = getCurrentUserLocation();
   const [locationCity, setLocationCity] = useState<string | null>(
     initialLocation.city,
