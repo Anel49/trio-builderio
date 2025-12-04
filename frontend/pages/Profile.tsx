@@ -3231,6 +3231,7 @@ export default function Profile() {
                     `/users/${otherUserData?.id}/reviews`,
                     {
                       method: "POST",
+                      headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
                         rating: reviewUserRating,
                         comment: reviewUserComment,
