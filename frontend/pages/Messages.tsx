@@ -199,6 +199,13 @@ export default function Messages() {
   useEffect(() => {
     if (!user?.id || !selectedUserId) return;
 
+    // Check if messages are cached
+    const cachedMessages = messagesCache.get(selectedUserId);
+    if (cachedMessages) {
+      setMessages(cachedMessages);
+      return;
+    }
+
     const fetchMessages = async () => {
       setMessagesLoading(true);
       try {
@@ -207,7 +214,10 @@ export default function Messages() {
         );
         const data = await response.json();
         if (data.ok) {
-          setMessages(data.messages || []);
+          const fetchedMessages = data.messages || [];
+          setMessages(fetchedMessages);
+          // Cache the messages
+          setMessagesCache((prevCache) => new Map(prevCache).set(selectedUserId, fetchedMessages));
         }
       } catch (error) {
         console.error("Failed to fetch messages:", error);
@@ -217,7 +227,7 @@ export default function Messages() {
     };
 
     fetchMessages();
-  }, [user?.id, selectedUserId]);
+  }, [user?.id, selectedUserId, messagesCache]);
 
   // Auto-scroll to bottom when messages load or update
   useEffect(() => {
