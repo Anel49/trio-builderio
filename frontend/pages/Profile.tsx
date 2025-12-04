@@ -1394,24 +1394,31 @@ export default function Profile() {
 
   // Filter and sort seller reviews
   const filteredAndSortedSellerReviews = useMemo(() => {
-    let filtered = sellerReviews;
+    let currentUserReview = null;
+    let otherReviews = sellerReviews.filter((review) => {
+      if (authenticated && authUser?.id && review.reviewerId === authUser.id) {
+        currentUserReview = review;
+        return false;
+      }
+      return true;
+    });
 
     // Filter by search query
-    if (sellerReviewSearchQuery) {
-      filtered = filtered.filter(
-        (review) =>
-          review.comment
-            .toLowerCase()
-            .includes(sellerReviewSearchQuery.toLowerCase()) ||
-          review.reviewer
-            .toLowerCase()
-            .includes(sellerReviewSearchQuery.toLowerCase()),
+    otherReviews = otherReviews.filter((review) => {
+      if (!sellerReviewSearchQuery) return true;
+      return (
+        review.comment
+          .toLowerCase()
+          .includes(sellerReviewSearchQuery.toLowerCase()) ||
+        review.reviewer
+          .toLowerCase()
+          .includes(sellerReviewSearchQuery.toLowerCase())
       );
-    }
+    });
 
     // Filter by rating
     if (sellerReviewRatingFilter !== "all") {
-      filtered = filtered.filter(
+      otherReviews = otherReviews.filter(
         (review) => review.rating === parseInt(sellerReviewRatingFilter),
       );
     }
@@ -1419,27 +1426,32 @@ export default function Profile() {
     // Sort reviews
     switch (sellerReviewSortBy) {
       case "newest":
-        filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
+        otherReviews.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
         break;
       case "oldest":
-        filtered.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
+        otherReviews.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
         break;
       case "rating-high":
-        filtered.sort((a, b) => b.rating - a.rating);
+        otherReviews.sort((a, b) => b.rating - a.rating);
         break;
       case "rating-low":
-        filtered.sort((a, b) => a.rating - b.rating);
+        otherReviews.sort((a, b) => a.rating - b.rating);
         break;
       default:
         break;
     }
 
-    return filtered;
+    if (currentUserReview) {
+      return [currentUserReview, ...otherReviews];
+    }
+    return otherReviews;
   }, [
     sellerReviews,
     sellerReviewSearchQuery,
     sellerReviewSortBy,
     sellerReviewRatingFilter,
+    authenticated,
+    authUser?.id,
   ]);
 
   useEffect(() => {
