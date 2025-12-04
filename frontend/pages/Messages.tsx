@@ -282,8 +282,11 @@ export default function Messages() {
 
       const data = await response.json();
       if (data.ok) {
-        setMessages([...messages, data.message]);
+        const updatedMessages = [...messages, data.message];
+        setMessages(updatedMessages);
         setMessageInput("");
+        // Update cache with the new message
+        setMessagesCache((prevCache) => new Map(prevCache).set(selectedUserId, updatedMessages));
         // Refresh conversations to update last message
         if (user?.id) {
           const convoResponse = await apiFetch(
