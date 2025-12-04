@@ -149,6 +149,50 @@ export default function Messages() {
     fetchConversations();
   }, [user?.id]);
 
+  // Handle temporary conversation creation when userId is in URL params
+  useEffect(() => {
+    if (!user?.id || !selectedUserId) {
+      setTemporaryConversation(null);
+      return;
+    }
+
+    // Check if selectedUserId already exists in conversations
+    const existingConversation = conversations.find(
+      (c) => c.otherUserId === selectedUserId,
+    );
+
+    if (existingConversation) {
+      // User is in existing conversations, no need for temporary
+      setTemporaryConversation(null);
+      return;
+    }
+
+    // Fetch user info to create temporary conversation
+    const fetchUserForTemporaryConversation = async () => {
+      try {
+        const response = await apiFetch(`/users/${selectedUserId}`);
+        const data = await response.json();
+
+        if (data.ok && data.user) {
+          const tempConv: Conversation = {
+            otherUserId: selectedUserId,
+            name: data.user.name || "Unknown User",
+            avatarUrl: data.user.avatarUrl || null,
+            username: data.user.username || null,
+            lastMessage: "No messages yet",
+            lastMessageTime: new Date().toISOString(),
+            lastMessageFromId: undefined,
+          };
+          setTemporaryConversation(tempConv);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user for temporary conversation:", error);
+      }
+    };
+
+    fetchUserForTemporaryConversation();
+  }, [selectedUserId, conversations, user?.id]);
+
   // Fetch messages when selected user changes
   useEffect(() => {
     if (!user?.id || !selectedUserId) return;
