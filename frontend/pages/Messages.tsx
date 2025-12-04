@@ -616,13 +616,13 @@ export default function Messages() {
               className="flex-1 px-4 [&>div>div]:md:block [&>div>div]:hidden"
             >
               {messagesLoading ? (
-                <div className="flex items-center justify-center h-full pt-32">
+                <div className="flex items-center justify-center h-full pt-8">
                   <div className="text-center text-muted-foreground">
                     Loading messages...
                   </div>
                 </div>
               ) : messages.length === 0 ? (
-                <div className="flex items-center justify-center h-full pt-32">
+                <div className="flex items-center justify-center h-full pt-8">
                   <div className="text-center text-muted-foreground">
                     {selectedUserNotFound
                       ? "User not found."
