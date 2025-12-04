@@ -460,6 +460,7 @@ export function createServer() {
   app.post("/api/users/:userId/presigned-url", getPresignedProfileImageUrl);
   app.post("/api/users/:id/reviews", createUserReview);
   app.get("/api/users/:id/reviews", getUserReviews);
+  app.patch("/api/users/reviews/:reviewId", updateUserReview);
   app.post("/api/password-reset-request", passwordResetRequest);
   app.post("/api/password-reset-verify", passwordResetVerify);
   app.post("/api/password-reset", passwordReset);
