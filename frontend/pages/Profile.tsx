@@ -3328,8 +3328,12 @@ export default function Profile() {
                       .json()
                       .catch(() => ({}));
                     if (reviewsData.ok) {
-                      setSellerReviews(reviewsData.reviews || []);
-                      const userReview = reviewsData.reviews.find(
+                      const reviewsWithParsedDates = (reviewsData.reviews || []).map((review: any) => ({
+                        ...review,
+                        dateValue: new Date(review.dateValue),
+                      }));
+                      setSellerReviews(reviewsWithParsedDates);
+                      const userReview = reviewsWithParsedDates.find(
                         (review: any) => review.reviewerId === authUser?.id,
                       );
                       if (userReview) {
