@@ -1329,7 +1329,13 @@ export async function createUserReview(req: Request, res: Response) {
     }
 
     const parsedRating = typeof rating === "string" ? Number(rating) : rating;
-    if (parsedRating === null || parsedRating === undefined || Number.isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+    if (
+      parsedRating === null ||
+      parsedRating === undefined ||
+      Number.isNaN(parsedRating) ||
+      parsedRating < 1 ||
+      parsedRating > 5
+    ) {
       return res.status(400).json({ ok: false, error: "invalid rating" });
     }
 

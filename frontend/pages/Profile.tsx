@@ -1651,13 +1651,16 @@ export default function Profile() {
                   <div className="flex items-center justify-center space-x-2">
                     <div className="flex items-center">
                       {[...Array(5)].map((_, i) => {
-                        const avgRating = sellerReviews.length === 0 ? 0 : sellerReviews.reduce((sum, review) => sum + review.rating, 0) / sellerReviews.length;
-                        const fullStars = Math.floor(
-                          avgRating ?? 0,
-                        );
+                        const avgRating =
+                          sellerReviews.length === 0
+                            ? 0
+                            : sellerReviews.reduce(
+                                (sum, review) => sum + review.rating,
+                                0,
+                              ) / sellerReviews.length;
+                        const fullStars = Math.floor(avgRating ?? 0);
                         const hasHalfStar =
-                          typeof avgRating === "number" &&
-                          avgRating % 1 >= 0.5;
+                          typeof avgRating === "number" && avgRating % 1 >= 0.5;
                         const isFullStar = i < fullStars;
                         const isHalfStar =
                           hasHalfStar && i === fullStars && i < 5;
@@ -1687,7 +1690,14 @@ export default function Profile() {
                       })}
                     </div>
                     <span className="font-medium">
-                      {sellerReviews.length > 0 ? (sellerReviews.reduce((sum, review) => sum + review.rating, 0) / sellerReviews.length).toFixed(1) : "0.0"}
+                      {sellerReviews.length > 0
+                        ? (
+                            sellerReviews.reduce(
+                              (sum, review) => sum + review.rating,
+                              0,
+                            ) / sellerReviews.length
+                          ).toFixed(1)
+                        : "0.0"}
                     </span>
                     <span className="text-sm text-muted-foreground">
                       ({sellerReviews.length} reviews)
@@ -2915,11 +2925,16 @@ export default function Profile() {
                 <div className="flex items-center justify-center space-x-2">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => {
-                      const avgRating = sellerReviews.length === 0 ? 0 : sellerReviews.reduce((sum, review) => sum + review.rating, 0) / sellerReviews.length;
+                      const avgRating =
+                        sellerReviews.length === 0
+                          ? 0
+                          : sellerReviews.reduce(
+                              (sum, review) => sum + review.rating,
+                              0,
+                            ) / sellerReviews.length;
                       const fullStars = Math.floor(avgRating ?? 0);
                       const hasHalfStar =
-                        typeof avgRating === "number" &&
-                        avgRating % 1 >= 0.5;
+                        typeof avgRating === "number" && avgRating % 1 >= 0.5;
                       const isFullStar = i < fullStars;
                       const isHalfStar =
                         hasHalfStar && i === fullStars && i < 5;
@@ -2949,7 +2964,14 @@ export default function Profile() {
                     })}
                   </div>
                   <span className="font-medium">
-                    {sellerReviews.length > 0 ? (sellerReviews.reduce((sum, review) => sum + review.rating, 0) / sellerReviews.length).toFixed(1) : "0.0"}
+                    {sellerReviews.length > 0
+                      ? (
+                          sellerReviews.reduce(
+                            (sum, review) => sum + review.rating,
+                            0,
+                          ) / sellerReviews.length
+                        ).toFixed(1)
+                      : "0.0"}
                   </span>
                   <span className="text-sm text-muted-foreground">
                     ({sellerReviews.length} reviews)
