@@ -176,7 +176,7 @@ export default function Header() {
                     </button>
                     {isContextMenuOpen && (
                       <div
-                        className="absolute right-0 mt-1 bg-popover border border-border rounded-md shadow-md z-50"
+                        className="absolute right-0 mt-1 bg-popover border border-border rounded-md shadow-md z-[100]"
                         onMouseLeave={() => setIsContextMenuOpen(false)}
                       >
                         <button
