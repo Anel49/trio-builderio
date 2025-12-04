@@ -3264,23 +3264,26 @@ export default function Profile() {
 
                 setIsSubmittingReview(true);
                 try {
-                  const response = await apiFetch(
-                    `/users/${otherUserData?.id}/reviews`,
-                    {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        rating: reviewUserRating,
-                        comment: reviewUserComment,
-                      }),
-                    },
-                  );
+                  const endpoint = userReviewId
+                    ? `/users/reviews/${userReviewId}`
+                    : `/users/${otherUserData?.id}/reviews`;
+                  const method = userReviewId ? "PATCH" : "POST";
+
+                  const response = await apiFetch(endpoint, {
+                    method,
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      rating: reviewUserRating,
+                      comment: reviewUserComment,
+                    }),
+                  });
 
                   const data = await response.json().catch(() => ({}));
                   if (data.ok) {
                     setIsReviewUserModalOpen(false);
                     setReviewUserRating(5);
                     setReviewUserComment("");
+                    setUserReviewId(null);
                     // Refetch reviews
                     const reviewsRes = await apiFetch(
                       `/users/${otherUserData?.id}/reviews`,
@@ -3290,6 +3293,12 @@ export default function Profile() {
                       .catch(() => ({}));
                     if (reviewsData.ok) {
                       setSellerReviews(reviewsData.reviews || []);
+                      const userReview = reviewsData.reviews.find(
+                        (review: any) => review.reviewerId === authUser?.id,
+                      );
+                      if (userReview) {
+                        setUserReviewId(userReview.id);
+                      }
                     }
                   } else {
                     alert(data.error || "Failed to submit review");
@@ -3304,7 +3313,13 @@ export default function Profile() {
               disabled={isSubmittingReview || !reviewUserComment.trim()}
               className="flex-1"
             >
-              {isSubmittingReview ? "Submitting..." : "Submit Review"}
+              {isSubmittingReview
+                ? userReviewId
+                  ? "Updating..."
+                  : "Submitting..."
+                : userReviewId
+                  ? "Update Review"
+                  : "Submit Review"}
             </Button>
           </DialogFooter>
         </DialogContent>
