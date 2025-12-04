@@ -288,11 +288,16 @@ export default function Messages() {
     }
   };
 
-  const selectedChat = conversations.find(
+  // Combine regular conversations with temporary conversation
+  const allConversations = temporaryConversation
+    ? [temporaryConversation, ...conversations.filter((c) => c.otherUserId !== temporaryConversation.otherUserId)]
+    : conversations;
+
+  const selectedChat = allConversations.find(
     (c) => c.otherUserId === selectedUserId,
   );
 
-  const filteredConversations = conversations.filter(
+  const filteredConversations = allConversations.filter(
     (chat) =>
       chat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (chat.lastMessage &&
