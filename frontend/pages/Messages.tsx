@@ -220,6 +220,7 @@ export default function Messages() {
     const cachedMessages = messagesCache.get(selectedUserId);
     if (cachedMessages) {
       setMessages(cachedMessages);
+      setSelectedUserNotFound(false);
       return;
     }
 
@@ -233,6 +234,7 @@ export default function Messages() {
         if (data.ok) {
           const fetchedMessages = data.messages || [];
           setMessages(fetchedMessages);
+          setSelectedUserNotFound(false);
           // Cache the messages
           setMessagesCache((prevCache) =>
             new Map(prevCache).set(selectedUserId, fetchedMessages),
