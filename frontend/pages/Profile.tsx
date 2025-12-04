@@ -784,12 +784,6 @@ export default function Profile() {
     return null;
   }, [locationCity]);
 
-  const avgSellerRatingValue = useMemo(() => {
-    if (sellerReviews.length === 0) return 0;
-    const total = sellerReviews.reduce((sum, review) => sum + review.rating, 0);
-    return total / sellerReviews.length;
-  }, [sellerReviews]);
-
   // Use centralized user profile data
   const profileDisplayData = viewingOtherUser
     ? otherUserData
@@ -816,7 +810,7 @@ export default function Profile() {
     zipCode: viewingOtherUser
       ? otherUserData?.zipCode || null
       : locationPostalCode,
-    avgRating: avgSellerRatingValue,
+    avgRating: 0,
     dateJoined: viewingOtherUser
       ? otherUserData?.createdAt
         ? format(new Date(otherUserData.createdAt), "MMMM yyyy")
