@@ -1314,6 +1314,8 @@ export async function createUserReview(req: Request, res: Response) {
     const reviewerId = (req as any).session?.userId;
     const { rating, comment } = req.body || {};
 
+    console.log("[createUserReview] Request body:", { rating, comment, reviewedUserId, reviewerId });
+
     if (!reviewedUserId || Number.isNaN(reviewedUserId)) {
       return res.status(400).json({ ok: false, error: "invalid user id" });
     }
@@ -1329,7 +1331,8 @@ export async function createUserReview(req: Request, res: Response) {
     }
 
     const parsedRating = typeof rating === "string" ? Number(rating) : rating;
-    if (!parsedRating || Number.isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+    console.log("[createUserReview] Parsed rating:", { originalRating: rating, parsedRating, type: typeof parsedRating });
+    if (parsedRating === null || parsedRating === undefined || Number.isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
       return res.status(400).json({ ok: false, error: "invalid rating" });
     }
 
