@@ -67,6 +67,7 @@ export default function Header() {
             className={combineTokens(
               layouts.flex.between,
               spacing.dimensions.header,
+              "leading-none",
             )}
           >
             <div className={combineTokens(layouts.flex.start, "space-x-8")}>
