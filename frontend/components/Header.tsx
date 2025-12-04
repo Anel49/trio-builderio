@@ -162,8 +162,7 @@ export default function Header() {
                         e.preventDefault();
                         setIsContextMenuOpen(true);
                       }}
-                      className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity p-0 h-8 w-8 leading-none appearance-none border-0"
-                      style={{ minHeight: '32px', maxHeight: '32px' }}
+                      className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity p-0 h-8 w-8 leading-none"
                       title="Profile"
                     >
                       <Avatar className="h-full w-full flex-shrink-0">
