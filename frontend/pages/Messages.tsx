@@ -160,6 +160,7 @@ export default function Messages() {
   useEffect(() => {
     if (!user?.id || !selectedUserId) {
       setTemporaryConversation(null);
+      setSelectedUserNotFound(false);
       return;
     }
 
@@ -171,6 +172,7 @@ export default function Messages() {
     if (existingConversation) {
       // User is in existing conversations, no need for temporary
       setTemporaryConversation(null);
+      setSelectedUserNotFound(false);
       return;
     }
 
@@ -191,12 +193,19 @@ export default function Messages() {
             lastMessageFromId: undefined,
           };
           setTemporaryConversation(tempConv);
+          setSelectedUserNotFound(false);
+        } else {
+          // User not found
+          setTemporaryConversation(null);
+          setSelectedUserNotFound(true);
         }
       } catch (error) {
         console.error(
           "Failed to fetch user for temporary conversation:",
           error,
         );
+        setTemporaryConversation(null);
+        setSelectedUserNotFound(true);
       }
     };
 
