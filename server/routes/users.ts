@@ -1385,7 +1385,7 @@ export async function getUserReviews(req: Request, res: Response) {
 
     const result = await pool.query(
       `select ur.id, ur.reviewed_user_id, ur.reviewer_id, ur.rating, ur.comment, ur.created_at,
-              u.username, u.avatar_url
+              u.username, u.avatar_url, u.name
        from user_reviews ur
        join users u on u.id = ur.reviewer_id
        where ur.reviewed_user_id = $1
@@ -1401,7 +1401,7 @@ export async function getUserReviews(req: Request, res: Response) {
       comment: row.comment,
       date: new Date(row.created_at).toLocaleDateString(),
       dateValue: new Date(row.created_at),
-      reviewer: row.username || "Unknown",
+      reviewer: row.name || row.username || "Unknown",
       reviewerUsername: row.username,
       avatar: row.avatar_url || undefined,
     }));
