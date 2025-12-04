@@ -2393,17 +2393,38 @@ export default function Profile() {
                                   </p>
                                 </div>
                                 <div className="flex items-center">
-                                  {[...Array(5)].map((_, i) => (
-                                    <Star
-                                      key={i}
-                                      className={cn(
-                                        "h-4 w-4",
-                                        i < review.rating
-                                          ? "fill-yellow-400 text-yellow-400"
-                                          : "text-gray-300",
-                                      )}
-                                    />
-                                  ))}
+                                  {[...Array(5)].map((_, i) => {
+                                    const fullStars = Math.floor(review.rating);
+                                    const hasHalfStar =
+                                      typeof review.rating === "number" &&
+                                      review.rating % 1 >= 0.5;
+                                    const isFullStar = i < fullStars;
+                                    const isHalfStar =
+                                      hasHalfStar && i === fullStars && i < 5;
+
+                                    if (isHalfStar) {
+                                      return (
+                                        <div key={i} className="relative h-4 w-4">
+                                          <Star className="absolute h-4 w-4 text-gray-300" />
+                                          <div className="absolute h-4 w-2 overflow-hidden">
+                                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                          </div>
+                                        </div>
+                                      );
+                                    }
+
+                                    return (
+                                      <Star
+                                        key={i}
+                                        className={cn(
+                                          "h-4 w-4",
+                                          isFullStar
+                                            ? "fill-yellow-400 text-yellow-400"
+                                            : "text-gray-300",
+                                        )}
+                                      />
+                                    );
+                                  })}
                                 </div>
                               </div>
                               <p className="text-muted-foreground">
