@@ -1691,9 +1691,11 @@ export default function Profile() {
                         );
                       })}
                     </div>
-                    <span className="font-medium">{userProfile.avgRating}</span>
+                    <span className="font-medium">
+                      {avgSellerRatingValue > 0 ? avgSellerRatingValue.toFixed(1) : "0.0"}
+                    </span>
                     <span className="text-sm text-muted-foreground">
-                      ({itemReviews.length} reviews)
+                      ({sellerReviews.length} reviews)
                     </span>
                   </div>
                 </div>
