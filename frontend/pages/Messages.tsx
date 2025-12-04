@@ -90,6 +90,8 @@ export default function Messages() {
   const [conversationsLoading, setConversationsLoading] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(false);
   const [temporaryConversation, setTemporaryConversation] = useState<Conversation | null>(null);
+  // Message cache: Map<userId, Message[]>
+  const [messagesCache, setMessagesCache] = useState<Map<number, Message[]>>(new Map());
 
   // Ref for scrolling messages to bottom
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
