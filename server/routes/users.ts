@@ -1341,7 +1341,7 @@ export async function createUserReview(req: Request, res: Response) {
       `insert into user_reviews (reviewed_user_id, reviewer_id, rating, comment, created_at, updated_at)
        values ($1, $2, $3, $4, now(), now())
        returning id, reviewed_user_id, reviewer_id, rating, comment, created_at, updated_at`,
-      [reviewedUserId, reviewerId, rating, comment.trim()],
+      [reviewedUserId, reviewerId, parsedRating, comment.trim()],
     );
 
     if (!result.rows || result.rows.length === 0) {
