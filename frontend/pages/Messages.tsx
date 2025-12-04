@@ -622,7 +622,9 @@ export default function Messages() {
               ) : messages.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center text-muted-foreground">
-                    No messages yet. Start a conversation!
+                    {selectedUserNotFound
+                      ? "User not found."
+                      : "No messages yet. Start a conversation!"}
                   </div>
                 </div>
               ) : (
