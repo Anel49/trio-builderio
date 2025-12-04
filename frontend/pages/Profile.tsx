@@ -2311,7 +2311,15 @@ export default function Profile() {
 
                       {/* Review User Button */}
                       {authenticated && viewingOtherUser && (
-                        <Button onClick={() => setIsReviewUserModalOpen(true)}>
+                        <Button
+                          onClick={() => {
+                            if (!userReviewId) {
+                              setReviewUserRating(5);
+                              setReviewUserComment("");
+                            }
+                            setIsReviewUserModalOpen(true);
+                          }}
+                        >
                           <Star className="h-4 w-4 mr-2" />
                           {userReviewId ? "Edit Review" : "Review User"}
                         </Button>
