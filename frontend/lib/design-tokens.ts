@@ -253,7 +253,7 @@ export const shadows = {
 export const zIndex = {
   base: "z-0",
   dropdown: "z-10",
-  header: "z-50",
+  header: "z-[100]",
   modal: "z-50",
   tooltip: "z-20",
   overlay: "z-40",
