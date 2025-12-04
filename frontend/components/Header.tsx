@@ -155,7 +155,7 @@ export default function Header() {
                   </a>
 
                   {/* Profile Picture with Right-Click Menu */}
-                  <div className="relative leading-none">
+                  <div className="relative leading-none h-8">
                     <button
                       onClick={() => (window.location.href = "/profile")}
                       onContextMenu={(e) => {
