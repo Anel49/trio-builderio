@@ -1328,7 +1328,8 @@ export async function createUserReview(req: Request, res: Response) {
         .json({ ok: false, error: "cannot review yourself" });
     }
 
-    if (!rating || typeof rating !== "number" || rating < 1 || rating > 5) {
+    const parsedRating = typeof rating === "string" ? Number(rating) : rating;
+    if (!parsedRating || Number.isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
       return res.status(400).json({ ok: false, error: "invalid rating" });
     }
 
