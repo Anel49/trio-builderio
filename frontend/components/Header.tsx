@@ -161,10 +161,10 @@ export default function Header() {
                         e.preventDefault();
                         setIsContextMenuOpen(true);
                       }}
-                      className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity p-0 h-8"
+                      className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity p-0 h-8 w-8 leading-none"
                       title="Profile"
                     >
-                      <Avatar className="h-8 w-8 flex-shrink-0">
+                      <Avatar className="h-full w-full flex-shrink-0">
                         <AvatarImage
                           src={user?.avatarUrl || undefined}
                           alt={user?.name || "Profile"}
