@@ -1184,47 +1184,7 @@ export default function Profile() {
       dateValue: Date;
       comment: string;
     }[]
-  >([
-    {
-      id: 1,
-      reviewer: "Emily",
-      reviewerId: 1,
-      reviewerUsername: "emily123",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616b612f672?w=64&h=64&fit=crop&auto=format",
-      rating: 5,
-      date: "1 week ago",
-      dateValue: new Date("2024-12-08"),
-      comment:
-        "Sarah is an amazing host! Very responsive, friendly, and her items are always in perfect condition. Highly recommend!",
-    },
-    {
-      id: 2,
-      reviewer: "Robert",
-      reviewerId: 2,
-      reviewerUsername: "robert456",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&auto=format",
-      rating: 5,
-      date: "3 weeks ago",
-      dateValue: new Date("2024-11-25"),
-      comment:
-        "Fantastic experience renting from Sarah. Quick responses, flexible pickup times, and excellent communication throughout.",
-    },
-    {
-      id: 3,
-      reviewer: "Lisa",
-      reviewerId: 3,
-      reviewerUsername: "lisa789",
-      avatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&auto=format",
-      rating: 4,
-      date: "1 month ago",
-      dateValue: new Date("2024-11-15"),
-      comment:
-        "Great host with quality items. Sarah was very accommodating with timing and provided helpful usage tips.",
-    },
-  ]);
+  >([]);
 
   const tabs = [
     {
