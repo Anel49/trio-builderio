@@ -44,6 +44,8 @@ import {
   passwordReset,
   googleOAuth,
   getPresignedProfileImageUrl,
+  createUserReview,
+  getUserReviews,
 } from "./routes/users";
 import { reverseGeocode } from "./routes/geocode";
 import {
