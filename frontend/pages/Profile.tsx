@@ -1265,6 +1265,12 @@ export default function Profile() {
     return (total / sellerReviews.length).toFixed(1);
   };
 
+  const avgSellerRatingValue = useMemo(() => {
+    if (sellerReviews.length === 0) return 0;
+    const total = sellerReviews.reduce((sum, review) => sum + review.rating, 0);
+    return total / sellerReviews.length;
+  }, [sellerReviews]);
+
   // Filter listings by search query
   const filteredListings = useMemo(() => {
     if (!listingsSearchQuery.trim()) {
