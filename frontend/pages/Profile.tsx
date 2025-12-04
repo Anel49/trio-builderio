@@ -1186,6 +1186,39 @@ export default function Profile() {
     }[]
   >([]);
 
+  // Fetch seller reviews from the user_reviews table
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const targetUserId = viewingOtherUser
+          ? otherUserData?.id
+          : authUser?.id;
+
+        if (!targetUserId) {
+          setSellerReviews([]);
+          return;
+        }
+
+        const response = await apiFetch(`/users/${targetUserId}/reviews`);
+        if (!response.ok || cancelled) return;
+        const data = await response.json().catch(() => ({}));
+        if (!data.ok || !Array.isArray(data.reviews) || cancelled) return;
+
+        setSellerReviews(data.reviews || []);
+      } catch (error) {
+        console.error("Error fetching seller reviews:", error);
+        if (!cancelled) {
+          setSellerReviews([]);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [viewingOtherUser, otherUserData?.id, authUser?.id]);
+
   const tabs = [
     {
       id: "listings",
