@@ -1624,7 +1624,13 @@ export default function ProductDetails() {
                   </div>
 
                   {authUser && product?.hostOpenDms && (
-                    <Button variant="outline" className="w-full mt-4">
+                    <Button
+                      variant="outline"
+                      className="w-full mt-4"
+                      onClick={() =>
+                        navigate(`/messages?userId=${product.hostUserId}`)
+                      }
+                    >
                       Contact Host
                     </Button>
                   )}
