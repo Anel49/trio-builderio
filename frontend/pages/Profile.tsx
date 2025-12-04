@@ -1206,7 +1206,11 @@ export default function Profile() {
         const data = await response.json().catch(() => ({}));
         if (!data.ok || !Array.isArray(data.reviews) || cancelled) return;
 
-        setSellerReviews(data.reviews || []);
+        const reviewsWithParsedDates = (data.reviews || []).map((review: any) => ({
+          ...review,
+          dateValue: new Date(review.dateValue),
+        }));
+        setSellerReviews(reviewsWithParsedDates);
 
         if (authenticated && authUser?.id && viewingOtherUser) {
           const userReview = data.reviews.find(
