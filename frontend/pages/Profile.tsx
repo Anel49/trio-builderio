@@ -1207,6 +1207,21 @@ export default function Profile() {
         if (!data.ok || !Array.isArray(data.reviews) || cancelled) return;
 
         setSellerReviews(data.reviews || []);
+
+        if (authenticated && authUser?.id && viewingOtherUser) {
+          const userReview = data.reviews.find(
+            (review: any) => review.reviewerId === authUser.id,
+          );
+          if (userReview) {
+            setUserReviewId(userReview.id);
+            setReviewUserRating(userReview.rating);
+            setReviewUserComment(userReview.comment);
+          } else {
+            setUserReviewId(null);
+          }
+        } else {
+          setUserReviewId(null);
+        }
       } catch (error) {
         console.error("Error fetching seller reviews:", error);
         if (!cancelled) {
