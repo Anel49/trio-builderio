@@ -95,6 +95,8 @@ export default function Messages() {
   const [messagesCache, setMessagesCache] = useState<Map<number, Message[]>>(
     new Map(),
   );
+  // Track if a user was not found
+  const [selectedUserNotFound, setSelectedUserNotFound] = useState(false);
 
   // Ref for scrolling messages to bottom
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
