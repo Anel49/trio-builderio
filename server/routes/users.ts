@@ -1307,3 +1307,101 @@ export async function getPresignedProfileImageUrl(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function createUserReview(req: Request, res: Response) {
+  try {
+    const reviewedUserId = Number((req.params as any)?.id);
+    const reviewerId = (req as any).session?.userId;
+    const { rating, comment } = req.body || {};
+
+    if (!reviewedUserId || Number.isNaN(reviewedUserId)) {
+      return res.status(400).json({ ok: false, error: "invalid user id" });
+    }
+
+    if (!reviewerId) {
+      return res.status(401).json({ ok: false, error: "not authenticated" });
+    }
+
+    if (reviewerId === reviewedUserId) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "cannot review yourself" });
+    }
+
+    if (!rating || typeof rating !== "number" || rating < 1 || rating > 5) {
+      return res.status(400).json({ ok: false, error: "invalid rating" });
+    }
+
+    if (!comment || typeof comment !== "string" || comment.trim() === "") {
+      return res.status(400).json({ ok: false, error: "comment is required" });
+    }
+
+    const result = await pool.query(
+      `insert into user_reviews (reviewed_user_id, reviewer_id, rating, comment, created_at, updated_at)
+       values ($1, $2, $3, $4, now(), now())
+       returning id, reviewed_user_id, reviewer_id, rating, comment, created_at, updated_at`,
+      [reviewedUserId, reviewerId, rating, comment.trim()],
+    );
+
+    if (!result.rows || result.rows.length === 0) {
+      return res
+        .status(500)
+        .json({ ok: false, error: "failed to create review" });
+    }
+
+    const review = result.rows[0];
+    res.json({
+      ok: true,
+      review: {
+        id: review.id,
+        reviewed_user_id: review.reviewed_user_id,
+        reviewer_id: review.reviewer_id,
+        rating: Number(review.rating),
+        comment: review.comment,
+        created_at: review.created_at,
+        updated_at: review.updated_at,
+      },
+    });
+  } catch (error: any) {
+    console.error("Error creating user review:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
+export async function getUserReviews(req: Request, res: Response) {
+  try {
+    const reviewedUserId = Number((req.params as any)?.id);
+
+    if (!reviewedUserId || Number.isNaN(reviewedUserId)) {
+      return res.status(400).json({ ok: false, error: "invalid user id" });
+    }
+
+    const result = await pool.query(
+      `select ur.id, ur.reviewed_user_id, ur.reviewer_id, ur.rating, ur.comment, ur.created_at,
+              u.username, u.avatar_url
+       from user_reviews ur
+       join users u on u.id = ur.reviewer_id
+       where ur.reviewed_user_id = $1
+       order by ur.created_at desc`,
+      [reviewedUserId],
+    );
+
+    const reviews = result.rows.map((row: any) => ({
+      id: row.id,
+      reviewedUserId: row.reviewed_user_id,
+      reviewerId: row.reviewer_id,
+      rating: Number(row.rating),
+      comment: row.comment,
+      date: new Date(row.created_at).toLocaleDateString(),
+      dateValue: new Date(row.created_at),
+      reviewer: row.username || "Unknown",
+      reviewerUsername: row.username,
+      avatar: row.avatar_url || undefined,
+    }));
+
+    res.json({ ok: true, reviews });
+  } catch (error: any) {
+    console.error("Error fetching user reviews:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
