@@ -576,6 +576,9 @@ export function createServer() {
   app.patch("/listing-reviews/:id/helpful", updateListingReviewHelpful);
   app.patch("/listing-reviews/:id", updateListingReview);
   app.delete("/listing-reviews/:id", deleteListingReview);
+  // User Reviews aliases
+  app.post("/users/:id/reviews", createUserReview);
+  app.get("/users/:id/reviews", getUserReviews);
   // Messages
   app.get("/api/messages/:userId/conversations", listConversations);
   app.get("/api/messages/:userId/:otherUserId", getMessages);
