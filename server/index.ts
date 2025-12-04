@@ -581,6 +581,7 @@ export function createServer() {
   // User Reviews aliases
   app.post("/users/:id/reviews", createUserReview);
   app.get("/users/:id/reviews", getUserReviews);
+  app.patch("/users/reviews/:reviewId", updateUserReview);
   // Messages
   app.get("/api/messages/:userId/conversations", listConversations);
   app.get("/api/messages/:userId/:otherUserId", getMessages);
