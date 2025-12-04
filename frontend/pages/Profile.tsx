@@ -2346,61 +2346,73 @@ export default function Profile() {
                   </div>
 
                   <div className="space-y-4">
-                    {paginatedSellerReviews.map((review) => (
-                      <Card key={review.id}>
-                        <CardContent className="p-6">
-                          <div className="flex items-start gap-4 mb-3">
-                            <button
-                              onClick={() => {
-                                if (review.reviewerUsername) {
-                                  navigate(
-                                    `/profile/${review.reviewerUsername}`,
-                                  );
-                                }
-                              }}
-                              className="cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
-                              aria-label="Open profile"
-                            >
-                              <Avatar>
-                                <AvatarImage
-                                  src={review.avatar || undefined}
-                                  alt={review.reviewer}
-                                />
-                                <AvatarFallback>
-                                  {review.reviewer
-                                    .split(" ")[0][0]
-                                    ?.toUpperCase()}
-                                </AvatarFallback>
-                              </Avatar>
-                            </button>
-                            <div className="flex-1">
-                              <h4 className="font-semibold">
-                                {review.reviewer}
-                              </h4>
-                              <p className="text-sm text-muted-foreground">
-                                {review.date}
+                    {paginatedSellerReviews.map((review, index) => {
+                      const isCurrentUserReview =
+                        authenticated && authUser?.id && review.reviewerId === authUser.id;
+                      return (
+                        <div key={review.id}>
+                          <Card>
+                            <CardContent className="p-6">
+                              <div className="flex items-start gap-4 mb-3">
+                                <button
+                                  onClick={() => {
+                                    if (review.reviewerUsername) {
+                                      navigate(
+                                        `/profile/${review.reviewerUsername}`,
+                                      );
+                                    }
+                                  }}
+                                  className="cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
+                                  aria-label="Open profile"
+                                >
+                                  <Avatar>
+                                    <AvatarImage
+                                      src={review.avatar || undefined}
+                                      alt={review.reviewer}
+                                    />
+                                    <AvatarFallback>
+                                      {review.reviewer
+                                        .split(" ")[0][0]
+                                        ?.toUpperCase()}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                </button>
+                                <div className="flex-1">
+                                  <h4 className="font-semibold">
+                                    {review.reviewer}
+                                    {isCurrentUserReview && (
+                                      <span className="text-xs text-muted-foreground ml-2">(Your Review)</span>
+                                    )}
+                                  </h4>
+                                  <p className="text-sm text-muted-foreground">
+                                    {review.date}
+                                  </p>
+                                </div>
+                                <div className="flex items-center">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      className={cn(
+                                        "h-4 w-4",
+                                        i < review.rating
+                                          ? "fill-yellow-400 text-yellow-400"
+                                          : "text-gray-300",
+                                      )}
+                                    />
+                                  ))}
+                                </div>
+                              </div>
+                              <p className="text-muted-foreground">
+                                {review.comment}
                               </p>
-                            </div>
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={cn(
-                                    "h-4 w-4",
-                                    i < review.rating
-                                      ? "fill-yellow-400 text-yellow-400"
-                                      : "text-gray-300",
-                                  )}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                          <p className="text-muted-foreground">
-                            {review.comment}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    ))}
+                            </CardContent>
+                          </Card>
+                          {isCurrentUserReview && index === 0 && paginatedSellerReviews.length > 1 && (
+                            <div className="my-4 border-t border-border" />
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
 
                   {filteredAndSortedSellerReviews.length > 0 &&
