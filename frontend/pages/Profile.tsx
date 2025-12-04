@@ -2290,7 +2290,7 @@ export default function Profile() {
                       {/* Review User Button */}
                       {authenticated && viewingOtherUser && (
                         <Button onClick={() => setIsReviewUserModalOpen(true)}>
-                          <MessageCircle className="h-4 w-4 mr-2" />
+                          <Star className="h-4 w-4 mr-2" />
                           Review User
                         </Button>
                       )}
