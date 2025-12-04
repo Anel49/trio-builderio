@@ -1412,3 +1412,69 @@ export async function getUserReviews(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function updateUserReview(req: Request, res: Response) {
+  try {
+    const reviewId = Number((req.params as any)?.reviewId);
+    const reviewerId = (req as any).session?.userId;
+    const { rating, comment } = req.body || {};
+
+    if (!reviewId || Number.isNaN(reviewId)) {
+      return res.status(400).json({ ok: false, error: "invalid review id" });
+    }
+
+    if (!reviewerId) {
+      return res.status(401).json({ ok: false, error: "not authenticated" });
+    }
+
+    const parsedRating = typeof rating === "string" ? Number(rating) : rating;
+    if (parsedRating === null || parsedRating === undefined || Number.isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+      return res.status(400).json({ ok: false, error: "invalid rating" });
+    }
+
+    if (!comment || typeof comment !== "string" || comment.trim() === "") {
+      return res.status(400).json({ ok: false, error: "comment is required" });
+    }
+
+    const existingReview = await pool.query(
+      `select reviewer_id from user_reviews where id = $1`,
+      [reviewId],
+    );
+
+    if (!existingReview.rows || existingReview.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "review not found" });
+    }
+
+    if (existingReview.rows[0].reviewer_id !== reviewerId) {
+      return res.status(403).json({ ok: false, error: "cannot update another user's review" });
+    }
+
+    const result = await pool.query(
+      `update user_reviews set rating = $1, comment = $2, updated_at = now()
+       where id = $3
+       returning id, reviewed_user_id, reviewer_id, rating, comment, created_at, updated_at`,
+      [parsedRating, comment.trim(), reviewId],
+    );
+
+    if (!result.rows || result.rows.length === 0) {
+      return res.status(500).json({ ok: false, error: "failed to update review" });
+    }
+
+    const review = result.rows[0];
+    res.json({
+      ok: true,
+      review: {
+        id: review.id,
+        reviewed_user_id: review.reviewed_user_id,
+        reviewer_id: review.reviewer_id,
+        rating: Number(review.rating),
+        comment: review.comment,
+        created_at: review.created_at,
+        updated_at: review.updated_at,
+      },
+    });
+  } catch (error: any) {
+    console.error("Error updating user review:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
