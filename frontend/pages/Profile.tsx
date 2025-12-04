@@ -2313,7 +2313,7 @@ export default function Profile() {
                       {authenticated && viewingOtherUser && (
                         <Button onClick={() => setIsReviewUserModalOpen(true)}>
                           <Star className="h-4 w-4 mr-2" />
-                          Review User
+                          {userReviewId ? "Edit Review" : "Review User"}
                         </Button>
                       )}
                     </div>
