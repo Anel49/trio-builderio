@@ -810,7 +810,7 @@ export default function Profile() {
     zipCode: viewingOtherUser
       ? otherUserData?.zipCode || null
       : locationPostalCode,
-    avgRating: 0,
+    avgRating: avgSellerRatingValue,
     dateJoined: viewingOtherUser
       ? otherUserData?.createdAt
         ? format(new Date(otherUserData.createdAt), "MMMM yyyy")
