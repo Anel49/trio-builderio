@@ -745,22 +745,6 @@ export default function Messages() {
                   >
                     {selectedChat.name}
                   </button>
-
-                  {/* Chat Deletion Notice */}
-                  <div className="border-t border-border pt-6">
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      Chats will be deleted after 180 days (approximately 6
-                      months) of inactivity. You may download this conversation
-                      in its entirety by clicking or tapping{" "}
-                      <button
-                        onClick={downloadChat}
-                        className="underline hover:text-foreground transition-colors font-medium"
-                      >
-                        here
-                      </button>
-                      .
-                    </p>
-                  </div>
                 </div>
               </>
             )}
