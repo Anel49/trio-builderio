@@ -46,6 +46,7 @@ import {
   getPresignedProfileImageUrl,
   createUserReview,
   getUserReviews,
+  updateUserReview,
 } from "./routes/users";
 import { reverseGeocode } from "./routes/geocode";
 import {
