@@ -89,9 +89,12 @@ export default function Messages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationsLoading, setConversationsLoading] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(false);
-  const [temporaryConversation, setTemporaryConversation] = useState<Conversation | null>(null);
+  const [temporaryConversation, setTemporaryConversation] =
+    useState<Conversation | null>(null);
   // Message cache: Map<userId, Message[]>
-  const [messagesCache, setMessagesCache] = useState<Map<number, Message[]>>(new Map());
+  const [messagesCache, setMessagesCache] = useState<Map<number, Message[]>>(
+    new Map(),
+  );
 
   // Ref for scrolling messages to bottom
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
@@ -188,7 +191,10 @@ export default function Messages() {
           setTemporaryConversation(tempConv);
         }
       } catch (error) {
-        console.error("Failed to fetch user for temporary conversation:", error);
+        console.error(
+          "Failed to fetch user for temporary conversation:",
+          error,
+        );
       }
     };
 
@@ -217,7 +223,9 @@ export default function Messages() {
           const fetchedMessages = data.messages || [];
           setMessages(fetchedMessages);
           // Cache the messages
-          setMessagesCache((prevCache) => new Map(prevCache).set(selectedUserId, fetchedMessages));
+          setMessagesCache((prevCache) =>
+            new Map(prevCache).set(selectedUserId, fetchedMessages),
+          );
         }
       } catch (error) {
         console.error("Failed to fetch messages:", error);
@@ -286,7 +294,9 @@ export default function Messages() {
         setMessages(updatedMessages);
         setMessageInput("");
         // Update cache with the new message
-        setMessagesCache((prevCache) => new Map(prevCache).set(selectedUserId, updatedMessages));
+        setMessagesCache((prevCache) =>
+          new Map(prevCache).set(selectedUserId, updatedMessages),
+        );
         // Refresh conversations to update last message
         if (user?.id) {
           const convoResponse = await apiFetch(
@@ -305,7 +315,12 @@ export default function Messages() {
 
   // Combine regular conversations with temporary conversation
   const allConversations = temporaryConversation
-    ? [temporaryConversation, ...conversations.filter((c) => c.otherUserId !== temporaryConversation.otherUserId)]
+    ? [
+        temporaryConversation,
+        ...conversations.filter(
+          (c) => c.otherUserId !== temporaryConversation.otherUserId,
+        ),
+      ]
     : conversations;
 
   const selectedChat = allConversations.find(
