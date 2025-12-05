@@ -1155,6 +1155,7 @@ export default function Profile() {
                 itemName: r.listingName || "",
                 reviewer: r.reviewerName || "",
                 reviewerId: r.reviewerId,
+                avatar: r.avatar,
                 rating: Number(r.rating) || 0,
                 date: r.updatedAt ? new Date(r.updatedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "",
                 dateValue: r.updatedAt ? new Date(r.updatedAt) : new Date(),
