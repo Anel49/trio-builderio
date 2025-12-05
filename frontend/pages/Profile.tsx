@@ -1143,6 +1143,29 @@ export default function Profile() {
               : it;
           }),
         );
+
+        // Fetch host's listing reviews
+        try {
+          const reviewsRes = await apiFetch(`users/${targetUserId}/listing-reviews`);
+          if (reviewsRes.ok) {
+            const reviewsData = await reviewsRes.json().catch(() => null);
+            if (reviewsData?.ok && Array.isArray(reviewsData.reviews) && !cancelled) {
+              const hostReviews = reviewsData.reviews.map((r: any) => ({
+                id: r.id,
+                itemName: r.listingName || "",
+                reviewer: r.reviewerName || "",
+                reviewerId: r.reviewerId,
+                rating: Number(r.rating) || 0,
+                date: r.updatedAt ? new Date(r.updatedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "",
+                dateValue: r.updatedAt ? new Date(r.updatedAt) : new Date(),
+                comment: r.comment || "",
+              }));
+              setItemReviews(hostReviews);
+            }
+          }
+        } catch {
+          // Keep existing reviews if fetch fails
+        }
         // setPageLoading(false);
       } catch {
         if (!cancelled) {
