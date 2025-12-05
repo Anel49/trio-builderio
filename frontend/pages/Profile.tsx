@@ -2204,7 +2204,11 @@ export default function Profile() {
                         <CardContent className="p-6">
                           <div className="flex items-start gap-4 mb-3">
                             <a
-                              href={review.reviewerUsername ? `/profile/${review.reviewerUsername}` : "#"}
+                              href={
+                                review.reviewerUsername
+                                  ? `/profile/${review.reviewerUsername}`
+                                  : "#"
+                              }
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => {
@@ -2454,7 +2458,11 @@ export default function Profile() {
                             <CardContent className="p-6">
                               <div className="flex items-start gap-4 mb-3">
                                 <a
-                                  href={review.reviewerUsername ? `/profile/${review.reviewerUsername}` : "#"}
+                                  href={
+                                    review.reviewerUsername
+                                      ? `/profile/${review.reviewerUsername}`
+                                      : "#"
+                                  }
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={(e) => {
@@ -2480,7 +2488,11 @@ export default function Profile() {
                                 <div className="flex-1">
                                   <h4 className="font-semibold">
                                     <a
-                                      href={review.reviewerUsername ? `/profile/${review.reviewerUsername}` : "#"}
+                                      href={
+                                        review.reviewerUsername
+                                          ? `/profile/${review.reviewerUsername}`
+                                          : "#"
+                                      }
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       onClick={(e) => {
