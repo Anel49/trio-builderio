@@ -2453,12 +2453,13 @@ export default function Profile() {
                           <Card>
                             <CardContent className="p-6">
                               <div className="flex items-start gap-4 mb-3">
-                                <button
-                                  onClick={() => {
-                                    if (review.reviewerUsername) {
-                                      navigate(
-                                        `/profile/${review.reviewerUsername}`,
-                                      );
+                                <a
+                                  href={review.reviewerUsername ? `/profile/${review.reviewerUsername}` : "#"}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => {
+                                    if (!review.reviewerUsername) {
+                                      e.preventDefault();
                                     }
                                   }}
                                   className="cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
@@ -2475,7 +2476,7 @@ export default function Profile() {
                                         ?.toUpperCase()}
                                     </AvatarFallback>
                                   </Avatar>
-                                </button>
+                                </a>
                                 <div className="flex-1">
                                   <h4 className="font-semibold">
                                     {review.reviewer}
