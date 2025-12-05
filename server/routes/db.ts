@@ -40,6 +40,28 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
+    // Clean up demo reviews (one-time cleanup)
+    try {
+      const demoReviewers = [
+        "Mike",
+        "Jennifer",
+        "David",
+        "Lisa",
+        "Robert",
+        "Emma",
+      ];
+      const placeholders = demoReviewers
+        .map((_, i) => `$${i + 1}`)
+        .join(",");
+      await pool.query(
+        `delete from reviews where reviewer in (${placeholders})`,
+        demoReviewers,
+      );
+      console.log("[dbSetup] Cleaned up demo reviews");
+    } catch (e: any) {
+      console.log("[dbSetup] Demo review cleanup error:", e?.message?.slice(0, 80));
+    }
+
     // Migrate order_id to order_number if the old column exists in the orders table
     try {
       const colCheckResult = await pool.query(
