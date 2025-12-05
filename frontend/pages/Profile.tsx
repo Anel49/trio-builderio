@@ -1206,10 +1206,12 @@ export default function Profile() {
         const data = await response.json().catch(() => ({}));
         if (!data.ok || !Array.isArray(data.reviews) || cancelled) return;
 
-        const reviewsWithParsedDates = (data.reviews || []).map((review: any) => ({
-          ...review,
-          dateValue: new Date(review.dateValue),
-        }));
+        const reviewsWithParsedDates = (data.reviews || []).map(
+          (review: any) => ({
+            ...review,
+            dateValue: new Date(review.dateValue),
+          }),
+        );
         setSellerReviews(reviewsWithParsedDates);
 
         if (authenticated && authUser?.id && viewingOtherUser) {
@@ -1430,10 +1432,14 @@ export default function Profile() {
     // Sort reviews
     switch (sellerReviewSortBy) {
       case "newest":
-        otherReviews.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
+        otherReviews.sort(
+          (a, b) => b.dateValue.getTime() - a.dateValue.getTime(),
+        );
         break;
       case "oldest":
-        otherReviews.sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
+        otherReviews.sort(
+          (a, b) => a.dateValue.getTime() - b.dateValue.getTime(),
+        );
         break;
       case "rating-high":
         otherReviews.sort((a, b) => b.rating - a.rating);
@@ -2041,11 +2047,14 @@ export default function Profile() {
                     <div className="flex items-center space-x-2">
                       <div className="flex items-center">
                         {[...Array(5)].map((_, i) => {
-                          const avgRating = parseFloat(calculateAvgItemRating());
+                          const avgRating = parseFloat(
+                            calculateAvgItemRating(),
+                          );
                           const fullStars = Math.floor(avgRating);
                           const hasHalfStar = avgRating % 1 >= 0.5;
                           const isFullStar = i < fullStars;
-                          const isHalfStar = hasHalfStar && i === fullStars && i < 5;
+                          const isHalfStar =
+                            hasHalfStar && i === fullStars && i < 5;
 
                           if (isHalfStar) {
                             return (
@@ -2254,11 +2263,14 @@ export default function Profile() {
                     <div className="flex items-center space-x-2">
                       <div className="flex items-center">
                         {[...Array(5)].map((_, i) => {
-                          const avgRating = parseFloat(calculateAvgSellerRating());
+                          const avgRating = parseFloat(
+                            calculateAvgSellerRating(),
+                          );
                           const fullStars = Math.floor(avgRating);
                           const hasHalfStar = avgRating % 1 >= 0.5;
                           const isFullStar = i < fullStars;
-                          const isHalfStar = hasHalfStar && i === fullStars && i < 5;
+                          const isHalfStar =
+                            hasHalfStar && i === fullStars && i < 5;
 
                           if (isHalfStar) {
                             return (
@@ -2386,7 +2398,9 @@ export default function Profile() {
                   <div className="space-y-4">
                     {paginatedSellerReviews.map((review, index) => {
                       const isCurrentUserReview =
-                        authenticated && authUser?.id && review.reviewerId === authUser.id;
+                        authenticated &&
+                        authUser?.id &&
+                        review.reviewerId === authUser.id;
                       return (
                         <div key={review.id}>
                           <Card>
@@ -2419,7 +2433,9 @@ export default function Profile() {
                                   <h4 className="font-semibold">
                                     {review.reviewer}
                                     {isCurrentUserReview && (
-                                      <span className="text-xs text-muted-foreground ml-2">(Your Review)</span>
+                                      <span className="text-xs text-muted-foreground ml-2">
+                                        (Your Review)
+                                      </span>
                                     )}
                                   </h4>
                                   <p className="text-sm text-muted-foreground">
@@ -2438,7 +2454,10 @@ export default function Profile() {
 
                                     if (isHalfStar) {
                                       return (
-                                        <div key={i} className="relative h-4 w-4">
+                                        <div
+                                          key={i}
+                                          className="relative h-4 w-4"
+                                        >
                                           <Star className="absolute h-4 w-4 text-gray-300" />
                                           <div className="absolute h-4 w-2 overflow-hidden">
                                             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
@@ -2466,9 +2485,11 @@ export default function Profile() {
                               </p>
                             </CardContent>
                           </Card>
-                          {isCurrentUserReview && index === 0 && paginatedSellerReviews.length > 1 && (
-                            <div className="my-4 border-t border-border" />
-                          )}
+                          {isCurrentUserReview &&
+                            index === 0 &&
+                            paginatedSellerReviews.length > 1 && (
+                              <div className="my-4 border-t border-border" />
+                            )}
                         </div>
                       );
                     })}
@@ -3383,7 +3404,9 @@ export default function Profile() {
                       .json()
                       .catch(() => ({}));
                     if (reviewsData.ok) {
-                      const reviewsWithParsedDates = (reviewsData.reviews || []).map((review: any) => ({
+                      const reviewsWithParsedDates = (
+                        reviewsData.reviews || []
+                      ).map((review: any) => ({
                         ...review,
                         dateValue: new Date(review.dateValue),
                       }));
