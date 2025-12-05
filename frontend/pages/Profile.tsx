@@ -1162,6 +1162,7 @@ export default function Profile() {
                   : new Date();
                 return {
                   id: r.id,
+                  listingId: r.listingId,
                   itemName: r.listingName || "",
                   reviewer: r.reviewerName || "",
                   reviewerId: r.reviewerId,
