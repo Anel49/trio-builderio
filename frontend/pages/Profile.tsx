@@ -2463,8 +2463,6 @@ export default function Profile() {
                                       ? `/profile/${review.reviewerUsername}`
                                       : "#"
                                   }
-                                  target="_blank"
-                                  rel="noopener noreferrer"
                                   onClick={(e) => {
                                     if (!review.reviewerUsername) {
                                       e.preventDefault();
@@ -2493,8 +2491,6 @@ export default function Profile() {
                                           ? `/profile/${review.reviewerUsername}`
                                           : "#"
                                       }
-                                      target="_blank"
-                                      rel="noopener noreferrer"
                                       onClick={(e) => {
                                         if (!review.reviewerUsername) {
                                           e.preventDefault();
