@@ -40,6 +40,16 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
+    // Drop listings_host_id column if it exists (use host_id instead)
+    try {
+      await pool.query(
+        `alter table listings drop column if exists listings_host_id`,
+      );
+      console.log("[dbSetup] Dropped listings_host_id column");
+    } catch (e: any) {
+      console.log("[dbSetup] listings_host_id drop error:", e?.message?.slice(0, 80));
+    }
+
     // Clean up demo reviews (one-time cleanup)
     try {
       const demoReviewers = [
