@@ -523,6 +523,7 @@ export function createServer() {
   // Listing Reviews
   app.post("/api/listing-reviews", createListingReview);
   app.get("/api/listing-reviews/:id", getListingReviews);
+  app.get("/api/users/:id/listing-reviews", getHostListingReviews);
   app.patch("/api/listing-reviews/:id/helpful", updateListingReviewHelpful);
   app.patch("/api/listing-reviews/:id", updateListingReview);
   app.delete("/api/listing-reviews/:id", deleteListingReview);
