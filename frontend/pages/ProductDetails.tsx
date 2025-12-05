@@ -1736,7 +1736,11 @@ export default function ProductDetails() {
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
                     <a
-                      href={review.reviewerUsername ? `/profile/${review.reviewerUsername}` : "#"}
+                      href={
+                        review.reviewerUsername
+                          ? `/profile/${review.reviewerUsername}`
+                          : "#"
+                      }
                       onClick={(e) => {
                         if (!review.reviewerUsername) {
                           e.preventDefault();
@@ -1756,7 +1760,11 @@ export default function ProductDetails() {
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold">
                           <a
-                            href={review.reviewerUsername ? `/profile/${review.reviewerUsername}` : "#"}
+                            href={
+                              review.reviewerUsername
+                                ? `/profile/${review.reviewerUsername}`
+                                : "#"
+                            }
                             onClick={(e) => {
                               if (!review.reviewerUsername) {
                                 e.preventDefault();
