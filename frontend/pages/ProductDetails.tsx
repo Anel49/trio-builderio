@@ -1753,7 +1753,17 @@ export default function ProductDetails() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold">
-                          {review.user.split(" ")[0]}
+                          <a
+                            href={review.reviewerUsername ? `/profile/${review.reviewerUsername}` : "#"}
+                            onClick={(e) => {
+                              if (!review.reviewerUsername) {
+                                e.preventDefault();
+                              }
+                            }}
+                            className="hover:text-primary transition-colors no-underline"
+                          >
+                            {review.user}
+                          </a>
                         </h4>
                         <span className="text-sm text-muted-foreground">
                           {review.date}
