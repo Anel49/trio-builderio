@@ -2240,9 +2240,14 @@ export default function Profile() {
                               </Avatar>
                             </button>
                             <div className="flex-1">
-                              <h4 className="font-semibold">
+                              <a
+                                href={`/listing/${review.listingId}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-semibold hover:underline cursor-pointer"
+                              >
                                 {review.itemName}
-                              </h4>
+                              </a>
                               <p className="text-sm text-muted-foreground">
                                 Review by {review.reviewer} • {review.date}
                               </p>
