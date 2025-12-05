@@ -580,6 +580,8 @@ export function createServer() {
   app.patch("/listing-reviews/:id/helpful", updateListingReviewHelpful);
   app.patch("/listing-reviews/:id", updateListingReview);
   app.delete("/listing-reviews/:id", deleteListingReview);
+  // Host Listing Reviews
+  app.get("/users/:id/listing-reviews", getHostListingReviews);
   // User Reviews aliases
   app.post("/users/:id/reviews", createUserReview);
   app.get("/users/:id/reviews", getUserReviews);
