@@ -1150,17 +1150,21 @@ export default function Profile() {
           if (reviewsRes.ok) {
             const reviewsData = await reviewsRes.json().catch(() => null);
             if (reviewsData?.ok && Array.isArray(reviewsData.reviews) && !cancelled) {
-              const hostReviews = reviewsData.reviews.map((r: any) => ({
-                id: r.id,
-                itemName: r.listingName || "",
-                reviewer: r.reviewerName || "",
-                reviewerId: r.reviewerId,
-                avatar: r.avatar,
-                rating: Number(r.rating) || 0,
-                date: r.updatedAt ? new Date(r.updatedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "",
-                dateValue: r.updatedAt ? new Date(r.updatedAt) : new Date(),
-                comment: r.comment || "",
-              }));
+              const hostReviews = reviewsData.reviews.map((r: any) => {
+                const dateObj = r.updatedAt ? new Date(r.updatedAt) : new Date();
+                return {
+                  id: r.id,
+                  itemName: r.listingName || "",
+                  reviewer: r.reviewerName || "",
+                  reviewerId: r.reviewerId,
+                  reviewerUsername: r.reviewerUsername || "",
+                  avatar: r.avatar,
+                  rating: Number(r.rating) || 0,
+                  date: dateObj.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
+                  dateValue: dateObj,
+                  comment: r.comment || "",
+                };
+              });
               setItemReviews(hostReviews);
             }
           }
