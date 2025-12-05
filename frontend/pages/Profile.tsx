@@ -2479,7 +2479,19 @@ export default function Profile() {
                                 </a>
                                 <div className="flex-1">
                                   <h4 className="font-semibold">
-                                    {review.reviewer}
+                                    <a
+                                      href={review.reviewerUsername ? `/profile/${review.reviewerUsername}` : "#"}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      onClick={(e) => {
+                                        if (!review.reviewerUsername) {
+                                          e.preventDefault();
+                                        }
+                                      }}
+                                      className="hover:text-primary transition-colors no-underline"
+                                    >
+                                      {review.reviewer}
+                                    </a>
                                     {isCurrentUserReview && (
                                       <span className="text-xs text-muted-foreground ml-2">
                                         (Your Review)
