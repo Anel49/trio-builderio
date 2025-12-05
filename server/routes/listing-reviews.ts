@@ -170,3 +170,41 @@ export async function deleteListingReview(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function getHostListingReviews(req: Request, res: Response) {
+  try {
+    const hostId = Number((req.params as any)?.id);
+    if (!hostId || Number.isNaN(hostId)) {
+      return res.status(400).json({ ok: false, error: "invalid host id" });
+    }
+
+    const result = await pool.query(
+      `select lr.id, lr.listing_id, l.name as listing_name, lr.reviewer_id, u.name as reviewer_name,
+              lr.rating, lr.comment, lr.updated_at, lr.created_at
+       from listing_reviews lr
+       join listings l on l.id = lr.listing_id
+       join users u on u.id = lr.reviewer_id
+       where l.host_id = $1
+       order by coalesce(lr.updated_at, lr.created_at) desc
+       limit 100`,
+      [hostId],
+    );
+
+    const reviews = result.rows.map((r: any) => ({
+      id: r.id,
+      listingId: r.listing_id,
+      listingName: r.listing_name,
+      reviewerId: r.reviewer_id,
+      reviewerName: r.reviewer_name,
+      rating: r.rating ? Number(r.rating) : null,
+      comment: r.comment,
+      updatedAt: r.updated_at || r.created_at,
+      createdAt: r.created_at,
+    }));
+
+    res.json({ ok: true, reviews });
+  } catch (error: any) {
+    console.error("[getHostListingReviews] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
