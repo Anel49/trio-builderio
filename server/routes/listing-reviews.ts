@@ -180,7 +180,7 @@ export async function getHostListingReviews(req: Request, res: Response) {
 
     const result = await pool.query(
       `select lr.id, lr.listing_id, l.name as listing_name, lr.reviewer_id, u.name as reviewer_name,
-              lr.rating, lr.comment, lr.updated_at, lr.created_at
+              u.avatar_url, lr.rating, lr.comment, lr.updated_at, lr.created_at
        from listing_reviews lr
        join listings l on l.id = lr.listing_id
        join users u on u.id = lr.reviewer_id
@@ -196,6 +196,7 @@ export async function getHostListingReviews(req: Request, res: Response) {
       listingName: r.listing_name,
       reviewerId: r.reviewer_id,
       reviewerName: r.reviewer_name,
+      avatar: r.avatar_url,
       rating: r.rating ? Number(r.rating) : null,
       comment: r.comment,
       updatedAt: r.updated_at || r.created_at,
