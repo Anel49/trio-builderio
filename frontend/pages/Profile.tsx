@@ -2232,7 +2232,7 @@ export default function Profile() {
                                 href={`/listing/${review.listingId}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="font-semibold hover:text-blue-600 cursor-pointer"
+                                className="font-semibold hover:text-primary transition-colors no-underline cursor-pointer"
                               >
                                 {review.itemName}
                               </a>
