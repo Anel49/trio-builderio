@@ -1378,12 +1378,6 @@ export default function Profile() {
     }
 
     // Sort reviews
-    console.log(
-      "[ItemReviews] Sorting by:",
-      itemReviewSortBy,
-      "Reviews count:",
-      filtered.length,
-    );
     switch (itemReviewSortBy) {
       case "newest":
         filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
@@ -1400,14 +1394,6 @@ export default function Profile() {
       default:
         break;
     }
-    console.log(
-      "[ItemReviews] After sort:",
-      filtered.map((r) => ({
-        name: r.reviewer,
-        rating: r.rating,
-        date: r.date,
-      })),
-    );
 
     return filtered;
   }, [
