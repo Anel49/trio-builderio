@@ -1735,10 +1735,11 @@ export default function ProductDetails() {
               <Card key={review.id}>
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
-                    <button
-                      onClick={() => {
-                        if (review.reviewerUsername) {
-                          navigate(`/profile/${review.reviewerUsername}`);
+                    <a
+                      href={review.reviewerUsername ? `/profile/${review.reviewerUsername}` : "#"}
+                      onClick={(e) => {
+                        if (!review.reviewerUsername) {
+                          e.preventDefault();
                         }
                       }}
                       className="cursor-pointer hover:opacity-80 transition-opacity"
@@ -1750,7 +1751,7 @@ export default function ProductDetails() {
                           {review.user.split(" ")[0][0]?.toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
-                    </button>
+                    </a>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold">
