@@ -3300,39 +3300,21 @@ export default function Profile() {
             <div className="space-y-2">
               <label className="text-sm font-medium">Rating</label>
               <div className="flex gap-1">
-                {[1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((rating) => (
+                {[1, 2, 3, 4, 5].map((rating) => (
                   <button
                     key={rating}
                     onClick={() => setReviewUserRating(rating)}
                     className="p-2 hover:bg-accent rounded-lg transition-colors"
                     aria-label={`Rate ${rating} stars`}
                   >
-                    {rating % 1 === 0 ? (
-                      <Star
-                        className={cn(
-                          "h-6 w-6",
-                          rating <= reviewUserRating
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-gray-300",
-                        )}
-                      />
-                    ) : (
-                      <div className="relative h-6 w-6">
-                        <Star className="absolute h-6 w-6 text-gray-300" />
-                        <div className="absolute h-6 w-3 overflow-hidden">
-                          <Star
-                            className={cn(
-                              "h-6 w-6",
-                              Math.floor(rating) < reviewUserRating ||
-                                (Math.floor(rating) === Math.floor(reviewUserRating) &&
-                                  reviewUserRating % 1 > 0)
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "text-gray-300",
-                            )}
-                          />
-                        </div>
-                      </div>
-                    )}
+                    <Star
+                      className={cn(
+                        "h-6 w-6",
+                        rating <= reviewUserRating
+                          ? "fill-yellow-400 text-yellow-400"
+                          : "text-gray-300",
+                      )}
+                    />
                   </button>
                 ))}
               </div>
