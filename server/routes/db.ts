@@ -47,7 +47,10 @@ export async function dbSetup(_req: Request, res: Response) {
       );
       console.log("[dbSetup] Dropped listings_host_id column");
     } catch (e: any) {
-      console.log("[dbSetup] listings_host_id drop error:", e?.message?.slice(0, 80));
+      console.log(
+        "[dbSetup] listings_host_id drop error:",
+        e?.message?.slice(0, 80),
+      );
     }
 
     // Clean up demo reviews (one-time cleanup)
@@ -60,16 +63,17 @@ export async function dbSetup(_req: Request, res: Response) {
         "Robert",
         "Emma",
       ];
-      const placeholders = demoReviewers
-        .map((_, i) => `$${i + 1}`)
-        .join(",");
+      const placeholders = demoReviewers.map((_, i) => `$${i + 1}`).join(",");
       await pool.query(
         `delete from reviews where reviewer in (${placeholders})`,
         demoReviewers,
       );
       console.log("[dbSetup] Cleaned up demo reviews");
     } catch (e: any) {
-      console.log("[dbSetup] Demo review cleanup error:", e?.message?.slice(0, 80));
+      console.log(
+        "[dbSetup] Demo review cleanup error:",
+        e?.message?.slice(0, 80),
+      );
     }
 
     // Migrate order_id to order_number if the old column exists in the orders table

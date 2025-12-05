@@ -1146,12 +1146,20 @@ export default function Profile() {
 
         // Fetch host's listing reviews
         try {
-          const reviewsRes = await apiFetch(`users/${targetUserId}/listing-reviews`);
+          const reviewsRes = await apiFetch(
+            `users/${targetUserId}/listing-reviews`,
+          );
           if (reviewsRes.ok) {
             const reviewsData = await reviewsRes.json().catch(() => null);
-            if (reviewsData?.ok && Array.isArray(reviewsData.reviews) && !cancelled) {
+            if (
+              reviewsData?.ok &&
+              Array.isArray(reviewsData.reviews) &&
+              !cancelled
+            ) {
               const hostReviews = reviewsData.reviews.map((r: any) => {
-                const dateObj = r.updatedAt ? new Date(r.updatedAt) : new Date();
+                const dateObj = r.updatedAt
+                  ? new Date(r.updatedAt)
+                  : new Date();
                 return {
                   id: r.id,
                   itemName: r.listingName || "",
@@ -1160,7 +1168,11 @@ export default function Profile() {
                   reviewerUsername: r.reviewerUsername || "",
                   avatar: r.avatar,
                   rating: Number(r.rating) || 0,
-                  date: dateObj.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
+                  date: dateObj.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  }),
                   dateValue: dateObj,
                   comment: r.comment || "",
                 };
@@ -1365,7 +1377,12 @@ export default function Profile() {
     }
 
     // Sort reviews
-    console.log("[ItemReviews] Sorting by:", itemReviewSortBy, "Reviews count:", filtered.length);
+    console.log(
+      "[ItemReviews] Sorting by:",
+      itemReviewSortBy,
+      "Reviews count:",
+      filtered.length,
+    );
     switch (itemReviewSortBy) {
       case "newest":
         filtered.sort((a, b) => b.dateValue.getTime() - a.dateValue.getTime());
@@ -1382,7 +1399,14 @@ export default function Profile() {
       default:
         break;
     }
-    console.log("[ItemReviews] After sort:", filtered.map(r => ({ name: r.reviewer, rating: r.rating, date: r.date })));
+    console.log(
+      "[ItemReviews] After sort:",
+      filtered.map((r) => ({
+        name: r.reviewer,
+        rating: r.rating,
+        date: r.date,
+      })),
+    );
 
     return filtered;
   }, [

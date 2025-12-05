@@ -642,7 +642,6 @@ export async function listListingReviews(req: Request, res: Response) {
       [id],
     );
 
-
     const reviews = result.rows.map((r: any) => ({
       id: r.id,
       user: r.user || "",
