@@ -659,6 +659,7 @@ export default function UploadProduct() {
       let data: any = {};
       try {
         const responseText = await res.text();
+        console.log("[UploadProduct] === RESPONSE FROM SERVER ===");
         console.log("[UploadProduct] Response text:", responseText);
         data = JSON.parse(responseText);
       } catch (e) {
@@ -666,8 +667,18 @@ export default function UploadProduct() {
         data = {};
       }
 
+      console.log("[UploadProduct] === PARSED RESPONSE ===");
       console.log("[UploadProduct] Response data:", data);
+      console.log("[UploadProduct] Response ok:", data?.ok);
+      console.log("[UploadProduct] Response id:", data?.id);
+      console.log("[UploadProduct] Response error:", data?.error);
       const resultId = editListingId || Number(data?.id);
+      console.log(
+        "[UploadProduct] Resulting listing ID:",
+        resultId,
+        "isFinite:",
+        Number.isFinite(resultId),
+      );
       if (!res.ok || !data?.ok || !Number.isFinite(resultId)) {
         const errorMsg = editListingId
           ? "Failed to update listing"
