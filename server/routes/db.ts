@@ -242,6 +242,13 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table listings add column if not exists enabled boolean default true;
       alter table listings add column if not exists instant_bookings boolean default false;
       alter table listings add column if not exists currency text default 'USD';
+      alter table listings add column if not exists country text;
+      alter table listings add column if not exists country_code text;
+      alter table listings add column if not exists state text;
+      alter table listings add column if not exists state_code text;
+      alter table listings add column if not exists county text;
+      alter table listings add column if not exists address text;
+      alter table listings add column if not exists timezone text;
       create table if not exists listing_images (
         id serial primary key,
         listing_id integer not null references listings(id),
