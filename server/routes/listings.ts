@@ -650,7 +650,7 @@ export async function getListingById(req: Request, res: Response) {
       distanceMiles,
       latitude: listingLatitude,
       longitude: listingLongitude,
-      location_city: r.location_city || null,
+      location_city: r.city || null,
       description: r.description ?? null,
       zipCode: normalizedZip,
       createdAt: r.created_at,
