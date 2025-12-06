@@ -812,18 +812,29 @@ export async function updateListing(req: Request, res: Response) {
     const listingId = result.rows[0].id;
 
     // Fetch location data from Geoapify if latitude and longitude are provided
+    console.log("[updateListing] Checking for location data population");
+    console.log(
+      `[updateListing] lat=${lat}, lon=${lon}, lat==null: ${lat == null}, lon==null: ${lon == null}`,
+    );
     if (lat != null && lon != null) {
+      console.log(
+        `[updateListing] Calling getLocationDataFromCoordinates with lat=${lat}, lon=${lon}`,
+      );
       try {
         const locationData = await Promise.race([
           getLocationDataFromCoordinates(lat, lon),
           new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000)),
         ]);
+        console.log(
+          "[updateListing] Received locationData:",
+          JSON.stringify(locationData),
+        );
         if (locationData) {
           console.log(
             "[updateListing] Updating listing with location data:",
             locationData,
           );
-          await pool.query(
+          const updateResult = await pool.query(
             `update listings
              set country = $1, country_code = $2, state = $3, state_code = $4,
                  county = $5, city = $6, postcode = $7, timezone = $8, address = $9
@@ -841,10 +852,20 @@ export async function updateListing(req: Request, res: Response) {
               listingId,
             ],
           );
+          console.log(
+            "[updateListing] Update result - rows affected:",
+            updateResult.rowCount,
+          );
+        } else {
+          console.log("[updateListing] locationData is null");
         }
       } catch (e) {
         console.log("[updateListing] Error fetching location data:", e);
       }
+    } else {
+      console.log(
+        "[updateListing] Skipping location data - lat or lon is null",
+      );
     }
 
     // Update images in listing_images table
