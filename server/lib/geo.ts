@@ -146,10 +146,16 @@ export async function getLocationDataFromCoordinates(
   }
 
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+    console.warn(
+      `[getLocationDataFromCoordinates] Invalid coordinates: lat=${latitude}, lon=${longitude}`,
+    );
     return null;
   }
 
   try {
+    console.log(
+      `[getLocationDataFromCoordinates] Calling API with lat=${latitude}, lon=${longitude}`,
+    );
     const endpoint = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`;
     const res = await fetch(endpoint, {
       headers: { Accept: "application/json" },
@@ -164,6 +170,11 @@ export async function getLocationDataFromCoordinates(
 
     const data = (await res.json().catch(() => null)) as any;
 
+    console.log(
+      `[getLocationDataFromCoordinates] API response:`,
+      JSON.stringify(data),
+    );
+
     if (!data || !Array.isArray(data.results) || data.results.length === 0) {
       console.warn(
         "[getLocationDataFromCoordinates] No results from Geoapify API",
@@ -172,6 +183,10 @@ export async function getLocationDataFromCoordinates(
     }
 
     const result = data.results[0];
+    console.log(
+      `[getLocationDataFromCoordinates] Extracted result:`,
+      JSON.stringify(result),
+    );
 
     return {
       country: result.country || null,
