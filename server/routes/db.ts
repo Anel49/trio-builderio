@@ -40,30 +40,6 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
-    // Rename zip_code to postcode if it still exists
-    try {
-      await pool.query(`alter table listings rename column zip_code to postcode`);
-      console.log("[dbSetup] Renamed zip_code column to postcode");
-    } catch (e: any) {
-      // Column may already be renamed or doesn't exist
-      console.log(
-        "[dbSetup] zip_code rename (may already be done):",
-        e?.message?.slice(0, 80),
-      );
-    }
-
-    // Rename location_city to city if it still exists
-    try {
-      await pool.query(`alter table listings rename column location_city to city`);
-      console.log("[dbSetup] Renamed location_city column to city");
-    } catch (e: any) {
-      // Column may already be renamed or doesn't exist
-      console.log(
-        "[dbSetup] location_city rename (may already be done):",
-        e?.message?.slice(0, 80),
-      );
-    }
-
     // Drop listings_host_id column if it exists (use host_id instead)
     try {
       await pool.query(
