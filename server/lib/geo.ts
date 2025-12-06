@@ -120,3 +120,75 @@ export function calculateDistanceMiles(
   const distance = EARTH_RADIUS_MILES * c;
   return Math.round(distance * 10) / 10;
 }
+
+export interface GeoapifyLocationData {
+  country: string | null;
+  country_code: string | null;
+  state: string | null;
+  state_code: string | null;
+  county: string | null;
+  city: string | null;
+  postcode: string | null;
+  timezone: string | null;
+  address: string | null;
+}
+
+export async function getLocationDataFromCoordinates(
+  latitude: number,
+  longitude: number,
+): Promise<GeoapifyLocationData | null> {
+  const apiKey = process.env.GEOAPIFY_REVERSE_GEOCODING_API_KEY;
+  if (!apiKey) {
+    console.warn(
+      "[getLocationDataFromCoordinates] GEOAPIFY_REVERSE_GEOCODING_API_KEY is not set",
+    );
+    return null;
+  }
+
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+    return null;
+  }
+
+  try {
+    const endpoint = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`;
+    const res = await fetch(endpoint, {
+      headers: { Accept: "application/json" },
+    });
+
+    if (!res.ok) {
+      console.warn(
+        `[getLocationDataFromCoordinates] API returned status ${res.status}`,
+      );
+      return null;
+    }
+
+    const data = (await res.json().catch(() => null)) as any;
+
+    if (!data || !Array.isArray(data.results) || data.results.length === 0) {
+      console.warn(
+        "[getLocationDataFromCoordinates] No results from Geoapify API",
+      );
+      return null;
+    }
+
+    const result = data.results[0];
+
+    return {
+      country: result.country || null,
+      country_code: result.country_code || null,
+      state: result.state || null,
+      state_code: result.state_code || null,
+      county: result.county || null,
+      city: result.city || null,
+      postcode: result.postcode || null,
+      timezone: result.timezone ? JSON.stringify(result.timezone) : null,
+      address: result.formatted || null,
+    };
+  } catch (error: any) {
+    console.error(
+      "[getLocationDataFromCoordinates] Error calling Geoapify API:",
+      error?.message,
+    );
+    return null;
+  }
+}
