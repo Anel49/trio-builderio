@@ -160,8 +160,11 @@ export async function getLocationDataFromCoordinates(
     console.log(
       `[getLocationDataFromCoordinates] Calling API with lat=${latitude}, lon=${longitude}`,
     );
-    const endpoint = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`;
-    console.log(`[getLocationDataFromCoordinates] Endpoint:`, endpoint);
+    const endpoint = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${apiKey}`;
+    console.log(
+      `[getLocationDataFromCoordinates] Endpoint:`,
+      endpoint.replace(apiKey, "***API_KEY***"),
+    );
 
     const res = await fetch(endpoint, {
       headers: { Accept: "application/json" },
