@@ -818,26 +818,29 @@ export async function updateListing(req: Request, res: Response) {
     const listingId = result.rows[0].id;
 
     // Fetch location data from Geoapify if latitude and longitude are provided
-    console.log("[updateListing] Checking for location data population");
+    console.log("[updateListing] ===== GEOAPIFY LOCATION FETCH START =====");
+    console.log("[updateListing] listingId:", listingId);
     console.log(
       `[updateListing] lat=${lat}, lon=${lon}, lat==null: ${lat == null}, lon==null: ${lon == null}`,
     );
-    if (lat != null && lon != null) {
+    console.log(
+      `[updateListing] lat is finite: ${Number.isFinite(lat)}, lon is finite: ${Number.isFinite(lon)}`,
+    );
+
+    if (lat != null && lon != null && Number.isFinite(lat) && Number.isFinite(lon)) {
       console.log(
-        `[updateListing] Calling getLocationDataFromCoordinates with lat=${lat}, lon=${lon}`,
+        `[updateListing] CALLING GEOAPIFY - lat=${lat}, lon=${lon}`,
       );
       try {
-        const locationData = await Promise.race([
-          getLocationDataFromCoordinates(lat, lon),
-          new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000)),
-        ]);
+        console.log("[updateListing] Awaiting getLocationDataFromCoordinates...");
+        const locationData = await getLocationDataFromCoordinates(lat, lon);
         console.log(
           "[updateListing] Received locationData:",
           JSON.stringify(locationData),
         );
         if (locationData) {
           console.log(
-            "[updateListing] Updating listing with location data:",
+            "[updateListing] UPDATE DATABASE with location data:",
             locationData,
           );
           const updateResult = await pool.query(
@@ -859,20 +862,23 @@ export async function updateListing(req: Request, res: Response) {
             ],
           );
           console.log(
-            "[updateListing] Update result - rows affected:",
+            "[updateListing] Database updated - rows affected:",
             updateResult.rowCount,
           );
         } else {
-          console.log("[updateListing] locationData is null");
+          console.log("[updateListing] locationData is null - API returned no data");
         }
-      } catch (e) {
-        console.log("[updateListing] Error fetching location data:", e);
+      } catch (e: any) {
+        console.error("[updateListing] EXCEPTION in location fetch:", e);
+        console.error("[updateListing] Error message:", e?.message);
+        console.error("[updateListing] Error stack:", e?.stack);
       }
     } else {
       console.log(
-        "[updateListing] Skipping location data - lat or lon is null",
+        "[updateListing] SKIPPING GEOAPIFY - invalid coordinates",
       );
     }
+    console.log("[updateListing] ===== GEOAPIFY LOCATION FETCH END =====");
 
     // Update images in listing_images table
     if (imgs.length > 0) {
