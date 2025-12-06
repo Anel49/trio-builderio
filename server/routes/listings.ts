@@ -155,7 +155,7 @@ export async function listListings(req: Request, res: Response) {
     }
 
     const listings = rows.map((r: any) => {
-      const normalizedZip = normalizeZipCode(r.zip_code);
+      const normalizedZip = normalizeZipCode(r.postcode);
 
       let distanceMiles: number | null = null;
       const listingLatitude =
