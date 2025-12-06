@@ -502,49 +502,29 @@ export async function dbSetup(_req: Request, res: Response) {
       create index if not exists idx_orders_created_at on orders(created_at);
     `);
 
-    // Rename zip_code to postcode if it still exists
+    // Ensure postcode and city columns exist, and drop old zip_code/location_city columns
     try {
-      await pool.query(`alter table listings rename column zip_code to postcode`);
-      console.log("[dbSetup] Renamed zip_code column to postcode");
-    } catch (e: any) {
-      // Column may already be renamed or doesn't exist
-      console.log(
-        "[dbSetup] zip_code rename (may already be done):",
-        e?.message?.slice(0, 80),
-      );
-    }
+      // Copy data from zip_code to postcode if zip_code exists and postcode is empty
+      await pool.query(`
+        update listings set postcode = zip_code
+        where zip_code is not null and (postcode is null or postcode = '00000')
+      `).catch(() => null);
 
-    // Rename location_city to city if it still exists
-    try {
-      await pool.query(`alter table listings rename column location_city to city`);
-      console.log("[dbSetup] Renamed location_city column to city");
-    } catch (e: any) {
-      // Column may already be renamed or doesn't exist
-      console.log(
-        "[dbSetup] location_city rename (may already be done):",
-        e?.message?.slice(0, 80),
-      );
-    }
+      // Copy data from location_city to city if location_city exists and city is empty
+      await pool.query(`
+        update listings set city = location_city
+        where location_city is not null and city is null
+      `).catch(() => null);
 
-    // Drop old zip_code column if it still exists (keep postcode)
-    try {
-      await pool.query(`alter table listings drop column if exists zip_code`);
-      console.log("[dbSetup] Dropped old zip_code column");
-    } catch (e: any) {
-      console.log(
-        "[dbSetup] zip_code drop error:",
-        e?.message?.slice(0, 80),
-      );
-    }
+      // Now drop the old columns
+      await pool.query(`alter table listings drop column if exists zip_code cascade`);
+      await pool.query(`alter table listings drop column if exists location_city cascade`);
 
-    // Drop old location_city column if it still exists (keep city)
-    try {
-      await pool.query(`alter table listings drop column if exists location_city`);
-      console.log("[dbSetup] Dropped old location_city column");
+      console.log("[dbSetup] Migrated zip_code→postcode and location_city→city");
     } catch (e: any) {
       console.log(
-        "[dbSetup] location_city drop error:",
-        e?.message?.slice(0, 80),
+        "[dbSetup] Column migration error:",
+        e?.message?.slice(0, 100),
       );
     }
 
