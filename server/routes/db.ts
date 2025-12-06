@@ -40,6 +40,40 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
+    // Rename zip_code to postcode if it still exists
+    try {
+      const zipCodeExists = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'listings' and column_name = 'zip_code'`,
+      );
+      if (zipCodeExists.rows.length > 0) {
+        await pool.query(`alter table listings rename column zip_code to postcode`);
+        console.log("[dbSetup] Renamed zip_code column to postcode");
+      }
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] zip_code rename error:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
+    // Rename location_city to city if it still exists
+    try {
+      const locationCityExists = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'listings' and column_name = 'location_city'`,
+      );
+      if (locationCityExists.rows.length > 0) {
+        await pool.query(`alter table listings rename column location_city to city`);
+        console.log("[dbSetup] Renamed location_city column to city");
+      }
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] location_city rename error:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
     // Drop listings_host_id column if it exists (use host_id instead)
     try {
       await pool.query(
