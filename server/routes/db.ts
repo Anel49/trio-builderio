@@ -526,6 +526,28 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Drop old zip_code column if it still exists (keep postcode)
+    try {
+      await pool.query(`alter table listings drop column if exists zip_code`);
+      console.log("[dbSetup] Dropped old zip_code column");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] zip_code drop error:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
+    // Drop old location_city column if it still exists (keep city)
+    try {
+      await pool.query(`alter table listings drop column if exists location_city`);
+      console.log("[dbSetup] Dropped old location_city column");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] location_city drop error:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
     // Add new columns to orders table if they don't exist
     try {
       await pool.query(
