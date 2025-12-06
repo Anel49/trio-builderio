@@ -615,7 +615,25 @@ export default function UploadProduct() {
             return addonData;
           }),
       };
+      console.log("[UploadProduct] === LOCATION DATA ===");
+      console.log("[UploadProduct] listingLocation:", listingLocation);
+      console.log(
+        "[UploadProduct] latitude:",
+        listingLocation.latitude,
+        "typeof:",
+        typeof listingLocation.latitude,
+      );
+      console.log(
+        "[UploadProduct] longitude:",
+        listingLocation.longitude,
+        "typeof:",
+        typeof listingLocation.longitude,
+      );
+      console.log("[UploadProduct] zip_code:", fallbackZip);
+      console.log("[UploadProduct] location_city:", listingLocation.city);
+      console.log("[UploadProduct] === FULL PAYLOAD ===");
       console.log("[UploadProduct] Sending payload:", payload);
+      console.log("[UploadProduct] Payload coordinates - lat:", payload.latitude, "lon:", payload.longitude);
 
       const endpoint = editListingId ? `listings/${editListingId}` : "listings";
       const method = editListingId ? "PUT" : "POST";
