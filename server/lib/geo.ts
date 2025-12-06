@@ -138,6 +138,10 @@ export async function getLocationDataFromCoordinates(
   longitude: number,
 ): Promise<GeoapifyLocationData | null> {
   const apiKey = process.env.GEOAPIFY_REVERSE_GEOCODING_API_KEY;
+  console.log(
+    `[getLocationDataFromCoordinates] Starting with lat=${latitude}, lon=${longitude}`,
+  );
+
   if (!apiKey) {
     console.warn(
       "[getLocationDataFromCoordinates] GEOAPIFY_REVERSE_GEOCODING_API_KEY is not set",
@@ -157,9 +161,15 @@ export async function getLocationDataFromCoordinates(
       `[getLocationDataFromCoordinates] Calling API with lat=${latitude}, lon=${longitude}`,
     );
     const endpoint = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`;
+    console.log(`[getLocationDataFromCoordinates] Endpoint:`, endpoint);
+
     const res = await fetch(endpoint, {
       headers: { Accept: "application/json" },
     });
+
+    console.log(
+      `[getLocationDataFromCoordinates] API response status: ${res.status}`,
+    );
 
     if (!res.ok) {
       console.warn(
@@ -168,16 +178,20 @@ export async function getLocationDataFromCoordinates(
       return null;
     }
 
-    const data = (await res.json().catch(() => null)) as any;
+    const data = (await res.json().catch((e) => {
+      console.error("[getLocationDataFromCoordinates] JSON parse error:", e);
+      return null;
+    })) as any;
 
     console.log(
       `[getLocationDataFromCoordinates] API response:`,
-      JSON.stringify(data),
+      JSON.stringify(data).slice(0, 500),
     );
 
     if (!data || !Array.isArray(data.results) || data.results.length === 0) {
       console.warn(
-        "[getLocationDataFromCoordinates] No results from Geoapify API",
+        "[getLocationDataFromCoordinates] No results from Geoapify API - data:",
+        JSON.stringify(data).slice(0, 200),
       );
       return null;
     }
@@ -188,7 +202,7 @@ export async function getLocationDataFromCoordinates(
       JSON.stringify(result),
     );
 
-    return {
+    const returnValue = {
       country: result.country || null,
       country_code: result.country_code || null,
       state: result.state || null,
@@ -199,10 +213,21 @@ export async function getLocationDataFromCoordinates(
       timezone: result.timezone ? JSON.stringify(result.timezone) : null,
       address: result.formatted || null,
     };
+
+    console.log(
+      `[getLocationDataFromCoordinates] Returning:`,
+      JSON.stringify(returnValue),
+    );
+
+    return returnValue;
   } catch (error: any) {
     console.error(
       "[getLocationDataFromCoordinates] Error calling Geoapify API:",
       error?.message,
+    );
+    console.error(
+      "[getLocationDataFromCoordinates] Full error:",
+      JSON.stringify(error),
     );
     return null;
   }
