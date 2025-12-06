@@ -396,39 +396,40 @@ export async function createListing(req: Request, res: Response) {
     }
     const newId = result.rows[0].id;
 
-    // Fetch location data from Geoapify if latitude and longitude are provided (async, non-blocking)
+    // Fetch location data from Geoapify if latitude and longitude are provided
     if (lat != null && lon != null) {
-      setImmediate(async () => {
-        try {
-          const locationData = await getLocationDataFromCoordinates(lat, lon);
-          if (locationData) {
-            console.log(
-              "[createListing] Updating listing with location data:",
-              locationData,
-            );
-            await pool.query(
-              `update listings
-               set country = $1, country_code = $2, state = $3, state_code = $4,
-                   county = $5, city = $6, postcode = $7, timezone = $8, address = $9
-               where id = $10`,
-              [
-                locationData.country,
-                locationData.country_code,
-                locationData.state,
-                locationData.state_code,
-                locationData.county,
-                locationData.city,
-                locationData.postcode,
-                locationData.timezone,
-                locationData.address,
-                newId,
-              ],
-            );
-          }
-        } catch (e) {
-          console.log("[createListing] Error fetching location data:", e);
+      try {
+        const locationData = await Promise.race([
+          getLocationDataFromCoordinates(lat, lon),
+          new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000)),
+        ]);
+        if (locationData) {
+          console.log(
+            "[createListing] Updating listing with location data:",
+            locationData,
+          );
+          await pool.query(
+            `update listings
+             set country = $1, country_code = $2, state = $3, state_code = $4,
+                 county = $5, city = $6, postcode = $7, timezone = $8, address = $9
+             where id = $10`,
+            [
+              locationData.country,
+              locationData.country_code,
+              locationData.state,
+              locationData.state_code,
+              locationData.county,
+              locationData.city,
+              locationData.postcode,
+              locationData.timezone,
+              locationData.address,
+              newId,
+            ],
+          );
         }
-      });
+      } catch (e) {
+        console.log("[createListing] Error fetching location data:", e);
+      }
     }
     if (imgs.length > 0) {
       try {
