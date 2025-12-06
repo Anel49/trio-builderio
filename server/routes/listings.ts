@@ -406,12 +406,17 @@ export async function createListing(req: Request, res: Response) {
       `[createListing] lat is finite: ${Number.isFinite(lat)}, lon is finite: ${Number.isFinite(lon)}`,
     );
 
-    if (lat != null && lon != null && Number.isFinite(lat) && Number.isFinite(lon)) {
-      console.log(
-        `[createListing] CALLING GEOAPIFY - lat=${lat}, lon=${lon}`,
-      );
+    if (
+      lat != null &&
+      lon != null &&
+      Number.isFinite(lat) &&
+      Number.isFinite(lon)
+    ) {
+      console.log(`[createListing] CALLING GEOAPIFY - lat=${lat}, lon=${lon}`);
       try {
-        console.log("[createListing] Awaiting getLocationDataFromCoordinates...");
+        console.log(
+          "[createListing] Awaiting getLocationDataFromCoordinates...",
+        );
         const locationData = await getLocationDataFromCoordinates(lat, lon);
         console.log(
           "[createListing] Received locationData:",
@@ -445,7 +450,9 @@ export async function createListing(req: Request, res: Response) {
             updateResult.rowCount,
           );
         } else {
-          console.log("[createListing] locationData is null - API returned no data");
+          console.log(
+            "[createListing] locationData is null - API returned no data",
+          );
         }
       } catch (e: any) {
         console.error("[createListing] EXCEPTION in location fetch:", e);
@@ -453,9 +460,7 @@ export async function createListing(req: Request, res: Response) {
         console.error("[createListing] Error stack:", e?.stack);
       }
     } else {
-      console.log(
-        "[createListing] SKIPPING GEOAPIFY - invalid coordinates",
-      );
+      console.log("[createListing] SKIPPING GEOAPIFY - invalid coordinates");
     }
     console.log("[createListing] ===== GEOAPIFY LOCATION FETCH END =====");
     if (imgs.length > 0) {
@@ -827,12 +832,17 @@ export async function updateListing(req: Request, res: Response) {
       `[updateListing] lat is finite: ${Number.isFinite(lat)}, lon is finite: ${Number.isFinite(lon)}`,
     );
 
-    if (lat != null && lon != null && Number.isFinite(lat) && Number.isFinite(lon)) {
-      console.log(
-        `[updateListing] CALLING GEOAPIFY - lat=${lat}, lon=${lon}`,
-      );
+    if (
+      lat != null &&
+      lon != null &&
+      Number.isFinite(lat) &&
+      Number.isFinite(lon)
+    ) {
+      console.log(`[updateListing] CALLING GEOAPIFY - lat=${lat}, lon=${lon}`);
       try {
-        console.log("[updateListing] Awaiting getLocationDataFromCoordinates...");
+        console.log(
+          "[updateListing] Awaiting getLocationDataFromCoordinates...",
+        );
         const locationData = await getLocationDataFromCoordinates(lat, lon);
         console.log(
           "[updateListing] Received locationData:",
@@ -866,7 +876,9 @@ export async function updateListing(req: Request, res: Response) {
             updateResult.rowCount,
           );
         } else {
-          console.log("[updateListing] locationData is null - API returned no data");
+          console.log(
+            "[updateListing] locationData is null - API returned no data",
+          );
         }
       } catch (e: any) {
         console.error("[updateListing] EXCEPTION in location fetch:", e);
@@ -874,9 +886,7 @@ export async function updateListing(req: Request, res: Response) {
         console.error("[updateListing] Error stack:", e?.stack);
       }
     } else {
-      console.log(
-        "[updateListing] SKIPPING GEOAPIFY - invalid coordinates",
-      );
+      console.log("[updateListing] SKIPPING GEOAPIFY - invalid coordinates");
     }
     console.log("[updateListing] ===== GEOAPIFY LOCATION FETCH END =====");
 

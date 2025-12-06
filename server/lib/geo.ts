@@ -191,9 +191,7 @@ export async function getLocationDataFromCoordinates(
       return null;
     })) as any;
 
-    console.log(
-      `[getLocationDataFromCoordinates] === PARSED RESPONSE ===`,
-    );
+    console.log(`[getLocationDataFromCoordinates] === PARSED RESPONSE ===`);
     console.log(
       `[getLocationDataFromCoordinates] Data:`,
       JSON.stringify(data).slice(0, 500),
@@ -214,7 +212,10 @@ export async function getLocationDataFromCoordinates(
     console.log(
       `[getLocationDataFromCoordinates] === EXTRACTING DATA FROM RESULT ===`,
     );
-    console.log(`[getLocationDataFromCoordinates] Result:`, JSON.stringify(result));
+    console.log(
+      `[getLocationDataFromCoordinates] Result:`,
+      JSON.stringify(result),
+    );
 
     const returnValue = {
       country: result.country || null,
@@ -228,9 +229,7 @@ export async function getLocationDataFromCoordinates(
       address: result.formatted || null,
     };
 
-    console.log(
-      `[getLocationDataFromCoordinates] === RETURNING ===`,
-    );
+    console.log(`[getLocationDataFromCoordinates] === RETURNING ===`);
     console.log(
       `[getLocationDataFromCoordinates] Value:`,
       JSON.stringify(returnValue),

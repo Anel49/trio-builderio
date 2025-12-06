@@ -505,22 +505,36 @@ export async function dbSetup(_req: Request, res: Response) {
     // Ensure postcode and city columns exist, and drop old zip_code/location_city columns
     try {
       // Copy data from zip_code to postcode if zip_code exists and postcode is empty
-      await pool.query(`
+      await pool
+        .query(
+          `
         update listings set postcode = zip_code
         where zip_code is not null and (postcode is null or postcode = '00000')
-      `).catch(() => null);
+      `,
+        )
+        .catch(() => null);
 
       // Copy data from location_city to city if location_city exists and city is empty
-      await pool.query(`
+      await pool
+        .query(
+          `
         update listings set city = location_city
         where location_city is not null and city is null
-      `).catch(() => null);
+      `,
+        )
+        .catch(() => null);
 
       // Now drop the old columns
-      await pool.query(`alter table listings drop column if exists zip_code cascade`);
-      await pool.query(`alter table listings drop column if exists location_city cascade`);
+      await pool.query(
+        `alter table listings drop column if exists zip_code cascade`,
+      );
+      await pool.query(
+        `alter table listings drop column if exists location_city cascade`,
+      );
 
-      console.log("[dbSetup] Migrated zip_code→postcode and location_city→city");
+      console.log(
+        "[dbSetup] Migrated zip_code→postcode and location_city→city",
+      );
     } catch (e: any) {
       console.log(
         "[dbSetup] Column migration error:",

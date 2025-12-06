@@ -633,7 +633,12 @@ export default function UploadProduct() {
       console.log("[UploadProduct] location_city:", listingLocation.city);
       console.log("[UploadProduct] === FULL PAYLOAD ===");
       console.log("[UploadProduct] Sending payload:", payload);
-      console.log("[UploadProduct] Payload coordinates - lat:", payload.latitude, "lon:", payload.longitude);
+      console.log(
+        "[UploadProduct] Payload coordinates - lat:",
+        payload.latitude,
+        "lon:",
+        payload.longitude,
+      );
 
       const endpoint = editListingId ? `listings/${editListingId}` : "listings";
       const method = editListingId ? "PUT" : "POST";
