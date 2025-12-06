@@ -249,8 +249,6 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table listings add column if not exists county text;
       alter table listings add column if not exists address text;
       alter table listings add column if not exists timezone text;
-      alter table listings rename column if exists zip_code to postcode;
-      alter table listings rename column if exists location_city to city;
       create table if not exists listing_images (
         id serial primary key,
         listing_id integer not null references listings(id),
