@@ -379,11 +379,49 @@ export async function emailSignup(req: Request, res: Response) {
 
     const hashedPassword = await argon2.hash(passwordStr);
 
+    // Move the photo from temp location to user's folder if provided
+    let finalPhotoId = photoIdStr;
+    if (photoIdStr) {
+      try {
+        const { extractS3KeyFromUrl } = await import("../lib/s3");
+        const { moveVerificationPhotoToUserFolder } = await import("../lib/s3");
+
+        // Extract the S3 key from the presigned URL
+        const tempS3Key = extractS3KeyFromUrl(photoIdStr);
+
+        if (tempS3Key) {
+          console.log(
+            "[emailSignup] Moving photo from temp location to user folder:",
+            tempS3Key,
+          );
+          const newS3Key = await moveVerificationPhotoToUserFolder(
+            tempS3Key,
+            userId,
+          );
+
+          // Update finalPhotoId to the new S3 key
+          finalPhotoId = newS3Key;
+
+          console.log(
+            "[emailSignup] Photo moved successfully to:",
+            newS3Key,
+          );
+        }
+      } catch (photoError: any) {
+        console.error(
+          "[emailSignup] Error moving photo to user folder:",
+          photoError,
+        );
+        // Continue with signup even if photo move fails
+        console.log("[emailSignup] Continuing signup without moving photo");
+      }
+    }
+
     const credResult = await pool.query(
       `insert into user_credentials (user_id, first_name, last_name, email, password, photo_id)
        values ($1, $2, $3, $4, $5, $6)
        returning id`,
-      [userId, firstNameStr, lastNameStr, emailStr, hashedPassword, photoIdStr],
+      [userId, firstNameStr, lastNameStr, emailStr, hashedPassword, finalPhotoId],
     );
 
     const user = rowToUser(userResult.rows[0]);
