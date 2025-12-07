@@ -3495,6 +3495,37 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      {/* Account Deactivation Success Modal */}
+      <Dialog
+        open={isDeactivationSuccessModalOpen}
+        onOpenChange={async (open) => {
+          if (!open) {
+            // When modal closes, log out and navigate to home
+            await logout();
+            navigate("/");
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Success!</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Your account has been successfully deactivated.
+            </p>
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              onClick={() => setIsDeactivationSuccessModalOpen(false)}
+            >
+              OK
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Password Change Success Modal */}
       <Dialog
         open={isPasswordChangeSuccessOpen}
