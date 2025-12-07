@@ -915,55 +915,19 @@ export async function dbSetup(_req: Request, res: Response) {
       };
 
       // Foreign keys for when users are deleted (CASCADE)
-      await updateForeignKey(
-        "user_credentials",
-        "user_id",
-        "users",
-      );
-      await updateForeignKey(
-        "user_email_preferences",
-        "user_id",
-        "users",
-      );
+      await updateForeignKey("user_credentials", "user_id", "users");
+      await updateForeignKey("user_email_preferences", "user_id", "users");
       await updateForeignKey("favorites", "user_id", "users");
       await updateForeignKey("listings", "host_id", "users");
-      await updateForeignKey(
-        "listing_reviews",
-        "reviewer_id",
-        "users",
-      );
-      await updateForeignKey(
-        "user_reviews",
-        "reviewer_id",
-        "users",
-      );
-      await updateForeignKey(
-        "user_reviews",
-        "reviewed_user_id",
-        "users",
-      );
+      await updateForeignKey("listing_reviews", "reviewer_id", "users");
+      await updateForeignKey("user_reviews", "reviewer_id", "users");
+      await updateForeignKey("user_reviews", "reviewed_user_id", "users");
 
       // Foreign keys for when listings are deleted (CASCADE)
-      await updateForeignKey(
-        "listing_addons",
-        "listing_id",
-        "listings",
-      );
-      await updateForeignKey(
-        "listing_categories",
-        "listing_id",
-        "listings",
-      );
-      await updateForeignKey(
-        "listing_images",
-        "listing_id",
-        "listings",
-      );
-      await updateForeignKey(
-        "listing_reviews",
-        "listing_id",
-        "listings",
-      );
+      await updateForeignKey("listing_addons", "listing_id", "listings");
+      await updateForeignKey("listing_categories", "listing_id", "listings");
+      await updateForeignKey("listing_images", "listing_id", "listings");
+      await updateForeignKey("listing_reviews", "listing_id", "listings");
 
       console.log(
         "[dbSetup] Successfully updated all CASCADE ON DELETE constraints",
