@@ -805,6 +805,101 @@ export default function BrowseListings() {
     };
   }, [filterLocation, authenticated, authUser?.id]);
 
+  // Load more listings handler
+  const handleLoadMore = React.useCallback(async () => {
+    if (isLoadingMore || !hasMoreListings) {
+      return;
+    }
+
+    setIsLoadingMore(true);
+    try {
+      // Use filter location for API call
+      const path = filterLocation
+        ? `listings?user_lat=${filterLocation.latitude}&user_lng=${filterLocation.longitude}&enabled=true&offset=${loadMoreOffset}&limit=12`
+        : `listings?enabled=true&offset=${loadMoreOffset}&limit=12`;
+
+      const response = await apiFetch(path);
+      if (!response.ok) {
+        setIsLoadingMore(false);
+        return;
+      }
+
+      let d;
+      try {
+        d = await response.json();
+      } catch (e) {
+        d = null;
+      }
+
+      if (!d || !d.ok || !Array.isArray(d.listings)) {
+        setIsLoadingMore(false);
+        return;
+      }
+
+      // Map new listings
+      const mapped = d.listings.map((l: any) => {
+        const categories =
+          Array.isArray(l.categories) && l.categories.length
+            ? l.categories
+            : l.type
+              ? [l.type]
+              : [];
+
+        return {
+          id: l.id,
+          name: l.name,
+          price: l.price,
+          rating: typeof l.rating === "number" ? l.rating : null,
+          reviews: typeof l.reviews === "number" ? l.reviews : undefined,
+          image:
+            Array.isArray(l.images) && l.images.length
+              ? l.images[0]
+              : l.image,
+          host: l.host,
+          hostUserId:
+            typeof l.hostUserId === "number" ? l.hostUserId : undefined,
+          type: categories[0] || "General",
+          categories,
+          location: "",
+          distance: typeof l.distance === "string" ? l.distance : null,
+          distanceMiles:
+            typeof l.distanceMiles === "number" ? l.distanceMiles : null,
+          zipCode:
+            typeof l.zipCode === "string"
+              ? l.zipCode
+              : typeof l.zip_code === "string"
+                ? l.zip_code
+                : null,
+          latitude: typeof l.latitude === "number" ? l.latitude : null,
+          longitude: typeof l.longitude === "number" ? l.longitude : null,
+          createdAt: l.createdAt ?? l.created_at ?? undefined,
+          rentalPeriod: normalizeRentalPeriod(
+            l.rentalPeriod ?? l.rental_period,
+          ),
+          delivery: Boolean(l.delivery || l.delivery_available),
+          freeDelivery: Boolean(l.freeDelivery || l.free_delivery),
+          instantBookings: Boolean(l.instantBookings),
+        };
+      });
+
+      // Filter out user's own listings
+      const filtered =
+        authenticated && authUser?.id && typeof authUser.id === "number"
+          ? mapped.filter((l: any) => l.hostUserId !== authUser.id)
+          : mapped;
+
+      // Append to existing listings
+      setListings((prev) => [...prev, ...filtered]);
+      // Update pagination state
+      setLoadMoreOffset((prev) => prev + 12);
+      setHasMoreListings(typeof d.hasMore === "boolean" ? d.hasMore : false);
+    } catch (error) {
+      console.error("Error loading more listings:", error);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  }, [loadMoreOffset, isLoadingMore, hasMoreListings, filterLocation, authenticated, authUser?.id]);
+
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
   const [hoveredListing, setHoveredListing] = useState<number | null>(null);
   const [hoveredPin, setHoveredPin] = useState<number | null>(null);
