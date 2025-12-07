@@ -1414,9 +1414,9 @@ export async function getPresignedPhotoIdUploadUrl(
     );
 
     // Generate presigned URL for photo ID upload to verification bucket
-    // The file will be stored with the temp ID, then moved to the user ID folder after signup
+    // The file will be stored with the temp UUID, then moved to the user ID folder after signup
     const presignedUrl = await generatePresignedVerificationUploadUrl(
-      tempUserId as any,
+      tempUserId,
       "photo_id",
       filename.split(".").pop() || "jpg",
     );
