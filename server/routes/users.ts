@@ -1403,9 +1403,10 @@ export async function getPresignedPhotoIdUploadUrl(
       });
     }
 
-    // For photo ID, we need a temporary user ID or generate a unique ID
-    // Since this is during signup, we'll use a temporary session or timestamp-based ID
-    const tempUserId = Math.floor(Date.now() / 1000); // Use timestamp as temporary ID
+    // Generate a unique temporary ID using crypto.randomUUID to avoid collisions
+    // This temp ID will be replaced with the actual user ID after signup
+    const { randomUUID } = await import("crypto");
+    const tempUserId = randomUUID();
 
     // Import S3 utilities
     const { generatePresignedVerificationUploadUrl } = await import(
@@ -1413,8 +1414,9 @@ export async function getPresignedPhotoIdUploadUrl(
     );
 
     // Generate presigned URL for photo ID upload to verification bucket
+    // The file will be stored with the temp ID, then moved to the user ID folder after signup
     const presignedUrl = await generatePresignedVerificationUploadUrl(
-      tempUserId,
+      tempUserId as any,
       "photo_id",
       filename.split(".").pop() || "jpg",
     );
