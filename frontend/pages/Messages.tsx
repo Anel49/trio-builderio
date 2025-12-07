@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LoginModal } from "@/components/ui/login-modal";
+import { ReportUserModal } from "@/components/ui/report-user-modal";
 import { COMPANY_NAME } from "@/lib/constants";
 import Header from "@/components/Header";
 import { colors } from "@/lib/colors";
