@@ -1645,11 +1645,25 @@ export default function BrowseListings() {
         </div>
 
         {/* Load More Button */}
-        <div className="mt-8 text-center">
-          <Button variant="outline" size="lg">
-            Load more listings
-          </Button>
-        </div>
+        {hasMoreListings && (
+          <div className="mt-8 text-center">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleLoadMore}
+              disabled={isLoadingMore}
+            >
+              {isLoadingMore ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                "Load more listings"
+              )}
+            </Button>
+          </div>
+        )}
       </div>
 
       {isLoadingDistances && (
