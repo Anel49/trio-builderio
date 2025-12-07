@@ -208,20 +208,26 @@ export function EmailSignupModal({
   };
 
   const handleSuccessModalClose = async (open: boolean) => {
+    console.log("[EmailSignupModal] handleSuccessModalClose called, open:", open);
     if (!open) {
+      console.log("[EmailSignupModal] Closing success modal, calling cleanup...");
       setIsSuccessModalOpen(false);
       handleClose();
       if (onSignupSuccess) {
+        console.log("[EmailSignupModal] Calling onSignupSuccess callback");
         onSignupSuccess();
       }
       await checkAuth();
+      console.log("[EmailSignupModal] Setting shouldNavigate to true");
       setShouldNavigate(true);
     }
   };
 
   // Navigate to profile after successful signup
   React.useEffect(() => {
+    console.log("[EmailSignupModal] useEffect triggered, shouldNavigate:", shouldNavigate);
     if (shouldNavigate) {
+      console.log("[EmailSignupModal] Navigating to /profile");
       setShouldNavigate(false);
       navigate("/profile");
     }
