@@ -55,6 +55,15 @@ export function SignUpModal({
   const [error, setError] = useState("");
   const [emailInUseModalOpen, setEmailInUseModalOpen] = useState(false);
   const [emailInUseError, setEmailInUseError] = useState<string>("");
+  const [uploadedImagePreview, setUploadedImagePreview] = useState<string | null>(null);
+
+  // Load image snapshot from localStorage when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      const storedImage = localStorage.getItem("uploadSessionImagePreview");
+      setUploadedImagePreview(storedImage);
+    }
+  }, [isOpen]);
 
   // Google OAuth Signup
   const handleGoogleSignup = useGoogleLogin({
