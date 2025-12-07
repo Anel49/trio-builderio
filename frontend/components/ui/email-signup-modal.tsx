@@ -684,9 +684,11 @@ export function EmailSignupModal({
           </p>
           <Button
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            onClick={() => {
-              console.log("[EmailSignupModal] Continue to Dashboard button clicked");
+            onClick={async () => {
+              console.log("[EmailSignupModal] Continue to Dashboard button clicked, current state:", { isOpen, isSuccessModalOpen });
+              console.log("[EmailSignupModal] About to call setIsSuccessModalOpen(false)");
               setIsSuccessModalOpen(false);
+              console.log("[EmailSignupModal] After setIsSuccessModalOpen(false)");
             }}
           >
             Continue to Dashboard
