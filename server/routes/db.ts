@@ -67,6 +67,18 @@ export async function dbSetup(_req: Request, res: Response) {
     // Drop related_listing_id column from user_reviews if it exists
     try {
       await pool.query(
+        `drop index if exists idx_user_reviews_related_listing_id`,
+      );
+      console.log("[dbSetup] Dropped idx_user_reviews_related_listing_id index");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Index drop error:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
+    try {
+      await pool.query(
         `alter table user_reviews drop column if exists related_listing_id`,
       );
       console.log("[dbSetup] Dropped related_listing_id column from user_reviews");
