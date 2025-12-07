@@ -766,8 +766,12 @@ export function EmailSignupModal({
                 onSignupSuccess();
               }
               await checkAuth();
-              if (authUser?.username) {
-                navigate(`/profile/${authUser.username}`);
+              if (successUser?.username) {
+                console.log(
+                  "[EmailSignupModal] Navigating to /profile/" +
+                    successUser.username,
+                );
+                navigate(`/profile/${successUser.username}`);
               }
             }}
           >
