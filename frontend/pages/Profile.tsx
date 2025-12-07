@@ -741,6 +741,20 @@ export default function Profile() {
     })();
   }, [applyUserData, authUser]);
 
+  // Apply badge data from other user's profile
+  useEffect(() => {
+    if (viewingOtherUser && otherUserData) {
+      const founding = Boolean(otherUserData.foundingSupporter ?? otherUserData.founding_supporter);
+      const referrer = Boolean(otherUserData.topReferrer ?? otherUserData.top_referrer);
+      const ambassador = Boolean(otherUserData.ambassador);
+      setBadges({
+        foundingSupporter: founding,
+        topReferrer: referrer,
+        ambassador,
+      });
+    }
+  }, [viewingOtherUser, otherUserData]);
+
   const avatarOutlineClass = useMemo(() => {
     if (badges.foundingSupporter) return "ring-4 ring-sky-400";
     if (badges.topReferrer) return "ring-4 ring-purple-500";
