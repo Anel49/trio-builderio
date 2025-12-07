@@ -143,8 +143,7 @@ export const PrivacyContent = () => (
         <li>Delete your account or personal information</li>
       </ul>
       <p className="text-muted-foreground mb-4">
-        If you wish to review or delete your information, please contact support
-        at {PRIVACY_EMAIL}.
+        If you wish to review or delete your information, please contact support at {PRIVACY_EMAIL}.
       </p>
     </section>
 
