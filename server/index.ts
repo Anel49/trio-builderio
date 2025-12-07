@@ -250,6 +250,7 @@ export function createServer() {
                 coalesce(u.top_referrer,false) as top_referrer,
                 coalesce(u.ambassador,false) as ambassador,
                 coalesce(u.open_dms,true) as open_dms,
+                coalesce(u.active,true) as active,
                 uc.oauth
          from users u
          left join user_credentials uc on u.id = uc.user_id
@@ -281,6 +282,7 @@ export function createServer() {
         ambassador: Boolean(row.ambassador),
         openDms: Boolean(row.open_dms),
         oauth: row.oauth || null,
+        active: Boolean(row.active),
       };
 
       // Update the session with the latest user data
