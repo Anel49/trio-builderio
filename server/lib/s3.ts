@@ -411,13 +411,13 @@ export function getVerificationDocumentUrl(
 
 /**
  * Move a verification photo from temp location to user location in the verification bucket
- * @param oldKey - The old S3 key (temporary location)
- * @param userId - The user ID
+ * @param oldKey - The old S3 key (temporary location with UUID or temp ID)
+ * @param userId - The user ID (numeric ID where the photo will be moved to)
  * @returns The new S3 key
  */
 export async function moveVerificationPhotoToUserFolder(
   oldKey: string,
-  userId: number,
+  userId: number | string,
 ): Promise<string> {
   try {
     console.log("[S3] Moving verification photo from:", oldKey, "to user:", userId);
