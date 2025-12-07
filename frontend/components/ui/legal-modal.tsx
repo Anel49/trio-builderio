@@ -142,13 +142,8 @@ export const PrivacyContent = () => (
         <li>Export your data in a portable format</li>
         <li>Opt out of certain communications</li>
       </ul>
-      <p className="text-muted-foreground">
-        We do not have access to the login credentials for your Google,
-        Facebook, Microsoft, or Apple account. We are given a temporary access
-        token by the provider to create or log into your {COMPANY_NAME} account.
-        After an account is created, we form an association between your
-        provider account and your {COMPANY_NAME} account that is stored in our
-        system.
+      <p className="text-muted-foreground mb-4">
+        You have certain rights regarding your personal information:
       </p>
     </section>
 
