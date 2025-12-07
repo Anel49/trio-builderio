@@ -899,6 +899,27 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] host_email column already exists");
     }
 
+    // Update user_credentials foreign key to have ON DELETE CASCADE
+    try {
+      // Drop old constraint if it exists
+      await pool.query(
+        `alter table if exists user_credentials drop constraint if exists user_credentials_user_id_fkey`,
+      );
+      console.log("[dbSetup] Dropped old user_credentials_user_id_fkey constraint");
+
+      // Add new constraint with ON DELETE CASCADE
+      await pool.query(
+        `alter table if exists user_credentials add constraint user_credentials_user_id_fkey
+         foreign key (user_id) references users(id) on delete cascade`,
+      );
+      console.log("[dbSetup] Added user_credentials_user_id_fkey with ON DELETE CASCADE");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Error updating user_credentials constraint:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     // Remove any restrictive foreign key constraints to allow perpetual data
     try {
       console.log("[dbSetup] Removing restrictive foreign key constraints...");
