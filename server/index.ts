@@ -44,6 +44,7 @@ import {
   passwordReset,
   googleOAuth,
   getPresignedProfileImageUrl,
+  getPresignedPhotoIdUploadUrl,
   createUserReview,
   getUserReviews,
   updateUserReview,
