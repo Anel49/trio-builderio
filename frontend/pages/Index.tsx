@@ -434,7 +434,7 @@ export default function Index() {
 
   // Determine grid columns based on screen width
   const getGridCols = () => {
-    if (windowWidth < 575) return 1;
+    if (windowWidth < 700) return 1;
     if (windowWidth < 900) return 2;
     if (windowWidth < 1350) return 3;
     return 4;
