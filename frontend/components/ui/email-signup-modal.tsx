@@ -298,8 +298,10 @@ export function EmailSignupModal({
       );
       setIsSuccessModalOpen(false);
       handleClose();
-      // Clear the image preview from localStorage after successful signup
+      // Clear the image previews from localStorage after successful signup
       localStorage.removeItem("uploadSessionImagePreview");
+      localStorage.removeItem("signupPhotoIdPreview");
+      localStorage.removeItem("signupPhotoIdS3Url");
       window.location.reload();
     }
   };
