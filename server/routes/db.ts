@@ -901,16 +901,23 @@ export async function dbSetup(_req: Request, res: Response) {
 
     // Update user_credentials foreign key to have ON DELETE CASCADE
     try {
-      console.log("[dbSetup] Updating user_credentials foreign key constraint...");
+      console.log(
+        "[dbSetup] Updating user_credentials foreign key constraint...",
+      );
 
       // Always drop the existing constraint if it exists (no error if it doesn't)
       try {
         await pool.query(
           `alter table user_credentials drop constraint if exists user_credentials_user_id_fkey`,
         );
-        console.log("[dbSetup] Dropped existing user_credentials_user_id_fkey constraint");
+        console.log(
+          "[dbSetup] Dropped existing user_credentials_user_id_fkey constraint",
+        );
       } catch (dropErr: any) {
-        console.log("[dbSetup] No constraint to drop or error dropping:", dropErr?.message?.slice(0, 50));
+        console.log(
+          "[dbSetup] No constraint to drop or error dropping:",
+          dropErr?.message?.slice(0, 50),
+        );
       }
 
       // Clean up any orphaned user_credentials records (references to non-existent users)
