@@ -38,6 +38,7 @@ export function EmailSignupModal({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [photoId, setPhotoId] = useState<string | null>(null);
+  const [photoIdS3Url, setPhotoIdS3Url] = useState<string | null>(null);
   const [isOver18, setIsOver18] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
