@@ -427,8 +427,8 @@ export async function moveVerificationPhotoToUserFolder(
     // Extract the file extension from the old key
     const fileExtension = oldKey.split(".").pop() || "jpg";
 
-    // Create new key with user ID
-    const newKey = `users/${userId}/photo_id.${fileExtension}`;
+    // Create new key with user ID in the filename for easy bulk downloads
+    const newKey = `users/${userId}/photo_id_${userId}.${fileExtension}`;
 
     // Copy the object from old location to new location
     const copyCommand = new CopyObjectCommand({
