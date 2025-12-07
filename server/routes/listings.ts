@@ -246,9 +246,9 @@ export async function listListings(req: Request, res: Response) {
     console.log("[listListings] Returning", listings.length, "listings");
     console.log(
       "[listListings] Response size (stringified):",
-      JSON.stringify({ ok: true, listings }).length,
+      JSON.stringify({ ok: true, listings, hasMore }).length,
     );
-    res.json({ ok: true, listings });
+    res.json({ ok: true, listings, hasMore });
   } catch (error: any) {
     console.error("[listListings] Error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
