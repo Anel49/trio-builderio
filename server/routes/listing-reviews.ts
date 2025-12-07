@@ -57,7 +57,7 @@ export async function getListingReviews(req: Request, res: Response) {
               u.username, u.avatar_url, lr.rating, lr.comment, lr.helpful_count, lr.created_at
        from listing_reviews lr
        join users u on u.id = lr.reviewer_id
-       where lr.listing_id = $1
+       where lr.listing_id = $1 and coalesce(u.active, true) = true
        order by lr.created_at desc
        limit 100`,
       [listingId],
