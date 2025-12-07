@@ -53,25 +53,13 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
-    // Clean up demo reviews (one-time cleanup)
+    // Drop legacy reviews table (replaced by listing_reviews and user_reviews)
     try {
-      const demoReviewers = [
-        "Mike",
-        "Jennifer",
-        "David",
-        "Lisa",
-        "Robert",
-        "Emma",
-      ];
-      const placeholders = demoReviewers.map((_, i) => `$${i + 1}`).join(",");
-      await pool.query(
-        `delete from reviews where reviewer in (${placeholders})`,
-        demoReviewers,
-      );
-      console.log("[dbSetup] Cleaned up demo reviews");
+      await pool.query(`drop table if exists reviews cascade`);
+      console.log("[dbSetup] Dropped legacy reviews table");
     } catch (e: any) {
       console.log(
-        "[dbSetup] Demo review cleanup error:",
+        "[dbSetup] Reviews table drop error:",
         e?.message?.slice(0, 80),
       );
     }
