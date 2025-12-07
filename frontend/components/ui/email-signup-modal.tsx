@@ -726,6 +726,8 @@ export function EmailSignupModal({
               console.log(
                 "[EmailSignupModal] Continue to Dashboard button clicked",
               );
+              // Clear the image preview from localStorage after successful signup
+              localStorage.removeItem("uploadSessionImagePreview");
               setIsSuccessModalOpen(false);
               handleClose();
               if (onSignupSuccess) {
