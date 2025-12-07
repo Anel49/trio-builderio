@@ -1907,7 +1907,7 @@ export default function Profile() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="space-y-2">
+                <div className="space-y-2 max-w-[300px] mx-auto">
                   {!viewingOtherUser && (
                     <Button
                       className="w-full"
@@ -3301,7 +3301,7 @@ export default function Profile() {
               </div>
 
               {/* Action Buttons */}
-              <div className="space-y-2">
+              <div className="space-y-2 max-w-[300px] mx-auto">
                 {!viewingOtherUser && (
                   <Button
                     className="w-full"
