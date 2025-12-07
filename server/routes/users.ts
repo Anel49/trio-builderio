@@ -1663,3 +1663,28 @@ export async function updateUserReview(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function deactivateAccount(req: Request, res: Response) {
+  try {
+    const userId = (req as any).session?.userId;
+
+    if (!userId || typeof userId !== "number") {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    // Update user's active status to false
+    const result = await pool.query(
+      `update users set active = false where id = $1 returning id, username, email, active`,
+      [userId],
+    );
+
+    if (!result.rows.length) {
+      return res.status(404).json({ ok: false, error: "User not found" });
+    }
+
+    res.json({ ok: true, user: rowToUser(result.rows[0]) });
+  } catch (error: any) {
+    console.error("Error deactivating account:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
