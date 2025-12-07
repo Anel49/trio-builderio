@@ -1713,7 +1713,6 @@ export default function Profile() {
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => setIsDeactivationConfirmModalOpen(true)}
-                        className="text-destructive"
                       >
                         Inactivate my account
                       </DropdownMenuItem>
@@ -3109,7 +3108,6 @@ export default function Profile() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => setIsDeactivationConfirmModalOpen(true)}
-                  className="text-destructive"
                 >
                   Inactivate my account
                 </DropdownMenuItem>
