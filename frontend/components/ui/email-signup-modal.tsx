@@ -178,7 +178,7 @@ export function EmailSignupModal({
           email: email.trim(),
           password,
           confirm_password: confirmPassword,
-          photo_id: photoId,
+          photo_id: null,
         }),
       });
 
