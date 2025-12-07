@@ -678,41 +678,55 @@ export function EmailSignupModal({
 
               {/* Photo ID Upload */}
               <div className="space-y-2">
-                <label className="text-sm font-medium">Photo ID</label>
-                {!photoId ? (
-                  <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-muted-foreground/50 transition-colors">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePhotoIdUpload}
-                      disabled={isLoading}
-                      className="hidden"
-                      id="photo-id-input"
-                    />
-                    <label
-                      htmlFor="photo-id-input"
-                      className="cursor-pointer flex flex-col items-center gap-2"
-                    >
-                      <Upload className="h-6 w-6 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">
-                        Click to upload photo
-                      </span>
-                    </label>
-                  </div>
-                ) : (
-                  <div className="relative inline-block w-full">
-                    <img
-                      src={photoId}
-                      alt="Photo ID preview"
-                      className="max-h-40 rounded-lg mx-auto"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleRemovePhoto}
-                      className="absolute top-2 right-2 bg-destructive hover:bg-destructive/90 text-white rounded-full p-1"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
+                <label className="text-sm font-medium">Photo ID / Documents</label>
+
+                {/* Upload Area */}
+                <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-muted-foreground/50 transition-colors">
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*,application/pdf"
+                    onChange={handlePhotoIdUpload}
+                    disabled={isLoading}
+                    className="hidden"
+                    id="photo-id-input"
+                  />
+                  <label
+                    htmlFor="photo-id-input"
+                    className="cursor-pointer flex flex-col items-center gap-2"
+                  >
+                    <Upload className="h-6 w-6 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">
+                      Click to upload photo ID or documents
+                    </span>
+                    <span className="text-xs text-muted-foreground/70">
+                      Multiple files allowed
+                    </span>
+                  </label>
+                </div>
+
+                {/* Photo Previews Grid */}
+                {photoIds.length > 0 && (
+                  <div className="grid grid-cols-2 gap-3 mt-4">
+                    {photoIds.map((photo, index) => (
+                      <div
+                        key={`${photo.tempId}-${index}`}
+                        className="relative rounded-lg overflow-hidden border border-muted-foreground/20"
+                      >
+                        <img
+                          src={photo.preview}
+                          alt={`Photo ID ${index + 1}`}
+                          className="w-full h-32 object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemovePhoto(index)}
+                          className="absolute top-2 right-2 bg-destructive hover:bg-destructive/90 text-white rounded-full p-1 shadow-lg"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
