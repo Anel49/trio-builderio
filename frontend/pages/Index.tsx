@@ -640,7 +640,7 @@ export default function Index() {
             <ViewAllButton />
           </div>
 
-          <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
             {listings.map((listing) => (
               <div key={listing.id}>
                 <ProductCard
