@@ -333,8 +333,7 @@ export function EmailSignupModal({
       handleClose();
       // Clear the image previews from localStorage after successful signup
       localStorage.removeItem("uploadSessionImagePreview");
-      localStorage.removeItem("signupPhotoIdPreview");
-      localStorage.removeItem("signupPhotoIdS3Url");
+      localStorage.removeItem("signupPhotoIds");
       window.location.reload();
     }
   };
@@ -357,8 +356,7 @@ export function EmailSignupModal({
         if (response.ok && data.ok && data.user) {
           // Clear the image previews from localStorage after successful signup
           localStorage.removeItem("uploadSessionImagePreview");
-          localStorage.removeItem("signupPhotoIdPreview");
-          localStorage.removeItem("signupPhotoIdS3Url");
+          localStorage.removeItem("signupPhotoIds");
           await checkAuth();
           handleClose();
           if (onSignupSuccess) {
@@ -799,8 +797,7 @@ export function EmailSignupModal({
               );
               // Clear the image previews from localStorage after successful signup
               localStorage.removeItem("uploadSessionImagePreview");
-              localStorage.removeItem("signupPhotoIdPreview");
-              localStorage.removeItem("signupPhotoIdS3Url");
+              localStorage.removeItem("signupPhotoIds");
               setIsSuccessModalOpen(false);
               handleClose();
               if (onSignupSuccess) {
