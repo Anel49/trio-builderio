@@ -760,8 +760,15 @@ export function EmailSignupModal({
               console.log(
                 "[EmailSignupModal] Continue to Dashboard button clicked",
               );
-              setUserClickedContinue(true);
-              await handleSuccessModalClose(false);
+              setIsSuccessModalOpen(false);
+              handleClose();
+              if (onSignupSuccess) {
+                onSignupSuccess();
+              }
+              await checkAuth();
+              if (authUser?.username) {
+                navigate(`/profile/${authUser.username}`);
+              }
             }}
           >
             Continue to Dashboard
