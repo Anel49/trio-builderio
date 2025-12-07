@@ -880,48 +880,97 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] host_email column already exists");
     }
 
-    // Update user_credentials foreign key to have ON DELETE CASCADE
+    // Update all foreign key constraints to have ON DELETE CASCADE
     try {
+      console.log("[dbSetup] Updating CASCADE ON DELETE constraints...");
+
+      // Helper function to update a foreign key constraint
+      const updateForeignKey = async (
+        tableName: string,
+        columnName: string,
+        referencedTable: string,
+      ) => {
+        const constraintName = `${tableName}_${columnName}_fkey`;
+        try {
+          await pool.query(
+            `alter table ${tableName} drop constraint if exists ${constraintName}`,
+          );
+          console.log(`[dbSetup] Dropped ${constraintName}`);
+        } catch (e: any) {
+          // Constraint might not exist, that's ok
+        }
+
+        try {
+          await pool.query(
+            `alter table ${tableName} add constraint ${constraintName}
+             foreign key (${columnName}) references ${referencedTable}(id) on delete cascade`,
+          );
+          console.log(`[dbSetup] Added ${constraintName} with CASCADE`);
+        } catch (e: any) {
+          console.log(
+            `[dbSetup] Error adding ${constraintName}:`,
+            e?.message?.slice(0, 100),
+          );
+        }
+      };
+
+      // Foreign keys for when users are deleted (CASCADE)
+      await updateForeignKey(
+        "user_credentials",
+        "user_id",
+        "users",
+      );
+      await updateForeignKey(
+        "user_email_preferences",
+        "user_id",
+        "users",
+      );
+      await updateForeignKey("favorites", "user_id", "users");
+      await updateForeignKey("listings", "host_id", "users");
+      await updateForeignKey(
+        "listing_reviews",
+        "reviewer_id",
+        "users",
+      );
+      await updateForeignKey(
+        "user_reviews",
+        "reviewer_id",
+        "users",
+      );
+      await updateForeignKey(
+        "user_reviews",
+        "reviewed_user_id",
+        "users",
+      );
+
+      // Foreign keys for when listings are deleted (CASCADE)
+      await updateForeignKey(
+        "listing_addons",
+        "listing_id",
+        "listings",
+      );
+      await updateForeignKey(
+        "listing_categories",
+        "listing_id",
+        "listings",
+      );
+      await updateForeignKey(
+        "listing_images",
+        "listing_id",
+        "listings",
+      );
+      await updateForeignKey(
+        "listing_reviews",
+        "listing_id",
+        "listings",
+      );
+
       console.log(
-        "[dbSetup] Updating user_credentials foreign key constraint...",
-      );
-
-      // Always drop the existing constraint if it exists (no error if it doesn't)
-      try {
-        await pool.query(
-          `alter table user_credentials drop constraint if exists user_credentials_user_id_fkey`,
-        );
-        console.log(
-          "[dbSetup] Dropped existing user_credentials_user_id_fkey constraint",
-        );
-      } catch (dropErr: any) {
-        console.log(
-          "[dbSetup] No constraint to drop or error dropping:",
-          dropErr?.message?.slice(0, 50),
-        );
-      }
-
-      // Clean up any orphaned user_credentials records (references to non-existent users)
-      const deleteResult = await pool.query(
-        `delete from user_credentials where user_id not in (select id from users)`,
-      );
-      if (deleteResult.rowCount && deleteResult.rowCount > 0) {
-        console.log(
-          `[dbSetup] Deleted ${deleteResult.rowCount} orphaned user_credentials records`,
-        );
-      }
-
-      // Now add the constraint with ON DELETE CASCADE
-      await pool.query(
-        `alter table user_credentials add constraint user_credentials_user_id_fkey
-         foreign key (user_id) references users(id) on delete cascade`,
-      );
-      console.log(
-        "[dbSetup] Successfully added user_credentials_user_id_fkey with ON DELETE CASCADE",
+        "[dbSetup] Successfully updated all CASCADE ON DELETE constraints",
       );
     } catch (e: any) {
       console.error(
-        "[dbSetup] Error updating user_credentials constraint:",
+        "[dbSetup] Error updating CASCADE constraints:",
         e?.message?.slice(0, 150),
       );
     }
