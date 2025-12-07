@@ -372,6 +372,9 @@ export default function BrowseListings() {
 
   // Listings state (moved here to avoid temporal dead zone)
   const [listings, setListings] = useState<any[]>([]);
+  const [loadMoreOffset, setLoadMoreOffset] = useState(0);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMoreListings, setHasMoreListings] = useState(false);
 
   // Cache for listing reservations
   const [reservationsCache, setReservationsCache] = React.useState<
