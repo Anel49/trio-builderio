@@ -214,11 +214,12 @@ export function EmailSignupModal({
     e.target.value = "";
   };
 
-  const handleRemovePhoto = () => {
-    setPhotoId(null);
-    setPhotoIdS3Url(null);
-    localStorage.removeItem("signupPhotoIdPreview");
-    localStorage.removeItem("signupPhotoIdS3Url");
+  const handleRemovePhoto = (index: number) => {
+    setPhotoIds((prev) => {
+      const updated = prev.filter((_, i) => i !== index);
+      localStorage.setItem("signupPhotoIds", JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const isFormValid =
