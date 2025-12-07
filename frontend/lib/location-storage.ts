@@ -1,4 +1,5 @@
 export const LOCATION_STORAGE_KEY = "userLocationData";
+export const LOCATION_CLEARED_SESSION_KEY = "locationClearedThisSession";
 
 export interface StoredLocation {
   latitude: number;
@@ -66,6 +67,7 @@ export function getLocationFromLocalStorage(): StoredLocation | null {
  */
 export function clearLocationFromLocalStorage(): void {
   localStorage.removeItem(LOCATION_STORAGE_KEY);
+  localStorage.setItem(LOCATION_CLEARED_SESSION_KEY, "true");
 }
 
 /**
@@ -73,4 +75,18 @@ export function clearLocationFromLocalStorage(): void {
  */
 export function hasLocationInLocalStorage(): boolean {
   return getLocationFromLocalStorage() !== null;
+}
+
+/**
+ * Check if user has explicitly cleared location this session
+ */
+export function wasLocationClearedThisSession(): boolean {
+  return localStorage.getItem(LOCATION_CLEARED_SESSION_KEY) === "true";
+}
+
+/**
+ * Reset the session clear flag (call on logout)
+ */
+export function resetLocationClearedFlag(): void {
+  localStorage.removeItem(LOCATION_CLEARED_SESSION_KEY);
 }
