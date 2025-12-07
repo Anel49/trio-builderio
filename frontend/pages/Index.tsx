@@ -642,7 +642,7 @@ export default function Index() {
 
           <div className="flex gap-6 overflow-x-auto pb-2 no-scrollbar">
             {listings.map((listing) => (
-              <div key={listing.id}>
+              <div key={listing.id} className="flex-shrink-0 min-w-[280px] sm:min-w-[320px]">
                 <ProductCard
                   id={listing.id}
                   name={listing.name}
