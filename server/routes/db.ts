@@ -903,56 +903,28 @@ export async function dbSetup(_req: Request, res: Response) {
     try {
       console.log("[dbSetup] Updating user_credentials foreign key constraint...");
 
-      // First, check if the constraint exists and what its delete rule is
-      const checkConstraint = await pool.query(
-        `select rc.constraint_name, rc.delete_rule
-         from information_schema.referential_constraints rc
-         join information_schema.table_constraints tc on rc.constraint_name = tc.constraint_name
-         where tc.table_name = 'user_credentials' and rc.constraint_name = 'user_credentials_user_id_fkey'`,
-      );
-
-      if (checkConstraint.rows.length > 0) {
-        const deleteRule = checkConstraint.rows[0].delete_rule;
-        console.log(
-          `[dbSetup] Found existing user_credentials_user_id_fkey constraint with delete rule: ${deleteRule}`,
-        );
-
-        if (deleteRule === "CASCADE") {
-          console.log("[dbSetup] Constraint already has ON DELETE CASCADE, no changes needed");
-        } else {
-          console.log("[dbSetup] Constraint exists but without CASCADE, dropping and recreating...");
-
-          // Drop the old constraint
-          await pool.query(
-            `alter table user_credentials drop constraint user_credentials_user_id_fkey`,
-          );
-          console.log("[dbSetup] Successfully dropped user_credentials_user_id_fkey");
-
-          // Add new constraint with ON DELETE CASCADE
-          await pool.query(
-            `alter table user_credentials add constraint user_credentials_user_id_fkey
-             foreign key (user_id) references users(id) on delete cascade`,
-          );
-          console.log(
-            "[dbSetup] Successfully added user_credentials_user_id_fkey with ON DELETE CASCADE",
-          );
-        }
-      } else {
-        console.log(
-          "[dbSetup] No existing user_credentials_user_id_fkey constraint found, adding new one...",
-        );
+      // Always drop the existing constraint if it exists (no error if it doesn't)
+      try {
         await pool.query(
-          `alter table user_credentials add constraint user_credentials_user_id_fkey
-           foreign key (user_id) references users(id) on delete cascade`,
+          `alter table user_credentials drop constraint if exists user_credentials_user_id_fkey`,
         );
-        console.log(
-          "[dbSetup] Successfully added user_credentials_user_id_fkey with ON DELETE CASCADE",
-        );
+        console.log("[dbSetup] Dropped existing user_credentials_user_id_fkey constraint");
+      } catch (dropErr: any) {
+        console.log("[dbSetup] No constraint to drop or error dropping:", dropErr?.message?.slice(0, 50));
       }
+
+      // Now add the constraint with ON DELETE CASCADE
+      await pool.query(
+        `alter table user_credentials add constraint user_credentials_user_id_fkey
+         foreign key (user_id) references users(id) on delete cascade`,
+      );
+      console.log(
+        "[dbSetup] Successfully added user_credentials_user_id_fkey with ON DELETE CASCADE",
+      );
     } catch (e: any) {
       console.error(
         "[dbSetup] Error updating user_credentials constraint:",
-        e?.message,
+        e?.message?.slice(0, 150),
       );
     }
 
