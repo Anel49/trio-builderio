@@ -365,13 +365,11 @@ export async function dbSetup(_req: Request, res: Response) {
         reviewer_id integer not null references users(id),
         rating numeric(2,1) not null,
         comment text,
-        related_listing_id integer references listings(id),
         created_at timestamptz default now(),
         updated_at timestamptz default now()
       );
       create index if not exists idx_user_reviews_reviewed_user_id on user_reviews(reviewed_user_id);
       create index if not exists idx_user_reviews_reviewer_id on user_reviews(reviewer_id);
-      create index if not exists idx_user_reviews_related_listing_id on user_reviews(related_listing_id);
       create index if not exists idx_user_reviews_created_at on user_reviews(created_at);
 
       -- Create sequence for number column starting at 1000
