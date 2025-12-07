@@ -347,14 +347,14 @@ export function isValidS3Url(url: string): boolean {
 
 /**
  * Generate a presigned URL for uploading a verification document (Photo ID) to the verification bucket
- * @param userId - The user ID
+ * @param userId - The user ID (can be numeric or a UUID string for temp uploads)
  * @param documentType - Type of document (e.g., "photo_id")
  * @param fileExtension - The file extension (e.g., "jpg", "png")
  * @param expiresIn - Number of seconds until the URL expires (default: 3600 = 1 hour)
  * @returns The presigned URL
  */
 export async function generatePresignedVerificationUploadUrl(
-  userId: number,
+  userId: number | string,
   documentType: string,
   fileExtension: string,
   expiresIn: number = 3600,
