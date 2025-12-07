@@ -215,6 +215,8 @@ export function EmailSignupModal({
     console.log(
       "[EmailSignupModal] handleSuccessModalClose called, open:",
       open,
+      "userClickedContinue:",
+      userClickedContinue,
     );
     if (!open) {
       console.log(
@@ -227,8 +229,15 @@ export function EmailSignupModal({
         onSignupSuccess();
       }
       await checkAuth();
-      console.log("[EmailSignupModal] Setting shouldNavigate to true");
-      setShouldNavigate(true);
+
+      if (userClickedContinue) {
+        console.log("[EmailSignupModal] User clicked Continue, setting shouldNavigate to true");
+        setUserClickedContinue(false);
+        setShouldNavigate(true);
+      } else {
+        console.log("[EmailSignupModal] Modal closed by outside click or close button, refreshing page");
+        window.location.reload();
+      }
     }
   };
 
