@@ -271,6 +271,12 @@ export default function Profile() {
   const [isChangeEmailModalOpen, setIsChangeEmailModalOpen] = useState(false);
   const [isChangeUsernameModalOpen, setIsChangeUsernameModalOpen] =
     useState(false);
+  const [isDeactivationConfirmModalOpen, setIsDeactivationConfirmModalOpen] =
+    useState(false);
+  const [isDeactivationVerifyModalOpen, setIsDeactivationVerifyModalOpen] =
+    useState(false);
+  const [deactivationVerifyInput, setDeactivationVerifyInput] = useState("");
+  const [isDeactivating, setIsDeactivating] = useState(false);
   const [isPasswordChangeSuccessOpen, setIsPasswordChangeSuccessOpen] =
     useState(false);
   const [isEmailChangeSuccessOpen, setIsEmailChangeSuccessOpen] =
