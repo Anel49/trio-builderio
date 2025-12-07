@@ -901,22 +901,35 @@ export async function dbSetup(_req: Request, res: Response) {
 
     // Update user_credentials foreign key to have ON DELETE CASCADE
     try {
-      // Drop old constraint if it exists
-      await pool.query(
-        `alter table if exists user_credentials drop constraint if exists user_credentials_user_id_fkey`,
+      console.log("[dbSetup] Updating user_credentials foreign key constraint...");
+
+      // First, check if the constraint exists
+      const checkConstraint = await pool.query(
+        `select constraint_name from information_schema.table_constraints
+         where table_name = 'user_credentials' and constraint_name = 'user_credentials_user_id_fkey'`,
       );
-      console.log("[dbSetup] Dropped old user_credentials_user_id_fkey constraint");
+
+      if (checkConstraint.rows.length > 0) {
+        console.log("[dbSetup] Found existing user_credentials_user_id_fkey constraint, dropping it...");
+
+        // Drop the old constraint
+        await pool.query(
+          `alter table user_credentials drop constraint user_credentials_user_id_fkey`,
+        );
+        console.log("[dbSetup] Successfully dropped user_credentials_user_id_fkey");
+      }
 
       // Add new constraint with ON DELETE CASCADE
+      console.log("[dbSetup] Adding new user_credentials_user_id_fkey with ON DELETE CASCADE...");
       await pool.query(
-        `alter table if exists user_credentials add constraint user_credentials_user_id_fkey
+        `alter table user_credentials add constraint user_credentials_user_id_fkey
          foreign key (user_id) references users(id) on delete cascade`,
       );
-      console.log("[dbSetup] Added user_credentials_user_id_fkey with ON DELETE CASCADE");
+      console.log("[dbSetup] Successfully added user_credentials_user_id_fkey with ON DELETE CASCADE");
     } catch (e: any) {
-      console.log(
+      console.error(
         "[dbSetup] Error updating user_credentials constraint:",
-        e?.message?.slice(0, 100),
+        e?.message,
       );
     }
 
