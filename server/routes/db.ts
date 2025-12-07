@@ -913,6 +913,16 @@ export async function dbSetup(_req: Request, res: Response) {
         console.log("[dbSetup] No constraint to drop or error dropping:", dropErr?.message?.slice(0, 50));
       }
 
+      // Clean up any orphaned user_credentials records (references to non-existent users)
+      const deleteResult = await pool.query(
+        `delete from user_credentials where user_id not in (select id from users)`,
+      );
+      if (deleteResult.rowCount && deleteResult.rowCount > 0) {
+        console.log(
+          `[dbSetup] Deleted ${deleteResult.rowCount} orphaned user_credentials records`,
+        );
+      }
+
       // Now add the constraint with ON DELETE CASCADE
       await pool.query(
         `alter table user_credentials add constraint user_credentials_user_id_fkey
