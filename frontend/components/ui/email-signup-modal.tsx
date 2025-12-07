@@ -214,9 +214,15 @@ export function EmailSignupModal({
         onSignupSuccess();
       }
       await checkAuth();
-      navigate("/profile");
     }
   };
+
+  // Navigate to profile after modal closes
+  React.useEffect(() => {
+    if (!isOpen && !isSuccessModalOpen) {
+      navigate("/profile");
+    }
+  }, [isOpen, isSuccessModalOpen, navigate]);
 
   const handleGoogleSignup = useGoogleLogin({
     onSuccess: async (codeResponse) => {
