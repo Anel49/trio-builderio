@@ -704,9 +704,10 @@ export default function BrowseListings() {
         if (cancelled) return;
 
         // Use filter location for API call (includes user's stored location)
+        // Start with initial 18 listings (offset 0, limit 18)
         const path = filterLocation
-          ? `listings?user_lat=${filterLocation.latitude}&user_lng=${filterLocation.longitude}&enabled=true`
-          : "listings?enabled=true";
+          ? `listings?user_lat=${filterLocation.latitude}&user_lng=${filterLocation.longitude}&enabled=true&offset=0&limit=18`
+          : "listings?enabled=true&offset=0&limit=18";
 
         // Store user coordinates for map display (from filter location)
         if (filterLocation) {
