@@ -292,7 +292,6 @@ export function EmailSignupModal({
   };
 
   // Navigate to profile after successful signup
-  const { user: authUser } = useAuth();
   React.useEffect(() => {
     console.log(
       "[EmailSignupModal] useEffect triggered, shouldNavigate:",
