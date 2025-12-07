@@ -52,12 +52,16 @@ export function EmailSignupModal({
   const [emailInUseModalOpen, setEmailInUseModalOpen] = useState(false);
   const [emailInUseError, setEmailInUseError] = useState<string>("");
 
-  // Load photo ID preview from localStorage when modal opens
+  // Load photo ID preview and S3 URL from localStorage when modal opens
   React.useEffect(() => {
     if (isOpen) {
-      const storedPhotoId = localStorage.getItem("signupPhotoIdPreview");
-      if (storedPhotoId) {
-        setPhotoId(storedPhotoId);
+      const storedPreview = localStorage.getItem("signupPhotoIdPreview");
+      const storedS3Url = localStorage.getItem("signupPhotoIdS3Url");
+      if (storedPreview) {
+        setPhotoId(storedPreview);
+      }
+      if (storedS3Url) {
+        setPhotoIdS3Url(storedS3Url);
       }
     }
   }, [isOpen]);
