@@ -72,6 +72,7 @@ import {
   extractCoordinates,
   formatDistanceLabel,
 } from "@/lib/geo";
+import { clearLocationFromLocalStorage } from "@/lib/location-storage";
 
 const RENTAL_PERIODS = ["Hourly", "Daily", "Weekly", "Monthly"] as const;
 type RentalPeriod = (typeof RENTAL_PERIODS)[number];
@@ -1615,7 +1616,10 @@ export default function BrowseListings() {
             city: selection.city,
           });
         }}
-        onClear={() => setFilterLocation(null)}
+        onClear={() => {
+          setFilterLocation(null);
+          clearLocationFromLocalStorage();
+        }}
       />
 
       {/* Mobile Map Floating Button - Only visible on mobile/tablet */}
