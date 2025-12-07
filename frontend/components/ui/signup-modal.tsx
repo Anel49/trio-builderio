@@ -207,6 +207,9 @@ export function SignUpModal({
     // 3. Set authentication state
     // 4. Close modal and redirect
 
+    // Clear the image preview from localStorage after successful signup
+    localStorage.removeItem("uploadSessionImagePreview");
+
     alert(
       `${provider} signup successful! (This is a demo - implement your backend integration)`,
     );
