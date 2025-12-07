@@ -268,6 +268,7 @@ export async function emailSignup(req: Request, res: Response) {
       password,
       confirm_password,
       photo_id,
+      photo_ids,
     } = (req.body || {}) as any;
 
     const firstNameStr =
