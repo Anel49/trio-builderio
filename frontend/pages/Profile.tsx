@@ -175,6 +175,7 @@ export default function Profile() {
     Boolean(username),
   );
   const [otherUserNotFound, setOtherUserNotFound] = useState(false);
+  const [otherUserDeactivated, setOtherUserDeactivated] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isReviewUserModalOpen, setIsReviewUserModalOpen] = useState(false);
