@@ -358,6 +358,16 @@ export async function emailSignup(req: Request, res: Response) {
     );
 
     const userId = userResult.rows[0].id;
+
+    // Set founding_supporter to true if id <= 1001
+    if (userId <= 1001) {
+      await pool.query(
+        `update users set founding_supporter = true where id = $1`,
+        [userId],
+      );
+      userResult.rows[0].founding_supporter = true;
+    }
+
     const hashedPassword = await argon2.hash(passwordStr);
 
     const credResult = await pool.query(
