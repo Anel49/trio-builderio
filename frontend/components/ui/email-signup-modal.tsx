@@ -101,21 +101,26 @@ export function EmailSignupModal({
     return errors;
   };
 
-  const handlePhotoIdUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoIdUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
       try {
         setError("");
 
         // Get presigned URL from backend
-        const presignedResponse = await apiFetch("/users/presigned-photo-id-url", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            filename: file.name,
-            contentType: file.type,
-          }),
-        });
+        const presignedResponse = await apiFetch(
+          "/users/presigned-photo-id-url",
+          {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              filename: file.name,
+              contentType: file.type,
+            }),
+          },
+        );
 
         const presignedData = await presignedResponse.json().catch(() => ({}));
 
@@ -272,11 +277,15 @@ export function EmailSignupModal({
       await checkAuth();
 
       if (userClickedContinue) {
-        console.log("[EmailSignupModal] User clicked Continue, setting shouldNavigate to true");
+        console.log(
+          "[EmailSignupModal] User clicked Continue, setting shouldNavigate to true",
+        );
         setUserClickedContinue(false);
         setShouldNavigate(true);
       } else {
-        console.log("[EmailSignupModal] Modal closed by outside click or close button, refreshing page");
+        console.log(
+          "[EmailSignupModal] Modal closed by outside click or close button, refreshing page",
+        );
         window.location.reload();
       }
     }

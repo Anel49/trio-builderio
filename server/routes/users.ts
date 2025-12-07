@@ -1326,7 +1326,10 @@ export async function getPresignedProfileImageUrl(req: Request, res: Response) {
   }
 }
 
-export async function getPresignedPhotoIdUploadUrl(req: Request, res: Response) {
+export async function getPresignedPhotoIdUploadUrl(
+  req: Request,
+  res: Response,
+) {
   try {
     const { filename, contentType } = req.body || {};
 
@@ -1342,9 +1345,7 @@ export async function getPresignedPhotoIdUploadUrl(req: Request, res: Response) 
 
     // Validate that it's an image or document file
     const allowedTypes = ["image/", "application/pdf"];
-    const isAllowed = allowedTypes.some((type) =>
-      contentType.startsWith(type),
-    );
+    const isAllowed = allowedTypes.some((type) => contentType.startsWith(type));
 
     if (!isAllowed) {
       return res.status(400).json({
