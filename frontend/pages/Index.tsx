@@ -396,7 +396,7 @@ export default function Index() {
               const dateB = new Date(b.created_at).getTime();
               return dateB - dateA; // Most recent first
             });
-        const limited = sorted.slice(0, 9);
+        const limited = sorted.slice(0, 5);
 
         if (!cancelled) {
           setListings(limited);
