@@ -155,11 +155,11 @@ export function ReportUserModal({
 
                       {category.description && (
                         <Collapsible>
-                          <CollapsibleTrigger className="flex items-center text-xs text-muted-foreground hover:text-foreground transition-colors ml-6">
+                          <CollapsibleTrigger className="flex items-center text-xs text-muted-foreground hover:text-foreground transition-colors ml-8">
                             <span className="mr-1">More details</span>
                             <ChevronDown className="h-3 w-3" />
                           </CollapsibleTrigger>
-                          <CollapsibleContent className="ml-6 mt-2">
+                          <CollapsibleContent className="ml-8 mt-2">
                             <p className="text-xs text-muted-foreground leading-relaxed">
                               {category.description}
                             </p>
