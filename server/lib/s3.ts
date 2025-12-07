@@ -413,11 +413,13 @@ export function getVerificationDocumentUrl(
  * Move a verification photo from temp location to user location in the verification bucket
  * @param oldKey - The old S3 key (temporary location with UUID or temp ID)
  * @param userId - The user ID (numeric ID where the photo will be moved to)
+ * @param incrementNumber - Optional increment number for multiple photos (1, 2, 3, etc.). If not provided, uses default naming
  * @returns The new S3 key
  */
 export async function moveVerificationPhotoToUserFolder(
   oldKey: string,
   userId: number | string,
+  incrementNumber?: number,
 ): Promise<string> {
   try {
     console.log(
@@ -425,6 +427,7 @@ export async function moveVerificationPhotoToUserFolder(
       oldKey,
       "to user:",
       userId,
+      incrementNumber ? `increment: ${incrementNumber}` : "",
     );
 
     const s3Client = getS3Client();
@@ -433,7 +436,10 @@ export async function moveVerificationPhotoToUserFolder(
     const fileExtension = oldKey.split(".").pop() || "jpg";
 
     // Create new key with user ID in the filename for easy bulk downloads
-    const newKey = `users/${userId}/photo_id_${userId}.${fileExtension}`;
+    // Format: photo_id_<userId>_<increment>.<ext> (e.g., photo_id_12_1.png)
+    const newKey = incrementNumber
+      ? `users/${userId}/photo_id_${userId}_${incrementNumber}.${fileExtension}`
+      : `users/${userId}/photo_id_${userId}.${fileExtension}`;
 
     // Copy the object from old location to new location
     const copyCommand = new CopyObjectCommand({
