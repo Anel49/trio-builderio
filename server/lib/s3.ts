@@ -343,3 +343,84 @@ export function isValidS3Url(url: string): boolean {
     return false;
   }
 }
+
+/**
+ * Generate a presigned URL for uploading a verification document (Photo ID) to the verification bucket
+ * @param userId - The user ID
+ * @param documentType - Type of document (e.g., "photo_id")
+ * @param fileExtension - The file extension (e.g., "jpg", "png")
+ * @param expiresIn - Number of seconds until the URL expires (default: 3600 = 1 hour)
+ * @returns The presigned URL
+ */
+export async function generatePresignedVerificationUploadUrl(
+  userId: number,
+  documentType: string,
+  fileExtension: string,
+  expiresIn: number = 3600,
+): Promise<string> {
+  try {
+    console.log(
+      "[S3] Generating presigned verification URL for user:",
+      userId,
+      "type:",
+      documentType,
+    );
+
+    const s3Client = getS3Client();
+    const timestamp = Date.now();
+    const key = `users/${userId}/${documentType}_${timestamp}.${fileExtension}`;
+
+    const command = new PutObjectCommand({
+      Bucket: verificationBucketName,
+      Key: key,
+      ContentType: getMimeType(fileExtension),
+    });
+
+    const presignedUrl = await getSignedUrl(s3Client, command, {
+      expiresIn,
+    });
+
+    console.log("[S3] Generated presigned verification URL successfully");
+    console.log("[S3] Bucket:", verificationBucketName);
+    console.log("[S3] Key:", key);
+
+    return presignedUrl;
+  } catch (error) {
+    console.error("[S3] Error generating presigned verification URL:", error);
+    throw error;
+  }
+}
+
+/**
+ * Generate an S3 URL for a verification document in the verification bucket
+ * @param userId - The user ID
+ * @param documentType - Type of document (e.g., "photo_id")
+ * @param filename - The filename
+ * @returns The S3 URL
+ */
+export function getVerificationDocumentUrl(
+  userId: number,
+  documentType: string,
+  filename: string,
+): string {
+  const region = process.env.AWS_REGION || "us-east-2";
+  const key = `users/${userId}/${documentType}_${filename}`;
+  return `https://${verificationBucketName}.s3.${region}.amazonaws.com/${key}`;
+}
+
+/**
+ * Get the MIME type for a file extension
+ * @param ext - The file extension
+ * @returns The MIME type
+ */
+function getMimeType(ext: string): string {
+  const mimeTypes: Record<string, string> = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    gif: "image/gif",
+    webp: "image/webp",
+    pdf: "application/pdf",
+  };
+  return mimeTypes[ext.toLowerCase()] || "application/octet-stream";
+}
