@@ -3530,11 +3530,7 @@ export default function Profile() {
           <DialogFooter>
             <Button
               type="button"
-              onClick={async () => {
-                setIsDeactivationSuccessModalOpen(false);
-                await logout();
-                navigate("/");
-              }}
+              onClick={() => setIsDeactivationSuccessModalOpen(false)}
             >
               OK
             </Button>
