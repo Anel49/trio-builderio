@@ -1595,17 +1595,16 @@ export default function Profile() {
         return;
       }
 
-      // Close modals and logout
+      // Close verify modal and show success modal
       setIsDeactivationVerifyModalOpen(false);
       setDeactivationVerifyInput("");
-      await logout();
-      navigate("/");
+      setIsDeactivationSuccessModalOpen(true);
     } catch (error) {
       console.error("Error deactivating account:", error);
     } finally {
       setIsDeactivating(false);
     }
-  }, [logout, navigate]);
+  }, []);
 
   // If redirecting from /profile/:username to /profile (own profile), don't render the other user view
   if (isOwnUsername && username) {
