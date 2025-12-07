@@ -989,9 +989,9 @@ export async function dbSetup(_req: Request, res: Response) {
 
       // Drop all remaining user-related foreign key constraints
       // This allows users to be deleted without cascade effects
+      // Note: user_credentials is NOT included here because we use ON DELETE CASCADE for it
       const allUserConstraints = [
         { table: "password_reset_tokens", column: "user_id" },
-        { table: "user_credentials", column: "user_id" },
         { table: "user_email_preferences", column: "user_id" },
         { table: "reservations", column: "renter_id" },
         { table: "reservations", column: "host_id" },
