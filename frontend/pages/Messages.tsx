@@ -786,7 +786,7 @@ export default function Messages() {
       <ReportUserModal
         isOpen={isReportUserModalOpen}
         onOpenChange={setIsReportUserModalOpen}
-        userName={selectedChat?.name.trim()}
+        userName={selectedChat?.name?.trim()}
       />
 
       {/* Contact Support Modal */}
