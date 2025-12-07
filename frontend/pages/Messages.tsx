@@ -745,7 +745,7 @@ export default function Messages() {
                     }}
                     className="font-semibold text-lg mb-4 hover:underline text-center w-full transition-colors hover:text-primary"
                   >
-                    {selectedChat.name.trim()}
+                    {selectedChat.name?.trim() || selectedChat.name}
                   </button>
 
                   <Button
