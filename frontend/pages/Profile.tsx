@@ -3392,6 +3392,106 @@ export default function Profile() {
         }}
       />
 
+      {/* Account Deactivation Confirmation Modal */}
+      <Dialog
+        open={isDeactivationConfirmModalOpen}
+        onOpenChange={setIsDeactivationConfirmModalOpen}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Account Deactivation</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Are you sure you want to deactivate your account?
+            </p>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsDeactivationConfirmModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => {
+                setIsDeactivationConfirmModalOpen(false);
+                setIsDeactivationVerifyModalOpen(true);
+              }}
+            >
+              Deactivate
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Account Deactivation Verification Modal */}
+      <Dialog
+        open={isDeactivationVerifyModalOpen}
+        onOpenChange={(open) => {
+          setIsDeactivationVerifyModalOpen(open);
+          if (!open) {
+            setDeactivationVerifyInput("");
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirm deactivation</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Deactivating your account will require you to contact support if
+              you wish to reactivate it. In an effort to mitigate accidental
+              account deactivation, please type "deactivate account{" "}
+              {authUser?.username}" in the field below to confirm your account
+              deactivation.
+            </p>
+            <Input
+              placeholder={`deactivate account ${authUser?.username}`}
+              value={deactivationVerifyInput}
+              onChange={(e) => setDeactivationVerifyInput(e.target.value)}
+              disabled={isDeactivating}
+            />
+          </div>
+          <DialogFooter className="gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setIsDeactivationVerifyModalOpen(false);
+                setDeactivationVerifyInput("");
+              }}
+              disabled={isDeactivating}
+            >
+              Cancel deactivation
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={handleDeactivateAccount}
+              disabled={
+                isDeactivating ||
+                deactivationVerifyInput.toLowerCase() !==
+                  `deactivate account ${authUser?.username}`.toLowerCase()
+              }
+            >
+              {isDeactivating ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Deactivating...
+                </>
+              ) : (
+                "Deactivate account"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Password Change Success Modal */}
       <Dialog
         open={isPasswordChangeSuccessOpen}
