@@ -235,6 +235,8 @@ export function EmailSignupModal({
     setShowConfirmPassword(false);
     setError("");
     setSuccessMessage("");
+    // Clear photo ID preview from localStorage when closing modal
+    localStorage.removeItem("signupPhotoIdPreview");
     onOpenChange(false);
   };
 
