@@ -968,8 +968,13 @@ export default function Profile() {
 
         const data = await response.json();
         if (data.ok && data.user && !cancelled) {
-          setOtherUserData(data.user);
-          setOtherUserNotFound(false);
+          // Check if user account is deactivated
+          if (data.user.active === false) {
+            setOtherUserNotFound(true);
+          } else {
+            setOtherUserData(data.user);
+            setOtherUserNotFound(false);
+          }
         } else if (!cancelled) {
           setOtherUserNotFound(true);
         }
