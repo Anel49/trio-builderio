@@ -729,6 +729,7 @@ export default function Messages() {
                         />
                         <AvatarFallback className="text-lg">
                           {selectedChat.name
+                            .trim()
                             .split(" ")
                             .map((n) => n[0])
                             .join("")}
