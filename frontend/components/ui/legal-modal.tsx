@@ -135,7 +135,7 @@ export const PrivacyContent = () => (
       <p className="text-muted-foreground mb-4">
         You have certain rights regarding your personal information:
       </p>
-      <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+      <ul className="list-disc pl-6 space-y-2 text-muted-foreground mb-3">
         <li>Access and review your personal information</li>
         <li>Correct inaccurate or incomplete information</li>
         <li>Delete your account and personal information</li>
