@@ -1586,7 +1586,10 @@ export default function Profile() {
       const payload = await response.json().catch(() => null);
 
       if (!response.ok || !payload?.ok) {
-        console.error("Failed to deactivate account:", payload?.error);
+        console.error("Failed to deactivate account:", {
+          status: response.status,
+          payload,
+        });
         return;
       }
 
