@@ -966,6 +966,35 @@ export async function dbSetup(_req: Request, res: Response) {
           );
         }
       }
+
+      // Drop all remaining user-related foreign key constraints
+      // This allows users to be deleted without cascade effects
+      const allUserConstraints = [
+        { table: "password_reset_tokens", column: "user_id" },
+        { table: "user_credentials", column: "user_id" },
+        { table: "user_email_preferences", column: "user_id" },
+        { table: "reservations", column: "renter_id" },
+        { table: "reservations", column: "host_id" },
+        { table: "listing_reviews", column: "reviewer_id" },
+        { table: "user_reviews", column: "reviewed_user_id" },
+        { table: "user_reviews", column: "reviewer_id" },
+        { table: "listings", column: "host_id" },
+      ];
+
+      for (const constraint of allUserConstraints) {
+        const constraintName = `${constraint.table}_${constraint.column}_fkey`;
+        try {
+          await pool.query(
+            `alter table ${constraint.table} drop constraint if exists ${constraintName}`,
+          );
+          console.log(`[dbSetup] Dropped user constraint ${constraintName}`);
+        } catch (e: any) {
+          console.log(
+            `[dbSetup] Could not drop ${constraintName}:`,
+            e?.message?.slice(0, 100),
+          );
+        }
+      }
     } catch (e: any) {
       console.log("[dbSetup] Error removing constraints:", e?.message);
     }
