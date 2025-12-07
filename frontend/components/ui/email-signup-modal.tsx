@@ -221,7 +221,7 @@ export function EmailSignupModal({
           email: email.trim(),
           password,
           confirm_password: confirmPassword,
-          photo_id: null,
+          photo_id: photoIdS3Url,
         }),
       });
 
