@@ -78,6 +78,7 @@ import {
   User as UserIcon,
   Shield,
   Settings,
+  Loader2,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
