@@ -183,6 +183,9 @@ export function EmailSignupModal({
 
   const handleRemovePhoto = () => {
     setPhotoId(null);
+    setPhotoIdS3Url(null);
+    localStorage.removeItem("signupPhotoIdPreview");
+    localStorage.removeItem("signupPhotoIdS3Url");
   };
 
   const isFormValid =
