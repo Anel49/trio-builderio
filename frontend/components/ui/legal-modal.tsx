@@ -128,7 +128,6 @@ export const PrivacyContent = () => (
         provider account and your {COMPANY_NAME} account that is stored in our
         system.
       </p>
-      <br />
     </section>
 
     <section>
