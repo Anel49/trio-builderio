@@ -184,7 +184,7 @@ export async function getHostListingReviews(req: Request, res: Response) {
        from listing_reviews lr
        join listings l on l.id = lr.listing_id
        join users u on u.id = lr.reviewer_id
-       where l.host_id = $1
+       where l.host_id = $1 and coalesce(u.active, true) = true
        order by coalesce(lr.updated_at, lr.created_at) desc
        limit 100`,
       [hostId],
