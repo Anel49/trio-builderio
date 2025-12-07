@@ -279,6 +279,11 @@ export function EmailLoginModal({
           onOpenChange={setIsForgotPasswordOpen}
         />
       )}
+
+      <AccountDeactivatedModal
+        open={isAccountDeactivatedOpen}
+        onClose={() => setIsAccountDeactivatedOpen(false)}
+      />
     </Dialog>
   );
 }
