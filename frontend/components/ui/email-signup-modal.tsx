@@ -37,7 +37,9 @@ export function EmailSignupModal({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [photoIds, setPhotoIds] = useState<Array<{ tempId: string; preview: string; s3Url: string }>>([]);
+  const [photoIds, setPhotoIds] = useState<
+    Array<{ tempId: string; preview: string; s3Url: string }>
+  >([]);
   const [isOver18, setIsOver18] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -63,7 +65,10 @@ export function EmailSignupModal({
           }
         }
       } catch (err) {
-        console.error("[EmailSignupModal] Error loading photos from localStorage:", err);
+        console.error(
+          "[EmailSignupModal] Error loading photos from localStorage:",
+          err,
+        );
       }
     }
   }, [isOpen]);
@@ -128,7 +133,10 @@ export function EmailSignupModal({
       // Process each selected file
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        if (!file.type.startsWith("image/") && !file.type.startsWith("application/pdf")) {
+        if (
+          !file.type.startsWith("image/") &&
+          !file.type.startsWith("application/pdf")
+        ) {
           continue;
         }
 
@@ -190,10 +198,7 @@ export function EmailSignupModal({
         const s3Url = presignedData.presignedUrl.split("?")[0];
 
         // Add to photos array
-        setPhotoIds((prev) => [
-          ...prev,
-          { tempId, preview: dataUrl, s3Url },
-        ]);
+        setPhotoIds((prev) => [...prev, { tempId, preview: dataUrl, s3Url }]);
 
         console.log(
           `[EmailSignupModal] Photo ${i + 1} uploaded successfully with tempId: ${tempId}`,
@@ -678,7 +683,9 @@ export function EmailSignupModal({
 
               {/* Photo ID Upload */}
               <div className="space-y-2">
-                <label className="text-sm font-medium">Photo ID / Documents</label>
+                <label className="text-sm font-medium">
+                  Photo ID / Documents
+                </label>
 
                 {/* Upload Area */}
                 <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-muted-foreground/50 transition-colors">
