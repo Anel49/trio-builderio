@@ -64,6 +64,19 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Drop related_listing_id column from user_reviews if it exists
+    try {
+      await pool.query(
+        `alter table user_reviews drop column if exists related_listing_id`,
+      );
+      console.log("[dbSetup] Dropped related_listing_id column from user_reviews");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] related_listing_id drop error:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
     // Migrate order_id to order_number if the old column exists in the orders table
     try {
       const colCheckResult = await pool.query(
