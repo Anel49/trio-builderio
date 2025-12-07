@@ -663,7 +663,7 @@ export default function Index() {
           </div>
 
           <div className="flex gap-6 pb-2">
-            {listings.map((listing) => (
+            {visibleListings.map((listing) => (
               <div key={listing.id} className="flex-1 min-w-0">
                 <ProductCard
                   id={listing.id}
