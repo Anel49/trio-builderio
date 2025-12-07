@@ -172,18 +172,18 @@ export function ReportUserModal({
               </div>
 
               <div className="space-y-3">
-                <label className="text-sm font-bold block">
+                <label className="text-sm font-bold block pr-8">
                   Additional details
                 </label>
                 <Textarea
                   placeholder="Please provide any additional information about this report..."
                   value={additionalDetails}
                   onChange={(e) => setAdditionalDetails(e.target.value)}
-                  className="min-h-[100px] resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="min-h-[100px] resize-none focus-visible:ring-0 focus-visible:ring-offset-0 pr-4"
                 />
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <Button
                   onClick={handleSubmit}
                   disabled={selectedCategories.length === 0}
