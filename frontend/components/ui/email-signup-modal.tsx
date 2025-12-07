@@ -119,20 +119,33 @@ export function EmailSignupModal({
   const handlePhotoIdUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      try {
-        setError("");
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    try {
+      setError("");
+
+      // Process each selected file
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!file.type.startsWith("image/") && !file.type.startsWith("application/pdf")) {
+          continue;
+        }
+
+        // Generate a temporary ID for this photo (will be renamed after signup)
+        const { randomUUID } = require("crypto");
+        const tempId = randomUUID?.() || `temp_${Date.now()}_${i}`;
 
         // Create a local preview data URL immediately
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const dataUrl = event.target?.result as string;
-          // Store the preview data URL in localStorage for display
-          localStorage.setItem("signupPhotoIdPreview", dataUrl);
-          setPhotoId(dataUrl);
-        };
-        reader.readAsDataURL(file);
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const url = event.target?.result as string;
+            resolve(url);
+          };
+          reader.onerror = () => reject(new Error("Failed to read file"));
+          reader.readAsDataURL(file);
+        });
 
         // Get presigned URL from backend
         const presignedResponse = await apiFetch(
@@ -150,10 +163,11 @@ export function EmailSignupModal({
         const presignedData = await presignedResponse.json().catch(() => ({}));
 
         if (!presignedResponse.ok || !presignedData.presignedUrl) {
-          setError(
-            presignedData.error || "Failed to get upload URL from server",
+          console.warn(
+            `[EmailSignupModal] Failed to get presigned URL for ${file.name}:`,
+            presignedData.error,
           );
-          return;
+          continue;
         }
 
         // Upload file to S3 using presigned URL
@@ -166,21 +180,38 @@ export function EmailSignupModal({
         });
 
         if (!uploadResponse.ok) {
-          setError("Failed to upload photo ID to storage");
-          return;
+          console.warn(
+            `[EmailSignupModal] Failed to upload ${file.name} to S3`,
+          );
+          continue;
         }
 
-        // Store the S3 URL (without query params) for backend submission
+        // Extract S3 URL (without query params)
         const s3Url = presignedData.presignedUrl.split("?")[0];
-        setPhotoIdS3Url(s3Url);
-        localStorage.setItem("signupPhotoIdS3Url", s3Url);
 
-        console.log("[EmailSignupModal] Photo ID uploaded successfully to S3");
-      } catch (err) {
-        console.error("[EmailSignupModal] Photo upload error:", err);
-        setError("Failed to upload photo ID. Please try again.");
+        // Add to photos array
+        setPhotoIds((prev) => [
+          ...prev,
+          { tempId, preview: dataUrl, s3Url },
+        ]);
+
+        console.log(
+          `[EmailSignupModal] Photo ${i + 1} uploaded successfully with tempId: ${tempId}`,
+        );
       }
+
+      // Save to localStorage
+      setPhotoIds((prev) => {
+        localStorage.setItem("signupPhotoIds", JSON.stringify(prev));
+        return prev;
+      });
+    } catch (err) {
+      console.error("[EmailSignupModal] Photo upload error:", err);
+      setError("Failed to upload photos. Please try again.");
     }
+
+    // Reset file input
+    e.target.value = "";
   };
 
   const handleRemovePhoto = () => {
