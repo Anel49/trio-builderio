@@ -17,6 +17,7 @@ export interface User {
   ambassador: boolean;
   openDms: boolean;
   oauth: string | null;
+  active: boolean;
 }
 
 interface AuthContextType {
