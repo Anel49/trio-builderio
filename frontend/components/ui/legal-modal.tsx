@@ -140,7 +140,7 @@ export const PrivacyContent = () => (
         <li>Correct inaccurate or incomplete information</li>
         <li>Export your data in a portable format</li>
         <li>Opt out of certain communications</li>
-        <li>Delete your account and personal information</li>
+        <li>Delete your account or personal information</li>
       </ul>
       <p className="text-muted-foreground mb-4">
         If you wish to review or delete your information, please contact support at {PRIVACY_EMAIL}.
