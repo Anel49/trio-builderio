@@ -266,6 +266,8 @@ export function EmailSignupModal({
       );
       setIsSuccessModalOpen(false);
       handleClose();
+      // Clear the image preview from localStorage after successful signup
+      localStorage.removeItem("uploadSessionImagePreview");
       window.location.reload();
     }
   };
