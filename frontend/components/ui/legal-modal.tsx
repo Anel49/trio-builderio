@@ -143,7 +143,7 @@ export const PrivacyContent = () => (
         <li>Opt out of certain communications</li>
       </ul>
       <p className="text-muted-foreground mb-4">
-        You have certain rights regarding your personal information:
+        If you wish to delete your information, please contact support at
       </p>
     </section>
 
