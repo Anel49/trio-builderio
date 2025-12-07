@@ -544,6 +544,16 @@ export default function UploadProduct() {
       if (!userId) {
         console.error("User not authenticated");
         setIsConfirmingListing(false);
+
+        // Store the first image as a preview for the signup modal
+        if (imagePreviewUrls.length > 0 || uploadedImages.length > 0) {
+          const previewImage = imagePreviewUrls[0] || uploadedImages[0];
+          localStorage.setItem("uploadSessionImagePreview", previewImage);
+        }
+
+        // Open signup modal
+        setShowConfirmModal(false);
+        setIsSignUpModalOpen(true);
         return;
       }
 
