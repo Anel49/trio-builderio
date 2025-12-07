@@ -30,7 +30,7 @@ export function EmailSignupModal({
   onSwitchToLogin,
 }: EmailSignupModalProps) {
   const navigate = useNavigate();
-  const { checkAuth, user: authUser } = useAuth();
+  const { checkAuth } = useAuth();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
