@@ -174,7 +174,11 @@ export async function listListings(req: Request, res: Response) {
       }
     }
 
-    const listings = rows.map((r: any) => {
+    // Determine if there are more listings beyond this batch
+    const hasMore = rows.length > limit;
+    const displayRows = hasMore ? rows.slice(0, limit) : rows;
+
+    const listings = displayRows.map((r: any) => {
       const normalizedZip = normalizeZipCode(r.postcode);
 
       let distanceMiles: number | null = null;
