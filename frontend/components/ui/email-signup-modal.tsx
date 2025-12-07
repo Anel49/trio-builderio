@@ -51,6 +51,16 @@ export function EmailSignupModal({
   const [emailInUseModalOpen, setEmailInUseModalOpen] = useState(false);
   const [emailInUseError, setEmailInUseError] = useState<string>("");
 
+  // Load photo ID preview from localStorage when modal opens
+  React.useEffect(() => {
+    if (isOpen) {
+      const storedPhotoId = localStorage.getItem("signupPhotoIdPreview");
+      if (storedPhotoId) {
+        setPhotoId(storedPhotoId);
+      }
+    }
+  }, [isOpen]);
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const usernameRegex = /^[a-zA-Z0-9_.-]*$/;
 
