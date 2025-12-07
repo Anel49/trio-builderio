@@ -308,16 +308,14 @@ export function EmailSignupModal({
     setEmail("");
     setPassword("");
     setConfirmPassword("");
-    setPhotoId(null);
-    setPhotoIdS3Url(null);
+    setPhotoIds([]);
     setIsOver18(false);
     setShowPassword(false);
     setShowConfirmPassword(false);
     setError("");
     setSuccessMessage("");
-    // Clear photo ID preview and S3 URL from localStorage when closing modal
-    localStorage.removeItem("signupPhotoIdPreview");
-    localStorage.removeItem("signupPhotoIdS3Url");
+    // Clear photo IDs from localStorage when closing modal
+    localStorage.removeItem("signupPhotoIds");
     onOpenChange(false);
   };
 
