@@ -642,64 +642,34 @@ export default function Index() {
             <ViewAllButton />
           </div>
 
-          <div className="relative">
-            {/* Left Arrow */}
-            {/* will show only when can go back */}
-            {canScrollLeft && (
-              <button
-                aria-label="Previous"
-                className="flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 border rounded-full shadow p-2"
-                onClick={() => scrollByPage(-1)}
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-            )}
-
-            {/* Cards Row */}
-            <div
-              ref={listRef}
-              className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory pb-2 no-scrollbar ml-[55px] mr-[55px] pr-[55px]"
-            >
-              {listings.map((listing) => (
-                <div
-                  key={listing.id}
-                  className="snap-start min-w-[280px] sm:min-w-[320px]"
-                >
-                  <ProductCard
-                    id={listing.id}
-                    name={listing.name}
-                    price={listing.price}
-                    rating={listing.rating}
-                    reviews={listing.reviews}
-                    image={listing.image}
-                    host={listing.host}
-                    hostUserId={listing.hostUserId}
-                    hostUsername={listing.hostUsername}
-                    categories={
-                      listing.categories || (listing.type ? [listing.type] : [])
-                    }
-                    distance={listing.distance}
-                    onFavorite={handleFavorite}
-                    className="h-full"
-                    onClick={() =>
-                      (window.location.href = `/listing/${listing.id}`)
-                    }
-                    delivery={listing.delivery}
-                    freeDelivery={listing.freeDelivery}
-                    instantBookings={listing.instantBookings}
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Right Arrow */}
-            <button
-              aria-label="Next"
-              className="flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 border rounded-full shadow p-2"
-              onClick={() => scrollByPage(1)}
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {listings.map((listing) => (
+              <div key={listing.id}>
+                <ProductCard
+                  id={listing.id}
+                  name={listing.name}
+                  price={listing.price}
+                  rating={listing.rating}
+                  reviews={listing.reviews}
+                  image={listing.image}
+                  host={listing.host}
+                  hostUserId={listing.hostUserId}
+                  hostUsername={listing.hostUsername}
+                  categories={
+                    listing.categories || (listing.type ? [listing.type] : [])
+                  }
+                  distance={listing.distance}
+                  onFavorite={handleFavorite}
+                  className="h-full"
+                  onClick={() =>
+                    (window.location.href = `/listing/${listing.id}`)
+                  }
+                  delivery={listing.delivery}
+                  freeDelivery={listing.freeDelivery}
+                  instantBookings={listing.instantBookings}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
