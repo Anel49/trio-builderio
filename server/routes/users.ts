@@ -20,6 +20,7 @@ function rowToUser(r: any) {
     topReferrer: Boolean(r.top_referrer),
     ambassador: Boolean(r.ambassador),
     openDms: Boolean(r.open_dms),
+    active: Boolean(r.active ?? true),
   };
 }
 
@@ -56,7 +57,8 @@ export async function getUserById(req: Request, res: Response) {
             coalesce(founding_supporter,false) as founding_supporter,
             coalesce(top_referrer,false) as top_referrer,
             coalesce(ambassador,false) as ambassador,
-            coalesce(open_dms,true) as open_dms
+            coalesce(open_dms,true) as open_dms,
+            coalesce(active,true) as active
        from users where id = $1 limit 1`,
       [Number.parseInt(userId, 10)],
     );
@@ -88,7 +90,8 @@ export async function getUserByUsername(req: Request, res: Response) {
             coalesce(founding_supporter,false) as founding_supporter,
             coalesce(top_referrer,false) as top_referrer,
             coalesce(ambassador,false) as ambassador,
-            coalesce(open_dms,true) as open_dms
+            coalesce(open_dms,true) as open_dms,
+            coalesce(active,true) as active
        from users where lower(username) = $1 limit 1`,
       [username],
     );
@@ -116,7 +119,8 @@ export async function getUserByEmail(req: Request, res: Response) {
             coalesce(founding_supporter,false) as founding_supporter,
             coalesce(top_referrer,false) as top_referrer,
             coalesce(ambassador,false) as ambassador,
-            coalesce(open_dms,true) as open_dms
+            coalesce(open_dms,true) as open_dms,
+            coalesce(active,true) as active
        from users where email = $1 limit 1`,
       [email],
     );
