@@ -170,8 +170,7 @@ export function EmailSignupModal({
 
         // Store the S3 URL (without query params) for backend submission
         const s3Url = presignedData.presignedUrl.split("?")[0];
-        // Store the S3 URL in a separate state for form submission
-        // We'll use a ref or store it in a way that doesn't affect the preview display
+        setPhotoIdS3Url(s3Url);
         localStorage.setItem("signupPhotoIdS3Url", s3Url);
 
         console.log("[EmailSignupModal] Photo ID uploaded successfully to S3");
