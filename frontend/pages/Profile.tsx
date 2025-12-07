@@ -953,6 +953,7 @@ export default function Profile() {
       }
 
       setOtherUserNotFound(false);
+      setOtherUserDeactivated(false);
 
       // setPageLoading(true);
 
@@ -971,7 +972,8 @@ export default function Profile() {
         if (data.ok && data.user && !cancelled) {
           // Check if user account is deactivated
           if (data.user.active === false) {
-            setOtherUserNotFound(true);
+            setOtherUserDeactivated(true);
+            setOtherUserNotFound(false);
           } else {
             setOtherUserData(data.user);
             setOtherUserNotFound(false);
