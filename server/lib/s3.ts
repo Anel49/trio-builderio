@@ -420,7 +420,12 @@ export async function moveVerificationPhotoToUserFolder(
   userId: number | string,
 ): Promise<string> {
   try {
-    console.log("[S3] Moving verification photo from:", oldKey, "to user:", userId);
+    console.log(
+      "[S3] Moving verification photo from:",
+      oldKey,
+      "to user:",
+      userId,
+    );
 
     const s3Client = getS3Client();
 

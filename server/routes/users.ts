@@ -402,10 +402,7 @@ export async function emailSignup(req: Request, res: Response) {
           // Update finalPhotoId to the new S3 key
           finalPhotoId = newS3Key;
 
-          console.log(
-            "[emailSignup] Photo moved successfully to:",
-            newS3Key,
-          );
+          console.log("[emailSignup] Photo moved successfully to:", newS3Key);
         }
       } catch (photoError: any) {
         console.error(
@@ -421,7 +418,14 @@ export async function emailSignup(req: Request, res: Response) {
       `insert into user_credentials (user_id, first_name, last_name, email, password, photo_id)
        values ($1, $2, $3, $4, $5, $6)
        returning id`,
-      [userId, firstNameStr, lastNameStr, emailStr, hashedPassword, finalPhotoId],
+      [
+        userId,
+        firstNameStr,
+        lastNameStr,
+        emailStr,
+        hashedPassword,
+        finalPhotoId,
+      ],
     );
 
     const user = rowToUser(userResult.rows[0]);
