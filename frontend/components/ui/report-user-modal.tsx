@@ -120,8 +120,8 @@ export function ReportUserModal({
             )}
           </DialogHeader>
 
-          <ScrollArea className="h-[60vh] pr-4">
-            <div className="space-y-6">
+          <ScrollArea className="h-[60vh]">
+            <div className="space-y-6 pr-6">
               <div>
                 <h3 className="text-base font-medium mb-4">
                   Please select one or more categories that best describe the
