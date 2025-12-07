@@ -49,8 +49,6 @@ import {
   Shield,
   Zap,
   Menu,
-  ChevronRight,
-  ChevronLeft,
   Clock,
   Heart,
   MessageCircle,
