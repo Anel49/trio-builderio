@@ -1326,6 +1326,66 @@ export async function getPresignedProfileImageUrl(req: Request, res: Response) {
   }
 }
 
+export async function getPresignedPhotoIdUploadUrl(req: Request, res: Response) {
+  try {
+    const { filename, contentType } = req.body || {};
+
+    if (!filename || typeof filename !== "string" || filename.trim() === "") {
+      return res.status(400).json({ ok: false, error: "filename is required" });
+    }
+
+    if (!contentType || typeof contentType !== "string") {
+      return res
+        .status(400)
+        .json({ ok: false, error: "contentType is required" });
+    }
+
+    // Validate that it's an image or document file
+    const allowedTypes = ["image/", "application/pdf"];
+    const isAllowed = allowedTypes.some((type) =>
+      contentType.startsWith(type),
+    );
+
+    if (!isAllowed) {
+      return res.status(400).json({
+        ok: false,
+        error: "Only image and PDF files are allowed",
+      });
+    }
+
+    // For photo ID, we need a temporary user ID or generate a unique ID
+    // Since this is during signup, we'll use a temporary session or timestamp-based ID
+    const tempUserId = Math.floor(Date.now() / 1000); // Use timestamp as temporary ID
+
+    // Import S3 utilities
+    const { generatePresignedVerificationUploadUrl } = await import(
+      "../lib/s3"
+    );
+
+    // Generate presigned URL for photo ID upload to verification bucket
+    const presignedUrl = await generatePresignedVerificationUploadUrl(
+      tempUserId,
+      "photo_id",
+      filename.split(".").pop() || "jpg",
+    );
+
+    console.log("[getPresignedPhotoIdUploadUrl] Generated URL successfully");
+    console.log(
+      "[getPresignedPhotoIdUploadUrl] URL preview:",
+      presignedUrl.substring(0, 200) + "...",
+    );
+
+    res.json({
+      ok: true,
+      presignedUrl,
+      filename,
+    });
+  } catch (error: any) {
+    console.error("[getPresignedPhotoIdUploadUrl] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function createUserReview(req: Request, res: Response) {
   try {
     const reviewedUserId = Number((req.params as any)?.id);
