@@ -192,6 +192,7 @@ export function EmailSignupModal({
   };
 
   const handleClose = () => {
+    console.log("[EmailSignupModal] handleClose called, calling onOpenChange(false)");
     setFirstName("");
     setLastName("");
     setUsername("");
