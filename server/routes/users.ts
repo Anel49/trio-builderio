@@ -380,9 +380,49 @@ export async function emailSignup(req: Request, res: Response) {
 
     const hashedPassword = await argon2.hash(passwordStr);
 
-    // Move the photo from temp location to user's folder if provided
+    // Move all photos from temp location to user's folder if provided
     let finalPhotoId = photoIdStr;
-    if (photoIdStr) {
+    const photoIdsArray = Array.isArray(photo_ids) ? photo_ids : [];
+
+    if (photoIdsArray.length > 0) {
+      try {
+        const { extractS3KeyFromUrl } = await import("../lib/s3");
+        const { moveVerificationPhotoToUserFolder } = await import("../lib/s3");
+
+        // Process each photo with an increment number
+        const movedPhotoKeys: string[] = [];
+        for (let i = 0; i < photoIdsArray.length; i++) {
+          const photoUrl = photoIdsArray[i];
+          if (!photoUrl) continue;
+
+          const tempS3Key = extractS3KeyFromUrl(photoUrl);
+          if (tempS3Key) {
+            console.log(
+              "[emailSignup] Moving photo",
+              i + 1,
+              "from temp location to user folder:",
+              tempS3Key,
+            );
+            const newS3Key = await moveVerificationPhotoToUserFolder(
+              tempS3Key,
+              userId,
+              i + 1,
+            );
+            movedPhotoKeys.push(newS3Key);
+
+            // Set the first photo as the main photo
+            if (i === 0) {
+              finalPhotoId = newS3Key;
+            }
+          }
+        }
+
+        console.log("[emailSignup] Moved", movedPhotoKeys.length, "photos");
+      } catch (error) {
+        console.error("[emailSignup] Error moving photos:", error);
+      }
+    } else if (photoIdStr) {
+      // Fallback for single photo_id (backwards compatibility)
       try {
         const { extractS3KeyFromUrl } = await import("../lib/s3");
         const { moveVerificationPhotoToUserFolder } = await import("../lib/s3");
