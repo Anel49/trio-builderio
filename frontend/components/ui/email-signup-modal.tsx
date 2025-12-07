@@ -257,7 +257,8 @@ export function EmailSignupModal({
           email: email.trim(),
           password,
           confirm_password: confirmPassword,
-          photo_id: photoIdS3Url,
+          photo_ids: photoIds.map((p) => p.s3Url),
+          photo_id: photoIds.length > 0 ? photoIds[0].s3Url : null,
         }),
       });
 
