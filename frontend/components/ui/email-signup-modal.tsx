@@ -133,8 +133,8 @@ export function EmailSignupModal({
         }
 
         // Generate a temporary ID for this photo (will be renamed after signup)
-        const { randomUUID } = require("crypto");
-        const tempId = randomUUID?.() || `temp_${Date.now()}_${i}`;
+        // In browser, we use timestamp-based ID since crypto.randomUUID() is not available via require
+        const tempId = `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${i}`;
 
         // Create a local preview data URL immediately
         const dataUrl = await new Promise<string>((resolve, reject) => {
