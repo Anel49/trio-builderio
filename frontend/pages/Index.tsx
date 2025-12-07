@@ -340,6 +340,19 @@ export default function Index() {
   ];
 
   const [listings, setListings] = useState(featuredListings);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1500,
+  );
+
+  // Track window resize to determine how many listings to show
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
