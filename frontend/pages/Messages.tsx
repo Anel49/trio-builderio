@@ -70,6 +70,7 @@ export default function Messages() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isReportUserModalOpen, setIsReportUserModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(() => {
     const userIdFromUrl = searchParams.get("userId");
     return userIdFromUrl ? parseInt(userIdFromUrl) : null;
