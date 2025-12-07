@@ -82,7 +82,7 @@ export const PrivacyContent = () => (
         <li>Location data</li>
         <li>Price</li>
         <li>Description</li>
-        <li>Tags</li>
+        <li>Categories</li>
         <li>Availability</li>
         <li>Reviews</li>
       </ul>
