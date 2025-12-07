@@ -183,7 +183,7 @@ export function ReportUserModal({
                 />
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <div className="flex flex-col gap-3 pt-4 [@media(min-width:500px)]:flex-row">
                 <Button
                   onClick={handleSubmit}
                   disabled={selectedCategories.length === 0}
