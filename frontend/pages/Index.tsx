@@ -660,9 +660,12 @@ export default function Index() {
             <ViewAllButton />
           </div>
 
-          <div className="flex gap-6 pb-2">
-            {visibleListings.map((listing) => (
-              <div key={listing.id} className="flex-1 min-w-0">
+          <div
+            className="grid gap-6 pb-2"
+            style={{ gridTemplateColumns: `repeat(${getGridCols()}, 1fr)` }}
+          >
+            {listings.map((listing) => (
+              <div key={listing.id}>
                 <ProductCard
                   id={listing.id}
                   name={listing.name}
