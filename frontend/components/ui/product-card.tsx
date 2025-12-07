@@ -226,7 +226,6 @@ export function ProductCard({
                       e.stopPropagation();
                       onDisableClick();
                     }}
-                    className="text-yellow-600 focus:bg-yellow-50 focus:text-yellow-600"
                   >
                     Disable
                   </DropdownMenuItem>
@@ -237,7 +236,6 @@ export function ProductCard({
                       e.stopPropagation();
                       onEnableClick();
                     }}
-                    className="text-green-600 focus:bg-green-50 focus:text-green-600"
                   >
                     Enable
                   </DropdownMenuItem>
@@ -248,7 +246,6 @@ export function ProductCard({
                       e.stopPropagation();
                       onDeleteClick();
                     }}
-                    className="text-red-600 dark:text-red-400 focus:bg-red-50 focus:text-red-600 dark:focus:text-red-400"
                   >
                     Delete
                   </DropdownMenuItem>
