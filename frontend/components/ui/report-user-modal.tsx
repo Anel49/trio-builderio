@@ -123,7 +123,7 @@ export function ReportUserModal({
           <ScrollArea className="h-[60vh]">
             <div className="space-y-6 pr-8">
               <div>
-                <h3 className="text-base font-medium mb-4 pr-4">
+                <h3 className="text-base font-medium mb-4 pr-8">
                   Please select one or more categories that best describe the
                   issue:
                 </h3>
