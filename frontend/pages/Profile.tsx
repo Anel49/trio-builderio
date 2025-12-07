@@ -1611,10 +1611,7 @@ export default function Profile() {
 
   // Handle logout and redirect after success modal closes
   useEffect(() => {
-    if (
-      !isDeactivationSuccessModalOpen &&
-      shouldLogoutAfterDeactivation
-    ) {
+    if (!isDeactivationSuccessModalOpen && shouldLogoutAfterDeactivation) {
       const handleLogoutAndRedirect = async () => {
         // Wait for modal animation to complete
         await new Promise((resolve) => setTimeout(resolve, 300));
@@ -1624,7 +1621,12 @@ export default function Profile() {
       handleLogoutAndRedirect();
       setShouldLogoutAfterDeactivation(false);
     }
-  }, [isDeactivationSuccessModalOpen, shouldLogoutAfterDeactivation, logout, navigate]);
+  }, [
+    isDeactivationSuccessModalOpen,
+    shouldLogoutAfterDeactivation,
+    logout,
+    navigate,
+  ]);
 
   // If redirecting from /profile/:username to /profile (own profile), don't render the other user view
   if (isOwnUsername && username) {
