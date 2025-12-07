@@ -442,37 +442,6 @@ export default function Index() {
     },
   ];
 
-  const listRef = useRef<HTMLDivElement | null>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-
-  useEffect(() => {
-    const el = listRef.current;
-    if (!el) return;
-    const onScroll = () => setCanScrollLeft(el.scrollLeft > 0);
-    onScroll();
-    el.addEventListener("scroll", onScroll, { passive: true } as any);
-    return () => el.removeEventListener("scroll", onScroll as any);
-  }, []);
-
-  useEffect(() => {
-    const el = listRef.current;
-    if (el) {
-      el.scrollLeft = 0;
-    }
-  }, [listings]);
-
-  const scrollByPage = useCallback((dir: 1 | -1) => {
-    const el = listRef.current;
-    if (!el) return;
-    const amount = el.clientWidth * 0.9;
-    const maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
-    let target = dir > 0 ? el.scrollLeft + amount : el.scrollLeft - amount;
-    if (dir > 0 && el.scrollLeft + el.clientWidth >= maxScrollLeft - 5) {
-      target = 0;
-    }
-    target = Math.max(0, Math.min(target, maxScrollLeft));
-    el.scrollTo({ left: target, behavior: "smooth" });
-  }, []);
 
   return (
     <div className="min-h-screen bg-background">
