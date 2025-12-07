@@ -50,6 +50,7 @@ export function EmailSignupModal({
   const [useGoogleSignup, setUseGoogleSignup] = useState(false);
   const [emailInUseModalOpen, setEmailInUseModalOpen] = useState(false);
   const [emailInUseError, setEmailInUseError] = useState<string>("");
+  const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const usernameRegex = /^[a-zA-Z0-9_-]*$/;
