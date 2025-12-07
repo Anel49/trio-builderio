@@ -65,8 +65,8 @@ export const PrivacyContent = () => (
       <p className="font-semibold mb-4">User Information</p>
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground mb-4">
         <li>Profile name</li>
-        <li>Profile picture (optional)</li>
-        <li>Default zip code (optional)</li>
+        <li>Profile picture</li>
+        <li>Default zip code</li>
         <li>User listings</li>
         <li>User reviews</li>
         <li>Submitted reviews</li>
