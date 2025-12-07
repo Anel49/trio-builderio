@@ -37,8 +37,7 @@ export function EmailSignupModal({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [photoId, setPhotoId] = useState<string | null>(null);
-  const [photoIdS3Url, setPhotoIdS3Url] = useState<string | null>(null);
+  const [photoIds, setPhotoIds] = useState<Array<{ tempId: string; preview: string; s3Url: string }>>([]);
   const [isOver18, setIsOver18] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -52,16 +51,19 @@ export function EmailSignupModal({
   const [emailInUseModalOpen, setEmailInUseModalOpen] = useState(false);
   const [emailInUseError, setEmailInUseError] = useState<string>("");
 
-  // Load photo ID preview and S3 URL from localStorage when modal opens
+  // Load photo ID previews and S3 URLs from localStorage when modal opens
   React.useEffect(() => {
     if (isOpen) {
-      const storedPreview = localStorage.getItem("signupPhotoIdPreview");
-      const storedS3Url = localStorage.getItem("signupPhotoIdS3Url");
-      if (storedPreview) {
-        setPhotoId(storedPreview);
-      }
-      if (storedS3Url) {
-        setPhotoIdS3Url(storedS3Url);
+      try {
+        const storedPhotos = localStorage.getItem("signupPhotoIds");
+        if (storedPhotos) {
+          const photos = JSON.parse(storedPhotos);
+          if (Array.isArray(photos)) {
+            setPhotoIds(photos);
+          }
+        }
+      } catch (err) {
+        console.error("[EmailSignupModal] Error loading photos from localStorage:", err);
       }
     }
   }, [isOpen]);
