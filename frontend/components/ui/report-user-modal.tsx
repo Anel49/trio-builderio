@@ -212,7 +212,7 @@ export function ReportUserModal({
           </DialogHeader>
           <div className="text-center space-y-4 py-4">
             <div>
-              <p className="font-bold">{userName?.trim()} has been reported.</p>
+              <p className="font-bold">{userName} has been reported.</p>
               <p className="text-sm text-muted-foreground mt-2">
                 We appreciate your care and concern!
               </p>
