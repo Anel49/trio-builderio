@@ -109,33 +109,71 @@ export function EmailSignupModal({
     return errors;
   };
 
-  const handlePhotoIdUpload = (
+  const handlePhotoIdUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = e.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
+    if (file) {
       try {
         setError("");
 
-        // Create a data URL from the file for local preview
+        // Create a local preview data URL immediately
         const reader = new FileReader();
         reader.onload = (event) => {
           const dataUrl = event.target?.result as string;
-          // Store the data URL in both state and localStorage
-          setPhotoId(dataUrl);
+          // Store the preview data URL in localStorage for display
           localStorage.setItem("signupPhotoIdPreview", dataUrl);
-          console.log("[EmailSignupModal] Photo ID preview stored locally");
-        };
-        reader.onerror = () => {
-          setError("Failed to read photo ID file. Please try again.");
+          setPhotoId(dataUrl);
         };
         reader.readAsDataURL(file);
+
+        // Get presigned URL from backend
+        const presignedResponse = await apiFetch(
+          "/users/presigned-photo-id-url",
+          {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              filename: file.name,
+              contentType: file.type,
+            }),
+          },
+        );
+
+        const presignedData = await presignedResponse.json().catch(() => ({}));
+
+        if (!presignedResponse.ok || !presignedData.presignedUrl) {
+          setError(
+            presignedData.error || "Failed to get upload URL from server",
+          );
+          return;
+        }
+
+        // Upload file to S3 using presigned URL
+        const uploadResponse = await fetch(presignedData.presignedUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": file.type,
+          },
+          body: file,
+        });
+
+        if (!uploadResponse.ok) {
+          setError("Failed to upload photo ID to storage");
+          return;
+        }
+
+        // Store the S3 URL (without query params) for backend submission
+        const s3Url = presignedData.presignedUrl.split("?")[0];
+        // Store the S3 URL in a separate state for form submission
+        // We'll use a ref or store it in a way that doesn't affect the preview display
+        localStorage.setItem("signupPhotoIdS3Url", s3Url);
+
+        console.log("[EmailSignupModal] Photo ID uploaded successfully to S3");
       } catch (err) {
         console.error("[EmailSignupModal] Photo upload error:", err);
         setError("Failed to upload photo ID. Please try again.");
       }
-    } else {
-      setError("Please select a valid image file.");
     }
   };
 
