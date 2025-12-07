@@ -346,14 +346,6 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table if exists messages drop column if exists to_name;
       alter table if exists messages add column if not exists from_id integer references users(id) on delete set null;
       alter table if exists messages add column if not exists to_id integer references users(id) on delete set null;
-      create table if not exists reviews (
-        id serial primary key,
-        listing_id integer not null references listings(id),
-        reviewer text,
-        rating numeric(2,1),
-        comment text,
-        created_at timestamptz default now()
-      );
       create table if not exists listing_reviews (
         id serial primary key,
         listing_id integer not null references listings(id),
