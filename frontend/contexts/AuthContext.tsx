@@ -3,6 +3,8 @@ import {
   saveLocationToLocalStorage,
   clearLocationFromLocalStorage,
   hasLocationInLocalStorage,
+  wasLocationClearedThisSession,
+  resetLocationClearedFlag,
 } from "@/lib/location-storage";
 
 export interface User {
@@ -63,7 +65,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           setAuthenticated(true);
 
           // Save user's location to localStorage on first login if not already set
-          if (data.user && !hasLocationInLocalStorage()) {
+          // and user hasn't explicitly cleared it this session
+          if (
+            data.user &&
+            !hasLocationInLocalStorage() &&
+            !wasLocationClearedThisSession()
+          ) {
             saveLocationToLocalStorage(
               data.user.locationLatitude,
               data.user.locationLongitude,
@@ -123,8 +130,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       });
       setUser(null);
       setAuthenticated(false);
-      // Clear location data on logout so next login gets fresh profile location
+      // Clear location data and session flag on logout so next login gets fresh profile location
       clearLocationFromLocalStorage();
+      resetLocationClearedFlag();
     } catch (error) {
       console.error("Logout failed:", error);
     }
