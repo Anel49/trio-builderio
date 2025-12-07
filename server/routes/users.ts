@@ -1195,6 +1195,14 @@ export async function googleOAuth(req: Request, res: Response) {
 
       userId = userInsertResult.rows[0].id;
 
+      // Set founding_supporter to true if id <= 1001
+      if (userId <= 1001) {
+        await pool.query(
+          `update users set founding_supporter = true where id = $1`,
+          [userId],
+        );
+      }
+
       // Create user credentials for OAuth user (password is NULL)
       await pool.query(
         `insert into user_credentials (user_id, email, password, first_name, last_name, photo_id, oauth)
