@@ -805,12 +805,6 @@ export default function BrowseListings() {
     };
   }, [filterLocation, authenticated, authUser?.id]);
 
-  // Reset pagination when client-side filters change (search query, applied filters, sort)
-  React.useEffect(() => {
-    setLoadMoreOffset(18);
-    setHasMoreListings(false);
-  }, [searchQuery, appliedFilters, sortBy]);
-
   // Load more listings handler
   const handleLoadMore = React.useCallback(async () => {
     if (isLoadingMore || !hasMoreListings) {
