@@ -1601,12 +1601,28 @@ export default function Profile() {
       setIsDeactivationVerifyModalOpen(false);
       setDeactivationVerifyInput("");
       setIsDeactivationSuccessModalOpen(true);
+      setShouldLogoutAfterDeactivation(true);
     } catch (error) {
       console.error("Error deactivating account:", error);
     } finally {
       setIsDeactivating(false);
     }
   }, []);
+
+  // Handle logout and redirect after success modal closes
+  useEffect(() => {
+    if (
+      !isDeactivationSuccessModalOpen &&
+      shouldLogoutAfterDeactivation
+    ) {
+      const handleLogoutAndRedirect = async () => {
+        await logout();
+        navigate("/");
+      };
+      handleLogoutAndRedirect();
+      setShouldLogoutAfterDeactivation(false);
+    }
+  }, [isDeactivationSuccessModalOpen, shouldLogoutAfterDeactivation, logout, navigate]);
 
   // If redirecting from /profile/:username to /profile (own profile), don't render the other user view
   if (isOwnUsername && username) {
