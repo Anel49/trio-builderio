@@ -732,6 +732,10 @@ export default function BrowseListings() {
           // setPageLoading(false);
           return;
         }
+        // Reset pagination state for new query
+        setLoadMoreOffset(18);
+        setHasMoreListings(typeof d.hasMore === "boolean" ? d.hasMore : false);
+
         const mapped = d.listings.map((l: any) => {
           const categories =
             Array.isArray(l.categories) && l.categories.length
