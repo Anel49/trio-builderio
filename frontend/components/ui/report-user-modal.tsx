@@ -115,7 +115,7 @@ export function ReportUserModal({
             <DialogTitle>Report User</DialogTitle>
             {userName && (
               <p className="text-sm text-muted-foreground">
-                Reporting: "{userName}"
+                Reporting: "{userName.trim()}"
               </p>
             )}
           </DialogHeader>
