@@ -38,6 +38,7 @@ import {
   changePassword,
   changeEmail,
   changeUsername,
+  deactivateAccount,
   passwordResetRequest,
   passwordResetVerify,
   passwordReset,
