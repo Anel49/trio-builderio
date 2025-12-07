@@ -16,7 +16,6 @@ import {
   deleteListing,
   toggleListingEnabled,
   getListingById,
-  listListingReviews,
   listListingReservations,
   bulkUpdateListingsEnabled,
   createReservation,
