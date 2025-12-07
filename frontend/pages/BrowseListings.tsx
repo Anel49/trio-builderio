@@ -852,9 +852,7 @@ export default function BrowseListings() {
           rating: typeof l.rating === "number" ? l.rating : null,
           reviews: typeof l.reviews === "number" ? l.reviews : undefined,
           image:
-            Array.isArray(l.images) && l.images.length
-              ? l.images[0]
-              : l.image,
+            Array.isArray(l.images) && l.images.length ? l.images[0] : l.image,
           host: l.host,
           hostUserId:
             typeof l.hostUserId === "number" ? l.hostUserId : undefined,
@@ -898,7 +896,14 @@ export default function BrowseListings() {
     } finally {
       setIsLoadingMore(false);
     }
-  }, [loadMoreOffset, isLoadingMore, hasMoreListings, filterLocation, authenticated, authUser?.id]);
+  }, [
+    loadMoreOffset,
+    isLoadingMore,
+    hasMoreListings,
+    filterLocation,
+    authenticated,
+    authUser?.id,
+  ]);
 
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
   const [hoveredListing, setHoveredListing] = useState<number | null>(null);
