@@ -214,6 +214,7 @@ export function EmailSignupModal({
         onSignupSuccess();
       }
       await checkAuth();
+      navigate("/profile");
     }
   };
 
