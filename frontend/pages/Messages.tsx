@@ -783,6 +783,11 @@ export default function Messages() {
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
       />
+      <ReportUserModal
+        isOpen={isReportUserModalOpen}
+        onOpenChange={setIsReportUserModalOpen}
+        userName={selectedChat?.name}
+      />
 
       {/* Contact Support Modal */}
       <Dialog open={supportModalOpen} onOpenChange={setSupportModalOpen}>
