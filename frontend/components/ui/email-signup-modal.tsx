@@ -292,17 +292,20 @@ export function EmailSignupModal({
   };
 
   // Navigate to profile after successful signup
+  const { user: authUser } = useAuth();
   React.useEffect(() => {
     console.log(
       "[EmailSignupModal] useEffect triggered, shouldNavigate:",
       shouldNavigate,
     );
-    if (shouldNavigate) {
-      console.log("[EmailSignupModal] Navigating to /profile");
+    if (shouldNavigate && authUser?.username) {
+      console.log(
+        "[EmailSignupModal] Navigating to /profile/" + authUser.username,
+      );
       setShouldNavigate(false);
-      navigate("/profile");
+      navigate(`/profile/${authUser.username}`);
     }
-  }, [shouldNavigate, navigate]);
+  }, [shouldNavigate, authUser, navigate]);
 
   const handleGoogleSignup = useGoogleLogin({
     onSuccess: async (codeResponse) => {
