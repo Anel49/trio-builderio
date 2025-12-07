@@ -3498,13 +3498,7 @@ export default function Profile() {
       {/* Account Deactivation Success Modal */}
       <Dialog
         open={isDeactivationSuccessModalOpen}
-        onOpenChange={async (open) => {
-          if (!open) {
-            // When modal closes, log out and navigate to home
-            await logout();
-            navigate("/");
-          }
-        }}
+        onOpenChange={setIsDeactivationSuccessModalOpen}
       >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -3518,7 +3512,11 @@ export default function Profile() {
           <DialogFooter>
             <Button
               type="button"
-              onClick={() => setIsDeactivationSuccessModalOpen(false)}
+              onClick={async () => {
+                setIsDeactivationSuccessModalOpen(false);
+                await logout();
+                navigate("/");
+              }}
             >
               OK
             </Button>
