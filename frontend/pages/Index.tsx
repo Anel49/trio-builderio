@@ -434,7 +434,7 @@ export default function Index() {
 
   // Determine how many listings to show based on screen width
   const getVisibleListingsCount = () => {
-    if (windowWidth < 350) return 1;
+    if (windowWidth < 575) return 1;
     if (windowWidth < 900) return 2;
     if (windowWidth < 1350) return 3;
     return 4;
