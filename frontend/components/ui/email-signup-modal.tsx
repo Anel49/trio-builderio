@@ -101,14 +101,55 @@ export function EmailSignupModal({
     return errors;
   };
 
-  const handlePhotoIdUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoIdUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoId(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      try {
+        setError("");
+
+        // Get presigned URL from backend
+        const presignedResponse = await apiFetch("/users/presigned-photo-id-url", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            filename: file.name,
+            contentType: file.type,
+          }),
+        });
+
+        const presignedData = await presignedResponse.json().catch(() => ({}));
+
+        if (!presignedResponse.ok || !presignedData.presignedUrl) {
+          setError(
+            presignedData.error || "Failed to get upload URL from server",
+          );
+          return;
+        }
+
+        // Upload file to S3 using presigned URL
+        const uploadResponse = await fetch(presignedData.presignedUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": file.type,
+          },
+          body: file,
+        });
+
+        if (!uploadResponse.ok) {
+          setError("Failed to upload photo ID to storage");
+          return;
+        }
+
+        // Store the S3 file reference (presigned URL without query params)
+        // We'll store the file reference in the format that can be retrieved later
+        const s3Url = presignedData.presignedUrl.split("?")[0];
+        setPhotoId(s3Url);
+
+        console.log("[EmailSignupModal] Photo ID uploaded successfully to S3");
+      } catch (err) {
+        console.error("[EmailSignupModal] Photo upload error:", err);
+        setError("Failed to upload photo ID. Please try again.");
+      }
     }
   };
 
