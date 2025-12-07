@@ -108,7 +108,7 @@ export async function listListings(req: Request, res: Response) {
       }
 
       sql += ` group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.postcode, l.created_at, l.latitude, l.longitude, l.host_id, l.delivery, l.free_delivery, l.enabled, l.instant_bookings, u.open_dms, u.created_at, u.username
-               order by l.created_at desc limit 50`;
+               order by l.created_at desc limit 18`;
 
       console.log("[listListings] Executing SQL:", sql, "Params:", params);
 
