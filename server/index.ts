@@ -569,6 +569,7 @@ export function createServer() {
   app.post("/users/change-password", changePassword);
   app.post("/users/change-email", changeEmail);
   app.post("/users/change-username", changeUsername);
+  app.post("/users/presigned-photo-id-url", getPresignedPhotoIdUploadUrl);
   app.post("/password-reset-request", passwordResetRequest);
   app.post("/password-reset-verify", passwordResetVerify);
   app.post("/password-reset", passwordReset);
