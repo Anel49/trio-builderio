@@ -949,6 +949,23 @@ export async function dbSetup(_req: Request, res: Response) {
           );
         }
       }
+
+      // Drop orders constraints for user references to allow user deletion
+      const orderConstraints = ["renter_id", "host_id"];
+      for (const column of orderConstraints) {
+        const constraintName = `orders_${column}_fkey`;
+        try {
+          await pool.query(
+            `alter table orders drop constraint if exists ${constraintName}`,
+          );
+          console.log(`[dbSetup] Dropped constraint ${constraintName}`);
+        } catch (e: any) {
+          console.log(
+            `[dbSetup] Could not drop ${constraintName}:`,
+            e?.message?.slice(0, 100),
+          );
+        }
+      }
     } catch (e: any) {
       console.log("[dbSetup] Error removing constraints:", e?.message);
     }
