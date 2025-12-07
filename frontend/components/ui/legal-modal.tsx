@@ -151,7 +151,7 @@ export const PrivacyContent = () => (
       <h3 className="text-lg font-semibold mb-3">Contact Us</h3>
       <p className="text-muted-foreground">
         If you have any questions about this Privacy Policy, please contact us
-        at {PRIVACY_EMAIL} or through our support channels.
+        at {PRIVACY_EMAIL}.
       </p>
     </section>
   </>
