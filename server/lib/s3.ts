@@ -8,7 +8,11 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const bucketName = "lendit-files";
-const verificationBucketName = process.env.AWS_LENDIT_VERIFICATION_S3_BUCKET_NAME || "lendit-verification";
+// Support both underscore and hyphenated versions of the env var
+const verificationBucketName =
+  process.env.AWS_LENDIT_VERIFICATION_S3_BUCKET_NAME ||
+  process.env["AWS_LENDIT-VERIFICATION_S3_BUCKET_NAME"] ||
+  "lendit-verification";
 
 let cachedS3Client: S3Client | null = null;
 let cachedAccessKeyId: string | null = null;
