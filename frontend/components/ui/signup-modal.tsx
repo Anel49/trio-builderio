@@ -220,6 +220,16 @@ export function SignUpModal({
     window.location.reload();
   };
 
+  // Facebook OAuth signup handler
+  const handleFacebookSignupSuccess = (response: any) => {
+    handleOAuthSuccess("facebook", response);
+  };
+
+  // Microsoft OAuth signup handler
+  const handleMicrosoftSignupSuccess = (response: any) => {
+    handleOAuthSuccess("microsoft", response);
+  };
+
   // Load Google OAuth2 script
   const loadGoogleScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
