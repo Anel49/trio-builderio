@@ -309,6 +309,16 @@ export function SignUpModal({
           </DialogHeader>
 
           <div className="space-y-6 p-2">
+            {uploadedImagePreview && (
+              <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                <img
+                  src={uploadedImagePreview}
+                  alt="Your listing preview"
+                  className="w-full h-40 object-cover"
+                />
+              </div>
+            )}
+
             <div className="text-center">
               <p className="text-muted-foreground">
                 Create your account to start renting
