@@ -1682,6 +1682,12 @@ export default function Profile() {
                       >
                         Change email
                       </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => setIsDeactivationConfirmModalOpen(true)}
+                        className="text-destructive"
+                      >
+                        Inactivate my account
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
