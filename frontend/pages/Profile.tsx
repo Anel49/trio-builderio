@@ -1573,6 +1573,34 @@ export default function Profile() {
     );
   }, [filteredAndSortedSellerReviews, currentSellerReviewPage]);
 
+  // Handle account deactivation
+  const handleDeactivateAccount = useCallback(async () => {
+    setIsDeactivating(true);
+    try {
+      const response = await apiFetch("users/deactivate", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+      });
+
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok || !payload?.ok) {
+        console.error("Failed to deactivate account:", payload?.error);
+        return;
+      }
+
+      // Close modals and logout
+      setIsDeactivationVerifyModalOpen(false);
+      setDeactivationVerifyInput("");
+      await logout();
+      navigate("/");
+    } catch (error) {
+      console.error("Error deactivating account:", error);
+    } finally {
+      setIsDeactivating(false);
+    }
+  }, [logout, navigate]);
+
   // If redirecting from /profile/:username to /profile (own profile), don't render the other user view
   if (isOwnUsername && username) {
     return null;
