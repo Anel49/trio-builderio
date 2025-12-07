@@ -1616,6 +1616,8 @@ export default function Profile() {
       shouldLogoutAfterDeactivation
     ) {
       const handleLogoutAndRedirect = async () => {
+        // Wait for modal animation to complete
+        await new Promise((resolve) => setTimeout(resolve, 300));
         await logout();
         navigate("/");
       };
