@@ -935,7 +935,6 @@ export async function dbSetup(_req: Request, res: Response) {
         { table: "listing_reviews", column: "reviewer_id" },
         { table: "user_reviews", column: "reviewed_user_id" },
         { table: "user_reviews", column: "reviewer_id" },
-        { table: "user_credentials", column: "user_id" },
       ];
 
       for (const constraint of constraintsToDrop) {
