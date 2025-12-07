@@ -36,7 +36,8 @@ export function EmailLoginModal({
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
-  const [isAccountDeactivatedOpen, setIsAccountDeactivatedOpen] = useState(false);
+  const [isAccountDeactivatedOpen, setIsAccountDeactivatedOpen] =
+    useState(false);
 
   const mapErrorToField = (errorMsg: string): Record<string, string> => {
     const errors: Record<string, string> = {};

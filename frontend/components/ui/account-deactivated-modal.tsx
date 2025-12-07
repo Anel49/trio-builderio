@@ -25,7 +25,10 @@ export function AccountDeactivatedModal({
         </DialogHeader>
         <DialogDescription className="text-base">
           Your account is inactive. To reactivate it, please contact support at{" "}
-          <a href={`mailto:${COMPANY_EMAIL}`} className="text-primary hover:underline font-medium">
+          <a
+            href={`mailto:${COMPANY_EMAIL}`}
+            className="text-primary hover:underline font-medium"
+          >
             {COMPANY_EMAIL}
           </a>
           .
