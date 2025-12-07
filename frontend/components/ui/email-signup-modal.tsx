@@ -215,15 +215,17 @@ export function EmailSignupModal({
         onSignupSuccess();
       }
       await checkAuth();
+      setShouldNavigate(true);
     }
   };
 
-  // Navigate to profile after modal closes
+  // Navigate to profile after successful signup
   React.useEffect(() => {
-    if (!isOpen && !isSuccessModalOpen) {
+    if (shouldNavigate) {
+      setShouldNavigate(false);
       navigate("/profile");
     }
-  }, [isOpen, isSuccessModalOpen, navigate]);
+  }, [shouldNavigate, navigate]);
 
   const handleGoogleSignup = useGoogleLogin({
     onSuccess: async (codeResponse) => {
