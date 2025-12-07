@@ -432,15 +432,13 @@ export default function Index() {
     { name: "Instruments", icon: "🎷" },
   ];
 
-  // Determine how many listings to show based on screen width
-  const getVisibleListingsCount = () => {
+  // Determine grid columns based on screen width
+  const getGridCols = () => {
     if (windowWidth < 575) return 1;
     if (windowWidth < 900) return 2;
     if (windowWidth < 1350) return 3;
     return 4;
   };
-
-  const visibleListings = listings.slice(0, getVisibleListingsCount());
 
   const benefits = [
     {
