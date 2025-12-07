@@ -322,8 +322,10 @@ export function EmailSignupModal({
         const data = await response.json().catch(() => ({}));
 
         if (response.ok && data.ok && data.user) {
-          // Clear the image preview from localStorage after successful signup
+          // Clear the image previews from localStorage after successful signup
           localStorage.removeItem("uploadSessionImagePreview");
+          localStorage.removeItem("signupPhotoIdPreview");
+          localStorage.removeItem("signupPhotoIdS3Url");
           await checkAuth();
           handleClose();
           if (onSignupSuccess) {
