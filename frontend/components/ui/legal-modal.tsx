@@ -138,9 +138,9 @@ export const PrivacyContent = () => (
       <ul className="list-disc pl-6 space-y-2 text-muted-foreground mb-3">
         <li>Access and review your personal information</li>
         <li>Correct inaccurate or incomplete information</li>
-        <li>Delete your account and personal information</li>
         <li>Export your data in a portable format</li>
         <li>Opt out of certain communications</li>
+        <li>Delete your account and personal information</li>
       </ul>
       <p className="text-muted-foreground mb-4">
         If you wish to review or delete your information, please contact support at {PRIVACY_EMAIL}.
