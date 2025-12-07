@@ -708,6 +708,7 @@ export function EmailSignupModal({
               console.log(
                 "[EmailSignupModal] Continue to Dashboard button clicked",
               );
+              setUserClickedContinue(true);
               await handleSuccessModalClose(false);
             }}
           >
