@@ -431,9 +431,7 @@ export async function moveVerificationPhotoToUserFolder(
     const newKey = `users/${userId}/photo_id.${fileExtension}`;
 
     // Copy the object from old location to new location
-    const copyCommand = new (
-      await import("@aws-sdk/client-s3")
-    ).CopyObjectCommand({
+    const copyCommand = new CopyObjectCommand({
       Bucket: verificationBucketName,
       CopySource: `${verificationBucketName}/${oldKey}`,
       Key: newKey,
