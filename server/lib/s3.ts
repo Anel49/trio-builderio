@@ -409,6 +409,55 @@ export function getVerificationDocumentUrl(
 }
 
 /**
+ * Move a verification photo from temp location to user location in the verification bucket
+ * @param oldKey - The old S3 key (temporary location)
+ * @param userId - The user ID
+ * @returns The new S3 key
+ */
+export async function moveVerificationPhotoToUserFolder(
+  oldKey: string,
+  userId: number,
+): Promise<string> {
+  try {
+    console.log("[S3] Moving verification photo from:", oldKey, "to user:", userId);
+
+    const s3Client = getS3Client();
+
+    // Extract the file extension from the old key
+    const fileExtension = oldKey.split(".").pop() || "jpg";
+
+    // Create new key with user ID
+    const newKey = `users/${userId}/photo_id.${fileExtension}`;
+
+    // Copy the object from old location to new location
+    const copyCommand = new (
+      await import("@aws-sdk/client-s3")
+    ).CopyObjectCommand({
+      Bucket: verificationBucketName,
+      CopySource: `${verificationBucketName}/${oldKey}`,
+      Key: newKey,
+    });
+
+    await s3Client.send(copyCommand);
+    console.log("[S3] Copied photo to new location:", newKey);
+
+    // Delete the old object
+    const deleteCommand = new DeleteObjectCommand({
+      Bucket: verificationBucketName,
+      Key: oldKey,
+    });
+
+    await s3Client.send(deleteCommand);
+    console.log("[S3] Deleted photo from temp location:", oldKey);
+
+    return newKey;
+  } catch (error) {
+    console.error("[S3] Error moving verification photo:", error);
+    throw error;
+  }
+}
+
+/**
  * Get the MIME type for a file extension
  * @param ext - The file extension
  * @returns The MIME type
