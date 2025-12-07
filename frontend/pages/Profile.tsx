@@ -280,6 +280,8 @@ export default function Profile() {
   const [isDeactivating, setIsDeactivating] = useState(false);
   const [isDeactivationSuccessModalOpen, setIsDeactivationSuccessModalOpen] =
     useState(false);
+  const [shouldLogoutAfterDeactivation, setShouldLogoutAfterDeactivation] =
+    useState(false);
   const [isPasswordChangeSuccessOpen, setIsPasswordChangeSuccessOpen] =
     useState(false);
   const [isEmailChangeSuccessOpen, setIsEmailChangeSuccessOpen] =
