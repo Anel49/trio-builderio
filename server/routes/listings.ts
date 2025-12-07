@@ -70,6 +70,24 @@ export async function listListings(req: Request, res: Response) {
           ? userIdParam
           : null;
 
+    // Parse pagination parameters
+    const offsetParam = query.offset;
+    const limitParam = query.limit;
+    const offset =
+      typeof offsetParam === "string"
+        ? Math.max(0, Number.parseInt(offsetParam, 10))
+        : typeof offsetParam === "number"
+          ? Math.max(0, offsetParam)
+          : 0;
+    const limit =
+      typeof limitParam === "string"
+        ? Math.max(1, Number.parseInt(limitParam, 10))
+        : typeof limitParam === "number"
+          ? Math.max(1, limitParam)
+          : 18;
+
+    console.log("[listListings] Pagination: offset=", offset, "limit=", limit);
+
     let result: any;
     try {
       let sql = `select l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.postcode, l.created_at, l.latitude, l.longitude, l.host_id,
