@@ -83,6 +83,8 @@ export function SignUpModal({
         const data = await response.json().catch(() => ({}));
 
         if (response.ok && data.ok && data.user) {
+          // Clear the image preview from localStorage after successful signup
+          localStorage.removeItem("uploadSessionImagePreview");
           await checkAuth();
           onOpenChange(false);
         } else if (data.error === "email_in_use") {
