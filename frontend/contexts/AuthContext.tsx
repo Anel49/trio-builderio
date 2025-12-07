@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { saveLocationToLocalStorage } from "@/lib/location-storage";
+import {
+  saveLocationToLocalStorage,
+  clearLocationFromLocalStorage,
+  hasLocationInLocalStorage,
+} from "@/lib/location-storage";
 
 export interface User {
   id: number;
@@ -58,8 +62,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           setUser(data.user);
           setAuthenticated(true);
 
-          // Save user's location to localStorage if available
-          if (data.user) {
+          // Save user's location to localStorage on first login if not already set
+          if (data.user && !hasLocationInLocalStorage()) {
             saveLocationToLocalStorage(
               data.user.locationLatitude,
               data.user.locationLongitude,
@@ -119,6 +123,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       });
       setUser(null);
       setAuthenticated(false);
+      // Clear location data on logout so next login gets fresh profile location
+      clearLocationFromLocalStorage();
     } catch (error) {
       console.error("Logout failed:", error);
     }
