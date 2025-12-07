@@ -192,7 +192,9 @@ export function EmailSignupModal({
   };
 
   const handleClose = () => {
-    console.log("[EmailSignupModal] handleClose called, calling onOpenChange(false)");
+    console.log(
+      "[EmailSignupModal] handleClose called, calling onOpenChange(false)",
+    );
     setFirstName("");
     setLastName("");
     setUsername("");
@@ -209,9 +211,14 @@ export function EmailSignupModal({
   };
 
   const handleSuccessModalClose = async (open: boolean) => {
-    console.log("[EmailSignupModal] handleSuccessModalClose called, open:", open);
+    console.log(
+      "[EmailSignupModal] handleSuccessModalClose called, open:",
+      open,
+    );
     if (!open) {
-      console.log("[EmailSignupModal] Closing success modal, calling cleanup...");
+      console.log(
+        "[EmailSignupModal] Closing success modal, calling cleanup...",
+      );
       setIsSuccessModalOpen(false);
       handleClose();
       if (onSignupSuccess) {
@@ -226,7 +233,10 @@ export function EmailSignupModal({
 
   // Navigate to profile after successful signup
   React.useEffect(() => {
-    console.log("[EmailSignupModal] useEffect triggered, shouldNavigate:", shouldNavigate);
+    console.log(
+      "[EmailSignupModal] useEffect triggered, shouldNavigate:",
+      shouldNavigate,
+    );
     if (shouldNavigate) {
       console.log("[EmailSignupModal] Navigating to /profile");
       setShouldNavigate(false);
@@ -685,7 +695,9 @@ export function EmailSignupModal({
           <Button
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             onClick={async () => {
-              console.log("[EmailSignupModal] Continue to Dashboard button clicked");
+              console.log(
+                "[EmailSignupModal] Continue to Dashboard button clicked",
+              );
               await handleSuccessModalClose(false);
             }}
           >

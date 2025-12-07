@@ -1446,7 +1446,13 @@ export async function updateUserReview(req: Request, res: Response) {
     }
 
     const parsedRating = typeof rating === "string" ? Number(rating) : rating;
-    if (parsedRating === null || parsedRating === undefined || Number.isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+    if (
+      parsedRating === null ||
+      parsedRating === undefined ||
+      Number.isNaN(parsedRating) ||
+      parsedRating < 1 ||
+      parsedRating > 5
+    ) {
       return res.status(400).json({ ok: false, error: "invalid rating" });
     }
 
@@ -1464,7 +1470,9 @@ export async function updateUserReview(req: Request, res: Response) {
     }
 
     if (existingReview.rows[0].reviewer_id !== reviewerId) {
-      return res.status(403).json({ ok: false, error: "cannot update another user's review" });
+      return res
+        .status(403)
+        .json({ ok: false, error: "cannot update another user's review" });
     }
 
     const result = await pool.query(
@@ -1475,7 +1483,9 @@ export async function updateUserReview(req: Request, res: Response) {
     );
 
     if (!result.rows || result.rows.length === 0) {
-      return res.status(500).json({ ok: false, error: "failed to update review" });
+      return res
+        .status(500)
+        .json({ ok: false, error: "failed to update review" });
     }
 
     const review = result.rows[0];

@@ -744,8 +744,12 @@ export default function Profile() {
   // Apply badge data from other user's profile
   useEffect(() => {
     if (viewingOtherUser && otherUserData) {
-      const founding = Boolean(otherUserData.foundingSupporter ?? otherUserData.founding_supporter);
-      const referrer = Boolean(otherUserData.topReferrer ?? otherUserData.top_referrer);
+      const founding = Boolean(
+        otherUserData.foundingSupporter ?? otherUserData.founding_supporter,
+      );
+      const referrer = Boolean(
+        otherUserData.topReferrer ?? otherUserData.top_referrer,
+      );
       const ambassador = Boolean(otherUserData.ambassador);
       setBadges({
         foundingSupporter: founding,

@@ -234,16 +234,23 @@ export default function Header() {
       <EmailSignupModal
         isOpen={isEmailSignupModalOpen}
         onOpenChange={(open) => {
-          console.log("[Header] EmailSignupModal onOpenChange called, open:", open);
+          console.log(
+            "[Header] EmailSignupModal onOpenChange called, open:",
+            open,
+          );
           setIsEmailSignupModalOpen(open);
         }}
         onSignupSuccess={() => {
-          console.log("[Header] EmailSignupModal onSignupSuccess callback fired");
+          console.log(
+            "[Header] EmailSignupModal onSignupSuccess callback fired",
+          );
           setIsSignUpModalOpen(false);
           // Modal will reload the page to refresh auth state
         }}
         onSwitchToLogin={() => {
-          console.log("[Header] EmailSignupModal onSwitchToLogin callback fired");
+          console.log(
+            "[Header] EmailSignupModal onSwitchToLogin callback fired",
+          );
           setIsEmailSignupModalOpen(false);
           setIsLoginModalOpen(true);
         }}
