@@ -284,6 +284,7 @@ export default function Header() {
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
+        onOpenBankingSetupModal={() => setIsBankingSetupModalOpen(true)}
       />
 
       <FavoritesModal
