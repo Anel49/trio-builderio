@@ -2,6 +2,9 @@ import { Container } from "./Container";
 import { resetCookiePreferences } from "@/lib/cookie-utils";
 import { COMPANY_NAME } from "@/lib/constants";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { BankingSetupModal } from "./ui/banking-setup-modal";
 
 export function Footer() {
   const handleClearCookies = async () => {
