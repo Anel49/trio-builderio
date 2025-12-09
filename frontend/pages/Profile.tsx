@@ -2079,7 +2079,15 @@ export default function Profile() {
                     {!viewingOtherUser && (
                       <div className="flex flex-col sm:flex-row gap-2 max-w-[220px] sm:max-w-none mx-auto sm:mx-0 sm:ml-auto">
                         <Button
-                          onClick={() => (window.location.href = "/upload")}
+                          onClick={() => {
+                            if (!authUser?.stripeSecret) {
+                              setIsBankingSetupModalOpen(true);
+                            } else {
+                              window.location.href = "/upload";
+                            }
+                          }}
+                          disabled={!authUser?.stripeSecret}
+                          className={!authUser?.stripeSecret ? "opacity-50" : ""}
                         >
                           <Package className="h-4 w-4 mr-2" />
                           Add New Listing
