@@ -24,6 +24,7 @@ export interface User {
   openDms: boolean;
   oauth: string | null;
   active: boolean;
+  stripeSecret: string | null;
 }
 
 interface AuthContextType {
