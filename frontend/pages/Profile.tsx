@@ -244,6 +244,7 @@ export default function Profile() {
     new Set(),
   );
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [isBankingSetupModalOpen, setIsBankingSetupModalOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
