@@ -251,7 +251,8 @@ export function createServer() {
                 coalesce(u.ambassador,false) as ambassador,
                 coalesce(u.open_dms,true) as open_dms,
                 coalesce(u.active,true) as active,
-                uc.oauth
+                uc.oauth,
+                uc.stripe_secret
          from users u
          left join user_credentials uc on u.id = uc.user_id
          where u.id = $1`,
