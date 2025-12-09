@@ -414,6 +414,7 @@ export async function dbSetup(_req: Request, res: Response) {
       );
       alter table user_credentials add column if not exists oauth text;
       alter table user_credentials alter column password drop not null;
+      alter table user_credentials add column if not exists stripe_secret text;
 
       create table if not exists user_email_preferences (
         id serial primary key,
