@@ -14,13 +14,27 @@ import { useAuth } from "@/contexts/AuthContext";
 interface MobileMenuProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  onOpenBankingSetupModal?: () => void;
 }
 
-export function MobileMenu({ isOpen, onOpenChange }: MobileMenuProps) {
-  const { authenticated } = useAuth();
+export function MobileMenu({
+  isOpen,
+  onOpenChange,
+  onOpenBankingSetupModal,
+}: MobileMenuProps) {
+  const { authenticated, user } = useAuth();
   const handleNavigation = (href: string) => {
     onOpenChange(false);
     window.location.href = href;
+  };
+
+  const handleRentProduct = () => {
+    if (!user?.stripeSecret) {
+      onOpenChange(false);
+      onOpenBankingSetupModal?.();
+    } else {
+      handleNavigation("/upload");
+    }
   };
 
   return (
