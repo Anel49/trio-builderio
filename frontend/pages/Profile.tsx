@@ -24,6 +24,7 @@ import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { AddToFavoritesModal } from "@/components/ui/add-to-favorites-modal";
 import { RemoveFromFavoritesModal } from "@/components/ui/remove-from-favorites-modal";
 import { LocationPickerModal } from "@/components/LocationPickerModal";
+import { BankingSetupModal } from "@/components/ui/banking-setup-modal";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
 import { convertImageToWebp } from "@/lib/image-conversion";
