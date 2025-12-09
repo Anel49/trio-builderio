@@ -2815,6 +2815,12 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      {/* Banking Setup Modal */}
+      <BankingSetupModal
+        isOpen={isBankingSetupModalOpen}
+        onOpenChange={setIsBankingSetupModalOpen}
+      />
+
       {/* Delete Listing Modal */}
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
         <DialogContent className="sm:max-w-md">
