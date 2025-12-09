@@ -291,6 +291,11 @@ export default function Header() {
         onOpenChange={setIsFavoritesModalOpen}
         userId={user?.id.toString()}
       />
+
+      <BankingSetupModal
+        isOpen={isBankingSetupModalOpen}
+        onOpenChange={setIsBankingSetupModalOpen}
+      />
     </>
   );
 }
