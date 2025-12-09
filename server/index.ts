@@ -284,6 +284,7 @@ export function createServer() {
         openDms: Boolean(row.open_dms),
         oauth: row.oauth || null,
         active: Boolean(row.active),
+        stripeSecret: row.stripe_secret || null,
       };
 
       // Update the session with the latest user data
