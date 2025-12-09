@@ -84,12 +84,15 @@ export function Footer() {
               <h4 className="font-semibold mb-4">Host</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li>
-                  <a
-                    href="/upload"
-                    className="hover:text-foreground transition-colors"
+                  <button
+                    onClick={handleRentProduct}
+                    className={`hover:text-foreground transition-colors ${
+                      !user?.stripeSecret && "opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={!user?.stripeSecret}
                   >
                     Rent your product
-                  </a>
+                  </button>
                 </li>
 
                 <li>
