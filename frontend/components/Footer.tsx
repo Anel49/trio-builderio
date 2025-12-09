@@ -7,6 +7,17 @@ import { useAuth } from "@/contexts/AuthContext";
 import { BankingSetupModal } from "./ui/banking-setup-modal";
 
 export function Footer() {
+  const { user } = useAuth();
+  const [isBankingSetupModalOpen, setIsBankingSetupModalOpen] = useState(false);
+
+  const handleRentProduct = () => {
+    if (!user?.stripeSecret) {
+      setIsBankingSetupModalOpen(true);
+    } else {
+      window.location.href = "/upload";
+    }
+  };
+
   const handleClearCookies = async () => {
     // Clear all website cookies and session
     try {
