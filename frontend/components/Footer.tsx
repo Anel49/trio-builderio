@@ -160,6 +160,11 @@ export function Footer() {
           </div>
         </Container>
       </footer>
+
+      <BankingSetupModal
+        isOpen={isBankingSetupModalOpen}
+        onOpenChange={setIsBankingSetupModalOpen}
+      />
     </>
   );
 }
