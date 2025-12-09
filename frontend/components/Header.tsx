@@ -9,6 +9,7 @@ import { EmailSignupModal } from "./ui/email-signup-modal";
 import { EmailLoginModal } from "./ui/email-login-modal";
 import { MobileMenu } from "./ui/mobile-menu";
 import { FavoritesModal } from "./ui/favorites-modal";
+import { BankingSetupModal } from "./ui/banking-setup-modal";
 import { useAuth } from "@/contexts/AuthContext";
 import { COMPANY_NAME } from "@/lib/constants";
 import {
