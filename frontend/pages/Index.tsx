@@ -282,8 +282,7 @@ export default function Index() {
         <div
           className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600"
           style={{
-            backgroundImage:
-              "url('https://images.pexels.com/photos/11727078/pexels-photo-11727078.jpeg?w=1200&h=600&fit=crop&auto=format')",
+            backgroundImage: "url('/images/hero-background.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
