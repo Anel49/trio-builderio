@@ -142,11 +142,11 @@ export default function Index() {
         params.set("endDate", dateRange.end.toISOString().split("T")[0]);
       }
 
-      if (searchLocation) {
-        params.set("latitude", searchLocation.latitude.toString());
-        params.set("longitude", searchLocation.longitude.toString());
-        if (searchLocation.city) {
-          params.set("city", searchLocation.city);
+      if (browseFilterLocation) {
+        params.set("latitude", browseFilterLocation.latitude.toString());
+        params.set("longitude", browseFilterLocation.longitude.toString());
+        if (browseFilterLocation.city) {
+          params.set("city", browseFilterLocation.city);
         }
       }
 
