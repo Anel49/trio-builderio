@@ -606,9 +606,9 @@ export default function Index() {
         open={isLocationPickerOpen}
         onOpenChange={setIsLocationPickerOpen}
         initialLocation={{
-          latitude: searchLocation?.latitude ?? null,
-          longitude: searchLocation?.longitude ?? null,
-          city: searchLocation?.city ?? null,
+          latitude: browseFilterLocation?.latitude ?? null,
+          longitude: browseFilterLocation?.longitude ?? null,
+          city: browseFilterLocation?.city ?? null,
         }}
         onConfirm={(selection) => {
           const newLocation = {
