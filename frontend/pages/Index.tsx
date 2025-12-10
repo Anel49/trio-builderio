@@ -426,6 +426,24 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Benefits Section */}
+      <section className="py-16 bg-accent/30 dark:bg-gray-800/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Why choose {COMPANY_NAME}?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="text-center">
+                <div className="flex justify-center mb-4">{benefit.icon}</div>
+                <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
+                <p className="text-muted-foreground">{benefit.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Browse by Category */}
       <Section background="accent" padding="large">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
@@ -488,24 +506,6 @@ export default function Index() {
                   freeDelivery={listing.freeDelivery}
                   instantBookings={listing.instantBookings}
                 />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="py-16 bg-accent/30 dark:bg-gray-800/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Why choose {COMPANY_NAME}?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="text-center">
-                <div className="flex justify-center mb-4">{benefit.icon}</div>
-                <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-                <p className="text-muted-foreground">{benefit.description}</p>
               </div>
             ))}
           </div>
