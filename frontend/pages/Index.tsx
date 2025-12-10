@@ -406,12 +406,11 @@ export default function Index() {
                     localStorage.removeItem("searchDateRange");
                   }
                   if (searchLocation) {
-                    localStorage.setItem(
-                      "searchLocation",
-                      JSON.stringify(searchLocation),
+                    saveLocationToLocalStorage(
+                      searchLocation.latitude,
+                      searchLocation.longitude,
+                      searchLocation.city,
                     );
-                  } else {
-                    localStorage.removeItem("searchLocation");
                   }
                   window.location.href = "/browse";
                 }}
