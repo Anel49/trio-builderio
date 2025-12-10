@@ -2086,8 +2086,7 @@ export default function Profile() {
                               window.location.href = "/upload";
                             }
                           }}
-                          disabled={!authUser?.stripeSecret}
-                          className={!authUser?.stripeSecret ? "opacity-50" : ""}
+                          className={!authUser?.stripeSecret ? "opacity-50 cursor-not-allowed" : ""}
                         >
                           <Package className="h-4 w-4 mr-2" />
                           Add New Listing
