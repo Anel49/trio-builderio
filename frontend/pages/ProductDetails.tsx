@@ -421,13 +421,10 @@ export default function ProductDetails() {
           reservationData.reservation.id,
         );
         localStorage.setItem(
-          "selectedDates",
-          JSON.stringify(selectedDateRange),
-        );
-        localStorage.setItem(
           "reservationId",
           String(reservationData.reservation.id),
         );
+        localStorage.removeItem("selectedDates");
 
         // Check if listing has instant booking enabled
         if (product?.instantBookings) {
