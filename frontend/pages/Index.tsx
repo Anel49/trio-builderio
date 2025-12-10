@@ -605,13 +605,24 @@ export default function Index() {
           city: searchLocation?.city ?? null,
         }}
         onConfirm={(selection) => {
-          setSearchLocation({
+          const newLocation = {
             latitude: selection.latitude,
             longitude: selection.longitude,
             city: selection.city,
-          });
+          };
+          setSearchLocation(newLocation);
+          saveLocationToLocalStorage(
+            newLocation.latitude,
+            newLocation.longitude,
+            newLocation.city,
+          );
         }}
-        onClear={() => setSearchLocation(null)}
+        onClear={() => {
+          setSearchLocation(null);
+          localStorage.removeItem("userLocationData");
+          localStorage.removeItem("browseFilterLocation");
+          localStorage.removeItem("searchLocation");
+        }}
       />
     </div>
   );
