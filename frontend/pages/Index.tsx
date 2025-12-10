@@ -420,12 +420,18 @@ export default function Index() {
                   } else {
                     localStorage.removeItem("searchDateRange");
                   }
-                  if (searchLocation) {
+                  if (browseFilterLocation) {
                     saveLocationToLocalStorage(
-                      searchLocation.latitude,
-                      searchLocation.longitude,
-                      searchLocation.city,
+                      browseFilterLocation.latitude,
+                      browseFilterLocation.longitude,
+                      browseFilterLocation.city,
                     );
+                    localStorage.setItem("searchLocation", JSON.stringify(browseFilterLocation));
+                    localStorage.setItem("browseFilterLocation", JSON.stringify(browseFilterLocation));
+                  } else {
+                    localStorage.removeItem("userLocationData");
+                    localStorage.removeItem("browseFilterLocation");
+                    localStorage.removeItem("searchLocation");
                   }
                   window.location.href = "/browse";
                 }}
