@@ -109,7 +109,7 @@ export default function Header() {
                     className={`transition-colors mt-[2px] ml-8 ${
                       user?.stripeSecret
                         ? "text-foreground hover:text-primary"
-                        : "text-muted-foreground cursor-not-allowed opacity-50"
+                        : "text-muted-foreground cursor-not-allowed opacity-50 pointer-events-none"
                     }`}
                   >
                     Rent your product
