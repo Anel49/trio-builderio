@@ -559,15 +559,13 @@ export default function UploadProduct() {
 
       const priceCents =
         Math.round(Number(price.replace(/[^0-9.]/g, "")) * 100) || 0;
-      const defaultImage =
-        "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop&auto=format";
       // Use placeholder for now if we have pending files, actual URLs will be added after listing creation
       const placeholderImage =
         imageFiles.length > 0
-          ? imagePreviewUrls[0] || defaultImage
+          ? imagePreviewUrls[0]
           : uploadedImages.length > 0
             ? uploadedImages[0]
-            : defaultImage;
+            : "";
       const imgs =
         uploadedImages.length > 0
           ? uploadedImages
