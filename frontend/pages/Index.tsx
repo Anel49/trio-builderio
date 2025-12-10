@@ -35,6 +35,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import {
   getLocationFromLocalStorage,
   saveLocationToLocalStorage,
+  clearLocationFromLocalStorage,
 } from "@/lib/location-storage";
 // import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
