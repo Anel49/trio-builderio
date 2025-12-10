@@ -426,7 +426,6 @@ export default function Index() {
                       browseFilterLocation.longitude,
                       browseFilterLocation.city,
                     );
-                    localStorage.setItem("searchLocation", JSON.stringify(browseFilterLocation));
                     localStorage.setItem("browseFilterLocation", JSON.stringify(browseFilterLocation));
                   } else {
                     localStorage.removeItem("userLocationData");
