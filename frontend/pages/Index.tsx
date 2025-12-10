@@ -626,9 +626,7 @@ export default function Index() {
         }}
         onClear={() => {
           setBrowseFilterLocation(null);
-          localStorage.removeItem("userLocationData");
-          localStorage.removeItem("browseFilterLocation");
-          localStorage.removeItem("searchLocation");
+          clearLocationFromLocalStorage();
         }}
       />
     </div>
