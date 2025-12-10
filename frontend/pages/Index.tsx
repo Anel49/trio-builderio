@@ -83,7 +83,7 @@ export default function Index() {
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
   const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false);
-  const [searchLocation, setSearchLocation] = useState<{
+  const [browseFilterLocation, setBrowseFilterLocation] = useState<{
     latitude: number;
     longitude: number;
     city: string | null;
