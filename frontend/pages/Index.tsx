@@ -616,6 +616,8 @@ export default function Index() {
             newLocation.longitude,
             newLocation.city,
           );
+          localStorage.setItem("searchLocation", JSON.stringify(newLocation));
+          localStorage.setItem("browseFilterLocation", JSON.stringify(newLocation));
         }}
         onClear={() => {
           setSearchLocation(null);
