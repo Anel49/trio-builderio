@@ -160,13 +160,9 @@ export default function BrowseListings() {
     city: string | null;
   } | null>(() => {
     // Initialize from localStorage (single source of truth)
-    // Check both keys for backward compatibility
+    // Check legacy key for backward compatibility
     try {
-      let saved = localStorage.getItem("browseFilterLocation");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-      saved = localStorage.getItem("searchLocation");
+      const saved = localStorage.getItem("searchLocation");
       if (saved) {
         return JSON.parse(saved);
       }
@@ -174,13 +170,8 @@ export default function BrowseListings() {
       // Ignore parsing errors
     }
 
-    // Fall back to location stored by AuthContext
-    const storedLocation = getLocationFromLocalStorage();
-    if (storedLocation) {
-      return storedLocation;
-    }
-
-    return null;
+    // Fall back to location storage (which reads from browseFilterLocation key)
+    return getLocationFromLocalStorage();
   });
   const [isLoadingDistances, setIsLoadingDistances] = useState(false);
 
