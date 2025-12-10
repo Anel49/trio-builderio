@@ -32,7 +32,10 @@ import { ViewAllButton } from "@/components/ui/view-all-button";
 import { cn } from "@/lib/utils";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-import { getLocationFromLocalStorage, saveLocationToLocalStorage } from "@/lib/location-storage";
+import {
+  getLocationFromLocalStorage,
+  saveLocationToLocalStorage,
+} from "@/lib/location-storage";
 // import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
   computeDistanceMiles,
@@ -426,7 +429,10 @@ export default function Index() {
                       browseFilterLocation.longitude,
                       browseFilterLocation.city,
                     );
-                    localStorage.setItem("browseFilterLocation", JSON.stringify(browseFilterLocation));
+                    localStorage.setItem(
+                      "browseFilterLocation",
+                      JSON.stringify(browseFilterLocation),
+                    );
                   } else {
                     localStorage.removeItem("userLocationData");
                     localStorage.removeItem("browseFilterLocation");
@@ -621,7 +627,10 @@ export default function Index() {
             newLocation.longitude,
             newLocation.city,
           );
-          localStorage.setItem("browseFilterLocation", JSON.stringify(newLocation));
+          localStorage.setItem(
+            "browseFilterLocation",
+            JSON.stringify(newLocation),
+          );
         }}
         onClear={() => {
           setBrowseFilterLocation(null);
