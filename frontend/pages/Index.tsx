@@ -429,10 +429,6 @@ export default function Index() {
                       "browseFilterLocation",
                       JSON.stringify(browseFilterLocation),
                     );
-                  } else {
-                    localStorage.removeItem("userLocationData");
-                    localStorage.removeItem("browseFilterLocation");
-                    localStorage.removeItem("searchLocation");
                   }
                   window.location.href = "/browse";
                 }}
