@@ -89,6 +89,21 @@ export default function Index() {
     city: string | null;
   } | null>(() => {
     // Initialize from localStorage (single source of truth for location)
+    // Check multiple keys for backward compatibility
+    try {
+      let saved = localStorage.getItem("browseFilterLocation");
+      if (saved) {
+        return JSON.parse(saved);
+      }
+      saved = localStorage.getItem("searchLocation");
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch {
+      // Ignore parsing errors
+    }
+
+    // Fall back to standardized location key
     return getLocationFromLocalStorage();
   });
 
