@@ -179,10 +179,10 @@ export default function Index() {
         if (!d || !d.ok || !Array.isArray(d.listings) || cancelled) return;
 
         // Use location from localStorage (single source of truth)
-        const userCoords = searchLocation
+        const userCoords = browseFilterLocation
           ? {
-              latitude: searchLocation.latitude,
-              longitude: searchLocation.longitude,
+              latitude: browseFilterLocation.latitude,
+              longitude: browseFilterLocation.longitude,
             }
           : null;
 
