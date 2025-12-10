@@ -458,11 +458,9 @@ export default function BrowseListings() {
         "browseFilterLocation",
         JSON.stringify(filterLocation),
       );
-      localStorage.setItem("searchLocation", JSON.stringify(filterLocation));
       setSortBy("distance-asc");
     } else {
       localStorage.removeItem("browseFilterLocation");
-      localStorage.removeItem("searchLocation");
     }
 
     // Detect location removal (was set, now null)
