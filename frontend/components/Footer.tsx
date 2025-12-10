@@ -87,9 +87,8 @@ export function Footer() {
                   <button
                     onClick={handleRentProduct}
                     className={`hover:text-foreground transition-colors ${
-                      !user?.stripeSecret && "opacity-50 cursor-not-allowed"
+                      !user?.stripeSecret && "opacity-50"
                     }`}
-                    disabled={!user?.stripeSecret}
                   >
                     Rent your product
                   </button>
