@@ -1,4 +1,4 @@
-export const LOCATION_STORAGE_KEY = "userLocationData";
+export const LOCATION_STORAGE_KEY = "browseFilterLocation";
 export const LOCATION_CLEARED_SESSION_KEY = "locationClearedThisSession";
 
 export interface StoredLocation {
