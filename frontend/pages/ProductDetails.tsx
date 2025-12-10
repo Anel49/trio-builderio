@@ -479,7 +479,6 @@ export default function ProductDetails() {
     }
   };
 
-
   const [productLoading, setProductLoading] = useState(true);
   const [productNotFound, setProductNotFound] = useState(false);
   const [product, setProduct] = useState<null | {
@@ -803,7 +802,6 @@ export default function ProductDetails() {
       })
       .catch(() => setReviews([]));
   }, [params.id]);
-
 
   // Find user's review for this listing
   const userReview = useMemo(() => {

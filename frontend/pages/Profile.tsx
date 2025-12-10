@@ -852,7 +852,6 @@ export default function Profile() {
     avgResponseTime: "—",
   };
 
-
   const [listedItems, setListedItems] = useState<ListedItem[]>([]);
 
   // Fetch other user data when viewing another user's profile
