@@ -546,7 +546,7 @@ export default function ProductDetails() {
         ? product.images
         : product?.image
           ? [product.image]
-          : productImages;
+          : [];
     return imgs;
   }, [product?.images, product?.image]);
 
