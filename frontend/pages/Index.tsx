@@ -236,7 +236,7 @@ export default function Index() {
     return () => {
       cancelled = true;
     };
-  }, [authenticated, authUser?.id, searchLocation]);
+  }, [authenticated, authUser?.id, browseFilterLocation]);
 
   const categories = [
     { name: "Furniture", icon: "🪑" },
