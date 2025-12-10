@@ -58,10 +58,9 @@ export function MobileMenu({
             <Button
               variant="ghost"
               className={`justify-start h-12 text-base ${
-                !user?.stripeSecret && "opacity-50 cursor-not-allowed"
+                !user?.stripeSecret && "opacity-50"
               }`}
               onClick={handleRentProduct}
-              disabled={!user?.stripeSecret}
             >
               <Package className="h-5 w-5 mr-3" />
               Rent your product
