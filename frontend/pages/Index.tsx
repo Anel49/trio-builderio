@@ -616,7 +616,7 @@ export default function Index() {
             longitude: selection.longitude,
             city: selection.city,
           };
-          setSearchLocation(newLocation);
+          setBrowseFilterLocation(newLocation);
           saveLocationToLocalStorage(
             newLocation.latitude,
             newLocation.longitude,
@@ -626,7 +626,7 @@ export default function Index() {
           localStorage.setItem("browseFilterLocation", JSON.stringify(newLocation));
         }}
         onClear={() => {
-          setSearchLocation(null);
+          setBrowseFilterLocation(null);
           localStorage.removeItem("userLocationData");
           localStorage.removeItem("browseFilterLocation");
           localStorage.removeItem("searchLocation");
