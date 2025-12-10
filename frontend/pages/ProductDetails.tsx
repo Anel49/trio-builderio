@@ -479,16 +479,6 @@ export default function ProductDetails() {
     }
   };
 
-  const productImages = [
-    "https://images.pexels.com/photos/6728933/pexels-photo-6728933.jpeg?w=600&h=400&fit=crop&auto=format",
-    "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop&auto=format",
-    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&auto=format",
-    "https://images.unsplash.com/photo-1574263867128-5c8a8e78c8c0?w=600&h=400&fit=crop&auto=format",
-    "https://images.unsplash.com/photo-1592747003928-7c3877cc99b7?w=600&h=400&fit=crop&auto=format",
-    "https://images.unsplash.com/photo-1592747003928-7c3877cc99b7?w=600&h=400&fit=crop&auto=format",
-    "https://images.unsplash.com/photo-1562813733-cae6da799ae4?w=600&h=400&fit=crop&auto=format",
-    "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=600&h=400&fit=crop&auto=format",
-  ];
 
   const [productLoading, setProductLoading] = useState(true);
   const [productNotFound, setProductNotFound] = useState(false);
