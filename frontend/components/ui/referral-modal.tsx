@@ -140,11 +140,13 @@ export function ReferralModal({
       if (currentUser && foundUser.id === currentUser.id) {
         setError("You cannot refer yourself");
         setFoundUser(null);
+        setSuccessMessage("");
         return;
       }
 
       setFoundUser({ id: foundUser.id, username: foundUser.username });
       setError("");
+      setSuccessMessage("User found!");
     } catch (err) {
       console.error("Error finding user:", err);
       setError("An error occurred. Please try again.");
