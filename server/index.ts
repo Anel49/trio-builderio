@@ -352,6 +352,24 @@ export function createServer() {
       }
 
       const row = userResult.rows[0];
+
+      // Create referral record if a valid referrer_id was set
+      if (referred_by_user_id && referred_by_user_id !== 0) {
+        try {
+          await pool.query(
+            `insert into referrals (referrer_id, referred_id) values ($1, $2)
+             on conflict do nothing`,
+            [referred_by_user_id, req.session.userId],
+          );
+          console.log("[/auth/referrer] Created referral record:", {
+            referrer_id: referred_by_user_id,
+            referred_id: req.session.userId,
+          });
+        } catch (e: any) {
+          console.error("[/auth/referrer] Error creating referral:", e?.message);
+        }
+      }
+
       const user = {
         id: row.id,
         name: row.name || null,
