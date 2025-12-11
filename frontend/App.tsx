@@ -59,6 +59,7 @@ const AppContent = () => {
     console.log("[Referral Modal] authenticated:", authenticated);
     console.log("[Referral Modal] user:", user);
     console.log("[Referral Modal] user?.referred_by_user_id:", user?.referred_by_user_id);
+    console.log("[Referral Modal] showReferralModal state:", showReferralModal);
 
     if (authenticated && user) {
       console.log("[Referral Modal] User is authenticated, checking referred_by_user_id");
@@ -66,9 +67,11 @@ const AppContent = () => {
         const referralModalShown = sessionStorage.getItem("referralModalShown");
         console.log("[Referral Modal] referred_by_user_id is null, referralModalShown:", referralModalShown);
         if (!referralModalShown) {
-          console.log("[Referral Modal] Showing modal");
+          console.log("[Referral Modal] Setting showReferralModal to true");
           setShowReferralModal(true);
           sessionStorage.setItem("referralModalShown", "true");
+        } else {
+          console.log("[Referral Modal] Modal already shown in this session, NOT showing again");
         }
       } else {
         console.log("[Referral Modal] referred_by_user_id is not null:", user.referred_by_user_id);
