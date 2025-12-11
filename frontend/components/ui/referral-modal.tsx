@@ -146,14 +146,16 @@ export function ReferralModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 p-2 opacity-60">
-          <DialogDescription className="text-center text-base text-foreground">
-            If you were referred by an existing user, please enter the referring
-            user's username below.
-          </DialogDescription>
+        <div className="space-y-6 p-2">
+          <div className="opacity-60">
+            <DialogDescription className="text-center text-base text-foreground">
+              If you were referred by an existing user, please enter the referring
+              user's username below.
+            </DialogDescription>
+          </div>
 
           <div className="space-y-4">
-            <div className="relative">
+            <div className="relative opacity-60">
               <Input
                 type="text"
                 placeholder="Enter username"
@@ -185,7 +187,7 @@ export function ReferralModal({
             </div>
 
             {error && (
-              <p className="text-sm text-red-500 text-center">{error}</p>
+              <p className="text-sm text-red-500 text-center opacity-60">{error}</p>
             )}
 
             <div className="flex gap-3">
