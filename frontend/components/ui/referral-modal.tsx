@@ -179,6 +179,7 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
 
     const success = await updateReferrer(foundUser.id);
     if (success) {
+      successfulSubmissionRef.current = true;
       handleModalClose(false);
     }
   };
