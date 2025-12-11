@@ -277,7 +277,7 @@ export function createServer() {
         try {
           await pool.query(
             `insert into referrals (referrer_id, referred_id) values ($1, $2)
-             on conflict do nothing`,
+             on conflict (referrer_id, referred_id) do nothing`,
             [referred_by_user_id, req.session.userId],
           );
           console.log("[/api/auth/referrer] Created referral record:", {
@@ -358,7 +358,7 @@ export function createServer() {
         try {
           await pool.query(
             `insert into referrals (referrer_id, referred_id) values ($1, $2)
-             on conflict do nothing`,
+             on conflict (referrer_id, referred_id) do nothing`,
             [referred_by_user_id, req.session.userId],
           );
           console.log("[/auth/referrer] Created referral record:", {
