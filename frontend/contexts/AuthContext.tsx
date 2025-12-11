@@ -47,6 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [justLoggedIn, setJustLoggedIn] = useState(false);
 
   // Check authentication status on mount
   useEffect(() => {
@@ -116,6 +117,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (response.ok) {
         await checkAuth();
+        setJustLoggedIn(true);
         return true;
       } else {
         return false;
@@ -124,6 +126,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       console.error("[AuthContext] Login failed:", error);
       return false;
     }
+  };
+
+  const clearJustLoggedIn = () => {
+    setJustLoggedIn(false);
   };
 
   const logout = async () => {
@@ -144,7 +150,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, user, loading, login, logout, checkAuth }}
+      value={{ authenticated, user, loading, justLoggedIn, clearJustLoggedIn, login, logout, checkAuth }}
     >
       {children}
     </AuthContext.Provider>
