@@ -201,6 +201,7 @@ export function ReferralModal({
                   setUsername(e.target.value);
                   if (foundUser) {
                     setFoundUser(null);
+                    setSuccessMessage("");
                   }
                 }}
                 onKeyDown={(e) => {
