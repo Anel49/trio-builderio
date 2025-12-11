@@ -154,6 +154,7 @@ export function ReferralModal({
       console.error("Error finding user:", err);
       setError("An error occurred. Please try again.");
       setFoundUser(null);
+      setSuccessMessage("");
     } finally {
       setIsLoading(false);
     }
