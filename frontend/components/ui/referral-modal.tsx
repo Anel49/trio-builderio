@@ -84,20 +84,36 @@ export function ReferralModal({
     setIsLoading(true);
 
     try {
-      const response = await apiFetch(
-        `/api/users/username/${encodeURIComponent(username.trim())}`,
-        {
-          method: "GET",
-        }
-      );
+      const endpoint = `/users/username/${encodeURIComponent(username.trim())}`;
+      console.log("[handleFindUser] Fetching user:", endpoint);
+
+      const response = await apiFetch(endpoint, {
+        method: "GET",
+      });
+
+      console.log("[handleFindUser] Response status:", response.status);
+      console.log("[handleFindUser] Response headers:", response.headers);
 
       if (!response.ok) {
+        const text = await response.text();
+        console.log("[handleFindUser] Error response text:", text.substring(0, 200));
         setError("User not found");
         setFoundUser(null);
         return;
       }
 
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("[handleFindUser] Non-JSON response:", text.substring(0, 200));
+        setError("Invalid server response");
+        setFoundUser(null);
+        return;
+      }
+
       const data = await response.json();
+      console.log("[handleFindUser] Response data:", data);
+
       const foundUser = data.user;
 
       if (!foundUser) {
