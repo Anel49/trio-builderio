@@ -31,7 +31,9 @@ export function ReferralModal({
   const [error, setError] = useState("");
 
   const handleModalClose = async (open: boolean) => {
+    console.log("[handleModalClose] Modal close requested, open:", open, "isOpen:", isOpen);
     if (!open && isOpen) {
+      console.log("[handleModalClose] Calling updateReferrer with n/a");
       await updateReferrer("n/a");
     }
     if (!open) {
@@ -44,6 +46,7 @@ export function ReferralModal({
   };
 
   const handleNoReferrer = async () => {
+    console.log("[handleNoReferrer] No referrer clicked");
     await updateReferrer("n/a");
     setUsername("");
     setFoundUser(null);
