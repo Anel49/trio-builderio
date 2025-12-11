@@ -359,8 +359,7 @@ export async function dbSetup(_req: Request, res: Response) {
         created_at timestamptz default now(),
         primary key (user_id, listing_id)
       );
-      drop table if exists referrals cascade;
-      create table referrals (
+      create table if not exists referrals (
         id serial primary key,
         referrer_id integer not null references users(id) on delete cascade,
         referred_id integer not null references users(id) on delete cascade,
