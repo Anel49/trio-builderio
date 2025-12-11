@@ -15,13 +15,11 @@ import { apiFetch } from "@/lib/api";
 interface ReferralModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onReferrerSet?: () => void;
 }
 
 export function ReferralModal({
   isOpen,
   onOpenChange,
-  onReferrerSet,
 }: ReferralModalProps) {
   const { user: currentUser, checkAuth } = useAuth();
   const [username, setUsername] = useState("");
@@ -132,10 +130,7 @@ export function ReferralModal({
 
     const success = await updateReferrer(String(foundUser.id));
     if (success) {
-      await handleModalClose();
-      if (onReferrerSet) {
-        onReferrerSet();
-      }
+      handleModalClose(false);
     }
   };
 
