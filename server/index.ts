@@ -360,6 +360,7 @@ export function createServer() {
       }
 
       const row = userResult.rows[0];
+      console.log("[/auth/referrer] Updated user:", row.id, "referred_by_user_id in DB:", row.referred_by_user_id, "sent:", referred_by_user_id);
 
       // Create referral record if a valid referrer_id was set
       if (referred_by_user_id && referred_by_user_id !== 0) {
