@@ -29,6 +29,7 @@ export function ReferralModal({
     username: string;
   } | null>(null);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleModalClose = async (open: boolean) => {
     console.log("[handleModalClose] Modal close requested, open:", open, "isOpen:", isOpen);
