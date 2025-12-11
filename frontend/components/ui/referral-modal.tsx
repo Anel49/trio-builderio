@@ -70,7 +70,7 @@ export function ReferralModal({
                 Find user
               </Button>
               <Button
-                variant="ghost"
+                variant="outline"
                 className="flex-1"
                 onClick={handleNoReferrer}
               >
