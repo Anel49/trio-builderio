@@ -35,8 +35,10 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
       open,
       "isOpen:",
       isOpen,
+      "successfulSubmission:",
+      successfulSubmissionRef.current,
     );
-    if (!open && isOpen) {
+    if (!open && isOpen && !successfulSubmissionRef.current) {
       console.log("[handleModalClose] Calling updateReferrer with 0");
       await updateReferrer(0);
     }
@@ -46,6 +48,7 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
       setError("");
       setSuccessMessage("");
       setIsLoading(false);
+      successfulSubmissionRef.current = false;
     }
     onOpenChange(open);
   };
