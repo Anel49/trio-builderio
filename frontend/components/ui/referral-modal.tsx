@@ -54,6 +54,7 @@ export function ReferralModal({
 
   const updateReferrer = async (referrerId: string) => {
     try {
+      console.log("[updateReferrer] Setting referrer to:", referrerId);
       const response = await apiFetch("/api/auth/referrer", {
         method: "PATCH",
         headers: {
@@ -62,16 +63,22 @@ export function ReferralModal({
         body: JSON.stringify({ referred_by_user_id: referrerId }),
       });
 
+      console.log("[updateReferrer] Response status:", response.status);
+      console.log("[updateReferrer] Response ok:", response.ok);
+
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
+        console.error("[updateReferrer] Error response:", data);
         setError(data.error || "Failed to set referrer");
         return false;
       }
 
+      const data = await response.json();
+      console.log("[updateReferrer] Success response:", data);
       await checkAuth();
       return true;
     } catch (err) {
-      console.error("Error updating referrer:", err);
+      console.error("[updateReferrer] Error updating referrer:", err);
       setError("An error occurred. Please try again.");
       return false;
     }
