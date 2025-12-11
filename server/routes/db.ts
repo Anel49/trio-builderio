@@ -552,6 +552,9 @@ export async function dbSetup(_req: Request, res: Response) {
     // Migrate referred_by_user_id from text to integer
     try {
       await pool.query(
+        `update users set referred_by_user_id = null where referred_by_user_id = 'n/a'`,
+      );
+      await pool.query(
         `alter table users alter column referred_by_user_id type integer using referred_by_user_id::integer`,
       );
       console.log("[dbSetup] Migrated referred_by_user_id column type to integer");
