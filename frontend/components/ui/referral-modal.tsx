@@ -32,19 +32,24 @@ export function ReferralModal({
   } | null>(null);
   const [error, setError] = useState("");
 
-  const handleModalClose = async (referrerId: string | null = null) => {
-    if (referrerId === null && isOpen) {
-      await updateReferrer("n/a");
+  const handleModalClose = async (open: boolean) => {
+    if (!open && isOpen) {
+      if (!foundUser) {
+        await updateReferrer("n/a");
+      }
     }
-    setUsername("");
-    setFoundUser(null);
-    setError("");
-    setIsLoading(false);
-    onOpenChange(false);
+    if (!open) {
+      setUsername("");
+      setFoundUser(null);
+      setError("");
+      setIsLoading(false);
+    }
+    onOpenChange(open);
   };
 
   const handleNoReferrer = async () => {
-    await handleModalClose(null);
+    await updateReferrer("n/a");
+    handleModalClose(false);
   };
 
   const updateReferrer = async (referrerId: string) => {
