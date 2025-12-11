@@ -237,11 +237,18 @@ export function createServer() {
   // Update user referrer
   app.patch("/api/auth/referrer", async (req: any, res: any) => {
     try {
+      console.log("[auth/referrer] PATCH request received");
+      console.log("[auth/referrer] Session:", req.session?.userId);
+      console.log("[auth/referrer] Body:", req.body);
+
       if (!req.session || !req.session.userId) {
+        console.log("[auth/referrer] Not authenticated");
         return res.status(401).json({ ok: false, error: "Not authenticated" });
       }
 
       const { referred_by_user_id } = req.body || {};
+      console.log("[auth/referrer] referred_by_user_id:", referred_by_user_id);
+
       if (referred_by_user_id === undefined) {
         return res.status(400).json({ ok: false, error: "referred_by_user_id is required" });
       }
