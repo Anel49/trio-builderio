@@ -551,8 +551,10 @@ export async function dbSetup(_req: Request, res: Response) {
 
     // Create referrals table
     try {
+      // Drop and recreate to ensure unique constraint exists
+      await pool.query(`drop table if exists referrals cascade`);
       await pool.query(
-        `create table if not exists referrals (
+        `create table referrals (
           id serial primary key,
           referrer_id integer not null references users(id) on delete cascade,
           referred_id integer not null references users(id) on delete cascade,
