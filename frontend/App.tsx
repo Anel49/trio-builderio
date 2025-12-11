@@ -12,6 +12,7 @@ import { COMPANY_NAME } from "@/lib/constants";
 import SplashOnboarding from "@/components/ui/splash-onboarding";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { ReferralModal } from "@/components/ui/referral-modal";
 // import { PageLoadingProvider, usePageLoading } from "@/contexts/PageLoadingContext";
 // import { SessionLoginWall } from "@/components/SessionLoginWall";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -50,8 +51,15 @@ const queryClient = new QueryClient();
 // };
 
 const AppContent = () => {
-  const { authenticated, loading } = useAuth();
+  const { authenticated, loading, user, justLoggedIn, clearJustLoggedIn } = useAuth();
   const [showCookieBanner, setShowCookieBanner] = useState(false);
+  const [showReferralModal, setShowReferralModal] = useState(false);
+
+  useEffect(() => {
+    if (justLoggedIn && user && user.referred_by_user_id === null) {
+      setShowReferralModal(true);
+    }
+  }, [justLoggedIn, user]);
 
   useEffect(() => {
     // Check if user has already accepted terms
@@ -127,6 +135,11 @@ const AppContent = () => {
     console.log("Cookie preferences saved:", preferences);
   };
 
+  const handleReferralModalClose = () => {
+    setShowReferralModal(false);
+    clearJustLoggedIn();
+  };
+
   return (
     <>
       {/* <LoadingOverlay /> */}
@@ -192,6 +205,10 @@ const AppContent = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
+      <ReferralModal
+        isOpen={showReferralModal}
+        onOpenChange={handleReferralModalClose}
+      />
       <CookieBanner
         isOpen={showCookieBanner}
         onAccept={handleCookiePreferences}
