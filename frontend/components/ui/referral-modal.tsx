@@ -165,7 +165,7 @@ export function ReferralModal({
       return;
     }
 
-    const success = await updateReferrer(String(foundUser.id));
+    const success = await updateReferrer(foundUser.id);
     if (success) {
       handleModalClose(false);
     }
