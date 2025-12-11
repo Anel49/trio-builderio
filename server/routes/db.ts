@@ -551,9 +551,14 @@ export async function dbSetup(_req: Request, res: Response) {
 
     // Fix referrals table ownership if needed
     try {
-      await pool.query(`drop table if exists referrals cascade`);
+      // Try to truncate the table first to clear any data
+      await pool.query(`truncate table referrals cascade`).catch(() => null);
+
+      // Try to drop and recreate
+      await pool.query(`drop table if exists referrals cascade`).catch(() => null);
+
       await pool.query(
-        `create table referrals (
+        `create table if not exists referrals (
           id serial primary key,
           referrer_id integer not null references users(id) on delete cascade,
           referred_id integer not null references users(id) on delete cascade,
