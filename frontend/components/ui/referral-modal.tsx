@@ -46,7 +46,7 @@ export function ReferralModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 p-2">
+        <div className="space-y-6 p-2 opacity-60">
           <DialogDescription className="text-center text-base text-foreground">
             If you were referred by an existing user, please enter the referring
             user's username below.
