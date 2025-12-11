@@ -549,6 +549,19 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Migrate referred_by_user_id from text to integer
+    try {
+      await pool.query(
+        `alter table users alter column referred_by_user_id type integer using referred_by_user_id::integer`,
+      );
+      console.log("[dbSetup] Migrated referred_by_user_id column type to integer");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] referred_by_user_id migration error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     // Add new columns to orders table if they don't exist
     try {
       await pool.query(
