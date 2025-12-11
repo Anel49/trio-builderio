@@ -114,6 +114,7 @@ export function ReferralModal({
         console.log("[handleFindUser] Error response text:", text.substring(0, 200));
         setError("User not found");
         setFoundUser(null);
+        setSuccessMessage("");
         return;
       }
 
@@ -123,6 +124,7 @@ export function ReferralModal({
         console.error("[handleFindUser] Non-JSON response:", text.substring(0, 200));
         setError("Invalid server response");
         setFoundUser(null);
+        setSuccessMessage("");
         return;
       }
 
@@ -134,6 +136,7 @@ export function ReferralModal({
       if (!foundUser) {
         setError("User not found");
         setFoundUser(null);
+        setSuccessMessage("");
         return;
       }
 
