@@ -356,7 +356,6 @@ export function EmailSignupModal({
             </DialogTitle>
           </DialogHeader>
 
-
           <ScrollArea className="max-h-[calc(90vh-220px)] pr-4">
             <form onSubmit={handleSubmit} className="space-y-4 p-2">
               {/* First Name */}
