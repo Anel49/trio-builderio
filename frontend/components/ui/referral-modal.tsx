@@ -203,7 +203,7 @@ export function ReferralModal({
             </div>
 
             {error && (
-              <p className="text-sm text-red-500 text-center opacity-60">{error}</p>
+              <p className="text-sm text-red-500 dark:text-red-400 text-center opacity-60">{error}</p>
             )}
 
             <div className="flex gap-3">
