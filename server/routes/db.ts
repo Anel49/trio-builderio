@@ -557,7 +557,8 @@ export async function dbSetup(_req: Request, res: Response) {
           referrer_id integer not null references users(id) on delete cascade,
           referred_id integer not null references users(id) on delete cascade,
           booking_completed boolean default false,
-          created_at timestamptz default now()
+          created_at timestamptz default now(),
+          unique(referrer_id, referred_id)
         )`,
       );
       await pool.query(
