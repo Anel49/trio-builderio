@@ -549,14 +549,26 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
-    // Fix referrals table ownership if needed
+    // Recreate referrals table with fresh ownership
     try {
-      // Try to truncate the table first to clear any data
-      await pool.query(`truncate table referrals cascade`).catch(() => null);
+      // First try to drop the old table with the permission issue
+      try {
+        await pool.query(`drop table referrals cascade`);
+        console.log("[dbSetup] Dropped old referrals table");
+      } catch (e: any) {
+        // If we can't drop it (permission denied), try a workaround
+        if (e?.message?.includes("permission denied") || e?.message?.includes("must be owner")) {
+          console.log("[dbSetup] Cannot drop old referrals table (permission denied), attempting truncate");
+          try {
+            await pool.query(`truncate table referrals cascade`);
+            console.log("[dbSetup] Truncated old referrals table");
+          } catch (truncateErr: any) {
+            console.log("[dbSetup] Could not truncate referrals:", truncateErr?.message?.slice(0, 80));
+          }
+        }
+      }
 
-      // Try to drop and recreate
-      await pool.query(`drop table if exists referrals cascade`).catch(() => null);
-
+      // Now create fresh table
       await pool.query(
         `create table if not exists referrals (
           id serial primary key,
@@ -572,10 +584,10 @@ export async function dbSetup(_req: Request, res: Response) {
       await pool.query(
         `create index if not exists idx_referrals_referred_id on referrals(referred_id)`,
       );
-      console.log("[dbSetup] Fixed referrals table ownership and permissions");
+      console.log("[dbSetup] Referrals table ready");
     } catch (e: any) {
       console.log(
-        "[dbSetup] Referrals table migration error:",
+        "[dbSetup] Referrals table error:",
         e?.message?.slice(0, 100),
       );
     }
