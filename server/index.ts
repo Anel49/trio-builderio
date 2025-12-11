@@ -263,7 +263,7 @@ export function createServer() {
                    coalesce(ambassador,false) as ambassador,
                    coalesce(open_dms,true) as open_dms,
                    referred_by_user_id`,
-        [referred_by_user_id === "n/a" ? null : referred_by_user_id, req.session.userId],
+        [referred_by_user_id, req.session.userId],
       );
 
       if (!userResult.rowCount || userResult.rowCount === 0) {
@@ -326,7 +326,7 @@ export function createServer() {
                    coalesce(ambassador,false) as ambassador,
                    coalesce(open_dms,true) as open_dms,
                    referred_by_user_id`,
-        [referred_by_user_id === "n/a" ? null : referred_by_user_id, req.session.userId],
+        [referred_by_user_id, req.session.userId],
       );
 
       if (!userResult.rowCount || userResult.rowCount === 0) {
