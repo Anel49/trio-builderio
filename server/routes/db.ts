@@ -328,6 +328,7 @@ export async function dbSetup(_req: Request, res: Response) {
       alter table users add column if not exists first_name text;
       alter table users add column if not exists last_name text;
       alter table users add column if not exists username text unique;
+      alter table users add column if not exists referred_by_user_id text;
       create table if not exists reservations (
         id serial primary key,
         listing_id integer not null references listings(id),
