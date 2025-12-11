@@ -589,11 +589,16 @@ export async function dbSetup(_req: Request, res: Response) {
         `select data_type from information_schema.columns where table_name = 'users' and column_name = 'referred_by_user_id'`,
       );
 
-      if (columnCheck.rows.length > 0 && columnCheck.rows[0].data_type === 'text') {
+      if (
+        columnCheck.rows.length > 0 &&
+        columnCheck.rows[0].data_type === "text"
+      ) {
         await pool.query(
           `alter table users alter column referred_by_user_id type integer using coalesce(nullif(referred_by_user_id, '')::integer, 0)`,
         );
-        console.log("[dbSetup] Migrated referred_by_user_id column type to integer");
+        console.log(
+          "[dbSetup] Migrated referred_by_user_id column type to integer",
+        );
       }
     } catch (e: any) {
       console.log(

@@ -250,7 +250,9 @@ export function createServer() {
       console.log("[auth/referrer] referred_by_user_id:", referred_by_user_id);
 
       if (referred_by_user_id === undefined) {
-        return res.status(400).json({ ok: false, error: "referred_by_user_id is required" });
+        return res
+          .status(400)
+          .json({ ok: false, error: "referred_by_user_id is required" });
       }
 
       const { pool } = await import("./routes/db");
@@ -285,7 +287,10 @@ export function createServer() {
             referred_id: req.session.userId,
           });
         } catch (e: any) {
-          console.error("[/api/auth/referrer] Error creating referral:", e?.message);
+          console.error(
+            "[/api/auth/referrer] Error creating referral:",
+            e?.message,
+          );
         }
       }
 
@@ -331,7 +336,9 @@ export function createServer() {
 
       const { referred_by_user_id } = req.body || {};
       if (referred_by_user_id === undefined) {
-        return res.status(400).json({ ok: false, error: "referred_by_user_id is required" });
+        return res
+          .status(400)
+          .json({ ok: false, error: "referred_by_user_id is required" });
       }
 
       const { pool } = await import("./routes/db");
@@ -366,7 +373,10 @@ export function createServer() {
             referred_id: req.session.userId,
           });
         } catch (e: any) {
-          console.error("[/auth/referrer] Error creating referral:", e?.message);
+          console.error(
+            "[/auth/referrer] Error creating referral:",
+            e?.message,
+          );
         }
       }
 

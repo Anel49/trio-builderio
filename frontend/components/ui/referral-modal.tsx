@@ -17,10 +17,7 @@ interface ReferralModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function ReferralModal({
-  isOpen,
-  onOpenChange,
-}: ReferralModalProps) {
+export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
   const { user: currentUser, checkAuth } = useAuth();
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +29,12 @@ export function ReferralModal({
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleModalClose = async (open: boolean) => {
-    console.log("[handleModalClose] Modal close requested, open:", open, "isOpen:", isOpen);
+    console.log(
+      "[handleModalClose] Modal close requested, open:",
+      open,
+      "isOpen:",
+      isOpen,
+    );
     if (!open && isOpen) {
       console.log("[handleModalClose] Calling updateReferrer with 0");
       await updateReferrer(0);
@@ -111,7 +113,10 @@ export function ReferralModal({
 
       if (!response.ok) {
         const text = await response.text();
-        console.log("[handleFindUser] Error response text:", text.substring(0, 200));
+        console.log(
+          "[handleFindUser] Error response text:",
+          text.substring(0, 200),
+        );
         setError("User not found");
         setFoundUser(null);
         setSuccessMessage("");
@@ -121,7 +126,10 @@ export function ReferralModal({
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
         const text = await response.text();
-        console.error("[handleFindUser] Non-JSON response:", text.substring(0, 200));
+        console.error(
+          "[handleFindUser] Non-JSON response:",
+          text.substring(0, 200),
+        );
         setError("Invalid server response");
         setFoundUser(null);
         setSuccessMessage("");
@@ -186,8 +194,8 @@ export function ReferralModal({
         <div className="space-y-6 p-2">
           <div className="opacity-60">
             <DialogDescription className="text-center text-base text-foreground">
-              If you were referred by an existing user, please enter the referring
-              user's username below.
+              If you were referred by an existing user, please enter the
+              referring user's username below.
             </DialogDescription>
           </div>
 
