@@ -139,8 +139,10 @@ const AppContent = () => {
     console.log("Cookie preferences saved:", preferences);
   };
 
-  const handleReferralModalClose = () => {
-    setShowReferralModal(false);
+  const handleReferralModalClose = async (open: boolean) => {
+    if (!open && showReferralModal) {
+      setShowReferralModal(false);
+    }
   };
 
   return (
@@ -211,6 +213,9 @@ const AppContent = () => {
       <ReferralModal
         isOpen={showReferralModal}
         onOpenChange={handleReferralModalClose}
+        onReferrerSet={() => {
+          setShowReferralModal(false);
+        }}
       />
       <CookieBanner
         isOpen={showCookieBanner}
