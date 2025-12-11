@@ -58,7 +58,7 @@ export function ReferralModal({
   const updateReferrer = async (referrerId: string) => {
     try {
       console.log("[updateReferrer] Setting referrer to:", referrerId);
-      const response = await apiFetch("/api/auth/referrer", {
+      const response = await apiFetch("/auth/referrer", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
