@@ -251,6 +251,7 @@ export function createServer() {
                 coalesce(u.ambassador,false) as ambassador,
                 coalesce(u.open_dms,true) as open_dms,
                 coalesce(u.active,true) as active,
+                u.referred_by_user_id,
                 uc.oauth,
                 uc.stripe_secret
          from users u
@@ -285,6 +286,7 @@ export function createServer() {
         oauth: row.oauth || null,
         active: Boolean(row.active),
         stripeSecret: row.stripe_secret || null,
+        referred_by_user_id: row.referred_by_user_id || null,
       };
 
       // Update the session with the latest user data
