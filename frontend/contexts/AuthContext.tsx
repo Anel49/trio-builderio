@@ -136,6 +136,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // Clear location data and session flag on logout so next login gets fresh profile location
       clearLocationFromLocalStorage();
       resetLocationClearedFlag();
+      // Clear referral modal flag so it shows again on next login
+      sessionStorage.removeItem("referralModalShown");
     } catch (error) {
       console.error("Logout failed:", error);
     }
