@@ -51,19 +51,19 @@ const queryClient = new QueryClient();
 // };
 
 const AppContent = () => {
-  const { authenticated, loading, user, justLoggedIn, clearJustLoggedIn } = useAuth();
+  const { authenticated, loading, user } = useAuth();
   const [showCookieBanner, setShowCookieBanner] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
 
   useEffect(() => {
-    console.log("[ReferralModal Debug] justLoggedIn:", justLoggedIn);
-    console.log("[ReferralModal Debug] user:", user);
-    console.log("[ReferralModal Debug] referred_by_user_id:", user?.referred_by_user_id);
-    if (justLoggedIn && user && user.referred_by_user_id === null) {
-      console.log("[ReferralModal Debug] Showing referral modal");
-      setShowReferralModal(true);
+    if (authenticated && user && user.referred_by_user_id === null) {
+      const referralModalShown = sessionStorage.getItem("referralModalShown");
+      if (!referralModalShown) {
+        setShowReferralModal(true);
+        sessionStorage.setItem("referralModalShown", "true");
+      }
     }
-  }, [justLoggedIn, user]);
+  }, [authenticated, user]);
 
   useEffect(() => {
     // Check if user has already accepted terms
