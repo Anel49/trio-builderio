@@ -558,6 +558,32 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Fix referrals table ownership if needed
+    try {
+      await pool.query(`drop table if exists referrals cascade`);
+      await pool.query(
+        `create table referrals (
+          id serial primary key,
+          referrer_id integer not null references users(id) on delete cascade,
+          referred_id integer not null references users(id) on delete cascade,
+          created_at timestamptz default now(),
+          unique(referrer_id, referred_id)
+        )`,
+      );
+      await pool.query(
+        `create index if not exists idx_referrals_referrer_id on referrals(referrer_id)`,
+      );
+      await pool.query(
+        `create index if not exists idx_referrals_referred_id on referrals(referred_id)`,
+      );
+      console.log("[dbSetup] Fixed referrals table ownership and permissions");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Referrals table migration error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     // Migrate referred_by_user_id from text to integer
     try {
       await pool.query(
