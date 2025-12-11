@@ -359,15 +359,6 @@ export async function dbSetup(_req: Request, res: Response) {
         created_at timestamptz default now(),
         primary key (user_id, listing_id)
       );
-      create table if not exists referrals (
-        id serial primary key,
-        referrer_id integer not null references users(id) on delete cascade,
-        referred_id integer not null references users(id) on delete cascade,
-        created_at timestamptz default now(),
-        unique(referrer_id, referred_id)
-      );
-      create index if not exists idx_referrals_referrer_id on referrals(referrer_id);
-      create index if not exists idx_referrals_referred_id on referrals(referred_id);
       create table if not exists messages (
         id serial primary key,
         thread_id text,
