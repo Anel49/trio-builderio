@@ -341,50 +341,6 @@ export function EmailSignupModal({
     }
   };
 
-  const handleGoogleSignup = useGoogleLogin({
-    onSuccess: async (codeResponse) => {
-      setIsLoading(true);
-      try {
-        const response = await apiFetch("/users/google-oauth", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            token: codeResponse.access_token,
-            staySignedIn: false,
-          }),
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (response.ok && data.ok && data.user) {
-          // Clear the image previews from localStorage after successful signup
-          localStorage.removeItem("uploadSessionImagePreview");
-          localStorage.removeItem("signupPhotoIds");
-          await checkAuth();
-          handleClose();
-          if (onSignupSuccess) {
-            onSignupSuccess();
-          }
-        } else if (data.error === "email_in_use") {
-          setEmailInUseError(data.email || "");
-          setEmailInUseModalOpen(true);
-        } else {
-          const errorMsg =
-            data.error || "Google signup failed. Please try again.";
-          setError(errorMsg);
-        }
-      } catch (err) {
-        console.error("Google signup error:", err);
-        setError("An unexpected error occurred. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    onError: () => {
-      setError("Google signup failed. Please try again.");
-    },
-  });
-
   return (
     <>
       <EmailInUseModal
