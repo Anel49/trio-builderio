@@ -48,7 +48,6 @@ export function EmailSignupModal({
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [successUser, setSuccessUser] = useState<any>(null);
-  const [useGoogleSignup, setUseGoogleSignup] = useState(false);
   const [emailInUseModalOpen, setEmailInUseModalOpen] = useState(false);
   const [emailInUseError, setEmailInUseError] = useState<string>("");
 
