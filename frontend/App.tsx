@@ -141,7 +141,6 @@ const AppContent = () => {
 
   const handleReferralModalClose = () => {
     setShowReferralModal(false);
-    clearJustLoggedIn();
   };
 
   return (
