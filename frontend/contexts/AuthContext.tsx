@@ -25,12 +25,15 @@ export interface User {
   oauth: string | null;
   active: boolean;
   stripeSecret: string | null;
+  referred_by_user_id: string | null;
 }
 
 interface AuthContextType {
   authenticated: boolean;
   user: User | null;
   loading: boolean;
+  justLoggedIn: boolean;
+  clearJustLoggedIn: () => void;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
