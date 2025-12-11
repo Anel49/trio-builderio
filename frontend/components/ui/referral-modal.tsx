@@ -41,6 +41,7 @@ export function ReferralModal({
       setUsername("");
       setFoundUser(null);
       setError("");
+      setSuccessMessage("");
       setIsLoading(false);
     }
     onOpenChange(open);
