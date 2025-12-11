@@ -582,13 +582,22 @@ export async function dbSetup(_req: Request, res: Response) {
 
     // Migrate referred_by_user_id from text to integer
     try {
+      // First, clean up any "n/a" values
       await pool.query(
-        `update users set referred_by_user_id = null where referred_by_user_id = 'n/a'`,
+        `update users set referred_by_user_id = null where referred_by_user_id in ('n/a', '0')`,
       );
-      await pool.query(
-        `alter table users alter column referred_by_user_id type integer using referred_by_user_id::integer`,
+
+      // Then convert column type if it's still text
+      const columnCheck = await pool.query(
+        `select data_type from information_schema.columns where table_name = 'users' and column_name = 'referred_by_user_id'`,
       );
-      console.log("[dbSetup] Migrated referred_by_user_id column type to integer");
+
+      if (columnCheck.rows.length > 0 && columnCheck.rows[0].data_type === 'text') {
+        await pool.query(
+          `alter table users alter column referred_by_user_id type integer using coalesce(nullif(referred_by_user_id, '')::integer, 0)`,
+        );
+        console.log("[dbSetup] Migrated referred_by_user_id column type to integer");
+      }
     } catch (e: any) {
       console.log(
         "[dbSetup] referred_by_user_id migration error:",
