@@ -56,7 +56,11 @@ const AppContent = () => {
   const [showReferralModal, setShowReferralModal] = useState(false);
 
   useEffect(() => {
+    console.log("[ReferralModal Debug] justLoggedIn:", justLoggedIn);
+    console.log("[ReferralModal Debug] user:", user);
+    console.log("[ReferralModal Debug] referred_by_user_id:", user?.referred_by_user_id);
     if (justLoggedIn && user && user.referred_by_user_id === null) {
+      console.log("[ReferralModal Debug] Showing referral modal");
       setShowReferralModal(true);
     }
   }, [justLoggedIn, user]);
