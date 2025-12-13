@@ -56,11 +56,20 @@ const AppContent = () => {
   const [showReferralModal, setShowReferralModal] = useState(false);
 
   useEffect(() => {
-    if (authenticated && user && user.referred_by_user_id === null) {
-      const referralModalShown = sessionStorage.getItem("referralModalShown");
-      if (!referralModalShown) {
-        setShowReferralModal(true);
-        sessionStorage.setItem("referralModalShown", "true");
+    if (authenticated && user) {
+      console.log("[App] User referred_by_user_id:", user.referred_by_user_id, "Type:", typeof user.referred_by_user_id);
+      // Only show referral modal if referred_by_user_id is null (not yet set)
+      if (user.referred_by_user_id === null) {
+        const referralModalShown = sessionStorage.getItem("referralModalShown");
+        if (!referralModalShown) {
+          console.log("[App] Showing referral modal");
+          setShowReferralModal(true);
+          sessionStorage.setItem("referralModalShown", "true");
+        }
+      } else {
+        // Hide modal if user already has a referral status (0 or a valid referrer ID)
+        console.log("[App] User already has referral status, hiding modal");
+        setShowReferralModal(false);
       }
     }
   }, [authenticated, user]);
