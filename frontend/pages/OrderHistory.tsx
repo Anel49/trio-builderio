@@ -1611,8 +1611,12 @@ export default function OrderHistory() {
                                 </DropdownMenuItem>
                                 {res.status.toLowerCase() === "pending" &&
                                   direction === "outgoing" && (
-                                    <DropdownMenuItem onClick={() => {}}>
-                                      Withdraw Request
+                                    <DropdownMenuItem
+                                      onClick={() =>
+                                        handleOpenCancelRequestModal(res)
+                                      }
+                                    >
+                                      Cancel request
                                     </DropdownMenuItem>
                                   )}
                                 {res.status.toLowerCase() === "rejected" &&
