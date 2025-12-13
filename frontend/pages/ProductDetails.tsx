@@ -478,6 +478,7 @@ export default function ProductDetails() {
 
   const [productLoading, setProductLoading] = useState(true);
   const [productNotFound, setProductNotFound] = useState(false);
+  const [similarProducts] = useState<any[]>([]); // TODO: Fetch similar products from backend
   const [product, setProduct] = useState<null | {
     name: string;
     price: string;
