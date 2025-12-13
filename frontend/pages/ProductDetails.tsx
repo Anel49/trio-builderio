@@ -26,7 +26,6 @@ import { ViewAllButton } from "@/components/ui/view-all-button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { RequestSentModal } from "@/components/ui/request-sent-modal";
 import { TouchTooltip } from "@/components/ui/touch-tooltip";
-import { ReservationPeriod } from "@/lib/reservations";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
