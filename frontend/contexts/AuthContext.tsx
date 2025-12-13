@@ -114,7 +114,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (response.ok) {
         await checkAuth();
-        sessionStorage.removeItem("referralModalShown");
+        // Don't clear the flag on login - let the user's referral status determine if modal shows
         return true;
       } else {
         return false;
