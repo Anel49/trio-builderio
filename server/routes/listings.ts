@@ -1781,9 +1781,14 @@ export async function updateReservationStatus(req: Request, res: Response) {
 
     const reservation = reservationCheckResult.rows[0];
     const reservationHostId = reservation.host_id;
+    const reservationRenterId = reservation.renter_id;
     const currentStatus = reservation.status;
 
-    if (reservationHostId !== userId) {
+    // Check authorization: user must be either the host or the renter
+    const isHost = reservationHostId === userId;
+    const isRenter = reservationRenterId === userId;
+
+    if (!isHost && !isRenter) {
       return res.status(403).json({
         ok: false,
         error: "You can only update your own reservation requests",
