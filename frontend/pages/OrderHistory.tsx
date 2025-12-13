@@ -1711,8 +1711,8 @@ export default function OrderHistory() {
           <DialogHeader>
             <DialogTitle className="text-center">
               {orderToCancel
-                ? `${orderToCancel.itemName} rental cancelled.`
-                : "Rental cancelled."}
+                ? `${orderToCancel.itemName} rental canceled.`
+                : "Rental canceled."}
             </DialogTitle>
           </DialogHeader>
         </DialogContent>
