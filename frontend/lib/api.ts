@@ -214,6 +214,12 @@ export async function apiFetch(path: string, init?: RequestInit) {
         headers: { "Content-Type": "application/json" },
       });
     }
+    if (/^listings\/\d+\/conflicts$/.test(p)) {
+      return new Response(JSON.stringify({ ok: true, conflictingDates: [] }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
     if (/^(api\/)?reservations\/\d+$/.test(p)) {
       return new Response(JSON.stringify({ ok: true, reservations: [] }), {
         status: 200,
