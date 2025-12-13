@@ -11,6 +11,7 @@ import {
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { apiFetch } from "@/lib/api";
+import { ReferralConfirmationModal } from "@/components/ui/referral-confirmation-modal";
 
 interface ReferralModalProps {
   isOpen: boolean;
