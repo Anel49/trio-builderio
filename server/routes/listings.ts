@@ -1951,10 +1951,10 @@ export async function updateReservationDates(req: Request, res: Response) {
       });
     }
 
-    if (start >= end) {
+    if (start > end) {
       return res.status(400).json({
         ok: false,
-        error: "Start date must be before end date",
+        error: "Start date must be before or equal to end date",
       });
     }
 
