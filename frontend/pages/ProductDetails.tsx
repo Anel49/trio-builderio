@@ -513,6 +513,7 @@ export default function ProductDetails() {
       style: string | null;
       price: number | null;
     }>;
+    timezone?: string;
   }>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
