@@ -665,6 +665,7 @@ export default function OrderHistory() {
     setReservationToProposeDates(reservation);
     setDateProposalRange({ start: null, end: null });
     setConflictingDates([]);
+    setProposeDateListingTimezone("UTC");
 
     // Fetch conflicting dates for the listing
     if (reservation.listing_id) {
@@ -674,9 +675,14 @@ export default function OrderHistory() {
       );
       if (result.ok && result.conflictingDates) {
         setConflictingDates(result.conflictingDates);
+        if (result.listingTimezone) {
+          setProposeDateListingTimezone(result.listingTimezone);
+        }
         console.log(
           "[handleOpenProposeDateModal] Fetched conflicting dates:",
           result.conflictingDates,
+          "timezone:",
+          result.listingTimezone,
         );
       }
     }
