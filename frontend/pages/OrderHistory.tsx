@@ -243,6 +243,8 @@ export default function OrderHistory() {
       status: string;
     }>
   >([]);
+  const [proposeDateListingTimezone, setProposeDateListingTimezone] =
+    useState<string>("UTC");
   const [dateConfirmModalOpen, setDateConfirmModalOpen] = useState(false);
   const [dateProposalSuccessModalOpen, setDateProposalSuccessModalOpen] =
     useState(false);
