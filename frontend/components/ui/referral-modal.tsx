@@ -191,14 +191,12 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
     <Dialog open={isOpen} onOpenChange={handleModalClose}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">
-            Referral
-          </DialogTitle>
+          <DialogTitle>Referral</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6 p-2">
           <div className="opacity-60">
-            <DialogDescription className="text-center text-base text-foreground">
+            <DialogDescription className="text-base text-foreground">
               If you were referred by an existing user, please enter the
               referring user's username below.
             </DialogDescription>
