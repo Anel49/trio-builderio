@@ -2012,6 +2012,7 @@ export async function updateReservationDates(req: Request, res: Response) {
         status: result.rows[0].status,
         lastModified: result.rows[0].last_modified,
         modifiedById: result.rows[0].modified_by_id,
+        listingTimezone,
       },
     });
   } catch (error: any) {
