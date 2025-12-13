@@ -251,6 +251,14 @@ export default function OrderHistory() {
   const [dateProposalSuccessModalOpen, setDateProposalSuccessModalOpen] =
     useState(false);
 
+  // Cancel request modal state
+  const [cancelRequestConfirmModalOpen, setCancelRequestConfirmModalOpen] =
+    useState(false);
+  const [cancelRequestSuccessModalOpen, setCancelRequestSuccessModalOpen] =
+    useState(false);
+  const [reservationToCancel, setReservationToCancel] =
+    useState<Reservation | null>(null);
+
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
     try {
