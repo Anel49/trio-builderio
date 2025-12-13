@@ -1991,7 +1991,7 @@ export default function OrderHistory() {
                 !reservationToCancel
               }
             >
-              Cancel booking
+              Cancel request
             </Button>
           </div>
         </DialogContent>
