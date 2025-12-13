@@ -1258,13 +1258,15 @@ export async function getUserReservations(req: Request, res: Response) {
       userId,
     );
     const result = await pool.query(
-      `select id, listing_id, renter_id, host_id, host_name, renter_name,
-              start_date, end_date, listing_title, listing_image,
-              listing_latitude, listing_longitude, daily_price_cents, total_days,
-              rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at, new_dates_proposed
-       from reservations
-       where renter_id = $1 or host_id = $1
-       order by created_at desc
+      `select r.id, r.listing_id, r.renter_id, r.host_id, r.host_name, r.renter_name,
+              r.start_date, r.end_date, r.listing_title, r.listing_image,
+              r.listing_latitude, r.listing_longitude, r.daily_price_cents, r.total_days,
+              r.rental_type, r.status, r.consumable_addon_total, r.nonconsumable_addon_total, r.addons, r.created_at, r.new_dates_proposed,
+              l.timezone
+       from reservations r
+       left join listings l on r.listing_id = l.id
+       where r.renter_id = $1 or r.host_id = $1
+       order by r.created_at desc
        limit 500`,
       [userId],
     );
@@ -1297,6 +1299,7 @@ export async function getUserReservations(req: Request, res: Response) {
       addons: r.addons,
       new_dates_proposed: r.new_dates_proposed,
       created_at: r.created_at,
+      listingTimezone: r.timezone || "UTC",
     }));
 
     console.log(
