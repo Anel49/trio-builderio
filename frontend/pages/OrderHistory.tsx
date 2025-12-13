@@ -1957,6 +1957,58 @@ export default function OrderHistory() {
         </DialogContent>
       </Dialog>
 
+      {/* Cancel Request Confirmation Modal */}
+      <Dialog
+        open={cancelRequestConfirmModalOpen}
+        onOpenChange={setCancelRequestConfirmModalOpen}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirm cancellation</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-base text-muted-foreground">
+              Are you sure you want to cancel this booking? This will allow
+              another user to take your reserved dates.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => {
+                setCancelRequestConfirmModalOpen(false);
+                setReservationToCancel(null);
+              }}
+            >
+              Do not cancel
+            </Button>
+            <Button
+              className="flex-1"
+              onClick={handleConfirmCancelRequest}
+              disabled={
+                processingReservationId === reservationToCancel?.id ||
+                !reservationToCancel
+              }
+            >
+              Cancel booking
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Cancel Request Success Modal */}
+      <Dialog
+        open={cancelRequestSuccessModalOpen}
+        onOpenChange={setCancelRequestSuccessModalOpen}
+      >
+        <DialogContent className="sm:max-w-md">
+          <div className="text-center py-8">
+            <p className="text-lg">Booking successfully canceled.</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
