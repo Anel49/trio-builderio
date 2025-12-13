@@ -481,7 +481,7 @@ export function createServer() {
         oauth: row.oauth || null,
         active: Boolean(row.active),
         stripeSecret: row.stripe_secret || null,
-        referred_by_user_id: row.referred_by_user_id || null,
+        referred_by_user_id: row.referred_by_user_id ?? null,
       };
 
       // Update the session with the latest user data
