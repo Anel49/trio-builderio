@@ -194,7 +194,7 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
           <DialogTitle>Referral</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 p-2">
+        <div className="space-y-6 p-0">
           <div className="opacity-60">
             <DialogDescription className="text-base text-foreground">
               If you were referred by an existing user, please enter the
