@@ -34,7 +34,7 @@ import { ENABLE_FAVORITES } from "@/lib/constants";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import Header from "@/components/Header";
 import { useParams, useNavigate } from "react-router-dom";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, getListingConflictingDates } from "@/lib/api";
 import { ResponsiveImage, getWebpUrl } from "@/components/ui/responsive-image";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { format } from "date-fns";
@@ -275,7 +275,13 @@ export default function ProductDetails() {
     }
   };
 
-  const [reservations, setReservations] = useState<ReservationPeriod[]>([]);
+  const [conflictingDates, setConflictingDates] = useState<
+    Array<{
+      startDate: string | Date;
+      endDate: string | Date;
+      status: string;
+    }>
+  >([]);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
@@ -287,19 +293,18 @@ export default function ProductDetails() {
     const start = selectedDateRange.start;
     const end = selectedDateRange.end;
 
-    // Check if dates conflict with existing reservations (only pending or accepted)
-    for (const r of reservations) {
-      if (r.status !== "pending" && r.status !== "accepted") {
-        continue;
-      }
-      const rs = new Date(r.startDate);
-      const re = new Date(r.endDate);
-      if (start <= re && end >= rs) return false;
+    // Check if dates conflict with existing conflicting dates (reservations or orders)
+    for (const range of conflictingDates) {
+      const rangeStart = new Date(range.startDate);
+      const rangeEnd = new Date(range.endDate);
+      // Add 1 day to end date to make it inclusive
+      rangeEnd.setDate(rangeEnd.getDate() + 1);
+      if (start <= rangeEnd && end >= rangeStart) return false;
     }
     return true;
   };
 
-  // Check if there's a conflict with existing reservations (only pending or accepted)
+  // Check if there's a conflict with existing conflicting dates (reservations or orders)
   const hasDateConflict = () => {
     if (!selectedDateRange.start || !selectedDateRange.end) {
       return false;
@@ -307,13 +312,12 @@ export default function ProductDetails() {
     const start = selectedDateRange.start;
     const end = selectedDateRange.end;
 
-    for (const r of reservations) {
-      if (r.status !== "pending" && r.status !== "accepted") {
-        continue;
-      }
-      const rs = new Date(r.startDate);
-      const re = new Date(r.endDate);
-      if (start <= re && end >= rs) return true;
+    for (const range of conflictingDates) {
+      const rangeStart = new Date(range.startDate);
+      const rangeEnd = new Date(range.endDate);
+      // Add 1 day to end date to make it inclusive
+      rangeEnd.setDate(rangeEnd.getDate() + 1);
+      if (start <= rangeEnd && end >= rangeStart) return true;
     }
     return false;
   };
@@ -674,33 +678,23 @@ export default function ProductDetails() {
     checkFavorite();
   }, [params.id, authUser?.id]);
 
-  const recheckReservations = async () => {
+  const recheckConflictingDates = async () => {
     if (!params.id) return;
     try {
-      const response = await apiFetch(`listings/${params.id}/reservations`);
-      const data = response.ok
-        ? await response.json()
-        : { ok: true, reservations: [] };
-      if (data && data.ok && Array.isArray(data.reservations)) {
-        const mapped: ReservationPeriod[] = data.reservations.map((r: any) => ({
-          id: String(r.id),
-          startDate: new Date(r.startDate),
-          endDate: new Date(r.endDate),
-          renterName: r.renterName,
-          status: r.status,
-        }));
-        setReservations(mapped);
+      const result = await getListingConflictingDates(Number(params.id));
+      if (result.ok && result.conflictingDates) {
+        setConflictingDates(result.conflictingDates);
       } else {
-        setReservations([]);
+        setConflictingDates([]);
       }
     } catch (error) {
-      console.error("Failed to recheck reservations:", error);
+      console.error("Failed to recheck conflicting dates:", error);
     }
   };
 
   useEffect(() => {
     if (!params.id) return;
-    recheckReservations();
+    recheckConflictingDates();
   }, [params.id]);
 
   // Recheck reservations every 2 seconds while conflict modal is open
@@ -714,7 +708,7 @@ export default function ProductDetails() {
     }
 
     conflictRecheckIntervalRef.current = setInterval(() => {
-      recheckReservations();
+      recheckConflictingDates();
     }, 2000);
 
     return () => {
@@ -1377,7 +1371,7 @@ export default function ProductDetails() {
                   <DateRangePicker
                     value={selectedDateRange}
                     onChange={setSelectedDateRange}
-                    reservations={reservations}
+                    disabledDateRanges={conflictingDates}
                     buttonClassName="w-full"
                   />
                 </div>
@@ -1401,21 +1395,12 @@ export default function ProductDetails() {
                     // Recheck for conflicts before proceeding
                     if (!params.id) return;
                     try {
-                      const response = await apiFetch(
-                        `listings/${params.id}/reservations`,
+                      const result = await getListingConflictingDates(
+                        Number(params.id),
                       );
-                      const data = response.ok
-                        ? await response.json()
-                        : { ok: true, reservations: [] };
-                      if (data && data.ok && Array.isArray(data.reservations)) {
-                        const mapped: ReservationPeriod[] =
-                          data.reservations.map((r: any) => ({
-                            id: String(r.id),
-                            startDate: new Date(r.startDate),
-                            endDate: new Date(r.endDate),
-                            renterName: r.renterName,
-                            status: r.status,
-                          }));
+
+                      if (result.ok && result.conflictingDates) {
+                        setConflictingDates(result.conflictingDates);
 
                         // Check for conflicts with current selection
                         const start = selectedDateRange.start;
@@ -1423,16 +1408,11 @@ export default function ProductDetails() {
                         let hasConflict = false;
 
                         if (start && end) {
-                          for (const r of mapped) {
-                            if (
-                              r.status !== "pending" &&
-                              r.status !== "accepted"
-                            ) {
-                              continue;
-                            }
-                            const rs = new Date(r.startDate);
-                            const re = new Date(r.endDate);
-                            if (start <= re && end >= rs) {
+                          for (const range of result.conflictingDates) {
+                            const rangeStart = new Date(range.startDate);
+                            const rangeEnd = new Date(range.endDate);
+                            rangeEnd.setDate(rangeEnd.getDate() + 1);
+                            if (start <= rangeEnd && end >= rangeStart) {
                               hasConflict = true;
                               break;
                             }
@@ -1440,7 +1420,6 @@ export default function ProductDetails() {
                         }
 
                         if (hasConflict) {
-                          setReservations(mapped);
                           setSelectedDateRange({ start: null, end: null });
                           setShowConflictModal(true);
                         } else {
