@@ -201,6 +201,7 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
   const handleConfirmationGoBack = () => {
     console.log("[handleConfirmationGoBack] Going back to referral modal");
     setIsConfirmationOpen(false);
+    onOpenChange(true);
   };
 
   const handleConfirmationNoReferrer = async () => {
