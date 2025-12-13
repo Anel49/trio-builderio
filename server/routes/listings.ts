@@ -1952,9 +1952,9 @@ export async function updateReservationDates(req: Request, res: Response) {
       });
     }
 
-    // Fetch the reservation to verify ownership (host or renter)
+    // Fetch the reservation to verify ownership (host or renter) and get listing_id for timezone
     const reservationCheckResult = await pool.query(
-      `select host_id, renter_id from reservations where id = $1`,
+      `select host_id, renter_id, listing_id from reservations where id = $1`,
       [reservationId],
     );
 
@@ -1964,7 +1964,7 @@ export async function updateReservationDates(req: Request, res: Response) {
         .json({ ok: false, error: "Reservation not found" });
     }
 
-    const { host_id, renter_id } = reservationCheckResult.rows[0];
+    const { host_id, renter_id, listing_id } = reservationCheckResult.rows[0];
     // Allow both host and renter to propose new dates
     if (host_id !== userId && renter_id !== userId) {
       return res.status(403).json({
@@ -1972,6 +1972,14 @@ export async function updateReservationDates(req: Request, res: Response) {
         error: "You can only update dates on your own reservations",
       });
     }
+
+    // Fetch listing timezone
+    const listingResult = await pool.query(
+      `select timezone from listings where id = $1`,
+      [listing_id],
+    );
+
+    const listingTimezone = listingResult.rows[0]?.timezone || "UTC";
 
     // Update the reservation dates, status, and modified tracking
     const result = await pool.query(
