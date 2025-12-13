@@ -218,89 +218,98 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
   const isFindUserDisabled = isInputEmpty || isLoading;
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleModalClose}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Referral</DialogTitle>
-        </DialogHeader>
+    <>
+      <Dialog open={isOpen} onOpenChange={handleModalClose}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Referral</DialogTitle>
+          </DialogHeader>
 
-        <div className="space-y-6 p-0">
-          <div className="opacity-60">
-            <DialogDescription className="text-base text-foreground">
-              If you were referred by an existing user, please enter the
-              referring user's username below.
-            </DialogDescription>
-          </div>
-
-          <div className="space-y-4">
-            <div className="relative opacity-60">
-              <Input
-                type="text"
-                placeholder="Enter username"
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                  if (foundUser) {
-                    setFoundUser(null);
-                    setSuccessMessage("");
-                  }
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !isFindUserDisabled) {
-                    handleFindUser();
-                  }
-                }}
-                className="w-full pr-10"
-                disabled={isLoading && foundUser !== null}
-              />
-              {isLoading && !foundUser && (
-                <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                </div>
-              )}
-              {foundUser && !isLoading && (
-                <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
-                </div>
-              )}
+          <div className="space-y-6 p-0">
+            <div className="opacity-60">
+              <DialogDescription className="text-base text-foreground">
+                If you were referred by an existing user, please enter the
+                referring user's username below.
+              </DialogDescription>
             </div>
 
-            {(error || successMessage) && (
-              <p className="text-sm text-foreground text-center opacity-60">
-                {error || successMessage}
-              </p>
-            )}
-
-            <div className="flex gap-3">
-              <Button
-                variant="default"
-                className="flex-1"
-                onClick={foundUser ? handleSubmit : handleFindUser}
-                disabled={foundUser ? isLoading : isFindUserDisabled}
-              >
-                {isLoading && !foundUser ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Searching...
-                  </>
-                ) : foundUser ? (
-                  "Submit"
-                ) : (
-                  "Find user"
+            <div className="space-y-4">
+              <div className="relative opacity-60">
+                <Input
+                  type="text"
+                  placeholder="Enter username"
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    if (foundUser) {
+                      setFoundUser(null);
+                      setSuccessMessage("");
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !isFindUserDisabled) {
+                      handleFindUser();
+                    }
+                  }}
+                  className="w-full pr-10"
+                  disabled={isLoading && foundUser !== null}
+                />
+                {isLoading && !foundUser && (
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  </div>
                 )}
-              </Button>
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={handleNoReferrer}
-                disabled={isLoading}
-              >
-                No referrer
-              </Button>
+                {foundUser && !isLoading && (
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  </div>
+                )}
+              </div>
+
+              {(error || successMessage) && (
+                <p className="text-sm text-foreground text-center opacity-60">
+                  {error || successMessage}
+                </p>
+              )}
+
+              <div className="flex gap-3">
+                <Button
+                  variant="default"
+                  className="flex-1"
+                  onClick={foundUser ? handleSubmit : handleFindUser}
+                  disabled={foundUser ? isLoading : isFindUserDisabled}
+                >
+                  {isLoading && !foundUser ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Searching...
+                    </>
+                  ) : foundUser ? (
+                    "Submit"
+                  ) : (
+                    "Find user"
+                  )}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={handleNoReferrer}
+                  disabled={isLoading}
+                >
+                  No referrer
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+
+      <ReferralConfirmationModal
+        isOpen={isConfirmationOpen}
+        onOpenChange={setIsConfirmationOpen}
+        onGoBack={handleConfirmationGoBack}
+        onNoReferrer={handleConfirmationNoReferrer}
+      />
+    </>
   );
 }
