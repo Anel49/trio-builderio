@@ -2021,12 +2021,14 @@ export async function getListingConflictingDates(req: Request, res: Response) {
       : null;
 
     // Get all reservations for this listing with status 'pending', 'accepted', or 'confirmed'
+    // Also get all orders for this listing with status 'active', 'upcoming', or 'pending'
     // Exclude the specified reservation if provided
     let query = `
-      select id, start_date, end_date, status
-      from reservations
-      where listing_id = $1
-        and status in ('pending', 'accepted', 'confirmed')
+      (
+        select start_date, end_date, status
+        from reservations
+        where listing_id = $1
+          and status in ('pending', 'accepted', 'confirmed')
     `;
 
     const params: any[] = [listingId];
@@ -2037,6 +2039,17 @@ export async function getListingConflictingDates(req: Request, res: Response) {
       params.push(reservationId);
       paramIndex++;
     }
+
+    query += `
+      )
+      union all
+      (
+        select start_date, end_date, status
+        from orders
+        where listing_id = $1
+          and status in ('active', 'upcoming', 'pending')
+      )
+    `;
 
     const result = await pool.query(query, params);
 
