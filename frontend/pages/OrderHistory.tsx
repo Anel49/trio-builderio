@@ -65,7 +65,7 @@ import {
 type OrderStatus =
   | "completed"
   | "active"
-  | "cancelled"
+  | "canceled"
   | "upcoming"
   | "pending";
 type OrderType = "rented" | "hosted";
@@ -73,7 +73,7 @@ type RequestStatus =
   | "pending"
   | "accepted"
   | "rejected"
-  | "cancelled"
+  | "canceled"
   | "confirmed";
 
 interface Order {
@@ -474,7 +474,7 @@ export default function OrderHistory() {
       case "confirmed":
         return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
       case "rejected":
-      case "cancelled":
+      case "canceled":
         return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
@@ -490,7 +490,7 @@ export default function OrderHistory() {
       case "upcoming":
       case "pending":
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
-      case "cancelled":
+      case "canceled":
         return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
@@ -507,8 +507,8 @@ export default function OrderHistory() {
         return "Upcoming";
       case "pending":
         return "Pending";
-      case "cancelled":
-        return "Cancelled";
+      case "canceled":
+        return "Canceled";
       default:
         return status;
     }
@@ -700,7 +700,7 @@ export default function OrderHistory() {
       setProcessingReservationId(reservationToCancel.id);
       const result = await updateReservationStatus(
         reservationToCancel.id,
-        "cancelled",
+        "canceled",
       );
 
       if (result.ok) {
@@ -708,7 +708,7 @@ export default function OrderHistory() {
         setReservations((prevReservations) =>
           prevReservations.map((res) =>
             res.id === reservationToCancel.id
-              ? { ...res, status: "cancelled" }
+              ? { ...res, status: "canceled" }
               : res,
           ),
         );
