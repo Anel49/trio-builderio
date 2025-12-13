@@ -1328,8 +1328,8 @@ export default function OrderHistory() {
                         <DropdownMenuRadioItem value="rejected">
                           Rejected
                         </DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="cancelled">
-                          Cancelled
+                        <DropdownMenuRadioItem value="canceled">
+                          Canceled
                         </DropdownMenuRadioItem>
                       </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
