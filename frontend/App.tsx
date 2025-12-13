@@ -56,7 +56,7 @@ const AppContent = () => {
   const [showReferralModal, setShowReferralModal] = useState(false);
 
   useEffect(() => {
-    if (authenticated && user && user.referred_by_user_id === null) {
+    if (authenticated && user && (user.referred_by_user_id === null || user.referred_by_user_id === 0)) {
       const referralModalShown = sessionStorage.getItem("referralModalShown");
       if (!referralModalShown) {
         setShowReferralModal(true);
