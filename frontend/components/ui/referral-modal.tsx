@@ -28,7 +28,9 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
   } | null>(null);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const successfulSubmissionRef = useRef(false);
+  const isClosingFromNoReferrerRef = useRef(false);
 
   const handleModalClose = async (open: boolean) => {
     console.log(
