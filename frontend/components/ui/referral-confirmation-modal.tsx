@@ -49,11 +49,7 @@ export function ReferralConfirmationModal({
           </p>
 
           <div className="flex gap-3">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={handleGoBack}
-            >
+            <Button variant="outline" className="flex-1" onClick={handleGoBack}>
               Go back
             </Button>
             <Button
