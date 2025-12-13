@@ -143,6 +143,7 @@ interface Reservation {
   addons: any;
   new_dates_proposed?: string;
   created_at: string;
+  listingTimezone?: string;
 }
 
 interface UserProfile {
