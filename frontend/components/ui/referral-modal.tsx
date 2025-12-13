@@ -195,6 +195,25 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
     }
   };
 
+  const handleConfirmationGoBack = () => {
+    console.log("[handleConfirmationGoBack] Going back to referral modal");
+    setIsConfirmationOpen(false);
+  };
+
+  const handleConfirmationNoReferrer = async () => {
+    console.log("[handleConfirmationNoReferrer] No referrer from confirmation");
+    isClosingFromNoReferrerRef.current = true;
+    await updateReferrer(0);
+    setUsername("");
+    setFoundUser(null);
+    setError("");
+    setSuccessMessage("");
+    setIsLoading(false);
+    setIsConfirmationOpen(false);
+    isClosingFromNoReferrerRef.current = false;
+    onOpenChange(false);
+  };
+
   const isInputEmpty = !username.trim();
   const isFindUserDisabled = isInputEmpty || isLoading;
 
