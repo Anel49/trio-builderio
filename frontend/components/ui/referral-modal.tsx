@@ -42,10 +42,16 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
       successfulSubmissionRef.current,
     );
     if (!open && isOpen && !successfulSubmissionRef.current) {
-      console.log("[handleModalClose] Calling updateReferrer with 0");
-      await updateReferrer(0);
+      // If not closing from successful submission, show confirmation modal
+      if (!isClosingFromNoReferrerRef.current) {
+        console.log("[handleModalClose] Showing confirmation modal");
+        setIsConfirmationOpen(true);
+      } else {
+        console.log("[handleModalClose] Closing from No referrer button");
+        isClosingFromNoReferrerRef.current = false;
+      }
     }
-    if (!open) {
+    if (!open && !isClosingFromNoReferrerRef.current) {
       setUsername("");
       setFoundUser(null);
       setError("");
