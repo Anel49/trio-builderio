@@ -1756,10 +1756,14 @@ export async function updateReservationStatus(req: Request, res: Response) {
     }
 
     const { status } = req.body || {};
-    if (!status || !["pending", "accepted", "rejected", "canceled"].includes(status)) {
+    if (
+      !status ||
+      !["pending", "accepted", "rejected", "canceled"].includes(status)
+    ) {
       return res.status(400).json({
         ok: false,
-        error: "status must be 'pending', 'accepted', 'rejected', or 'canceled'",
+        error:
+          "status must be 'pending', 'accepted', 'rejected', or 'canceled'",
       });
     }
 

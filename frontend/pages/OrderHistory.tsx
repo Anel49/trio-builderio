@@ -62,12 +62,7 @@ import {
   ArrowDownUp,
 } from "lucide-react";
 
-type OrderStatus =
-  | "completed"
-  | "active"
-  | "canceled"
-  | "upcoming"
-  | "pending";
+type OrderStatus = "completed" | "active" | "canceled" | "upcoming" | "pending";
 type OrderType = "rented" | "hosted";
 type RequestStatus =
   | "pending"
@@ -1201,9 +1196,14 @@ export default function OrderHistory() {
                             size="sm"
                             onClick={() => {
                               const recipientId =
-                                order.type === "rented" ? order.host_id : order.renter_id;
+                                order.type === "rented"
+                                  ? order.host_id
+                                  : order.renter_id;
                               if (recipientId) {
-                                window.open(`/messages?userId=${recipientId}`, "_blank");
+                                window.open(
+                                  `/messages?userId=${recipientId}`,
+                                  "_blank",
+                                );
                               }
                             }}
                           >
@@ -1591,7 +1591,10 @@ export default function OrderHistory() {
                                     ? res.renter_id
                                     : res.host_id;
                                 if (recipientId) {
-                                  window.open(`/messages?userId=${recipientId}`, "_blank");
+                                  window.open(
+                                    `/messages?userId=${recipientId}`,
+                                    "_blank",
+                                  );
                                 }
                               }}
                             >
