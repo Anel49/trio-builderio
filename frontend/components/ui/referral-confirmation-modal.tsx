@@ -44,7 +44,7 @@ export function ReferralConfirmationModal({
         </DialogHeader>
 
         <div className="space-y-6 p-0">
-          <p className="text-base text-foreground">
+          <p className="text-base text-foreground opacity-60">
             Please confirm that you were not referred by another user.
           </p>
 
