@@ -25,7 +25,7 @@ export interface User {
   oauth: string | null;
   active: boolean;
   stripeSecret: string | null;
-  referred_by_user_id: string | null;
+  referred_by_user_id: number | null;
 }
 
 interface AuthContextType {
