@@ -46,7 +46,8 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
       if (!isClosingFromNoReferrerRef.current) {
         console.log("[handleModalClose] Showing confirmation modal");
         setIsConfirmationOpen(true);
-        // Don't close the referral modal, keep it open in background
+        // Close the referral modal
+        onOpenChange(false);
         return;
       } else {
         console.log("[handleModalClose] Closing from No referrer button");
