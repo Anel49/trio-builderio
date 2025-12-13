@@ -1374,6 +1374,7 @@ export default function ProductDetails() {
                     onChange={setSelectedDateRange}
                     disabledDateRanges={conflictingDates}
                     buttonClassName="w-full"
+                    listingTimezone={product?.timezone || "UTC"}
                   />
                 </div>
               )}
