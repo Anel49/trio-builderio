@@ -639,6 +639,7 @@ export default function ProductDetails() {
                 ? l.instantBookings
                 : false,
             addons: Array.isArray(l.addons) ? l.addons : undefined,
+            timezone: typeof l.timezone === "string" ? l.timezone : "UTC",
           });
           setProductLoading(false);
           setProductNotFound(false);
