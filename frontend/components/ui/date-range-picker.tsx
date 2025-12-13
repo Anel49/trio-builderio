@@ -24,6 +24,7 @@ interface DateRangePickerProps {
   maxDate?: Date;
   className?: string;
   buttonClassName?: string;
+  listingTimezone?: string;
 }
 
 export function DateRangePicker({
