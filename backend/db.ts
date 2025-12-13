@@ -423,6 +423,68 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] end_date_proposed column already exists");
     }
 
+    // Create btree_gist extension for EXCLUDE constraint
+    try {
+      await pool.query(`create extension if not exists btree_gist`);
+      console.log("[dbSetup] Created btree_gist extension");
+    } catch (e: any) {
+      console.log("[dbSetup] btree_gist extension error:", e?.message?.slice(0, 100));
+    }
+
+    // Truncate reservations table to start fresh (dev phase, no data to migrate)
+    try {
+      await pool.query(`truncate table reservations cascade`);
+      console.log("[dbSetup] Truncated reservations table");
+    } catch (e: any) {
+      console.log("[dbSetup] Truncate reservations error:", e?.message?.slice(0, 100));
+    }
+
+    // Remove existing EXCLUDE constraint if it exists
+    try {
+      await pool.query(
+        `alter table reservations drop constraint if exists reservations_listing_dates_excl`,
+      );
+      console.log("[dbSetup] Dropped existing EXCLUDE constraint if present");
+    } catch (e: any) {
+      console.log("[dbSetup] Drop constraint error:", e?.message?.slice(0, 100));
+    }
+
+    // Add EXCLUDE constraint to prevent overlapping date ranges
+    try {
+      await pool.query(`
+        alter table reservations add constraint reservations_listing_dates_excl
+        exclude using gist (
+          listing_id with =,
+          daterange(start_date, end_date, '[)') with &&
+        ) where (status in ('pending', 'accepted', 'confirmed'))
+      `);
+      console.log("[dbSetup] Added EXCLUDE constraint for date range overlap prevention");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] EXCLUDE constraint error:",
+        e?.message?.slice(0, 150),
+      );
+    }
+
+    // Remove existing index if it exists
+    try {
+      await pool.query(`drop index if exists idx_reservations_listing_dates`);
+      console.log("[dbSetup] Dropped existing listing dates index if present");
+    } catch (e: any) {
+      console.log("[dbSetup] Drop index error:", e?.message?.slice(0, 100));
+    }
+
+    // Add index for query performance on listing + date range queries
+    try {
+      await pool.query(`
+        create index idx_reservations_listing_dates
+        on reservations(listing_id, start_date, end_date)
+      `);
+      console.log("[dbSetup] Created index on reservations(listing_id, start_date, end_date)");
+    } catch (e: any) {
+      console.log("[dbSetup] Create index error:", e?.message?.slice(0, 100));
+    }
+
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
