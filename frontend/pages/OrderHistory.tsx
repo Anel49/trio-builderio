@@ -686,6 +686,49 @@ export default function OrderHistory() {
     setProposeDateModalOpen(true);
   };
 
+  const handleOpenCancelRequestModal = (reservation: Reservation) => {
+    setReservationToCancel(reservation);
+    setCancelRequestConfirmModalOpen(true);
+  };
+
+  const handleConfirmCancelRequest = async () => {
+    if (!reservationToCancel) return;
+
+    setCancelRequestConfirmModalOpen(false);
+
+    try {
+      setProcessingReservationId(reservationToCancel.id);
+      const result = await updateReservationStatus(
+        reservationToCancel.id,
+        "cancelled",
+      );
+
+      if (result.ok) {
+        // Update the reservations list to reflect the cancellation
+        setReservations((prevReservations) =>
+          prevReservations.map((res) =>
+            res.id === reservationToCancel.id
+              ? { ...res, status: "cancelled" }
+              : res,
+          ),
+        );
+        setCancelRequestSuccessModalOpen(true);
+        setReservationToCancel(null);
+      } else {
+        console.error(
+          "[handleConfirmCancelRequest] Failed to cancel reservation:",
+          result.error,
+        );
+        alert(`Failed to cancel request: ${result.error}`);
+      }
+    } catch (error) {
+      console.error("[handleConfirmCancelRequest] Exception:", error);
+      alert("An error occurred while canceling the request.");
+    } finally {
+      setProcessingReservationId(null);
+    }
+  };
+
   const handleConfirmDateProposal = async () => {
     if (
       !reservationToProposeDates ||
