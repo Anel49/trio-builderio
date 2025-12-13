@@ -1186,7 +1186,7 @@ export default function OrderHistory() {
                                   setOrdersState((prev) =>
                                     prev.map((o) =>
                                       o.id === order.id
-                                        ? { ...o, status: "cancelled" }
+                                        ? { ...o, status: "canceled" }
                                         : o,
                                     ),
                                   );
