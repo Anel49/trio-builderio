@@ -898,8 +898,8 @@ export default function OrderHistory() {
                       <DropdownMenuRadioItem value="pending">
                         Pending
                       </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="cancelled">
-                        Cancelled
+                      <DropdownMenuRadioItem value="canceled">
+                        Canceled
                       </DropdownMenuRadioItem>
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
