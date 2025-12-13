@@ -2065,6 +2065,14 @@ export async function getListingConflictingDates(req: Request, res: Response) {
 
     const result = await pool.query(query, params);
 
+    // Fetch listing timezone
+    const listingResult = await pool.query(
+      `select timezone from listings where id = $1`,
+      [listingId],
+    );
+
+    const listingTimezone = listingResult.rows[0]?.timezone || "UTC";
+
     // Convert to date ranges for the frontend
     const conflictingDates = result.rows.map((row: any) => ({
       startDate: row.start_date,
@@ -2075,6 +2083,7 @@ export async function getListingConflictingDates(req: Request, res: Response) {
     res.json({
       ok: true,
       conflictingDates,
+      listingTimezone,
     });
   } catch (error: any) {
     console.error("[getListingConflictingDates] Error:", error);
