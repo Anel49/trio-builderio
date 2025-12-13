@@ -1383,27 +1383,20 @@ export async function createReservation(req: Request, res: Response) {
       end_date,
     );
 
-    // Check for conflicting reservations (pending or accepted status)
-    const conflictCheck = await pool.query(
-      `select id from reservations
-       where listing_id = $1
-       and status in ('pending', 'accepted')
-       and (
-         (start_date::date <= $3::date and end_date::date >= $2::date)
-       )
-       limit 1`,
-      [listing_id, start_date, end_date],
+    // Fetch listing timezone
+    const listingResult = await pool.query(
+      `select timezone from listings where id = $1`,
+      [listing_id],
     );
 
-    if (conflictCheck.rows.length > 0) {
-      console.log(
-        "[createReservation] Conflict detected with existing reservation",
-      );
-      return res.status(409).json({
+    if (listingResult.rows.length === 0) {
+      return res.status(404).json({
         ok: false,
-        error: "Date range conflicts with existing reservation",
+        error: "Listing not found",
       });
     }
+
+    const listingTimezone = listingResult.rows[0].timezone || "UTC";
 
     // Create the reservation
     const result = await pool.query(
