@@ -57,7 +57,12 @@ const AppContent = () => {
 
   useEffect(() => {
     if (authenticated && user) {
-      console.log("[App] User referred_by_user_id:", user.referred_by_user_id, "Type:", typeof user.referred_by_user_id);
+      console.log(
+        "[App] User referred_by_user_id:",
+        user.referred_by_user_id,
+        "Type:",
+        typeof user.referred_by_user_id,
+      );
       // Only show referral modal if referred_by_user_id is null (not yet set)
       if (user.referred_by_user_id === null) {
         const referralModalShown = sessionStorage.getItem("referralModalShown");
