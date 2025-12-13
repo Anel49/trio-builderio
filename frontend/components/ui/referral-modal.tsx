@@ -64,12 +64,14 @@ export function ReferralModal({ isOpen, onOpenChange }: ReferralModalProps) {
 
   const handleNoReferrer = async () => {
     console.log("[handleNoReferrer] No referrer clicked");
+    isClosingFromNoReferrerRef.current = true;
     await updateReferrer(0);
     setUsername("");
     setFoundUser(null);
     setError("");
     setSuccessMessage("");
     setIsLoading(false);
+    isClosingFromNoReferrerRef.current = false;
     onOpenChange(false);
   };
 
