@@ -1444,7 +1444,7 @@ export default function ProductDetails() {
                   {!selectedDateRange.start || !selectedDateRange.end
                     ? "Select dates to reserve"
                     : hasDateConflict()
-                      ? "Dates conflict with reservations"
+                      ? "Dates conflict with existing bookings"
                       : isDateRangeValid()
                         ? "Reserve Now"
                         : "Select dates to reserve"}
