@@ -2005,7 +2005,7 @@ export default function OrderHistory() {
           <div className="py-4">
             <p className="text-base text-muted-foreground">
               Are you sure you want to cancel this booking? This will allow
-              another user to take your reserved dates.
+              another user to take your reserved date(s).
             </p>
           </div>
           <div className="flex gap-3">
