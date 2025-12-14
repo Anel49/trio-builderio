@@ -56,14 +56,13 @@ export function DateRangePicker({
   }, []);
 
   const formatDateRange = () => {
-    const tzLabel = listingTimezone ? ` (${listingTimezone})` : "";
-    if (!value.start && !value.end) return `Select dates${tzLabel}`;
+    if (!value.start && !value.end) return "Select dates";
     if (value.start && !value.end)
-      return `${format(value.start, "MMM dd")} - Select end date${tzLabel}`;
+      return `${format(value.start, "MMM dd")} - Select end date`;
     if (value.start && value.end) {
-      return `${format(value.start, "MMM dd")} - ${format(value.end, "MMM dd")}${tzLabel}`;
+      return `${format(value.start, "MMM dd")} - ${format(value.end, "MMM dd")}`;
     }
-    return `Select dates${tzLabel}`;
+    return "Select dates";
   };
 
   const getReservationForDate = (date: Date): ReservationPeriod | null => {
