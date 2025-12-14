@@ -575,7 +575,7 @@ export async function getListingById(req: Request, res: Response) {
          left join listings all_listings on u.id = all_listings.host_id
          left join listing_reviews all_lr on all_listings.id = all_lr.listing_id
          where l.id = $1 and coalesce(u.active, true) = true
-         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.postcode, l.created_at, l.latitude, l.longitude, l.delivery, l.free_delivery, l.enabled, l.instant_bookings, u.open_dms, u.created_at, u.username, u.avatar_url, u.email, l.host_id`,
+         group by l.id, l.name, l.price_cents, l.rating, l.image_url, l.host, l.category, l.description, l.postcode, l.created_at, l.latitude, l.longitude, l.timezone, l.delivery, l.free_delivery, l.enabled, l.instant_bookings, u.open_dms, u.created_at, u.username, u.avatar_url, u.email, l.host_id`,
         [id],
       );
     } catch (e) {
