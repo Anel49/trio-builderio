@@ -1761,12 +1761,14 @@ export default function OrderHistory() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Booking confirmed</DialogTitle>
-            <DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-base text-muted-foreground">
               Your booking has been confirmed! For complete booking information,
               check the Rental History tab, click or tap the 3 dots, and select
               "View details".
-            </DialogDescription>
-          </DialogHeader>
+            </p>
+          </div>
         </DialogContent>
       </Dialog>
 
