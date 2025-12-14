@@ -1962,14 +1962,20 @@ export default function OrderHistory() {
               Back
             </Button>
             <Button
-              className="flex-1"
+              className={cn(
+                "flex-1",
+                hasDateConflictForProposal() && "bg-red-600 hover:bg-red-700"
+              )}
               onClick={handleSubmitDateProposal}
               disabled={
                 processingReservationId === reservationToProposeDates?.id ||
-                !reservationToProposeDates
+                !reservationToProposeDates ||
+                hasDateConflictForProposal()
               }
             >
-              Confirm
+              {hasDateConflictForProposal()
+                ? "Dates conflict with existing bookings"
+                : "Confirm"}
             </Button>
           </div>
         </DialogContent>
