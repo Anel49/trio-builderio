@@ -690,6 +690,23 @@ export default function OrderHistory() {
     setProposeDateModalOpen(true);
   };
 
+  const hasDateConflictForProposal = () => {
+    if (!dateProposalRange.start || !dateProposalRange.end) {
+      return false;
+    }
+    const start = dateProposalRange.start;
+    const end = dateProposalRange.end;
+
+    for (const range of conflictingDates) {
+      const rangeStart = new Date(range.startDate);
+      const rangeEnd = new Date(range.endDate);
+      // Add 1 day to end date to make it inclusive
+      rangeEnd.setDate(rangeEnd.getDate() + 1);
+      if (start <= rangeEnd && end >= rangeStart) return true;
+    }
+    return false;
+  };
+
   const handleOpenCancelRequestModal = (reservation: Reservation) => {
     setReservationToCancel(reservation);
     setCancelRequestConfirmModalOpen(true);
