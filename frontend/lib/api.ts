@@ -712,6 +712,7 @@ export async function updateReservationDates(
     status: string;
     lastModified: string;
     modifiedById: string | number;
+    listingTimezone?: string;
   };
   error?: string;
 }> {
@@ -896,6 +897,7 @@ export async function getListingConflictingDates(
     endDate: string;
     status: string;
   }>;
+  listingTimezone?: string;
   error?: string;
 }> {
   try {
@@ -959,6 +961,7 @@ export async function getListingConflictingDates(
     return {
       ok: data.ok,
       conflictingDates: data.conflictingDates || [],
+      listingTimezone: data.listingTimezone,
       error: data.error,
     };
   } catch (error: any) {
