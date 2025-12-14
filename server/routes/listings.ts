@@ -716,6 +716,7 @@ export async function getListingById(req: Request, res: Response) {
       enabled: typeof r.enabled === "boolean" ? r.enabled : true,
       instantBookings: Boolean(r.instant_bookings),
       addons: addons.length > 0 ? addons : [],
+      timezone: typeof r.timezone === "string" ? r.timezone : "UTC",
     };
     res.json({ ok: true, listing });
   } catch (error: any) {
