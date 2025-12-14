@@ -1966,7 +1966,7 @@ export default function OrderHistory() {
             <Button
               className={cn(
                 "flex-1",
-                hasDateConflictForProposal() && "bg-red-600 hover:bg-red-700"
+                hasDateConflictForProposal() && "bg-red-600 hover:bg-red-700",
               )}
               onClick={handleSubmitDateProposal}
               disabled={

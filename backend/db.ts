@@ -428,7 +428,10 @@ export async function dbSetup(_req: Request, res: Response) {
       await pool.query(`create extension if not exists btree_gist`);
       console.log("[dbSetup] Created btree_gist extension");
     } catch (e: any) {
-      console.log("[dbSetup] btree_gist extension error:", e?.message?.slice(0, 100));
+      console.log(
+        "[dbSetup] btree_gist extension error:",
+        e?.message?.slice(0, 100),
+      );
     }
 
     // Truncate reservations table to start fresh (dev phase, no data to migrate)
@@ -436,7 +439,10 @@ export async function dbSetup(_req: Request, res: Response) {
       await pool.query(`truncate table reservations cascade`);
       console.log("[dbSetup] Truncated reservations table");
     } catch (e: any) {
-      console.log("[dbSetup] Truncate reservations error:", e?.message?.slice(0, 100));
+      console.log(
+        "[dbSetup] Truncate reservations error:",
+        e?.message?.slice(0, 100),
+      );
     }
 
     // Remove existing EXCLUDE constraint if it exists
@@ -446,7 +452,10 @@ export async function dbSetup(_req: Request, res: Response) {
       );
       console.log("[dbSetup] Dropped existing EXCLUDE constraint if present");
     } catch (e: any) {
-      console.log("[dbSetup] Drop constraint error:", e?.message?.slice(0, 100));
+      console.log(
+        "[dbSetup] Drop constraint error:",
+        e?.message?.slice(0, 100),
+      );
     }
 
     // Add EXCLUDE constraint to prevent overlapping date ranges
@@ -458,7 +467,9 @@ export async function dbSetup(_req: Request, res: Response) {
           daterange(start_date, end_date, '[)') with &&
         ) where (status in ('pending', 'accepted', 'confirmed'))
       `);
-      console.log("[dbSetup] Added EXCLUDE constraint for date range overlap prevention");
+      console.log(
+        "[dbSetup] Added EXCLUDE constraint for date range overlap prevention",
+      );
     } catch (e: any) {
       console.log(
         "[dbSetup] EXCLUDE constraint error:",
@@ -480,7 +491,9 @@ export async function dbSetup(_req: Request, res: Response) {
         create index idx_reservations_listing_dates
         on reservations(listing_id, start_date, end_date)
       `);
-      console.log("[dbSetup] Created index on reservations(listing_id, start_date, end_date)");
+      console.log(
+        "[dbSetup] Created index on reservations(listing_id, start_date, end_date)",
+      );
     } catch (e: any) {
       console.log("[dbSetup] Create index error:", e?.message?.slice(0, 100));
     }
