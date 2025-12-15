@@ -263,6 +263,15 @@ export default function OrderHistory() {
   const [reservationToCancel, setReservationToCancel] =
     useState<Reservation | null>(null);
 
+  // Extension request modal state
+  const [extensionModalOpen, setExtensionModalOpen] = useState(false);
+  const [selectedOrderForExtension, setSelectedOrderForExtension] =
+    useState<Order | null>(null);
+  const [extensionConflictingDates, setExtensionConflictingDates] = useState<
+    Array<{ startDate: string; endDate: string }>
+  >([]);
+  const [extensionModalLoading, setExtensionModalLoading] = useState(false);
+
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
     try {
