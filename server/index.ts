@@ -27,6 +27,10 @@ import {
   getListingConflictingDates,
   createOrderFromReservationRenter,
   getUserOrders,
+  createExtensionRequest,
+  respondToExtensionRequest,
+  createExtensionOrder,
+  cancelExtensionOrder,
 } from "./routes/listings";
 import {
   getUserByEmail,
