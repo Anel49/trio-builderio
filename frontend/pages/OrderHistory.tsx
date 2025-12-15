@@ -835,6 +835,68 @@ export default function OrderHistory() {
     }
   };
 
+  const handleOpenExtensionModal = async (order: Order) => {
+    setSelectedOrderForExtension(order);
+    setExtensionConflictingDates([]);
+    setExtensionModalLoading(false);
+
+    // Fetch conflicting dates for the listing
+    if (order.listing_id) {
+      const result = await getListingConflictingDates(order.listing_id);
+      if (result.ok && result.conflictingDates) {
+        setExtensionConflictingDates(result.conflictingDates);
+        console.log(
+          "[handleOpenExtensionModal] Fetched conflicting dates:",
+          result.conflictingDates
+        );
+      }
+    }
+
+    setExtensionModalOpen(true);
+  };
+
+  const handleSubmitExtensionRequest = async (startDate: Date, endDate: Date) => {
+    if (!selectedOrderForExtension || !selectedOrderForExtension.listing_id) {
+      console.error("[handleSubmitExtensionRequest] Missing order or listing data");
+      return;
+    }
+
+    setExtensionModalLoading(true);
+    try {
+      const start = formatDateForApi(startDate);
+      const end = formatDateForApi(endDate);
+
+      const result = await createExtensionRequest(
+        selectedOrderForExtension.id,
+        selectedOrderForExtension.listing_id,
+        start,
+        end
+      );
+
+      if (result.ok) {
+        console.log(
+          "[handleSubmitExtensionRequest] Extension request created:",
+          result.reservation?.id
+        );
+        setExtensionModalOpen(false);
+        setSelectedOrderForExtension(null);
+        setExtensionConflictingDates([]);
+        // Show success message
+        alert("Extension request sent! The host will review your request.");
+        // Refresh reservations to show the new pending request
+        fetchReservations();
+      } else {
+        console.error("[handleSubmitExtensionRequest] Failed:", result.error);
+        alert(`Failed to create extension request: ${result.error}`);
+      }
+    } catch (error) {
+      console.error("[handleSubmitExtensionRequest] Exception:", error);
+      alert("An error occurred while creating the extension request");
+    } finally {
+      setExtensionModalLoading(false);
+    }
+  };
+
   const sortedOrders = [...filteredOrders].sort((a, b) => {
     const aDate = new Date(a.startDate).getTime();
     const bDate = new Date(b.startDate).getTime();
