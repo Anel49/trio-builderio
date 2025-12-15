@@ -651,6 +651,11 @@ export function createServer() {
     "/api/reservations/:reservationId/create-order",
     createOrderFromReservationRenter,
   );
+  // Extension request routes
+  app.post("/api/orders/:orderId/extension-request", createExtensionRequest);
+  app.patch("/api/reservations/:reservationId/extension-response", respondToExtensionRequest);
+  app.post("/api/reservations/:reservationId/confirm-extension", createExtensionOrder);
+  app.patch("/api/orders/:orderId/cancel-extension", cancelExtensionOrder);
   app.get("/api/orders/:userId", getUserOrders);
   // Users
   app.get("/api/users", getUserByEmail); // query: email
