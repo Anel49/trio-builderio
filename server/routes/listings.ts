@@ -2186,3 +2186,462 @@ export async function createOrderFromReservationRenter(
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+/**
+ * Create an extension request (pending reservation)
+ * POST /orders/:orderId/extension-request
+ */
+export async function createExtensionRequest(req: Request, res: Response) {
+  try {
+    const orderId = Number((req.params as any)?.orderId);
+    if (!orderId || Number.isNaN(orderId)) {
+      return res.status(400).json({ ok: false, error: "invalid orderId" });
+    }
+
+    const userId = (req as any).session?.userId;
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    const { listing_id, start_date, end_date } = req.body || {};
+
+    if (!listing_id || !start_date || !end_date) {
+      return res.status(400).json({
+        ok: false,
+        error: "listing_id, start_date, and end_date are required",
+      });
+    }
+
+    // Validate dates
+    const startDate = new Date(start_date);
+    const endDate = new Date(end_date);
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      return res.status(400).json({ ok: false, error: "Invalid date format" });
+    }
+
+    if (startDate > endDate) {
+      return res.status(400).json({
+        ok: false,
+        error: "start_date must be before or equal to end_date",
+      });
+    }
+
+    // Validate 24-hour rule (must be at least 24 hours from now)
+    const now = new Date();
+    const minTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    if (startDate < minTime) {
+      return res.status(400).json({
+        ok: false,
+        error: "Extension must start at least 24 hours from now",
+      });
+    }
+
+    // Fetch the order being extended
+    const orderResult = await pool.query(
+      `select id, renter_id, host_id, host_name, host_email, end_date, listing_title, listing_image,
+              listing_latitude, listing_longitude, daily_price_cents, rental_type, status
+       from orders where id = $1`,
+      [orderId]
+    );
+
+    if (orderResult.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Order not found" });
+    }
+
+    const order = orderResult.rows[0];
+
+    // Validate renter is the one making the request
+    if (order.renter_id !== userId) {
+      return res.status(403).json({
+        ok: false,
+        error: "Only the renter can request extensions",
+      });
+    }
+
+    // Validate order status is active or upcoming
+    if (order.status !== "active" && order.status !== "upcoming") {
+      return res.status(400).json({
+        ok: false,
+        error: "Can only extend active or upcoming orders",
+      });
+    }
+
+    // Validate start_date is after original order end_date
+    const orderEndDate = new Date(order.end_date);
+    const dayAfterOrderEnd = new Date(orderEndDate);
+    dayAfterOrderEnd.setDate(dayAfterOrderEnd.getDate() + 1);
+
+    if (startDate < dayAfterOrderEnd) {
+      return res.status(400).json({
+        ok: false,
+        error: "Extension must start after the original order ends",
+      });
+    }
+
+    // Check for conflicts with existing reservations/orders
+    const conflictResult = await pool.query(
+      `
+      select 1 from (
+        select start_date, end_date from reservations
+        where listing_id = $1
+          and status in ('pending', 'accepted', 'confirmed')
+        union all
+        select start_date, end_date from orders
+        where listing_id = $1
+          and status in ('pending', 'active', 'upcoming')
+      ) as conflicting
+      where $2::date < end_date and $3::date > start_date
+      limit 1
+      `,
+      [listing_id, end_date, start_date]
+    );
+
+    if (conflictResult.rows.length > 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "Selected dates conflict with existing bookings",
+      });
+    }
+
+    // Create reservation for the extension request
+    const createResult = await pool.query(
+      `insert into reservations (
+        listing_id, renter_id, host_id, host_name, host_email,
+        start_date, end_date, listing_title, listing_image,
+        listing_latitude, listing_longitude, daily_price_cents,
+        rental_type, status, extension_of, created_at
+       )
+       values ($1, $2, $3, $4, $5, $6::date, $7::date, $8, $9, $10, $11, $12, $13, 'pending', $14, now())
+       returning id, start_date, end_date, status, extension_of, created_at`,
+      [
+        listing_id,
+        userId,
+        order.host_id,
+        order.host_name,
+        order.host_email,
+        start_date,
+        end_date,
+        order.listing_title,
+        order.listing_image,
+        order.listing_latitude,
+        order.listing_longitude,
+        order.daily_price_cents,
+        order.rental_type,
+        orderId,
+      ]
+    );
+
+    const reservation = createResult.rows[0];
+
+    console.log("[createExtensionRequest] Extension request created:", reservation.id);
+
+    res.json({
+      ok: true,
+      reservation: {
+        id: String(reservation.id),
+        listing_id,
+        start_date: new Date(reservation.start_date).toISOString(),
+        end_date: new Date(reservation.end_date).toISOString(),
+        status: reservation.status,
+        extension_of: reservation.extension_of,
+        created_at: reservation.created_at,
+      },
+    });
+  } catch (error: any) {
+    console.error("[createExtensionRequest] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
+/**
+ * Respond to extension request (accept/reject)
+ * PATCH /reservations/:reservationId/extension-response
+ */
+export async function respondToExtensionRequest(req: Request, res: Response) {
+  try {
+    const reservationId = Number((req.params as any)?.reservationId);
+    if (!reservationId || Number.isNaN(reservationId)) {
+      return res.status(400).json({ ok: false, error: "invalid reservationId" });
+    }
+
+    const userId = (req as any).session?.userId;
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    const { accepted } = req.body || {};
+    if (typeof accepted !== "boolean") {
+      return res.status(400).json({
+        ok: false,
+        error: "accepted must be a boolean",
+      });
+    }
+
+    // Fetch reservation
+    const resResult = await pool.query(
+      `select id, host_id, status, extension_of from reservations where id = $1`,
+      [reservationId]
+    );
+
+    if (resResult.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Reservation not found" });
+    }
+
+    const reservation = resResult.rows[0];
+
+    // Validate user is the host
+    if (reservation.host_id !== userId) {
+      return res.status(403).json({
+        ok: false,
+        error: "Only the host can respond to extension requests",
+      });
+    }
+
+    // Validate reservation is pending
+    if (reservation.status !== "pending") {
+      return res.status(400).json({
+        ok: false,
+        error: "Extension request is not pending",
+      });
+    }
+
+    // Validate original order still exists and is active/upcoming
+    const orderResult = await pool.query(
+      `select status from orders where id = $1`,
+      [reservation.extension_of]
+    );
+
+    if (orderResult.rows.length === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "Original order no longer exists",
+      });
+    }
+
+    const orderStatus = orderResult.rows[0].status;
+    if (orderStatus !== "active" && orderStatus !== "upcoming") {
+      return res.status(400).json({
+        ok: false,
+        error: "Original order is no longer active",
+      });
+    }
+
+    // Update reservation status
+    const newStatus = accepted ? "accepted" : "rejected";
+    const updateResult = await pool.query(
+      `update reservations set status = $1 where id = $2 returning *`,
+      [newStatus, reservationId]
+    );
+
+    console.log(`[respondToExtensionRequest] Reservation ${reservationId} ${newStatus}`);
+
+    res.json({
+      ok: true,
+      reservation: {
+        id: String(updateResult.rows[0].id),
+        status: updateResult.rows[0].status,
+      },
+    });
+  } catch (error: any) {
+    console.error("[respondToExtensionRequest] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
+/**
+ * Create an order from accepted extension reservation (after payment)
+ * POST /reservations/:reservationId/confirm-extension
+ */
+export async function createExtensionOrder(req: Request, res: Response) {
+  try {
+    const reservationId = Number((req.params as any)?.reservationId);
+    if (!reservationId || Number.isNaN(reservationId)) {
+      return res.status(400).json({ ok: false, error: "invalid reservationId" });
+    }
+
+    const userId = (req as any).session?.userId;
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    // Fetch reservation
+    const resResult = await pool.query(
+      `select * from reservations where id = $1`,
+      [reservationId]
+    );
+
+    if (resResult.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Reservation not found" });
+    }
+
+    const reservation = resResult.rows[0];
+
+    // Validate renter making request
+    if (reservation.renter_id !== userId) {
+      return res.status(403).json({
+        ok: false,
+        error: "Only the renter can confirm the extension",
+      });
+    }
+
+    // Validate reservation is accepted
+    if (reservation.status !== "accepted") {
+      return res.status(400).json({
+        ok: false,
+        error: "Reservation is not accepted",
+      });
+    }
+
+    // Calculate total price for extension
+    const startDate = new Date(reservation.start_date);
+    const endDate = new Date(reservation.end_date);
+    const totalDays =
+      Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const dailyPrice = reservation.daily_price_cents;
+
+    // Create new order for the extension
+    const newOrderResult = await pool.query(
+      `insert into orders (
+        listing_id, host_id, host_name, host_email,
+        renter_id, renter_name, renter_email, listing_title, listing_image,
+        listing_latitude, listing_longitude, daily_price_cents, total_days,
+        rental_type, start_date, end_date, status, extension_of, created_at
+       )
+       values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::date, $16::date, 'upcoming', $17, now())
+       returning id, start_date, end_date, status, extension_of`,
+      [
+        reservation.listing_id,
+        reservation.host_id,
+        reservation.host_name,
+        reservation.host_email,
+        reservation.renter_id,
+        reservation.renter_name,
+        reservation.renter_email,
+        reservation.listing_title,
+        reservation.listing_image,
+        reservation.listing_latitude,
+        reservation.listing_longitude,
+        dailyPrice,
+        totalDays,
+        reservation.rental_type,
+        reservation.start_date,
+        reservation.end_date,
+        reservation.extension_of,
+      ]
+    );
+
+    const newOrder = newOrderResult.rows[0];
+
+    // Update reservation status to confirmed
+    await pool.query(
+      `update reservations set status = 'confirmed' where id = $1`,
+      [reservationId]
+    );
+
+    console.log("[createExtensionOrder] Extension order created:", newOrder.id);
+
+    res.json({
+      ok: true,
+      order: {
+        id: String(newOrder.id),
+        start_date: new Date(newOrder.start_date).toISOString(),
+        end_date: new Date(newOrder.end_date).toISOString(),
+        status: newOrder.status,
+        extension_of: newOrder.extension_of,
+      },
+    });
+  } catch (error: any) {
+    console.error("[createExtensionOrder] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
+/**
+ * Cancel an upcoming extension order
+ * PATCH /orders/:orderId/cancel-extension
+ */
+export async function cancelExtensionOrder(req: Request, res: Response) {
+  try {
+    const orderId = Number((req.params as any)?.orderId);
+    if (!orderId || Number.isNaN(orderId)) {
+      return res.status(400).json({ ok: false, error: "invalid orderId" });
+    }
+
+    const userId = (req as any).session?.userId;
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    // Fetch order
+    const orderResult = await pool.query(
+      `select id, renter_id, host_id, status, extension_of, start_date from orders where id = $1`,
+      [orderId]
+    );
+
+    if (orderResult.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Order not found" });
+    }
+
+    const order = orderResult.rows[0];
+
+    // Validate user is renter or host
+    if (order.renter_id !== userId && order.host_id !== userId) {
+      return res.status(403).json({
+        ok: false,
+        error: "You do not have permission to cancel this order",
+      });
+    }
+
+    // Validate order is upcoming
+    if (order.status !== "upcoming") {
+      return res.status(400).json({
+        ok: false,
+        error: "Only upcoming extension orders can be canceled",
+      });
+    }
+
+    // Validate it's an extension (has extension_of)
+    if (!order.extension_of) {
+      return res.status(400).json({
+        ok: false,
+        error: "Only extension orders can be canceled with this endpoint",
+      });
+    }
+
+    // Validate order hasn't started yet
+    const startDate = new Date(order.start_date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (startDate <= today) {
+      return res.status(400).json({
+        ok: false,
+        error: "Cannot cancel extension orders that have already started",
+      });
+    }
+
+    // Update order status to canceled
+    const updateResult = await pool.query(
+      `update orders set status = 'canceled' where id = $1 returning *`,
+      [orderId]
+    );
+
+    // Find and cancel related reservation
+    await pool.query(
+      `update reservations set status = 'canceled' where extension_of = $1 and status = 'confirmed'`,
+      [orderId]
+    );
+
+    console.log("[cancelExtensionOrder] Extension order canceled:", orderId);
+
+    res.json({
+      ok: true,
+      order: {
+        id: String(updateResult.rows[0].id),
+        status: updateResult.rows[0].status,
+      },
+    });
+  } catch (error: any) {
+    console.error("[cancelExtensionOrder] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
