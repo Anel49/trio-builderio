@@ -498,6 +498,32 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] Create index error:", e?.message?.slice(0, 100));
     }
 
+    // Add extension_of column to reservations table for booking extension tracking
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists extension_of integer references orders(id) on delete restrict`,
+      );
+      console.log("[dbSetup] Added extension_of column to reservations table");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] extension_of column (reservations) error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
+    // Add extension_of column to orders table for booking extension chaining
+    try {
+      await pool.query(
+        `alter table orders add column if not exists extension_of integer references orders(id) on delete restrict`,
+      );
+      console.log("[dbSetup] Added extension_of column to orders table");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] extension_of column (orders) error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
