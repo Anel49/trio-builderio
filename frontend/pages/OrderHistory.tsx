@@ -1294,6 +1294,19 @@ export default function OrderHistory() {
                               Cancel
                             </Button>
                           )}
+                          {/* Extend booking button - only show for renters with active/upcoming orders */}
+                          {order.type === "rented" &&
+                            (order.status === "active" ||
+                              order.status === "upcoming") && (
+                              <Button
+                                className="bg-blue-600 hover:bg-blue-700 text-white"
+                                size="sm"
+                                onClick={() => handleOpenExtensionModal(order)}
+                              >
+                                Extend booking
+                              </Button>
+                            )}
+
                           <Button
                             variant="outline"
                             size="sm"
