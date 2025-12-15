@@ -2137,6 +2137,16 @@ export default function OrderHistory() {
         </DialogContent>
       </Dialog>
 
+      {/* Extension Request Modal */}
+      <ExtensionRequestModal
+        open={extensionModalOpen}
+        onOpenChange={setExtensionModalOpen}
+        order={selectedOrderForExtension}
+        conflictingDates={extensionConflictingDates}
+        onSubmit={handleSubmitExtensionRequest}
+        isLoading={extensionModalLoading}
+      />
+
       <Footer />
     </div>
   );
