@@ -46,8 +46,14 @@ import {
   updateReservationDates,
   createOrderFromReservation,
   getListingConflictingDates,
+  createExtensionRequest,
+  respondToExtensionRequest,
+  createExtensionOrder,
+  cancelExtensionOrder,
 } from "@/lib/api";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { ExtensionRequestModal } from "@/components/ui/extension-request-modal";
+import { formatDateForApi } from "@/lib/extensions";
 import {
   ArrowLeft,
   Search,
