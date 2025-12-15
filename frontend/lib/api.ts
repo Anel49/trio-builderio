@@ -972,3 +972,324 @@ export async function getListingConflictingDates(
     };
   }
 }
+
+/**
+ * Create an extension request for an active/upcoming order
+ */
+export async function createExtensionRequest(
+  orderId: string | number,
+  listingId: number,
+  startDate: string,
+  endDate: string
+): Promise<{
+  ok: boolean;
+  reservation?: any;
+  error?: string;
+}> {
+  try {
+    console.log(
+      "[createExtensionRequest] Creating extension for order",
+      orderId,
+      "dates:",
+      startDate,
+      "to",
+      endDate
+    );
+
+    const response = await apiFetch(`/orders/${orderId}/extension-request`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        listing_id: listingId,
+        start_date: startDate,
+        end_date: endDate,
+      }),
+    });
+
+    if (!response) {
+      console.error("[createExtensionRequest] No response from apiFetch");
+      return {
+        ok: false,
+        error: "No response from server",
+      };
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error(
+        "[createExtensionRequest] Non-JSON response:",
+        response.status,
+        text.substring(0, 200)
+      );
+      return {
+        ok: false,
+        error: `Server returned ${response.status}`,
+      };
+    }
+
+    const data = await response.json();
+    console.log("[createExtensionRequest] Response data:", data);
+
+    if (!response.ok) {
+      console.error(
+        "[createExtensionRequest] HTTP error",
+        response.status,
+        "data:",
+        data
+      );
+      return {
+        ok: false,
+        error: data.error || `HTTP ${response.status}`,
+      };
+    }
+
+    return {
+      ok: data.ok,
+      reservation: data.reservation,
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[createExtensionRequest] Exception:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
+
+/**
+ * Respond to an extension request (accept/reject)
+ */
+export async function respondToExtensionRequest(
+  reservationId: string | number,
+  accepted: boolean
+): Promise<{
+  ok: boolean;
+  reservation?: any;
+  error?: string;
+}> {
+  try {
+    console.log(
+      "[respondToExtensionRequest] Responding to reservation",
+      reservationId,
+      "accepted:",
+      accepted
+    );
+
+    const response = await apiFetch(
+      `/reservations/${reservationId}/extension-response`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          accepted,
+        }),
+      }
+    );
+
+    if (!response) {
+      console.error("[respondToExtensionRequest] No response from apiFetch");
+      return {
+        ok: false,
+        error: "No response from server",
+      };
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error(
+        "[respondToExtensionRequest] Non-JSON response:",
+        response.status,
+        text.substring(0, 200)
+      );
+      return {
+        ok: false,
+        error: `Server returned ${response.status}`,
+      };
+    }
+
+    const data = await response.json();
+    console.log("[respondToExtensionRequest] Response data:", data);
+
+    if (!response.ok) {
+      console.error(
+        "[respondToExtensionRequest] HTTP error",
+        response.status,
+        "data:",
+        data
+      );
+      return {
+        ok: false,
+        error: data.error || `HTTP ${response.status}`,
+      };
+    }
+
+    return {
+      ok: data.ok,
+      reservation: data.reservation,
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[respondToExtensionRequest] Exception:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
+
+/**
+ * Create an order from an accepted extension reservation (after payment)
+ */
+export async function createExtensionOrder(
+  reservationId: string | number
+): Promise<{
+  ok: boolean;
+  order?: any;
+  error?: string;
+}> {
+  try {
+    console.log(
+      "[createExtensionOrder] Creating order from reservation",
+      reservationId
+    );
+
+    const response = await apiFetch(
+      `/reservations/${reservationId}/confirm-extension`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response) {
+      console.error("[createExtensionOrder] No response from apiFetch");
+      return {
+        ok: false,
+        error: "No response from server",
+      };
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error(
+        "[createExtensionOrder] Non-JSON response:",
+        response.status,
+        text.substring(0, 200)
+      );
+      return {
+        ok: false,
+        error: `Server returned ${response.status}`,
+      };
+    }
+
+    const data = await response.json();
+    console.log("[createExtensionOrder] Response data:", data);
+
+    if (!response.ok) {
+      console.error(
+        "[createExtensionOrder] HTTP error",
+        response.status,
+        "data:",
+        data
+      );
+      return {
+        ok: false,
+        error: data.error || `HTTP ${response.status}`,
+      };
+    }
+
+    return {
+      ok: data.ok,
+      order: data.order,
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[createExtensionOrder] Exception:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
+
+/**
+ * Cancel an upcoming extension order
+ */
+export async function cancelExtensionOrder(
+  orderId: string | number
+): Promise<{
+  ok: boolean;
+  order?: any;
+  error?: string;
+}> {
+  try {
+    console.log("[cancelExtensionOrder] Canceling extension order", orderId);
+
+    const response = await apiFetch(`/orders/${orderId}/cancel-extension`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response) {
+      console.error("[cancelExtensionOrder] No response from apiFetch");
+      return {
+        ok: false,
+        error: "No response from server",
+      };
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error(
+        "[cancelExtensionOrder] Non-JSON response:",
+        response.status,
+        text.substring(0, 200)
+      );
+      return {
+        ok: false,
+        error: `Server returned ${response.status}`,
+      };
+    }
+
+    const data = await response.json();
+    console.log("[cancelExtensionOrder] Response data:", data);
+
+    if (!response.ok) {
+      console.error(
+        "[cancelExtensionOrder] HTTP error",
+        response.status,
+        "data:",
+        data
+      );
+      return {
+        ok: false,
+        error: data.error || `HTTP ${response.status}`,
+      };
+    }
+
+    return {
+      ok: data.ok,
+      order: data.order,
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[cancelExtensionOrder] Exception:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
