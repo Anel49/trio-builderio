@@ -768,6 +768,11 @@ export function createServer() {
     "/reservations/:reservationId/create-order",
     createOrderFromReservationRenter,
   );
+  // Extension request alias routes
+  app.post("/orders/:orderId/extension-request", createExtensionRequest);
+  app.patch("/reservations/:reservationId/extension-response", respondToExtensionRequest);
+  app.post("/reservations/:reservationId/confirm-extension", createExtensionOrder);
+  app.patch("/orders/:orderId/cancel-extension", cancelExtensionOrder);
   app.get("/users", getUserByEmail);
   app.get("/users/:id", getUserById);
   app.get("/users/username/:username", getUserByUsername);
