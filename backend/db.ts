@@ -161,6 +161,54 @@ export async function dbSetup(_req: Request, res: Response) {
     `);
     console.log("[dbSetup] Created listings table");
 
+    await pool.query(`
+      create table if not exists orders (
+        id serial primary key,
+        order_number varchar(20),
+        number bigint unique,
+        listing_id integer references listings(id),
+        host_id integer,
+        host_name text,
+        host_email text,
+        renter_id integer,
+        renter_name text,
+        renter_email text,
+        listing_title text,
+        listing_image text,
+        listing_latitude double precision,
+        listing_longitude double precision,
+        daily_price_cents integer,
+        total_days integer,
+        rental_type text,
+        start_date date,
+        end_date date,
+        currency text,
+        discount_cents integer,
+        discount_percentage integer,
+        listing_zip_code text,
+        payment_status text,
+        status text,
+        addons text,
+        review_id integer,
+        review_message text,
+        subtotal_cents integer,
+        daily_total integer,
+        tax_percentage integer,
+        tax_cents integer,
+        platform_commissions_host integer,
+        host_earns integer,
+        platform_commission_renter integer,
+        renter_pays integer,
+        platform_commission_total integer,
+        total_cents integer,
+        nonconsumable_addon_total integer,
+        consumable_addon_total integer,
+        reservation_id integer,
+        created_at timestamptz default now()
+      )
+    `);
+    console.log("[dbSetup] Created orders table");
+
     await pool.query(`alter table listings drop column if exists distance`);
     console.log("[dbSetup] Dropped distance column");
 
