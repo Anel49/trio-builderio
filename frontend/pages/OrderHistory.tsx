@@ -272,6 +272,8 @@ export default function OrderHistory() {
     Array<{ startDate: string; endDate: string }>
   >([]);
   const [extensionModalLoading, setExtensionModalLoading] = useState(false);
+  const [extensionSuccessModalOpen, setExtensionSuccessModalOpen] =
+    useState(false);
 
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
