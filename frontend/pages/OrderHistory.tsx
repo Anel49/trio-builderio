@@ -475,6 +475,19 @@ export default function OrderHistory() {
     fetchOrders();
   }, [currentUser?.id]);
 
+  // Log orders with extensions for debugging
+  useEffect(() => {
+    const ordersWithExtensions = ordersState.filter(
+      (o) => o.most_recent_extension,
+    );
+    if (ordersWithExtensions.length > 0) {
+      console.log(
+        "[OrderHistory] Orders with extensions::",
+        ordersWithExtensions,
+      );
+    }
+  }, [ordersState]);
+
   const getRequestDirection = (
     reservation: Reservation,
   ): "incoming" | "outgoing" => {
