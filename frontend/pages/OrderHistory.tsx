@@ -983,13 +983,20 @@ export default function OrderHistory() {
   const getMostRecentExtensionOrder = (
     orderId: string,
   ): Order | undefined => {
-    return [...ordersState]
+    const extensions = [...ordersState]
       .filter((o) => o.extension_of && o.extension_of === Number(orderId))
       .sort((a, b) => {
         const aDate = new Date(a.created_at || "").getTime();
         const bDate = new Date(b.created_at || "").getTime();
         return bDate - aDate;
-      })[0];
+      });
+
+    console.log(
+      `[getMostRecentExtensionOrder] Order ${orderId}: found ${extensions.length} extensions`,
+      extensions,
+    );
+
+    return extensions[0];
   };
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
