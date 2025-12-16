@@ -57,6 +57,16 @@ export function ExtensionRequestModal({
   const orderEndDate = order?.end_date
     ? parseDateString(order.end_date)
     : new Date();
+
+  // Debug logging
+  useEffect(() => {
+    if (open && order?.end_date) {
+      console.log("[ExtensionModal] Raw end_date from order:", order.end_date);
+      console.log("[ExtensionModal] Parsed orderEndDate:", orderEndDate);
+      console.log("[ExtensionModal] Formatted display:", format(orderEndDate, "MMM dd, yyyy"));
+    }
+  }, [open, order?.end_date, orderEndDate]);
+
   const requiredStartDate = getEarliestExtensionDate(orderEndDate);
 
   // Build disabled date ranges
