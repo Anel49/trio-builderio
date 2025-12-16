@@ -1251,11 +1251,6 @@ export default function OrderHistory() {
                                 <span>{order.startDate} - {order.endDate}</span>
                               )}
                             </div>
-                            {order.most_recent_extension && (
-                              <script>
-                                {`console.log('[OrderHistory] Order ${order.id} has extension:', ${JSON.stringify(order.most_recent_extension)});`}
-                              </script>
-                            )}
                           </div>
                         </div>
                       </div>
