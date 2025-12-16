@@ -1848,6 +1848,45 @@ export async function updateReservationStatus(req: Request, res: Response) {
   }
 }
 
+/**
+ * Helper function to get the most recent extension order for a given original order
+ * Tries 'accepted' status first, then 'upcoming' if no accepted found
+ */
+async function getMostRecentExtensionOrder(
+  orderId: number,
+): Promise<any | null> {
+  try {
+    // First try to find with 'accepted' status
+    let result = await pool.query(
+      `select id, start_date, end_date, status, extension_of
+       from orders
+       where extension_of = $1 and status = 'accepted'
+       order by created_at desc
+       limit 1`,
+      [orderId],
+    );
+
+    if (result.rows.length > 0) {
+      return result.rows[0];
+    }
+
+    // If no 'accepted' found, try 'upcoming'
+    result = await pool.query(
+      `select id, start_date, end_date, status, extension_of
+       from orders
+       where extension_of = $1 and status = 'upcoming'
+       order by created_at desc
+       limit 1`,
+      [orderId],
+    );
+
+    return result.rows.length > 0 ? result.rows[0] : null;
+  } catch (error) {
+    console.error("[getMostRecentExtensionOrder] Error:", error);
+    return null;
+  }
+}
+
 export async function getUserOrders(req: Request, res: Response) {
   try {
     const userId = Number((req.params as any)?.userId);
