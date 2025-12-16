@@ -546,10 +546,10 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] Create index error:", e?.message?.slice(0, 100));
     }
 
-    // Add extension_of column to reservations table for booking extension tracking
+    // Add extension_of column to reservations table for booking extension tracking (no constraints for test data cleanup)
     try {
       await pool.query(
-        `alter table reservations add column if not exists extension_of integer references orders(id) on delete restrict`,
+        `alter table reservations add column if not exists extension_of integer`,
       );
       console.log("[dbSetup] Added extension_of column to reservations table");
     } catch (e: any) {
@@ -559,15 +559,41 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
-    // Add extension_of column to orders table for booking extension chaining
+    // Drop extension_of constraints to allow test record deletion
     try {
       await pool.query(
-        `alter table orders add column if not exists extension_of integer references orders(id) on delete restrict`,
+        `alter table reservations drop constraint if exists reservations_extension_of_fkey`,
+      );
+      console.log("[dbSetup] Dropped extension_of constraint on reservations");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Drop reservations constraint error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
+    // Add extension_of column to orders table for booking extension chaining (no constraints for test data cleanup)
+    try {
+      await pool.query(
+        `alter table orders add column if not exists extension_of integer`,
       );
       console.log("[dbSetup] Added extension_of column to orders table");
     } catch (e: any) {
       console.log(
         "[dbSetup] extension_of column (orders) error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
+    // Drop extension_of constraints to allow test record deletion
+    try {
+      await pool.query(
+        `alter table orders drop constraint if exists orders_extension_of_fkey`,
+      );
+      console.log("[dbSetup] Dropped extension_of constraint on orders");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Drop orders constraint error:",
         e?.message?.slice(0, 100),
       );
     }
