@@ -662,6 +662,10 @@ export function createServer() {
     createExtensionOrder,
   );
   app.patch("/api/orders/:orderId/cancel-extension", cancelExtensionOrder);
+  app.patch(
+    "/api/reservations/:reservationId/proposed-dates",
+    respondToProposedDates,
+  );
   app.get("/api/orders/:userId", getUserOrders);
   // Users
   app.get("/api/users", getUserByEmail); // query: email
