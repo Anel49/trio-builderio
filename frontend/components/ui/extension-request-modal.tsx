@@ -48,7 +48,8 @@ export function ExtensionRequestModal({
   // Build disabled date ranges
   const disabledRanges = [
     // Disable all dates before the required start date
-    { startDate: new Date(0), endDate: new Date(requiredStartDate.getTime() - 1000 * 60 * 60 * 24) },
+    // Note: DateRangePicker adds 1 day to endDate, so we use orderEndDate
+    { startDate: new Date(0), endDate: orderEndDate },
     // Add conflicting dates
     ...conflictingDates.map((range) => ({
       startDate: range.startDate,
