@@ -887,11 +887,11 @@ export default function OrderHistory() {
           "[handleSubmitExtensionRequest] Extension request created:",
           result.reservation?.id,
         );
+        // Close extension modal and show success modal
         setExtensionModalOpen(false);
         setSelectedOrderForExtension(null);
         setExtensionConflictingDates([]);
-        // Show success message
-        alert("Extension request sent! The host will review your request.");
+        setExtensionSuccessModalOpen(true);
         // Refresh reservations to show the new pending request
         fetchReservations();
       } else {
