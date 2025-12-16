@@ -789,6 +789,10 @@ export function createServer() {
     createExtensionOrder,
   );
   app.patch("/orders/:orderId/cancel-extension", cancelExtensionOrder);
+  app.patch(
+    "/reservations/:reservationId/proposed-dates",
+    respondToProposedDates,
+  );
   app.get("/users", getUserByEmail);
   app.get("/users/:id", getUserById);
   app.get("/users/username/:username", getUserByUsername);
