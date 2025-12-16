@@ -974,6 +974,107 @@ export async function getListingConflictingDates(
 }
 
 /**
+ * Respond to proposed dates (accept or reject)
+ * @param reservationId - The reservation ID
+ * @param action - "accept" or "reject"
+ * @returns An object with ok status and updated reservation
+ */
+export async function respondToProposedDates(
+  reservationId: string | number,
+  action: "accept" | "reject",
+): Promise<{
+  ok: boolean;
+  reservation?: {
+    id: string | number;
+    status: string;
+    start_date: string;
+    end_date: string;
+    new_dates_proposed: string;
+    created_at: string;
+  };
+  error?: string;
+}> {
+  try {
+    console.log(
+      "[respondToProposedDates] Sending PATCH request for reservation",
+      reservationId,
+      "with action",
+      action,
+    );
+    const response = await apiFetch(
+      `/reservations/${reservationId}/proposed-dates`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action,
+        }),
+      },
+    );
+
+    if (!response) {
+      console.error("[respondToProposedDates] No response from apiFetch");
+      return {
+        ok: false,
+        error: "No response from server",
+      };
+    }
+
+    console.log(
+      "[respondToProposedDates] Response status:",
+      response.status,
+      "headers:",
+      response.headers,
+    );
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error(
+        "[respondToProposedDates] Non-JSON response:",
+        response.status,
+        text.substring(0, 200),
+      );
+      return {
+        ok: false,
+        error: `Server returned ${response.status}: ${text.substring(0, 100)}`,
+      };
+    }
+
+    const data = await response.json();
+    console.log("[respondToProposedDates] Response data:", data);
+
+    // Check if response indicates success
+    if (!response.ok) {
+      console.error(
+        "[respondToProposedDates] HTTP error",
+        response.status,
+        "data:",
+        data,
+      );
+      return {
+        ok: false,
+        error: data.error || `HTTP ${response.status}`,
+      };
+    }
+
+    return {
+      ok: data.ok,
+      reservation: data.reservation,
+      error: data.error,
+    };
+  } catch (error: any) {
+    console.error("[respondToProposedDates] Exception:", error);
+    return {
+      ok: false,
+      error: error?.message || "Network error",
+    };
+  }
+}
+
+/**
  * Create an extension request for an active/upcoming order
  */
 export async function createExtensionRequest(
