@@ -1866,10 +1866,27 @@ export async function getUserOrders(req: Request, res: Response) {
               o.platform_commission_total, o.total_cents, o.reservation_id, o.created_at,
               o.extension_of,
               h.username as host_username, h.avatar_url as host_avatar_url,
-              r.username as renter_username, r.avatar_url as renter_avatar_url
+              r.username as renter_username, r.avatar_url as renter_avatar_url,
+              ext.id as extension_id, ext.start_date as extension_start_date,
+              ext.end_date as extension_end_date, ext.status as extension_status,
+              ext.created_at as extension_created_at
        from orders o
        left join users h on o.host_id = h.id
        left join users r on o.renter_id = r.id
+       left join lateral (
+         select id, start_date, end_date, status, created_at
+         from orders
+         where extension_of = o.id and status = 'accepted'
+         order by created_at desc
+         limit 1
+       ) as ext_accepted on true
+       left join lateral (
+         select id, start_date, end_date, status, created_at
+         from orders
+         where extension_of = o.id and status = 'upcoming'
+         order by created_at desc
+         limit 1
+       ) as ext_upcoming on ext_accepted.id is null
        where (o.host_id = $1 or o.renter_id = $1)
        order by o.created_at desc`,
       [userId],
