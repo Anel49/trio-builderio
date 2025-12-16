@@ -403,15 +403,30 @@ export default function OrderHistory() {
 
   // Fetch orders from the API
   const fetchOrders = async () => {
-    if (!currentUser?.id) return;
+    console.log(
+      `[fetchOrders] Starting fetch, currentUser.id:`,
+      currentUser?.id,
+    );
+    if (!currentUser?.id) {
+      console.log("[fetchOrders] No currentUser.id, returning");
+      return;
+    }
 
     try {
-      console.log(`[OrderHistory] Fetching orders for user ${currentUser.id}`);
+      console.log(`[fetchOrders] Fetching orders for user ${currentUser.id}`);
       const response = await apiFetch(`/orders/${currentUser.id}`);
+      console.log(
+        `[fetchOrders] API response status:`,
+        response?.status,
+        response?.ok,
+      );
 
       if (response.ok) {
         const data = await response.json();
-        console.log(`[OrderHistory] Got orders:`, data);
+        console.log(
+          `[fetchOrders] API response data (${data.orders?.length || 0} orders):`,
+          data,
+        );
 
         // Convert database orders to Order format
         const dbOrders = (data.orders || []).map((dbOrder: any) => ({
@@ -457,16 +472,25 @@ export default function OrderHistory() {
           type: currentUser.id === dbOrder.host_id ? "hosted" : "rented",
         }));
 
-        console.log("[fetchOrders] Orders with extensions:", dbOrders);
+        console.log(
+          `[fetchOrders] Converted to ${dbOrders.length} Order objects, setting state`,
+        );
+        console.log(
+          "[fetchOrders] Sample order with extension data:",
+          dbOrders[0],
+        );
 
         // Set orders from database
         setOrdersState(dbOrders);
       } else {
-        console.error("[OrderHistory] Failed to fetch orders");
+        console.error(
+          "[fetchOrders] API returned non-ok status:",
+          response.status,
+        );
         setOrdersState([]);
       }
     } catch (error) {
-      console.error("[OrderHistory] Error fetching orders:", error);
+      console.error("[fetchOrders] Error fetching orders:", error);
       setOrdersState([]);
     }
   };
