@@ -30,21 +30,19 @@ export function isValidExtensionDateRange(
   orderEndDate: Date,
   conflictingDates: Array<{ startDate: string | Date; endDate: string | Date }> = []
 ): { valid: boolean; reason?: string } {
-  const now = new Date();
-  const minTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-  const earliestDate = getEarliestExtensionDate(orderEndDate);
+  const requiredStartDate = getEarliestExtensionDate(orderEndDate);
 
-  if (startDate < minTime) {
+  // Normalize dates to compare just the date part (ignoring time)
+  const startDateNormalized = new Date(startDate);
+  startDateNormalized.setHours(0, 0, 0, 0);
+  const requiredDateNormalized = new Date(requiredStartDate);
+  requiredDateNormalized.setHours(0, 0, 0, 0);
+
+  // Start date MUST be the day after the order's end date
+  if (startDateNormalized.getTime() !== requiredDateNormalized.getTime()) {
     return {
       valid: false,
-      reason: "Extension must start at least 24 hours from now",
-    };
-  }
-
-  if (startDate < earliestDate) {
-    return {
-      valid: false,
-      reason: "Extension must start after the original order ends",
+      reason: `Extension must start on ${requiredStartDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} (the day after your order ends)`,
     };
   }
 
