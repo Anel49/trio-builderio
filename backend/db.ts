@@ -598,6 +598,19 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Drop reservation_id foreign key constraint to allow test record deletion
+    try {
+      await pool.query(
+        `alter table orders drop constraint if exists orders_reservation_id_fkey`,
+      );
+      console.log("[dbSetup] Dropped reservation_id constraint on orders");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Drop orders reservation_id constraint error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
