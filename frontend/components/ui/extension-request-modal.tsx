@@ -47,8 +47,8 @@ export function ExtensionRequestModal({
 
   // Build disabled date ranges
   const disabledRanges = [
-    // Disable all dates up to the effective minimum
-    { startDate: new Date(0), endDate: new Date(effectiveMinDate.getTime() - 1) },
+    // Disable all dates before the required start date
+    { startDate: new Date(0), endDate: new Date(requiredStartDate.getTime() - 1000 * 60 * 60 * 24) },
     // Add conflicting dates
     ...conflictingDates.map((range) => ({
       startDate: range.startDate,
