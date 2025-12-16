@@ -66,6 +66,7 @@ import {
   Download,
   RefreshCw,
   ArrowDownUp,
+  Loader,
 } from "lucide-react";
 
 type OrderStatus = "completed" | "active" | "canceled" | "upcoming" | "pending";
