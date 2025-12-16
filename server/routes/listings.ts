@@ -2517,35 +2517,114 @@ export async function createExtensionOrder(req: Request, res: Response) {
       Math.ceil(
         (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
       ) + 1;
-    const dailyPrice = reservation.daily_price_cents;
+    const dailyPriceCents = reservation.daily_price_cents;
+    const consumableAddonTotal = reservation.consumable_addon_total || 0;
+    const nonconsumableAddonTotal = reservation.nonconsumable_addon_total || 0;
+
+    // Calculate financial values (matching createOrderFromReservation)
+    const dailyTotal = dailyPriceCents * totalDays;
+    const subtotalCents =
+      dailyTotal + nonconsumableAddonTotal + consumableAddonTotal;
+    const taxPercentage = 0.06;
+    const taxCents = Math.round(subtotalCents * taxPercentage);
+    const platformCommissionHost = Math.round(subtotalCents * 0.12);
+    const hostEarns = subtotalCents - platformCommissionHost;
+    const platformCommissionRenter = Math.round(
+      (dailyPriceCents + nonconsumableAddonTotal) * 0.1,
+    );
+    const renterPays = subtotalCents + platformCommissionRenter + taxCents;
+    const platformCommissionTotal =
+      platformCommissionHost + platformCommissionRenter;
+    const totalCents = renterPays;
+
+    console.log("[createExtensionOrder] Calculated values:", {
+      dailyTotal,
+      subtotalCents,
+      taxCents,
+      platformCommissionHost,
+      hostEarns,
+      platformCommissionRenter,
+      renterPays,
+      platformCommissionTotal,
+      totalCents,
+    });
+
+    // Fetch emails from users table if they're missing from reservation
+    let hostEmail = reservation.host_email;
+    let renterEmail = reservation.renter_email;
+
+    if (!hostEmail && reservation.host_id) {
+      const hostResult = await pool.query(
+        `select email from users where id = $1`,
+        [reservation.host_id],
+      );
+      if (hostResult.rows.length > 0) {
+        hostEmail = hostResult.rows[0].email;
+      }
+    }
+
+    if (!renterEmail && reservation.renter_id) {
+      const renterResult = await pool.query(
+        `select email from users where id = $1`,
+        [reservation.renter_id],
+      );
+      if (renterResult.rows.length > 0) {
+        renterEmail = renterResult.rows[0].email;
+      }
+    }
 
     // Create new order for the extension
     const newOrderResult = await pool.query(
       `insert into orders (
-        listing_id, host_id, host_name, host_email,
+        order_number, number, listing_id, host_id, host_name, host_email,
         renter_id, renter_name, renter_email, listing_title, listing_image,
         listing_latitude, listing_longitude, daily_price_cents, total_days,
-        rental_type, start_date, end_date, status, extension_of, created_at
+        rental_type, start_date, end_date, currency, discount_cents,
+        discount_percentage, listing_zip_code, payment_status, status,
+        addons, review_id, review_message, subtotal_cents, daily_total,
+        tax_percentage, tax_cents, platform_commissions_host, host_earns,
+        platform_commission_renter, renter_pays, platform_commission_total,
+        total_cents, nonconsumable_addon_total, consumable_addon_total, extension_of, created_at
        )
-       values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::date, $16::date, 'upcoming', $17, now())
+       values (
+        'ORD-' || nextval('orders_number_seq')::text,
+        currval('orders_number_seq'),
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16::date, $17::date,
+        'USD', null, null, null, 'pending', 'upcoming',
+        $18, null, null, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28,
+        $29, $30, $31, $32, now()
+       )
        returning id, start_date, end_date, status, extension_of`,
       [
         reservation.listing_id,
         reservation.host_id,
         reservation.host_name,
-        reservation.host_email,
+        hostEmail,
         reservation.renter_id,
         reservation.renter_name,
-        reservation.renter_email,
+        renterEmail,
         reservation.listing_title,
         reservation.listing_image,
         reservation.listing_latitude,
         reservation.listing_longitude,
-        dailyPrice,
+        dailyPriceCents,
         totalDays,
         reservation.rental_type,
         reservation.start_date,
         reservation.end_date,
+        reservation.addons,
+        subtotalCents,
+        dailyTotal,
+        taxPercentage,
+        taxCents,
+        platformCommissionHost,
+        hostEarns,
+        platformCommissionRenter,
+        renterPays,
+        platformCommissionTotal,
+        totalCents,
+        nonconsumableAddonTotal,
+        consumableAddonTotal,
         reservation.extension_of,
       ],
     );
