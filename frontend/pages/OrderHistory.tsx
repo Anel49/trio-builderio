@@ -2159,6 +2159,31 @@ export default function OrderHistory() {
         isLoading={extensionModalLoading}
       />
 
+      {/* Extension Success Modal */}
+      <Dialog open={extensionSuccessModalOpen} onOpenChange={setExtensionSuccessModalOpen}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Extension Request Sent</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col items-center gap-4 py-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
+              <svg className="h-6 w-6 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p className="text-center text-muted-foreground">
+              The host will review your request and get back to you soon.
+            </p>
+          </div>
+          <Button
+            className="w-full"
+            onClick={() => setExtensionSuccessModalOpen(false)}
+          >
+            Got it
+          </Button>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
