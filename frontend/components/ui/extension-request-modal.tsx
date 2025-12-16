@@ -185,7 +185,23 @@ export function ExtensionRequestModal({
               value={dateRange}
               onChange={(newRange) => {
                 setDateRange(newRange);
-                setValidationError(null);
+
+                // Validate if both start and end dates are selected
+                if (newRange.start && newRange.end) {
+                  const validation = isValidExtensionDateRange(
+                    newRange.start,
+                    newRange.end,
+                    orderEndDate,
+                    conflictingDates
+                  );
+                  if (!validation.valid) {
+                    setValidationError(validation.reason || "Invalid date range");
+                  } else {
+                    setValidationError(null);
+                  }
+                } else {
+                  setValidationError(null);
+                }
               }}
               disabledDateRanges={disabledRanges}
               buttonClassName="w-full"
