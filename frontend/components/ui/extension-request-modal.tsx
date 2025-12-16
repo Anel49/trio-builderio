@@ -124,6 +124,13 @@ export function ExtensionRequestModal({
             </p>
           </div>
 
+          {/* Info about required start date */}
+          <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded border border-blue-200 dark:border-blue-800">
+            <p className="text-sm text-blue-900 dark:text-blue-100">
+              Extension must start on <span className="font-semibold">{requiredStartDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span> (the day after your order ends)
+            </p>
+          </div>
+
           {/* Date picker */}
           <div>
             <label className="text-sm font-medium mb-2 block">
@@ -131,12 +138,21 @@ export function ExtensionRequestModal({
             </label>
             <DateRangePicker
               value={dateRange}
-              onChange={setDateRange}
+              onChange={(newRange) => {
+                setDateRange(newRange);
+                setValidationError(null);
+              }}
               disabledDateRanges={disabledRanges}
-              minDate={effectiveMinDate}
               buttonClassName="w-full"
             />
           </div>
+
+          {/* Validation error */}
+          {validationError && (
+            <Alert variant="destructive">
+              <AlertDescription>{validationError}</AlertDescription>
+            </Alert>
+          )}
 
           {/* Price preview */}
           {dateRange.start && dateRange.end && (
