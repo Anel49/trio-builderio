@@ -11,10 +11,11 @@ import {
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import {
   formatDateForApi,
-  get24HourMinimumDate,
   getEarliestExtensionDate,
   calculateExtensionTotal,
+  isValidExtensionDateRange,
 } from "@/lib/extensions";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { format } from "date-fns";
 
 interface ExtensionRequestModalProps {
