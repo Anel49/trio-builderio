@@ -449,12 +449,15 @@ export default function OrderHistory() {
           reservation_id: dbOrder.reservation_id,
           created_at: dbOrder.created_at,
           extension_of: dbOrder.extension_of,
+          most_recent_extension: dbOrder.most_recent_extension,
           itemName: dbOrder.listing_title,
           itemImage: dbOrder.listing_image,
           host: dbOrder.host_name,
           renter: dbOrder.renter_name,
           type: currentUser.id === dbOrder.host_id ? "hosted" : "rented",
         }));
+
+        console.log("[fetchOrders] Orders with extensions:", dbOrders);
 
         // Set orders from database
         setOrdersState(dbOrders);
