@@ -75,11 +75,25 @@ export function ExtensionRequestModal({
       : 0;
 
   const handleSubmit = async () => {
-    if (dateRange.start && dateRange.end) {
-      await onSubmit(dateRange.start, dateRange.end);
-      // Reset on success (modal will close from parent)
-      setDateRange({ start: null, end: null });
+    if (!dateRange.start || !dateRange.end) return;
+
+    // Validate the date range
+    const validation = isValidExtensionDateRange(
+      dateRange.start,
+      dateRange.end,
+      orderEndDate,
+      conflictingDates
+    );
+
+    if (!validation.valid) {
+      setValidationError(validation.reason || "Invalid date range");
+      return;
     }
+
+    setValidationError(null);
+    await onSubmit(dateRange.start, dateRange.end);
+    // Reset on success (modal will close from parent)
+    setDateRange({ start: null, end: null });
   };
 
   const handleOpenChange = (newOpen: boolean) => {
