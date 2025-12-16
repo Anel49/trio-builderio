@@ -756,6 +756,62 @@ export default function OrderHistory() {
     }
   };
 
+  const handleOpenProposedDatesModal = (
+    reservation: Reservation,
+    action: "accept" | "reject",
+  ) => {
+    setProposedDatesReservation(reservation);
+    setProposedDatesAction(action);
+    setProposedDatesModalOpen(true);
+  };
+
+  const handleConfirmProposedDatesAction = async () => {
+    if (!proposedDatesReservation || !proposedDatesAction) return;
+    setProcessingProposedDatesReservationId(proposedDatesReservation.id);
+    try {
+      const result = await respondToProposedDates(
+        proposedDatesReservation.id,
+        proposedDatesAction,
+      );
+      if (result.ok && result.reservation) {
+        console.log(
+          "[handleConfirmProposedDatesAction] Reservation updated successfully:",
+          result.reservation,
+        );
+        // Update the reservation in the local state
+        setReservations((prev) =>
+          prev.map((res) =>
+            res.id === proposedDatesReservation.id
+              ? {
+                  ...res,
+                  status: result.reservation!.status,
+                  start_date: result.reservation!.start_date || res.start_date,
+                  end_date: result.reservation!.end_date || res.end_date,
+                  new_dates_proposed: result.reservation!.new_dates_proposed,
+                }
+              : res,
+          ),
+        );
+        // Close the confirmation modal
+        setProposedDatesModalOpen(false);
+        setProposedDatesAction(null);
+        setProposedDatesReservation(null);
+      } else {
+        const errorMsg = result.error || "Unknown error";
+        console.error(
+          "[handleConfirmProposedDatesAction] Failed to respond:",
+          errorMsg,
+        );
+        alert(`Failed to respond to proposed dates: ${errorMsg}`);
+      }
+    } catch (error) {
+      console.error("[handleConfirmProposedDatesAction] Error:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setProcessingProposedDatesReservationId(null);
+    }
+  };
+
   const handleOpenProposeDateModal = async (reservation: Reservation) => {
     setReservationToProposeDates(reservation);
     setDateProposalRange({ start: null, end: null });
