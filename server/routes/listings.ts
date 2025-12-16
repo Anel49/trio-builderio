@@ -1911,6 +1911,7 @@ export async function getUserOrders(req: Request, res: Response) {
       total_cents: row.total_cents,
       reservation_id: row.reservation_id,
       created_at: row.created_at,
+      extension_of: row.extension_of,
     }));
 
     res.json({ ok: true, orders });
