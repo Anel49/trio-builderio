@@ -154,8 +154,8 @@ export function ExtensionRequestModal({
           </div>
 
           {/* Info about required start date */}
-          <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded border border-blue-200 dark:border-blue-800">
-            <p className="text-sm text-blue-900 dark:text-blue-100">
+          <div className="p-3 bg-red-50 dark:bg-red-950 rounded border border-red-200 dark:border-red-800">
+            <p className="text-sm text-red-900 dark:text-red-100">
               Extension must start on{" "}
               <span className="font-semibold">
                 {requiredStartDate.toLocaleDateString("en-US", {
