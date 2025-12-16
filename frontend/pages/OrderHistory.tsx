@@ -441,6 +441,7 @@ export default function OrderHistory() {
           total_cents: dbOrder.total_cents,
           reservation_id: dbOrder.reservation_id,
           created_at: dbOrder.created_at,
+          extension_of: dbOrder.extension_of,
           itemName: dbOrder.listing_title,
           itemImage: dbOrder.listing_image,
           host: dbOrder.host_name,
