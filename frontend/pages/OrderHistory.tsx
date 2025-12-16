@@ -1415,54 +1415,85 @@ export default function OrderHistory() {
                       <>
                         <Separator className="my-4" />
                         <div className="space-y-3">
-                          <p className="text-sm font-medium text-muted-foreground">
-                            Extensions
-                          </p>
-                          {getExtensionsForOrder(order.id).map((extension) => (
-                            <div
-                              key={extension.id}
-                              className="bg-muted/30 p-4 rounded-lg border border-muted"
-                            >
-                              <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                  <p className="text-sm font-medium">
-                                    Extension #{extension.id}
-                                  </p>
-                                  <div className="flex items-center text-sm text-muted-foreground mt-1 gap-3">
-                                    <div className="flex items-center gap-1">
-                                      <Calendar className="h-4 w-4" />
-                                      <span>
-                                        {parseDateString(
-                                          extension.start_date,
-                                        ).toLocaleDateString("en-US", {
-                                          month: "short",
-                                          day: "numeric",
-                                          year: "numeric",
-                                        })}{" "}
-                                        -{" "}
-                                        {parseDateString(
-                                          extension.end_date,
-                                        ).toLocaleDateString("en-US", {
-                                          month: "short",
-                                          day: "numeric",
-                                          year: "numeric",
-                                        })}
-                                      </span>
+                          <div
+                            className="flex items-center justify-between cursor-pointer hover:bg-muted/20 p-2 -m-2 rounded transition-colors"
+                            onClick={() => {
+                              const newExpanded = new Set(
+                                expandedExtensionOrders,
+                              );
+                              if (newExpanded.has(order.id)) {
+                                newExpanded.delete(order.id);
+                              } else {
+                                newExpanded.add(order.id);
+                              }
+                              setExpandedExtensionOrders(newExpanded);
+                            }}
+                          >
+                            <p className="text-sm font-medium text-muted-foreground">
+                              Extensions
+                            </p>
+                            <ChevronDown
+                              className={cn(
+                                "h-4 w-4 text-muted-foreground transition-transform",
+                                expandedExtensionOrders.has(order.id)
+                                  ? "rotate-180"
+                                  : "",
+                              )}
+                            />
+                          </div>
+
+                          {expandedExtensionOrders.has(order.id) && (
+                            <div className="space-y-3">
+                              {getExtensionsForOrder(order.id).map(
+                                (extension) => (
+                                  <div
+                                    key={extension.id}
+                                    className="bg-muted/30 p-4 rounded-lg border border-muted"
+                                  >
+                                    <div className="flex items-start justify-between">
+                                      <div className="flex-1">
+                                        <p className="text-sm font-medium">
+                                          Extension #{extension.id}
+                                        </p>
+                                        <div className="flex items-center text-sm text-muted-foreground mt-1 gap-3">
+                                          <div className="flex items-center gap-1">
+                                            <Calendar className="h-4 w-4" />
+                                            <span>
+                                              {parseDateString(
+                                                extension.start_date,
+                                              ).toLocaleDateString("en-US", {
+                                                month: "short",
+                                                day: "numeric",
+                                                year: "numeric",
+                                              })}{" "}
+                                              -{" "}
+                                              {parseDateString(
+                                                extension.end_date,
+                                              ).toLocaleDateString("en-US", {
+                                                month: "short",
+                                                day: "numeric",
+                                                year: "numeric",
+                                              })}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <Badge
+                                        className={getRequestStatusBadge(
+                                          extension.status as RequestStatus,
+                                        )}
+                                      >
+                                        {extension.status
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                          extension.status.slice(1)}
+                                      </Badge>
                                     </div>
                                   </div>
-                                </div>
-                                <Badge
-                                  className={getRequestStatusBadge(
-                                    extension.status as RequestStatus,
-                                  )}
-                                >
-                                  {extension.status
-                                    .charAt(0)
-                                    .toUpperCase() + extension.status.slice(1)}
-                                </Badge>
-                              </div>
+                                ),
+                              )}
                             </div>
-                          ))}
+                          )}
                         </div>
                       </>
                     )}
