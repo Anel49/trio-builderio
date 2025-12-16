@@ -53,8 +53,10 @@ export function ExtensionRequestModal({
   }>({ start: null, end: null });
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  // Parse order dates
-  const orderEndDate = new Date(order?.end_date || new Date());
+  // Parse order dates (without timezone conversion)
+  const orderEndDate = order?.end_date
+    ? parseDateString(order.end_date)
+    : new Date();
   const requiredStartDate = getEarliestExtensionDate(orderEndDate);
 
   // Build disabled date ranges
