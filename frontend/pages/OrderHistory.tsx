@@ -1139,13 +1139,13 @@ export default function OrderHistory() {
                             <div className="flex items-center text-sm text-muted-foreground">
                               <Calendar className="h-4 w-4 mr-1" />
                               {order.start_date
-                                ? `${new Date(
+                                ? `${parseDateString(
                                     order.start_date,
                                   ).toLocaleDateString("en-US", {
                                     month: "short",
                                     day: "numeric",
                                     year: "numeric",
-                                  })} - ${new Date(
+                                  })} - ${parseDateString(
                                     order.end_date,
                                   ).toLocaleDateString("en-US", {
                                     month: "short",
