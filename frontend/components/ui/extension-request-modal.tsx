@@ -184,12 +184,6 @@ export function ExtensionRequestModal({
             />
           </div>
 
-          {/* Validation error */}
-          {validationError && (
-            <Alert variant="destructive">
-              <AlertDescription>{validationError}</AlertDescription>
-            </Alert>
-          )}
 
           {/* Price preview */}
           {dateRange.start && dateRange.end && (
