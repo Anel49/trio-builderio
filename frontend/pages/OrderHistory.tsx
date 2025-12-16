@@ -893,7 +893,7 @@ export default function OrderHistory() {
         setExtensionConflictingDates([]);
         setExtensionSuccessModalOpen(true);
         // Refresh reservations to show the new pending request
-        fetchReservations();
+        fetchReservationsAndProfiles();
       } else {
         console.error("[handleSubmitExtensionRequest] Failed:", result.error);
         alert(`Failed to create extension request: ${result.error}`);
