@@ -1870,7 +1870,7 @@ export async function getUserOrders(req: Request, res: Response) {
        from orders o
        left join users h on o.host_id = h.id
        left join users r on o.renter_id = r.id
-       where (o.host_id = $1 or o.renter_id = $1) and o.status = 'accepted'
+       where (o.host_id = $1 or o.renter_id = $1)
        order by o.created_at desc`,
       [userId],
     );
