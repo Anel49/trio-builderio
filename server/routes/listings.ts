@@ -2776,3 +2776,140 @@ export async function cancelExtensionOrder(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+/**
+ * Respond to proposed dates (accept or reject)
+ * PATCH /reservations/:reservationId/proposed-dates
+ */
+export async function respondToProposedDates(
+  req: Request,
+  res: Response,
+): Promise<void> {
+  try {
+    const reservationId = Number((req.params as any)?.reservationId);
+    if (!reservationId || Number.isNaN(reservationId)) {
+      res.status(400).json({ ok: false, error: "invalid reservationId" });
+      return;
+    }
+
+    const userId = (req as any).session?.userId;
+    if (!userId) {
+      res.status(401).json({ ok: false, error: "Not authenticated" });
+      return;
+    }
+
+    const { action } = req.body || {};
+    if (!action || !["accept", "reject"].includes(action)) {
+      res.status(400).json({
+        ok: false,
+        error: "action must be 'accept' or 'reject'",
+      });
+      return;
+    }
+
+    // Fetch the reservation to verify ownership and current state
+    const reservationCheckResult = await pool.query(
+      `select id, host_id, renter_id, status, new_dates_proposed, modified_by_id,
+              start_date_proposed, end_date_proposed from reservations where id = $1`,
+      [reservationId],
+    );
+
+    if (reservationCheckResult.rows.length === 0) {
+      res.status(404).json({ ok: false, error: "Reservation not found" });
+      return;
+    }
+
+    const reservation = reservationCheckResult.rows[0];
+
+    // Verify user is either host or renter
+    if (
+      reservation.host_id !== userId &&
+      reservation.renter_id !== userId
+    ) {
+      res.status(403).json({
+        ok: false,
+        error: "You can only respond to your own reservations",
+      });
+      return;
+    }
+
+    // Verify user is NOT the one who proposed the dates
+    if (reservation.modified_by_id === String(userId)) {
+      res.status(403).json({
+        ok: false,
+        error: "You cannot respond to your own date proposal",
+      });
+      return;
+    }
+
+    // Verify reservation has pending date proposal
+    if (reservation.new_dates_proposed !== "sent") {
+      res.status(400).json({
+        ok: false,
+        error: "Reservation does not have pending date proposals",
+      });
+      return;
+    }
+
+    // Verify reservation status is pending
+    if (reservation.status !== "pending") {
+      res.status(400).json({
+        ok: false,
+        error: "Reservation status must be pending to respond to date proposals",
+      });
+      return;
+    }
+
+    let result;
+
+    if (action === "accept") {
+      // Accept proposed dates: update start_date and end_date, set new_dates_proposed to 'accepted'
+      result = await pool.query(
+        `update reservations
+         set start_date = $1::date,
+             end_date = $2::date,
+             new_dates_proposed = 'accepted',
+             last_modified = now()
+         where id = $3
+         returning id, status, start_date, end_date, new_dates_proposed, created_at`,
+        [reservation.start_date_proposed, reservation.end_date_proposed, reservationId],
+      );
+    } else {
+      // Reject proposed dates: only set new_dates_proposed to 'rejected'
+      result = await pool.query(
+        `update reservations
+         set new_dates_proposed = 'rejected',
+             last_modified = now()
+         where id = $1
+         returning id, status, start_date, end_date, new_dates_proposed, created_at`,
+        [reservationId],
+      );
+    }
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ ok: false, error: "Failed to update reservation" });
+      return;
+    }
+
+    const updatedReservation = result.rows[0];
+
+    console.log(
+      `[respondToProposedDates] Reservation ${reservationId} date proposal ${action}ed`,
+    );
+
+    res.json({
+      ok: true,
+      reservation: {
+        id: updatedReservation.id,
+        status: updatedReservation.status,
+        start_date: updatedReservation.start_date,
+        end_date: updatedReservation.end_date,
+        new_dates_proposed: updatedReservation.new_dates_proposed,
+        created_at: updatedReservation.created_at,
+      },
+    });
+  } catch (error: any) {
+    console.error("[respondToProposedDates] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
