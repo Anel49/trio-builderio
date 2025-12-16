@@ -188,6 +188,11 @@ export default function OrderHistory() {
   );
   const [orderSortBy, setOrderSortBy] = useState<"recent" | "oldest">("recent");
 
+  // State for tracking which order extensions are expanded
+  const [expandedExtensionOrders, setExpandedExtensionOrders] = useState<
+    Set<string>
+  >(new Set());
+
   // Cancel rental modal state
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
