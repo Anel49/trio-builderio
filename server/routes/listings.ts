@@ -1301,6 +1301,7 @@ export async function getUserReservations(req: Request, res: Response) {
       addons: r.addons,
       new_dates_proposed: r.new_dates_proposed,
       created_at: r.created_at,
+      extension_of: r.extension_of || null,
       listingTimezone: r.timezone || "UTC",
     }));
 
