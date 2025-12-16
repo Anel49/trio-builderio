@@ -1887,43 +1887,62 @@ export async function getUserOrders(req: Request, res: Response) {
 
     console.log("[getUserOrders] Query returned", result.rows.length, "rows");
 
-    const orders = result.rows.map((row: any) => ({
-      id: String(row.id),
-      order_number: row.order_number,
-      listing_id: row.listing_id,
-      host_id: row.host_id,
-      host_name: row.host_name,
-      host_email: row.host_email,
-      host_username: row.host_username,
-      host_avatar_url: row.host_avatar_url,
-      renter_id: row.renter_id,
-      renter_name: row.renter_name,
-      renter_email: row.renter_email,
-      renter_username: row.renter_username,
-      renter_avatar_url: row.renter_avatar_url,
-      listing_title: row.listing_title,
-      listing_image: row.listing_image,
-      listing_latitude: row.listing_latitude,
-      listing_longitude: row.listing_longitude,
-      daily_price_cents: row.daily_price_cents,
-      total_days: row.total_days,
-      rental_type: row.rental_type,
-      start_date: row.start_date,
-      end_date: row.end_date,
-      status: row.status,
-      currency: row.currency,
-      subtotal_cents: row.subtotal_cents,
-      daily_total: row.daily_total,
-      tax_cents: row.tax_cents,
-      host_earns: row.host_earns,
-      renter_pays: row.renter_pays,
-      platform_commission_total: row.platform_commission_total,
-      total_cents: row.total_cents,
-      reservation_id: row.reservation_id,
-      created_at: row.created_at,
-      extension_of: row.extension_of,
-    }));
+    const orders = result.rows.map((row: any) => {
+      const order = {
+        id: String(row.id),
+        order_number: row.order_number,
+        listing_id: row.listing_id,
+        host_id: row.host_id,
+        host_name: row.host_name,
+        host_email: row.host_email,
+        host_username: row.host_username,
+        host_avatar_url: row.host_avatar_url,
+        renter_id: row.renter_id,
+        renter_name: row.renter_name,
+        renter_email: row.renter_email,
+        renter_username: row.renter_username,
+        renter_avatar_url: row.renter_avatar_url,
+        listing_title: row.listing_title,
+        listing_image: row.listing_image,
+        listing_latitude: row.listing_latitude,
+        listing_longitude: row.listing_longitude,
+        daily_price_cents: row.daily_price_cents,
+        total_days: row.total_days,
+        rental_type: row.rental_type,
+        start_date: row.start_date,
+        end_date: row.end_date,
+        status: row.status,
+        currency: row.currency,
+        subtotal_cents: row.subtotal_cents,
+        daily_total: row.daily_total,
+        tax_cents: row.tax_cents,
+        host_earns: row.host_earns,
+        renter_pays: row.renter_pays,
+        platform_commission_total: row.platform_commission_total,
+        total_cents: row.total_cents,
+        reservation_id: row.reservation_id,
+        created_at: row.created_at,
+        extension_of: row.extension_of,
+      } as any;
 
+      if (row.extension_id) {
+        order.most_recent_extension = {
+          id: row.extension_id,
+          start_date: row.extension_start_date,
+          end_date: row.extension_end_date,
+          status: row.extension_status,
+          created_at: row.extension_created_at,
+        };
+        console.log(
+          `[getUserOrders] Order ${row.id} has extension:`,
+          order.most_recent_extension,
+        );
+      }
+
+      return order;
+    });
+
+    console.log("[getUserOrders] Returning", orders.length, "orders");
     res.json({ ok: true, orders });
   } catch (error: any) {
     console.error("[getUserOrders] Error:", error);
