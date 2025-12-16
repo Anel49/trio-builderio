@@ -31,6 +31,7 @@ import {
   respondToExtensionRequest,
   createExtensionOrder,
   cancelExtensionOrder,
+  respondToProposedDates,
 } from "./routes/listings";
 import {
   getUserByEmail,
