@@ -39,15 +39,11 @@ export function ExtensionRequestModal({
     start: Date | null;
     end: Date | null;
   }>({ start: null, end: null });
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   // Parse order dates
   const orderEndDate = new Date(order?.end_date || new Date());
-  const minSelectableDate = getEarliestExtensionDate(orderEndDate);
-  const minTimeDate = get24HourMinimumDate();
-
-  // The actual minimum selectable is whichever is later
-  const effectiveMinDate =
-    minSelectableDate > minTimeDate ? minSelectableDate : minTimeDate;
+  const requiredStartDate = getEarliestExtensionDate(orderEndDate);
 
   // Build disabled date ranges
   const disabledRanges = [
