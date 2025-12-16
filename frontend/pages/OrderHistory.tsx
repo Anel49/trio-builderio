@@ -1600,7 +1600,7 @@ export default function OrderHistory() {
                                 </Badge>
                               </div>
                               <p className="text-sm text-muted-foreground mb-1">
-                                Request #{res.id}
+                                {res.extension_of ? "Extension" : "Request"} #{res.id}
                               </p>
                               {res.status.toLowerCase() === "confirmed" &&
                                 reservationOrderNumbers.get(res.id) && (
