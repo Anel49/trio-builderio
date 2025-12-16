@@ -2309,12 +2309,12 @@ export async function createExtensionRequest(req: Request, res: Response) {
     // Create reservation for the extension request
     const createResult = await pool.query(
       `insert into reservations (
-        listing_id, renter_id, host_id, host_name, host_email,
+        listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
         start_date, end_date, listing_title, listing_image,
         listing_latitude, listing_longitude, daily_price_cents,
         rental_type, status, extension_of, created_at
        )
-       values ($1, $2, $3, $4, $5, $6::date, $7::date, $8, $9, $10, $11, $12, $13, 'pending', $14, now())
+       values ($1, $2, $3, $4, $5, $6, $7, $8::date, $9::date, $10, $11, $12, $13, $14, $15, 'pending', $16, now())
        returning id, start_date, end_date, status, extension_of, created_at`,
       [
         listing_id,
@@ -2322,6 +2322,8 @@ export async function createExtensionRequest(req: Request, res: Response) {
         order.host_id,
         order.host_name,
         order.host_email,
+        order.renter_name,
+        order.renter_email,
         start_date,
         end_date,
         order.listing_title,
