@@ -197,7 +197,7 @@ export function ExtensionRequestModal({
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Daily rate:</span>
                 <span className="font-medium">
-                  ${(order?.daily_price_cents || 0) / 100}
+                  ${((order?.daily_price_cents || 0) / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
@@ -206,7 +206,7 @@ export function ExtensionRequestModal({
               </div>
               <div className="border-t pt-2 flex justify-between text-sm font-semibold">
                 <span>Total:</span>
-                <span>${(totalPrice / 100).toFixed(2)}</span>
+                <span>${(totalPrice / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
             </div>
           )}
