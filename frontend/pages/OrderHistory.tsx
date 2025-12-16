@@ -488,24 +488,23 @@ export default function OrderHistory() {
     fetchOrders();
   }, [currentUser?.id]);
 
-  // Log orders with extensions for debugging
+  // Log orders for debugging
   useEffect(() => {
-    console.log("[OrderHistory] All orders:", ordersState);
-    const ordersWithExtensions = ordersState.filter(
-      (o) => o.most_recent_extension !== null && o.most_recent_extension !== undefined,
-    );
-    console.log(
-      `[OrderHistory] Total orders: ${ordersState.length}, Orders with extensions: ${ordersWithExtensions.length}`,
-    );
-    if (ordersWithExtensions.length > 0) {
+    if (ordersState.length > 0) {
+      const ordersWithExt = ordersState.filter((o) => o.extension_of);
       console.log(
-        "[OrderHistory] Orders with extensions:",
-        ordersWithExtensions.map((o) => ({
-          id: o.id,
-          order_number: o.order_number,
-          most_recent_extension: o.most_recent_extension,
-        })),
+        `[OrderHistory] Total orders: ${ordersState.length}, Orders with extension_of: ${ordersWithExt.length}`,
       );
+      if (ordersWithExt.length > 0) {
+        console.log(
+          "[OrderHistory] Orders with extension_of field:",
+          ordersWithExt.map((o) => ({
+            id: o.id,
+            order_number: o.order_number,
+            extension_of: o.extension_of,
+          })),
+        );
+      }
     }
   }, [ordersState]);
 
