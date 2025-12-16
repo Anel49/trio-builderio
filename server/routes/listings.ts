@@ -1876,17 +1876,10 @@ export async function getUserOrders(req: Request, res: Response) {
        left join lateral (
          select id, start_date, end_date, status, created_at
          from orders
-         where extension_of = o.id and status = 'accepted'
-         order by created_at desc
+         where extension_of = o.id and status in ('accepted', 'upcoming')
+         order by case when status = 'accepted' then 0 else 1 end, created_at desc
          limit 1
-       ) as ext_accepted on true
-       left join lateral (
-         select id, start_date, end_date, status, created_at
-         from orders
-         where extension_of = o.id and status = 'upcoming'
-         order by created_at desc
-         limit 1
-       ) as ext_upcoming on ext_accepted.id is null
+       ) ext on true
        where (o.host_id = $1 or o.renter_id = $1)
        order by o.created_at desc`,
       [userId],
