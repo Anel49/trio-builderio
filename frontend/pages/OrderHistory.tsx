@@ -1403,6 +1403,63 @@ export default function OrderHistory() {
                         </div>
                       </>
                     )}
+
+                    {/* Extensions for this order */}
+                    {getExtensionsForOrder(order.id).length > 0 && (
+                      <>
+                        <Separator className="my-4" />
+                        <div className="space-y-3">
+                          <p className="text-sm font-medium text-muted-foreground">
+                            Extensions
+                          </p>
+                          {getExtensionsForOrder(order.id).map((extension) => (
+                            <div
+                              key={extension.id}
+                              className="bg-muted/30 p-4 rounded-lg border border-muted"
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <p className="text-sm font-medium">
+                                    Extension #{extension.id}
+                                  </p>
+                                  <div className="flex items-center text-sm text-muted-foreground mt-1 gap-3">
+                                    <div className="flex items-center gap-1">
+                                      <Calendar className="h-4 w-4" />
+                                      <span>
+                                        {parseDateString(
+                                          extension.start_date,
+                                        ).toLocaleDateString("en-US", {
+                                          month: "short",
+                                          day: "numeric",
+                                          year: "numeric",
+                                        })}{" "}
+                                        -{" "}
+                                        {parseDateString(
+                                          extension.end_date,
+                                        ).toLocaleDateString("en-US", {
+                                          month: "short",
+                                          day: "numeric",
+                                          year: "numeric",
+                                        })}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <Badge
+                                  className={getRequestStatusBadge(
+                                    extension.status as RequestStatus,
+                                  )}
+                                >
+                                  {extension.status
+                                    .charAt(0)
+                                    .toUpperCase() + extension.status.slice(1)}
+                                </Badge>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </CardContent>
                 </Card>
               ))
