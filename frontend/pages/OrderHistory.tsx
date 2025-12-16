@@ -127,6 +127,7 @@ interface Order {
   total_cents?: number;
   reservation_id?: number | null;
   created_at?: string;
+  extension_of?: number | null;
 }
 
 interface Reservation {
