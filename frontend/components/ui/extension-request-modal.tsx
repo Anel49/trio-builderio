@@ -18,6 +18,18 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { format } from "date-fns";
 
+// Utility to parse dates without timezone conversion
+const parseDateString = (dateStr: string): Date => {
+  // Handle YYYY-MM-DD format or ISO format
+  const parts = dateStr.split("T")[0].split("-");
+  if (parts.length === 3) {
+    // Manually create date to avoid timezone conversion
+    const [year, month, day] = parts.map(Number);
+    return new Date(year, month - 1, day);
+  }
+  return new Date(dateStr);
+};
+
 interface ExtensionRequestModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
