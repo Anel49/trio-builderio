@@ -151,6 +151,7 @@ interface Reservation {
   new_dates_proposed?: string;
   created_at: string;
   listingTimezone?: string;
+  extension_of?: number | null;
 }
 
 interface UserProfile {
