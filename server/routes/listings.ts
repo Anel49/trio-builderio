@@ -2241,7 +2241,8 @@ export async function createExtensionRequest(req: Request, res: Response) {
     // Fetch the order being extended
     const orderResult = await pool.query(
       `select id, renter_id, host_id, host_name, host_email, end_date, listing_title, listing_image,
-              listing_latitude, listing_longitude, daily_price_cents, rental_type, status
+              listing_latitude, listing_longitude, daily_price_cents, rental_type, status,
+              renter_name, renter_email
        from orders where id = $1`,
       [orderId],
     );
