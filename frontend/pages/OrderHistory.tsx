@@ -1176,23 +1176,71 @@ export default function OrderHistory() {
                               <MapPin className="h-4 w-4 mr-1" />
                               {order.location}
                             </div>
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Calendar className="h-4 w-4 mr-1" />
-                              {order.start_date
-                                ? `${parseDateString(
-                                    order.start_date,
-                                  ).toLocaleDateString("en-US", {
-                                    month: "short",
-                                    day: "numeric",
-                                    year: "numeric",
-                                  })} - ${parseDateString(
-                                    order.end_date,
-                                  ).toLocaleDateString("en-US", {
-                                    month: "short",
-                                    day: "numeric",
-                                    year: "numeric",
-                                  })}`
-                                : `${order.startDate} - ${order.endDate}`}
+                            <div className="flex items-center text-sm text-muted-foreground gap-2">
+                              <Calendar className="h-4 w-4" />
+                              {order.start_date ? (
+                                <>
+                                  {getMostRecentExtensionOrder(order.id) ? (
+                                    <>
+                                      <span className="line-through">
+                                        {parseDateString(
+                                          order.start_date,
+                                        ).toLocaleDateString("en-US", {
+                                          month: "short",
+                                          day: "numeric",
+                                          year: "numeric",
+                                        })}{" "}
+                                        -{" "}
+                                        {parseDateString(
+                                          order.end_date || "",
+                                        ).toLocaleDateString("en-US", {
+                                          month: "short",
+                                          day: "numeric",
+                                          year: "numeric",
+                                        })}
+                                      </span>
+                                      <span className="font-medium text-foreground">
+                                        {parseDateString(
+                                          order.start_date,
+                                        ).toLocaleDateString("en-US", {
+                                          month: "short",
+                                          day: "numeric",
+                                          year: "numeric",
+                                        })}{" "}
+                                        -{" "}
+                                        {parseDateString(
+                                          getMostRecentExtensionOrder(order.id)
+                                            ?.end_date || "",
+                                        ).toLocaleDateString("en-US", {
+                                          month: "short",
+                                          day: "numeric",
+                                          year: "numeric",
+                                        })}
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <span>
+                                      {parseDateString(
+                                        order.start_date,
+                                      ).toLocaleDateString("en-US", {
+                                        month: "short",
+                                        day: "numeric",
+                                        year: "numeric",
+                                      })}{" "}
+                                      -{" "}
+                                      {parseDateString(
+                                        order.end_date || "",
+                                      ).toLocaleDateString("en-US", {
+                                        month: "short",
+                                        day: "numeric",
+                                        year: "numeric",
+                                      })}
+                                    </span>
+                                  )}
+                                </>
+                              ) : (
+                                <span>{order.startDate} - {order.endDate}</span>
+                              )}
                             </div>
                           </div>
                         </div>
