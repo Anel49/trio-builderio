@@ -2315,6 +2315,52 @@ export default function OrderHistory() {
         </DialogContent>
       </Dialog>
 
+      {/* Proposed Dates Response Modal */}
+      <Dialog
+        open={proposedDatesModalOpen}
+        onOpenChange={setProposedDatesModalOpen}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {proposedDatesAction === "accept"
+                ? "Accept proposed dates"
+                : "Reject proposed dates"}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-base text-muted-foreground">
+              {proposedDatesAction === "accept"
+                ? "Are you sure you want to accept the proposed dates?"
+                : "Are you sure you want to reject the proposed dates?"}
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => {
+                setProposedDatesModalOpen(false);
+                setProposedDatesAction(null);
+                setProposedDatesReservation(null);
+              }}
+            >
+              No
+            </Button>
+            <Button
+              className="flex-1"
+              onClick={handleConfirmProposedDatesAction}
+              disabled={
+                processingProposedDatesReservationId ===
+                  proposedDatesReservation?.id || !proposedDatesReservation
+              }
+            >
+              Yes
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Date Proposal Modal */}
       <Dialog
         open={proposeDateModalOpen}
