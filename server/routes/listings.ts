@@ -1856,6 +1856,10 @@ async function getMostRecentExtensionOrder(
   orderId: number,
 ): Promise<any | null> {
   try {
+    console.log(
+      `[getMostRecentExtensionOrder] Checking for extensions of order ${orderId}`,
+    );
+
     // First try to find with 'accepted' status
     let result = await pool.query(
       `select id, start_date, end_date, status, extension_of
@@ -1866,7 +1870,15 @@ async function getMostRecentExtensionOrder(
       [orderId],
     );
 
+    console.log(
+      `[getMostRecentExtensionOrder] Order ${orderId} 'accepted' query returned ${result.rows.length} rows`,
+    );
+
     if (result.rows.length > 0) {
+      console.log(
+        `[getMostRecentExtensionOrder] Found 'accepted' extension for order ${orderId}:`,
+        result.rows[0],
+      );
       return result.rows[0];
     }
 
@@ -1880,7 +1892,22 @@ async function getMostRecentExtensionOrder(
       [orderId],
     );
 
-    return result.rows.length > 0 ? result.rows[0] : null;
+    console.log(
+      `[getMostRecentExtensionOrder] Order ${orderId} 'upcoming' query returned ${result.rows.length} rows`,
+    );
+
+    if (result.rows.length > 0) {
+      console.log(
+        `[getMostRecentExtensionOrder] Found 'upcoming' extension for order ${orderId}:`,
+        result.rows[0],
+      );
+      return result.rows[0];
+    }
+
+    console.log(
+      `[getMostRecentExtensionOrder] No extensions found for order ${orderId}`,
+    );
+    return null;
   } catch (error) {
     console.error("[getMostRecentExtensionOrder] Error:", error);
     return null;
