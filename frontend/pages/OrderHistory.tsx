@@ -2007,6 +2007,38 @@ export default function OrderHistory() {
                               </div>
                             )}
 
+                          {res.status.toLowerCase() === "pending" &&
+                            res.new_dates_proposed === "sent" &&
+                            currentUser?.id !== Number(res.modified_by_id) && (
+                              <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  disabled={
+                                    processingProposedDatesReservationId ===
+                                    res.id
+                                  }
+                                  onClick={() =>
+                                    handleOpenProposedDatesModal(res, "reject")
+                                  }
+                                >
+                                  Reject Date(s)
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  disabled={
+                                    processingProposedDatesReservationId ===
+                                    res.id
+                                  }
+                                  onClick={() =>
+                                    handleOpenProposedDatesModal(res, "accept")
+                                  }
+                                >
+                                  Accept Date(s)
+                                </Button>
+                              </div>
+                            )}
+
                           <div className="order-1 sm:order-2 flex gap-2 flex-wrap sm:flex-nowrap">
                             <Button
                               variant="outline"
