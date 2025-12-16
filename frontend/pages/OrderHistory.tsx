@@ -837,9 +837,9 @@ export default function OrderHistory() {
   };
 
   const handleOpenExtensionModal = async (order: Order) => {
+    setExtensionModalLoading(true);
     setSelectedOrderForExtension(order);
     setExtensionConflictingDates([]);
-    setExtensionModalLoading(false);
 
     // Fetch conflicting dates for the listing
     if (order.listing_id) {
@@ -853,6 +853,7 @@ export default function OrderHistory() {
       }
     }
 
+    setExtensionModalLoading(false);
     setExtensionModalOpen(true);
   };
 
