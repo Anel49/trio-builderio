@@ -457,7 +457,6 @@ export default function OrderHistory() {
           reservation_id: dbOrder.reservation_id,
           created_at: dbOrder.created_at,
           extension_of: dbOrder.extension_of,
-          most_recent_extension: dbOrder.most_recent_extension,
           itemName: dbOrder.listing_title,
           itemImage: dbOrder.listing_image,
           host: dbOrder.host_name,
@@ -468,10 +467,7 @@ export default function OrderHistory() {
         console.log(
           `[fetchOrders] Converted to ${dbOrders.length} Order objects, setting state`,
         );
-        console.log(
-          "[fetchOrders] Sample order with extension data:",
-          dbOrders[0],
-        );
+        console.log("[fetchOrders] Sample order:", dbOrders[0]);
 
         // Set orders from database
         setOrdersState(dbOrders);
