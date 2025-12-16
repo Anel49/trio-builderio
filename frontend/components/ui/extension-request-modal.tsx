@@ -99,6 +99,7 @@ export function ExtensionRequestModal({
   const handleOpenChange = (newOpen: boolean) => {
     if (!newOpen) {
       setDateRange({ start: null, end: null });
+      setValidationError(null);
     }
     onOpenChange(newOpen);
   };
