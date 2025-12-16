@@ -1416,7 +1416,7 @@ export default function OrderHistory() {
                         <Separator className="my-4" />
                         <div className="space-y-3">
                           <div
-                            className="flex items-center justify-between cursor-pointer hover:bg-muted/20 p-2 -m-2 rounded transition-colors"
+                            className="flex items-center justify-between cursor-pointer"
                             onClick={() => {
                               const newExpanded = new Set(
                                 expandedExtensionOrders,
