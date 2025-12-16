@@ -1964,7 +1964,8 @@ export default function OrderHistory() {
 
                         <div className="flex flex-col gap-2 items-end sm:flex-row sm:items-center sm:justify-end">
                           {res.status.toLowerCase() === "pending" &&
-                            direction === "incoming" && (
+                            direction === "incoming" &&
+                            res.new_dates_proposed !== "sent" && (
                               <div className="order-2 sm:order-1 flex gap-2 mt-2 sm:mt-0">
                                 <Button
                                   size="sm"
