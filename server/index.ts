@@ -653,8 +653,14 @@ export function createServer() {
   );
   // Extension request routes
   app.post("/api/orders/:orderId/extension-request", createExtensionRequest);
-  app.patch("/api/reservations/:reservationId/extension-response", respondToExtensionRequest);
-  app.post("/api/reservations/:reservationId/confirm-extension", createExtensionOrder);
+  app.patch(
+    "/api/reservations/:reservationId/extension-response",
+    respondToExtensionRequest,
+  );
+  app.post(
+    "/api/reservations/:reservationId/confirm-extension",
+    createExtensionOrder,
+  );
   app.patch("/api/orders/:orderId/cancel-extension", cancelExtensionOrder);
   app.get("/api/orders/:userId", getUserOrders);
   // Users
@@ -770,8 +776,14 @@ export function createServer() {
   );
   // Extension request alias routes
   app.post("/orders/:orderId/extension-request", createExtensionRequest);
-  app.patch("/reservations/:reservationId/extension-response", respondToExtensionRequest);
-  app.post("/reservations/:reservationId/confirm-extension", createExtensionOrder);
+  app.patch(
+    "/reservations/:reservationId/extension-response",
+    respondToExtensionRequest,
+  );
+  app.post(
+    "/reservations/:reservationId/confirm-extension",
+    createExtensionOrder,
+  );
   app.patch("/orders/:orderId/cancel-extension", cancelExtensionOrder);
   app.get("/users", getUserByEmail);
   app.get("/users/:id", getUserById);

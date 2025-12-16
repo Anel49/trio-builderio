@@ -28,7 +28,10 @@ export function isValidExtensionDateRange(
   startDate: Date,
   endDate: Date,
   orderEndDate: Date,
-  conflictingDates: Array<{ startDate: string | Date; endDate: string | Date }> = []
+  conflictingDates: Array<{
+    startDate: string | Date;
+    endDate: string | Date;
+  }> = [],
 ): { valid: boolean; reason?: string } {
   const requiredStartDate = getEarliestExtensionDate(orderEndDate);
 
@@ -83,10 +86,11 @@ export function formatDateForApi(date: Date): string {
 export function calculateExtensionTotal(
   dailyPriceCents: number,
   startDate: Date,
-  endDate: Date
+  endDate: Date,
 ): number {
-  const days = Math.ceil(
-    (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
-  ) + 1;
+  const days =
+    Math.ceil(
+      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+    ) + 1;
   return dailyPriceCents * days;
 }

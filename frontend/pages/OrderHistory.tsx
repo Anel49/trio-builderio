@@ -847,7 +847,7 @@ export default function OrderHistory() {
         setExtensionConflictingDates(result.conflictingDates);
         console.log(
           "[handleOpenExtensionModal] Fetched conflicting dates:",
-          result.conflictingDates
+          result.conflictingDates,
         );
       }
     }
@@ -855,9 +855,14 @@ export default function OrderHistory() {
     setExtensionModalOpen(true);
   };
 
-  const handleSubmitExtensionRequest = async (startDate: Date, endDate: Date) => {
+  const handleSubmitExtensionRequest = async (
+    startDate: Date,
+    endDate: Date,
+  ) => {
     if (!selectedOrderForExtension || !selectedOrderForExtension.listing_id) {
-      console.error("[handleSubmitExtensionRequest] Missing order or listing data");
+      console.error(
+        "[handleSubmitExtensionRequest] Missing order or listing data",
+      );
       return;
     }
 
@@ -870,13 +875,13 @@ export default function OrderHistory() {
         selectedOrderForExtension.id,
         selectedOrderForExtension.listing_id,
         start,
-        end
+        end,
       );
 
       if (result.ok) {
         console.log(
           "[handleSubmitExtensionRequest] Extension request created:",
-          result.reservation?.id
+          result.reservation?.id,
         );
         setExtensionModalOpen(false);
         setSelectedOrderForExtension(null);

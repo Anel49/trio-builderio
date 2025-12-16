@@ -2241,7 +2241,7 @@ export async function createExtensionRequest(req: Request, res: Response) {
       `select id, renter_id, host_id, host_name, host_email, end_date, listing_title, listing_image,
               listing_latitude, listing_longitude, daily_price_cents, rental_type, status
        from orders where id = $1`,
-      [orderId]
+      [orderId],
     );
 
     if (orderResult.rows.length === 0) {
@@ -2293,7 +2293,7 @@ export async function createExtensionRequest(req: Request, res: Response) {
       where $2::date < end_date and $3::date > start_date
       limit 1
       `,
-      [listing_id, end_date, start_date]
+      [listing_id, end_date, start_date],
     );
 
     if (conflictResult.rows.length > 0) {
@@ -2328,12 +2328,15 @@ export async function createExtensionRequest(req: Request, res: Response) {
         order.daily_price_cents,
         order.rental_type,
         orderId,
-      ]
+      ],
     );
 
     const reservation = createResult.rows[0];
 
-    console.log("[createExtensionRequest] Extension request created:", reservation.id);
+    console.log(
+      "[createExtensionRequest] Extension request created:",
+      reservation.id,
+    );
 
     res.json({
       ok: true,
@@ -2361,7 +2364,9 @@ export async function respondToExtensionRequest(req: Request, res: Response) {
   try {
     const reservationId = Number((req.params as any)?.reservationId);
     if (!reservationId || Number.isNaN(reservationId)) {
-      return res.status(400).json({ ok: false, error: "invalid reservationId" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "invalid reservationId" });
     }
 
     const userId = (req as any).session?.userId;
@@ -2380,11 +2385,13 @@ export async function respondToExtensionRequest(req: Request, res: Response) {
     // Fetch reservation
     const resResult = await pool.query(
       `select id, host_id, status, extension_of from reservations where id = $1`,
-      [reservationId]
+      [reservationId],
     );
 
     if (resResult.rows.length === 0) {
-      return res.status(404).json({ ok: false, error: "Reservation not found" });
+      return res
+        .status(404)
+        .json({ ok: false, error: "Reservation not found" });
     }
 
     const reservation = resResult.rows[0];
@@ -2408,7 +2415,7 @@ export async function respondToExtensionRequest(req: Request, res: Response) {
     // Validate original order still exists and is active/upcoming
     const orderResult = await pool.query(
       `select status from orders where id = $1`,
-      [reservation.extension_of]
+      [reservation.extension_of],
     );
 
     if (orderResult.rows.length === 0) {
@@ -2430,10 +2437,12 @@ export async function respondToExtensionRequest(req: Request, res: Response) {
     const newStatus = accepted ? "accepted" : "rejected";
     const updateResult = await pool.query(
       `update reservations set status = $1 where id = $2 returning *`,
-      [newStatus, reservationId]
+      [newStatus, reservationId],
     );
 
-    console.log(`[respondToExtensionRequest] Reservation ${reservationId} ${newStatus}`);
+    console.log(
+      `[respondToExtensionRequest] Reservation ${reservationId} ${newStatus}`,
+    );
 
     res.json({
       ok: true,
@@ -2456,7 +2465,9 @@ export async function createExtensionOrder(req: Request, res: Response) {
   try {
     const reservationId = Number((req.params as any)?.reservationId);
     if (!reservationId || Number.isNaN(reservationId)) {
-      return res.status(400).json({ ok: false, error: "invalid reservationId" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "invalid reservationId" });
     }
 
     const userId = (req as any).session?.userId;
@@ -2467,11 +2478,13 @@ export async function createExtensionOrder(req: Request, res: Response) {
     // Fetch reservation
     const resResult = await pool.query(
       `select * from reservations where id = $1`,
-      [reservationId]
+      [reservationId],
     );
 
     if (resResult.rows.length === 0) {
-      return res.status(404).json({ ok: false, error: "Reservation not found" });
+      return res
+        .status(404)
+        .json({ ok: false, error: "Reservation not found" });
     }
 
     const reservation = resResult.rows[0];
@@ -2496,7 +2509,9 @@ export async function createExtensionOrder(req: Request, res: Response) {
     const startDate = new Date(reservation.start_date);
     const endDate = new Date(reservation.end_date);
     const totalDays =
-      Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+      Math.ceil(
+        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+      ) + 1;
     const dailyPrice = reservation.daily_price_cents;
 
     // Create new order for the extension
@@ -2527,7 +2542,7 @@ export async function createExtensionOrder(req: Request, res: Response) {
         reservation.start_date,
         reservation.end_date,
         reservation.extension_of,
-      ]
+      ],
     );
 
     const newOrder = newOrderResult.rows[0];
@@ -2535,7 +2550,7 @@ export async function createExtensionOrder(req: Request, res: Response) {
     // Update reservation status to confirmed
     await pool.query(
       `update reservations set status = 'confirmed' where id = $1`,
-      [reservationId]
+      [reservationId],
     );
 
     console.log("[createExtensionOrder] Extension order created:", newOrder.id);
@@ -2575,7 +2590,7 @@ export async function cancelExtensionOrder(req: Request, res: Response) {
     // Fetch order
     const orderResult = await pool.query(
       `select id, renter_id, host_id, status, extension_of, start_date from orders where id = $1`,
-      [orderId]
+      [orderId],
     );
 
     if (orderResult.rows.length === 0) {
@@ -2622,13 +2637,13 @@ export async function cancelExtensionOrder(req: Request, res: Response) {
     // Update order status to canceled
     const updateResult = await pool.query(
       `update orders set status = 'canceled' where id = $1 returning *`,
-      [orderId]
+      [orderId],
     );
 
     // Find and cancel related reservation
     await pool.query(
       `update reservations set status = 'canceled' where extension_of = $1 and status = 'confirmed'`,
-      [orderId]
+      [orderId],
     );
 
     console.log("[cancelExtensionOrder] Extension order canceled:", orderId);

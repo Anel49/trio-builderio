@@ -63,7 +63,10 @@ export function ExtensionRequestModal({
     if (open && order?.end_date) {
       console.log("[ExtensionModal] Raw end_date from order:", order.end_date);
       console.log("[ExtensionModal] Parsed orderEndDate:", orderEndDate);
-      console.log("[ExtensionModal] Formatted display:", format(orderEndDate, "MMM dd, yyyy"));
+      console.log(
+        "[ExtensionModal] Formatted display:",
+        format(orderEndDate, "MMM dd, yyyy"),
+      );
     }
   }, [open, order?.end_date, orderEndDate]);
 
@@ -86,7 +89,7 @@ export function ExtensionRequestModal({
     dateRange.start && dateRange.end
       ? Math.ceil(
           (dateRange.end.getTime() - dateRange.start.getTime()) /
-            (1000 * 60 * 60 * 24)
+            (1000 * 60 * 60 * 24),
         ) + 1
       : 0;
 
@@ -95,7 +98,7 @@ export function ExtensionRequestModal({
       ? calculateExtensionTotal(
           order.daily_price_cents,
           dateRange.start,
-          dateRange.end
+          dateRange.end,
         )
       : 0;
 
@@ -107,7 +110,7 @@ export function ExtensionRequestModal({
       dateRange.start,
       dateRange.end,
       orderEndDate,
-      conflictingDates
+      conflictingDates,
     );
 
     if (!validation.valid) {
@@ -153,7 +156,15 @@ export function ExtensionRequestModal({
           {/* Info about required start date */}
           <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded border border-blue-200 dark:border-blue-800">
             <p className="text-sm text-blue-900 dark:text-blue-100">
-              Extension must start on <span className="font-semibold">{requiredStartDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span> (the day after your order ends)
+              Extension must start on{" "}
+              <span className="font-semibold">
+                {requiredStartDate.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>{" "}
+              (the day after your order ends)
             </p>
           </div>
 

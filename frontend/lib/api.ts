@@ -980,7 +980,7 @@ export async function createExtensionRequest(
   orderId: string | number,
   listingId: number,
   startDate: string,
-  endDate: string
+  endDate: string,
 ): Promise<{
   ok: boolean;
   reservation?: any;
@@ -993,7 +993,7 @@ export async function createExtensionRequest(
       "dates:",
       startDate,
       "to",
-      endDate
+      endDate,
     );
 
     const response = await apiFetch(`/orders/${orderId}/extension-request`, {
@@ -1022,7 +1022,7 @@ export async function createExtensionRequest(
       console.error(
         "[createExtensionRequest] Non-JSON response:",
         response.status,
-        text.substring(0, 200)
+        text.substring(0, 200),
       );
       return {
         ok: false,
@@ -1038,7 +1038,7 @@ export async function createExtensionRequest(
         "[createExtensionRequest] HTTP error",
         response.status,
         "data:",
-        data
+        data,
       );
       return {
         ok: false,
@@ -1065,7 +1065,7 @@ export async function createExtensionRequest(
  */
 export async function respondToExtensionRequest(
   reservationId: string | number,
-  accepted: boolean
+  accepted: boolean,
 ): Promise<{
   ok: boolean;
   reservation?: any;
@@ -1076,7 +1076,7 @@ export async function respondToExtensionRequest(
       "[respondToExtensionRequest] Responding to reservation",
       reservationId,
       "accepted:",
-      accepted
+      accepted,
     );
 
     const response = await apiFetch(
@@ -1089,7 +1089,7 @@ export async function respondToExtensionRequest(
         body: JSON.stringify({
           accepted,
         }),
-      }
+      },
     );
 
     if (!response) {
@@ -1106,7 +1106,7 @@ export async function respondToExtensionRequest(
       console.error(
         "[respondToExtensionRequest] Non-JSON response:",
         response.status,
-        text.substring(0, 200)
+        text.substring(0, 200),
       );
       return {
         ok: false,
@@ -1122,7 +1122,7 @@ export async function respondToExtensionRequest(
         "[respondToExtensionRequest] HTTP error",
         response.status,
         "data:",
-        data
+        data,
       );
       return {
         ok: false,
@@ -1148,7 +1148,7 @@ export async function respondToExtensionRequest(
  * Create an order from an accepted extension reservation (after payment)
  */
 export async function createExtensionOrder(
-  reservationId: string | number
+  reservationId: string | number,
 ): Promise<{
   ok: boolean;
   order?: any;
@@ -1157,7 +1157,7 @@ export async function createExtensionOrder(
   try {
     console.log(
       "[createExtensionOrder] Creating order from reservation",
-      reservationId
+      reservationId,
     );
 
     const response = await apiFetch(
@@ -1167,7 +1167,7 @@ export async function createExtensionOrder(
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     if (!response) {
@@ -1184,7 +1184,7 @@ export async function createExtensionOrder(
       console.error(
         "[createExtensionOrder] Non-JSON response:",
         response.status,
-        text.substring(0, 200)
+        text.substring(0, 200),
       );
       return {
         ok: false,
@@ -1200,7 +1200,7 @@ export async function createExtensionOrder(
         "[createExtensionOrder] HTTP error",
         response.status,
         "data:",
-        data
+        data,
       );
       return {
         ok: false,
@@ -1225,9 +1225,7 @@ export async function createExtensionOrder(
 /**
  * Cancel an upcoming extension order
  */
-export async function cancelExtensionOrder(
-  orderId: string | number
-): Promise<{
+export async function cancelExtensionOrder(orderId: string | number): Promise<{
   ok: boolean;
   order?: any;
   error?: string;
@@ -1256,7 +1254,7 @@ export async function cancelExtensionOrder(
       console.error(
         "[cancelExtensionOrder] Non-JSON response:",
         response.status,
-        text.substring(0, 200)
+        text.substring(0, 200),
       );
       return {
         ok: false,
@@ -1272,7 +1270,7 @@ export async function cancelExtensionOrder(
         "[cancelExtensionOrder] HTTP error",
         response.status,
         "data:",
-        data
+        data,
       );
       return {
         ok: false,
