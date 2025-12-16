@@ -1308,7 +1308,11 @@ export default function OrderHistory() {
                               <Button
                                 size="sm"
                                 onClick={() => handleOpenExtensionModal(order)}
+                                disabled={extensionModalLoading}
                               >
+                                {extensionModalLoading && (
+                                  <Loader className="h-4 w-4 mr-2 animate-spin" />
+                                )}
                                 Extend booking
                               </Button>
                             )}
