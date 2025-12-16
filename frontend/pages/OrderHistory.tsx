@@ -159,6 +159,7 @@ interface Reservation {
   nonconsumable_addon_total: number;
   addons: any;
   new_dates_proposed?: string;
+  modified_by_id?: number | string;
   created_at: string;
   listingTimezone?: string;
   extension_of?: number | null;
