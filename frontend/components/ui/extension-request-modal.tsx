@@ -256,7 +256,7 @@ export function ExtensionRequestModal({
           <Button
             className="flex-1"
             onClick={handleSubmit}
-            disabled={!dateRange.start || !dateRange.end || isLoading}
+            disabled={!dateRange.start || !dateRange.end || isLoading || !!validationError}
             aria-busy={isLoading}
           >
             {isLoading ? "Requesting..." : "Request Extension"}
