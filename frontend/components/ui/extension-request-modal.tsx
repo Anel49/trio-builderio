@@ -154,16 +154,20 @@ export function ExtensionRequestModal({
           </div>
 
           {/* Info about required start date */}
-          <div className={`p-3 rounded border ${
-            validationError
-              ? "bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800"
-              : "bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800"
-          }`}>
-            <p className={`text-sm ${
+          <div
+            className={`p-3 rounded border ${
               validationError
-                ? "text-red-900 dark:text-red-100"
-                : "text-blue-900 dark:text-blue-100"
-            }`}>
+                ? "bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800"
+                : "bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800"
+            }`}
+          >
+            <p
+              className={`text-sm ${
+                validationError
+                  ? "text-red-900 dark:text-red-100"
+                  : "text-blue-900 dark:text-blue-100"
+              }`}
+            >
               Extension must start on{" "}
               <span className="font-semibold">
                 {requiredStartDate.toLocaleDateString("en-US", {
@@ -192,10 +196,12 @@ export function ExtensionRequestModal({
                     newRange.start,
                     newRange.end,
                     orderEndDate,
-                    conflictingDates
+                    conflictingDates,
                   );
                   if (!validation.valid) {
-                    setValidationError(validation.reason || "Invalid date range");
+                    setValidationError(
+                      validation.reason || "Invalid date range",
+                    );
                   } else {
                     setValidationError(null);
                   }
@@ -208,14 +214,17 @@ export function ExtensionRequestModal({
             />
           </div>
 
-
           {/* Price preview */}
           {dateRange.start && dateRange.end && (
             <div className="p-3 bg-muted rounded space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Daily rate:</span>
                 <span className="font-medium">
-                  ${((order?.daily_price_cents || 0) / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  $
+                  {((order?.daily_price_cents || 0) / 100).toLocaleString(
+                    "en-US",
+                    { minimumFractionDigits: 2, maximumFractionDigits: 2 },
+                  )}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
@@ -224,7 +233,13 @@ export function ExtensionRequestModal({
               </div>
               <div className="border-t pt-2 flex justify-between text-sm font-semibold">
                 <span>Total:</span>
-                <span>${(totalPrice / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span>
+                  $
+                  {(totalPrice / 100).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
               </div>
             </div>
           )}
@@ -256,7 +271,12 @@ export function ExtensionRequestModal({
           <Button
             className="flex-1"
             onClick={handleSubmit}
-            disabled={!dateRange.start || !dateRange.end || isLoading || !!validationError}
+            disabled={
+              !dateRange.start ||
+              !dateRange.end ||
+              isLoading ||
+              !!validationError
+            }
             aria-busy={isLoading}
           >
             {isLoading ? "Requesting..." : "Request Extension"}
