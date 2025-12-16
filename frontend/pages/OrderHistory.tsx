@@ -50,6 +50,7 @@ import {
   respondToExtensionRequest,
   createExtensionOrder,
   cancelExtensionOrder,
+  respondToProposedDates,
 } from "@/lib/api";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { ExtensionRequestModal } from "@/components/ui/extension-request-modal";
