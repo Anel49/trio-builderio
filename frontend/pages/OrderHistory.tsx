@@ -907,6 +907,16 @@ export default function OrderHistory() {
     }
   };
 
+  const getExtensionsForOrder = (orderId: string): Reservation[] => {
+    return reservations
+      .filter((res) => res.extension_of && res.extension_of === Number(orderId))
+      .sort((a, b) => {
+        const aDate = parseDateString(a.start_date).getTime();
+        const bDate = parseDateString(b.start_date).getTime();
+        return aDate - bDate;
+      });
+  };
+
   const sortedOrders = [...filteredOrders].sort((a, b) => {
     const aDate = new Date(a.startDate).getTime();
     const bDate = new Date(b.startDate).getTime();
