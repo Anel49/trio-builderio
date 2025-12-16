@@ -1244,7 +1244,7 @@ export default function OrderHistory() {
                               <Calendar className="h-4 w-4" />
                               {order.start_date ? (
                                 <>
-                                  {getMostRecentExtensionOrder(order.id) ? (
+                                  {order.most_recent_extension ? (
                                     <>
                                       <span className="line-through">
                                         {parseDateString(
@@ -1273,8 +1273,7 @@ export default function OrderHistory() {
                                         })}{" "}
                                         -{" "}
                                         {parseDateString(
-                                          getMostRecentExtensionOrder(order.id)
-                                            ?.end_date || "",
+                                          order.most_recent_extension.end_date,
                                         ).toLocaleDateString("en-US", {
                                           month: "short",
                                           day: "numeric",
