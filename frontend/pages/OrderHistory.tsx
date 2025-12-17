@@ -945,7 +945,7 @@ export default function OrderHistory() {
       );
 
       if (result.ok) {
-        // Update the reservation in local state with the formatted dates
+        // Update the reservation in local state with the formatted dates and new_dates_proposed
         setReservations((prev) =>
           prev.map((r) =>
             r.id === reservationToProposeDates.id
@@ -954,6 +954,8 @@ export default function OrderHistory() {
                   start_date: startDate,
                   end_date: endDate,
                   status: "pending",
+                  new_dates_proposed: result.reservation?.new_dates_proposed || "sent",
+                  modified_by_id: result.reservation?.modifiedById || currentUser?.id,
                 }
               : r,
           ),
