@@ -1300,6 +1300,7 @@ export async function getUserReservations(req: Request, res: Response) {
       nonconsumable_addon_total: r.nonconsumable_addon_total,
       addons: r.addons,
       new_dates_proposed: r.new_dates_proposed,
+      modified_by_id: r.modified_by_id,
       created_at: r.created_at,
       extension_of: r.extension_of || null,
       listingTimezone: r.timezone || "UTC",
