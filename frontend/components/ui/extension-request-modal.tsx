@@ -225,7 +225,7 @@ export function ExtensionRequestModal({
                         <Info className="h-4 w-4 text-muted-foreground hover:text-foreground" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-64 p-3 z-[200]">
+                    <PopoverContent className="w-64 p-3 z-[220]">
                       <p className="text-sm text-foreground">
                         Extensions must start the day after a booking's end date.
                       </p>
