@@ -322,18 +322,6 @@ export function ExtensionRequestModal({
             </div>
           )}
 
-          {/* Selected dates summary */}
-          {selectedEndDate && (
-            <div className="p-3 bg-muted rounded">
-              <p className="text-sm text-muted-foreground mb-1">
-                Extension period:
-              </p>
-              <p className="text-sm font-semibold">
-                {format(requiredStartDate, "MMM dd")} -{" "}
-                {format(selectedEndDate, "MMM dd, yyyy")}
-              </p>
-            </div>
-          )}
         </div>
 
         {/* Action buttons */}
