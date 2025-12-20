@@ -901,12 +901,8 @@ export default function BrowseListings() {
         const listingId = String(listing.id);
         const reservations = reservationsCache[listingId];
 
-        console.log(`[BrowseListings] Checking listing ${listingId} (${listing.name})`);
-        console.log(`[BrowseListings] Date range: ${dateRange.start.toISOString().split("T")[0]} to ${dateRange.end.toISOString().split("T")[0]}`);
-        console.log(`[BrowseListings] Reservations for listing ${listingId}:`, reservations);
-
         if (reservations !== undefined) {
-          // Check if any day in the selected range conflicts with reservations
+          // Check if any day in the selected range conflicts with reservations/orders
           const currentDate = new Date(dateRange.start);
           const inclusiveEndDate = new Date(dateRange.end);
           inclusiveEndDate.setDate(inclusiveEndDate.getDate() + 1);
@@ -922,7 +918,6 @@ export default function BrowseListings() {
                 res.status !== "active" &&
                 res.status !== "upcoming"
               ) {
-                console.log(`[BrowseListings] Skipping reservation ${res.id} with status "${res.status}"`);
                 return false;
               }
               // Parse the dates properly - handle ISO strings
@@ -936,21 +931,14 @@ export default function BrowseListings() {
                   : new Date(res.endDate).toISOString().split("T")[0];
 
               const isConflict = dateStr >= resStart && dateStr <= resEnd;
-              if (isConflict) {
-                console.log(`[BrowseListings] CONFLICT on ${dateStr}: reservation/order ${res.id} (status: ${res.status}) blocks ${resStart} to ${resEnd}`);
-              }
               return isConflict;
             });
 
             if (hasConflict) {
-              console.log(`[BrowseListings] Filtering OUT listing ${listingId} (${listing.name}) - has conflict on ${dateStr}`);
               return false;
             }
             currentDate.setDate(currentDate.getDate() + 1);
           }
-          console.log(`[BrowseListings] Keeping listing ${listingId} (${listing.name}) - no conflicts`);
-        } else {
-          console.log(`[BrowseListings] Reservations still loading for listing ${listingId}`);
         }
       }
 
