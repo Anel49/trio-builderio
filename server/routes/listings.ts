@@ -1825,22 +1825,6 @@ export async function updateReservationStatus(req: Request, res: Response) {
         .json({ ok: false, error: "Reservation not found" });
     }
 
-    // If status is being set to accepted, create an order record
-    if (status === "accepted") {
-      const orderResult = await createOrderFromReservation(reservation);
-      if (!orderResult.ok) {
-        console.warn(
-          "[updateReservationStatus] Failed to create order:",
-          orderResult.error,
-        );
-      } else {
-        console.log(
-          "[updateReservationStatus] Order created successfully with id:",
-          orderResult.orderId,
-        );
-      }
-    }
-
     res.json({
       ok: true,
       reservation: {
