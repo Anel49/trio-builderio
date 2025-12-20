@@ -225,10 +225,18 @@ export function ExtensionRequestModal({
                         <Info className="h-4 w-4 text-muted-foreground hover:text-foreground" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-64 p-3 z-[220]">
-                      <p className="text-sm text-foreground">
-                        Extensions must start the day after a booking's end date.
-                      </p>
+                    <PopoverContent
+                      className="w-64 p-3 z-[220]"
+                      side="bottom"
+                      align="start"
+                      asChild
+                    >
+                      <div className="relative">
+                        <div className="absolute -top-2 left-2 w-3 h-3 bg-background border-t border-l border-border rotate-45 -translate-y-full"></div>
+                        <p className="text-sm text-foreground">
+                          Extensions must start the day after a booking's end date.
+                        </p>
+                      </div>
                     </PopoverContent>
                   </Popover>
                 </div>
