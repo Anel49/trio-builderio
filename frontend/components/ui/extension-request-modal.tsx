@@ -217,7 +217,21 @@ export function ExtensionRequestModal({
             <div className="space-y-2">
               {/* Start Date Button - Disabled */}
               <div className="flex flex-col gap-1">
-                <p className="text-xs text-muted-foreground">Start date</p>
+                <div className="flex items-center gap-1">
+                  <p className="text-xs text-muted-foreground">Start date</p>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="inline-flex p-0 h-4 w-4 rounded-full hover:bg-muted transition-colors cursor-pointer">
+                        <Info className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-64 p-3">
+                      <p className="text-sm text-foreground">
+                        Extensions must start the day after a booking's end date.
+                      </p>
+                    </PopoverContent>
+                  </Popover>
+                </div>
                 <Button
                   variant="outline"
                   disabled
