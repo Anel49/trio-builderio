@@ -1659,9 +1659,10 @@ async function createOrderFromReservation(
     const taxCents = Math.round(subtotalCents * taxPercentage);
     const platformCommissionHost = Math.round(subtotalCents * 0.12);
     const hostEarns = subtotalCents - platformCommissionHost;
-    const platformCommissionRenter = Math.round(
-      (dailyPriceCents + nonconsumableAddonTotal) * 0.1,
-    );
+    const platformCommissionRenter =
+      reservation.extension_of && reservation.extension_of !== null
+        ? 0
+        : Math.round((dailyPriceCents + nonconsumableAddonTotal) * 0.1);
     const renterPays = subtotalCents + platformCommissionRenter + taxCents;
     const platformCommissionTotal =
       platformCommissionHost + platformCommissionRenter;
