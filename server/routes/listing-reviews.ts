@@ -3,7 +3,7 @@ import { pool } from "./db";
 
 export async function createListingReview(req: Request, res: Response) {
   try {
-    const { listing_id, reviewer_id, rating, comment } = req.body || {};
+    const { listing_id, reviewer_id, rating, comment, order_id } = req.body || {};
 
     if (!listing_id || !reviewer_id) {
       return res.status(400).json({
@@ -38,6 +38,26 @@ export async function createListingReview(req: Request, res: Response) {
     );
 
     const review = result.rows[0];
+
+    // If an order_id is provided, update the orders table with the review
+    if (order_id) {
+      try {
+        await pool.query(
+          `update orders set review_id = $1, review_message = $2 where id = $3`,
+          [review.id, comment.trim(), order_id],
+        );
+        console.log(
+          `[createListingReview] Updated order ${order_id} with review ${review.id}`,
+        );
+      } catch (updateError: any) {
+        console.error(
+          "[createListingReview] Failed to update order with review:",
+          updateError,
+        );
+        // Don't fail the entire request, just log the error
+      }
+    }
+
     res.json({ ok: true, review });
   } catch (error: any) {
     console.error("[createListingReview] Error:", error);
