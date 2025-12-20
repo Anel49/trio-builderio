@@ -1656,7 +1656,7 @@ export default function OrderHistory() {
                                     <div className="flex items-start justify-between">
                                       <div className="flex-1">
                                         <p className="text-sm font-medium">
-                                          Extension #{getExtensionOrderNumber(extension)}
+                                          Order #{getExtensionOrderNumber(extension)}
                                         </p>
                                         <div className="flex items-center text-sm text-muted-foreground mt-1 gap-3">
                                           <div className="flex items-center gap-1">
