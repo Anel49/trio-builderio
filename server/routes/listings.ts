@@ -1176,7 +1176,7 @@ export async function listListingReservations(req: Request, res: Response) {
       select r.id, r.start_date, r.end_date, r.renter_id, r.status, u.first_name, u.last_name
       from reservations r
       left join users u on r.renter_id = u.id
-      where r.listing_id = $1
+      where r.listing_id = $1 and r.status in ('pending', 'accepted', 'confirmed')
       union all
       select o.id, o.start_date, o.end_date, o.renter_id, o.status, u.first_name, u.last_name
       from orders o
