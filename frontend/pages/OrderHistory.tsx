@@ -163,6 +163,7 @@ interface Reservation {
   created_at: string;
   listingTimezone?: string;
   extension_of?: number | null;
+  postcode?: string | null;
 }
 
 interface UserProfile {
