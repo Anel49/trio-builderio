@@ -1694,9 +1694,9 @@ async function createOrderFromReservation(
         'ORD-' || nextval('orders_number_seq')::text,
         currval('orders_number_seq'),
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16,
-        'USD', null, null, null, 'pending', 'upcoming',
-        $17, null, null, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27,
-        $28, $29, $30, $31, now()
+        'USD', null, null, $17, 'pending', 'upcoming',
+        $18, null, null, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28,
+        $29, $30, $31, $32, now()
       ) returning id`,
       [
         reservation.listing_id,
@@ -1715,6 +1715,7 @@ async function createOrderFromReservation(
         reservation.rental_type,
         reservation.start_date,
         reservation.end_date,
+        reservation.postcode,
         reservation.addons,
         subtotalCents,
         dailyTotal,
