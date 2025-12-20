@@ -1392,7 +1392,7 @@ export async function createReservation(req: Request, res: Response) {
 
     // Fetch listing timezone and postcode
     const listingResult = await pool.query(
-      `select timezone, zip_code from listings where id = $1`,
+      `select timezone, postcode from listings where id = $1`,
       [listing_id],
     );
 
@@ -1404,7 +1404,7 @@ export async function createReservation(req: Request, res: Response) {
     }
 
     const listingTimezone = listingResult.rows[0].timezone || "UTC";
-    const listingPostcode = listingResult.rows[0].zip_code || null;
+    const listingPostcode = listingResult.rows[0].postcode || null;
 
     // Create the reservation
     const result = await pool.query(
@@ -2334,10 +2334,10 @@ export async function createExtensionRequest(req: Request, res: Response) {
 
     // Fetch listing postcode for extension request
     const listingDataResult = await pool.query(
-      `select zip_code from listings where id = $1`,
+      `select postcode from listings where id = $1`,
       [listing_id],
     );
-    const extensionPostcode = listingDataResult.rows[0]?.zip_code || null;
+    const extensionPostcode = listingDataResult.rows[0]?.postcode || null;
 
     // Create reservation for the extension request
     const createResult = await pool.query(
