@@ -1071,6 +1071,14 @@ export default function OrderHistory() {
     return extensions[0];
   };
 
+  const getExtensionOrderNumber = (extension: Reservation): string => {
+    // Find the order corresponding to this extension reservation
+    const extensionOrder = ordersState.find(
+      (o) => o.reservation_id === Number(extension.id),
+    );
+    return extensionOrder?.order_number || extension.id;
+  };
+
   const sortedOrders = [...filteredOrders].sort((a, b) => {
     const aDate = new Date(a.startDate).getTime();
     const bDate = new Date(b.startDate).getTime();
