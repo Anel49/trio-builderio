@@ -1529,6 +1529,22 @@ export default function OrderHistory() {
                               Cancel
                             </Button>
                           )}
+                          {/* Leave Review button - only show for renters with completed orders */}
+                          {order.type === "rented" &&
+                            order.status === "completed" && (
+                              <Button
+                                size="sm"
+                                onClick={() => {
+                                  setReviewOrder(order);
+                                  setReviewRating(null);
+                                  setReviewText("");
+                                  setReviewDialogOpen(true);
+                                }}
+                              >
+                                Leave Review
+                              </Button>
+                            )}
+
                           {/* Extend booking button - only show for renters with active/upcoming orders */}
                           {order.type === "rented" &&
                             (order.status === "active" ||
