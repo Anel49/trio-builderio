@@ -51,6 +51,24 @@ export function ExtensionRequestModal({
   const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Close date picker when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setShowEndDatePicker(false);
+      }
+    };
+
+    if (showEndDatePicker) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [showEndDatePicker]);
 
   // Parse order dates (without timezone conversion)
   const orderEndDate = order?.end_date
