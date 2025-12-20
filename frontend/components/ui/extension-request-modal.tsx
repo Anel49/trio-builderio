@@ -219,7 +219,7 @@ export function ExtensionRequestModal({
               {/* Start Date Button - Disabled */}
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-1">
-                  <p className="text-xs text-muted-foreground">Start date</p>
+                  <p className="text-sm text-muted-foreground">Start date</p>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button className="inline-flex p-0 h-4 w-4 rounded-full hover:bg-muted transition-colors cursor-pointer">
