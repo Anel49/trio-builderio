@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import {
   formatDateForApi,
   getEarliestExtensionDate,
@@ -118,7 +118,9 @@ export function ExtensionRequestModal({
         )
       : 0;
 
-  const handleEndDateSelect = (date: Date) => {
+  const handleEndDateSelect = (date: Date | undefined) => {
+    if (!date) return;
+    
     setSelectedEndDate(date);
     setShowEndDatePicker(false);
 
@@ -168,6 +170,18 @@ export function ExtensionRequestModal({
     onOpenChange(newOpen);
   };
 
+  const isDateDisabled = (date: Date) => {
+    // Disable all dates before required start date
+    if (date < requiredStartDate) return true;
+    // Disable conflicting dates
+    return disabledRanges.some((range) => {
+      const rangeStart = new Date(range.startDate);
+      const rangeEnd = new Date(range.endDate);
+      rangeEnd.setDate(rangeEnd.getDate() + 1);
+      return date >= rangeStart && date < rangeEnd;
+    });
+  };
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-md">
@@ -190,7 +204,7 @@ export function ExtensionRequestModal({
           </div>
 
           {/* Select extension dates */}
-          <div>
+          <div ref={containerRef} className="relative">
             <label className="text-sm font-medium mb-3 block">
               Select extension dates
             </label>
@@ -204,7 +218,7 @@ export function ExtensionRequestModal({
                   disabled
                   className="w-full justify-start text-left font-normal"
                 >
-                  <Calendar className="mr-2 h-4 w-4" />
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {format(requiredStartDate, "MMM dd, yyyy")}
                 </Button>
               </div>
@@ -217,7 +231,7 @@ export function ExtensionRequestModal({
                   className="w-full justify-start text-left font-normal"
                   onClick={() => setShowEndDatePicker(!showEndDatePicker)}
                 >
-                  <Calendar className="mr-2 h-4 w-4" />
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {selectedEndDate
                     ? format(selectedEndDate, "MMM dd, yyyy")
                     : "Select date"}
@@ -225,14 +239,17 @@ export function ExtensionRequestModal({
 
                 {/* End Date Picker - Shown when button is clicked */}
                 {showEndDatePicker && (
-                  <div className="p-3 bg-muted rounded border">
-                    <DatePicker
-                      value={selectedEndDate}
-                      onChange={handleEndDateSelect}
-                      minDate={requiredStartDate}
-                      disabledDateRanges={disabledRanges}
-                    />
-                  </div>
+                  <Card className="absolute top-full left-0 z-50 mt-2 w-fit">
+                    <CardContent className="p-4">
+                      <CalendarComponent
+                        mode="single"
+                        selected={selectedEndDate || undefined}
+                        onSelect={handleEndDateSelect}
+                        disabled={isDateDisabled}
+                        initialFocus
+                      />
+                    </CardContent>
+                  </Card>
                 )}
               </div>
             </div>
