@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { DatePicker } from "@/components/ui/date-picker";
+import { Calendar } from "@/components/ui/calendar";
 import {
   formatDateForApi,
   getEarliestExtensionDate,
@@ -17,7 +17,7 @@ import {
 } from "@/lib/extensions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { format } from "date-fns";
-import { Calendar } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
 
 // Utility to parse dates without timezone conversion
 const parseDateString = (dateStr: string): Date => {
