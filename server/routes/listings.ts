@@ -1390,9 +1390,9 @@ export async function createReservation(req: Request, res: Response) {
       end_date,
     );
 
-    // Fetch listing timezone
+    // Fetch listing timezone and postcode
     const listingResult = await pool.query(
-      `select timezone from listings where id = $1`,
+      `select timezone, zip_code from listings where id = $1`,
       [listing_id],
     );
 
@@ -1404,6 +1404,7 @@ export async function createReservation(req: Request, res: Response) {
     }
 
     const listingTimezone = listingResult.rows[0].timezone || "UTC";
+    const listingPostcode = listingResult.rows[0].zip_code || null;
 
     // Create the reservation
     const result = await pool.query(
@@ -1411,13 +1412,13 @@ export async function createReservation(req: Request, res: Response) {
         listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
         start_date, end_date, listing_title, listing_image,
         listing_latitude, listing_longitude, daily_price_cents, total_days,
-        rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at
+        rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, postcode, created_at
        )
-       values ($1, $2, $3, $4, $5, $6, $7, $8::date, $9::date, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, now())
+       values ($1, $2, $3, $4, $5, $6, $7, $8::date, $9::date, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, now())
        returning id, listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
                  start_date, end_date, listing_title, listing_image,
                  listing_latitude, listing_longitude, daily_price_cents, total_days,
-                 rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at`,
+                 rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, postcode, created_at`,
       [
         listing_id,
         renter_id,
@@ -1439,6 +1440,7 @@ export async function createReservation(req: Request, res: Response) {
         consumable_addon_total || 0,
         nonconsumable_addon_total || 0,
         addons || null,
+        listingPostcode,
       ],
     );
 
@@ -2330,15 +2332,22 @@ export async function createExtensionRequest(req: Request, res: Response) {
       });
     }
 
+    // Fetch listing postcode for extension request
+    const listingDataResult = await pool.query(
+      `select zip_code from listings where id = $1`,
+      [listing_id],
+    );
+    const extensionPostcode = listingDataResult.rows[0]?.zip_code || null;
+
     // Create reservation for the extension request
     const createResult = await pool.query(
       `insert into reservations (
         listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
         start_date, end_date, listing_title, listing_image,
         listing_latitude, listing_longitude, daily_price_cents,
-        rental_type, status, extension_of, created_at
+        rental_type, status, extension_of, postcode, created_at
        )
-       values ($1, $2, $3, $4, $5, $6, $7, $8::date, $9::date, $10, $11, $12, $13, $14, $15, 'pending', $16, now())
+       values ($1, $2, $3, $4, $5, $6, $7, $8::date, $9::date, $10, $11, $12, $13, $14, $15, 'pending', $16, $17, now())
        returning id, start_date, end_date, status, extension_of, created_at`,
       [
         listing_id,
@@ -2357,6 +2366,7 @@ export async function createExtensionRequest(req: Request, res: Response) {
         order.daily_price_cents,
         order.rental_type,
         orderId,
+        extensionPostcode,
       ],
     );
 
