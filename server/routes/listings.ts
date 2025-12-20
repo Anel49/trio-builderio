@@ -2337,9 +2337,9 @@ export async function createExtensionRequest(req: Request, res: Response) {
         listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
         start_date, end_date, listing_title, listing_image,
         listing_latitude, listing_longitude, daily_price_cents, total_days,
-        rental_type, status, extension_of, postcode, created_at
+        rental_type, status, consumable_addon_total, nonconsumable_addon_total, extension_of, postcode, created_at
        )
-       values ($1, $2, $3, $4, $5, $6, $7, $8::date, $9::date, $10, $11, $12, $13, $14, $15, $16, 'pending', $17, $18, now())
+       values ($1, $2, $3, $4, $5, $6, $7, $8::date, $9::date, $10, $11, $12, $13, $14, $15, $16, 'pending', $17, $18, $19, $20, now())
        returning id, start_date, end_date, status, extension_of, total_days, created_at`,
       [
         listing_id,
@@ -2358,6 +2358,8 @@ export async function createExtensionRequest(req: Request, res: Response) {
         order.daily_price_cents,
         totalDays,
         order.rental_type,
+        0,
+        0,
         orderId,
         extensionPostcode,
       ],
