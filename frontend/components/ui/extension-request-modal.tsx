@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   formatDateForApi,
   getEarliestExtensionDate,
@@ -17,6 +17,7 @@ import {
 } from "@/lib/extensions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { format } from "date-fns";
+import { Calendar } from "lucide-react";
 
 // Utility to parse dates without timezone conversion
 const parseDateString = (dateStr: string): Date => {
@@ -47,10 +48,8 @@ export function ExtensionRequestModal({
   onSubmit,
   isLoading = false,
 }: ExtensionRequestModalProps) {
-  const [dateRange, setDateRange] = useState<{
-    start: Date | null;
-    end: Date | null;
-  }>({ start: null, end: null });
+  const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
   // Parse order dates (without timezone conversion)
@@ -72,10 +71,9 @@ export function ExtensionRequestModal({
 
   const requiredStartDate = getEarliestExtensionDate(orderEndDate);
 
-  // Build disabled date ranges
+  // Build disabled date ranges for the end date picker
   const disabledRanges = [
     // Disable all dates before the required start date
-    // Note: DateRangePicker adds 1 day to endDate, so we use orderEndDate
     { startDate: new Date(0), endDate: orderEndDate },
     // Add conflicting dates
     ...conflictingDates.map((range) => ({
@@ -84,31 +82,50 @@ export function ExtensionRequestModal({
     })),
   ];
 
-  // Calculate totals if dates are selected
+  // Calculate totals if end date is selected
   const totalDays =
-    dateRange.start && dateRange.end
+    selectedEndDate
       ? Math.ceil(
-          (dateRange.end.getTime() - dateRange.start.getTime()) /
+          (selectedEndDate.getTime() - requiredStartDate.getTime()) /
             (1000 * 60 * 60 * 24),
         ) + 1
       : 0;
 
   const totalPrice =
-    dateRange.start && dateRange.end && order?.daily_price_cents
+    selectedEndDate && order?.daily_price_cents
       ? calculateExtensionTotal(
           order.daily_price_cents,
-          dateRange.start,
-          dateRange.end,
+          requiredStartDate,
+          selectedEndDate,
         )
       : 0;
 
+  const handleEndDateSelect = (date: Date) => {
+    setSelectedEndDate(date);
+    setShowEndDatePicker(false);
+
+    // Validate the date
+    const validation = isValidExtensionDateRange(
+      requiredStartDate,
+      date,
+      orderEndDate,
+      conflictingDates,
+    );
+
+    if (!validation.valid) {
+      setValidationError(validation.reason || "Invalid date");
+    } else {
+      setValidationError(null);
+    }
+  };
+
   const handleSubmit = async () => {
-    if (!dateRange.start || !dateRange.end) return;
+    if (!selectedEndDate) return;
 
     // Validate the date range
     const validation = isValidExtensionDateRange(
-      dateRange.start,
-      dateRange.end,
+      requiredStartDate,
+      selectedEndDate,
       orderEndDate,
       conflictingDates,
     );
@@ -119,14 +136,15 @@ export function ExtensionRequestModal({
     }
 
     setValidationError(null);
-    await onSubmit(dateRange.start, dateRange.end);
+    await onSubmit(requiredStartDate, selectedEndDate);
     // Reset on success (modal will close from parent)
-    setDateRange({ start: null, end: null });
+    setSelectedEndDate(null);
   };
 
   const handleOpenChange = (newOpen: boolean) => {
     if (!newOpen) {
-      setDateRange({ start: null, end: null });
+      setSelectedEndDate(null);
+      setShowEndDatePicker(false);
       setValidationError(null);
     }
     onOpenChange(newOpen);
@@ -153,69 +171,66 @@ export function ExtensionRequestModal({
             </p>
           </div>
 
-          {/* Info about required start date */}
-          <div
-            className={`p-3 rounded border ${
-              validationError
-                ? "bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800"
-                : "bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800"
-            }`}
-          >
-            <p
-              className={`text-sm ${
-                validationError
-                  ? "text-red-900 dark:text-red-100"
-                  : "text-blue-900 dark:text-blue-100"
-              }`}
-            >
-              Extension must start on{" "}
-              <span className="font-semibold">
-                {requiredStartDate.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </span>{" "}
-              (the day after your order ends)
-            </p>
-          </div>
-
-          {/* Date picker */}
+          {/* Select extension dates */}
           <div>
-            <label className="text-sm font-medium mb-2 block">
+            <label className="text-sm font-medium mb-3 block">
               Select extension dates
             </label>
-            <DateRangePicker
-              value={dateRange}
-              onChange={(newRange) => {
-                setDateRange(newRange);
 
-                // Validate if both start and end dates are selected
-                if (newRange.start && newRange.end) {
-                  const validation = isValidExtensionDateRange(
-                    newRange.start,
-                    newRange.end,
-                    orderEndDate,
-                    conflictingDates,
-                  );
-                  if (!validation.valid) {
-                    setValidationError(
-                      validation.reason || "Invalid date range",
-                    );
-                  } else {
-                    setValidationError(null);
-                  }
-                } else {
-                  setValidationError(null);
-                }
-              }}
-              disabledDateRanges={disabledRanges}
-              buttonClassName="w-full"
-            />
+            <div className="space-y-2">
+              {/* Start Date Button - Disabled */}
+              <div className="flex flex-col gap-1">
+                <p className="text-xs text-muted-foreground">Start date</p>
+                <Button
+                  variant="outline"
+                  disabled
+                  className="w-full justify-start text-left font-normal"
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  {format(requiredStartDate, "MMM dd, yyyy")}
+                </Button>
+              </div>
+
+              {/* End Date Button - Interactive */}
+              <div className="flex flex-col gap-1">
+                <p className="text-xs text-muted-foreground">End date</p>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
+                  onClick={() => setShowEndDatePicker(!showEndDatePicker)}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  {selectedEndDate
+                    ? format(selectedEndDate, "MMM dd, yyyy")
+                    : "Select date"}
+                </Button>
+
+                {/* End Date Picker - Shown when button is clicked */}
+                {showEndDatePicker && (
+                  <div className="p-3 bg-muted rounded border">
+                    <DatePicker
+                      value={selectedEndDate}
+                      onChange={handleEndDateSelect}
+                      minDate={requiredStartDate}
+                      disabledDateRanges={disabledRanges}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
+          {/* Validation error message */}
+          {validationError && (
+            <div className="p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded">
+              <p className="text-sm text-red-900 dark:text-red-100">
+                {validationError}
+              </p>
+            </div>
+          )}
+
           {/* Price preview */}
-          {dateRange.start && dateRange.end && (
+          {selectedEndDate && (
             <div className="p-3 bg-muted rounded space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Daily rate:</span>
@@ -245,14 +260,14 @@ export function ExtensionRequestModal({
           )}
 
           {/* Selected dates summary */}
-          {dateRange.start && dateRange.end && (
+          {selectedEndDate && (
             <div className="p-3 bg-muted rounded">
               <p className="text-sm text-muted-foreground mb-1">
                 Extension period:
               </p>
               <p className="text-sm font-semibold">
-                {format(dateRange.start, "MMM dd")} -{" "}
-                {format(dateRange.end, "MMM dd, yyyy")}
+                {format(requiredStartDate, "MMM dd")} -{" "}
+                {format(selectedEndDate, "MMM dd, yyyy")}
               </p>
             </div>
           )}
@@ -271,12 +286,7 @@ export function ExtensionRequestModal({
           <Button
             className="flex-1"
             onClick={handleSubmit}
-            disabled={
-              !dateRange.start ||
-              !dateRange.end ||
-              isLoading ||
-              !!validationError
-            }
+            disabled={!selectedEndDate || isLoading || !!validationError}
             aria-busy={isLoading}
           >
             {isLoading ? "Requesting..." : "Request Extension"}
