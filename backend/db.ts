@@ -623,6 +623,19 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Add postcode column to reservations table
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists postcode text`,
+      );
+      console.log("[dbSetup] Added postcode column to reservations");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] postcode column error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
