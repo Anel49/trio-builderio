@@ -2290,6 +2290,7 @@ export default function OrderHistory() {
                 reviewer_id: currentUser.id,
                 rating: reviewRating,
                 comment: reviewText,
+                order_id: Number(reviewOrder.id),
               }),
               headers: { "content-type": "application/json" },
             });
@@ -2300,7 +2301,13 @@ export default function OrderHistory() {
               setOrdersState((prev) =>
                 prev.map((o) =>
                   o.id === reviewOrder.id
-                    ? { ...o, rating: reviewRating, reviewText }
+                    ? {
+                        ...o,
+                        rating: reviewRating,
+                        reviewText,
+                        review_id: data.review?.id,
+                        review_message: reviewText,
+                      }
                     : o,
                 ),
               );
