@@ -72,7 +72,8 @@ export function ExtensionRequestModal({
 
     if (showEndDatePicker) {
       document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [showEndDatePicker]);
 
@@ -107,13 +108,12 @@ export function ExtensionRequestModal({
   ];
 
   // Calculate totals if end date is selected
-  const totalDays =
-    selectedEndDate
-      ? Math.ceil(
-          (selectedEndDate.getTime() - requiredStartDate.getTime()) /
-            (1000 * 60 * 60 * 24),
-        ) + 1
-      : 0;
+  const totalDays = selectedEndDate
+    ? Math.ceil(
+        (selectedEndDate.getTime() - requiredStartDate.getTime()) /
+          (1000 * 60 * 60 * 24),
+      ) + 1
+    : 0;
 
   const totalPrice =
     selectedEndDate && order?.daily_price_cents
@@ -126,7 +126,7 @@ export function ExtensionRequestModal({
 
   const handleEndDateSelect = (date: Date | undefined) => {
     if (!date) return;
-    
+
     setSelectedEndDate(date);
     setShowEndDatePicker(false);
 
@@ -234,7 +234,8 @@ export function ExtensionRequestModal({
                         sideOffset={8}
                       >
                         <p className="text-sm">
-                          Extensions must start the day after a booking's end date.
+                          Extensions must start the day after a booking's end
+                          date.
                         </p>
                         <PopoverPrimitive.Arrow className="fill-popover" />
                       </PopoverPrimitive.Content>
@@ -321,7 +322,6 @@ export function ExtensionRequestModal({
               </div>
             </div>
           )}
-
         </div>
 
         {/* Action buttons */}
