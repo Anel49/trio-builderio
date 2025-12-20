@@ -1303,6 +1303,7 @@ export async function getUserReservations(req: Request, res: Response) {
       modified_by_id: r.modified_by_id,
       created_at: r.created_at,
       extension_of: r.extension_of || null,
+      postcode: r.postcode || null,
       listingTimezone: r.timezone || "UTC",
     }));
 
