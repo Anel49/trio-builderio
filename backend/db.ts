@@ -185,7 +185,7 @@ export async function dbSetup(_req: Request, res: Response) {
         currency text,
         discount_cents integer,
         discount_percentage integer,
-        listing_zip_code text,
+        listing_postcode text,
         payment_status text,
         status text,
         addons text,
@@ -632,6 +632,26 @@ export async function dbSetup(_req: Request, res: Response) {
     } catch (e: any) {
       console.log(
         "[dbSetup] postcode column error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
+    // Rename listing_zip_code to listing_postcode in orders table
+    try {
+      const colCheckResult = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'orders' and column_name = 'listing_zip_code'`,
+      );
+
+      if (colCheckResult.rows.length > 0) {
+        await pool.query(
+          `alter table orders rename column listing_zip_code to listing_postcode`,
+        );
+        console.log("[dbSetup] Renamed listing_zip_code column to listing_postcode");
+      }
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] listing_postcode rename error:",
         e?.message?.slice(0, 100),
       );
     }
