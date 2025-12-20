@@ -647,7 +647,9 @@ export async function dbSetup(_req: Request, res: Response) {
         await pool.query(
           `alter table orders rename column listing_zip_code to listing_postcode`,
         );
-        console.log("[dbSetup] Renamed listing_zip_code column to listing_postcode");
+        console.log(
+          "[dbSetup] Renamed listing_zip_code column to listing_postcode",
+        );
       }
     } catch (e: any) {
       console.log(

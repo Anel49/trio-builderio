@@ -301,8 +301,10 @@ export default function OrderHistory() {
   >(null);
   const [proposedDatesReservation, setProposedDatesReservation] =
     useState<Reservation | null>(null);
-  const [processingProposedDatesReservationId, setProcessingProposedDatesReservationId] =
-    useState<string | null>(null);
+  const [
+    processingProposedDatesReservationId,
+    setProcessingProposedDatesReservationId,
+  ] = useState<string | null>(null);
 
   // Persistent hide completed
   const [hideCompleted, setHideCompleted] = useState<boolean>(() => {
@@ -492,10 +494,7 @@ export default function OrderHistory() {
         );
         const ordersWithExt = dbOrders.filter((o) => o.most_recent_extension);
         if (ordersWithExt.length > 0) {
-          console.log(
-            "[fetchOrders] Orders with extensions:",
-            ordersWithExt,
-          );
+          console.log("[fetchOrders] Orders with extensions:", ordersWithExt);
         }
 
         // Set orders from database
@@ -957,8 +956,10 @@ export default function OrderHistory() {
                   start_date: startDate,
                   end_date: endDate,
                   status: "pending",
-                  new_dates_proposed: result.reservation?.new_dates_proposed || "sent",
-                  modified_by_id: result.reservation?.modifiedById || currentUser?.id,
+                  new_dates_proposed:
+                    result.reservation?.new_dates_proposed || "sent",
+                  modified_by_id:
+                    result.reservation?.modifiedById || currentUser?.id,
                 }
               : r,
           ),
@@ -1055,9 +1056,7 @@ export default function OrderHistory() {
       });
   };
 
-  const getMostRecentExtensionOrder = (
-    orderId: string,
-  ): Order | undefined => {
+  const getMostRecentExtensionOrder = (orderId: string): Order | undefined => {
     const extensions = [...ordersState]
       .filter((o) => o.extension_of && o.extension_of === Number(orderId))
       .sort((a, b) => {
@@ -1385,7 +1384,9 @@ export default function OrderHistory() {
                                   )}
                                 </>
                               ) : (
-                                <span>{order.startDate} - {order.endDate}</span>
+                                <span>
+                                  {order.startDate} - {order.endDate}
+                                </span>
                               )}
                             </div>
                           </div>
@@ -1663,7 +1664,10 @@ export default function OrderHistory() {
                                         <button
                                           type="button"
                                           onClick={() => {
-                                            const orderNum = getExtensionOrderNumber(extension);
+                                            const orderNum =
+                                              getExtensionOrderNumber(
+                                                extension,
+                                              );
                                             if (orderNum) {
                                               setSearchQuery(orderNum);
                                               setActiveTab("orders");
@@ -1671,7 +1675,8 @@ export default function OrderHistory() {
                                           }}
                                           className="text-sm font-medium text-primary hover:underline cursor-pointer transition-colors"
                                         >
-                                          Order #{getExtensionOrderNumber(extension)}
+                                          Order #
+                                          {getExtensionOrderNumber(extension)}
                                         </button>
                                         <div className="flex items-center text-sm text-muted-foreground mt-1 gap-3">
                                           <div className="flex items-center gap-1">
