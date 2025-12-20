@@ -1699,7 +1699,7 @@ async function createOrderFromReservation(
         rental_type, start_date, end_date, currency, discount_cents,
         discount_percentage, listing_postcode, payment_status, status,
         addons, review_id, review_message, subtotal_cents, daily_total,
-        tax_percentage, tax_cents, platform_commissions_host, host_earns,
+        tax_percentage, tax_cents, platform_commission_host, host_earns,
         platform_commission_renter, renter_pays, platform_commission_total,
         total_cents, nonconsumable_addon_total, consumable_addon_total, reservation_id, extension_of, created_at
       ) values (
@@ -2621,7 +2621,7 @@ export async function createExtensionOrder(req: Request, res: Response) {
         rental_type, start_date, end_date, currency, discount_cents,
         discount_percentage, listing_postcode, payment_status, status,
         addons, review_id, review_message, subtotal_cents, daily_total,
-        tax_percentage, tax_cents, platform_commissions_host, host_earns,
+        tax_percentage, tax_cents, platform_commission_host, host_earns,
         platform_commission_renter, renter_pays, platform_commission_total,
         total_cents, nonconsumable_addon_total, consumable_addon_total, extension_of, created_at
        )
