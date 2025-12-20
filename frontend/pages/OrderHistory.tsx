@@ -1317,10 +1317,12 @@ export default function OrderHistory() {
                             <p className="text-sm text-muted-foreground mb-1">
                               Order #{order.order_number || order.id}
                             </p>
-                            <div className="flex items-center text-sm text-muted-foreground mb-2">
-                              <MapPin className="h-4 w-4 mr-1" />
-                              {order.location}
-                            </div>
+                            {order.listing_postcode && (
+                              <div className="flex items-center text-sm text-muted-foreground mb-2">
+                                <MapPin className="h-4 w-4 mr-1" />
+                                {order.listing_postcode}
+                              </div>
+                            )}
                             <div className="flex items-center text-sm text-muted-foreground gap-2">
                               <Calendar className="h-4 w-4" />
                               {order.start_date ? (
