@@ -10,6 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import {
   formatDateForApi,
   getEarliestExtensionDate,
   calculateExtensionTotal,
@@ -17,7 +22,7 @@ import {
 } from "@/lib/extensions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, Info } from "lucide-react";
 
 // Utility to parse dates without timezone conversion
 const parseDateString = (dateStr: string): Date => {
