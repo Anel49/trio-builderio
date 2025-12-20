@@ -195,7 +195,7 @@ export async function dbSetup(_req: Request, res: Response) {
         daily_total integer,
         tax_percentage integer,
         tax_cents integer,
-        platform_commissions_host integer,
+        platform_commission_host integer,
         host_earns integer,
         platform_commission_renter integer,
         renter_pays integer,
