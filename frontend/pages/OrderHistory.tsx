@@ -2259,61 +2259,61 @@ export default function OrderHistory() {
       </Dialog>
 
       {/* Post Review Modal */}
-      <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle>
-              {reviewOrder ? `Review for ${reviewOrder.itemName}` : "Review"}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              {[1, 2, 3, 4, 5].map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  aria-label={`${n} star`}
-                  onClick={() => setReviewRating(n)}
-                  className="p-1"
-                >
-                  <Star
-                    className={cn(
-                      "h-6 w-6",
-                      reviewRating && reviewRating >= n
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-muted-foreground",
-                    )}
-                  />
-                </button>
-              ))}
-            </div>
-            <Textarea
-              rows={5}
-              placeholder="Share your experience (optional)"
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-            />
-            <div className="flex justify-end">
-              <Button
-                disabled={!reviewRating}
-                onClick={() => {
-                  if (!reviewOrder || !reviewRating) return;
-                  setOrdersState((prev) =>
-                    prev.map((o) =>
-                      o.id === reviewOrder.id
-                        ? { ...o, rating: reviewRating, reviewText }
-                        : o,
-                    ),
-                  );
-                  setReviewDialogOpen(false);
-                }}
-              >
-                Submit Review
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <ReviewModal
+        open={reviewDialogOpen}
+        onOpenChange={(open) => {
+          setReviewDialogOpen(open);
+          if (!open) {
+            setReviewOrder(null);
+            setReviewRating(null);
+            setReviewText("");
+          }
+        }}
+        title={reviewOrder ? `Review for ${reviewOrder.itemName}` : "Post a Review"}
+        rating={reviewRating || 0}
+        onRatingChange={setReviewRating}
+        comment={reviewText}
+        onCommentChange={setReviewText}
+        isSubmitting={false}
+        onSubmit={async () => {
+          if (!reviewOrder || !reviewRating || !currentUser?.id) return;
+
+          try {
+            const response = await apiFetch("listing-reviews", {
+              method: "POST",
+              body: JSON.stringify({
+                listing_id: reviewOrder.listing_id,
+                reviewer_id: currentUser.id,
+                rating: reviewRating,
+                comment: reviewText,
+              }),
+              headers: { "content-type": "application/json" },
+            });
+
+            const data = await response.json().catch(() => ({}));
+            if (data.ok) {
+              // Update local state to reflect the review
+              setOrdersState((prev) =>
+                prev.map((o) =>
+                  o.id === reviewOrder.id
+                    ? { ...o, rating: reviewRating, reviewText }
+                    : o,
+                ),
+              );
+              setReviewDialogOpen(false);
+              setReviewOrder(null);
+              setReviewRating(null);
+              setReviewText("");
+            } else {
+              console.error("Failed to submit review:", data.error);
+              alert(`Failed to submit review: ${data.error}`);
+            }
+          } catch (error) {
+            console.error("Error submitting review:", error);
+            alert("An error occurred while submitting your review");
+          }
+        }}
+      />
 
       {/* Request Confirmation Modal */}
       <Dialog
