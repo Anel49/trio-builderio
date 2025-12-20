@@ -478,6 +478,7 @@ export default function OrderHistory() {
           reservation_id: dbOrder.reservation_id,
           created_at: dbOrder.created_at,
           extension_of: dbOrder.extension_of,
+          listing_postcode: dbOrder.listing_postcode,
           most_recent_extension: dbOrder.most_recent_extension,
           itemName: dbOrder.listing_title,
           itemImage: dbOrder.listing_image,
