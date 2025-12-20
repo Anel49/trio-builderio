@@ -129,6 +129,7 @@ interface Order {
   reservation_id?: number | null;
   created_at?: string;
   extension_of?: number | null;
+  listing_postcode?: string | null;
   most_recent_extension?: {
     id: number;
     start_date: string;
