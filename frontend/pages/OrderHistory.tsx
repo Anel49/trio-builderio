@@ -1921,6 +1921,12 @@ export default function OrderHistory() {
                                 {res.extension_of ? "Extension" : "Request"} #
                                 {res.id}
                               </p>
+                              {res.postcode && (
+                                <div className="flex items-center text-sm text-muted-foreground mb-1">
+                                  <MapPin className="h-4 w-4 mr-1" />
+                                  {res.postcode}
+                                </div>
+                              )}
                               {res.status.toLowerCase() === "confirmed" &&
                                 reservationOrderNumbers.get(res.id) && (
                                   <button
