@@ -41,9 +41,7 @@ export function ReviewModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>
-            {isEditing ? "Edit Review" : title}
-          </DialogTitle>
+          <DialogTitle>{isEditing ? "Edit Review" : title}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-4">
           {/* Rating */}

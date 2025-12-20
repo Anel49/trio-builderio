@@ -2269,7 +2269,9 @@ export default function OrderHistory() {
             setReviewText("");
           }
         }}
-        title={reviewOrder ? `Review for ${reviewOrder.itemName}` : "Post a Review"}
+        title={
+          reviewOrder ? `Review for ${reviewOrder.itemName}` : "Post a Review"
+        }
         rating={reviewRating || 0}
         onRatingChange={setReviewRating}
         comment={reviewText}
