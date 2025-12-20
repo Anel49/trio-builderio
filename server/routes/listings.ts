@@ -1929,6 +1929,7 @@ export async function getUserOrders(req: Request, res: Response) {
         reservation_id: row.reservation_id,
         created_at: row.created_at,
         extension_of: row.extension_of,
+        listing_postcode: row.listing_postcode,
       } as any;
 
       if (row.extension_id) {
