@@ -2261,15 +2261,6 @@ export async function createExtensionRequest(req: Request, res: Response) {
       });
     }
 
-    // Validate 24-hour rule (must be at least 24 hours from now)
-    const now = new Date();
-    const minTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-    if (startDate < minTime) {
-      return res.status(400).json({
-        ok: false,
-        error: "Extension must start at least 24 hours from now",
-      });
-    }
 
     // Fetch the order being extended
     const orderResult = await pool.query(
