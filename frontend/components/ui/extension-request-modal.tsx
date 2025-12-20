@@ -253,7 +253,7 @@ export function ExtensionRequestModal({
 
               {/* End Date Button - Interactive */}
               <div className="flex flex-col gap-1">
-                <p className="text-xs text-muted-foreground">End date</p>
+                <p className="text-sm text-muted-foreground">End date</p>
                 <Button
                   variant="outline"
                   className="w-full justify-start text-left font-normal"
