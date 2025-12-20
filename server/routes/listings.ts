@@ -1172,7 +1172,18 @@ export async function listListingReservations(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
     const result = await pool.query(
-      `select r.id, r.start_date, r.end_date, r.renter_id, r.status, u.first_name, u.last_name from reservations r left join users u on r.renter_id = u.id where r.listing_id = $1 order by r.start_date asc limit 500`,
+      `
+      select r.id, r.start_date, r.end_date, r.renter_id, r.status, u.first_name, u.last_name
+      from reservations r
+      left join users u on r.renter_id = u.id
+      where r.listing_id = $1
+      union all
+      select o.id, o.start_date, o.end_date, o.renter_id, o.status, u.first_name, u.last_name
+      from orders o
+      left join users u on o.renter_id = u.id
+      where o.listing_id = $1 and o.status in ('pending', 'active', 'upcoming')
+      order by start_date asc limit 500
+      `,
       [id],
     );
     const reservations = result.rows.map((r: any) => {
