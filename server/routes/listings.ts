@@ -2156,7 +2156,7 @@ export async function createOrderFromReservationRenter(
       `select id, listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
               start_date, end_date, listing_title, listing_image,
               listing_latitude, listing_longitude, daily_price_cents, total_days,
-              rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at, extension_of
+              rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, created_at, extension_of, postcode
        from reservations where id = $1`,
       [reservationId],
     );
