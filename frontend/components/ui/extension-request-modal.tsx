@@ -14,6 +14,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 import {
   formatDateForApi,
   getEarliestExtensionDate,
