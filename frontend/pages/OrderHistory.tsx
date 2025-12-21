@@ -2304,17 +2304,16 @@ export default function OrderHistory() {
           }
         }}
         title={
-          isEditingReview
-            ? `Edit Review for ${reviewOrder?.itemName}`
-            : reviewOrder
-              ? `Leave Review for ${reviewOrder.itemName}`
-              : "Post a Review"
+          reviewOrder
+            ? `Review for ${reviewOrder.itemName}`
+            : "Post a Review"
         }
         rating={reviewRating || 0}
         onRatingChange={setReviewRating}
         comment={reviewText}
         onCommentChange={setReviewText}
         isSubmitting={isSubmittingReview}
+        isEditing={isEditingReview}
         onSubmit={async () => {
           if (!reviewOrder || !reviewRating || !currentUser?.id) return;
 
