@@ -547,6 +547,38 @@ export default function OrderHistory() {
     }
   }, [ordersState]);
 
+  // Fetch review comments from listing_reviews for all orders with review_id
+  useEffect(() => {
+    const fetchReviewComments = async () => {
+      const ordersWithReviews = ordersState.filter((o) => o.review_id && !reviewCommentsCache.has(o.review_id));
+
+      if (ordersWithReviews.length === 0) {
+        return;
+      }
+
+      for (const order of ordersWithReviews) {
+        if (!order.review_id) continue;
+
+        try {
+          const response = await apiFetch(`listing-reviews/review/${order.review_id}`);
+          const data = await response.json();
+
+          if (data.ok && data.review?.comment) {
+            setReviewCommentsCache((prev) => {
+              const newCache = new Map(prev);
+              newCache.set(order.review_id, data.review.comment);
+              return newCache;
+            });
+          }
+        } catch (error) {
+          console.error(`Failed to fetch review ${order.review_id}:`, error);
+        }
+      }
+    };
+
+    fetchReviewComments();
+  }, [ordersState, reviewCommentsCache]);
+
   const getRequestDirection = (
     reservation: Reservation,
   ): "incoming" | "outgoing" => {
