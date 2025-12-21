@@ -3,7 +3,8 @@ import { pool } from "./db";
 
 export async function createListingReview(req: Request, res: Response) {
   try {
-    const { listing_id, reviewer_id, rating, comment, order_id } = req.body || {};
+    const { listing_id, reviewer_id, rating, comment, order_id } =
+      req.body || {};
 
     if (!listing_id || !reviewer_id) {
       return res.status(400).json({
