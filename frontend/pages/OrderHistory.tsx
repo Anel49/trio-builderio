@@ -487,7 +487,6 @@ export default function OrderHistory() {
           extension_of: dbOrder.extension_of,
           listing_postcode: dbOrder.listing_postcode,
           review_id: dbOrder.review_id,
-          review_message: dbOrder.review_message,
           most_recent_extension: dbOrder.most_recent_extension,
           itemName: dbOrder.listing_title,
           itemImage: dbOrder.listing_image,
