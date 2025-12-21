@@ -550,7 +550,9 @@ export default function OrderHistory() {
   // Fetch review comments from listing_reviews for all orders with review_id
   useEffect(() => {
     const fetchReviewComments = async () => {
-      const ordersWithReviews = ordersState.filter((o) => o.review_id && !reviewCommentsCache.has(o.review_id));
+      const ordersWithReviews = ordersState.filter(
+        (o) => o.review_id && !reviewCommentsCache.has(o.review_id),
+      );
 
       if (ordersWithReviews.length === 0) {
         return;
@@ -560,7 +562,9 @@ export default function OrderHistory() {
         if (!order.review_id) continue;
 
         try {
-          const response = await apiFetch(`listing-reviews/review/${order.review_id}`);
+          const response = await apiFetch(
+            `listing-reviews/review/${order.review_id}`,
+          );
           const data = await response.json();
 
           if (data.ok && data.review?.comment) {
@@ -1695,16 +1699,17 @@ export default function OrderHistory() {
                     </div>
 
                     {/* Review Text for completed orders */}
-                    {order.review_id && reviewCommentsCache.has(order.review_id) && (
-                      <>
-                        <Separator className="my-4" />
-                        <div className="bg-muted/50 p-3 rounded-lg">
-                          <p className="text-sm italic">
-                            "{reviewCommentsCache.get(order.review_id)}"
-                          </p>
-                        </div>
-                      </>
-                    )}
+                    {order.review_id &&
+                      reviewCommentsCache.has(order.review_id) && (
+                        <>
+                          <Separator className="my-4" />
+                          <div className="bg-muted/50 p-3 rounded-lg">
+                            <p className="text-sm italic">
+                              "{reviewCommentsCache.get(order.review_id)}"
+                            </p>
+                          </div>
+                        </>
+                      )}
 
                     {/* Extensions for this order */}
                     {getExtensionsForOrder(order.id).length > 0 && (
@@ -2342,9 +2347,7 @@ export default function OrderHistory() {
           }
         }}
         title={
-          reviewOrder
-            ? `Review for ${reviewOrder.itemName}`
-            : "Post a Review"
+          reviewOrder ? `Review for ${reviewOrder.itemName}` : "Post a Review"
         }
         rating={reviewRating || 0}
         onRatingChange={setReviewRating}

@@ -43,10 +43,10 @@ export async function createListingReview(req: Request, res: Response) {
     // If an order_id is provided, update the orders table with the review ID
     if (order_id) {
       try {
-        await pool.query(
-          `update orders set review_id = $1 where id = $2`,
-          [review.id, order_id],
-        );
+        await pool.query(`update orders set review_id = $1 where id = $2`, [
+          review.id,
+          order_id,
+        ]);
         console.log(
           `[createListingReview] Updated order ${order_id} with review ${review.id}`,
         );
