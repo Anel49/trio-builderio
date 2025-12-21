@@ -1542,14 +1542,37 @@ export default function OrderHistory() {
                             order.status === "completed" && (
                               <Button
                                 size="sm"
-                                onClick={() => {
+                                onClick={async () => {
                                   setReviewOrder(order);
-                                  setReviewRating(null);
-                                  setReviewText("");
+                                  if (order.review_id) {
+                                    // Load existing review
+                                    try {
+                                      const response = await apiFetch(
+                                        `listing-reviews/review/${order.review_id}`,
+                                      );
+                                      const data = await response.json();
+                                      if (data.ok && data.review) {
+                                        setReviewRating(data.review.rating);
+                                        setReviewText(data.review.comment);
+                                        setEditingReviewId(order.review_id);
+                                        setIsEditingReview(true);
+                                      }
+                                    } catch (error) {
+                                      console.error(
+                                        "Failed to load review:",
+                                        error,
+                                      );
+                                    }
+                                  } else {
+                                    setReviewRating(null);
+                                    setReviewText("");
+                                    setEditingReviewId(null);
+                                    setIsEditingReview(false);
+                                  }
                                   setReviewDialogOpen(true);
                                 }}
                               >
-                                Leave Review
+                                {order.review_id ? "Edit Review" : "Leave Review"}
                               </Button>
                             )}
 
