@@ -223,6 +223,11 @@ export default function OrderHistory() {
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
+  // Cache for fetched review comments from listing_reviews
+  const [reviewCommentsCache, setReviewCommentsCache] = useState<
+    Map<number, string>
+  >(new Map());
+
   // Local state for orders so we can mutate (e.g., cancel)
   const [ordersState, setOrdersState] = useState<Order[]>([]);
 
