@@ -2304,7 +2304,11 @@ export default function OrderHistory() {
           }
         }}
         title={
-          reviewOrder ? `Review for ${reviewOrder.itemName}` : "Post a Review"
+          isEditingReview
+            ? `Edit Review for ${reviewOrder?.itemName}`
+            : reviewOrder
+              ? `Leave Review for ${reviewOrder.itemName}`
+              : "Post a Review"
         }
         rating={reviewRating || 0}
         onRatingChange={setReviewRating}
