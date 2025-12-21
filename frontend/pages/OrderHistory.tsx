@@ -220,6 +220,9 @@ export default function OrderHistory() {
   const [reviewOrder, setReviewOrder] = useState<Order | null>(null);
   const [reviewRating, setReviewRating] = useState<number | null>(null);
   const [reviewText, setReviewText] = useState("");
+  const [isEditingReview, setIsEditingReview] = useState(false);
+  const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   // Local state for orders so we can mutate (e.g., cancel)
   const [ordersState, setOrdersState] = useState<Order[]>([]);
