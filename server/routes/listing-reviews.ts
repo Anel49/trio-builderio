@@ -40,19 +40,19 @@ export async function createListingReview(req: Request, res: Response) {
 
     const review = result.rows[0];
 
-    // If an order_id is provided, update the orders table with the review
+    // If an order_id is provided, update the orders table with the review ID
     if (order_id) {
       try {
         await pool.query(
-          `update orders set review_id = $1, review_message = $2 where id = $3`,
-          [review.id, comment.trim(), order_id],
+          `update orders set review_id = $1 where id = $2`,
+          [review.id, order_id],
         );
         console.log(
           `[createListingReview] Updated order ${order_id} with review ${review.id}`,
         );
       } catch (updateError: any) {
         console.error(
-          "[createListingReview] Failed to update order with review:",
+          "[createListingReview] Failed to update order with review ID:",
           updateError,
         );
         // Don't fail the entire request, just log the error
