@@ -1607,7 +1607,10 @@ export default function OrderHistory() {
                                   setReviewDialogOpen(true);
                                 }}
                               >
-                                {order.review_id ? "Edit Review" : "Leave Review"}
+                                {order.review_id &&
+                                reviewCommentsCache.has(order.review_id)
+                                  ? "Edit Review"
+                                  : "Leave Review"}
                               </Button>
                             )}
 
