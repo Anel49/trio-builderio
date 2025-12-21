@@ -66,6 +66,43 @@ export async function createListingReview(req: Request, res: Response) {
   }
 }
 
+export async function getListingReview(req: Request, res: Response) {
+  try {
+    const reviewId = Number((req.params as any)?.id);
+    if (!reviewId || Number.isNaN(reviewId)) {
+      return res.status(400).json({ ok: false, error: "invalid review id" });
+    }
+
+    const result = await pool.query(
+      `select id, listing_id, reviewer_id, rating, comment, created_at, updated_at
+       from listing_reviews
+       where id = $1`,
+      [reviewId],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "review not found" });
+    }
+
+    const review = result.rows[0];
+    res.json({
+      ok: true,
+      review: {
+        id: review.id,
+        listingId: review.listing_id,
+        reviewerId: review.reviewer_id,
+        rating: review.rating ? Number(review.rating) : null,
+        comment: review.comment,
+        createdAt: review.created_at,
+        updatedAt: review.updated_at,
+      },
+    });
+  } catch (error: any) {
+    console.error("[createListingReview] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function getListingReviews(req: Request, res: Response) {
   try {
     const listingId = Number((req.params as any)?.id);
