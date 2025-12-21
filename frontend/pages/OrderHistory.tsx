@@ -1572,14 +1572,17 @@ export default function OrderHistory() {
                               Cancel
                             </Button>
                           )}
-                          {/* Leave Review button - only show for renters with completed orders */}
+                          {/* Leave/Edit Review button - only show for renters with completed orders */}
                           {order.type === "rented" &&
                             order.status === "completed" && (
                               <Button
                                 size="sm"
                                 onClick={async () => {
                                   setReviewOrder(order);
-                                  if (order.review_id) {
+                                  if (
+                                    order.review_id &&
+                                    reviewCommentsCache.has(order.review_id)
+                                  ) {
                                     // Load existing review
                                     try {
                                       const response = await apiFetch(
@@ -1607,7 +1610,10 @@ export default function OrderHistory() {
                                   setReviewDialogOpen(true);
                                 }}
                               >
-                                {order.review_id ? "Edit Review" : "Leave Review"}
+                                {order.review_id &&
+                                reviewCommentsCache.has(order.review_id)
+                                  ? "Edit Review"
+                                  : "Leave Review"}
                               </Button>
                             )}
 
