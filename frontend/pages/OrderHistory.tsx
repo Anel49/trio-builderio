@@ -2299,6 +2299,8 @@ export default function OrderHistory() {
             setReviewOrder(null);
             setReviewRating(null);
             setReviewText("");
+            setIsEditingReview(false);
+            setEditingReviewId(null);
           }
         }}
         title={
