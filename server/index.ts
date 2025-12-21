@@ -746,6 +746,7 @@ export function createServer() {
   app.get("/api/favorites/:userId/:listingId/check", checkFavorite);
   // Listing Reviews
   app.post("/api/listing-reviews", createListingReview);
+  app.get("/api/listing-reviews/review/:id", getListingReview);
   app.get("/api/listing-reviews/:id", getListingReviews);
   app.get("/api/users/:id/listing-reviews", getHostListingReviews);
   app.patch("/api/listing-reviews/:id/helpful", updateListingReviewHelpful);
