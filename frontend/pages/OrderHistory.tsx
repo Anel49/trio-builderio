@@ -2308,13 +2308,19 @@ export default function OrderHistory() {
         onRatingChange={setReviewRating}
         comment={reviewText}
         onCommentChange={setReviewText}
-        isSubmitting={false}
+        isSubmitting={isSubmittingReview}
         onSubmit={async () => {
           if (!reviewOrder || !reviewRating || !currentUser?.id) return;
 
+          setIsSubmittingReview(true);
           try {
-            const response = await apiFetch("listing-reviews", {
-              method: "POST",
+            const endpoint = isEditingReview
+              ? `listing-reviews/${editingReviewId}`
+              : "listing-reviews";
+            const method = isEditingReview ? "PATCH" : "POST";
+
+            const response = await apiFetch(endpoint, {
+              method,
               body: JSON.stringify({
                 listing_id: reviewOrder.listing_id,
                 reviewer_id: currentUser.id,
@@ -2335,7 +2341,7 @@ export default function OrderHistory() {
                         ...o,
                         rating: reviewRating,
                         reviewText,
-                        review_id: data.review?.id,
+                        review_id: data.review?.id || editingReviewId,
                         review_message: reviewText,
                       }
                     : o,
@@ -2345,6 +2351,8 @@ export default function OrderHistory() {
               setReviewOrder(null);
               setReviewRating(null);
               setReviewText("");
+              setIsEditingReview(false);
+              setEditingReviewId(null);
             } else {
               console.error("Failed to submit review:", data.error);
               alert(`Failed to submit review: ${data.error}`);
@@ -2352,6 +2360,8 @@ export default function OrderHistory() {
           } catch (error) {
             console.error("Error submitting review:", error);
             alert("An error occurred while submitting your review");
+          } finally {
+            setIsSubmittingReview(false);
           }
         }}
       />
