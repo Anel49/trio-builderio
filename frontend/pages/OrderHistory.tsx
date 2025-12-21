@@ -1660,12 +1660,12 @@ export default function OrderHistory() {
                     </div>
 
                     {/* Review Text for completed orders */}
-                    {(order.review_message || order.reviewText) && (
+                    {order.review_id && reviewCommentsCache.has(order.review_id) && (
                       <>
                         <Separator className="my-4" />
                         <div className="bg-muted/50 p-3 rounded-lg">
                           <p className="text-sm italic">
-                            "{order.review_message || order.reviewText}"
+                            "{reviewCommentsCache.get(order.review_id)}"
                           </p>
                         </div>
                       </>
