@@ -63,6 +63,7 @@ import {
 } from "./routes/favorites";
 import {
   createListingReview,
+  getListingReview,
   getListingReviews,
   getHostListingReviews,
   updateListingReview,
