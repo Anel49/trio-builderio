@@ -2374,6 +2374,7 @@ export default function OrderHistory() {
             const data = await response.json().catch(() => ({}));
             if (data.ok) {
               // Update local state to reflect the review
+              const reviewId = data.review?.id || editingReviewId;
               setOrdersState((prev) =>
                 prev.map((o) =>
                   o.id === reviewOrder.id
@@ -2381,12 +2382,19 @@ export default function OrderHistory() {
                         ...o,
                         rating: reviewRating,
                         reviewText,
-                        review_id: data.review?.id || editingReviewId,
-                        review_message: reviewText,
+                        review_id: reviewId,
                       }
                     : o,
                 ),
               );
+              // Update the review comments cache
+              if (reviewId) {
+                setReviewCommentsCache((prev) => {
+                  const newCache = new Map(prev);
+                  newCache.set(reviewId, reviewText);
+                  return newCache;
+                });
+              }
               setReviewDialogOpen(false);
               setReviewOrder(null);
               setReviewRating(null);
