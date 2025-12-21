@@ -1927,7 +1927,6 @@ export async function getUserOrders(req: Request, res: Response) {
         extension_of: row.extension_of,
         listing_postcode: row.listing_postcode,
         review_id: row.review_id,
-        review_message: row.review_message,
       } as any;
 
       if (row.extension_id) {
