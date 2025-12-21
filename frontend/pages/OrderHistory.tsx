@@ -100,7 +100,6 @@ interface Order {
   rating?: number;
   reviewText?: string;
   review_id?: number | null;
-  review_message?: string | null;
   // Database fields for orders
   order_number?: string;
   listing_id?: number;
