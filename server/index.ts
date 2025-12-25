@@ -205,7 +205,10 @@ export function createServer() {
                    coalesce(founding_supporter,false) as founding_supporter,
                    coalesce(top_referrer,false) as top_referrer,
                    coalesce(ambassador,false) as ambassador,
-                   coalesce(open_dms,true) as open_dms`,
+                   coalesce(open_dms,true) as open_dms,
+                   coalesce(active,true) as active,
+                   coalesce(admin,false) as admin,
+                   coalesce(moderator,false) as moderator`,
         [openDmsValue, req.session.userId],
       );
 
@@ -232,6 +235,9 @@ export function createServer() {
         topReferrer: Boolean(row.top_referrer),
         ambassador: Boolean(row.ambassador),
         openDms: Boolean(row.open_dms),
+        active: Boolean(row.active),
+        admin: Boolean(row.admin),
+        moderator: Boolean(row.moderator),
       };
 
       req.session.user = user;
