@@ -34,6 +34,18 @@ import {
   respondToProposedDates,
 } from "./routes/listings";
 import {
+  listAllUsers,
+  updateUserAdminStatus,
+  listAllListings,
+  updateListingStatus,
+  deleteListing as deleteListingAdmin,
+  listAllOrders,
+  updateOrderStatus,
+  listAllReviews,
+  deleteReview,
+} from "./routes/admin";
+import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
+import {
   getUserByEmail,
   getUserById,
   getUserByUsername,
