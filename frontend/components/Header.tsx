@@ -192,9 +192,17 @@ export default function Header() {
                         className="absolute right-0 mt-1 bg-popover border border-border rounded-md shadow-md z-[100]"
                         onMouseLeave={() => setIsContextMenuOpen(false)}
                       >
+                        {(user?.admin || user?.moderator) && (
+                          <a
+                            href="/admin"
+                            className="text-left block px-3 py-1.5 text-sm hover:bg-accent rounded-sm whitespace-nowrap"
+                          >
+                            Admin Panel
+                          </a>
+                        )}
                         <button
                           onClick={handleLogout}
-                          className="text-left px-3 py-1.5 text-sm hover:bg-accent rounded-sm whitespace-nowrap"
+                          className="text-left px-3 py-1.5 text-sm hover:bg-accent rounded-sm whitespace-nowrap w-full"
                         >
                           Log out
                         </button>
