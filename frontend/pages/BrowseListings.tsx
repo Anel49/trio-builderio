@@ -403,12 +403,22 @@ export default function BrowseListings() {
           const startDateStr = dateRange.start.toISOString().split("T")[0];
           const endDateStr = dateRange.end.toISOString().split("T")[0];
           url += `?startDate=${startDateStr}&endDate=${endDateStr}`;
+          console.log(
+            `[BrowseListings] Fetching reservations for listing ${listingIdStr} (${startDateStr} - ${endDateStr})`,
+          );
+        } else {
+          console.log(
+            `[BrowseListings] Fetching reservations for listing ${listingIdStr} (no date filter)`,
+          );
         }
 
         const response = await apiFetch(url);
         const data = await response.json();
 
         if (data.ok) {
+          console.log(
+            `[BrowseListings] Listing ${listingIdStr}: Received ${(data.reservations || []).length} conflicting reservation(s)`,
+          );
           setReservationsCache((prev) => ({
             ...prev,
             [listingIdStr]: data.reservations || [],
