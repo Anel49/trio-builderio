@@ -1069,5 +1069,27 @@ export function createServer() {
     }
   });
 
+  // Admin routes
+  app.get("/api/admin/users", requireAdmin, listAllUsers);
+  app.patch("/api/admin/users/:userId", requireAdmin, updateUserAdminStatus);
+  app.get("/api/admin/listings", requireAdmin, listAllListings);
+  app.patch("/api/admin/listings/:listingId", requireAdmin, updateListingStatus);
+  app.delete("/api/admin/listings/:listingId", requireAdmin, deleteListingAdmin);
+  app.get("/api/admin/orders", requireModeratorOrAdmin, listAllOrders);
+  app.patch("/api/admin/orders/:orderId", requireModeratorOrAdmin, updateOrderStatus);
+  app.get("/api/admin/reviews", requireModeratorOrAdmin, listAllReviews);
+  app.delete("/api/admin/reviews/:reviewId", requireModeratorOrAdmin, deleteReview);
+
+  // Admin route aliases (without /api prefix)
+  app.get("/admin/users", requireAdmin, listAllUsers);
+  app.patch("/admin/users/:userId", requireAdmin, updateUserAdminStatus);
+  app.get("/admin/listings", requireAdmin, listAllListings);
+  app.patch("/admin/listings/:listingId", requireAdmin, updateListingStatus);
+  app.delete("/admin/listings/:listingId", requireAdmin, deleteListingAdmin);
+  app.get("/admin/orders", requireModeratorOrAdmin, listAllOrders);
+  app.patch("/admin/orders/:orderId", requireModeratorOrAdmin, updateOrderStatus);
+  app.get("/admin/reviews", requireModeratorOrAdmin, listAllReviews);
+  app.delete("/admin/reviews/:reviewId", requireModeratorOrAdmin, deleteReview);
+
   return app;
 }
