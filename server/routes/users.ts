@@ -557,7 +557,9 @@ export async function emailLogin(req: Request, res: Response) {
               coalesce(top_referrer,false) as top_referrer,
               coalesce(ambassador,false) as ambassador,
               coalesce(open_dms,true) as open_dms,
-              coalesce(active,true) as active
+              coalesce(active,true) as active,
+              coalesce(admin,false) as admin,
+              coalesce(moderator,false) as moderator
        from users where id = $1`,
       [cred.user_id],
     );
