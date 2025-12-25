@@ -452,6 +452,8 @@ export function createServer() {
                 coalesce(u.ambassador,false) as ambassador,
                 coalesce(u.open_dms,true) as open_dms,
                 coalesce(u.active,true) as active,
+                coalesce(u.admin,false) as admin,
+                coalesce(u.moderator,false) as moderator,
                 u.referred_by_user_id,
                 uc.oauth,
                 uc.stripe_secret
@@ -486,6 +488,8 @@ export function createServer() {
         openDms: Boolean(row.open_dms),
         oauth: row.oauth || null,
         active: Boolean(row.active),
+        admin: Boolean(row.admin),
+        moderator: Boolean(row.moderator),
         stripeSecret: row.stripe_secret || null,
         referred_by_user_id: row.referred_by_user_id ?? null,
       };
