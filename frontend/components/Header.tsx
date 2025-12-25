@@ -168,8 +168,14 @@ export default function Header() {
 
                   {/* Profile Picture with Right-Click Menu */}
                   <div className="relative leading-none h-8">
-                    <button
-                      onClick={() => (window.location.href = "/profile")}
+                    <a
+                      href="/profile"
+                      onClick={(e) => {
+                        if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                          e.preventDefault();
+                          window.location.href = "/profile";
+                        }
+                      }}
                       onContextMenu={(e) => {
                         e.preventDefault();
                         setIsContextMenuOpen(true);
@@ -186,7 +192,7 @@ export default function Header() {
                           {getInitials(user?.name || null)}
                         </AvatarFallback>
                       </Avatar>
-                    </button>
+                    </a>
                     {isContextMenuOpen && (
                       <div
                         className="absolute right-0 mt-1 bg-popover border border-border rounded-md shadow-md z-[100]"
