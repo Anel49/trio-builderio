@@ -81,6 +81,12 @@ export async function updateUserAdminStatus(req: Request, res: Response) {
     }
 
     const { admin, moderator, active } = req.body || {};
+    const currentUser = (req.session as any)?.user;
+
+    // Only admins can change admin or moderator status
+    if ((typeof admin === "boolean" || typeof moderator === "boolean") && !currentUser?.admin) {
+      return res.status(403).json({ ok: false, error: "Only admins can change admin or moderator status" });
+    }
 
     const updates: string[] = [];
     const params: any[] = [];
