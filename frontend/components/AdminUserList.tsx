@@ -25,6 +25,7 @@ interface User {
 }
 
 export default function AdminUserList() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
