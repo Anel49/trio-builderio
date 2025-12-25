@@ -94,18 +94,26 @@ export default function Admin() {
   }
 
   const navItems: NavItem[] = [];
-  
+
   if (user.admin) {
     navItems.push(
-      { id: "users", label: "Users", icon: <Users className={spacing.dimensions.icon.sm} /> },
-      { id: "listings", label: "Listings", icon: <FileText className={spacing.dimensions.icon.sm} /> }
+      { id: "users", label: "User Management", icon: <Users className={spacing.dimensions.icon.sm} /> },
+      { id: "listings", label: "Listing Management", icon: <FileText className={spacing.dimensions.icon.sm} /> }
     );
   }
-  
+
   if (user.admin || user.moderator) {
     navItems.push(
-      { id: "orders", label: "Orders", icon: <ShoppingCart className={spacing.dimensions.icon.sm} /> },
-      { id: "reviews", label: "Reviews", icon: <Star className={spacing.dimensions.icon.sm} /> }
+      { id: "orders", label: "Order Management", icon: <ShoppingCart className={spacing.dimensions.icon.sm} /> },
+      { id: "reviews", label: "Review Management", icon: <Star className={spacing.dimensions.icon.sm} /> },
+      { id: "reports", label: "Reports", icon: <BarChart3 className={spacing.dimensions.icon.sm} /> },
+      { id: "claims", label: "Claims", icon: <Flag className={spacing.dimensions.icon.sm} /> }
+    );
+  }
+
+  if (user.admin) {
+    navItems.push(
+      { id: "messages", label: "Messages", icon: <MessageSquare className={spacing.dimensions.icon.sm} /> }
     );
   }
 
