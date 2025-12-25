@@ -25,6 +25,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const Messages = lazy(() => import("./pages/Messages"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const OrderHistory = lazy(() => import("./pages/OrderHistory"));
+const Admin = lazy(() => import("./pages/Admin"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
