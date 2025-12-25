@@ -45,6 +45,19 @@ async function ensureBadgeColumns() {
   }
 }
 
+async function ensureAdminColumns() {
+  try {
+    await pool.query(
+      `alter table users add column if not exists admin boolean default false`,
+    );
+    await pool.query(
+      `alter table users add column if not exists moderator boolean default false`,
+    );
+  } catch (e) {
+    console.error("Error ensuring admin columns:", e);
+  }
+}
+
 export async function getUserById(req: Request, res: Response) {
   try {
     const userId = String((req.params as any)?.id || "").trim();
