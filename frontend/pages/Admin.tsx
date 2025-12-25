@@ -34,7 +34,7 @@ interface NavItem {
 export default function Admin() {
   const navigate = useNavigate();
   const { user, authenticated } = useAuth();
-  const getDefaultTab = () => (user?.admin ? "users" : "orders");
+  const getDefaultTab = () => (user?.admin || user?.moderator ? "users" : "orders");
   const [activeTab, setActiveTab] = useState(getDefaultTab());
 
   if (!authenticated || !user) {
