@@ -1171,20 +1171,38 @@ export async function listListingReservations(req: Request, res: Response) {
     if (!id || Number.isNaN(id)) {
       return res.status(400).json({ ok: false, error: "invalid id" });
     }
+
+    // Extract optional date range query parameters
+    const startDate = (req.query as any)?.startDate as string | undefined;
+    const endDate = (req.query as any)?.endDate as string | undefined;
+
+    // Build the query with optional date filtering
+    let whereClauseReservations = "r.listing_id = $1 and r.status in ('pending', 'accepted', 'confirmed') and r.end_date > CURRENT_DATE";
+    let whereClauseOrders = "o.listing_id = $1 and o.status in ('pending', 'active', 'upcoming') and o.end_date > CURRENT_DATE";
+    const params: any[] = [id];
+
+    // If date range is provided, add overlap filtering
+    if (startDate && endDate) {
+      whereClauseReservations += " and o.start_date < $2 and o.end_date > $3";
+      whereClauseOrders += " and o.start_date < $2 and o.end_date > $3";
+      params.push(endDate);
+      params.push(startDate);
+    }
+
     const result = await pool.query(
       `
       select r.id, r.start_date, r.end_date, r.renter_id, r.status, u.first_name, u.last_name
       from reservations r
       left join users u on r.renter_id = u.id
-      where r.listing_id = $1 and r.status in ('pending', 'accepted', 'confirmed')
+      where ${whereClauseReservations}
       union all
       select o.id, o.start_date, o.end_date, o.renter_id, o.status, u.first_name, u.last_name
       from orders o
       left join users u on o.renter_id = u.id
-      where o.listing_id = $1 and o.status in ('pending', 'active', 'upcoming')
+      where ${whereClauseOrders}
       order by start_date asc limit 500
       `,
-      [id],
+      params,
     );
     const reservations = result.rows.map((r: any) => {
       const renterName =
