@@ -117,7 +117,10 @@ export default function Admin() {
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-4 mb-8">
+            <TabsList className={combineTokens(
+              "grid w-full mb-8",
+              user.admin ? "grid-cols-1 sm:grid-cols-4" : "grid-cols-1 sm:grid-cols-2"
+            )}>
               {user.admin && (
                 <>
                   <TabsTrigger value="users" className="flex items-center gap-2">
