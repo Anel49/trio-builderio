@@ -194,7 +194,7 @@ export default function AdminUserList() {
                       <td className={spacing.padding.md}>
                         <Switch
                           checked={user.admin}
-                          disabled={isUpdating}
+                          disabled={isUpdating || !currentUser?.admin}
                           onCheckedChange={(checked) =>
                             handleUpdateUser(user.id, { admin: checked })
                           }
@@ -203,7 +203,7 @@ export default function AdminUserList() {
                       <td className={spacing.padding.md}>
                         <Switch
                           checked={user.moderator}
-                          disabled={isUpdating}
+                          disabled={isUpdating || !currentUser?.admin}
                           onCheckedChange={(checked) =>
                             handleUpdateUser(user.id, { moderator: checked })
                           }
