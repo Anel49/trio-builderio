@@ -158,17 +158,23 @@ export default function AdminUserList() {
                   return (
                     <tr key={user.id} className="border-b hover:bg-muted/50">
                       <td className={spacing.padding.md}>
-                        <button
-                          onClick={() => navigate(`/profile/${user.username}`)}
+                        <a
+                          href={`/profile/${user.username}`}
+                          onClick={(e) => {
+                            if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                              e.preventDefault();
+                              navigate(`/profile/${user.username}`);
+                            }
+                          }}
                           className={combineTokens(
-                            "text-left hover:text-primary transition-colors"
+                            "text-left hover:text-primary transition-colors block"
                           )}
                         >
                           <p className={typography.weight.medium}>{user.name}</p>
                           <p className="text-xs text-muted-foreground">
                             @{user.username}
                           </p>
-                        </button>
+                        </a>
                       </td>
                       <td className={spacing.padding.md}>{user.email}</td>
                       <td className={spacing.padding.md}>
