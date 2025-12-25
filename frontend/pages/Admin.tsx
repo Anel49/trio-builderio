@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Container } from "@/components/Container";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, FileText, ShoppingCart, Star, AlertCircle } from "lucide-react";
 import {
@@ -19,6 +16,12 @@ import AdminListingList from "@/components/AdminListingList";
 import AdminOrderList from "@/components/AdminOrderList";
 import AdminReviewList from "@/components/AdminReviewList";
 
+interface NavItem {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
 export default function Admin() {
   const navigate = useNavigate();
   const { user, authenticated } = useAuth();
@@ -29,35 +32,32 @@ export default function Admin() {
     return (
       <>
         <Header />
-        <Container>
-          <div className={combineTokens(layouts.flex.center, "min-h-screen")}>
-            <Card className="w-full max-w-md">
-              <CardContent className={spacing.padding.lg}>
-                <div
-                  className={combineTokens(
-                    layouts.flex.colCenter,
-                    spacing.gap.md
-                  )}
+        <div className={combineTokens(layouts.flex.center, "min-h-screen")}>
+          <Card className="w-full max-w-md">
+            <CardContent className={spacing.padding.lg}>
+              <div
+                className={combineTokens(
+                  layouts.flex.colCenter,
+                  spacing.gap.md
+                )}
+              >
+                <AlertCircle className={combineTokens(
+                  spacing.dimensions.icon.lg,
+                  "text-destructive"
+                )} />
+                <p className={typography.size.lg}>
+                  You must be logged in to access the admin dashboard.
+                </p>
+                <Button
+                  onClick={() => navigate("/")}
+                  className="w-full"
                 >
-                  <AlertCircle className={combineTokens(
-                    spacing.dimensions.icon.lg,
-                    "text-destructive"
-                  )} />
-                  <p className={typography.size.lg}>
-                    You must be logged in to access the admin panel.
-                  </p>
-                  <Button
-                    onClick={() => navigate("/")}
-                    className="w-full"
-                  >
-                    Go Home
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </Container>
-        <Footer />
+                  Go Home
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </>
     );
   }
@@ -66,142 +66,143 @@ export default function Admin() {
     return (
       <>
         <Header />
-        <Container>
-          <div className={combineTokens(layouts.flex.center, "min-h-screen")}>
-            <Card className="w-full max-w-md">
-              <CardContent className={spacing.padding.lg}>
-                <div
-                  className={combineTokens(
-                    layouts.flex.colCenter,
-                    spacing.gap.md
-                  )}
-                >
-                  <AlertCircle className={combineTokens(
-                    spacing.dimensions.icon.lg,
-                    "text-destructive"
-                  )} />
-                  <p className={typography.size.lg}>
-                    You do not have permission to access the admin panel.
-                  </p>
-                  <Button onClick={() => navigate("/")} className="w-full">
-                    Go Home
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </Container>
-        <Footer />
+        <div className={combineTokens(layouts.flex.center, "min-h-screen")}>
+          <Card className="w-full max-w-md">
+            <CardContent className={spacing.padding.lg}>
+              <div
+                className={combineTokens(
+                  layouts.flex.colCenter,
+                  spacing.gap.md
+                )}
+              >
+                <AlertCircle className={combineTokens(
+                  spacing.dimensions.icon.lg,
+                  "text-destructive"
+                )} />
+                <p className={typography.size.lg}>
+                  You do not have permission to access the admin dashboard.
+                </p>
+                <Button onClick={() => navigate("/")} className="w-full">
+                  Go Home
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </>
     );
   }
 
+  const navItems: NavItem[] = [];
+  
+  if (user.admin) {
+    navItems.push(
+      { id: "users", label: "Users", icon: <Users className={spacing.dimensions.icon.sm} /> },
+      { id: "listings", label: "Listings", icon: <FileText className={spacing.dimensions.icon.sm} /> }
+    );
+  }
+  
+  if (user.admin || user.moderator) {
+    navItems.push(
+      { id: "orders", label: "Orders", icon: <ShoppingCart className={spacing.dimensions.icon.sm} /> },
+      { id: "reviews", label: "Reviews", icon: <Star className={spacing.dimensions.icon.sm} /> }
+    );
+  }
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "users":
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>User Management</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AdminUserList />
+            </CardContent>
+          </Card>
+        );
+      case "listings":
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>Listing Management</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AdminListingList />
+            </CardContent>
+          </Card>
+        );
+      case "orders":
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>Order Management</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AdminOrderList />
+            </CardContent>
+          </Card>
+        );
+      case "reviews":
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>Review Moderation</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AdminReviewList />
+            </CardContent>
+          </Card>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <Header />
-      <Container>
-        <div className={combineTokens(spacing.padding.section, "min-h-screen")}>
-          <div className={combineTokens(spacing.margin.bottomLg)}>
-            <h1 className={typography.combinations.heading}>Admin Dashboard</h1>
-            <p className={combineTokens(
-              typography.size.lg,
-              "text-muted-foreground",
-              spacing.margin.topMd
-            )}>
-              Manage platform content and users
-            </p>
+      {/* Main Content - 25/75 Split */}
+      <div className="h-[calc(100vh-4rem)]">
+        <div className="h-full flex overflow-hidden">
+          {/* Left Side - Navigation (25%) */}
+          <div className="hidden lg:block w-1/4 bg-muted/30 overflow-hidden border-r border-border">
+            <div className={spacing.padding.card}>
+              <h2 className={combineTokens(
+                typography.combinations.subheading,
+                spacing.margin.bottomMd
+              )}>
+                Admin Dashboard
+              </h2>
+              <nav className={combineTokens(spacing.gap.sm, "flex flex-col")}>
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    className={combineTokens(
+                      "flex items-center gap-3 px-4 py-3 rounded-md text-left transition-colors",
+                      activeTab === item.id
+                        ? "bg-primary text-primary-foreground"
+                        : "text-foreground hover:bg-muted"
+                    )}
+                  >
+                    {item.icon}
+                    <span className={typography.size.sm}>{item.label}</span>
+                  </button>
+                ))}
+              </nav>
+            </div>
           </div>
 
-          <Tabs
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="w-full"
-          >
-            <TabsList className={combineTokens(
-              "grid w-full mb-8",
-              user.admin ? "grid-cols-1 sm:grid-cols-4" : "grid-cols-1 sm:grid-cols-2"
-            )}>
-              {user.admin && (
-                <>
-                  <TabsTrigger value="users" className="flex items-center gap-2">
-                    <Users className={spacing.dimensions.icon.sm} />
-                    <span className="hidden sm:inline">Users</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="listings" className="flex items-center gap-2">
-                    <FileText className={spacing.dimensions.icon.sm} />
-                    <span className="hidden sm:inline">Listings</span>
-                  </TabsTrigger>
-                </>
-              )}
-              {(user.admin || user.moderator) && (
-                <>
-                  <TabsTrigger value="orders" className="flex items-center gap-2">
-                    <ShoppingCart className={spacing.dimensions.icon.sm} />
-                    <span className="hidden sm:inline">Orders</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="reviews" className="flex items-center gap-2">
-                    <Star className={spacing.dimensions.icon.sm} />
-                    <span className="hidden sm:inline">Reviews</span>
-                  </TabsTrigger>
-                </>
-              )}
-            </TabsList>
-
-            {user.admin && (
-              <>
-                <TabsContent value="users">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>User Management</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <AdminUserList />
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-
-                <TabsContent value="listings">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Listing Management</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <AdminListingList />
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              </>
-            )}
-
-            {(user.admin || user.moderator) && (
-              <>
-                <TabsContent value="orders">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Order Management</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <AdminOrderList />
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-
-                <TabsContent value="reviews">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Review Moderation</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <AdminReviewList />
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              </>
-            )}
-          </Tabs>
+          {/* Right Side - Content Area (75%) */}
+          <div className="flex-1 bg-background overflow-y-auto no-scrollbar">
+            <div className={spacing.padding.card}>
+              {renderContent()}
+            </div>
+          </div>
         </div>
-      </Container>
-      <Footer />
+      </div>
     </>
   );
 }
