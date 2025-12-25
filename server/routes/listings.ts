@@ -1177,8 +1177,10 @@ export async function listListingReservations(req: Request, res: Response) {
     const endDate = (req.query as any)?.endDate as string | undefined;
 
     // Build the query with optional date filtering
-    let whereClauseReservations = "r.listing_id = $1 and r.status in ('pending', 'accepted', 'confirmed') and r.end_date > CURRENT_DATE";
-    let whereClauseOrders = "o.listing_id = $1 and o.status in ('pending', 'active', 'upcoming') and o.end_date > CURRENT_DATE";
+    let whereClauseReservations =
+      "r.listing_id = $1 and r.status in ('pending', 'accepted', 'confirmed') and r.end_date > CURRENT_DATE";
+    let whereClauseOrders =
+      "o.listing_id = $1 and o.status in ('pending', 'active', 'upcoming') and o.end_date > CURRENT_DATE";
     const params: any[] = [id];
 
     // If date range is provided, add overlap filtering
