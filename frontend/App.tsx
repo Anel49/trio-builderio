@@ -215,6 +215,14 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/TermsOfService" element={<TermsOfService />} />
