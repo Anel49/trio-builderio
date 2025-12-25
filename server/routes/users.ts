@@ -21,6 +21,8 @@ function rowToUser(r: any) {
     ambassador: Boolean(r.ambassador),
     openDms: Boolean(r.open_dms),
     active: Boolean(r.active ?? true),
+    admin: Boolean(r.admin),
+    moderator: Boolean(r.moderator),
   };
 }
 
