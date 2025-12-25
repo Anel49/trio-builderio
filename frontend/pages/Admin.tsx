@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, FileText, ShoppingCart, Star, AlertCircle } from "lucide-react";
+import { Users, FileText, ShoppingCart, Star, AlertCircle, BarChart3, Flag, MessageSquare } from "lucide-react";
 import {
   spacing,
   typography,
