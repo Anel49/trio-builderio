@@ -245,7 +245,10 @@ export async function upsertUser(req: Request, res: Response) {
                  coalesce(founding_supporter,false) as founding_supporter,
                  coalesce(top_referrer,false) as top_referrer,
                  coalesce(ambassador,false) as ambassador,
-                 coalesce(open_dms,true) as open_dms`,
+                 coalesce(open_dms,true) as open_dms,
+                 coalesce(active,true) as active,
+                 coalesce(admin,false) as admin,
+                 coalesce(moderator,false) as moderator`,
       [
         typeof name === "string" ? name : null,
         emailStr,
