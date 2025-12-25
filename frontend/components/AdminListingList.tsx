@@ -3,7 +3,13 @@ import { apiFetch } from "@/lib/api";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Switch } from "./ui/switch";
-import { AlertCircle, Loader2, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import {
+  AlertCircle,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+  Trash2,
+} from "lucide-react";
 import {
   spacing,
   typography,
@@ -57,7 +63,7 @@ export default function AdminListingList() {
     setError(null);
     try {
       const response = await apiFetch(
-        `/admin/listings?limit=${limit}&offset=${offset}`
+        `/admin/listings?limit=${limit}&offset=${offset}`,
       );
       if (!response.ok) throw new Error("Failed to load listings");
 
@@ -84,7 +90,7 @@ export default function AdminListingList() {
       if (!response.ok) throw new Error("Failed to update listing");
 
       setListings((prev) =>
-        prev.map((l) => (l.id === listingId ? { ...l, enabled: !enabled } : l))
+        prev.map((l) => (l.id === listingId ? { ...l, enabled: !enabled } : l)),
       );
     } catch (err: any) {
       setError(err.message || "Failed to update listing");
@@ -123,11 +129,13 @@ export default function AdminListingList() {
   return (
     <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
       {error && (
-        <div className={combineTokens(
-          "bg-destructive/10 border border-destructive text-destructive",
-          spacing.padding.md,
-          "rounded-lg flex items-center gap-2"
-        )}>
+        <div
+          className={combineTokens(
+            "bg-destructive/10 border border-destructive text-destructive",
+            spacing.padding.md,
+            "rounded-lg flex items-center gap-2",
+          )}
+        >
           <AlertCircle className={spacing.dimensions.icon.sm} />
           <span>{error}</span>
         </div>
@@ -151,43 +159,56 @@ export default function AdminListingList() {
               return (
                 <Card key={listing.id} className={shadows.card}>
                   <div className={spacing.padding.card}>
-                    <div className={combineTokens(layouts.flex.between, spacing.margin.bottomMd)}>
+                    <div
+                      className={combineTokens(
+                        layouts.flex.between,
+                        spacing.margin.bottomMd,
+                      )}
+                    >
                       <div className="flex-1">
                         <h3 className={typography.combinations.subheading}>
                           {listing.title}
                         </h3>
-                        <p className={combineTokens(
-                          typography.size.sm,
-                          "text-muted-foreground",
-                          spacing.margin.topSm
-                        )}>
+                        <p
+                          className={combineTokens(
+                            typography.size.sm,
+                            "text-muted-foreground",
+                            spacing.margin.topSm,
+                          )}
+                        >
                           Category: {listing.category}
                         </p>
                       </div>
-                      <div className={combineTokens(
-                        "bg-primary text-primary-foreground",
-                        spacing.padding.buttonSm,
-                        "rounded text-sm font-semibold"
-                      )}>
+                      <div
+                        className={combineTokens(
+                          "bg-primary text-primary-foreground",
+                          spacing.padding.buttonSm,
+                          "rounded text-sm font-semibold",
+                        )}
+                      >
                         ${listing.daily_price}/day
                       </div>
                     </div>
 
-                    <p className={combineTokens(
-                      typography.size.sm,
-                      spacing.margin.bottomMd
-                    )}>
+                    <p
+                      className={combineTokens(
+                        typography.size.sm,
+                        spacing.margin.bottomMd,
+                      )}
+                    >
                       {listing.description?.substring(0, 100)}...
                     </p>
 
-                    <div className={combineTokens(
-                      spacing.gap.sm,
-                      "flex flex-col",
-                      spacing.margin.bottomMd
-                    )}>
+                    <div
+                      className={combineTokens(
+                        spacing.gap.sm,
+                        "flex flex-col",
+                        spacing.margin.bottomMd,
+                      )}
+                    >
                       <div className="text-sm">
-                        <span className="font-medium">Host:</span> {listing.host_name}{" "}
-                        ({listing.host_email})
+                        <span className="font-medium">Host:</span>{" "}
+                        {listing.host_name} ({listing.host_email})
                       </div>
                       <div className="text-sm">
                         <span className="font-medium">Reservations:</span>{" "}
@@ -195,15 +216,19 @@ export default function AdminListingList() {
                       </div>
                     </div>
 
-                    <div className={combineTokens(
-                      layouts.flex.between,
-                      spacing.gap.md
-                    )}>
-                      <div className={combineTokens(
-                        layouts.flex.start,
+                    <div
+                      className={combineTokens(
+                        layouts.flex.between,
                         spacing.gap.md,
-                        "items-center"
-                      )}>
+                      )}
+                    >
+                      <div
+                        className={combineTokens(
+                          layouts.flex.start,
+                          spacing.gap.md,
+                          "items-center",
+                        )}
+                      >
                         <span className="text-sm font-medium">Enabled:</span>
                         <Switch
                           checked={listing.enabled}
@@ -221,10 +246,12 @@ export default function AdminListingList() {
                             size="sm"
                             disabled={isDeleting}
                           >
-                            <Trash2 className={combineTokens(
-                              spacing.dimensions.icon.sm,
-                              "mr-2"
-                            )} />
+                            <Trash2
+                              className={combineTokens(
+                                spacing.dimensions.icon.sm,
+                                "mr-2",
+                              )}
+                            />
                             Delete
                           </Button>
                         </AlertDialogTrigger>
@@ -236,10 +263,12 @@ export default function AdminListingList() {
                               This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
-                          <div className={combineTokens(
-                            layouts.flex.end,
-                            spacing.gap.sm
-                          )}>
+                          <div
+                            className={combineTokens(
+                              layouts.flex.end,
+                              spacing.gap.sm,
+                            )}
+                          >
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
                               onClick={() => handleDeleteListing(listing.id)}
@@ -259,7 +288,8 @@ export default function AdminListingList() {
 
           <div className={combineTokens(layouts.flex.between, "mt-6")}>
             <div className="text-sm text-muted-foreground">
-              Page {currentPage + 1} of {totalPages} ({totalListings} total listings)
+              Page {currentPage + 1} of {totalPages} ({totalListings} total
+              listings)
             </div>
             <div className={combineTokens(layouts.flex.start, "gap-2")}>
               <Button

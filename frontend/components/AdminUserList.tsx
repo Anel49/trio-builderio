@@ -77,9 +77,7 @@ export default function AdminUserList() {
       if (!response.ok) throw new Error("Failed to update user");
 
       const data = await response.json();
-      setUsers((prev) =>
-        prev.map((u) => (u.id === userId ? data.user : u))
-      );
+      setUsers((prev) => prev.map((u) => (u.id === userId ? data.user : u)));
     } catch (err: any) {
       setError(err.message || "Failed to update user");
     } finally {
@@ -98,11 +96,13 @@ export default function AdminUserList() {
   return (
     <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
       {error && (
-        <div className={combineTokens(
-          "bg-destructive/10 border border-destructive text-destructive",
-          spacing.padding.md,
-          "rounded-lg flex items-center gap-2"
-        )}>
+        <div
+          className={combineTokens(
+            "bg-destructive/10 border border-destructive text-destructive",
+            spacing.padding.md,
+            "rounded-lg flex items-center gap-2",
+          )}
+        >
           <AlertCircle className={spacing.dimensions.icon.sm} />
           <span>{error}</span>
         </div>
@@ -135,19 +135,29 @@ export default function AdminUserList() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Name
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Email
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Admin
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Moderator
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Active
                   </th>
                 </tr>
@@ -167,10 +177,12 @@ export default function AdminUserList() {
                             }
                           }}
                           className={combineTokens(
-                            "text-left hover:text-primary transition-colors block"
+                            "text-left hover:text-primary transition-colors block",
                           )}
                         >
-                          <p className={typography.weight.medium}>{user.name}</p>
+                          <p className={typography.weight.medium}>
+                            {user.name}
+                          </p>
                           <p className="text-xs text-muted-foreground">
                             @{user.username}
                           </p>

@@ -24,11 +24,11 @@ export async function listAllUsers(req: Request, res: Response) {
   try {
     const limit = Math.min(
       Number.parseInt((req.query.limit as string) || "100", 10),
-      1000
+      1000,
     );
     const offset = Math.max(
       Number.parseInt((req.query.offset as string) || "0", 10),
-      0
+      0,
     );
     const search = ((req.query.search as string) || "").toLowerCase().trim();
 
@@ -53,12 +53,12 @@ export async function listAllUsers(req: Request, res: Response) {
        where ${whereClause}
        order by u.created_at desc
        limit $${params.length + 1} offset $${params.length + 2}`,
-      [...params, limit, offset]
+      [...params, limit, offset],
     );
 
     const countResult = await pool.query(
       `select count(*) as total from users u where ${whereClause}`,
-      params
+      params,
     );
 
     res.json({
@@ -102,9 +102,7 @@ export async function updateUserAdminStatus(req: Request, res: Response) {
     }
 
     if (updates.length === 0) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "No fields to update" });
+      return res.status(400).json({ ok: false, error: "No fields to update" });
     }
 
     params.push(userId);
@@ -119,7 +117,7 @@ export async function updateUserAdminStatus(req: Request, res: Response) {
                  coalesce(active,true) as active,
                  coalesce(admin,false) as admin,
                  coalesce(moderator,false) as moderator`,
-      params
+      params,
     );
 
     if (!result.rowCount || result.rowCount === 0) {
@@ -136,11 +134,11 @@ export async function listAllListings(req: Request, res: Response) {
   try {
     const limit = Math.min(
       Number.parseInt((req.query.limit as string) || "50", 10),
-      500
+      500,
     );
     const offset = Math.max(
       Number.parseInt((req.query.offset as string) || "0", 10),
-      0
+      0,
     );
 
     const result = await pool.query(
@@ -152,10 +150,12 @@ export async function listAllListings(req: Request, res: Response) {
        left join users u on l.host_id = u.id
        order by l.created_at desc
        limit $1 offset $2`,
-      [limit, offset]
+      [limit, offset],
     );
 
-    const countResult = await pool.query("select count(*) as total from listings");
+    const countResult = await pool.query(
+      "select count(*) as total from listings",
+    );
 
     res.json({
       ok: true,
@@ -171,7 +171,10 @@ export async function listAllListings(req: Request, res: Response) {
 
 export async function updateListingStatus(req: Request, res: Response) {
   try {
-    const listingId = Number.parseInt((req.params.listingId as string) || "", 10);
+    const listingId = Number.parseInt(
+      (req.params.listingId as string) || "",
+      10,
+    );
     if (!Number.isFinite(listingId)) {
       return res.status(400).json({ ok: false, error: "Invalid listing ID" });
     }
@@ -186,7 +189,7 @@ export async function updateListingStatus(req: Request, res: Response) {
 
     const result = await pool.query(
       `update listings set enabled = $1 where id = $2 returning id, title, host_id, enabled`,
-      [enabled, listingId]
+      [enabled, listingId],
     );
 
     if (!result.rowCount || result.rowCount === 0) {
@@ -201,14 +204,17 @@ export async function updateListingStatus(req: Request, res: Response) {
 
 export async function deleteListing(req: Request, res: Response) {
   try {
-    const listingId = Number.parseInt((req.params.listingId as string) || "", 10);
+    const listingId = Number.parseInt(
+      (req.params.listingId as string) || "",
+      10,
+    );
     if (!Number.isFinite(listingId)) {
       return res.status(400).json({ ok: false, error: "Invalid listing ID" });
     }
 
     const result = await pool.query(
       `delete from listings where id = $1 returning id`,
-      [listingId]
+      [listingId],
     );
 
     if (!result.rowCount || result.rowCount === 0) {
@@ -225,11 +231,11 @@ export async function listAllOrders(req: Request, res: Response) {
   try {
     const limit = Math.min(
       Number.parseInt((req.query.limit as string) || "50", 10),
-      500
+      500,
     );
     const offset = Math.max(
       Number.parseInt((req.query.offset as string) || "0", 10),
-      0
+      0,
     );
     const status = (req.query.status as string) || "";
 
@@ -253,12 +259,12 @@ export async function listAllOrders(req: Request, res: Response) {
        where ${whereClause}
        order by o.created_at desc
        limit $${params.length + 1} offset $${params.length + 2}`,
-      [...params, limit, offset]
+      [...params, limit, offset],
     );
 
     const countResult = await pool.query(
       `select count(*) as total from orders where ${whereClause}`,
-      params
+      params,
     );
 
     res.json({
@@ -287,7 +293,7 @@ export async function updateOrderStatus(req: Request, res: Response) {
 
     const result = await pool.query(
       `update orders set status = $1 where id = $2 returning id, status`,
-      [status, orderId]
+      [status, orderId],
     );
 
     if (!result.rowCount || result.rowCount === 0) {
@@ -304,11 +310,11 @@ export async function listAllReviews(req: Request, res: Response) {
   try {
     const limit = Math.min(
       Number.parseInt((req.query.limit as string) || "50", 10),
-      500
+      500,
     );
     const offset = Math.max(
       Number.parseInt((req.query.offset as string) || "0", 10),
-      0
+      0,
     );
 
     const result = await pool.query(
@@ -322,10 +328,12 @@ export async function listAllReviews(req: Request, res: Response) {
        left join users host on r.host_id = host.id
        order by r.created_at desc
        limit $1 offset $2`,
-      [limit, offset]
+      [limit, offset],
     );
 
-    const countResult = await pool.query("select count(*) as total from listing_reviews");
+    const countResult = await pool.query(
+      "select count(*) as total from listing_reviews",
+    );
 
     res.json({
       ok: true,
@@ -348,7 +356,7 @@ export async function deleteReview(req: Request, res: Response) {
 
     const result = await pool.query(
       `delete from listing_reviews where id = $1 returning id`,
-      [reviewId]
+      [reviewId],
     );
 
     if (!result.rowCount || result.rowCount === 0) {

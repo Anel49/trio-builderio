@@ -4,7 +4,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, FileText, ShoppingCart, Star, AlertCircle, BarChart3, Flag, MessageSquare } from "lucide-react";
+import {
+  Users,
+  FileText,
+  ShoppingCart,
+  Star,
+  AlertCircle,
+  BarChart3,
+  Flag,
+  MessageSquare,
+} from "lucide-react";
 import {
   spacing,
   typography,
@@ -25,7 +34,7 @@ interface NavItem {
 export default function Admin() {
   const navigate = useNavigate();
   const { user, authenticated } = useAuth();
-  const getDefaultTab = () => user?.admin ? "users" : "orders";
+  const getDefaultTab = () => (user?.admin ? "users" : "orders");
   const [activeTab, setActiveTab] = useState(getDefaultTab());
 
   if (!authenticated || !user) {
@@ -38,20 +47,19 @@ export default function Admin() {
               <div
                 className={combineTokens(
                   layouts.flex.colCenter,
-                  spacing.gap.md
+                  spacing.gap.md,
                 )}
               >
-                <AlertCircle className={combineTokens(
-                  spacing.dimensions.icon.lg,
-                  "text-destructive"
-                )} />
+                <AlertCircle
+                  className={combineTokens(
+                    spacing.dimensions.icon.lg,
+                    "text-destructive",
+                  )}
+                />
                 <p className={typography.size.lg}>
                   You must be logged in to access the admin dashboard.
                 </p>
-                <Button
-                  onClick={() => navigate("/")}
-                  className="w-full"
-                >
+                <Button onClick={() => navigate("/")} className="w-full">
                   Go Home
                 </Button>
               </div>
@@ -72,13 +80,15 @@ export default function Admin() {
               <div
                 className={combineTokens(
                   layouts.flex.colCenter,
-                  spacing.gap.md
+                  spacing.gap.md,
                 )}
               >
-                <AlertCircle className={combineTokens(
-                  spacing.dimensions.icon.lg,
-                  "text-destructive"
-                )} />
+                <AlertCircle
+                  className={combineTokens(
+                    spacing.dimensions.icon.lg,
+                    "text-destructive",
+                  )}
+                />
                 <p className={typography.size.lg}>
                   You do not have permission to access the admin dashboard.
                 </p>
@@ -97,19 +107,45 @@ export default function Admin() {
 
   if (user.admin || user.moderator) {
     navItems.push(
-      { id: "users", label: "User Management", icon: <Users className={spacing.dimensions.icon.sm} /> },
-      { id: "listings", label: "Listing Management", icon: <FileText className={spacing.dimensions.icon.sm} /> },
-      { id: "orders", label: "Order Management", icon: <ShoppingCart className={spacing.dimensions.icon.sm} /> },
-      { id: "reviews", label: "Review Management", icon: <Star className={spacing.dimensions.icon.sm} /> },
-      { id: "reports", label: "Reports", icon: <BarChart3 className={spacing.dimensions.icon.sm} /> },
-      { id: "claims", label: "Claims", icon: <Flag className={spacing.dimensions.icon.sm} /> }
+      {
+        id: "users",
+        label: "User Management",
+        icon: <Users className={spacing.dimensions.icon.sm} />,
+      },
+      {
+        id: "listings",
+        label: "Listing Management",
+        icon: <FileText className={spacing.dimensions.icon.sm} />,
+      },
+      {
+        id: "orders",
+        label: "Order Management",
+        icon: <ShoppingCart className={spacing.dimensions.icon.sm} />,
+      },
+      {
+        id: "reviews",
+        label: "Review Management",
+        icon: <Star className={spacing.dimensions.icon.sm} />,
+      },
+      {
+        id: "reports",
+        label: "Reports",
+        icon: <BarChart3 className={spacing.dimensions.icon.sm} />,
+      },
+      {
+        id: "claims",
+        label: "Claims",
+        icon: <Flag className={spacing.dimensions.icon.sm} />,
+      },
     );
   }
 
   if (user.admin) {
-    navItems.push(
-      { id: "messages", label: "Messages", icon: <MessageSquare className={spacing.dimensions.icon.sm} /> }
-    );
+    navItems.push({
+      id: "messages",
+      label: "Messages",
+      icon: <MessageSquare className={spacing.dimensions.icon.sm} />,
+    });
   }
 
   const renderContent = () => {
@@ -187,7 +223,9 @@ export default function Admin() {
               <CardTitle>Messages</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className={typography.size.sm}>Messages section coming soon.</p>
+              <p className={typography.size.sm}>
+                Messages section coming soon.
+              </p>
             </CardContent>
           </Card>
         );
@@ -205,10 +243,12 @@ export default function Admin() {
           {/* Left Side - Navigation (25%) */}
           <div className="hidden lg:block w-1/4 bg-muted/30 overflow-hidden border-r border-border">
             <div className={spacing.padding.card}>
-              <h2 className={combineTokens(
-                typography.combinations.subheading,
-                spacing.margin.bottomMd
-              )}>
+              <h2
+                className={combineTokens(
+                  typography.combinations.subheading,
+                  spacing.margin.bottomMd,
+                )}
+              >
                 Admin Dashboard
               </h2>
               <nav className={combineTokens(spacing.gap.sm, "flex flex-col")}>
@@ -220,7 +260,7 @@ export default function Admin() {
                       "flex items-center gap-3 px-4 py-3 rounded-md text-left transition-colors",
                       activeTab === item.id
                         ? "bg-primary text-primary-foreground"
-                        : "text-foreground hover:bg-muted"
+                        : "text-foreground hover:bg-muted",
                     )}
                   >
                     {item.icon}
@@ -233,9 +273,7 @@ export default function Admin() {
 
           {/* Right Side - Content Area (75%) */}
           <div className="flex-1 bg-background overflow-y-auto no-scrollbar">
-            <div className={spacing.padding.card}>
-              {renderContent()}
-            </div>
+            <div className={spacing.padding.card}>{renderContent()}</div>
           </div>
         </div>
       </div>

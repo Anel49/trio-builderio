@@ -63,7 +63,7 @@ export default function AdminReviewList() {
     setError(null);
     try {
       const response = await apiFetch(
-        `/admin/reviews?limit=${limit}&offset=${offset}`
+        `/admin/reviews?limit=${limit}&offset=${offset}`,
       );
       if (!response.ok) throw new Error("Failed to load reviews");
 
@@ -107,7 +107,9 @@ export default function AdminReviewList() {
           <Star
             key={i}
             size={16}
-            className={i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}
+            className={
+              i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+            }
           />
         ))}
       </div>
@@ -117,11 +119,13 @@ export default function AdminReviewList() {
   return (
     <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
       {error && (
-        <div className={combineTokens(
-          "bg-destructive/10 border border-destructive text-destructive",
-          spacing.padding.md,
-          "rounded-lg flex items-center gap-2"
-        )}>
+        <div
+          className={combineTokens(
+            "bg-destructive/10 border border-destructive text-destructive",
+            spacing.padding.md,
+            "rounded-lg flex items-center gap-2",
+          )}
+        >
           <AlertCircle className={spacing.dimensions.icon.sm} />
           <span>{error}</span>
         </div>
@@ -145,19 +149,23 @@ export default function AdminReviewList() {
               return (
                 <Card key={review.id} className={shadows.card}>
                   <div className={spacing.padding.card}>
-                    <div className={combineTokens(
-                      layouts.flex.between,
-                      spacing.margin.bottomMd
-                    )}>
+                    <div
+                      className={combineTokens(
+                        layouts.flex.between,
+                        spacing.margin.bottomMd,
+                      )}
+                    >
                       <div className="flex-1">
                         <h3 className={typography.combinations.subheading}>
                           {review.listing_title}
                         </h3>
-                        <p className={combineTokens(
-                          typography.size.sm,
-                          "text-muted-foreground",
-                          spacing.margin.topSm
-                        )}>
+                        <p
+                          className={combineTokens(
+                            typography.size.sm,
+                            "text-muted-foreground",
+                            spacing.margin.topSm,
+                          )}
+                        >
                           Reviewed by {review.renter_name}
                         </p>
                       </div>
@@ -169,41 +177,43 @@ export default function AdminReviewList() {
                       </div>
                     </div>
 
-                    <div className={combineTokens(
-                      "bg-muted",
-                      spacing.padding.md,
-                      "rounded",
-                      spacing.margin.bottomMd
-                    )}>
-                      <p className={combineTokens(
-                        typography.size.sm,
-                        "italic"
-                      )}>
+                    <div
+                      className={combineTokens(
+                        "bg-muted",
+                        spacing.padding.md,
+                        "rounded",
+                        spacing.margin.bottomMd,
+                      )}
+                    >
+                      <p
+                        className={combineTokens(typography.size.sm, "italic")}
+                      >
                         "{review.comment}"
                       </p>
                     </div>
 
-                    <div className={combineTokens(
-                      spacing.gap.sm,
-                      "flex flex-col text-sm",
-                      spacing.margin.bottomMd
-                    )}>
+                    <div
+                      className={combineTokens(
+                        spacing.gap.sm,
+                        "flex flex-col text-sm",
+                        spacing.margin.bottomMd,
+                      )}
+                    >
                       <div>
-                        <span className="font-medium">Renter:</span> {review.renter_name}{" "}
-                        ({review.renter_email})
+                        <span className="font-medium">Renter:</span>{" "}
+                        {review.renter_name} ({review.renter_email})
                       </div>
                       <div>
-                        <span className="font-medium">Host:</span> {review.host_name}{" "}
-                        ({review.host_email})
+                        <span className="font-medium">Host:</span>{" "}
+                        {review.host_name} ({review.host_email})
                       </div>
                       <div>
-                        <span className="font-medium">Listing ID:</span> {review.listing_id}
+                        <span className="font-medium">Listing ID:</span>{" "}
+                        {review.listing_id}
                       </div>
                     </div>
 
-                    <div className={combineTokens(
-                      layouts.flex.end
-                    )}>
+                    <div className={combineTokens(layouts.flex.end)}>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button
@@ -211,10 +221,12 @@ export default function AdminReviewList() {
                             size="sm"
                             disabled={isDeleting}
                           >
-                            <Trash2 className={combineTokens(
-                              spacing.dimensions.icon.sm,
-                              "mr-2"
-                            )} />
+                            <Trash2
+                              className={combineTokens(
+                                spacing.dimensions.icon.sm,
+                                "mr-2",
+                              )}
+                            />
                             Delete Review
                           </Button>
                         </AlertDialogTrigger>
@@ -222,14 +234,16 @@ export default function AdminReviewList() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Delete Review</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Are you sure you want to delete this review? This action
-                              cannot be undone.
+                              Are you sure you want to delete this review? This
+                              action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
-                          <div className={combineTokens(
-                            layouts.flex.end,
-                            spacing.gap.sm
-                          )}>
+                          <div
+                            className={combineTokens(
+                              layouts.flex.end,
+                              spacing.gap.sm,
+                            )}
+                          >
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
                               onClick={() => handleDeleteReview(review.id)}
@@ -249,7 +263,8 @@ export default function AdminReviewList() {
 
           <div className={combineTokens(layouts.flex.between, "mt-6")}>
             <div className="text-sm text-muted-foreground">
-              Page {currentPage + 1} of {totalPages} ({totalReviews} total reviews)
+              Page {currentPage + 1} of {totalPages} ({totalReviews} total
+              reviews)
             </div>
             <div className={combineTokens(layouts.flex.start, "gap-2")}>
               <Button

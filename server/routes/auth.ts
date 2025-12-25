@@ -14,9 +14,7 @@ export function requireAdmin(req: Request, res: Response, next: NextFunction) {
 
   const user = (req.session as any).user;
   if (!user || !user.admin) {
-    return res
-      .status(403)
-      .json({ ok: false, error: "Admin access required" });
+    return res.status(403).json({ ok: false, error: "Admin access required" });
   }
 
   next();
@@ -25,7 +23,7 @@ export function requireAdmin(req: Request, res: Response, next: NextFunction) {
 export function requireModeratorOrAdmin(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   if (!req.session || !req.session.userId) {
     return res.status(401).json({ ok: false, error: "Not authenticated" });

@@ -869,7 +869,9 @@ export default function Profile() {
       // setPageLoading(true);
 
       try {
-        const response = await fetch(`/api/users/username/${encodeURIComponent(username)}`);
+        const response = await fetch(
+          `/api/users/username/${encodeURIComponent(username)}`,
+        );
         if (!response.ok || cancelled) {
           if (!cancelled) {
             setOtherUserNotFound(true);

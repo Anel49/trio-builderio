@@ -76,8 +76,7 @@ export async function getUserById(req: Request, res: Response) {
             coalesce(active,true) as active,
             coalesce(admin,false) as admin,
             coalesce(moderator,false) as moderator
-       from users where id = $1 limit 1`
-      [Number.parseInt(userId, 10)],
+       from users where id = $1 limit 1`[Number.parseInt(userId, 10)],
     );
 
     if (!result.rowCount || result.rowCount === 0) {
@@ -142,8 +141,7 @@ export async function getUserByEmail(req: Request, res: Response) {
             coalesce(active,true) as active,
             coalesce(admin,false) as admin,
             coalesce(moderator,false) as moderator
-       from users where email = $1 limit 1`
-      [email],
+       from users where email = $1 limit 1`[email],
     );
     if (result.rowCount === 0) {
       return res.json({ ok: true, user: null });
