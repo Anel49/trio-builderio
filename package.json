@@ -33,6 +33,7 @@
     "@simplewebauthn/typescript-types": "^8.3.4",
     "@stripe/react-stripe-js": "^4.0.2",
     "@stripe/stripe-js": "^7.9.0",
+    "argon2": "^0.44.0",
     "express": "^4.18.2",
     "express-session": "^1.18.2",
     "google-auth-library": "^10.5.0",
