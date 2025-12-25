@@ -24,6 +24,8 @@ export interface User {
   openDms: boolean;
   oauth: string | null;
   active: boolean;
+  admin: boolean;
+  moderator: boolean;
   stripeSecret: string | null;
   referred_by_user_id: number | null;
 }
