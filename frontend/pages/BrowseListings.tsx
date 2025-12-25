@@ -435,6 +435,18 @@ export default function BrowseListings() {
     [reservationsCache, dateRange],
   );
 
+  // Clear reservations cache when date range changes
+  React.useEffect(() => {
+    if (dateRange.start && dateRange.end) {
+      const startDateStr = dateRange.start.toISOString().split("T")[0];
+      const endDateStr = dateRange.end.toISOString().split("T")[0];
+      console.log(
+        `[BrowseListings] Date range changed to ${startDateStr} - ${endDateStr}, clearing cache and re-fetching...`,
+      );
+      setReservationsCache({});
+    }
+  }, [dateRange.start, dateRange.end]);
+
   // Fetch reservations for all listings when they load, but only if a date filter is applied
   React.useEffect(() => {
     if (dateRange.start && dateRange.end) {
