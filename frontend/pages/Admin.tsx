@@ -22,9 +22,8 @@ import AdminReviewList from "@/components/AdminReviewList";
 export default function Admin() {
   const navigate = useNavigate();
   const { user, authenticated } = useAuth();
-  const [activeTab, setActiveTab] = useState(
-    user?.admin ? "users" : "orders"
-  );
+  const getDefaultTab = () => user?.admin ? "users" : "orders";
+  const [activeTab, setActiveTab] = useState(getDefaultTab());
 
   if (!authenticated || !user) {
     return (
