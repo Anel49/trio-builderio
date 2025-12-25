@@ -194,6 +194,7 @@ export async function upsertUser(req: Request, res: Response) {
     }
 
     await ensureBadgeColumns();
+    await ensureAdminColumns();
 
     const latParam = latitude;
     const lonParam = longitude;
