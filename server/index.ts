@@ -1070,9 +1070,9 @@ export function createServer() {
   });
 
   // Admin routes
-  app.get("/api/admin/users", requireAdmin, listAllUsers);
-  app.patch("/api/admin/users/:userId", requireAdmin, updateUserAdminStatus);
-  app.get("/api/admin/listings", requireAdmin, listAllListings);
+  app.get("/api/admin/users", requireModeratorOrAdmin, listAllUsers);
+  app.patch("/api/admin/users/:userId", requireModeratorOrAdmin, updateUserAdminStatus);
+  app.get("/api/admin/listings", requireModeratorOrAdmin, listAllListings);
   app.patch(
     "/api/admin/listings/:listingId",
     requireAdmin,
