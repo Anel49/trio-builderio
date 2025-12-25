@@ -73,8 +73,10 @@ export async function getUserById(req: Request, res: Response) {
             coalesce(top_referrer,false) as top_referrer,
             coalesce(ambassador,false) as ambassador,
             coalesce(open_dms,true) as open_dms,
-            coalesce(active,true) as active
-       from users where id = $1 limit 1`,
+            coalesce(active,true) as active,
+            coalesce(admin,false) as admin,
+            coalesce(moderator,false) as moderator
+       from users where id = $1 limit 1`
       [Number.parseInt(userId, 10)],
     );
 
@@ -106,8 +108,10 @@ export async function getUserByUsername(req: Request, res: Response) {
             coalesce(top_referrer,false) as top_referrer,
             coalesce(ambassador,false) as ambassador,
             coalesce(open_dms,true) as open_dms,
-            coalesce(active,true) as active
-       from users where lower(username) = $1 limit 1`,
+            coalesce(active,true) as active,
+            coalesce(admin,false) as admin,
+            coalesce(moderator,false) as moderator
+       from users where lower(username) = $1 limit 1`
       [username],
     );
 
@@ -135,8 +139,10 @@ export async function getUserByEmail(req: Request, res: Response) {
             coalesce(top_referrer,false) as top_referrer,
             coalesce(ambassador,false) as ambassador,
             coalesce(open_dms,true) as open_dms,
-            coalesce(active,true) as active
-       from users where email = $1 limit 1`,
+            coalesce(active,true) as active,
+            coalesce(admin,false) as admin,
+            coalesce(moderator,false) as moderator
+       from users where email = $1 limit 1`
       [email],
     );
     if (result.rowCount === 0) {
