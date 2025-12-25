@@ -1219,7 +1219,9 @@ export async function listListingReservations(req: Request, res: Response) {
         status: String(r.status || "confirmed") as any,
       };
     });
-    console.log(`[listListingReservations] Listing ${id}${startDate && endDate ? ` (${startDate} to ${endDate})` : ""}: Found ${reservations.length} conflicting reservation(s)${reservations.length > 0 ? `: ${reservations.map((r) => `${r.id}(${r.status})`).join(", ")}` : ""}`);
+    console.log(
+      `[listListingReservations] Listing ${id}${startDate && endDate ? ` (${startDate} to ${endDate})` : ""}: Found ${reservations.length} conflicting reservation(s)${reservations.length > 0 ? `: ${reservations.map((r) => `${r.id}(${r.status})`).join(", ")}` : ""}`,
+    );
     res.json({ ok: true, reservations });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
