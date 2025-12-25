@@ -111,7 +111,7 @@ export async function getUserByUsername(req: Request, res: Response) {
             coalesce(active,true) as active,
             coalesce(admin,false) as admin,
             coalesce(moderator,false) as moderator
-       from users where lower(username) = $1 limit 1`
+       from users where lower(username) = $1 limit 1`,
       [username],
     );
 
