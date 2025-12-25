@@ -203,7 +203,7 @@ export default function Header() {
                             href="/admin"
                             className="text-left block px-3 py-1.5 text-sm hover:bg-accent rounded-sm whitespace-nowrap"
                           >
-                            Admin Panel
+                            Admin Dashboard
                           </a>
                         )}
                         <button
