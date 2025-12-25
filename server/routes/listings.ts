@@ -1185,8 +1185,8 @@ export async function listListingReservations(req: Request, res: Response) {
 
     // If date range is provided, add overlap filtering
     if (startDate && endDate) {
-      whereClauseReservations += " and r.start_date < $2 and r.end_date > $3";
-      whereClauseOrders += " and o.start_date < $2 and o.end_date > $3";
+      whereClauseReservations += " and r.start_date <= $2 and r.end_date > $3";
+      whereClauseOrders += " and o.start_date <= $2 and o.end_date > $3";
       params.push(endDate);
       params.push(startDate);
     }
