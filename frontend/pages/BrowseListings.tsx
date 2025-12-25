@@ -397,9 +397,15 @@ export default function BrowseListings() {
       setPendingReservationFetches((prev) => new Set(prev).add(listingIdStr));
 
       try {
-        const response = await apiFetch(
-          `/listings/${listingIdStr}/reservations`,
-        );
+        // Build API URL with date range parameters if dates are selected
+        let url = `/listings/${listingIdStr}/reservations`;
+        if (dateRange.start && dateRange.end) {
+          const startDateStr = dateRange.start.toISOString().split("T")[0];
+          const endDateStr = dateRange.end.toISOString().split("T")[0];
+          url += `?startDate=${startDateStr}&endDate=${endDateStr}`;
+        }
+
+        const response = await apiFetch(url);
         const data = await response.json();
 
         if (data.ok) {
@@ -426,7 +432,7 @@ export default function BrowseListings() {
         });
       }
     },
-    [reservationsCache],
+    [reservationsCache, dateRange],
   );
 
   // Fetch reservations for all listings when they load, but only if a date filter is applied
