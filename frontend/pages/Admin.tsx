@@ -156,10 +156,43 @@ export default function Admin() {
         return (
           <Card>
             <CardHeader>
-              <CardTitle>Review Moderation</CardTitle>
+              <CardTitle>Review Management</CardTitle>
             </CardHeader>
             <CardContent>
               <AdminReviewList />
+            </CardContent>
+          </Card>
+        );
+      case "reports":
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>Reports</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className={typography.size.sm}>Reports section coming soon.</p>
+            </CardContent>
+          </Card>
+        );
+      case "claims":
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>Claims</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className={typography.size.sm}>Claims section coming soon.</p>
+            </CardContent>
+          </Card>
+        );
+      case "messages":
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>Messages</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className={typography.size.sm}>Messages section coming soon.</p>
             </CardContent>
           </Card>
         );
