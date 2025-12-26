@@ -243,27 +243,42 @@ export default function AdminUserList() {
                         <Switch
                           checked={user.admin}
                           disabled={isUpdating || !currentUser?.admin}
-                          onCheckedChange={(checked) =>
-                            handleUpdateUser(user.id, { admin: checked })
-                          }
+                          onCheckedChange={(checked) => {
+                            setPendingChange({
+                              user,
+                              field: "admin",
+                              value: checked,
+                            });
+                            setModalOpen(true);
+                          }}
                         />
                       </td>
                       <td className={spacing.padding.md}>
                         <Switch
                           checked={user.moderator}
                           disabled={isUpdating || !currentUser?.admin}
-                          onCheckedChange={(checked) =>
-                            handleUpdateUser(user.id, { moderator: checked })
-                          }
+                          onCheckedChange={(checked) => {
+                            setPendingChange({
+                              user,
+                              field: "moderator",
+                              value: checked,
+                            });
+                            setModalOpen(true);
+                          }}
                         />
                       </td>
                       <td className={spacing.padding.md}>
                         <Switch
                           checked={user.active}
                           disabled={isUpdating}
-                          onCheckedChange={(checked) =>
-                            handleUpdateUser(user.id, { active: checked })
-                          }
+                          onCheckedChange={(checked) => {
+                            setPendingChange({
+                              user,
+                              field: "active",
+                              value: checked,
+                            });
+                            setModalOpen(true);
+                          }}
                         />
                       </td>
                     </tr>
