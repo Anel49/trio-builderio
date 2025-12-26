@@ -32,6 +32,7 @@ import {
   ChevronRight,
   Users,
   Settings,
+  Star,
 } from "lucide-react";
 import {
   Popover,
