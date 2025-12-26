@@ -51,12 +51,12 @@ interface Conversation {
   username: string | null;
   lastMessage: string;
   lastMessageTime: string;
-  lastMessageFromId?: number;
+  lastMessageSenderId?: number;
 }
 
 interface Message {
   id: number;
-  fromId: number;
+  senderId: number;
   toId: number;
   body: string;
   createdAt: string;
@@ -192,7 +192,7 @@ export default function Messages() {
             username: data.user.username || null,
             lastMessage: "No messages yet",
             lastMessageTime: new Date().toISOString(),
-            lastMessageFromId: undefined,
+            lastMessageSenderId: undefined,
           };
           setTemporaryConversation(tempConv);
           setSelectedUserNotFound(false);
@@ -297,7 +297,7 @@ export default function Messages() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          fromId: user.id,
+          senderId: user.id,
           toId: selectedUserId,
           body: messageInput,
         }),
@@ -536,7 +536,7 @@ export default function Messages() {
                         <div className="text-xs text-muted-foreground truncate">
                           {chat.lastMessage ? (
                             <>
-                              {chat.lastMessageFromId === user?.id
+                              {chat.lastMessageSenderId === user?.id
                                 ? "You: "
                                 : "Them: "}
                               {chat.lastMessage}
