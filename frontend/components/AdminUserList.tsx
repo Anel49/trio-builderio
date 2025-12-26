@@ -50,7 +50,9 @@ export default function AdminUserList() {
   const [totalUsers, setTotalUsers] = useState(0);
   const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set());
   const [modalOpen, setModalOpen] = useState(false);
-  const [pendingChange, setPendingChange] = useState<PendingChange | null>(null);
+  const [pendingChange, setPendingChange] = useState<PendingChange | null>(
+    null,
+  );
 
   const limit = 20;
   const offset = currentPage * limit;

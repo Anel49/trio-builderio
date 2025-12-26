@@ -36,7 +36,8 @@ interface NavItem {
 export default function Admin() {
   const navigate = useNavigate();
   const { user, authenticated } = useAuth();
-  const getDefaultTab = () => (user?.admin || user?.moderator ? "users" : "orders");
+  const getDefaultTab = () =>
+    user?.admin || user?.moderator ? "users" : "orders";
   const [activeTab, setActiveTab] = useState(getDefaultTab());
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
@@ -308,9 +309,7 @@ export default function Admin() {
       {/* Mobile Admin Sidebar - Slides up from bottom */}
       <div
         className={`fixed inset-x-0 top-16 bottom-0 z-20 border-t lg:hidden transition-transform duration-300 ease-in-out bg-background dark:bg-background ${
-          isMobileSidebarOpen
-            ? "translate-y-0"
-            : "translate-y-[130%]"
+          isMobileSidebarOpen ? "translate-y-0" : "translate-y-[130%]"
         }`}
       >
         <div className={spacing.padding.card}>
