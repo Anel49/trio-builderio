@@ -10,7 +10,6 @@ import {
   ShoppingCart,
   Star,
   AlertCircle,
-  BarChart3,
   Flag,
   MessageSquare,
   Menu,
