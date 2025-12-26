@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LoginModal } from "@/components/ui/login-modal";
@@ -107,6 +108,12 @@ export default function Messages() {
   // User reviews and rating
   const [selectedUserReviews, setSelectedUserReviews] = useState<any[]>([]);
   const [selectedUserCreatedAt, setSelectedUserCreatedAt] = useState<string | null>(null);
+  // User badges
+  const [selectedUserBadges, setSelectedUserBadges] = useState({
+    foundingSupporter: false,
+    topReferrer: false,
+    ambassador: false,
+  });
 
   // Ref for scrolling messages to bottom
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
@@ -232,6 +239,18 @@ export default function Messages() {
         const data = await response.json();
         if (data.ok && data.user) {
           setSelectedUserCreatedAt(data.user.createdAt);
+          const founding = Boolean(
+            data.user.foundingSupporter ?? data.user.founding_supporter,
+          );
+          const referrer = Boolean(
+            data.user.topReferrer ?? data.user.top_referrer,
+          );
+          const ambassador = Boolean(data.user.ambassador);
+          setSelectedUserBadges({
+            foundingSupporter: founding,
+            topReferrer: referrer,
+            ambassador,
+          });
         }
       } catch (error) {
         console.error("Failed to fetch user details:", error);
@@ -351,6 +370,34 @@ export default function Messages() {
     } catch {
       return "—";
     }
+  };
+
+  // Get avatar outline class based on badges
+  const getAvatarOutlineClass = () => {
+    if (selectedUserBadges.foundingSupporter) return "ring-4 ring-sky-400";
+    if (selectedUserBadges.topReferrer) return "ring-4 ring-purple-500";
+    if (selectedUserBadges.ambassador) return "ring-4 ring-[rgb(168,64,64)]";
+    return "";
+  };
+
+  // Get earned badges array
+  const getEarnedBadges = () => {
+    const arr: { key: string; title: string; color: string }[] = [];
+    if (selectedUserBadges.foundingSupporter)
+      arr.push({
+        key: "founding",
+        title: "Founding Supporter",
+        color: "#38bdf8",
+      });
+    if (selectedUserBadges.topReferrer)
+      arr.push({ key: "referrer", title: "Top Referrer", color: "#7c3aed" });
+    if (selectedUserBadges.ambassador)
+      arr.push({
+        key: "ambassador",
+        title: "Ambassador",
+        color: "rgb(168 64 64)",
+      });
+    return arr;
   };
 
   // Handle send message
@@ -799,7 +846,7 @@ export default function Messages() {
                         }
                       }}
                     >
-                      <Avatar className="h-20 w-20">
+                      <Avatar className={cn("h-20 w-20", getAvatarOutlineClass())}>
                         <AvatarImage
                           src={selectedChat.avatarUrl || undefined}
                           alt={selectedChat.name}
@@ -830,6 +877,23 @@ export default function Messages() {
                   >
                     {selectedChat.name && selectedChat.name.trim()}
                   </a>
+
+                  {/* Earned Badges */}
+                  {getEarnedBadges().length > 0 && (
+                    <div className="mb-4 flex flex-wrap gap-2 justify-center">
+                      {getEarnedBadges().map((badge) => (
+                        <Badge
+                          key={badge.key}
+                          style={{
+                            backgroundColor: badge.color,
+                            color: "white",
+                          }}
+                        >
+                          {badge.title}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Average Review Rating */}
                   <div className="mb-4">
