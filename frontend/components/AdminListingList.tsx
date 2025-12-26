@@ -171,14 +171,14 @@ export default function AdminListingList() {
             Search using a listing's title or its ID number.
           </p>
         </div>
-      ) : filteredListings.length === 0 ? (
+      ) : listings.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No listings match your search.</p>
         </div>
       ) : (
         <>
           <div className={combineTokens(spacing.grid.responsive, "gap-6")}>
-            {filteredListings.map((listing) => {
+            {listings.map((listing) => {
               const isUpdating = updatingIds.has(listing.id);
               const isDeleting = deletingId === listing.id;
 
