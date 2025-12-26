@@ -184,7 +184,7 @@ export async function listAllListings(req: Request, res: Response) {
     );
 
     const countResult = await pool.query(
-      `select count(*) as total from listings where ${whereClause}`,
+      `select count(*) as total from listings l where ${whereClause}`,
       params,
     );
 
