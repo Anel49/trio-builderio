@@ -831,29 +831,39 @@ export default function Messages() {
                     {selectedChat.name && selectedChat.name.trim()}
                   </a>
 
-                  {/* Rating and Join Date */}
-                  <div className="my-4 space-y-3 text-center">
-                    {/* Average Rating */}
-                    <div>
-                      <div className="flex items-center justify-center gap-2 mb-1">
+                  {/* Average Review Rating */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="flex items-center">
                         {[...Array(5)].map((_, i) => {
                           const avgRating = parseFloat(
                             calculateAverageRating(),
                           );
-                          const fullStars = Math.floor(avgRating);
-                          const hasHalfStar = avgRating % 1 >= 0.5;
+                          const fullStars = Math.floor(avgRating ?? 0);
+                          const hasHalfStar =
+                            typeof avgRating === "number" &&
+                            avgRating % 1 >= 0.5;
                           const isFullStar = i < fullStars;
                           const isHalfStar =
-                            !isFullStar &&
-                            i === fullStars &&
-                            hasHalfStar;
+                            hasHalfStar && i === fullStars && i < 5;
+
+                          if (isHalfStar) {
+                            return (
+                              <div key={i} className="relative h-4 w-4">
+                                <Star className="absolute h-4 w-4 text-gray-300" />
+                                <div className="absolute h-4 w-2 overflow-hidden">
+                                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                </div>
+                              </div>
+                            );
+                          }
 
                           return (
                             <Star
                               key={i}
                               className={cn(
                                 "h-4 w-4",
-                                isFullStar || isHalfStar
+                                isFullStar
                                   ? "fill-yellow-400 text-yellow-400"
                                   : "text-gray-300",
                               )}
@@ -861,22 +871,25 @@ export default function Messages() {
                           );
                         })}
                       </div>
-                      <p className="text-sm font-medium">
+                      <span className="font-medium">
                         {calculateAverageRating()}
-                        <span className="text-xs text-muted-foreground ml-1">
-                          ({selectedUserReviews.length}{" "}
-                          {selectedUserReviews.length === 1
-                            ? "review"
-                            : "reviews"})
-                        </span>
-                      </p>
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        ({selectedUserReviews.length}{" "}
+                        {selectedUserReviews.length === 1
+                          ? "review"
+                          : "reviews"})
+                      </span>
                     </div>
+                  </div>
 
-                    {/* Join Date */}
-                    <div className="pt-2 border-t border-border">
-                      <p className="text-xs text-muted-foreground">
-                        Member since {formatDateJoined()}
-                      </p>
+                  {/* Date Joined */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+                      <Calendar className="h-4 w-4" />
+                      <span className="text-sm">
+                        Joined {formatDateJoined()}
+                      </span>
                     </div>
                   </div>
 
