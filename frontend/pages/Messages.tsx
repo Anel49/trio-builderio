@@ -101,6 +101,9 @@ export default function Messages() {
   );
   // Track if a user was not found
   const [selectedUserNotFound, setSelectedUserNotFound] = useState(false);
+  // User reviews and rating
+  const [selectedUserReviews, setSelectedUserReviews] = useState<any[]>([]);
+  const [selectedUserCreatedAt, setSelectedUserCreatedAt] = useState<string | null>(null);
 
   // Ref for scrolling messages to bottom
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
