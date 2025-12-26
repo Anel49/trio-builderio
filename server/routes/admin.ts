@@ -157,19 +157,26 @@ export async function listAllListings(req: Request, res: Response) {
     const id = (req.query.id as string) || null;
     const name = (req.query.name as string) || null;
 
+    console.log("[listAllListings] id:", id, "name:", name);
+
     let whereClause = "1=1";
     const params: any[] = [];
 
     if (id) {
       const listingId = Number.parseInt(id, 10);
+      console.log("[listAllListings] Parsed ID:", listingId);
       if (Number.isFinite(listingId)) {
         params.push(listingId);
         whereClause = `l.id = $${params.length}`;
+        console.log("[listAllListings] Using ID query, whereClause:", whereClause);
       }
     } else if (name) {
       params.push(`%${name.toLowerCase()}%`);
       whereClause = `lower(l.name) like $${params.length}`;
+      console.log("[listAllListings] Using name query, whereClause:", whereClause);
     }
+
+    console.log("[listAllListings] Final whereClause:", whereClause, "params:", params);
 
     const result = await pool.query(
       `select l.id, l.name, l.description, l.host_id, l.category, l.price_cents,
