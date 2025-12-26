@@ -830,7 +830,7 @@ export default function Messages() {
                   </button>
                 </div>
 
-                <div className="p-6 text-center md:pt-6">
+                <div className="p-6 pt-12 text-center md:pt-12">
                   <div className="relative inline-block mb-4">
                     <a
                       href={selectedChat.username ? `/profile/${selectedChat.username}` : "#"}
