@@ -60,6 +60,7 @@ interface Message {
   toId: number;
   body: string;
   createdAt: string;
+  messageThreadId?: number;
   isFromCurrentUser: boolean;
 }
 
