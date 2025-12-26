@@ -64,10 +64,10 @@ export default function AdminListingList() {
     try {
       const searchTrimmed = search.trim();
       const searchInt = Number.parseInt(searchTrimmed, 10);
-      const isValidId = Number.isSafeInteger(searchInt) && searchInt > 0;
+      const isInteger = !isNaN(searchInt) && Number.isFinite(searchInt);
 
       let url = "/admin/listings?";
-      if (isValidId) {
+      if (isInteger) {
         url += `id=${searchInt}`;
       } else {
         url += `name=${encodeURIComponent(searchTrimmed)}`;
