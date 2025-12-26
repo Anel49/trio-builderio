@@ -315,6 +315,25 @@ export default function AdminUserList() {
           </div>
         </>
       )}
+
+      {pendingChange && (
+        <AlertDialog open={modalOpen} onOpenChange={setModalOpen}>
+          <AlertDialogContent>
+            <AlertDialogTitle>
+              {getModalContent(pendingChange).title}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {getModalContent(pendingChange).description}
+            </AlertDialogDescription>
+            <div className={combineTokens(layouts.flex.end, "gap-2")}>
+              <AlertDialogCancel>No</AlertDialogCancel>
+              <AlertDialogAction onClick={handleConfirmChange}>
+                Yes
+              </AlertDialogAction>
+            </div>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </div>
   );
 }
