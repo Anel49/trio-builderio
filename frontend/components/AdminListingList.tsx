@@ -61,6 +61,7 @@ export default function AdminListingList() {
 
     setLoading(true);
     setError(null);
+    setListings([]);
     try {
       const searchTrimmed = search.trim();
       const searchInt = Number.parseInt(searchTrimmed, 10);
