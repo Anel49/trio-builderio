@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LoginModal } from "@/components/ui/login-modal";
@@ -35,6 +34,7 @@ import {
   Settings,
   Star,
   Calendar,
+  Shield,
 } from "lucide-react";
 import {
   Popover,
@@ -380,25 +380,6 @@ export default function Messages() {
     return "";
   };
 
-  // Get earned badges array
-  const getEarnedBadges = () => {
-    const arr: { key: string; title: string; color: string }[] = [];
-    if (selectedUserBadges.foundingSupporter)
-      arr.push({
-        key: "founding",
-        title: "Founding Supporter",
-        color: "#38bdf8",
-      });
-    if (selectedUserBadges.topReferrer)
-      arr.push({ key: "referrer", title: "Top Referrer", color: "#7c3aed" });
-    if (selectedUserBadges.ambassador)
-      arr.push({
-        key: "ambassador",
-        title: "Ambassador",
-        color: "rgb(168 64 64)",
-      });
-    return arr;
-  };
 
   // Handle send message
   const handleSendMessage = async () => {
@@ -880,17 +861,20 @@ export default function Messages() {
 
                   {/* Earned Badges */}
                   {getEarnedBadges().length > 0 && (
-                    <div className="mb-4 flex flex-wrap gap-2 justify-center">
-                      {getEarnedBadges().map((badge) => (
-                        <Badge
-                          key={badge.key}
-                          style={{
-                            backgroundColor: badge.color,
-                            color: "white",
-                          }}
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      {getEarnedBadges().map((b) => (
+                        <span
+                          key={b.key}
+                          className="inline-flex items-center"
+                          title={b.title}
+                          aria-label={b.title}
                         >
-                          {badge.title}
-                        </Badge>
+                          <Shield
+                            className="h-[13.2px] w-[13.2px]"
+                            fill="currentColor"
+                            style={{ color: b.color }}
+                          />
+                        </span>
                       ))}
                     </div>
                   )}
