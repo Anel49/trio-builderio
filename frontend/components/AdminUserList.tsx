@@ -33,6 +33,12 @@ interface User {
   createdAt: string;
 }
 
+interface PendingChange {
+  user: User;
+  field: "admin" | "moderator" | "active";
+  value: boolean;
+}
+
 export default function AdminUserList() {
   const navigate = useNavigate();
   const { user: currentUser } = useAuth();
@@ -43,6 +49,8 @@ export default function AdminUserList() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
   const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set());
+  const [modalOpen, setModalOpen] = useState(false);
+  const [pendingChange, setPendingChange] = useState<PendingChange | null>(null);
 
   const limit = 20;
   const offset = currentPage * limit;
