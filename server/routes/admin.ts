@@ -327,13 +327,9 @@ export async function listAllReviews(req: Request, res: Response) {
 
     const result = await pool.query(
       `select r.id, r.listing_id, r.renter_id, r.host_id, r.rating, r.comment, r.created_at,
-              l.title as listing_title,
-              renter.name as renter_name, renter.email as renter_email,
-              host.name as host_name, host.email as host_email
+              l.name as listing_title
        from listing_reviews r
        left join listings l on r.listing_id = l.id
-       left join users renter on r.renter_id = renter.id
-       left join users host on r.host_id = host.id
        order by r.created_at desc
        limit $1 offset $2`,
       [limit, offset],
