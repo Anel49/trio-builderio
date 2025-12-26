@@ -117,13 +117,42 @@ export async function sendMessage(req: Request, res: Response) {
       });
     }
 
+    // Check if a message thread exists for this user pair
+    const threadCheckResult = await pool.query(
+      `
+      SELECT id FROM message_threads
+      WHERE (user_a_id = $1 AND user_b_id = $2) OR (user_a_id = $2 AND user_b_id = $1)
+      LIMIT 1
+      `,
+      [senderId, toId],
+    );
+
+    let threadId: number;
+
+    if (threadCheckResult.rows.length > 0) {
+      // Thread exists, use it
+      threadId = threadCheckResult.rows[0].id;
+    } else {
+      // Create new thread with senderId as user_a_id and toId as user_b_id
+      const threadCreateResult = await pool.query(
+        `
+        INSERT INTO message_threads (user_a_id, user_b_id, last_updated_by_id)
+        VALUES ($1, $2, $1)
+        RETURNING id
+        `,
+        [senderId, toId],
+      );
+      threadId = threadCreateResult.rows[0].id;
+    }
+
+    // Insert the message with the thread_id
     const result = await pool.query(
       `
-      INSERT INTO messages (sender_id, to_id, body)
-      VALUES ($1, $2, $3)
-      RETURNING id, sender_id, to_id, body, created_at
+      INSERT INTO messages (sender_id, to_id, body, message_thread_id)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, sender_id, to_id, body, created_at, message_thread_id
       `,
-      [senderId, toId, body],
+      [senderId, toId, body, threadId],
     );
 
     const message = result.rows[0];
@@ -135,6 +164,7 @@ export async function sendMessage(req: Request, res: Response) {
         toId: message.to_id,
         body: message.body,
         createdAt: message.created_at,
+        messageThreadId: message.message_thread_id,
         isFromCurrentUser: message.sender_id === senderId,
       },
     });
