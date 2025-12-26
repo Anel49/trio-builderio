@@ -722,14 +722,19 @@ export default function Messages() {
 
                 <div className="p-6 text-center md:pt-6">
                   <div className="relative inline-block mb-4">
-                    <button
-                      onClick={() => {
-                        if (selectedChat.username) {
-                          navigate(`/profile/${selectedChat.username}`);
+                    <a
+                      href={selectedChat.username ? `/profile/${selectedChat.username}` : "#"}
+                      aria-label="Open profile"
+                      className="hover:opacity-80 transition-opacity inline-block"
+                      onClick={(e) => {
+                        // Allow default link behavior (new tab, etc.)
+                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                          e.preventDefault();
+                          if (selectedChat.username) {
+                            navigate(`/profile/${selectedChat.username}`);
+                          }
                         }
                       }}
-                      aria-label="Open profile"
-                      className="hover:opacity-80 transition-opacity"
                     >
                       <Avatar className="h-20 w-20">
                         <AvatarImage
@@ -744,19 +749,24 @@ export default function Messages() {
                             .join("")}
                         </AvatarFallback>
                       </Avatar>
-                    </button>
+                    </a>
                   </div>
 
-                  <button
-                    onClick={() => {
-                      if (selectedChat.username) {
-                        navigate(`/profile/${selectedChat.username}`);
+                  <a
+                    href={selectedChat.username ? `/profile/${selectedChat.username}` : "#"}
+                    className="font-semibold text-lg mb-4 hover:underline text-center w-full transition-colors hover:text-primary block"
+                    onClick={(e) => {
+                      // Allow default link behavior (new tab, etc.)
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        e.preventDefault();
+                        if (selectedChat.username) {
+                          navigate(`/profile/${selectedChat.username}`);
+                        }
                       }
                     }}
-                    className="font-semibold text-lg mb-4 hover:underline text-center w-full transition-colors hover:text-primary"
                   >
                     {selectedChat.name && selectedChat.name.trim()}
-                  </button>
+                  </a>
 
                   <Button
                     variant="outline"
