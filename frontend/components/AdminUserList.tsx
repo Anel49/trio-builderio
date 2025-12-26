@@ -82,6 +82,38 @@ export default function AdminUserList() {
     }
   };
 
+  const getModalContent = (change: PendingChange) => {
+    const { user, field, value } = change;
+    const userName = user.name || user.username || "User";
+    const userHandle = user.username || "unknown";
+
+    if (field === "admin" || field === "moderator") {
+      const choice = value ? "grant" : "remove";
+      const privilege = field;
+      const title = `${choice.charAt(0).toUpperCase() + choice.slice(1)} ${privilege.charAt(0).toUpperCase() + privilege.slice(1)} Privileges`;
+      const description = `Are you sure you want to ${choice} ${privilege} privileges to ${userName} (@${userHandle})?`;
+      return { title, description };
+    } else if (field === "active") {
+      const choice = value ? "activate" : "deactivate";
+      const title = `${choice.charAt(0).toUpperCase() + choice.slice(1)} ${userName} (@${userHandle})`;
+      const description = `Are you sure you want to ${choice} ${userName}'s (@${userHandle}) account?`;
+      return { title, description };
+    }
+
+    return { title: "Confirm Change", description: "Are you sure?" };
+  };
+
+  const handleConfirmChange = async () => {
+    if (!pendingChange) return;
+
+    const { user, field, value } = pendingChange;
+    setModalOpen(false);
+    setPendingChange(null);
+
+    const updates: Partial<User> = { [field]: value };
+    await handleUpdateUser(user.id, updates);
+  };
+
   const handleUpdateUser = async (userId: number, updates: Partial<User>) => {
     setUpdatingIds((prev) => new Set([...prev, userId]));
     try {
