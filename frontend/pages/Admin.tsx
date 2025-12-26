@@ -145,12 +145,12 @@ export default function Admin() {
       {
         id: "reports",
         label: "Reports",
-        icon: <BarChart3 className={spacing.dimensions.icon.sm} />,
+        icon: <Flag className={spacing.dimensions.icon.sm} />,
       },
       {
         id: "claims",
         label: "Claims",
-        icon: <Flag className={spacing.dimensions.icon.sm} />,
+        icon: <AlertCircle className={spacing.dimensions.icon.sm} />,
       },
     );
   }
