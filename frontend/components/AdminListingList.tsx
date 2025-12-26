@@ -51,6 +51,7 @@ export default function AdminListingList() {
   const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set());
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [search, setSearch] = useState("");
+  const [lastSearchedTerm, setLastSearchedTerm] = useState("");
 
   const limit = 20;
   const offset = currentPage * limit;
