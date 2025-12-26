@@ -295,6 +295,8 @@ export default function Messages() {
     if (!messageInput.trim() || !user?.id || !selectedUserId) return;
 
     try {
+      const messageThreadId = messages.length > 0 ? messages[messages.length - 1].messageThreadId : undefined;
+
       const response = await apiFetch("/messages", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -302,6 +304,7 @@ export default function Messages() {
           senderId: user.id,
           toId: selectedUserId,
           body: messageInput,
+          messageThreadId,
         }),
       });
 
