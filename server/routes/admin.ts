@@ -162,12 +162,9 @@ export async function listAllListings(req: Request, res: Response) {
 
     if (id) {
       const listingId = Number.parseInt(id, 10);
-      if (Number.isSafeInteger(listingId) && listingId > 0) {
+      if (Number.isFinite(listingId)) {
         params.push(listingId);
         whereClause = `l.id = $${params.length}`;
-      } else {
-        params.push(`%${id.toLowerCase()}%`);
-        whereClause = `lower(l.name) like $${params.length}`;
       }
     } else if (name) {
       params.push(`%${name.toLowerCase()}%`);
