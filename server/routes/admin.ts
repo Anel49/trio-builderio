@@ -156,10 +156,9 @@ export async function listAllListings(req: Request, res: Response) {
     );
 
     const result = await pool.query(
-      `select l.id, l.title, l.description, l.host_id, l.category, l.daily_price,
+      `select l.id, l.name, l.description, l.host_id, l.category, l.price_cents,
               l.enabled, l.created_at,
-              u.name as host_name, u.email as host_email,
-              (select count(*) from reservations where listing_id = l.id) as reservation_count
+              u.name as host_name, u.email as host_email
        from listings l
        left join users u on l.host_id = u.id
        order by l.created_at desc
