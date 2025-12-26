@@ -167,8 +167,8 @@ export async function listAllListings(req: Request, res: Response) {
         whereClause = `l.id = $${params.length}`;
       }
     } else if (name) {
-      params.push(`%${name}%`);
-      whereClause = `lower(l.name) like lower($${params.length})`;
+      params.push(`%${name.toLowerCase()}%`);
+      whereClause = `lower(l.name) like $${params.length}`;
     }
 
     const result = await pool.query(
