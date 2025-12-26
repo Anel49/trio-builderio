@@ -55,22 +55,31 @@ export default function AdminListingList() {
   const limit = 20;
   const offset = currentPage * limit;
 
-  useEffect(() => {
-    loadListings();
-  }, [currentPage]);
+  const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    if (!search.trim()) return;
 
-  const loadListings = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await apiFetch(
-        `/admin/listings?limit=${limit}&offset=${offset}`,
-      );
+      const searchTrimmed = search.trim();
+      const searchInt = Number.parseInt(searchTrimmed, 10);
+      const isInteger = !isNaN(searchInt) && Number.isFinite(searchInt);
+
+      let url = "/admin/listings?";
+      if (isInteger) {
+        url += `id=${searchInt}`;
+      } else {
+        url += `name=${encodeURIComponent(searchTrimmed)}`;
+      }
+
+      const response = await apiFetch(url);
       if (!response.ok) throw new Error("Failed to load listings");
 
       const data = await response.json();
       setListings(data.listings);
       setTotalListings(data.total);
+      setCurrentPage(0);
     } catch (err: any) {
       setError(err.message || "Failed to load listings");
     } finally {
