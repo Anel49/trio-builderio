@@ -153,10 +153,8 @@ export default function AdminListingList() {
         type="text"
         placeholder="Search using a listing's title or its ID number."
         value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setCurrentPage(0);
-        }}
+        onChange={(e) => setSearch(e.target.value)}
+        onKeyDown={handleSearch}
         className="flex-1"
       />
 
