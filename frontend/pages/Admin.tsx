@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,8 @@ import {
   BarChart3,
   Flag,
   MessageSquare,
+  Menu,
+  X,
 } from "lucide-react";
 import {
   spacing,
