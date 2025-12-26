@@ -864,7 +864,7 @@ export default function Messages() {
 
                   <a
                     href={selectedChat.username ? `/profile/${selectedChat.username}` : "#"}
-                    className="font-semibold text-lg mb-4 text-center w-full transition-colors hover:text-primary block"
+                    className="font-semibold text-lg mb-2 text-center w-full transition-colors hover:text-primary block"
                     onClick={(e) => {
                       // Allow default link behavior (new tab, etc.)
                       if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
