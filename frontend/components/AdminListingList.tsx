@@ -31,16 +31,15 @@ import {
 
 interface Listing {
   id: number;
-  title: string;
+  name: string;
   description: string;
   host_id: number;
   host_name: string | null;
   host_email: string | null;
   category: string;
-  daily_price: number;
+  price_cents: number;
   enabled: boolean;
   created_at: string;
-  reservation_count: number;
 }
 
 export default function AdminListingList() {
