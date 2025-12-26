@@ -124,6 +124,17 @@ export default function AdminListingList() {
     }
   };
 
+  const filteredListings = search.trim()
+    ? listings.filter((listing) => {
+        const searchLower = search.toLowerCase();
+        const titleMatch = listing.title
+          .toLowerCase()
+          .includes(searchLower);
+        const idMatch = listing.id.toString().includes(searchLower);
+        return titleMatch || idMatch;
+      })
+    : listings;
+
   const totalPages = Math.ceil(totalListings / limit);
   const canPrevious = currentPage > 0;
   const canNext = currentPage < totalPages - 1;
