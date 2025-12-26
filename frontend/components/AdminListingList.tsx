@@ -141,6 +141,17 @@ export default function AdminListingList() {
 
   return (
     <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
+      <Input
+        type="text"
+        placeholder="Search using a listing's title or its ID number."
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setCurrentPage(0);
+        }}
+        className="flex-1"
+      />
+
       {error && (
         <div
           className={combineTokens(
