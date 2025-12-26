@@ -380,6 +380,25 @@ export default function Messages() {
     return "";
   };
 
+  // Get earned badges array
+  const getEarnedBadges = () => {
+    const arr: { key: string; title: string; color: string }[] = [];
+    if (selectedUserBadges.foundingSupporter)
+      arr.push({
+        key: "founding",
+        title: "Founding Supporter",
+        color: "#38bdf8",
+      });
+    if (selectedUserBadges.topReferrer)
+      arr.push({ key: "referrer", title: "Top Referrer", color: "#7c3aed" });
+    if (selectedUserBadges.ambassador)
+      arr.push({
+        key: "ambassador",
+        title: "Ambassador",
+        color: "rgb(168 64 64)",
+      });
+    return arr;
+  };
 
   // Handle send message
   const handleSendMessage = async () => {
