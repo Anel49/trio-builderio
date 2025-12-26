@@ -107,7 +107,9 @@ export default function Messages() {
   const [selectedUserNotFound, setSelectedUserNotFound] = useState(false);
   // User reviews and rating
   const [selectedUserReviews, setSelectedUserReviews] = useState<any[]>([]);
-  const [selectedUserCreatedAt, setSelectedUserCreatedAt] = useState<string | null>(null);
+  const [selectedUserCreatedAt, setSelectedUserCreatedAt] = useState<
+    string | null
+  >(null);
   // User badges
   const [selectedUserBadges, setSelectedUserBadges] = useState({
     foundingSupporter: false,
@@ -833,7 +835,11 @@ export default function Messages() {
                 <div className="p-6 pt-12 text-center md:pt-12">
                   <div className="relative inline-block mb-4">
                     <a
-                      href={selectedChat.username ? `/profile/${selectedChat.username}` : "#"}
+                      href={
+                        selectedChat.username
+                          ? `/profile/${selectedChat.username}`
+                          : "#"
+                      }
                       aria-label="Open profile"
                       className="hover:opacity-80 transition-opacity inline-block"
                       onClick={(e) => {
@@ -846,7 +852,9 @@ export default function Messages() {
                         }
                       }}
                     >
-                      <Avatar className={cn("h-20 w-20", getAvatarOutlineClass())}>
+                      <Avatar
+                        className={cn("h-20 w-20", getAvatarOutlineClass())}
+                      >
                         <AvatarImage
                           src={selectedChat.avatarUrl || undefined}
                           alt={selectedChat.name}
@@ -863,7 +871,11 @@ export default function Messages() {
                   </div>
 
                   <a
-                    href={selectedChat.username ? `/profile/${selectedChat.username}` : "#"}
+                    href={
+                      selectedChat.username
+                        ? `/profile/${selectedChat.username}`
+                        : "#"
+                    }
                     className="font-semibold text-lg mb-2 text-center w-full transition-colors hover:text-primary block"
                     onClick={(e) => {
                       // Allow default link behavior (new tab, etc.)
@@ -945,7 +957,8 @@ export default function Messages() {
                         ({selectedUserReviews.length}{" "}
                         {selectedUserReviews.length === 1
                           ? "review"
-                          : "reviews"})
+                          : "reviews"}
+                        )
                       </span>
                     </div>
                   </div>
