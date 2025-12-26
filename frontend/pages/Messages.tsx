@@ -325,6 +325,31 @@ export default function Messages() {
     isOnline: true,
   };
 
+  // Calculate average rating from reviews
+  const calculateAverageRating = () => {
+    if (selectedUserReviews.length === 0) return "0.0";
+    const total = selectedUserReviews.reduce(
+      (sum, review) => sum + (Number(review.rating) || 0),
+      0,
+    );
+    return (total / selectedUserReviews.length).toFixed(1);
+  };
+
+  // Format date joined
+  const formatDateJoined = () => {
+    if (!selectedUserCreatedAt) return "—";
+    try {
+      const date = new Date(selectedUserCreatedAt);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    } catch {
+      return "—";
+    }
+  };
+
   // Handle send message
   const handleSendMessage = async () => {
     if (!messageInput.trim() || !user?.id || !selectedUserId) return;
