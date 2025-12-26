@@ -33,6 +33,7 @@ import {
   Users,
   Settings,
   Star,
+  Calendar,
 } from "lucide-react";
 import {
   Popover,
