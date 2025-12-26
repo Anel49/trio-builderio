@@ -295,7 +295,10 @@ export default function Messages() {
     if (!messageInput.trim() || !user?.id || !selectedUserId) return;
 
     try {
-      const messageThreadId = messages.length > 0 ? messages[messages.length - 1].messageThreadId : undefined;
+      const messageThreadId =
+        messages.length > 0
+          ? messages[messages.length - 1].messageThreadId
+          : undefined;
 
       const response = await apiFetch("/messages", {
         method: "POST",
