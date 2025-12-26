@@ -88,12 +88,10 @@ export async function updateUserAdminStatus(req: Request, res: Response) {
       (typeof admin === "boolean" || typeof moderator === "boolean") &&
       !currentUser?.admin
     ) {
-      return res
-        .status(403)
-        .json({
-          ok: false,
-          error: "Only admins can change admin or moderator status",
-        });
+      return res.status(403).json({
+        ok: false,
+        error: "Only admins can change admin or moderator status",
+      });
     }
 
     const updates: string[] = [];
@@ -168,15 +166,26 @@ export async function listAllListings(req: Request, res: Response) {
       if (Number.isFinite(listingId)) {
         params.push(listingId);
         whereClause = `l.id = $${params.length}`;
-        console.log("[listAllListings] Using ID query, whereClause:", whereClause);
+        console.log(
+          "[listAllListings] Using ID query, whereClause:",
+          whereClause,
+        );
       }
     } else if (name) {
       params.push(`%${name.toLowerCase()}%`);
       whereClause = `lower(l.name) like $${params.length}`;
-      console.log("[listAllListings] Using name query, whereClause:", whereClause);
+      console.log(
+        "[listAllListings] Using name query, whereClause:",
+        whereClause,
+      );
     }
 
-    console.log("[listAllListings] Final whereClause:", whereClause, "params:", params);
+    console.log(
+      "[listAllListings] Final whereClause:",
+      whereClause,
+      "params:",
+      params,
+    );
 
     const result = await pool.query(
       `select l.id, l.name, l.description, l.host_id, l.category, l.price_cents,

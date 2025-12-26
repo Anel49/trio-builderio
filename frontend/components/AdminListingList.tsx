@@ -135,7 +135,6 @@ export default function AdminListingList() {
     }
   };
 
-
   const totalPages = Math.ceil(totalListings / limit);
   const canPrevious = currentPage > 0;
   const canNext = currentPage < totalPages - 1;
@@ -178,7 +177,9 @@ export default function AdminListingList() {
         </div>
       ) : listings.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">No listings match your search.</p>
+          <p className="text-muted-foreground">
+            No listings match your search.
+          </p>
         </div>
       ) : (
         <>
