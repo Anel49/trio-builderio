@@ -192,7 +192,7 @@ export default function AdminListingList() {
                     >
                       <div className="flex-1">
                         <h3 className={typography.combinations.subheading}>
-                          {listing.title}
+                          {listing.name}
                         </h3>
                         <p
                           className={combineTokens(
@@ -211,7 +211,7 @@ export default function AdminListingList() {
                           "rounded text-sm font-semibold",
                         )}
                       >
-                        ${listing.daily_price}/day
+                        ${(listing.price_cents / 100).toFixed(2)}/day
                       </div>
                     </div>
 
