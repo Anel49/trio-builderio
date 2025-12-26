@@ -291,6 +291,59 @@ export default function Admin() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Admin Floating Button - Only visible on mobile/tablet */}
+      <Button
+        onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+        className="fixed bottom-6 left-6 w-14 h-14 rounded-full shadow-lg lg:hidden z-30"
+        size="icon"
+      >
+        {isMobileSidebarOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <Menu className="h-6 w-6" />
+        )}
+      </Button>
+
+      {/* Mobile Admin Sidebar - Slides up from bottom */}
+      <div
+        className={`fixed inset-x-0 top-16 bottom-0 z-20 border-t lg:hidden transition-transform duration-300 ease-in-out bg-background dark:bg-background ${
+          isMobileSidebarOpen
+            ? "translate-y-0"
+            : "translate-y-[130%]"
+        }`}
+      >
+        <div className={spacing.padding.card}>
+          <h2
+            className={combineTokens(
+              typography.combinations.subheading,
+              spacing.margin.bottomMd,
+            )}
+          >
+            Admin Dashboard
+          </h2>
+          <nav className={combineTokens(spacing.gap.sm, "flex flex-col")}>
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  setIsMobileSidebarOpen(false);
+                }}
+                className={combineTokens(
+                  "flex items-center gap-3 px-4 py-3 rounded-md text-left transition-colors",
+                  activeTab === item.id
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground hover:bg-muted",
+                )}
+              >
+                {item.icon}
+                <span className={typography.size.sm}>{item.label}</span>
+              </button>
+            ))}
+          </nav>
+        </div>
+      </div>
     </>
   );
 }
