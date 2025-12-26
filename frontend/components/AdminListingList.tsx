@@ -132,7 +132,7 @@ export default function AdminListingList() {
         const idMatch = listing.id.toString().includes(searchLower);
         return nameMatch || idMatch;
       })
-    : listings;
+    : [];
 
   const totalPages = Math.ceil(totalListings / limit);
   const canPrevious = currentPage > 0;
