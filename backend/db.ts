@@ -658,45 +658,6 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
-    // Migrate from_id to sender_id in messages table
-    try {
-      const colCheckResult = await pool.query(
-        `select column_name from information_schema.columns
-         where table_name = 'messages' and column_name = 'from_id'`,
-      );
-
-      if (colCheckResult.rows.length > 0) {
-        await pool.query(
-          `alter table messages rename column from_id to sender_id`,
-        );
-        console.log("[dbSetup] Renamed from_id column to sender_id in messages table");
-      }
-    } catch (e: any) {
-      console.log(
-        "[dbSetup] messages sender_id rename error:",
-        e?.message?.slice(0, 100),
-      );
-    }
-
-    // Create messages table if it doesn't exist
-    try {
-      await pool.query(`
-        create table if not exists messages (
-          id serial primary key,
-          sender_id integer not null,
-          to_id integer not null,
-          body text not null,
-          created_at timestamptz default now()
-        )
-      `);
-      console.log("[dbSetup] Created messages table if it didn't exist");
-    } catch (e: any) {
-      console.log(
-        "[dbSetup] messages table creation error:",
-        e?.message?.slice(0, 100),
-      );
-    }
-
     console.log("[dbSetup] Database setup completed successfully");
     const countRes = await pool.query(
       "select count(*)::int as count from listings",
