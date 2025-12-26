@@ -38,6 +38,18 @@ export default function Admin() {
   const { user, authenticated } = useAuth();
   const getDefaultTab = () => (user?.admin || user?.moderator ? "users" : "orders");
   const [activeTab, setActiveTab] = useState(getDefaultTab());
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (isMobileSidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isMobileSidebarOpen]);
 
   if (!authenticated || !user) {
     return (
