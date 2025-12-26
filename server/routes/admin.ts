@@ -154,6 +154,22 @@ export async function listAllListings(req: Request, res: Response) {
       Number.parseInt((req.query.offset as string) || "0", 10),
       0,
     );
+    const id = (req.query.id as string) || null;
+    const name = (req.query.name as string) || null;
+
+    let whereClause = "1=1";
+    const params: any[] = [];
+
+    if (id) {
+      const listingId = Number.parseInt(id, 10);
+      if (Number.isFinite(listingId)) {
+        params.push(listingId);
+        whereClause = `l.id = $${params.length}`;
+      }
+    } else if (name) {
+      params.push(`%${name}%`);
+      whereClause = `lower(l.name) like lower($${params.length})`;
+    }
 
     const result = await pool.query(
       `select l.id, l.name, l.description, l.host_id, l.category, l.price_cents,
@@ -161,13 +177,15 @@ export async function listAllListings(req: Request, res: Response) {
               u.name as host_name, u.email as host_email
        from listings l
        left join users u on l.host_id = u.id
+       where ${whereClause}
        order by l.created_at desc
-       limit $1 offset $2`,
-      [limit, offset],
+       limit $${params.length + 1} offset $${params.length + 2}`,
+      [...params, limit, offset],
     );
 
     const countResult = await pool.query(
-      "select count(*) as total from listings",
+      `select count(*) as total from listings where ${whereClause}`,
+      params,
     );
 
     res.json({
