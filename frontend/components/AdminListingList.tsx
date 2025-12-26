@@ -168,10 +168,12 @@ export default function AdminListingList() {
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
         </div>
-      ) : !search.trim() ? (
+      ) : search.trim() !== lastSearchedTerm ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">
-            Search using a listing's title or its ID number.
+            {!search.trim()
+              ? "Search using a listing's title or its ID number."
+              : ""}
           </p>
         </div>
       ) : listings.length === 0 ? (
