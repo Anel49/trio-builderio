@@ -52,6 +52,7 @@ interface Conversation {
   lastMessage: string;
   lastMessageTime: string;
   lastMessageSenderId?: number;
+  messageThreadId?: number;
 }
 
 interface Message {
