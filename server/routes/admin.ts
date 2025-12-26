@@ -261,14 +261,9 @@ export async function listAllOrders(req: Request, res: Response) {
     }
 
     const result = await pool.query(
-      `select o.id, o.listing_id, o.renter_id, o.start_date, o.end_date, o.status, o.created_at,
-              l.title as listing_title,
-              renter.name as renter_name, renter.email as renter_email,
-              host.name as host_name, host.email as host_email
+      `select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email,
+              o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at
        from orders o
-       left join listings l on o.listing_id = l.id
-       left join users renter on o.renter_id = renter.id
-       left join users host on l.host_id = host.id
        where ${whereClause}
        order by o.created_at desc
        limit $${params.length + 1} offset $${params.length + 2}`,
