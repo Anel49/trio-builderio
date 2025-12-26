@@ -169,14 +169,16 @@ export default function AdminListingList() {
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
         </div>
-      ) : listings.length === 0 ? (
+      ) : filteredListings.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">No listings found</p>
+          <p className="text-muted-foreground">
+            {search.trim() ? "No listings match your search." : "No listings found"}
+          </p>
         </div>
       ) : (
         <>
           <div className={combineTokens(spacing.grid.responsive, "gap-6")}>
-            {listings.map((listing) => {
+            {filteredListings.map((listing) => {
               const isUpdating = updatingIds.has(listing.id);
               const isDeleting = deletingId === listing.id;
 
