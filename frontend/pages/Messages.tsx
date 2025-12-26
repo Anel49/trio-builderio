@@ -12,6 +12,7 @@ import Header from "@/components/Header";
 import { colors } from "@/lib/colors";
 import { SignUpModal } from "@/components/ui/signup-modal";
 import { MobileMenu } from "@/components/ui/mobile-menu";
+import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
