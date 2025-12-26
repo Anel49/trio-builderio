@@ -126,11 +126,11 @@ export default function AdminListingList() {
   const filteredListings = search.trim()
     ? listings.filter((listing) => {
         const searchLower = search.toLowerCase();
-        const titleMatch = listing.title
+        const nameMatch = listing.name
           .toLowerCase()
           .includes(searchLower);
         const idMatch = listing.id.toString().includes(searchLower);
-        return titleMatch || idMatch;
+        return nameMatch || idMatch;
       })
     : listings;
 
