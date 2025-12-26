@@ -219,6 +219,38 @@ export default function Messages() {
     fetchUserForTemporaryConversation();
   }, [selectedUserId, conversations, user?.id]);
 
+  // Fetch user reviews and details when selected user changes
+  useEffect(() => {
+    if (!selectedUserId) return;
+
+    const fetchUserDetails = async () => {
+      try {
+        const response = await apiFetch(`/users/${selectedUserId}`);
+        const data = await response.json();
+        if (data.ok && data.user) {
+          setSelectedUserCreatedAt(data.user.createdAt);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user details:", error);
+      }
+    };
+
+    const fetchUserReviews = async () => {
+      try {
+        const response = await apiFetch(`/users/${selectedUserId}/reviews`);
+        const data = await response.json();
+        if (data.ok) {
+          setSelectedUserReviews(data.reviews || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user reviews:", error);
+      }
+    };
+
+    fetchUserDetails();
+    fetchUserReviews();
+  }, [selectedUserId]);
+
   // Fetch messages when selected user changes
   useEffect(() => {
     if (!user?.id || !selectedUserId) return;
