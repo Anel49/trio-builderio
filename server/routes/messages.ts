@@ -108,7 +108,7 @@ export async function getMessages(req: Request, res: Response) {
 
 export async function sendMessage(req: Request, res: Response) {
   try {
-    const { senderId, toId, body } = (req.body || {}) as any;
+    const { senderId, toId, body, messageThreadId } = (req.body || {}) as any;
 
     if (!senderId || !toId || !body) {
       return res.status(400).json({
@@ -117,21 +117,11 @@ export async function sendMessage(req: Request, res: Response) {
       });
     }
 
-    // Check if a message thread exists for this user pair
-    const threadCheckResult = await pool.query(
-      `
-      SELECT id FROM message_threads
-      WHERE (user_a_id = $1 AND user_b_id = $2) OR (user_a_id = $2 AND user_b_id = $1)
-      LIMIT 1
-      `,
-      [senderId, toId],
-    );
-
     let threadId: number;
 
-    if (threadCheckResult.rows.length > 0) {
-      // Thread exists, use it
-      threadId = threadCheckResult.rows[0].id;
+    if (messageThreadId) {
+      // Thread already exists, use the provided thread ID
+      threadId = messageThreadId;
     } else {
       // Create new thread with senderId as user_a_id and toId as user_b_id
       const threadCreateResult = await pool.query(
