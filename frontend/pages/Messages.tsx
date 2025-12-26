@@ -828,6 +828,55 @@ export default function Messages() {
                     {selectedChat.name && selectedChat.name.trim()}
                   </a>
 
+                  {/* Rating and Join Date */}
+                  <div className="my-4 space-y-3 text-center">
+                    {/* Average Rating */}
+                    <div>
+                      <div className="flex items-center justify-center gap-2 mb-1">
+                        {[...Array(5)].map((_, i) => {
+                          const avgRating = parseFloat(
+                            calculateAverageRating(),
+                          );
+                          const fullStars = Math.floor(avgRating);
+                          const hasHalfStar = avgRating % 1 >= 0.5;
+                          const isFullStar = i < fullStars;
+                          const isHalfStar =
+                            !isFullStar &&
+                            i === fullStars &&
+                            hasHalfStar;
+
+                          return (
+                            <Star
+                              key={i}
+                              className={cn(
+                                "h-4 w-4",
+                                isFullStar || isHalfStar
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : "text-gray-300",
+                              )}
+                            />
+                          );
+                        })}
+                      </div>
+                      <p className="text-sm font-medium">
+                        {calculateAverageRating()}
+                        <span className="text-xs text-muted-foreground ml-1">
+                          ({selectedUserReviews.length}{" "}
+                          {selectedUserReviews.length === 1
+                            ? "review"
+                            : "reviews"})
+                        </span>
+                      </p>
+                    </div>
+
+                    {/* Join Date */}
+                    <div className="pt-2 border-t border-border">
+                      <p className="text-xs text-muted-foreground">
+                        Member since {formatDateJoined()}
+                      </p>
+                    </div>
+                  </div>
+
                   <Button
                     variant="outline"
                     className="w-full max-w-[300px] border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700 mx-auto block"
