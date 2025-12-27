@@ -66,13 +66,25 @@ export default function AdminClaimsList() {
       });
       if (search) params.append("search", search);
 
-      const response = await apiFetch(`/admin/claims?${params.toString()}`);
-      if (!response.ok) throw new Error("Failed to load claims");
+      const url = `/admin/claims?${params.toString()}`;
+      console.log("[AdminClaimsList] Fetching:", url);
+
+      const response = await apiFetch(url);
+      console.log("[AdminClaimsList] Response status:", response.status);
+      console.log("[AdminClaimsList] Response ok:", response.ok);
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("[AdminClaimsList] Response text:", text);
+        throw new Error(`Failed to load claims (${response.status})`);
+      }
 
       const data = await response.json();
+      console.log("[AdminClaimsList] Data received:", data);
       setClaims(data.claims);
       setTotalClaims(data.total);
     } catch (err: any) {
+      console.error("[AdminClaimsList] Error:", err);
       setError(err.message || "Failed to load claims");
     } finally {
       setLoading(false);
