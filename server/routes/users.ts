@@ -1333,11 +1333,21 @@ export async function googleOAuth(req: Request, res: Response) {
       }
     } else {
       // Create new user
+      // Generate a unique 10-digit username for OAuth users
+      const generatedUsername = await generateUniqueUsername();
+
       const userInsertResult = await pool.query(
-        `insert into users (name, email, avatar_url, first_name, last_name, created_at)
-         values ($1, $2, $3, $4, $5, now())
+        `insert into users (name, email, avatar_url, first_name, last_name, username, created_at)
+         values ($1, $2, $3, $4, $5, $6, now())
          returning id`,
-        [name || null, email, picture, firstName || null, lastName || null],
+        [
+          name || null,
+          email,
+          picture,
+          firstName || null,
+          lastName || null,
+          generatedUsername,
+        ],
       );
 
       userId = userInsertResult.rows[0].id;
