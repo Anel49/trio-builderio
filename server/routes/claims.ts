@@ -49,7 +49,7 @@ export async function createClaim(req: Request, res: Response) {
 
     // Verify the order exists and belongs to the user
     const orderResult = await pool.query(
-      `select id, order_number, renter_id, host_id from orders where id = $1`,
+      `select id, order_number, listing_title, renter_id, host_id from orders where id = $1`,
       [orderId],
     );
 
