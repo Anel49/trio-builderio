@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
 
 interface LinkifiedMessageProps {
   text: string;
@@ -7,7 +6,6 @@ interface LinkifiedMessageProps {
 
 export function LinkifiedMessage({ text }: LinkifiedMessageProps) {
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   const handleNumberClick = (
     numberText: string,
@@ -17,40 +15,50 @@ export function LinkifiedMessage({ text }: LinkifiedMessageProps) {
     navigate(`/rentals-and-requests?tab=${tab}&search=${encodeURIComponent(numberText)}`);
   };
 
-  // Split text by patterns like ORD-1000000, REQ-1000000, EXT-1000000
+  // Find all matches with their positions
   const pattern = /(ORD|REQ|EXT)-[\w]+/g;
-  const parts = text.split(pattern);
-  const matches = text.match(pattern) || [];
+  const matches: Array<{ text: string; index: number; prefix: "ORD" | "REQ" | "EXT" }> = [];
+  let match;
+
+  while ((match = pattern.exec(text)) !== null) {
+    matches.push({
+      text: match[0],
+      index: match.index,
+      prefix: match[1] as "ORD" | "REQ" | "EXT",
+    });
+  }
 
   if (matches.length === 0) {
     return <>{text}</>;
   }
 
-  // Reconstruct with links
+  // Build elements by interleaving text and links
   const elements = [];
-  let matchIndex = 0;
+  let lastIndex = 0;
 
-  for (let i = 0; i < parts.length; i++) {
-    if (parts[i]) {
-      elements.push(parts[i]);
+  for (const match of matches) {
+    // Add text before the match
+    if (match.index > lastIndex) {
+      elements.push(text.slice(lastIndex, match.index));
     }
 
-    if (matchIndex < matches.length && i < parts.length - 1) {
-      const match = matches[matchIndex];
-      const prefix = match.split("-")[0] as "ORD" | "REQ" | "EXT";
+    // Add the link
+    elements.push(
+      <button
+        key={`link-${match.index}`}
+        onClick={() => handleNumberClick(match.text, match.prefix)}
+        className="text-primary hover:underline cursor-pointer font-medium transition-colors inline"
+      >
+        {match.text}
+      </button>
+    );
 
-      elements.push(
-        <button
-          key={`link-${matchIndex}`}
-          onClick={() => handleNumberClick(match, prefix)}
-          className="text-primary hover:underline cursor-pointer font-medium transition-colors"
-        >
-          #{match}
-        </button>
-      );
+    lastIndex = match.index + match.text.length;
+  }
 
-      matchIndex++;
-    }
+  // Add remaining text after the last match
+  if (lastIndex < text.length) {
+    elements.push(text.slice(lastIndex));
   }
 
   return <>{elements}</>;
