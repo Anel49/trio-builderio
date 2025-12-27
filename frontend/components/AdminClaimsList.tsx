@@ -41,6 +41,10 @@ function formatDateForAdmin(dateStr: string): string {
   return `${month} ${day}, ${year}, ${time} ${tz}`;
 }
 
+function toTitleCase(str: string): string {
+  return str.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+}
+
 export default function AdminClaimsList() {
   const { user: currentUser } = useAuth();
   const [claims, setClaims] = useState<Claim[]>([]);
