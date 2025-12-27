@@ -948,6 +948,7 @@ export default function Messages() {
                   )}
 
                   {/* Average Review Rating */}
+                  {selectedUserId !== 2 && (
                   <div className="mb-4">
                     <div className="flex flex-col items-center justify-center gap-1">
                       <div className="flex items-center gap-2">
@@ -1001,8 +1002,10 @@ export default function Messages() {
                       </span>
                     </div>
                   </div>
+                  )}
 
                   {/* Date Joined */}
+                  {selectedUserId !== 2 && (
                   <div className="mb-4">
                     <div className="flex items-center justify-center space-x-2 text-muted-foreground">
                       <Calendar className="h-4 w-4" />
@@ -1011,7 +1014,9 @@ export default function Messages() {
                       </span>
                     </div>
                   </div>
+                  )}
 
+                  {selectedUserId !== 2 && (
                   <Button
                     variant="outline"
                     className="w-full max-w-[300px] border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700 mx-auto block"
@@ -1019,6 +1024,7 @@ export default function Messages() {
                   >
                     Report user
                   </Button>
+                  )}
                 </div>
               </>
             )}
