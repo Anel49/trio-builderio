@@ -406,3 +406,60 @@ export async function deleteReview(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function listAllClaims(req: Request, res: Response) {
+  try {
+    const limit = Math.min(
+      Number.parseInt((req.query.limit as string) || "20", 10),
+      500,
+    );
+    const offset = Math.max(
+      Number.parseInt((req.query.offset as string) || "0", 10),
+      0,
+    );
+    const search = ((req.query.search as string) || "").toLowerCase().trim();
+
+    let whereClause = "1=1";
+    const params: any[] = [];
+
+    if (search) {
+      params.push(`%${search}%`);
+      const searchParam = `$${params.length}`;
+      whereClause = `(
+        lower(c.claim_number) like ${searchParam}
+        or lower(u.name) like ${searchParam}
+        or lower(c.status) like ${searchParam}
+        or cast(c.priority as text) like ${searchParam}
+        or cast(c.order_id as text) like ${searchParam}
+      )`;
+    }
+
+    const result = await pool.query(
+      `select c.id, c.claim_number, c.status, u.name as assigned_to_name, c.priority,
+              c.created_at, c.updated_at, c.order_id
+       from claims c
+       left join users u on c.assigned_to = u.id
+       where ${whereClause}
+       order by c.created_at desc
+       limit $${params.length + 1} offset $${params.length + 2}`,
+      [...params, limit, offset],
+    );
+
+    const countResult = await pool.query(
+      `select count(*) as total from claims c
+       left join users u on c.assigned_to = u.id
+       where ${whereClause}`,
+      params,
+    );
+
+    res.json({
+      ok: true,
+      claims: result.rows,
+      total: Number.parseInt(countResult.rows[0].total, 10),
+      limit,
+      offset,
+    });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
