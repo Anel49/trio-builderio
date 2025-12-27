@@ -43,6 +43,7 @@ import {
   updateOrderStatus,
   listAllReviews,
   deleteReview,
+  listAllClaims,
 } from "./routes/admin";
 import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
 import {
