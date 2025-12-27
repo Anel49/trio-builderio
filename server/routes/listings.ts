@@ -1490,7 +1490,7 @@ export async function createReservation(req: Request, res: Response) {
 
     // Set reservation_number based on whether it's an extension or not
     const reservationNumber = reservation.number
-      ? `${reservation.extension_of ? "EXT" : "RES"}-${reservation.number}`
+      ? `${reservation.extension_of ? "EXT" : "REQ"}-${reservation.number}`
       : null;
 
     if (reservationNumber) {
