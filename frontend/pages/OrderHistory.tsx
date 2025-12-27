@@ -1675,7 +1675,15 @@ export default function OrderHistory() {
                               </DropdownMenuItem>
                               {order.status === "completed" &&
                                 order.type === "rented" && (
-                                  <DropdownMenuItem onClick={() => {}}>
+                                  <DropdownMenuItem
+                                    onClick={() => {
+                                      setClaimOrder(order);
+                                      setClaimType("");
+                                      setIncidentDate("");
+                                      setClaimDetails("");
+                                      setClaimDialogOpen(true);
+                                    }}
+                                  >
                                     Open Claim
                                   </DropdownMenuItem>
                                 )}
