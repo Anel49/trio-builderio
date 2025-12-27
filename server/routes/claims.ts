@@ -111,13 +111,13 @@ export async function createClaim(req: Request, res: Response) {
 
     const claim = claimResult.rows[0];
 
-    // Send initial system message to the thread
+    // Send initial system message to the thread from support user (ID 2)
     try {
       await pool.query(
         `insert into messages (sender_id, to_id, body, message_thread_id)
          values ($1, $2, $3, $4)`,
         [
-          1,
+          2,
           userId,
           `A new claim has been submitted for order #${orderId}. Claim type: ${claimType}. Priority: ${priority}. Please review the claim details and provide any additional information if needed.`,
           messageThreadId,
