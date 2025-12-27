@@ -20,6 +20,7 @@ interface Claim {
   created_at: string;
   updated_at: string;
   order_id: number;
+  order_number: number | null;
 }
 
 function formatDateForAdmin(dateStr: string): string {
