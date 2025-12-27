@@ -227,7 +227,7 @@ export default function Admin() {
               <CardTitle>Claims</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className={typography.size.sm}>Claims section coming soon.</p>
+              <AdminClaimsList />
             </CardContent>
           </Card>
         );
