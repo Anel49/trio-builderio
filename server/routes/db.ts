@@ -359,6 +359,21 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Add index for claims admin dashboard query
+    try {
+      await pool.query(
+        `create index if not exists idx_claims_admin_query on claims (created_at desc, claim_number, status, priority, order_id, assigned_to)`,
+      );
+      console.log(
+        "[dbSetup] Created index for claims admin dashboard query",
+      );
+    } catch (e: any) {
+      // Index might already exist, which is fine
+      if (!e.message?.includes("already exists")) {
+        console.warn("[dbSetup] Warning creating claims index:", e.message);
+      }
+    }
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
