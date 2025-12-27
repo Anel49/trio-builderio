@@ -23,6 +23,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ReviewModal } from "@/components/ui/review-modal";
+import { OpenClaimModal } from "@/components/ui/open-claim-modal";
 import Header from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
