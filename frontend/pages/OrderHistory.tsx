@@ -715,7 +715,10 @@ export default function OrderHistory() {
         .toLowerCase()
         .includes(requestSearchQuery.toLowerCase()) ||
       requesterName.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
-      res.id.toLowerCase().includes(requestSearchQuery.toLowerCase());
+      res.id.toLowerCase().includes(requestSearchQuery.toLowerCase()) ||
+      (res.reservation_number || "")
+        .toLowerCase()
+        .includes(requestSearchQuery.toLowerCase());
     const matchesStatus =
       requestStatusFilter === "all" ||
       res.status.toLowerCase() === requestStatusFilter.toLowerCase();
