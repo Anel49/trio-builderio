@@ -42,7 +42,10 @@ function formatDateForAdmin(dateStr: string): string {
 }
 
 function toTitleCase(str: string): string {
-  return str.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 export default function AdminClaimsList() {
@@ -80,11 +83,16 @@ export default function AdminClaimsList() {
       console.log("[AdminClaimsList] Response headers:", response.headers);
 
       const responseText = await response.text();
-      console.log("[AdminClaimsList] Raw response (first 500 chars):", responseText.substring(0, 500));
+      console.log(
+        "[AdminClaimsList] Raw response (first 500 chars):",
+        responseText.substring(0, 500),
+      );
 
       if (!response.ok) {
         console.error("[AdminClaimsList] Error response received");
-        throw new Error(`Failed to load claims (${response.status}): ${responseText.substring(0, 200)}`);
+        throw new Error(
+          `Failed to load claims (${response.status}): ${responseText.substring(0, 200)}`,
+        );
       }
 
       try {
@@ -94,8 +102,13 @@ export default function AdminClaimsList() {
         setTotalClaims(data.total || 0);
       } catch (parseErr) {
         console.error("[AdminClaimsList] JSON parse error:", parseErr);
-        console.error("[AdminClaimsList] Response was:", responseText.substring(0, 1000));
-        throw new Error(`Invalid JSON response: ${responseText.substring(0, 200)}`);
+        console.error(
+          "[AdminClaimsList] Response was:",
+          responseText.substring(0, 1000),
+        );
+        throw new Error(
+          `Invalid JSON response: ${responseText.substring(0, 200)}`,
+        );
       }
     } catch (err: any) {
       console.error("[AdminClaimsList] Error:", err);
@@ -207,8 +220,9 @@ export default function AdminClaimsList() {
                                 claim.status === "legal action"
                               ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
                               : claim.status === "under review" ||
-                                claim.status === "awaiting customer response" ||
-                                claim.status === "reimbursement pending"
+                                  claim.status ===
+                                    "awaiting customer response" ||
+                                  claim.status === "reimbursement pending"
                                 ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
                                 : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
                         )}
@@ -243,7 +257,8 @@ export default function AdminClaimsList() {
 
           <div className={combineTokens(layouts.flex.between, "mt-6")}>
             <div className="text-sm text-muted-foreground">
-              Page {currentPage + 1} of {totalPages} ({totalClaims} total claims)
+              Page {currentPage + 1} of {totalPages} ({totalClaims} total
+              claims)
             </div>
             <div className={combineTokens(layouts.flex.start, "gap-2")}>
               <Button
