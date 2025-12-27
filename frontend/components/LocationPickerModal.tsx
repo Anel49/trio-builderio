@@ -403,12 +403,12 @@ export function LocationPickerModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] sm:max-h-none">
+      <DialogContent className="max-w-sm sm:max-w-md md:max-w-3xl max-h-[90vh] sm:max-h-none p-4 sm:p-6">
         <DialogHeader>
           <DialogTitle>Select your location</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <div className="h-[315px] sm:h-[420px] w-full overflow-hidden rounded-lg border border-border">
+          <div className="h-[250px] sm:h-[315px] md:h-[420px] w-full overflow-hidden rounded-lg border border-border">
             {isClient ? (
               <InteractiveMap
                 center={mapCenter}
@@ -446,7 +446,7 @@ export function LocationPickerModal({
             <div className="text-sm text-destructive dark:text-[rgb(220,38,38)]">{error}</div>
           ) : null}
         </div>
-        <div className="flex gap-2 justify-between">
+        <div className="flex flex-col sm:flex-row gap-2 justify-between">
           <Button
             type="button"
             variant="outline"
@@ -463,7 +463,7 @@ export function LocationPickerModal({
               </>
             )}
           </Button>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <Button
               type="button"
               variant="outline"
@@ -472,6 +472,7 @@ export function LocationPickerModal({
                 onOpenChange(false);
               }}
               disabled={isSubmitting || isLocating}
+              className="w-full sm:w-auto"
             >
               Clear location
             </Button>
@@ -479,6 +480,7 @@ export function LocationPickerModal({
               type="button"
               onClick={handleConfirm}
               disabled={isSubmitting || isLocating}
+              className="w-full sm:w-auto"
             >
               {isSubmitting ? (
                 <>
