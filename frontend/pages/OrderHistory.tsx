@@ -168,6 +168,7 @@ interface Reservation {
   listingTimezone?: string;
   extension_of?: number | null;
   postcode?: string | null;
+  reservation_number?: string | null;
 }
 
 interface UserProfile {
