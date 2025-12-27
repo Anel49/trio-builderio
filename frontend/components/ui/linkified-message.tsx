@@ -13,7 +13,7 @@ export function LinkifiedMessage({ text, isCurrentUser }: LinkifiedMessageProps)
     prefix: "ORD" | "REQ" | "EXT"
   ) => {
     const tab = prefix === "ORD" ? "orders" : "requests";
-    navigate(`/rentals-and-requests?tab=${tab}&search=${encodeURIComponent(numberText)}`);
+    navigate(`/rentals-and-requests?tab=${tab}&search=${encodeURIComponent(numberText.substring(numberText.indexOf('-') + 1))}`);
   };
 
   // Find all matches with their positions
