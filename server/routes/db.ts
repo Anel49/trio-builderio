@@ -56,6 +56,32 @@ export async function dbSetup(_req: Request, res: Response) {
       }
     }
 
+    // Drop claims table constraint if it exists and recreate with correct values
+    try {
+      await pool.query(
+        `alter table claims drop constraint if exists claims_claim_type_check`,
+      );
+      console.log("[dbSetup] Dropped old claim_type constraint");
+    } catch (e: any) {
+      // Constraint might not exist, which is fine
+      if (!e.message?.includes("does not exist")) {
+        console.warn("[dbSetup] Warning dropping constraint:", e.message);
+      }
+    }
+
+    // Add new claim_type constraint with capitalized values
+    try {
+      await pool.query(
+        `alter table claims add constraint claims_claim_type_check check (claim_type in ('Damage', 'Late Return', 'Missing', 'Theft', 'Other'))`,
+      );
+      console.log("[dbSetup] Added new claim_type constraint with capitalized values");
+    } catch (e: any) {
+      // Constraint might already exist, which is fine
+      if (!e.message?.includes("already exists")) {
+        console.warn("[dbSetup] Warning adding constraint:", e.message);
+      }
+    }
+
     // Create claims table if it doesn't exist
     try {
       await pool.query(
@@ -67,7 +93,7 @@ export async function dbSetup(_req: Request, res: Response) {
           assigned_to integer references users(id) on delete set null,
           order_id integer not null references orders(id) on delete cascade,
           created_by integer not null references users(id) on delete cascade,
-          claim_type text not null check (claim_type in ('damage', 'late return', 'missing', 'theft', 'other')),
+          claim_type text not null check (claim_type in ('Damage', 'Late Return', 'Missing', 'Theft', 'Other')),
           claim_details text not null,
           priority integer default 5,
           incident_date timestamp not null,
