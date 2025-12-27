@@ -145,19 +145,21 @@ export function OpenClaimModal({
                   {selectedDate ? format(selectedDate, "MMM dd, yyyy") : "Select date"}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={(date) => {
-                    if (date) {
-                      onIncidentDateChange(date.toISOString().split("T")[0]);
-                      setIsDatePickerOpen(false);
-                    }
-                  }}
-                  disabled={(date) => date > new Date()}
-                  initialFocus
-                />
+              <PopoverContent className="w-auto p-0 z-[1000]" align="start">
+                <div className="calendar-with-range-styling">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={(date) => {
+                      if (date) {
+                        onIncidentDateChange(date.toISOString().split("T")[0]);
+                        setIsDatePickerOpen(false);
+                      }
+                    }}
+                    disabled={(date) => date > new Date()}
+                    initialFocus
+                  />
+                </div>
               </PopoverContent>
             </Popover>
           </div>
