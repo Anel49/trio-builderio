@@ -216,7 +216,7 @@ export default function AdminClaimsList() {
                       <p>{claim.priority}</p>
                     </td>
                     <td className={spacing.padding.md}>
-                      <p>ORD-{claim.order_id}</p>
+                      <p>ORD-{claim.order_number || claim.order_id}</p>
                     </td>
                     <td className={spacing.padding.md}>
                       <p className="text-xs text-muted-foreground">
