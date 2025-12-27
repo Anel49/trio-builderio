@@ -22,7 +22,8 @@ const claimTypeDisplayMap: Record<string, string> = {
 
 export async function createClaim(req: Request, res: Response) {
   try {
-    const { orderId, claimType, incidentDate, claimDetails } = (req.body || {}) as any;
+    const { orderId, claimType, incidentDate, claimDetails } = (req.body ||
+      {}) as any;
     const userId = (req.session as any)?.userId;
 
     // Validate required fields
@@ -33,7 +34,8 @@ export async function createClaim(req: Request, res: Response) {
     if (!orderId || !claimType || !incidentDate || !claimDetails) {
       return res.status(400).json({
         ok: false,
-        error: "orderId, claimType, incidentDate, and claimDetails are required",
+        error:
+          "orderId, claimType, incidentDate, and claimDetails are required",
       });
     }
 
@@ -139,12 +141,7 @@ ${claimDetails}`;
       await pool.query(
         `insert into messages (sender_id, to_id, body, message_thread_id)
          values ($1, $2, $3, $4)`,
-        [
-          2,
-          userId,
-          messageBody,
-          messageThreadId,
-        ],
+        [2, userId, messageBody, messageThreadId],
       );
     } catch (e: any) {
       console.error("[createClaim] Error sending system message:", e.message);

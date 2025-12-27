@@ -2448,7 +2448,13 @@ export default function OrderHistory() {
         onClaimDetailsChange={setClaimDetails}
         isSubmitting={isSubmittingClaim}
         onSubmit={async () => {
-          if (!claimOrder || !currentUser?.id || !claimType || !incidentDate || !claimDetails.trim()) {
+          if (
+            !claimOrder ||
+            !currentUser?.id ||
+            !claimType ||
+            !incidentDate ||
+            !claimDetails.trim()
+          ) {
             return;
           }
 

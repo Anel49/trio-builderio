@@ -1665,7 +1665,9 @@ export default function Profile() {
                         .join("")}
                     </AvatarFallback>
                   </Avatar>
-                  {(viewingOtherUser ? otherUserData?.id === 2 : authUser?.id === 2) && (
+                  {(viewingOtherUser
+                    ? otherUserData?.id === 2
+                    : authUser?.id === 2) && (
                     <div className="absolute bottom-0 right-0 bg-green-500 rounded-full p-2 border-3 border-white dark:border-slate-950">
                       <svg
                         className="w-6 h-6 text-white"
@@ -1756,76 +1758,81 @@ export default function Profile() {
                 )}
 
                 {/* Average Review Rating */}
-                {(viewingOtherUser ? otherUserData?.id !== 2 : authUser?.id !== 2) && (
-                <div className="mb-4">
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => {
-                        const avgRating =
-                          sellerReviews.length === 0
-                            ? 0
-                            : sellerReviews.reduce(
+                {(viewingOtherUser
+                  ? otherUserData?.id !== 2
+                  : authUser?.id !== 2) && (
+                  <div className="mb-4">
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="flex items-center">
+                        {[...Array(5)].map((_, i) => {
+                          const avgRating =
+                            sellerReviews.length === 0
+                              ? 0
+                              : sellerReviews.reduce(
+                                  (sum, review) => sum + review.rating,
+                                  0,
+                                ) / sellerReviews.length;
+                          const fullStars = Math.floor(avgRating ?? 0);
+                          const hasHalfStar =
+                            typeof avgRating === "number" &&
+                            avgRating % 1 >= 0.5;
+                          const isFullStar = i < fullStars;
+                          const isHalfStar =
+                            hasHalfStar && i === fullStars && i < 5;
+
+                          if (isHalfStar) {
+                            return (
+                              <div key={i} className="relative h-4 w-4">
+                                <Star className="absolute h-4 w-4 text-gray-300" />
+                                <div className="absolute h-4 w-2 overflow-hidden">
+                                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                </div>
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <Star
+                              key={i}
+                              className={cn(
+                                "h-4 w-4",
+                                isFullStar
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : "text-gray-300",
+                              )}
+                            />
+                          );
+                        })}
+                      </div>
+                      <span className="font-medium">
+                        {sellerReviews.length > 0
+                          ? (
+                              sellerReviews.reduce(
                                 (sum, review) => sum + review.rating,
                                 0,
-                              ) / sellerReviews.length;
-                        const fullStars = Math.floor(avgRating ?? 0);
-                        const hasHalfStar =
-                          typeof avgRating === "number" && avgRating % 1 >= 0.5;
-                        const isFullStar = i < fullStars;
-                        const isHalfStar =
-                          hasHalfStar && i === fullStars && i < 5;
-
-                        if (isHalfStar) {
-                          return (
-                            <div key={i} className="relative h-4 w-4">
-                              <Star className="absolute h-4 w-4 text-gray-300" />
-                              <div className="absolute h-4 w-2 overflow-hidden">
-                                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                              </div>
-                            </div>
-                          );
-                        }
-
-                        return (
-                          <Star
-                            key={i}
-                            className={cn(
-                              "h-4 w-4",
-                              isFullStar
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "text-gray-300",
-                            )}
-                          />
-                        );
-                      })}
+                              ) / sellerReviews.length
+                            ).toFixed(1)
+                          : "0.0"}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        ({sellerReviews.length} reviews)
+                      </span>
                     </div>
-                    <span className="font-medium">
-                      {sellerReviews.length > 0
-                        ? (
-                            sellerReviews.reduce(
-                              (sum, review) => sum + review.rating,
-                              0,
-                            ) / sellerReviews.length
-                          ).toFixed(1)
-                        : "0.0"}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
-                      ({sellerReviews.length} reviews)
-                    </span>
                   </div>
-                </div>
                 )}
 
                 {/* Date Joined */}
-                {(viewingOtherUser ? otherUserData?.id !== 2 : authUser?.id !== 2) && (
-                <div className="mb-4">
-                  <div className="flex items-center justify-center space-x-2 text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
-                    <span className="text-sm">
-                      Joined {userProfile.dateJoined}
-                    </span>
+                {(viewingOtherUser
+                  ? otherUserData?.id !== 2
+                  : authUser?.id !== 2) && (
+                  <div className="mb-4">
+                    <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+                      <Calendar className="h-4 w-4" />
+                      <span className="text-sm">
+                        Joined {userProfile.dateJoined}
+                      </span>
+                    </div>
                   </div>
-                </div>
                 )}
 
                 {/* Action Buttons */}
@@ -3115,7 +3122,9 @@ export default function Profile() {
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
-                {(viewingOtherUser ? otherUserData?.id === 2 : authUser?.id === 2) && (
+                {(viewingOtherUser
+                  ? otherUserData?.id === 2
+                  : authUser?.id === 2) && (
                   <div className="absolute bottom-0 right-0 bg-green-500 rounded-full p-1.5 border-2 border-white dark:border-slate-950">
                     <svg
                       className="w-4 h-4 text-white"
@@ -3203,77 +3212,81 @@ export default function Profile() {
               )}
 
               {/* Average Review Rating */}
-              {(viewingOtherUser ? otherUserData?.id !== 2 : authUser?.id !== 2) && (
-              <div className="mb-4">
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => {
-                      const avgRating =
-                        sellerReviews.length === 0
-                          ? 0
-                          : sellerReviews.reduce(
+              {(viewingOtherUser
+                ? otherUserData?.id !== 2
+                : authUser?.id !== 2) && (
+                <div className="mb-4">
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => {
+                        const avgRating =
+                          sellerReviews.length === 0
+                            ? 0
+                            : sellerReviews.reduce(
+                                (sum, review) => sum + review.rating,
+                                0,
+                              ) / sellerReviews.length;
+                        const fullStars = Math.floor(avgRating ?? 0);
+                        const hasHalfStar =
+                          typeof avgRating === "number" && avgRating % 1 >= 0.5;
+                        const isFullStar = i < fullStars;
+                        const isHalfStar =
+                          hasHalfStar && i === fullStars && i < 5;
+
+                        if (isHalfStar) {
+                          return (
+                            <div key={i} className="relative h-4 w-4">
+                              <Star className="absolute h-4 w-4 text-gray-300" />
+                              <div className="absolute h-4 w-2 overflow-hidden">
+                                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <Star
+                            key={i}
+                            className={cn(
+                              "h-4 w-4",
+                              isFullStar
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300",
+                            )}
+                          />
+                        );
+                      })}
+                    </div>
+                    <span className="font-medium">
+                      {sellerReviews.length > 0
+                        ? (
+                            sellerReviews.reduce(
                               (sum, review) => sum + review.rating,
                               0,
-                            ) / sellerReviews.length;
-                      const fullStars = Math.floor(avgRating ?? 0);
-                      const hasHalfStar =
-                        typeof avgRating === "number" && avgRating % 1 >= 0.5;
-                      const isFullStar = i < fullStars;
-                      const isHalfStar =
-                        hasHalfStar && i === fullStars && i < 5;
-
-                      if (isHalfStar) {
-                        return (
-                          <div key={i} className="relative h-4 w-4">
-                            <Star className="absolute h-4 w-4 text-gray-300" />
-                            <div className="absolute h-4 w-2 overflow-hidden">
-                              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                            </div>
-                          </div>
-                        );
-                      }
-
-                      return (
-                        <Star
-                          key={i}
-                          className={cn(
-                            "h-4 w-4",
-                            isFullStar
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-300",
-                          )}
-                        />
-                      );
-                    })}
+                            ) / sellerReviews.length
+                          ).toFixed(1)
+                        : "0.0"}
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      ({sellerReviews.length} reviews)
+                    </span>
                   </div>
-                  <span className="font-medium">
-                    {sellerReviews.length > 0
-                      ? (
-                          sellerReviews.reduce(
-                            (sum, review) => sum + review.rating,
-                            0,
-                          ) / sellerReviews.length
-                        ).toFixed(1)
-                      : "0.0"}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    ({sellerReviews.length} reviews)
-                  </span>
                 </div>
-            </div>
-            )}
+              )}
 
-            {/* Date Joined */}
-            {(viewingOtherUser ? otherUserData?.id !== 2 : authUser?.id !== 2) && (
-            <div className="mb-4">
-              <div className="flex items-center justify-center space-x-2 text-muted-foreground">
-                <Calendar className="h-4 w-4" />
-                <span className="text-sm">
-                  Joined {userProfile.dateJoined}
-                </span>
-              </div>
-            </div>
-            )}
+              {/* Date Joined */}
+              {(viewingOtherUser
+                ? otherUserData?.id !== 2
+                : authUser?.id !== 2) && (
+                <div className="mb-4">
+                  <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+                    <Calendar className="h-4 w-4" />
+                    <span className="text-sm">
+                      Joined {userProfile.dateJoined}
+                    </span>
+                  </div>
+                </div>
+              )}
 
               {/* Action Buttons */}
               <div className="space-y-2 max-w-[300px] mx-auto">

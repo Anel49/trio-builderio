@@ -74,7 +74,9 @@ export async function dbSetup(_req: Request, res: Response) {
       await pool.query(
         `alter table claims add constraint claims_claim_type_check check (claim_type in ('Damage', 'Late Return', 'Missing', 'Theft', 'Other'))`,
       );
-      console.log("[dbSetup] Added new claim_type constraint with capitalized values");
+      console.log(
+        "[dbSetup] Added new claim_type constraint with capitalized values",
+      );
     } catch (e: any) {
       // Constraint might already exist, which is fine
       if (!e.message?.includes("already exists")) {

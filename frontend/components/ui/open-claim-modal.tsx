@@ -115,10 +115,12 @@ export function OpenClaimModal({
           <div className="space-y-2">
             <label htmlFor="claim-type" className="text-sm font-medium">
               Claim type
-              <span className={cn(
-                "ml-1",
-                claimType.trim() ? "text-muted-foreground" : "text-red-500"
-              )}>
+              <span
+                className={cn(
+                  "ml-1",
+                  claimType.trim() ? "text-muted-foreground" : "text-red-500",
+                )}
+              >
                 *
               </span>
             </label>
@@ -140,10 +142,14 @@ export function OpenClaimModal({
           <div className="space-y-2">
             <label className="text-sm font-medium">
               Incident date
-              <span className={cn(
-                "ml-1",
-                incidentDate.trim() ? "text-muted-foreground" : "text-red-500"
-              )}>
+              <span
+                className={cn(
+                  "ml-1",
+                  incidentDate.trim()
+                    ? "text-muted-foreground"
+                    : "text-red-500",
+                )}
+              >
                 *
               </span>
             </label>
@@ -153,12 +159,14 @@ export function OpenClaimModal({
                   variant="outline"
                   className={cn(
                     "w-full justify-start text-left font-normal",
-                    !selectedDate && "text-muted-foreground"
+                    !selectedDate && "text-muted-foreground",
                   )}
                   disabled={isSubmitting}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {selectedDate ? format(selectedDate, "MMM dd, yyyy") : "Select date"}
+                  {selectedDate
+                    ? format(selectedDate, "MMM dd, yyyy")
+                    : "Select date"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0 z-[9999]" align="start">
@@ -169,7 +177,10 @@ export function OpenClaimModal({
                     onSelect={(date) => {
                       if (date) {
                         const year = date.getFullYear();
-                        const month = String(date.getMonth() + 1).padStart(2, "0");
+                        const month = String(date.getMonth() + 1).padStart(
+                          2,
+                          "0",
+                        );
                         const day = String(date.getDate()).padStart(2, "0");
                         const localDateString = `${year}-${month}-${day}`;
                         onIncidentDateChange(localDateString);
@@ -188,10 +199,14 @@ export function OpenClaimModal({
           <div className="space-y-2">
             <label htmlFor="claim-details" className="text-sm font-medium">
               Claim details
-              <span className={cn(
-                "ml-1",
-                claimDetails.trim() ? "text-muted-foreground" : "text-red-500"
-              )}>
+              <span
+                className={cn(
+                  "ml-1",
+                  claimDetails.trim()
+                    ? "text-muted-foreground"
+                    : "text-red-500",
+                )}
+              >
                 *
               </span>
             </label>
@@ -214,10 +229,7 @@ export function OpenClaimModal({
             >
               Cancel
             </Button>
-            <Button
-              onClick={onSubmit}
-              disabled={isSubmitting || !isFormValid}
-            >
+            <Button onClick={onSubmit} disabled={isSubmitting || !isFormValid}>
               {isSubmitting ? "Submitting..." : "Submit Claim"}
             </Button>
           </div>
