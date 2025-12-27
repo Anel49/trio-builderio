@@ -188,6 +188,12 @@ export function OpenClaimModal({
           <div className="space-y-2">
             <label htmlFor="claim-details" className="text-sm font-medium">
               Claim details
+              <span className={cn(
+                "ml-1",
+                claimDetails.trim() ? "text-muted-foreground" : "text-red-500"
+              )}>
+                *
+              </span>
             </label>
             <textarea
               id="claim-details"
