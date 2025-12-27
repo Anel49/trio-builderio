@@ -1,0 +1,244 @@
+import React, { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { apiFetch } from "@/lib/api";
+import { Input } from "./ui/input";
+import { AlertCircle, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "./ui/button";
+import {
+  spacing,
+  typography,
+  layouts,
+  combineTokens,
+} from "@/lib/design-tokens";
+
+interface Claim {
+  id: number;
+  claim_number: string | null;
+  status: string;
+  assigned_to_name: string | null;
+  priority: number;
+  created_at: string;
+  updated_at: string;
+  order_id: number;
+}
+
+function formatDateForAdmin(dateStr: string): string {
+  const date = new Date(dateStr);
+  const month = date.toLocaleDateString("en-US", { month: "long" });
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const time = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const tz = date
+    .toLocaleTimeString("en-US", { timeZoneName: "short" })
+    .split(" ")
+    .pop();
+
+  return `${month} ${day}, ${year}, ${time} ${tz}`;
+}
+
+export default function AdminClaimsList() {
+  const { user: currentUser } = useAuth();
+  const [claims, setClaims] = useState<Claim[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalClaims, setTotalClaims] = useState(0);
+
+  const limit = 20;
+  const offset = currentPage * limit;
+
+  useEffect(() => {
+    loadClaims();
+  }, [currentPage, search]);
+
+  const loadClaims = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams({
+        limit: limit.toString(),
+        offset: offset.toString(),
+      });
+      if (search) params.append("search", search);
+
+      const response = await apiFetch(`/admin/claims?${params.toString()}`);
+      if (!response.ok) throw new Error("Failed to load claims");
+
+      const data = await response.json();
+      setClaims(data.claims);
+      setTotalClaims(data.total);
+    } catch (err: any) {
+      setError(err.message || "Failed to load claims");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const totalPages = Math.ceil(totalClaims / limit);
+  const canPrevious = currentPage > 0;
+  const canNext = currentPage < totalPages - 1;
+
+  return (
+    <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
+      {error && (
+        <div
+          className={combineTokens(
+            "bg-destructive/10 border border-destructive text-destructive",
+            spacing.padding.md,
+            "rounded-lg flex items-center gap-2",
+          )}
+        >
+          <AlertCircle className={spacing.dimensions.icon.sm} />
+          <span>{error}</span>
+        </div>
+      )}
+
+      <div className={combineTokens(layouts.flex.between, "gap-4")}>
+        <Input
+          type="text"
+          placeholder="Search using a claim number, assigned technician, status, priority, or order ID..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(0);
+          }}
+          className="flex-1"
+        />
+      </div>
+
+      {loading ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <Loader2 className="animate-spin" />
+        </div>
+      ) : claims.length === 0 ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">No claims found</p>
+        </div>
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b">
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Claim Number
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Status
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Assigned To
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Priority
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Order ID
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Created
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Updated
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {claims.map((claim) => (
+                  <tr key={claim.id} className="border-b hover:bg-muted/50">
+                    <td className={spacing.padding.md}>
+                      <p className={typography.weight.medium}>
+                        {claim.claim_number || "N/A"}
+                      </p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <span
+                        className={combineTokens(
+                          "px-2 py-1 rounded text-xs font-medium",
+                          claim.status === "resolved"
+                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                            : claim.status === "rejected" ||
+                                claim.status === "canceled"
+                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                              : claim.status === "under review"
+                                ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+                        )}
+                      >
+                        {claim.status}
+                      </span>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p>{claim.assigned_to_name || "Unassigned"}</p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p>{claim.priority}</p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p>ORD-{claim.order_id}</p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDateForAdmin(claim.created_at)}
+                      </p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDateForAdmin(claim.updated_at)}
+                      </p>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className={combineTokens(layouts.flex.between, "mt-6")}>
+            <div className="text-sm text-muted-foreground">
+              Page {currentPage + 1} of {totalPages} ({totalClaims} total claims)
+            </div>
+            <div className={combineTokens(layouts.flex.start, "gap-2")}>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={!canPrevious}
+                onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+              >
+                <ChevronLeft className={spacing.dimensions.icon.sm} />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={!canNext}
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
+                }
+              >
+                <ChevronRight className={spacing.dimensions.icon.sm} />
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
