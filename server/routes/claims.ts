@@ -10,6 +10,15 @@ const priorityMap: Record<string, number> = {
   other: 4,
 };
 
+// Display label mapping for claim types
+const claimTypeDisplayMap: Record<string, string> = {
+  missing: "Missing",
+  theft: "Theft",
+  damage: "Damage",
+  "late return": "Late Return",
+  other: "Other",
+};
+
 export async function createClaim(req: Request, res: Response) {
   try {
     const { orderId, claimType, incidentDate, claimDetails } = (req.body || {}) as any;
