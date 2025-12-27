@@ -55,15 +55,28 @@ export async function createClaim(req: Request, res: Response) {
       });
     }
 
-    // Create message thread between the current user and system user (ID 1)
-    const threadResult = await pool.query(
-      `insert into message_threads (user_a_id, user_b_id, last_updated_by_id)
-       values ($1, $2, $1)
-       returning id`,
+    // Check if message thread already exists between current user and system user (ID 1)
+    let messageThreadId: number;
+
+    const existingThreadResult = await pool.query(
+      `select id from message_threads
+       where (user_a_id = $1 and user_b_id = $2) or (user_a_id = $2 and user_b_id = $1)`,
       [userId, 1],
     );
 
-    const messageThreadId = threadResult.rows[0].id;
+    if (existingThreadResult.rowCount && existingThreadResult.rowCount > 0) {
+      // Thread already exists, reuse it
+      messageThreadId = existingThreadResult.rows[0].id;
+    } else {
+      // Create new message thread
+      const threadResult = await pool.query(
+        `insert into message_threads (user_a_id, user_b_id, last_updated_by_id)
+         values ($1, $2, $1)
+         returning id`,
+        [userId, 1],
+      );
+      messageThreadId = threadResult.rows[0].id;
+    }
 
     // Calculate priority from claim type
     const priority = priorityMap[claimType] || 5;
