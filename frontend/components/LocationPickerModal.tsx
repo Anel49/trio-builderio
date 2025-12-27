@@ -445,7 +445,7 @@ export function LocationPickerModal({
             <div className="text-sm text-destructive">{error}</div>
           ) : null}
         </div>
-        <DialogFooter className="gap-2 flex justify-between">
+        <div className="flex gap-2 justify-between">
           <Button
             type="button"
             variant="outline"
@@ -488,7 +488,7 @@ export function LocationPickerModal({
               )}
             </Button>
           </div>
-        </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );
