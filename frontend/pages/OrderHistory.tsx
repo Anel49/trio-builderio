@@ -229,6 +229,14 @@ export default function OrderHistory() {
     Map<number, string>
   >(new Map());
 
+  // Claim modal state
+  const [claimDialogOpen, setClaimDialogOpen] = useState(false);
+  const [claimOrder, setClaimOrder] = useState<Order | null>(null);
+  const [claimType, setClaimType] = useState("");
+  const [incidentDate, setIncidentDate] = useState("");
+  const [claimDetails, setClaimDetails] = useState("");
+  const [isSubmittingClaim, setIsSubmittingClaim] = useState(false);
+
   // Local state for orders so we can mutate (e.g., cancel)
   const [ordersState, setOrdersState] = useState<Order[]>([]);
 
