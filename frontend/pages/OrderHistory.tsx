@@ -1664,9 +1664,6 @@ export default function OrderHistory() {
                               <DropdownMenuItem onClick={() => {}}>
                                 View Details
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => {}}>
-                                Download Receipt
-                              </DropdownMenuItem>
                               {order.status === "completed" &&
                                 order.type === "rented" && (
                                   <DropdownMenuItem onClick={() => {}}>
