@@ -1105,6 +1105,7 @@ export function createServer() {
     requireModeratorOrAdmin,
     deleteReview,
   );
+  app.get("/api/admin/claims", requireModeratorOrAdmin, listAllClaims);
 
   // Admin route aliases (without /api prefix)
   app.get("/admin/users", requireAdmin, listAllUsers);
