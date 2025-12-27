@@ -131,7 +131,7 @@ export async function createClaim(req: Request, res: Response) {
         [
           2,
           userId,
-          `A new claim has been submitted for order #${orderId}. Claim type: ${claimType}. Priority: ${priority}. Please review the claim details and provide any additional information if needed.`,
+          `A new claim has been submitted for order #${orderId}. Claim type: ${displayClaimType}. Priority: ${priority}. Please review the claim details and provide any additional information if needed.`,
           messageThreadId,
         ],
       );
