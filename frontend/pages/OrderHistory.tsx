@@ -180,11 +180,17 @@ interface UserProfile {
 
 export default function OrderHistory() {
   const { user: currentUser } = useAuth();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("search") || "";
+    }
+    return "";
+  });
   const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<OrderType | "all">("all");
 
-  // Check URL query parameter for initial tab
+  // Check URL query parameter for initial tab and search
   const [activeTab, setActiveTab] = useState<"orders" | "requests">(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
