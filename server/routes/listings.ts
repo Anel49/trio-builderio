@@ -1453,7 +1453,7 @@ export async function createReservation(req: Request, res: Response) {
        returning id, listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
                  start_date, end_date, listing_title, listing_image,
                  listing_latitude, listing_longitude, daily_price_cents, total_days,
-                 rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, postcode, created_at`,
+                 rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, postcode, created_at, number, extension_of`,
       [
         listing_id,
         renter_id,
@@ -1486,6 +1486,22 @@ export async function createReservation(req: Request, res: Response) {
       reservation.id,
     );
 
+    // Set reservation_number based on whether it's an extension or not
+    const reservationNumber = reservation.number
+      ? `${reservation.extension_of ? "EXT" : "RES"}-${reservation.number}`
+      : null;
+
+    if (reservationNumber) {
+      await pool.query(
+        `update reservations set reservation_number = $1 where id = $2`,
+        [reservationNumber, reservation.id],
+      );
+      console.log(
+        "[createReservation] Set reservation_number to",
+        reservationNumber,
+      );
+    }
+
     res.json({
       ok: true,
       reservation: {
@@ -1512,6 +1528,7 @@ export async function createReservation(req: Request, res: Response) {
         addons: reservation.addons,
         created_at: reservation.created_at,
         listingTimezone,
+        reservation_number: reservationNumber,
       },
     });
   } catch (error: any) {
