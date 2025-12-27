@@ -56,6 +56,66 @@ export async function dbSetup(_req: Request, res: Response) {
       }
     }
 
+    // Configure orders.number column - ensure sequence starts at 1000000
+    try {
+      await pool.query(
+        `create sequence if not exists orders_number_seq start with 1000000`,
+      );
+      await pool.query(
+        `alter sequence if exists orders_number_seq restart with 1000000`,
+      );
+      console.log("[dbSetup] Reset orders_number_seq to start at 1000000");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Could not reset sequence:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
+    // Add number column to orders if it doesn't exist
+    try {
+      const numberColResult = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'orders' and column_name = 'number'`,
+      );
+
+      if (numberColResult.rows.length === 0) {
+        await pool.query(
+          `alter table orders add column number integer not null unique default nextval('orders_number_seq')`,
+        );
+        console.log("[dbSetup] Added number column to orders table");
+      } else {
+        // If number column exists, ensure it's type integer and has the correct default
+        try {
+          const numberTypeResult = await pool.query(
+            `select data_type from information_schema.columns
+             where table_name = 'orders' and column_name = 'number'`,
+          );
+
+          const currentType = numberTypeResult.rows[0]?.data_type;
+          if (currentType !== 'integer') {
+            await pool.query(
+              `alter table orders alter column number type integer`,
+            );
+            console.log("[dbSetup] Changed number column type to integer");
+          }
+
+          // Ensure default is set to the sequence
+          await pool.query(
+            `alter table orders alter column number set default nextval('orders_number_seq')`,
+          );
+          console.log("[dbSetup] Set number column default to nextval('orders_number_seq')");
+        } catch (e: any) {
+          console.log("[dbSetup] Could not update number column type:", e?.message?.slice(0, 100));
+        }
+      }
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Orders table migration error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     // Drop claims table constraint if it exists and recreate with correct values
     try {
       await pool.query(
