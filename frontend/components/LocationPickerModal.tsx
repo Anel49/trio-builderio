@@ -342,7 +342,8 @@ export function LocationPickerModal({
       (err) => {
         let errorMsg = "Unable to get your location.";
         if (err.code === 1) {
-          errorMsg = "Permission denied. Please allow location access or manually select your location.";
+          errorMsg =
+            "Permission denied. Please allow location access or manually select your location.";
         } else if (err.code === 2) {
           errorMsg = "Position unavailable. Try again.";
         } else if (err.code === 3) {
