@@ -130,7 +130,7 @@ export function OpenClaimModal({
             <label className="text-sm font-medium">
               Incident date
             </label>
-            <Popover>
+            <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
@@ -152,6 +152,7 @@ export function OpenClaimModal({
                     onSelect={(date) => {
                       if (date) {
                         onIncidentDateChange(date.toISOString().split("T")[0]);
+                        setIsDatePickerOpen(false);
                       }
                     }}
                     disabled={(date) => date > new Date()}
