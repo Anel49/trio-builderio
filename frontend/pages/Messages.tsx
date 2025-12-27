@@ -868,7 +868,7 @@ export default function Messages() {
                         }
                       }}
                     >
-                      <div className="relative">
+                      <div className="relative h-20 w-20">
                         <Avatar
                           className={cn(
                             "h-full w-full flex-shrink-0",
