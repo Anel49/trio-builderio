@@ -115,6 +115,12 @@ export function OpenClaimModal({
           <div className="space-y-2">
             <label htmlFor="claim-type" className="text-sm font-medium">
               Claim type
+              <span className={cn(
+                "ml-1",
+                claimType.trim() ? "text-muted-foreground" : "text-red-500"
+              )}>
+                *
+              </span>
             </label>
             <Select value={claimType} onValueChange={onClaimTypeChange}>
               <SelectTrigger id="claim-type">
