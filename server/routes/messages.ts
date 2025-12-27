@@ -123,16 +123,31 @@ export async function sendMessage(req: Request, res: Response) {
       // Thread already exists, use the provided thread ID
       threadId = messageThreadId;
     } else {
-      // Create new thread with senderId as user_a_id and toId as user_b_id
-      const threadCreateResult = await pool.query(
+      // Check if thread already exists (in either direction)
+      const existingThreadResult = await pool.query(
         `
-        INSERT INTO message_threads (user_a_id, user_b_id, last_updated_by_id)
-        VALUES ($1, $2, $1)
-        RETURNING id
+        SELECT id FROM message_threads
+        WHERE (user_a_id = $1 AND user_b_id = $2) OR (user_a_id = $2 AND user_b_id = $1)
+        LIMIT 1
         `,
         [senderId, toId],
       );
-      threadId = threadCreateResult.rows[0].id;
+
+      if (existingThreadResult.rows.length > 0) {
+        // Thread exists, use it
+        threadId = existingThreadResult.rows[0].id;
+      } else {
+        // Create new thread with senderId as user_a_id and toId as user_b_id
+        const threadCreateResult = await pool.query(
+          `
+          INSERT INTO message_threads (user_a_id, user_b_id, last_updated_by_id)
+          VALUES ($1, $2, $1)
+          RETURNING id
+          `,
+          [senderId, toId],
+        );
+        threadId = threadCreateResult.rows[0].id;
+      }
     }
 
     // Insert the message with the thread_id
