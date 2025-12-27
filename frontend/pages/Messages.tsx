@@ -766,7 +766,7 @@ export default function Messages() {
                             : "bg-muted"
                         }`}
                       >
-                        <p className="text-sm">{message.body}</p>
+                        <p className="text-sm whitespace-pre-wrap break-words">{message.body}</p>
                         <p
                           className={`text-xs mt-1 ${
                             message.isFromCurrentUser
