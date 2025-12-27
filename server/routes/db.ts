@@ -56,6 +56,40 @@ export async function dbSetup(_req: Request, res: Response) {
       }
     }
 
+    // Create claims table if it doesn't exist
+    try {
+      await pool.query(
+        `create table if not exists claims (
+          id serial primary key,
+          status text not null default 'submitted' check (status in ('submitted', 'under review', 'awaiting customer response', 'reimbursement pending', 'legal action', 'canceled', 'rejected', 'resolved')),
+          created_at timestamp not null default now(),
+          updated_at timestamp not null default now(),
+          assigned_to integer references users(id) on delete set null,
+          order_id integer not null references orders(id) on delete cascade,
+          created_by integer not null references users(id) on delete cascade,
+          claim_type text not null check (claim_type in ('damage', 'late return', 'missing', 'theft', 'other')),
+          claim_details text not null,
+          priority integer default 5,
+          incident_date timestamp not null,
+          evidence_urls jsonb default '[]'::jsonb,
+          currency text not null default 'USD',
+          estimated_cost_cents integer,
+          final_cost_cents integer,
+          reimbursement_amount_cents integer,
+          legal_details text,
+          message_thread integer references message_threads(id) on delete set null,
+          closed_at timestamp,
+          resolution_notes text
+        )`,
+      );
+      console.log("[dbSetup] Created claims table");
+    } catch (e: any) {
+      // Table might already exist, which is fine
+      if (!e.message?.includes("already exists")) {
+        console.warn("[dbSetup] Warning creating claims table:", e.message);
+      }
+    }
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
