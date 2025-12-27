@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api";
-import { Loader2, MapPin } from "lucide-react";
+import { Loader2, MapPin, Navigation } from "lucide-react";
 import type { LatLngExpression, LeafletMouseEvent } from "leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
