@@ -443,7 +443,9 @@ export function LocationPickerModal({
             </div>
           )}
           {error ? (
-            <div className="text-sm text-destructive dark:text-[rgb(220,38,38)]">{error}</div>
+            <div className="text-sm text-destructive dark:text-[rgb(220,38,38)]">
+              {error}
+            </div>
           ) : null}
         </div>
         <div className="flex flex-col sm:flex-row gap-2 justify-between">
