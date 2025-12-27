@@ -867,6 +867,10 @@ export function createServer() {
   app.post("/api/checkout/create-session", createCheckoutSession);
   app.post("/checkout/create-session", createCheckoutSession);
 
+  // Claims
+  app.post("/api/claims/create", createClaim);
+  app.post("/claims/create", createClaim);
+
   // WebAuthn verification for OAuth users
   app.post("/api/users/webauthn/verify", async (req: any, res: any) => {
     try {
