@@ -1775,8 +1775,7 @@ export default function OrderHistory() {
                                           }}
                                           className="text-sm font-medium text-primary hover:underline cursor-pointer transition-colors"
                                         >
-                                          Order #
-                                          {getExtensionOrderNumber(extension)}
+                                          #{getExtensionOrderNumber(extension)}
                                         </button>
                                         <div className="flex items-center text-sm text-muted-foreground mt-1 gap-3">
                                           <div className="flex items-center gap-1">
