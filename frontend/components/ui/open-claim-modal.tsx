@@ -66,6 +66,10 @@ export function OpenClaimModal({
   isSubmitting = false,
   onSubmit,
 }: OpenClaimModalProps) {
+  const [isDatePickerOpen, setIsDatePickerOpen] = React.useState(false);
+
+  const selectedDate = incidentDate ? new Date(incidentDate) : undefined;
+
   const isFormValid =
     claimType.trim() !== "" &&
     incidentDate.trim() !== "" &&
