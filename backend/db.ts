@@ -279,6 +279,22 @@ export async function dbSetup(_req: Request, res: Response) {
       "[dbSetup] Removed restrictive reservations foreign key constraint",
     );
 
+    // Configure reservations.number column - ensure sequence starts at 1000000
+    try {
+      await pool.query(
+        `create sequence if not exists reservations_number_seq start with 1000000`,
+      );
+      await pool.query(
+        `alter sequence if exists reservations_number_seq restart with 1000000`,
+      );
+      console.log("[dbSetup] Reset reservations_number_seq to start at 1000000");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Could not reset reservations sequence:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
     await pool.query(`
       create table if not exists reservations (
         id serial primary key,
