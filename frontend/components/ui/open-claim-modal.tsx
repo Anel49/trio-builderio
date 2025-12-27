@@ -128,17 +128,38 @@ export function OpenClaimModal({
 
           {/* Incident Date */}
           <div className="space-y-2">
-            <label htmlFor="incident-date" className="text-sm font-medium">
+            <label className="text-sm font-medium">
               Incident date
             </label>
-            <input
-              id="incident-date"
-              type="date"
-              value={incidentDate}
-              onChange={(e) => onIncidentDateChange(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              disabled={isSubmitting}
-            />
+            <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !selectedDate && "text-muted-foreground"
+                  )}
+                  disabled={isSubmitting}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {selectedDate ? format(selectedDate, "MMM dd, yyyy") : "Select date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={(date) => {
+                    if (date) {
+                      onIncidentDateChange(date.toISOString().split("T")[0]);
+                      setIsDatePickerOpen(false);
+                    }
+                  }}
+                  disabled={(date) => date > new Date()}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
 
           {/* Claim Details */}
