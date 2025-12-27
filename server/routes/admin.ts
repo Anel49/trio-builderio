@@ -424,15 +424,19 @@ export async function listAllClaims(req: Request, res: Response) {
 
     if (search) {
       params.push(`%${search}%`);
-      const searchParam = `$${params.length}`;
+      const searchParam = params.length;
       whereClause = `(
-        lower(c.claim_number) like ${searchParam}
-        or lower(u.name) like ${searchParam}
-        or lower(c.status) like ${searchParam}
-        or cast(c.priority as text) like ${searchParam}
-        or cast(c.order_id as text) like ${searchParam}
+        lower(c.claim_number) like $${searchParam}
+        or lower(u.name) like $${searchParam}
+        or lower(c.status) like $${searchParam}
+        or cast(c.priority as text) like $${searchParam}
+        or cast(c.order_id as text) like $${searchParam}
       )`;
     }
+
+    params.push(limit, offset);
+    const limitParam = params.length - 1;
+    const offsetParam = params.length;
 
     const result = await pool.query(
       `select c.id, c.claim_number, c.status, u.name as assigned_to_name, c.priority,
@@ -441,15 +445,15 @@ export async function listAllClaims(req: Request, res: Response) {
        left join users u on c.assigned_to = u.id
        where ${whereClause}
        order by c.created_at desc
-       limit $${params.length + 1} offset $${params.length + 2}`,
-      [...params, limit, offset],
+       limit $${limitParam} offset $${offsetParam}`,
+      params,
     );
 
     const countResult = await pool.query(
       `select count(*) as total from claims c
        left join users u on c.assigned_to = u.id
        where ${whereClause}`,
-      params,
+      params.slice(0, params.length - 2),
     );
 
     res.json({
