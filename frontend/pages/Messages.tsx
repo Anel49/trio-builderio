@@ -784,7 +784,10 @@ export default function Messages() {
                         }`}
                       >
                         <p className="text-sm whitespace-pre-wrap break-words">
-                          <LinkifiedMessage text={message.body} isCurrentUser={message.isFromCurrentUser} />
+                          <LinkifiedMessage
+                            text={message.body}
+                            isCurrentUser={message.isFromCurrentUser}
+                          />
                         </p>
                         <p
                           className={`text-xs mt-1 ${

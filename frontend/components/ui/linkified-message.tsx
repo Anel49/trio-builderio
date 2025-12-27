@@ -5,20 +5,29 @@ interface LinkifiedMessageProps {
   isCurrentUser?: boolean;
 }
 
-export function LinkifiedMessage({ text, isCurrentUser }: LinkifiedMessageProps) {
+export function LinkifiedMessage({
+  text,
+  isCurrentUser,
+}: LinkifiedMessageProps) {
   const navigate = useNavigate();
 
   const handleNumberClick = (
     numberText: string,
-    prefix: "ORD" | "REQ" | "EXT"
+    prefix: "ORD" | "REQ" | "EXT",
   ) => {
     const tab = prefix === "ORD" ? "orders" : "requests";
-    navigate(`/rentals-and-requests?tab=${tab}&search=${encodeURIComponent(numberText)}`);
+    navigate(
+      `/rentals-and-requests?tab=${tab}&search=${encodeURIComponent(numberText)}`,
+    );
   };
 
   // Find all matches with their positions
   const pattern = /(ORD|REQ|EXT)-[\w]+/g;
-  const matches: Array<{ text: string; index: number; prefix: "ORD" | "REQ" | "EXT" }> = [];
+  const matches: Array<{
+    text: string;
+    index: number;
+    prefix: "ORD" | "REQ" | "EXT";
+  }> = [];
   let match;
 
   while ((match = pattern.exec(text)) !== null) {
@@ -48,13 +57,14 @@ export function LinkifiedMessage({ text, isCurrentUser }: LinkifiedMessageProps)
       <button
         key={`link-${match.index}`}
         onClick={() => handleNumberClick(match.text, match.prefix)}
-        className={isCurrentUser
-          ? "text-white font-bold hover:underline cursor-pointer transition-colors inline"
-          : "text-primary font-bold hover:underline cursor-pointer transition-colors inline"
+        className={
+          isCurrentUser
+            ? "text-white font-bold hover:underline cursor-pointer transition-colors inline"
+            : "text-primary font-bold hover:underline cursor-pointer transition-colors inline"
         }
       >
         {match.text}
-      </button>
+      </button>,
     );
 
     lastIndex = match.index + match.text.length;
