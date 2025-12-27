@@ -77,14 +77,14 @@ export function OpenClaimModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md overflow-visible">
         <DialogHeader>
           <DialogTitle>
             {order ? `Open Claim for ${order.order_number}` : "Open Claim"}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4 py-4">
+        <div className="space-y-4 py-4 overflow-visible">
           {/* Claim Details Header */}
           <div>
             <h3 className="text-sm font-semibold mb-3">Claim Details</h3>
