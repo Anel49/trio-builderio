@@ -50,7 +50,7 @@ export function LinkifiedMessage({ text, isCurrentUser }: LinkifiedMessageProps)
         onClick={() => handleNumberClick(match.text, match.prefix)}
         className={isCurrentUser
           ? "text-white font-bold hover:underline cursor-pointer transition-colors inline"
-          : "text-primary hover:underline cursor-pointer font-medium transition-colors inline"
+          : "text-primary font-bold hover:underline cursor-pointer transition-colors inline"
         }
       >
         {match.text}
