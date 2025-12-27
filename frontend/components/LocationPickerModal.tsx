@@ -445,27 +445,49 @@ export function LocationPickerModal({
             <div className="text-sm text-destructive">{error}</div>
           ) : null}
         </div>
-        <DialogFooter className="gap-2">
+        <DialogFooter className="gap-2 flex justify-between">
           <Button
             type="button"
             variant="outline"
-            onClick={() => {
-              onClear?.();
-              onOpenChange(false);
-            }}
-            disabled={isSubmitting}
+            onClick={handleFindDeviceLocation}
+            disabled={isSubmitting || isLocating}
           >
-            Clear location
-          </Button>
-          <Button type="button" onClick={handleConfirm} disabled={isSubmitting}>
-            {isSubmitting ? (
+            {isLocating ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Finding...
               </>
             ) : (
-              "Save location"
+              <>
+                <Navigation className="mr-2 h-4 w-4" /> Find location
+              </>
             )}
           </Button>
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                onClear?.();
+                onOpenChange(false);
+              }}
+              disabled={isSubmitting || isLocating}
+            >
+              Clear location
+            </Button>
+            <Button
+              type="button"
+              onClick={handleConfirm}
+              disabled={isSubmitting || isLocating}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving
+                </>
+              ) : (
+                "Save location"
+              )}
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
