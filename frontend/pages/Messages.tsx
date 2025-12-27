@@ -47,6 +47,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { apiFetch } from "@/lib/api";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { Footer } from "@/components/Footer";
+import { LinkifiedMessage } from "@/components/ui/linkified-message";
 
 interface Conversation {
   otherUserId: number;
