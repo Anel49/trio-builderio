@@ -93,7 +93,7 @@ export async function dbSetup(_req: Request, res: Response) {
           );
 
           const currentType = numberTypeResult.rows[0]?.data_type;
-          if (currentType !== 'integer') {
+          if (currentType !== "integer") {
             await pool.query(
               `alter table orders alter column number type integer`,
             );
@@ -104,9 +104,14 @@ export async function dbSetup(_req: Request, res: Response) {
           await pool.query(
             `alter table orders alter column number set default nextval('orders_number_seq')`,
           );
-          console.log("[dbSetup] Set number column default to nextval('orders_number_seq')");
+          console.log(
+            "[dbSetup] Set number column default to nextval('orders_number_seq')",
+          );
         } catch (e: any) {
-          console.log("[dbSetup] Could not update number column type:", e?.message?.slice(0, 100));
+          console.log(
+            "[dbSetup] Could not update number column type:",
+            e?.message?.slice(0, 100),
+          );
         }
       }
     } catch (e: any) {
@@ -124,7 +129,9 @@ export async function dbSetup(_req: Request, res: Response) {
       await pool.query(
         `alter sequence if exists reservations_number_seq restart with 1000000`,
       );
-      console.log("[dbSetup] Reset reservations_number_seq to start at 1000000");
+      console.log(
+        "[dbSetup] Reset reservations_number_seq to start at 1000000",
+      );
     } catch (e: any) {
       console.log(
         "[dbSetup] Could not reset reservations sequence:",
@@ -153,20 +160,27 @@ export async function dbSetup(_req: Request, res: Response) {
           );
 
           const currentType = numberTypeResult.rows[0]?.data_type;
-          if (currentType !== 'integer') {
+          if (currentType !== "integer") {
             await pool.query(
               `alter table reservations alter column number type integer`,
             );
-            console.log("[dbSetup] Changed reservations number column type to integer");
+            console.log(
+              "[dbSetup] Changed reservations number column type to integer",
+            );
           }
 
           // Ensure default is set to the sequence
           await pool.query(
             `alter table reservations alter column number set default nextval('reservations_number_seq')`,
           );
-          console.log("[dbSetup] Set reservations number column default to nextval('reservations_number_seq')");
+          console.log(
+            "[dbSetup] Set reservations number column default to nextval('reservations_number_seq')",
+          );
         } catch (e: any) {
-          console.log("[dbSetup] Could not update reservations number column type:", e?.message?.slice(0, 100));
+          console.log(
+            "[dbSetup] Could not update reservations number column type:",
+            e?.message?.slice(0, 100),
+          );
         }
       }
     } catch (e: any) {
@@ -187,7 +201,9 @@ export async function dbSetup(_req: Request, res: Response) {
         await pool.query(
           `alter table reservations add column reservation_number text unique`,
         );
-        console.log("[dbSetup] Added reservation_number column to reservations table");
+        console.log(
+          "[dbSetup] Added reservation_number column to reservations table",
+        );
       }
     } catch (e: any) {
       console.log(

@@ -2428,7 +2428,9 @@ export async function createExtensionRequest(req: Request, res: Response) {
     );
 
     // Set reservation_number for extension (extension_of is not null)
-    const reservationNumber = reservation.number ? `EXT-${reservation.number}` : null;
+    const reservationNumber = reservation.number
+      ? `EXT-${reservation.number}`
+      : null;
 
     if (reservationNumber) {
       await pool.query(
