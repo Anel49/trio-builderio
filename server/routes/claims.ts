@@ -111,7 +111,7 @@ export async function createClaim(req: Request, res: Response) {
         message_thread,
         status
        ) values ($1, $2, $3, $4, $5, $6, $7, $8)
-       returning id, status, created_at, priority, message_thread`,
+       returning id, status, created_at, priority, message_thread, number`,
       [
         orderId,
         userId,
@@ -125,6 +125,22 @@ export async function createClaim(req: Request, res: Response) {
     );
 
     const claim = claimResult.rows[0];
+
+    // Set the claim_number using the number from the sequence
+    if (claim.number) {
+      try {
+        await pool.query(
+          `update claims set claim_number = $1 where id = $2`,
+          [`CLM-${claim.number}`, claim.id],
+        );
+      } catch (e: any) {
+        console.error(
+          "[createClaim] Error setting claim_number:",
+          e.message,
+        );
+        // Don't fail if this fails
+      }
+    }
 
     // Send initial system message to the thread from support user (ID 2)
     try {
