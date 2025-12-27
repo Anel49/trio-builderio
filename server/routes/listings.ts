@@ -1297,7 +1297,7 @@ export async function getUserReservations(req: Request, res: Response) {
               r.start_date, r.end_date, r.listing_title, r.listing_image,
               r.listing_latitude, r.listing_longitude, r.daily_price_cents, r.total_days,
               r.rental_type, r.status, r.consumable_addon_total, r.nonconsumable_addon_total, r.addons, r.created_at, r.new_dates_proposed,
-              r.extension_of, r.modified_by_id, r.postcode,
+              r.extension_of, r.modified_by_id, r.postcode, r.reservation_number, r.number,
               l.timezone
        from reservations r
        left join listings l on r.listing_id = l.id
@@ -1338,6 +1338,8 @@ export async function getUserReservations(req: Request, res: Response) {
       created_at: r.created_at,
       extension_of: r.extension_of || null,
       postcode: r.postcode || null,
+      reservation_number: r.reservation_number || null,
+      number: r.number || null,
       listingTimezone: r.timezone || "UTC",
     }));
 
