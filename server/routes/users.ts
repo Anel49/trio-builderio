@@ -4,6 +4,29 @@ import * as argon2 from "argon2";
 import { OAuth2Client } from "google-auth-library";
 import crypto from "crypto";
 
+async function generateUniqueUsername(): Promise<string> {
+  const maxAttempts = 10;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    // Generate a 10-digit random number string
+    const tenDigitUuid = Math.floor(Math.random() * 9000000000) + 1000000000;
+    const username = String(tenDigitUuid);
+
+    // Check if this username already exists
+    const existingResult = await pool.query(
+      `select id from users where username = $1 limit 1`,
+      [username],
+    );
+
+    if (existingResult.rowCount === 0) {
+      // Username is unique, return it
+      return username;
+    }
+  }
+
+  // If we've exhausted attempts, throw an error (should be extremely rare)
+  throw new Error("Failed to generate unique username after 10 attempts");
+}
+
 function rowToUser(r: any) {
   return {
     id: r.id,
