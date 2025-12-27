@@ -199,7 +199,13 @@ export default function OrderHistory() {
     }
     return "orders";
   });
-  const [requestSearchQuery, setRequestSearchQuery] = useState("");
+  const [requestSearchQuery, setRequestSearchQuery] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("search") || "";
+    }
+    return "";
+  });
   const [requestStatusFilter, setRequestStatusFilter] = useState<
     RequestStatus | "all"
   >("all");
