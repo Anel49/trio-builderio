@@ -1674,7 +1674,7 @@ export default function OrderHistory() {
                                 View Details
                               </DropdownMenuItem>
                               {order.status === "completed" &&
-                                order.type === "rented" && (
+                                currentUser?.id === order.host_id && (
                                   <DropdownMenuItem
                                     onClick={() => {
                                       setClaimOrder(order);
