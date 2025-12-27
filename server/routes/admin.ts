@@ -433,7 +433,7 @@ export async function listAllClaims(req: Request, res: Response) {
         or lower(u.name) like $1
         or lower(c.status) like $1
         or cast(c.priority as text) like $1
-        or cast(c.order_id as text) like $1
+        or cast(o.number as text) like $1
       )`;
     }
 
@@ -444,9 +444,10 @@ export async function listAllClaims(req: Request, res: Response) {
 
     const queryParams = [...params, limit, offset];
     const query = `select c.id, c.claim_number, c.status, u.name as assigned_to_name, c.priority,
-              c.created_at, c.updated_at, c.order_id
+              c.created_at, c.updated_at, c.order_id, o.number as order_number
        from claims c
        left join users u on c.assigned_to = u.id
+       left join orders o on c.order_id = o.id
        where ${whereClause}
        order by c.created_at desc
        limit $${params.length + 1} offset $${params.length + 2}`;
@@ -461,6 +462,7 @@ export async function listAllClaims(req: Request, res: Response) {
     const countResult = await pool.query(
       `select count(*) as total from claims c
        left join users u on c.assigned_to = u.id
+       left join orders o on c.order_id = o.id
        where ${whereClause}`,
       params,
     );
