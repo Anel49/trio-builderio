@@ -452,6 +452,7 @@ export function LocationPickerModal({
             variant="outline"
             onClick={handleFindDeviceLocation}
             disabled={isSubmitting || isLocating}
+            className="w-full sm:w-auto"
           >
             {isLocating ? (
               <>
