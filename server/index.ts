@@ -84,6 +84,7 @@ import {
 } from "./routes/listing-reviews";
 import { listConversations, getMessages, sendMessage } from "./routes/messages";
 import { createCheckoutSession } from "./routes/checkout";
+import { createClaim } from "./routes/claims";
 
 export function createServer() {
   const app = express();
