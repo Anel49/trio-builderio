@@ -833,7 +833,7 @@ export default function Messages() {
                 </div>
 
                 <div className="p-6 pt-12 text-center md:pt-12">
-                  <div className="relative inline-block mb-4">
+                  <div className="relative inline-block mb-4 leading-none h-20">
                     <a
                       href={
                         selectedChat.username
@@ -841,7 +841,7 @@ export default function Messages() {
                           : "#"
                       }
                       aria-label="Open profile"
-                      className="hover:opacity-80 transition-opacity inline-block"
+                      className="inline-flex items-center justify-center rounded-full hover:opacity-80 transition-opacity h-20 w-20 p-0 leading-none"
                       onClick={(e) => {
                         // Allow default link behavior (new tab, etc.)
                         if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
@@ -853,7 +853,7 @@ export default function Messages() {
                       }}
                     >
                       <Avatar
-                        className={cn("h-20 w-20", getAvatarOutlineClass())}
+                        className={cn("h-full w-full flex-shrink-0", getAvatarOutlineClass())}
                       >
                         <AvatarImage
                           src={selectedChat.avatarUrl || undefined}
