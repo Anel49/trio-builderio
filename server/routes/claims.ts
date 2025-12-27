@@ -90,6 +90,9 @@ export async function createClaim(req: Request, res: Response) {
     // Calculate priority from claim type
     const priority = priorityMap[claimType] || 5;
 
+    // Get display format for claim type
+    const displayClaimType = claimTypeDisplayMap[claimType] || claimType;
+
     // Parse incident date (format: YYYY-MM-DD)
     const incidentDateTime = new Date(incidentDate + "T00:00:00Z");
 
@@ -109,7 +112,7 @@ export async function createClaim(req: Request, res: Response) {
       [
         orderId,
         userId,
-        claimType,
+        displayClaimType,
         claimDetails,
         priority,
         incidentDateTime,
