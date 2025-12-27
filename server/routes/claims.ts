@@ -55,25 +55,25 @@ export async function createClaim(req: Request, res: Response) {
       });
     }
 
-    // Check if message thread already exists between current user and system user (ID 1)
+    // Check if message thread already exists between current user and support user (ID 2)
     let messageThreadId: number;
 
     const existingThreadResult = await pool.query(
       `select id from message_threads
        where (user_a_id = $1 and user_b_id = $2) or (user_a_id = $2 and user_b_id = $1)`,
-      [userId, 1],
+      [userId, 2],
     );
 
     if (existingThreadResult.rowCount && existingThreadResult.rowCount > 0) {
       // Thread already exists, reuse it
       messageThreadId = existingThreadResult.rows[0].id;
     } else {
-      // Create new message thread
+      // Create new message thread with user_a_id = 2 (support user)
       const threadResult = await pool.query(
         `insert into message_threads (user_a_id, user_b_id, last_updated_by_id)
          values ($1, $2, $1)
          returning id`,
-        [userId, 1],
+        [2, userId],
       );
       messageThreadId = threadResult.rows[0].id;
     }
