@@ -785,8 +785,9 @@ export default function Messages() {
                         }`}
                       >
                         <p className="text-sm whitespace-pre-wrap break-words">
-                          <LinkifiedMessage
+                          <SupportMessage
                             text={message.body}
+                            senderId={message.senderId}
                             isCurrentUser={message.isFromCurrentUser}
                           />
                         </p>
