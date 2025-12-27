@@ -72,17 +72,26 @@ export default function AdminClaimsList() {
       const response = await apiFetch(url);
       console.log("[AdminClaimsList] Response status:", response.status);
       console.log("[AdminClaimsList] Response ok:", response.ok);
+      console.log("[AdminClaimsList] Response headers:", response.headers);
+
+      const responseText = await response.text();
+      console.log("[AdminClaimsList] Raw response (first 500 chars):", responseText.substring(0, 500));
 
       if (!response.ok) {
-        const text = await response.text();
-        console.error("[AdminClaimsList] Response text:", text);
-        throw new Error(`Failed to load claims (${response.status})`);
+        console.error("[AdminClaimsList] Error response received");
+        throw new Error(`Failed to load claims (${response.status}): ${responseText.substring(0, 200)}`);
       }
 
-      const data = await response.json();
-      console.log("[AdminClaimsList] Data received:", data);
-      setClaims(data.claims);
-      setTotalClaims(data.total);
+      try {
+        const data = JSON.parse(responseText);
+        console.log("[AdminClaimsList] Data received:", data);
+        setClaims(data.claims || []);
+        setTotalClaims(data.total || 0);
+      } catch (parseErr) {
+        console.error("[AdminClaimsList] JSON parse error:", parseErr);
+        console.error("[AdminClaimsList] Response was:", responseText.substring(0, 1000));
+        throw new Error(`Invalid JSON response: ${responseText.substring(0, 200)}`);
+      }
     } catch (err: any) {
       console.error("[AdminClaimsList] Error:", err);
       setError(err.message || "Failed to load claims");
