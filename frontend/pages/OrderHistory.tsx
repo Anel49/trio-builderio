@@ -2427,6 +2427,65 @@ export default function OrderHistory() {
         }}
       />
 
+      {/* Open Claim Modal */}
+      <OpenClaimModal
+        open={claimDialogOpen}
+        onOpenChange={(open) => {
+          setClaimDialogOpen(open);
+          if (!open) {
+            setClaimOrder(null);
+            setClaimType("");
+            setIncidentDate("");
+            setClaimDetails("");
+          }
+        }}
+        order={claimOrder}
+        claimType={claimType}
+        onClaimTypeChange={setClaimType}
+        incidentDate={incidentDate}
+        onIncidentDateChange={setIncidentDate}
+        claimDetails={claimDetails}
+        onClaimDetailsChange={setClaimDetails}
+        isSubmitting={isSubmittingClaim}
+        onSubmit={async () => {
+          if (!claimOrder || !currentUser?.id || !claimType || !incidentDate || !claimDetails.trim()) {
+            return;
+          }
+
+          setIsSubmittingClaim(true);
+          try {
+            const response = await apiFetch("claims/create", {
+              method: "POST",
+              body: JSON.stringify({
+                orderId: Number(claimOrder.id),
+                claimType,
+                incidentDate,
+                claimDetails,
+              }),
+              headers: { "content-type": "application/json" },
+            });
+
+            const data = await response.json().catch(() => ({}));
+            if (data.ok) {
+              setClaimDialogOpen(false);
+              setClaimOrder(null);
+              setClaimType("");
+              setIncidentDate("");
+              setClaimDetails("");
+              alert("Claim submitted successfully");
+            } else {
+              console.error("Failed to submit claim:", data.error);
+              alert(`Failed to submit claim: ${data.error}`);
+            }
+          } catch (error) {
+            console.error("Error submitting claim:", error);
+            alert("An error occurred while submitting your claim");
+          } finally {
+            setIsSubmittingClaim(false);
+          }
+        }}
+      />
+
       {/* Request Confirmation Modal */}
       <Dialog
         open={requestConfirmModalOpen}
