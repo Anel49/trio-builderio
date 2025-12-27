@@ -359,10 +359,23 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
-    // Add index for claims admin dashboard query
+    // Drop old claims index if it exists
     try {
       await pool.query(
-        `create index if not exists idx_claims_admin_query on claims (created_at desc, claim_number, status, priority, order_id, assigned_to)`,
+        `drop index if exists idx_claims_admin_query`,
+      );
+      console.log("[dbSetup] Dropped old claims index");
+    } catch (e: any) {
+      // Index might not exist, which is fine
+      if (!e.message?.includes("does not exist")) {
+        console.warn("[dbSetup] Warning dropping claims index:", e.message);
+      }
+    }
+
+    // Add index for claims admin dashboard query with order number
+    try {
+      await pool.query(
+        `create index if not exists idx_claims_admin_query on claims (created_at desc, claim_number, status, priority, assigned_to)`,
       );
       console.log(
         "[dbSetup] Created index for claims admin dashboard query",
