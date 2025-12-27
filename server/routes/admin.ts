@@ -32,12 +32,12 @@ export async function listAllUsers(req: Request, res: Response) {
     );
     const search = ((req.query.search as string) || "").toLowerCase().trim();
 
-    let whereClause = "1=1";
+    let whereClause = "u.id != 2";
     const params: any[] = [];
 
     if (search) {
       params.push(`%${search}%`);
-      whereClause = `(lower(u.name) like $${params.length} or lower(u.email) like $${params.length} or lower(u.username) like $${params.length})`;
+      whereClause = `u.id != 2 and (lower(u.name) like $${params.length} or lower(u.email) like $${params.length} or lower(u.username) like $${params.length})`;
     }
 
     const result = await pool.query(
