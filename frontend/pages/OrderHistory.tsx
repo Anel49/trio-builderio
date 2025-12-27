@@ -2027,7 +2027,7 @@ export default function OrderHistory() {
                                 </Badge>
                               </div>
                               <p className="text-sm text-muted-foreground mb-1">
-                                {res.reservation_number ? `#${res.reservation_number}` : (res.number ? `#${res.extension_of ? "EXT" : "RES"}-${res.number}` : `${res.extension_of ? "Extension" : "Request"} #${res.id}`)}
+                                {res.reservation_number ? `#${res.reservation_number}` : (res.number ? `#${res.extension_of ? "EXT" : "REQ"}-${res.number}` : `${res.extension_of ? "Extension" : "Request"} #${res.id}`)}
                               </p>
                               {res.postcode && (
                                 <div className="flex items-center text-sm text-muted-foreground mb-1">
