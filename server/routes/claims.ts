@@ -126,13 +126,23 @@ export async function createClaim(req: Request, res: Response) {
 
     // Send initial system message to the thread from support user (ID 2)
     try {
+      // Format incident date as "Month day, year" (e.g., May 5, 2024)
+      const formattedDate = format(incidentDateTime, "MMMM d, yyyy");
+
+      const messageBody = `A new claim was submitted for order #${order.order_number}. Please review the claim details below and provide any additional information that may assist in resolving the claim. A team member will get back to you as soon as possible.
+
+Claim type: ${displayClaimType}
+Incident date: ${formattedDate}
+Claim details:
+${claimDetails}`;
+
       await pool.query(
         `insert into messages (sender_id, to_id, body, message_thread_id)
          values ($1, $2, $3, $4)`,
         [
           2,
           userId,
-          `A new claim has been submitted for order #${orderId}. Claim type: ${displayClaimType}. Priority: ${priority}. Please review the claim details and provide any additional information if needed.`,
+          messageBody,
           messageThreadId,
         ],
       );
