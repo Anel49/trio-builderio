@@ -1,0 +1,166 @@
+import React from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+interface Order {
+  id: string;
+  order_number?: string;
+  host_name?: string | null;
+  renter_name?: string | null;
+  [key: string]: any;
+}
+
+interface OpenClaimModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  order: Order | null;
+  claimType: string;
+  onClaimTypeChange: (type: string) => void;
+  incidentDate: string;
+  onIncidentDateChange: (date: string) => void;
+  claimDetails: string;
+  onClaimDetailsChange: (details: string) => void;
+  isSubmitting?: boolean;
+  onSubmit: () => void;
+}
+
+const claimTypeOptions = [
+  { label: "Damage", value: "damage" },
+  { label: "Late Return", value: "late return" },
+  { label: "Missing", value: "missing" },
+  { label: "Theft", value: "theft" },
+  { label: "Other", value: "other" },
+];
+
+export function OpenClaimModal({
+  open,
+  onOpenChange,
+  order,
+  claimType,
+  onClaimTypeChange,
+  incidentDate,
+  onIncidentDateChange,
+  claimDetails,
+  onClaimDetailsChange,
+  isSubmitting = false,
+  onSubmit,
+}: OpenClaimModalProps) {
+  const isFormValid =
+    claimType.trim() !== "" &&
+    incidentDate.trim() !== "" &&
+    claimDetails.trim() !== "";
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>
+            {order ? `Open Claim for ${order.order_number}` : "Open Claim"}
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-4 py-4">
+          {/* Claim Details Header */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3">Claim Details</h3>
+
+            {/* Order Information */}
+            <div className="space-y-2 text-sm">
+              {order && (
+                <>
+                  <p className="text-muted-foreground">
+                    Order #{order.order_number}
+                  </p>
+                  <p className="text-muted-foreground">
+                    Host: {order.host_name || "Unknown"}
+                  </p>
+                  <p className="text-muted-foreground">
+                    Renter: {order.renter_name || "Unknown"}
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Claim Type */}
+          <div className="space-y-2">
+            <label htmlFor="claim-type" className="text-sm font-medium">
+              Claim type
+            </label>
+            <Select value={claimType} onValueChange={onClaimTypeChange}>
+              <SelectTrigger id="claim-type">
+                <SelectValue placeholder="Select claim type" />
+              </SelectTrigger>
+              <SelectContent>
+                {claimTypeOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Incident Date */}
+          <div className="space-y-2">
+            <label htmlFor="incident-date" className="text-sm font-medium">
+              Incident date
+            </label>
+            <input
+              id="incident-date"
+              type="date"
+              value={incidentDate}
+              onChange={(e) => onIncidentDateChange(e.target.value)}
+              className="w-full px-3 py-2 border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              disabled={isSubmitting}
+            />
+          </div>
+
+          {/* Claim Details */}
+          <div className="space-y-2">
+            <label htmlFor="claim-details" className="text-sm font-medium">
+              Claim details
+            </label>
+            <textarea
+              id="claim-details"
+              placeholder="Describe what happened..."
+              value={claimDetails}
+              onChange={(e) => onClaimDetailsChange(e.target.value)}
+              className="w-full min-h-28 p-2 border rounded-md bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              disabled={isSubmitting}
+            />
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-2 justify-end pt-4">
+            <Button
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={onSubmit}
+              disabled={isSubmitting || !isFormValid}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Claim"}
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
