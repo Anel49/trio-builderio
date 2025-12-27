@@ -1669,15 +1669,8 @@ export default function OrderHistory() {
                               </DropdownMenuItem>
                               {order.status === "completed" &&
                                 order.type === "rented" && (
-                                  <DropdownMenuItem
-                                    onClick={() => {
-                                      setReviewOrder(order);
-                                      setReviewRating(null);
-                                      setReviewText("");
-                                      setReviewDialogOpen(true);
-                                    }}
-                                  >
-                                    Post Review
+                                  <DropdownMenuItem onClick={() => {}}>
+                                    Open Claim
                                   </DropdownMenuItem>
                                 )}
                               {(order.status === "upcoming" ||
