@@ -15,11 +15,11 @@ export function SupportMessage({
 
   const handleNumberClick = (
     numberText: string,
-    prefix: "ORD" | "REQ" | "EXT"
+    prefix: "ORD" | "REQ" | "EXT",
   ) => {
     const tab = prefix === "ORD" ? "orders" : "requests";
     navigate(
-      `/rentals-and-requests?tab=${tab}&search=${encodeURIComponent(numberText)}`
+      `/rentals-and-requests?tab=${tab}&search=${encodeURIComponent(numberText)}`,
     );
   };
 
@@ -42,13 +42,18 @@ export function SupportMessage({
 
   // Parse support message labels (only for support user ID 2)
   const isSupportMessage = senderId === 2;
-  const labels = ["Listing:", "Claim type:", "Incident date:", "Claim details:"];
+  const labels = [
+    "Listing:",
+    "Claim type:",
+    "Incident date:",
+    "Claim details:",
+  ];
   const labelMatches: Array<{ text: string; index: number }> = [];
 
   if (isSupportMessage) {
     const labelPattern = new RegExp(
       `(${labels.map((l) => l.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`,
-      "g"
+      "g",
     );
 
     while ((match = labelPattern.exec(text)) !== null) {
@@ -86,9 +91,7 @@ export function SupportMessage({
       elements.push(
         <button
           key={`order-${m.index}`}
-          onClick={() =>
-            handleNumberClick(orderMatch.text, orderMatch.prefix)
-          }
+          onClick={() => handleNumberClick(orderMatch.text, orderMatch.prefix)}
           className={
             isCurrentUser
               ? "text-white font-bold hover:underline cursor-pointer transition-colors inline"
@@ -96,13 +99,13 @@ export function SupportMessage({
           }
         >
           {orderMatch.text}
-        </button>
+        </button>,
       );
     } else {
       elements.push(
         <strong key={`label-${m.index}`} className="font-bold">
           {m.text}
-        </strong>
+        </strong>,
       );
     }
 
