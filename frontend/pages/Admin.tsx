@@ -25,6 +25,7 @@ import AdminUserList from "@/components/AdminUserList";
 import AdminListingList from "@/components/AdminListingList";
 import AdminOrderList from "@/components/AdminOrderList";
 import AdminReviewList from "@/components/AdminReviewList";
+import AdminClaimsList from "@/components/AdminClaimsList";
 
 interface NavItem {
   id: string;
