@@ -1756,6 +1756,7 @@ export default function Profile() {
                 )}
 
                 {/* Average Review Rating */}
+                {(viewingOtherUser ? otherUserData?.id !== 2 : authUser?.id !== 2) && (
                 <div className="mb-4">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="flex items-center">
@@ -1813,8 +1814,10 @@ export default function Profile() {
                     </span>
                   </div>
                 </div>
+                )}
 
                 {/* Date Joined */}
+                {(viewingOtherUser ? otherUserData?.id !== 2 : authUser?.id !== 2) && (
                 <div className="mb-4">
                   <div className="flex items-center justify-center space-x-2 text-muted-foreground">
                     <Calendar className="h-4 w-4" />
@@ -1823,6 +1826,7 @@ export default function Profile() {
                     </span>
                   </div>
                 </div>
+                )}
 
                 {/* Action Buttons */}
                 <div className="space-y-2 max-w-[300px] mx-auto">
@@ -3199,6 +3203,7 @@ export default function Profile() {
               )}
 
               {/* Average Review Rating */}
+              {(viewingOtherUser ? otherUserData?.id !== 2 : authUser?.id !== 2) && (
               <div className="mb-4">
                 <div className="flex items-center justify-center space-x-2">
                   <div className="flex items-center">
@@ -3255,17 +3260,20 @@ export default function Profile() {
                     ({sellerReviews.length} reviews)
                   </span>
                 </div>
-              </div>
+            </div>
+            )}
 
-              {/* Date Joined */}
-              <div className="mb-4">
-                <div className="flex items-center justify-center space-x-2 text-muted-foreground">
-                  <Calendar className="h-4 w-4" />
-                  <span className="text-sm">
-                    Joined {userProfile.dateJoined}
-                  </span>
-                </div>
+            {/* Date Joined */}
+            {(viewingOtherUser ? otherUserData?.id !== 2 : authUser?.id !== 2) && (
+            <div className="mb-4">
+              <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+                <Calendar className="h-4 w-4" />
+                <span className="text-sm">
+                  Joined {userProfile.dateJoined}
+                </span>
               </div>
+            </div>
+            )}
 
               {/* Action Buttons */}
               <div className="space-y-2 max-w-[300px] mx-auto">
