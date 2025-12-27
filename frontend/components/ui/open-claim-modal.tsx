@@ -140,6 +140,12 @@ export function OpenClaimModal({
           <div className="space-y-2">
             <label className="text-sm font-medium">
               Incident date
+              <span className={cn(
+                "ml-1",
+                incidentDate.trim() ? "text-muted-foreground" : "text-red-500"
+              )}>
+                *
+              </span>
             </label>
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
               <PopoverTrigger asChild>
