@@ -40,6 +40,19 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
+    // Add UNIQUE constraint on username if it doesn't exist
+    try {
+      await pool.query(
+        `alter table users add constraint users_username_unique unique (username)`,
+      );
+      console.log("[dbSetup] Added UNIQUE constraint on username column");
+    } catch (e: any) {
+      // Constraint might already exist, which is fine
+      if (!e.message?.includes("already exists")) {
+        console.warn("[dbSetup] Warning adding username constraint:", e.message);
+      }
+    }
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
