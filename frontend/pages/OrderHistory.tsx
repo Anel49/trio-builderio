@@ -1371,7 +1371,7 @@ export default function OrderHistory() {
                               </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground mb-1">
-                              Order #{order.order_number || order.id}
+                              #{order.order_number || order.id}
                             </p>
                             {order.listing_postcode && (
                               <div className="flex items-center text-sm text-muted-foreground mb-2">
