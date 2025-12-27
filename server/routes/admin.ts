@@ -409,6 +409,8 @@ export async function deleteReview(req: Request, res: Response) {
 
 export async function listAllClaims(req: Request, res: Response) {
   try {
+    console.log("[listAllClaims] Starting request");
+
     const limit = Math.min(
       Number.parseInt((req.query.limit as string) || "20", 10),
       500,
@@ -418,6 +420,8 @@ export async function listAllClaims(req: Request, res: Response) {
       0,
     );
     const search = ((req.query.search as string) || "").toLowerCase().trim();
+
+    console.log("[listAllClaims] Parsed params - limit:", limit, "offset:", offset, "search:", search);
 
     let whereClause = "1=1";
     const params: any[] = [];
@@ -433,16 +437,26 @@ export async function listAllClaims(req: Request, res: Response) {
       )`;
     }
 
-    const result = await pool.query(
-      `select c.id, c.claim_number, c.status, u.name as assigned_to_name, c.priority,
+    console.log("[listAllClaims] whereClause:", whereClause);
+    console.log("[listAllClaims] params array:", params);
+    console.log("[listAllClaims] limit param index:", params.length + 1);
+    console.log("[listAllClaims] offset param index:", params.length + 2);
+
+    const queryParams = [...params, limit, offset];
+    const query = `select c.id, c.claim_number, c.status, u.name as assigned_to_name, c.priority,
               c.created_at, c.updated_at, c.order_id
        from claims c
        left join users u on c.assigned_to = u.id
        where ${whereClause}
        order by c.created_at desc
-       limit $${params.length + 1} offset $${params.length + 2}`,
-      [...params, limit, offset],
-    );
+       limit $${params.length + 1} offset $${params.length + 2}`;
+
+    console.log("[listAllClaims] Query:", query);
+    console.log("[listAllClaims] Query params:", queryParams);
+
+    const result = await pool.query(query, queryParams);
+
+    console.log("[listAllClaims] Query succeeded, rows:", result.rowCount);
 
     const countResult = await pool.query(
       `select count(*) as total from claims c
@@ -450,6 +464,8 @@ export async function listAllClaims(req: Request, res: Response) {
        where ${whereClause}`,
       params,
     );
+
+    console.log("[listAllClaims] Count result:", countResult.rows[0]);
 
     res.json({
       ok: true,
@@ -459,6 +475,9 @@ export async function listAllClaims(req: Request, res: Response) {
       offset,
     });
   } catch (error: any) {
+    console.error("[listAllClaims] Error:", error);
+    console.error("[listAllClaims] Error message:", error?.message);
+    console.error("[listAllClaims] Full error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
