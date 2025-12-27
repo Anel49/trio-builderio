@@ -86,7 +86,7 @@ export function Footer() {
                 <li>
                   <button
                     onClick={handleRentProduct}
-                    className={`hover:text-foreground transition-colors ${
+                    className={`hover:text-foreground transition-colors block text-left ${
                       !user?.stripeSecret && "opacity-50"
                     }`}
                   >
