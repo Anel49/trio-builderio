@@ -784,7 +784,7 @@ export default function Messages() {
                         }`}
                       >
                         <p className="text-sm whitespace-pre-wrap break-words">
-                          {message.body}
+                          <LinkifiedMessage text={message.body} />
                         </p>
                         <p
                           className={`text-xs mt-1 ${
