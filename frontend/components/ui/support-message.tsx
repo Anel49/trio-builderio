@@ -1,4 +1,4 @@
-import { LinkifiedMessage } from "./linkified-message";
+import { useNavigate } from "react-router-dom";
 
 interface SupportMessageProps {
   text: string;
@@ -11,49 +11,108 @@ export function SupportMessage({
   senderId,
   isCurrentUser,
 }: SupportMessageProps) {
-  // If not from support user (ID 2), use regular linkified message
-  if (senderId !== 2) {
-    return <LinkifiedMessage text={text} isCurrentUser={isCurrentUser} />;
+  const navigate = useNavigate();
+
+  const handleNumberClick = (
+    numberText: string,
+    prefix: "ORD" | "REQ" | "EXT"
+  ) => {
+    const tab = prefix === "ORD" ? "orders" : "requests";
+    navigate(
+      `/rentals-and-requests?tab=${tab}&search=${encodeURIComponent(numberText)}`
+    );
+  };
+
+  // Parse order/request numbers
+  const orderPattern = /(ORD|REQ|EXT)-[\w]+/g;
+  const orderMatches: Array<{
+    text: string;
+    index: number;
+    prefix: "ORD" | "REQ" | "EXT";
+  }> = [];
+  let match;
+
+  while ((match = orderPattern.exec(text)) !== null) {
+    orderMatches.push({
+      text: match[0],
+      index: match.index,
+      prefix: match[1] as "ORD" | "REQ" | "EXT",
+    });
   }
 
-  // For support messages, parse and bold specific labels
+  // Parse support message labels (only for support user ID 2)
+  const isSupportMessage = senderId === 2;
   const labels = ["Listing:", "Claim type:", "Incident date:", "Claim details:"];
-  const parts: Array<string | React.ReactNode> = [];
-  let lastIndex = 0;
+  const labelMatches: Array<{ text: string; index: number }> = [];
 
-  // Create a regex pattern that matches any of the labels
-  const pattern = new RegExp(
-    `(${labels.map((l) => l.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`,
-    "g"
-  );
-
-  let match;
-  while ((match = pattern.exec(text)) !== null) {
-    // Add text before the match
-    if (match.index > lastIndex) {
-      const textBefore = text.slice(lastIndex, match.index);
-      parts.push(textBefore);
-    }
-
-    // Add the bolded label
-    parts.push(
-      <strong key={`label-${match.index}`} className="font-bold">
-        {match[0]}
-      </strong>
+  if (isSupportMessage) {
+    const labelPattern = new RegExp(
+      `(${labels.map((l) => l.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`,
+      "g"
     );
 
-    lastIndex = match.index + match[0].length;
+    while ((match = labelPattern.exec(text)) !== null) {
+      labelMatches.push({
+        text: match[0],
+        index: match.index,
+      });
+    }
+  }
+
+  // Merge and sort all matches by index
+  const allMatches = [
+    ...orderMatches.map((m) => ({ ...m, type: "order" as const })),
+    ...labelMatches.map((m) => ({ ...m, type: "label" as const })),
+  ].sort((a, b) => a.index - b.index);
+
+  // If no matches, return text as-is
+  if (allMatches.length === 0) {
+    return <>{text}</>;
+  }
+
+  // Build elements by interleaving text and styled spans
+  const elements: Array<string | React.ReactNode> = [];
+  let lastIndex = 0;
+
+  for (const m of allMatches) {
+    // Add text before this match
+    if (m.index > lastIndex) {
+      elements.push(text.slice(lastIndex, m.index));
+    }
+
+    // Add the styled element
+    if (m.type === "order") {
+      const orderMatch = m as (typeof orderMatches)[0] & { type: "order" };
+      elements.push(
+        <button
+          key={`order-${m.index}`}
+          onClick={() =>
+            handleNumberClick(orderMatch.text, orderMatch.prefix)
+          }
+          className={
+            isCurrentUser
+              ? "text-white font-bold hover:underline cursor-pointer transition-colors inline"
+              : "text-primary font-bold hover:underline cursor-pointer transition-colors inline"
+          }
+        >
+          {orderMatch.text}
+        </button>
+      );
+    } else {
+      elements.push(
+        <strong key={`label-${m.index}`} className="font-bold">
+          {m.text}
+        </strong>
+      );
+    }
+
+    lastIndex = m.index + m.text.length;
   }
 
   // Add remaining text
   if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
+    elements.push(text.slice(lastIndex));
   }
 
-  // If no labels were found, just return the text as-is
-  if (parts.length === 0) {
-    return <>{text}</>;
-  }
-
-  return <>{parts}</>;
+  return <>{elements}</>;
 }
