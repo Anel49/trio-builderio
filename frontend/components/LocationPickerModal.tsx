@@ -321,6 +321,44 @@ export function LocationPickerModal({
     initialLocation.longitude,
   ]);
 
+  const handleFindDeviceLocation = useCallback(() => {
+    setIsLocating(true);
+    setError(null);
+
+    if (!navigator.geolocation) {
+      setError("Geolocation is not supported by your browser.");
+      setIsLocating(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const normalized = normalizeCoordinates(latitude, longitude);
+        setSelectedLat(normalized[0]);
+        setSelectedLng(normalized[1]);
+        setIsLocating(false);
+      },
+      (err) => {
+        let errorMsg = "Unable to get your location.";
+        if (err.code === 1) {
+          errorMsg = "Permission denied. Please allow location access.";
+        } else if (err.code === 2) {
+          errorMsg = "Position unavailable. Try again.";
+        } else if (err.code === 3) {
+          errorMsg = "Request timeout. Try again.";
+        }
+        setError(errorMsg);
+        setIsLocating(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      },
+    );
+  }, []);
+
   const handleConfirm = useCallback(async () => {
     if (
       typeof selectedLat !== "number" ||
