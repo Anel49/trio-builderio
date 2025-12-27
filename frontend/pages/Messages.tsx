@@ -853,7 +853,10 @@ export default function Messages() {
                       }}
                     >
                       <Avatar
-                        className={cn("h-full w-full flex-shrink-0", getAvatarOutlineClass())}
+                        className={cn(
+                          "h-full w-full flex-shrink-0",
+                          getAvatarOutlineClass(),
+                        )}
                       >
                         <AvatarImage
                           src={selectedChat.avatarUrl || undefined}

@@ -49,7 +49,10 @@ export async function dbSetup(_req: Request, res: Response) {
     } catch (e: any) {
       // Constraint might already exist, which is fine
       if (!e.message?.includes("already exists")) {
-        console.warn("[dbSetup] Warning adding username constraint:", e.message);
+        console.warn(
+          "[dbSetup] Warning adding username constraint:",
+          e.message,
+        );
       }
     }
 
