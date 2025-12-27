@@ -628,9 +628,9 @@ export default function Messages() {
                     }`}
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="relative">
+                      <div className="relative h-12 w-12">
                         <Avatar
-                          className={`h-12 w-12 ${
+                          className={`h-full w-full ${
                             selectedUserId === chat.otherUserId
                               ? "!bg-slate-400 dark:!bg-slate-600"
                               : ""
