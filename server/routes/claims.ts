@@ -133,6 +133,7 @@ export async function createClaim(req: Request, res: Response) {
 
       const messageBody = `A new claim was submitted for order #${order.order_number}. Please review the claim details below and provide any additional information that may assist in resolving the claim. A team member will get back to you as soon as possible.
 
+Listing: ${order.listing_title}
 Claim type: ${displayClaimType}
 Incident date: ${formattedDate}
 Claim details:
