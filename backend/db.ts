@@ -676,6 +676,70 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Add number column to reservations table
+    try {
+      const numberColResult = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'reservations' and column_name = 'number'`,
+      );
+
+      if (numberColResult.rows.length === 0) {
+        await pool.query(
+          `alter table reservations add column number integer unique default nextval('reservations_number_seq')`,
+        );
+        console.log("[dbSetup] Added number column to reservations table");
+      } else {
+        // If number column exists, ensure it's type integer and has the correct default
+        try {
+          const numberTypeResult = await pool.query(
+            `select data_type from information_schema.columns
+             where table_name = 'reservations' and column_name = 'number'`,
+          );
+
+          const currentType = numberTypeResult.rows[0]?.data_type;
+          if (currentType !== 'integer') {
+            await pool.query(
+              `alter table reservations alter column number type integer`,
+            );
+            console.log("[dbSetup] Changed reservations number column type to integer");
+          }
+
+          // Ensure default is set to the sequence
+          await pool.query(
+            `alter table reservations alter column number set default nextval('reservations_number_seq')`,
+          );
+          console.log("[dbSetup] Set reservations number column default to nextval('reservations_number_seq')");
+        } catch (e: any) {
+          console.log("[dbSetup] Could not update reservations number column type:", e?.message?.slice(0, 100));
+        }
+      }
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Reservations number column error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
+    // Add reservation_number column to reservations table
+    try {
+      const reservationNumberColResult = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'reservations' and column_name = 'reservation_number'`,
+      );
+
+      if (reservationNumberColResult.rows.length === 0) {
+        await pool.query(
+          `alter table reservations add column reservation_number text unique`,
+        );
+        console.log("[dbSetup] Added reservation_number column to reservations table");
+      }
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Could not add reservation_number column:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     // Rename listing_zip_code to listing_postcode in orders table
     try {
       const colCheckResult = await pool.query(
