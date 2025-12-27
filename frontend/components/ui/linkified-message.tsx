@@ -2,9 +2,10 @@ import { useNavigate } from "react-router-dom";
 
 interface LinkifiedMessageProps {
   text: string;
+  isCurrentUser?: boolean;
 }
 
-export function LinkifiedMessage({ text }: LinkifiedMessageProps) {
+export function LinkifiedMessage({ text, isCurrentUser }: LinkifiedMessageProps) {
   const navigate = useNavigate();
 
   const handleNumberClick = (
@@ -47,7 +48,10 @@ export function LinkifiedMessage({ text }: LinkifiedMessageProps) {
       <button
         key={`link-${match.index}`}
         onClick={() => handleNumberClick(match.text, match.prefix)}
-        className="text-primary hover:underline cursor-pointer font-medium transition-colors inline"
+        className={isCurrentUser
+          ? "text-white font-bold hover:underline cursor-pointer transition-colors inline"
+          : "text-primary hover:underline cursor-pointer font-medium transition-colors inline"
+        }
       >
         {match.text}
       </button>
