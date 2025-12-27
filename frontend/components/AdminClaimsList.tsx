@@ -199,9 +199,12 @@ export default function AdminClaimsList() {
                           claim.status === "resolved"
                             ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
                             : claim.status === "rejected" ||
-                                claim.status === "canceled"
+                                claim.status === "canceled" ||
+                                claim.status === "legal action"
                               ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                              : claim.status === "under review"
+                              : claim.status === "under review" ||
+                                claim.status === "awaiting customer response" ||
+                                claim.status === "reimbursement pending"
                                 ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
                                 : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
                         )}
