@@ -173,6 +173,8 @@ ${claimDetails}`;
         priority: claim.priority,
         messageThreadId: claim.message_thread,
         createdAt: claim.created_at,
+        number: claim.number,
+        claimNumber: `CLM-${claim.number}`,
       },
     });
   } catch (error: any) {
