@@ -209,7 +209,7 @@ export default function AdminClaimsList() {
                                 : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
                         )}
                       >
-                        {claim.status}
+                        {claim.status.charAt(0).toUpperCase() + claim.status.slice(1)}
                       </span>
                     </td>
                     <td className={spacing.padding.md}>
