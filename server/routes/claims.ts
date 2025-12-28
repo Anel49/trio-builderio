@@ -117,8 +117,9 @@ export async function listClaimThreads(req: Request, res: Response) {
           ROW_NUMBER() OVER (PARTITION BY mt.id ORDER BY m.created_at DESC) as rn
         FROM message_threads mt
         LEFT JOIN messages m ON mt.id = m.message_thread_id
+        LEFT JOIN claims c ON mt.claim_id = c.id
         WHERE mt.claim_id IS NOT NULL
-          AND (mt.user_a_id = $1 OR mt.user_b_id = $1)
+          AND c.assigned_to = $1
       )
       SELECT
         lm.thread_id,
