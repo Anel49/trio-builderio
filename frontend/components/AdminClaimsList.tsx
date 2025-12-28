@@ -160,7 +160,7 @@ export default function AdminClaimsList() {
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto themed-scrollbar">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
