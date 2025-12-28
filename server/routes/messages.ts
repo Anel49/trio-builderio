@@ -253,6 +253,7 @@ export async function updateThreadTitle(req: Request, res: Response) {
     const threadId = Number((req.params as any)?.threadId || "0");
     const { threadTitle } = req.body;
     const userId = (req.session as any)?.userId;
+    const user = (req.session as any)?.user;
 
     if (!threadId) {
       return res.status(400).json({ ok: false, error: "threadId is required" });
@@ -270,30 +271,27 @@ export async function updateThreadTitle(req: Request, res: Response) {
         .json({ ok: false, error: "Unauthorized" });
     }
 
-    // Get the current user from session
-    const user = (req.session as any)?.user;
-
-    // Check if user has permission to update this thread
+    // Verify the user has permission to update this thread
     // (moderator/admin assigned to the claim or participant in the thread)
-    const threadCheck = await pool.query(
-      `SELECT mt.id, mt.claim_id, mt.user_a_id, mt.user_b_id, c.assigned_to
-       FROM message_threads mt
-       LEFT JOIN claims c ON mt.claim_id = c.id
-       WHERE mt.id = $1`,
-      [threadId],
+    const threadCheckResult = await pool.query(
+      `
+      SELECT mt.id
+      FROM message_threads mt
+      LEFT JOIN claims c ON mt.claim_id = c.id
+      WHERE mt.id = $1
+        AND (
+          (mt.user_a_id = $2 OR mt.user_b_id = $2)
+          OR (c.assigned_to = $2 AND ($3 OR $4))
+        )
+      `,
+      [threadId, userId, user?.moderator || false, user?.admin || false],
     );
 
-    if (threadCheck.rows.length === 0) {
-      return res.status(404).json({ ok: false, error: "Thread not found" });
-    }
-
-    const thread = threadCheck.rows[0];
-    const isParticipant = thread.user_a_id === userId || thread.user_b_id === userId;
-    const isAssignedModerator = thread.assigned_to === userId;
-    const hasPermission = isParticipant || isAssignedModerator || user?.admin || user?.moderator;
-
-    if (!hasPermission) {
-      return res.status(403).json({ ok: false, error: "Unauthorized" });
+    if (threadCheckResult.rowCount === 0) {
+      return res.status(403).json({
+        ok: false,
+        error: "Unauthorized",
+      });
     }
 
     // Update the thread title
