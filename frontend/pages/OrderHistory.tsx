@@ -2846,7 +2846,7 @@ export default function OrderHistory() {
           </div>
           <div className="flex justify-center">
             <Button
-              className="max-w-[100px]"
+              className="w-[100px]"
               onClick={() => setClaimSubmitSuccessOpen(false)}
             >
               Ok
