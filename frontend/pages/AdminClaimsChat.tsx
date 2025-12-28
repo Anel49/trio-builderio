@@ -473,30 +473,21 @@ export default function AdminClaimsChat() {
                       selectedThreadId === thread.threadId ? "bg-accent" : ""
                     }`}
                   >
-                    <div className="flex items-center space-x-3">
-                      <div className="relative h-12 w-12 flex-shrink-0">
-                        <div className="relative flex shrink-0 overflow-hidden rounded-full bg-muted aspect-square h-full w-full">
-                          <div className="flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-medium leading-none">
-                            {thread.threadTitle.charAt(0).toUpperCase()}
-                          </div>
-                        </div>
+                    <div>
+                      <div className="font-semibold text-sm truncate text-left w-full">
+                        {thread.threadTitle}
                       </div>
-                      <div className="flex-1 w-0">
-                        <div className="font-semibold text-sm truncate text-left w-full">
-                          {thread.threadTitle}
-                        </div>
-                        <div className="text-xs text-muted-foreground truncate">
-                          {thread.lastMessage ? (
-                            <>
-                              {thread.lastMessageSenderId === 2
-                                ? "Support: "
-                                : "User: "}
-                              {thread.lastMessage}
-                            </>
-                          ) : (
-                            "No messages yet"
-                          )}
-                        </div>
+                      <div className="text-xs text-muted-foreground truncate">
+                        {thread.lastMessage ? (
+                          <>
+                            {thread.lastMessageSenderId === 2
+                              ? "Support: "
+                              : "User: "}
+                            {thread.lastMessage}
+                          </>
+                        ) : (
+                          "No messages yet"
+                        )}
                       </div>
                     </div>
                   </div>
