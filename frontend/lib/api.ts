@@ -367,7 +367,13 @@ export async function apiFetch(path: string, init?: RequestInit) {
       }
     } else {
       const url = cleanJoin(base, path);
+      if (p.includes("claims")) {
+        console.log("[apiFetch] Non-data endpoint claims call, fetching:", url);
+      }
       const res = await tryFetch(url, finalInit, 8000);
+      if (p.includes("claims")) {
+        console.log("[apiFetch] Non-data endpoint claims response:", res?.status);
+      }
       if (res) return res;
     }
   }
