@@ -131,6 +131,42 @@ export default function AdminClaimsList() {
     }
   };
 
+  const handleAssignToMe = async (claimId: number) => {
+    if (!currentUser?.id) {
+      setError("You must be logged in to assign claims");
+      return;
+    }
+
+    try {
+      const response = await apiFetch(`/admin/claims/${claimId}/assign`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ assignToId: currentUser.id }),
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        // Update the claim in state optimistically
+        setClaims((prevClaims) =>
+          prevClaims.map((claim) =>
+            claim.id === claimId
+              ? {
+                  ...claim,
+                  assigned_to: data.claim.assigned_to,
+                  assigned_to_name: data.claim.assigned_to_name,
+                }
+              : claim,
+          ),
+        );
+      } else {
+        setError(data.error || "Failed to assign claim");
+      }
+    } catch (err: any) {
+      console.error("[AdminClaimsList] Assignment error:", err);
+      setError(err.message || "Failed to assign claim");
+    }
+  };
+
   const totalPages = Math.ceil(totalClaims / limit);
   const canPrevious = currentPage > 0;
   const canNext = currentPage < totalPages - 1;
