@@ -787,14 +787,18 @@ export default function AdminClaimsChat() {
                       <div>
                         <p>
                           <span className="font-medium">Status:</span>{" "}
-                          {toTitleCase(claimData.claim.status)}
+                          <span className="text-muted-foreground">
+                            {toTitleCase(claimData.claim.status)}
+                          </span>
                         </p>
                       </div>
 
                       <div>
                         <p>
                           <span className="font-medium">Created at</span>{" "}
-                          {formatDateForClaim(claimData.claim.createdAt)}
+                          <span className="text-muted-foreground">
+                            {formatDateForClaim(claimData.claim.createdAt)}
+                          </span>
                         </p>
                       </div>
 
@@ -809,27 +813,33 @@ export default function AdminClaimsChat() {
                       <div>
                         <p>
                           <span className="font-medium">Listing:</span>{" "}
-                          {claimData.order.listingTitle}
+                          <span className="text-muted-foreground">
+                            {claimData.order.listingTitle}
+                          </span>
                         </p>
                       </div>
 
                       <div>
                         <p>
                           <span className="font-medium">Claim type:</span>{" "}
-                          {claimData.claim.claimType}
+                          <span className="text-muted-foreground">
+                            {claimData.claim.claimType}
+                          </span>
                         </p>
                       </div>
 
                       <div>
                         <p>
                           <span className="font-medium">Incident date:</span>{" "}
-                          {formatDateForClaim(claimData.claim.incidentDate)}
+                          <span className="text-muted-foreground">
+                            {formatDateForClaim(claimData.claim.incidentDate)}
+                          </span>
                         </p>
                       </div>
 
                       <div>
                         <p className="font-medium mb-1">Claim details:</p>
-                        <p className="text-xs text-muted-foreground whitespace-pre-wrap">
+                        <p className="text-muted-foreground whitespace-pre-wrap">
                           {claimData.claim.claimDetails}
                         </p>
                       </div>
