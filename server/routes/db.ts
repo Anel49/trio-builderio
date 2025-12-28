@@ -48,16 +48,18 @@ export async function dbSetup(_req: Request, res: Response) {
       console.log("[dbSetup] Could not drop message_threads:", e?.message?.slice(0, 80));
     }
 
-    // Recreate message_threads table without unique constraint
+    // Recreate message_threads table with new columns for claim support
     try {
       await pool.query(
         `create table if not exists message_threads (
           id serial primary key,
           user_a_id integer not null references users(id) on delete cascade,
           user_b_id integer not null references users(id) on delete cascade,
-          created_at timestamp not null default now(),
+          thread_title text,
+          claim_id integer references claims(id) on delete set null,
+          created_at timestamptz not null default now(),
           last_updated_by_id integer references users(id) on delete set null,
-          last_updated_at timestamp not null default now()
+          last_updated timestamptz not null default now()
         )`,
       );
       console.log("[dbSetup] Created message_threads table");
