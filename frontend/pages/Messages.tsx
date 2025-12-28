@@ -592,13 +592,14 @@ export default function Messages() {
               ) : (
                 filteredConversations.map((chat) => (
                   <div
-                    key={chat.otherUserId}
+                    key={chat.threadId}
                     onClick={() => {
+                      setSelectedThreadId(chat.threadId);
                       setSelectedUserId(chat.otherUserId);
                       setLeftSidebarOpen(false);
                     }}
                     className={`p-2 ml-2 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
-                      selectedUserId === chat.otherUserId ? "bg-accent" : ""
+                      selectedThreadId === chat.threadId ? "bg-accent" : ""
                     }`}
                   >
                     <div className="flex items-center space-x-3">
