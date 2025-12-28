@@ -487,14 +487,19 @@ export async function listAllClaims(req: Request, res: Response) {
 export async function assignClaimToUser(req: Request, res: Response) {
   try {
     const claimId = Number.parseInt((req.params.claimId as string) || "", 10);
-    const assignToId = Number.parseInt((req.body?.assignToId as string) || "", 10);
+    const assignToId = req.body?.assignToId;
 
     if (!Number.isFinite(claimId)) {
       return res.status(400).json({ ok: false, error: "Invalid claim ID" });
     }
 
-    if (!Number.isFinite(assignToId)) {
-      return res.status(400).json({ ok: false, error: "Invalid user ID" });
+    // assignToId can be null (for unassigning) or a valid user ID
+    let assignToIdNumber: number | null = null;
+    if (assignToId !== null && assignToId !== undefined) {
+      assignToIdNumber = Number.parseInt(assignToId as string, 10);
+      if (!Number.isFinite(assignToIdNumber)) {
+        return res.status(400).json({ ok: false, error: "Invalid user ID" });
+      }
     }
 
     // Verify claim exists
@@ -507,26 +512,29 @@ export async function assignClaimToUser(req: Request, res: Response) {
       return res.status(404).json({ ok: false, error: "Claim not found" });
     }
 
-    // Verify user exists
-    const userResult = await pool.query(
-      `select id, name from users where id = $1`,
-      [assignToId],
-    );
+    // If assigning to a user, verify the user exists
+    let assignedToName: string | null = null;
+    if (assignToIdNumber !== null) {
+      const userResult = await pool.query(
+        `select id, name from users where id = $1`,
+        [assignToIdNumber],
+      );
 
-    if (!userResult.rowCount) {
-      return res.status(404).json({ ok: false, error: "User not found" });
+      if (!userResult.rowCount) {
+        return res.status(404).json({ ok: false, error: "User not found" });
+      }
+
+      assignedToName = userResult.rows[0].name;
     }
-
-    const user = userResult.rows[0];
 
     // Update claim assignment
     const updateResult = await pool.query(
       `update claims set assigned_to = $1 where id = $2 returning id, assigned_to`,
-      [assignToId, claimId],
+      [assignToIdNumber, claimId],
     );
 
     if (!updateResult.rowCount) {
-      return res.status(500).json({ ok: false, error: "Failed to assign claim" });
+      return res.status(500).json({ ok: false, error: "Failed to update claim assignment" });
     }
 
     res.json({
@@ -534,7 +542,7 @@ export async function assignClaimToUser(req: Request, res: Response) {
       claim: {
         id: updateResult.rows[0].id,
         assigned_to: updateResult.rows[0].assigned_to,
-        assigned_to_name: user.name,
+        assigned_to_name: assignedToName,
       },
     });
   } catch (error: any) {
