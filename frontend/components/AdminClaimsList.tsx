@@ -293,7 +293,12 @@ export default function AdminClaimsList() {
                     <td className={spacing.padding.md}>
                       <div className="flex items-center gap-2">
                         <p>{claim.assigned_to_name || "Unassigned"}</p>
-                        <Popover>
+                        <Popover
+                          open={openPopoverId === claim.id}
+                          onOpenChange={(open) =>
+                            setOpenPopoverId(open ? claim.id : null)
+                          }
+                        >
                           <PopoverTrigger asChild>
                             <Button
                               variant="ghost"
