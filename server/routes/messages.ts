@@ -123,12 +123,21 @@ export async function sendMessage(req: Request, res: Response) {
       // Thread already exists, use the provided thread ID
       threadId = messageThreadId;
     } else {
-      // If either user is the support user (ID 2), always create a new thread
-      // This ensures each support ticket/claim has its own separate thread
-      const isInvolvingSupportUser = senderId === 2 || toId === 2;
+      // Check if thread already exists (in either direction)
+      const existingThreadResult = await pool.query(
+        `
+        SELECT id FROM message_threads
+        WHERE (user_a_id = $1 AND user_b_id = $2) OR (user_a_id = $2 AND user_b_id = $1)
+        LIMIT 1
+        `,
+        [senderId, toId],
+      );
 
-      if (isInvolvingSupportUser) {
-        // Always create a new thread for support interactions
+      if (existingThreadResult.rows.length > 0) {
+        // Thread exists, use it
+        threadId = existingThreadResult.rows[0].id;
+      } else {
+        // Create new thread with senderId as user_a_id and toId as user_b_id
         const threadCreateResult = await pool.query(
           `
           INSERT INTO message_threads (user_a_id, user_b_id, last_updated_by_id)
@@ -138,32 +147,6 @@ export async function sendMessage(req: Request, res: Response) {
           [senderId, toId],
         );
         threadId = threadCreateResult.rows[0].id;
-      } else {
-        // For non-support conversations, check if thread already exists
-        const existingThreadResult = await pool.query(
-          `
-          SELECT id FROM message_threads
-          WHERE (user_a_id = $1 AND user_b_id = $2) OR (user_a_id = $2 AND user_b_id = $1)
-          LIMIT 1
-          `,
-          [senderId, toId],
-        );
-
-        if (existingThreadResult.rows.length > 0) {
-          // Thread exists, use it
-          threadId = existingThreadResult.rows[0].id;
-        } else {
-          // Create new thread with senderId as user_a_id and toId as user_b_id
-          const threadCreateResult = await pool.query(
-            `
-            INSERT INTO message_threads (user_a_id, user_b_id, last_updated_by_id)
-            VALUES ($1, $2, $1)
-            RETURNING id
-            `,
-            [senderId, toId],
-          );
-          threadId = threadCreateResult.rows[0].id;
-        }
       }
     }
 
