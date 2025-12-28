@@ -2823,6 +2823,36 @@ export default function OrderHistory() {
         </DialogContent>
       </Dialog>
 
+      {/* Claim Submitted Success Modal */}
+      <Dialog
+        open={claimSubmitSuccessOpen}
+        onOpenChange={setClaimSubmitSuccessOpen}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Claim Submitted</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-base text-muted-foreground">
+              Your claim was submitted successfully. A new message thread for your claim was created.{" "}
+              <a
+                href="/messages"
+                className="text-primary hover:underline font-medium"
+              >
+                Click here
+              </a>
+              {" "}to view your messages.
+            </p>
+          </div>
+          <Button
+            className="w-full"
+            onClick={() => setClaimSubmitSuccessOpen(false)}
+          >
+            Got it
+          </Button>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
