@@ -135,6 +135,11 @@ export default function AdminClaimsChat() {
     new Map(),
   );
 
+  // Thread title editing state
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [newThreadTitle, setNewThreadTitle] = useState("");
+  const titleInputRef = React.useRef<HTMLInputElement>(null);
+
   // Refs
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
 
