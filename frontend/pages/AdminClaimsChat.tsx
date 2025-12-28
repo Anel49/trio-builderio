@@ -473,7 +473,7 @@ export default function AdminClaimsChat() {
                       selectedThreadId === thread.threadId ? "bg-accent" : ""
                     }`}
                   >
-                    <div className="flex-1 w-0">
+                    <div className="flex-1 min-w-0">
                       <div className="font-semibold text-sm truncate text-left w-full">
                         {thread.threadTitle}
                       </div>
