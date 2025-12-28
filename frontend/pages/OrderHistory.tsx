@@ -249,6 +249,7 @@ export default function OrderHistory() {
   const [incidentDate, setIncidentDate] = useState("");
   const [claimDetails, setClaimDetails] = useState("");
   const [isSubmittingClaim, setIsSubmittingClaim] = useState(false);
+  const [claimSubmitSuccessOpen, setClaimSubmitSuccessOpen] = useState(false);
 
   // Local state for orders so we can mutate (e.g., cancel)
   const [ordersState, setOrdersState] = useState<Order[]>([]);
