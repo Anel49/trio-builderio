@@ -10,17 +10,9 @@ export async function listConversations(req: Request, res: Response) {
 
     const result = await pool.query(
       `
-      WITH conversation_users AS (
-        SELECT DISTINCT
-          CASE
-            WHEN sender_id = $1 THEN to_id
-            ELSE sender_id
-          END as other_user_id
-        FROM messages
-        WHERE sender_id = $1 OR to_id = $1
-      ),
-      last_messages AS (
+      WITH last_messages AS (
         SELECT
+          mt.id as thread_id,
           CASE
             WHEN m.sender_id = $1 THEN m.to_id
             ELSE m.sender_id
@@ -28,27 +20,32 @@ export async function listConversations(req: Request, res: Response) {
           m.body,
           m.created_at,
           m.sender_id,
-          ROW_NUMBER() OVER (PARTITION BY CASE WHEN m.sender_id = $1 THEN m.to_id ELSE m.sender_id END ORDER BY m.created_at DESC) as rn
-        FROM messages m
-        WHERE m.sender_id = $1 OR m.to_id = $1
+          mt.thread_title,
+          ROW_NUMBER() OVER (PARTITION BY mt.id ORDER BY m.created_at DESC) as rn
+        FROM message_threads mt
+        LEFT JOIN messages m ON mt.id = m.message_thread_id
+        WHERE (mt.user_a_id = $1 OR mt.user_b_id = $1)
       )
       SELECT
-        cu.other_user_id,
+        lm.thread_id,
+        lm.other_user_id,
         u.name,
         u.avatar_url,
         u.username,
         lm.body as last_message,
         lm.created_at as last_message_time,
-        lm.sender_id as last_message_sender_id
-      FROM conversation_users cu
-      JOIN users u ON u.id = cu.other_user_id
-      LEFT JOIN last_messages lm ON lm.other_user_id = cu.other_user_id AND lm.rn = 1
+        lm.sender_id as last_message_sender_id,
+        lm.thread_title
+      FROM last_messages lm
+      JOIN users u ON u.id = lm.other_user_id
+      WHERE lm.rn = 1
       ORDER BY lm.created_at DESC NULLS LAST
       `,
       [userId],
     );
 
     const conversations = result.rows.map((r: any) => ({
+      threadId: r.thread_id,
       otherUserId: r.other_user_id,
       name: r.name,
       avatarUrl: r.avatar_url,
@@ -56,6 +53,7 @@ export async function listConversations(req: Request, res: Response) {
       lastMessage: r.last_message,
       lastMessageTime: r.last_message_time,
       lastMessageSenderId: r.last_message_sender_id,
+      threadTitle: r.thread_title,
     }));
 
     res.json({ ok: true, conversations });
