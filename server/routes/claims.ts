@@ -26,6 +26,8 @@ export async function createClaim(req: Request, res: Response) {
       {}) as any;
     const userId = (req.session as any)?.userId;
 
+    console.log("[createClaim] Request received", { orderId, claimType, incidentDate, userId });
+
     // Validate required fields
     if (!userId) {
       return res.status(401).json({ ok: false, error: "Not authenticated" });
@@ -72,6 +74,7 @@ export async function createClaim(req: Request, res: Response) {
 
     // Always create a new message thread for claims
     // This ensures each claim/support ticket has its own separate thread
+    console.log("[createClaim] Creating message thread for user", userId);
     const threadResult = await pool.query(
       `insert into message_threads (user_a_id, user_b_id, last_updated_by_id)
        values ($1, $2, $1)
@@ -79,6 +82,7 @@ export async function createClaim(req: Request, res: Response) {
       [2, userId],
     );
     messageThreadId = threadResult.rows[0].id;
+    console.log("[createClaim] Thread created with ID", messageThreadId);
 
     // Calculate priority from claim type
     const priority = priorityMap[claimType] || 5;
