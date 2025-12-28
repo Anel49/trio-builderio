@@ -784,25 +784,25 @@ export default function AdminClaimsChat() {
                         </p>
                       </div>
 
-                      <div>
+                      <div className="break-words">
                         <p>
                           <span className="font-medium">Status:</span>{" "}
-                          <span className="text-muted-foreground">
+                          <span className="text-muted-foreground break-words">
                             {toTitleCase(claimData.claim.status)}
                           </span>
                         </p>
                       </div>
 
-                      <div>
+                      <div className="break-words">
                         <p>
                           <span className="font-medium">Created at</span>{" "}
-                          <span className="text-muted-foreground">
+                          <span className="text-muted-foreground break-words">
                             {formatDateForClaim(claimData.claim.createdAt)}
                           </span>
                         </p>
                       </div>
 
-                      <div>
+                      <div className="break-words">
                         <p>
                           <span className="font-medium">
                             Order #{claimData.order.number}
@@ -810,36 +810,36 @@ export default function AdminClaimsChat() {
                         </p>
                       </div>
 
-                      <div>
+                      <div className="break-words">
                         <p>
                           <span className="font-medium">Listing:</span>{" "}
-                          <span className="text-muted-foreground">
+                          <span className="text-muted-foreground break-words">
                             {claimData.order.listingTitle}
                           </span>
                         </p>
                       </div>
 
-                      <div>
+                      <div className="break-words">
                         <p>
                           <span className="font-medium">Claim type:</span>{" "}
-                          <span className="text-muted-foreground">
+                          <span className="text-muted-foreground break-words">
                             {claimData.claim.claimType}
                           </span>
                         </p>
                       </div>
 
-                      <div>
+                      <div className="break-words">
                         <p>
                           <span className="font-medium">Incident date:</span>{" "}
-                          <span className="text-muted-foreground">
+                          <span className="text-muted-foreground break-words">
                             {formatDateForClaim(claimData.claim.incidentDate)}
                           </span>
                         </p>
                       </div>
 
-                      <div>
+                      <div className="break-words">
                         <p className="font-medium mb-1">Claim details:</p>
-                        <p className="text-muted-foreground whitespace-pre-wrap">
+                        <p className="text-muted-foreground whitespace-pre-wrap break-words">
                           {claimData.claim.claimDetails}
                         </p>
                       </div>
