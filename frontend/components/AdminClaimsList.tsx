@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Plus,
+  Minus,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import {
