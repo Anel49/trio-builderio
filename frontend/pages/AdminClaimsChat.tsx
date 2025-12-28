@@ -724,7 +724,7 @@ export default function AdminClaimsChat() {
                     </div>
 
                     {/* Divider */}
-                    <div className="border-t border-border"></div>
+                    <div className="border-t border-border mt-6"></div>
 
                     {/* Thread Title Editor */}
                     <div className="py-1 mt-3">
