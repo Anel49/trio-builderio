@@ -117,11 +117,13 @@ export async function createClaim(req: Request, res: Response) {
     const claim = claimResult.rows[0];
 
     // Set the claim_number using the number from the sequence
+    let claimNumber = "";
     if (claim.number) {
+      claimNumber = `CLM-${claim.number}`;
       try {
         await pool.query(
           `update claims set claim_number = $1 where id = $2`,
-          [`CLM-${claim.number}`, claim.id],
+          [claimNumber, claim.id],
         );
       } catch (e: any) {
         console.error(
@@ -130,6 +132,20 @@ export async function createClaim(req: Request, res: Response) {
         );
         // Don't fail if this fails
       }
+    }
+
+    // Update the message thread with claim_id and thread_title
+    try {
+      await pool.query(
+        `update message_threads set claim_id = $1, thread_title = $2 where id = $3`,
+        [claim.id, claimNumber, messageThreadId],
+      );
+    } catch (e: any) {
+      console.error(
+        "[createClaim] Error updating message thread with claim details:",
+        e.message,
+      );
+      // Don't fail if this fails
     }
 
     // Send initial system message to the thread from support user (ID 2)
