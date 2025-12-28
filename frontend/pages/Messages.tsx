@@ -50,6 +50,7 @@ import { LinkifiedMessage } from "@/components/ui/linkified-message";
 import { SupportMessage } from "@/components/ui/support-message";
 
 interface Conversation {
+  threadId: number;
   otherUserId: number;
   name: string;
   avatarUrl: string | null;
@@ -57,7 +58,7 @@ interface Conversation {
   lastMessage: string;
   lastMessageTime: string;
   lastMessageSenderId?: number;
-  messageThreadId?: number;
+  threadTitle?: string;
 }
 
 interface Message {
