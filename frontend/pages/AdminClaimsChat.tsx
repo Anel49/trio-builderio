@@ -324,6 +324,55 @@ export default function AdminClaimsChat() {
     }
   };
 
+  // Handle save thread title
+  const handleSaveThreadTitle = async () => {
+    if (!newThreadTitle.trim() || !selectedThreadId) {
+      setIsEditingTitle(false);
+      return;
+    }
+
+    try {
+      const response = await apiFetch(
+        `/messages/${selectedThreadId}/title`,
+        {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            threadTitle: newThreadTitle.trim(),
+          }),
+        },
+      );
+
+      const data = await response.json();
+      if (data.ok) {
+        // Update the thread in the list
+        setClaimThreads((prev) =>
+          prev.map((thread) =>
+            thread.threadId === selectedThreadId
+              ? { ...thread, threadTitle: newThreadTitle.trim() }
+              : thread,
+          ),
+        );
+        // Update claim data
+        if (claimData) {
+          setClaimData({
+            ...claimData,
+            thread: { ...claimData.thread, title: newThreadTitle.trim() },
+          });
+        }
+        setIsEditingTitle(false);
+        setNewThreadTitle("");
+      }
+    } catch (err) {
+      console.error("Failed to save thread title:", err);
+    }
+  };
+
+  const handleCancelEditTitle = () => {
+    setIsEditingTitle(false);
+    setNewThreadTitle("");
+  };
+
   // Filter threads by search
   const filteredThreads = claimThreads.filter(
     (thread) =>
