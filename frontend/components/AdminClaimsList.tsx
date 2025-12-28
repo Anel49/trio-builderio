@@ -2,8 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { apiFetch } from "@/lib/api";
 import { Input } from "./ui/input";
-import { AlertCircle, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  AlertCircle,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+} from "lucide-react";
 import { Button } from "./ui/button";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "./ui/popover";
 import {
   spacing,
   typography,
@@ -16,6 +27,7 @@ interface Claim {
   id: number;
   claim_number: string | null;
   status: string;
+  assigned_to: number | null;
   assigned_to_name: string | null;
   priority: number;
   created_at: string;
