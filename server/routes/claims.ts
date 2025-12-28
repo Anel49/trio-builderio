@@ -107,31 +107,25 @@ export async function listClaimThreads(req: Request, res: Response) {
 
     const result = await pool.query(
       `
-      WITH last_messages AS (
-        SELECT
-          mt.id as thread_id,
-          mt.thread_title,
-          mt.claim_id,
-          m.body,
-          m.created_at,
-          m.sender_id,
-          ROW_NUMBER() OVER (PARTITION BY mt.id ORDER BY m.created_at DESC) as rn
-        FROM message_threads mt
-        LEFT JOIN messages m ON mt.id = m.message_thread_id
-        LEFT JOIN claims c ON mt.claim_id = c.id
-        WHERE mt.claim_id IS NOT NULL
-          AND c.assigned_to = $1
-      )
       SELECT
-        lm.thread_id,
-        lm.thread_title,
-        lm.claim_id,
-        lm.body as last_message,
-        lm.created_at as last_message_time,
-        lm.sender_id as last_message_sender_id
-      FROM last_messages lm
-      WHERE lm.rn = 1
-      ORDER BY lm.created_at DESC NULLS LAST
+        mt.id as thread_id,
+        mt.thread_title,
+        mt.claim_id,
+        m.body as last_message,
+        m.created_at as last_message_time,
+        m.sender_id as last_message_sender_id
+      FROM message_threads mt
+      LEFT JOIN claims c ON mt.claim_id = c.id
+      LEFT JOIN LATERAL (
+        SELECT body, created_at, sender_id
+        FROM messages
+        WHERE message_thread_id = mt.id
+        ORDER BY created_at DESC
+        LIMIT 1
+      ) m ON true
+      WHERE mt.claim_id IS NOT NULL
+        AND c.assigned_to = $1
+      ORDER BY m.created_at DESC NULLS LAST
       `,
       [userId],
     );
