@@ -23,7 +23,6 @@ import {
 import {
   Search,
   Send,
-  Paperclip,
   Menu,
   MessageCircle,
   ChevronDown,
