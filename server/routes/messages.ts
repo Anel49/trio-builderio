@@ -65,12 +65,25 @@ export async function listConversations(req: Request, res: Response) {
 export async function getMessages(req: Request, res: Response) {
   try {
     const userId = Number((req.params as any)?.userId || "0");
-    const otherUserId = Number((req.params as any)?.otherUserId || "0");
+    const threadId = Number((req.params as any)?.threadId || "0");
 
-    if (!userId || !otherUserId) {
+    if (!userId || !threadId) {
       return res.status(400).json({
         ok: false,
-        error: "userId and otherUserId are required",
+        error: "userId and threadId are required",
+      });
+    }
+
+    // Verify the user is part of this thread
+    const threadCheckResult = await pool.query(
+      `SELECT id FROM message_threads WHERE id = $1 AND (user_a_id = $2 OR user_b_id = $2)`,
+      [threadId, userId],
+    );
+
+    if (threadCheckResult.rowCount === 0) {
+      return res.status(403).json({
+        ok: false,
+        error: "Unauthorized",
       });
     }
 
@@ -81,12 +94,13 @@ export async function getMessages(req: Request, res: Response) {
         sender_id,
         to_id,
         body,
-        created_at
+        created_at,
+        message_thread_id
       FROM messages
-      WHERE (sender_id = $1 AND to_id = $2) OR (sender_id = $2 AND to_id = $1)
+      WHERE message_thread_id = $1
       ORDER BY created_at ASC
       `,
-      [userId, otherUserId],
+      [threadId],
     );
 
     const messages = result.rows.map((r: any) => ({
@@ -95,6 +109,7 @@ export async function getMessages(req: Request, res: Response) {
       toId: r.to_id,
       body: r.body,
       createdAt: r.created_at,
+      messageThreadId: r.message_thread_id,
       isFromCurrentUser: r.sender_id === userId,
     }));
 
