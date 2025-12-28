@@ -23,6 +23,7 @@ const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const UploadProduct = lazy(() => import("./pages/UploadProduct"));
 const Profile = lazy(() => import("./pages/Profile"));
 const Messages = lazy(() => import("./pages/Messages"));
+const AdminClaimsChat = lazy(() => import("./pages/AdminClaimsChat"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const OrderHistory = lazy(() => import("./pages/OrderHistory"));
 const Admin = lazy(() => import("./pages/Admin"));
