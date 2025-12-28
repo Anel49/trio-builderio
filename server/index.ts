@@ -859,10 +859,10 @@ export function createServer() {
   app.patch("/users/reviews/:reviewId", updateUserReview);
   // Messages
   app.get("/api/messages/:userId/conversations", listConversations);
-  app.get("/api/messages/:userId/:otherUserId", getMessages);
+  app.get("/api/messages/:userId/:threadId", getMessages);
   app.post("/api/messages", sendMessage);
   app.get("/messages/:userId/conversations", listConversations);
-  app.get("/messages/:userId/:otherUserId", getMessages);
+  app.get("/messages/:userId/:threadId", getMessages);
   app.post("/messages", sendMessage);
   // Checkout
   app.post("/api/checkout/create-session", createCheckoutSession);
