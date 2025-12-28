@@ -639,7 +639,8 @@ export default function AdminClaimsChat() {
                       <p className="font-semibold text-lg mb-1">
                         {claimData.claimSubmitter.name}
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-muted-foreground flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
                         Joined{" "}
                         {formatDateJoined(claimData.claimSubmitter.createdAt)}
                       </p>
