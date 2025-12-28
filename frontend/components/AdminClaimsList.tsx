@@ -295,7 +295,7 @@ export default function AdminClaimsList() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-6 w-6 p-0"
+                              className="h-6 w-6 p-0 border border-border hover:bg-accent"
                               title="Assign claim"
                             >
                               <Plus className="h-4 w-4" />
