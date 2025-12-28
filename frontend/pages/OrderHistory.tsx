@@ -2849,7 +2849,7 @@ export default function OrderHistory() {
               className="w-[100px]"
               onClick={() => setClaimSubmitSuccessOpen(false)}
             >
-              Ok
+              Close
             </Button>
           </div>
         </DialogContent>
