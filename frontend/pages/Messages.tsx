@@ -249,15 +249,15 @@ export default function Messages() {
     fetchUserReviews();
   }, [selectedUserId]);
 
-  // Fetch messages when selected user changes
+  // Fetch messages when selected thread changes
   useEffect(() => {
-    if (!user?.id || !selectedUserId) return;
+    if (!user?.id || !selectedThreadId) return;
 
     // Check if messages are cached
-    const cachedMessages = messagesCache.get(selectedUserId);
+    const cachedMessages = messagesCache.get(selectedThreadId);
     if (cachedMessages) {
       setMessages(cachedMessages);
-      setSelectedUserNotFound(false);
+      setSelectedThreadNotFound(false);
       return;
     }
 
@@ -265,16 +265,16 @@ export default function Messages() {
       setMessagesLoading(true);
       try {
         const response = await apiFetch(
-          `/messages/${user.id}/${selectedUserId}`,
+          `/messages/${user.id}/${selectedThreadId}`,
         );
         const data = await response.json();
         if (data.ok) {
           const fetchedMessages = data.messages || [];
           setMessages(fetchedMessages);
-          setSelectedUserNotFound(false);
+          setSelectedThreadNotFound(false);
           // Cache the messages
           setMessagesCache((prevCache) =>
-            new Map(prevCache).set(selectedUserId, fetchedMessages),
+            new Map(prevCache).set(selectedThreadId, fetchedMessages),
           );
         }
       } catch (error) {
@@ -285,7 +285,7 @@ export default function Messages() {
     };
 
     fetchMessages();
-  }, [user?.id, selectedUserId, messagesCache]);
+  }, [user?.id, selectedThreadId, messagesCache]);
 
   // Auto-scroll to bottom when messages load or update
   useEffect(() => {
