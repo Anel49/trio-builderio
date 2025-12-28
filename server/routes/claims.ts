@@ -20,6 +20,133 @@ const claimTypeDisplayMap: Record<string, string> = {
   other: "Other",
 };
 
+export async function getClaimThreadData(req: Request, res: Response) {
+  try {
+    const claimId = Number((req.params as any)?.claimId || "0");
+
+    if (!claimId) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "claimId is required" });
+    }
+
+    const result = await pool.query(
+      `select
+        c.id,
+        c.claim_number,
+        c.status,
+        c.claim_type,
+        c.claim_details,
+        c.incident_date,
+        c.created_at,
+        c.created_by,
+        c.order_id,
+        o.number as order_number,
+        o.listing_title,
+        mt.id as thread_id,
+        mt.thread_title,
+        u.id as submitter_id,
+        u.name as submitter_name,
+        u.avatar_url as submitter_avatar_url,
+        u.created_at as submitter_created_at
+       from claims c
+       left join message_threads mt on c.id = mt.claim_id
+       left join orders o on c.order_id = o.id
+       left join users u on c.created_by = u.id
+       where c.id = $1`,
+      [claimId],
+    );
+
+    if (!result.rowCount || result.rowCount === 0) {
+      return res.status(404).json({ ok: false, error: "Claim not found" });
+    }
+
+    const row = result.rows[0];
+
+    res.json({
+      ok: true,
+      thread: {
+        id: row.thread_id,
+        title: row.thread_title,
+      },
+      claim: {
+        id: row.id,
+        claimNumber: row.claim_number,
+        status: row.status,
+        claimType: row.claim_type,
+        claimDetails: row.claim_details,
+        incidentDate: row.incident_date,
+        createdAt: row.created_at,
+      },
+      claimSubmitter: {
+        id: row.submitter_id,
+        name: row.submitter_name,
+        avatarUrl: row.submitter_avatar_url,
+        createdAt: row.submitter_created_at,
+      },
+      order: {
+        id: row.order_id,
+        number: row.order_number,
+        listingTitle: row.listing_title,
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
+export async function listClaimThreads(req: Request, res: Response) {
+  try {
+    const userId = Number((req.params as any)?.userId || "0");
+
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "userId is required" });
+    }
+
+    const result = await pool.query(
+      `
+      WITH last_messages AS (
+        SELECT
+          mt.id as thread_id,
+          mt.thread_title,
+          m.body,
+          m.created_at,
+          m.sender_id,
+          ROW_NUMBER() OVER (PARTITION BY mt.id ORDER BY m.created_at DESC) as rn
+        FROM message_threads mt
+        LEFT JOIN messages m ON mt.id = m.message_thread_id
+        WHERE mt.claim_id IS NOT NULL
+          AND (mt.user_a_id = $1 OR mt.user_b_id = $1)
+      )
+      SELECT
+        lm.thread_id,
+        lm.thread_title,
+        lm.body as last_message,
+        lm.created_at as last_message_time,
+        lm.sender_id as last_message_sender_id
+      FROM last_messages lm
+      WHERE lm.rn = 1
+      ORDER BY lm.created_at DESC NULLS LAST
+      `,
+      [userId],
+    );
+
+    const threads = result.rows.map((r: any) => ({
+      threadId: r.thread_id,
+      threadTitle: r.thread_title,
+      lastMessage: r.last_message,
+      lastMessageTime: r.last_message_time,
+      lastMessageSenderId: r.last_message_sender_id,
+    }));
+
+    res.json({ ok: true, threads });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function createClaim(req: Request, res: Response) {
   try {
     const { orderId, claimType, incidentDate, claimDetails } = (req.body ||
