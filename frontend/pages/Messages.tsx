@@ -488,18 +488,40 @@ export default function Messages() {
     }
   };
 
-  // Combine regular conversations with temporary conversation
-  const allConversations = temporaryConversation
+  // Create ghost conversation from ghostUserData for display
+  const ghostConversation: Conversation | null = ghostUserData
+    ? {
+        threadId: -1, // Use -1 as a placeholder for ghost threads
+        otherUserId: ghostUserData.id,
+        name: ghostUserData.name,
+        avatarUrl: ghostUserData.avatarUrl,
+        username: ghostUserData.username,
+        lastMessage: "",
+        lastMessageTime: new Date().toISOString(),
+      }
+    : null;
+
+  // Combine regular conversations with ghost conversation or temporary conversation
+  const allConversations = ghostConversation
     ? [
-        temporaryConversation,
-        ...conversations.filter(
-          (c) => c.threadId !== temporaryConversation.threadId,
-        ),
+        ghostConversation,
+        ...conversations.filter((c) => c.otherUserId !== ghostUserData?.id),
       ]
-    : conversations;
+    : temporaryConversation
+      ? [
+          temporaryConversation,
+          ...conversations.filter(
+            (c) => c.threadId !== temporaryConversation.threadId,
+          ),
+        ]
+      : conversations;
 
   const selectedChat = allConversations.find(
-    (c) => c.threadId === selectedThreadId,
+    (c) =>
+      c.threadId === selectedThreadId ||
+      (selectedThreadId === -1 && ghostConversation
+        ? c.otherUserId === ghostConversation.otherUserId
+        : false),
   );
 
   const filteredConversations = allConversations.filter(
