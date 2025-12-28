@@ -178,11 +178,12 @@ export default function Messages() {
         const data = await response.json();
         if (data.ok) {
           setConversations(data.conversations || []);
-          // Set first conversation as selected if none is selected
+          // Set first conversation as selected if none is selected and no userId in URL
           if (
             data.conversations &&
             data.conversations.length > 0 &&
-            !selectedThreadId
+            !selectedThreadId &&
+            !userIdFromUrl
           ) {
             setSelectedThreadId(data.conversations[0].threadId);
             setSelectedUserId(data.conversations[0].otherUserId);
@@ -196,7 +197,7 @@ export default function Messages() {
     };
 
     fetchConversations();
-  }, [user?.id, selectedThreadId]);
+  }, [user?.id, selectedThreadId, userIdFromUrl]);
 
   // Handle temporary conversation creation when threadId is in URL params
   useEffect(() => {
