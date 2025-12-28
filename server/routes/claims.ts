@@ -200,7 +200,8 @@ ${claimDetails}`;
       },
     });
   } catch (error: any) {
-    console.error("[createClaim] Error:", error);
-    res.status(500).json({ ok: false, error: "Internal server error" });
+    console.error("[createClaim] Error:", error?.message);
+    console.error("[createClaim] Full error:", error);
+    res.status(500).json({ ok: false, error: error?.message || "Internal server error" });
   }
 }
