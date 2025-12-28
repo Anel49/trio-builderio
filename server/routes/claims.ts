@@ -70,15 +70,26 @@ export async function createClaim(req: Request, res: Response) {
     // Check if message thread already exists between current user and support user (ID 2)
     let messageThreadId: number;
 
-    // Always create a new message thread for claims
-    // This ensures each claim/support ticket has its own separate thread
-    const threadResult = await pool.query(
-      `insert into message_threads (user_a_id, user_b_id, last_updated_by_id)
-       values ($1, $2, $1)
-       returning id`,
-      [2, userId],
+    // Get or create message thread for user 2 support
+    // Note: Due to database constraints, only one thread can exist per user pair,
+    // so we check if it exists first
+    const existingThreadResult = await pool.query(
+      `select id from message_threads
+       where (user_a_id = 2 and user_b_id = $1) or (user_a_id = $1 and user_b_id = 2)`,
+      [userId],
     );
-    messageThreadId = threadResult.rows[0].id;
+
+    if (existingThreadResult.rows.length > 0) {
+      messageThreadId = existingThreadResult.rows[0].id;
+    } else {
+      const threadResult = await pool.query(
+        `insert into message_threads (user_a_id, user_b_id, last_updated_by_id)
+         values ($1, $2, $1)
+         returning id`,
+        [2, userId],
+      );
+      messageThreadId = threadResult.rows[0].id;
+    }
 
     // Calculate priority from claim type
     const priority = priorityMap[claimType] || 5;
