@@ -615,8 +615,9 @@ export default function AdminClaimsChat() {
                   <div className="p-6 pt-12 md:pt-12 space-y-6">
                     {/* Claim Submitter Info */}
                     <div className="text-center">
-                      <div className="relative inline-block mb-4 leading-none h-16">
-                        <Avatar className="h-full w-full">
+                      <div className="relative inline-block mb-4 leading-none h-20">
+                        <div className="relative h-20 w-20">
+                          <Avatar className="h-full w-full">
                           <AvatarImage
                             src={
                               claimData.claimSubmitter.avatarUrl || undefined
@@ -631,6 +632,7 @@ export default function AdminClaimsChat() {
                               .join("")}
                           </AvatarFallback>
                         </Avatar>
+                        </div>
                       </div>
 
                       <p className="font-semibold text-lg mb-1">
