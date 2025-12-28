@@ -79,10 +79,11 @@ export default function Messages() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isReportUserModalOpen, setIsReportUserModalOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(() => {
-    const userIdFromUrl = searchParams.get("userId");
-    return userIdFromUrl ? parseInt(userIdFromUrl) : null;
+  const [selectedThreadId, setSelectedThreadId] = useState<number | null>(() => {
+    const threadIdFromUrl = searchParams.get("threadId");
+    return threadIdFromUrl ? parseInt(threadIdFromUrl) : null;
   });
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [messageInput, setMessageInput] = useState("");
   const [isSafetyBannerExpanded, setIsSafetyBannerExpanded] = useState(false);
@@ -101,12 +102,12 @@ export default function Messages() {
   const [messagesLoading, setMessagesLoading] = useState(false);
   const [temporaryConversation, setTemporaryConversation] =
     useState<Conversation | null>(null);
-  // Message cache: Map<userId, Message[]>
+  // Message cache: Map<threadId, Message[]>
   const [messagesCache, setMessagesCache] = useState<Map<number, Message[]>>(
     new Map(),
   );
-  // Track if a user was not found
-  const [selectedUserNotFound, setSelectedUserNotFound] = useState(false);
+  // Track if a thread was not found
+  const [selectedThreadNotFound, setSelectedThreadNotFound] = useState(false);
   // User reviews and rating
   const [selectedUserReviews, setSelectedUserReviews] = useState<any[]>([]);
   const [selectedUserCreatedAt, setSelectedUserCreatedAt] = useState<
