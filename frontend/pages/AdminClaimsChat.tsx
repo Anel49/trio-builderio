@@ -25,6 +25,7 @@ import { SupportMessage } from "@/components/ui/support-message";
 
 interface ClaimThread {
   threadId: number;
+  claimId: number;
   threadTitle: string;
   lastMessage: string;
   lastMessageTime: string;
