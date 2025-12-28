@@ -130,14 +130,15 @@ export async function sendMessage(req: Request, res: Response) {
       if (isInvolvingSupportUser) {
         // Always create a new thread for support interactions
         // Support user (ID 2) is always user_a_id
-        const [userAId, userBId] = senderId === 2 ? [senderId, toId] : [2, senderId || toId];
+        const userAId = 2;
+        const userBId = senderId === 2 ? toId : senderId;
         const threadCreateResult = await pool.query(
           `
           INSERT INTO message_threads (user_a_id, user_b_id, last_updated_by_id)
-          VALUES ($1, $2, $1)
+          VALUES ($1, $2, $3)
           RETURNING id
           `,
-          [userAId, userBId],
+          [userAId, userBId, senderId],
         );
         threadId = threadCreateResult.rows[0].id;
       } else {
