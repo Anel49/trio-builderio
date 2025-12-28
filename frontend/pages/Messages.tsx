@@ -220,6 +220,46 @@ export default function Messages() {
     setSelectedThreadNotFound(true);
   }, [selectedThreadId, conversations, user?.id]);
 
+  // Handle ghost conversation (userId provided without threadId)
+  useEffect(() => {
+    if (!selectedUserId || selectedThreadId) {
+      setGhostUserData(null);
+      return;
+    }
+
+    // Check if this user already has a conversation
+    const existingConversation = conversations.find(
+      (c) => c.otherUserId === selectedUserId,
+    );
+
+    if (existingConversation) {
+      // User has a conversation, switch to it
+      setSelectedThreadId(existingConversation.threadId);
+      setGhostUserData(null);
+      return;
+    }
+
+    // Fetch user details for ghost conversation
+    const fetchGhostUserData = async () => {
+      try {
+        const response = await apiFetch(`/users/${selectedUserId}`);
+        const data = await response.json();
+        if (data.ok && data.user) {
+          setGhostUserData({
+            id: data.user.id,
+            name: data.user.name || "Unknown",
+            avatarUrl: data.user.avatarUrl || null,
+            username: data.user.username || null,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch ghost user data:", error);
+      }
+    };
+
+    fetchGhostUserData();
+  }, [selectedUserId, selectedThreadId, conversations]);
+
   // Fetch user reviews and details when selected user changes
   useEffect(() => {
     if (!selectedUserId) return;
