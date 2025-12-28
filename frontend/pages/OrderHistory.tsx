@@ -2844,12 +2844,14 @@ export default function OrderHistory() {
               {" "}to view your messages.
             </p>
           </div>
-          <Button
-            className="w-full"
-            onClick={() => setClaimSubmitSuccessOpen(false)}
-          >
-            Ok
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              className="max-w-[100px]"
+              onClick={() => setClaimSubmitSuccessOpen(false)}
+            >
+              Ok
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
 
