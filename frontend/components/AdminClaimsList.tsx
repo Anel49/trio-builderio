@@ -288,7 +288,29 @@ export default function AdminClaimsList() {
                       </span>
                     </td>
                     <td className={spacing.padding.md}>
-                      <p>{claim.assigned_to_name || "Unassigned"}</p>
+                      <div className="flex items-center gap-2 justify-between">
+                        <p>{claim.assigned_to_name || "Unassigned"}</p>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0"
+                              title="Assign claim"
+                            >
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent side="left" className="w-40 p-2">
+                            <button
+                              onClick={() => handleAssignToMe(claim.id)}
+                              className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
+                            >
+                              Assign to me
+                            </button>
+                          </PopoverContent>
+                        </Popover>
+                      </div>
                     </td>
                     <td className={spacing.padding.md}>
                       <p>{claim.priority}</p>
