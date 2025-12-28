@@ -618,20 +618,20 @@ export default function AdminClaimsChat() {
                       <div className="relative inline-block mb-4 leading-none h-20">
                         <div className="relative h-20 w-20">
                           <Avatar className="h-full w-full">
-                          <AvatarImage
-                            src={
-                              claimData.claimSubmitter.avatarUrl || undefined
-                            }
-                            alt={claimData.claimSubmitter.name}
-                          />
-                          <AvatarFallback>
-                            {claimData.claimSubmitter.name
-                              .trim()
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </AvatarFallback>
-                        </Avatar>
+                            <AvatarImage
+                              src={
+                                claimData.claimSubmitter.avatarUrl || undefined
+                              }
+                              alt={claimData.claimSubmitter.name}
+                            />
+                            <AvatarFallback>
+                              {claimData.claimSubmitter.name
+                                .trim()
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                            </AvatarFallback>
+                          </Avatar>
                         </div>
                       </div>
 
