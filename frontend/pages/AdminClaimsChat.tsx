@@ -447,7 +447,7 @@ export default function AdminClaimsChat() {
             </div>
 
             {/* Claims List */}
-            <ScrollArea className="h-full">
+            <ScrollArea className="h-full px-2">
               {error && (
                 <div className="p-4 text-sm text-destructive">
                   {error}
@@ -469,7 +469,7 @@ export default function AdminClaimsChat() {
                       setSelectedThreadId(thread.threadId);
                       setLeftSidebarOpen(false);
                     }}
-                    className={`p-2 ml-2 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
+                    className={`p-2 my-1 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
                       selectedThreadId === thread.threadId ? "bg-accent" : ""
                     }`}
                   >
