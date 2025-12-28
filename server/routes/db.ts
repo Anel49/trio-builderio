@@ -40,6 +40,33 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
+    // Drop message_threads table to recreate it without unique constraint
+    try {
+      await pool.query(`drop table if exists message_threads cascade`);
+      console.log("[dbSetup] Dropped message_threads table");
+    } catch (e: any) {
+      console.log("[dbSetup] Could not drop message_threads:", e?.message?.slice(0, 80));
+    }
+
+    // Recreate message_threads table without unique constraint
+    try {
+      await pool.query(
+        `create table if not exists message_threads (
+          id serial primary key,
+          user_a_id integer not null references users(id) on delete cascade,
+          user_b_id integer not null references users(id) on delete cascade,
+          created_at timestamp not null default now(),
+          last_updated_by_id integer references users(id) on delete set null,
+          last_updated_at timestamp not null default now()
+        )`,
+      );
+      console.log("[dbSetup] Created message_threads table");
+    } catch (e: any) {
+      if (!e.message?.includes("already exists")) {
+        console.warn("[dbSetup] Warning creating message_threads table:", e.message);
+      }
+    }
+
     // Add UNIQUE constraint on username if it doesn't exist
     try {
       await pool.query(
