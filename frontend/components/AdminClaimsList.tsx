@@ -288,7 +288,7 @@ export default function AdminClaimsList() {
                       </span>
                     </td>
                     <td className={spacing.padding.md}>
-                      <div className="flex items-center gap-2 justify-between">
+                      <div className="flex items-center gap-2">
                         <p>{claim.assigned_to_name || "Unassigned"}</p>
                         <Popover>
                           <PopoverTrigger asChild>
