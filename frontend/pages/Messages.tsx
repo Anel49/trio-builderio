@@ -606,7 +606,7 @@ export default function Messages() {
                       <div className="relative h-12 w-12">
                         <Avatar
                           className={`h-full w-full ${
-                            selectedUserId === chat.otherUserId
+                            selectedThreadId === chat.threadId
                               ? "!bg-slate-400 dark:!bg-slate-600"
                               : ""
                           }`}
