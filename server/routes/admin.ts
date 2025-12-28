@@ -443,7 +443,7 @@ export async function listAllClaims(req: Request, res: Response) {
     console.log("[listAllClaims] offset param index:", params.length + 2);
 
     const queryParams = [...params, limit, offset];
-    const query = `select c.id, c.claim_number, c.status, u.name as assigned_to_name, c.priority,
+    const query = `select c.id, c.claim_number, c.status, c.assigned_to, u.name as assigned_to_name, c.priority,
               c.created_at, c.updated_at, c.order_id, o.number as order_number
        from claims c
        left join users u on c.assigned_to = u.id
