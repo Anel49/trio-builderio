@@ -79,10 +79,12 @@ export default function Messages() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isReportUserModalOpen, setIsReportUserModalOpen] = useState(false);
-  const [selectedThreadId, setSelectedThreadId] = useState<number | null>(() => {
-    const threadIdFromUrl = searchParams.get("threadId");
-    return threadIdFromUrl ? parseInt(threadIdFromUrl) : null;
-  });
+  const [selectedThreadId, setSelectedThreadId] = useState<number | null>(
+    () => {
+      const threadIdFromUrl = searchParams.get("threadId");
+      return threadIdFromUrl ? parseInt(threadIdFromUrl) : null;
+    },
+  );
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [messageInput, setMessageInput] = useState("");
@@ -378,7 +380,13 @@ export default function Messages() {
 
   // Handle send message
   const handleSendMessage = async () => {
-    if (!messageInput.trim() || !user?.id || !selectedThreadId || !selectedUserId) return;
+    if (
+      !messageInput.trim() ||
+      !user?.id ||
+      !selectedThreadId ||
+      !selectedUserId
+    )
+      return;
 
     try {
       const response = await apiFetch("/messages", {

@@ -26,7 +26,12 @@ export async function createClaim(req: Request, res: Response) {
       {}) as any;
     const userId = (req.session as any)?.userId;
 
-    console.log("[createClaim] Request received", { orderId, claimType, incidentDate, userId });
+    console.log("[createClaim] Request received", {
+      orderId,
+      claimType,
+      incidentDate,
+      userId,
+    });
 
     // Validate required fields
     if (!userId) {
@@ -127,7 +132,10 @@ export async function createClaim(req: Request, res: Response) {
       ],
     );
 
-    console.log("[createClaim] Claim insert successful, rows returned:", claimResult.rowCount);
+    console.log(
+      "[createClaim] Claim insert successful, rows returned:",
+      claimResult.rowCount,
+    );
 
     const claim = claimResult.rows[0];
     console.log("[createClaim] Claim object:", claim);
@@ -137,16 +145,13 @@ export async function createClaim(req: Request, res: Response) {
     if (claim.number) {
       claimNumber = `CLM-${claim.number}`;
       try {
-        await pool.query(
-          `update claims set claim_number = $1 where id = $2`,
-          [claimNumber, claim.id],
-        );
+        await pool.query(`update claims set claim_number = $1 where id = $2`, [
+          claimNumber,
+          claim.id,
+        ]);
         console.log("[createClaim] Claim number updated to", claimNumber);
       } catch (e: any) {
-        console.error(
-          "[createClaim] Error setting claim_number:",
-          e.message,
-        );
+        console.error("[createClaim] Error setting claim_number:", e.message);
         // Don't fail if this fails
       }
     }
@@ -157,7 +162,9 @@ export async function createClaim(req: Request, res: Response) {
         `update message_threads set claim_id = $1, thread_title = $2 where id = $3`,
         [claim.id, claimNumber, messageThreadId],
       );
-      console.log("[createClaim] Thread updated with claim_id and thread_title");
+      console.log(
+        "[createClaim] Thread updated with claim_id and thread_title",
+      );
     } catch (e: any) {
       console.error(
         "[createClaim] Error updating message thread with claim details:",
@@ -206,6 +213,8 @@ ${claimDetails}`;
   } catch (error: any) {
     console.error("[createClaim] Error:", error?.message);
     console.error("[createClaim] Full error:", error);
-    res.status(500).json({ ok: false, error: error?.message || "Internal server error" });
+    res
+      .status(500)
+      .json({ ok: false, error: error?.message || "Internal server error" });
   }
 }

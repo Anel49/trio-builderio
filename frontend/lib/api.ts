@@ -372,7 +372,10 @@ export async function apiFetch(path: string, init?: RequestInit) {
       }
       const res = await tryFetch(url, finalInit, 8000);
       if (p.includes("claims")) {
-        console.log("[apiFetch] Non-data endpoint claims response:", res?.status);
+        console.log(
+          "[apiFetch] Non-data endpoint claims response:",
+          res?.status,
+        );
       }
       if (res) return res;
     }
@@ -498,7 +501,10 @@ export async function apiFetch(path: string, init?: RequestInit) {
   }
 
   if (p.includes("claims")) {
-    console.error("[apiFetch] claims/create fell through to unreachable error:", { p, base, isDataEndpoint });
+    console.error(
+      "[apiFetch] claims/create fell through to unreachable error:",
+      { p, base, isDataEndpoint },
+    );
   }
 
   return new Response(
