@@ -447,7 +447,7 @@ export default function AdminClaimsChat() {
             </div>
 
             {/* Claims List */}
-            <ScrollArea className="h-full px-2">
+            <ScrollArea className="h-full px-2 [&>div]:block [&>div>div]:block">
               {error && (
                 <div className="p-4 text-sm text-destructive">
                   {error}
