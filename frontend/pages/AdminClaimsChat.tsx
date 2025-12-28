@@ -157,13 +157,15 @@ export default function AdminClaimsChat() {
         );
         const data = await response.json();
         if (data.ok) {
-          setClaimThreads(data.conversations || []);
-          // Auto-select first thread if one is loaded from URL
+          const threads = data.conversations || [];
+          setClaimThreads(threads);
+
+          // Auto-select first thread if none is selected from URL
           if (
-            selectedThreadId &&
-            !claimData
+            threads.length > 0 &&
+            !selectedThreadId
           ) {
-            // Will be handled by the selectedThreadId effect
+            setSelectedThreadId(threads[0].threadId);
           }
         } else {
           setError(data.error || "Failed to load claims");
