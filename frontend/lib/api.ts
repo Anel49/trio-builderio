@@ -497,6 +497,10 @@ export async function apiFetch(path: string, init?: RequestInit) {
     });
   }
 
+  if (p.includes("claims")) {
+    console.error("[apiFetch] claims/create fell through to unreachable error:", { p, base, isDataEndpoint });
+  }
+
   return new Response(
     JSON.stringify({
       ok: false,
