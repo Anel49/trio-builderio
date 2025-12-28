@@ -875,6 +875,26 @@ export function createServer() {
   // Claims
   app.post("/api/claims/create", createClaim);
   app.post("/claims/create", createClaim);
+  app.get(
+    "/api/admin/claims/:claimId/thread-data",
+    requireModeratorOrAdmin,
+    getClaimThreadData,
+  );
+  app.get(
+    "/api/admin/claims/:userId/threads",
+    requireModeratorOrAdmin,
+    listClaimThreads,
+  );
+  app.get(
+    "/admin/claims/:claimId/thread-data",
+    requireModeratorOrAdmin,
+    getClaimThreadData,
+  );
+  app.get(
+    "/admin/claims/:userId/threads",
+    requireModeratorOrAdmin,
+    listClaimThreads,
+  );
 
   // WebAuthn verification for OAuth users
   app.post("/api/users/webauthn/verify", async (req: any, res: any) => {
