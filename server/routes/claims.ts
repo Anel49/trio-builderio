@@ -93,6 +93,15 @@ export async function createClaim(req: Request, res: Response) {
     // Parse incident date (format: YYYY-MM-DD)
     const incidentDateTime = new Date(incidentDate + "T00:00:00Z");
 
+    console.log("[createClaim] About to insert claim with:", {
+      orderId,
+      userId,
+      displayClaimType,
+      priority,
+      incidentDateTime,
+      messageThreadId,
+    });
+
     // Create the claim
     const claimResult = await pool.query(
       `insert into claims (
@@ -118,7 +127,10 @@ export async function createClaim(req: Request, res: Response) {
       ],
     );
 
+    console.log("[createClaim] Claim insert successful, rows returned:", claimResult.rowCount);
+
     const claim = claimResult.rows[0];
+    console.log("[createClaim] Claim object:", claim);
 
     // Set the claim_number using the number from the sequence
     let claimNumber = "";
