@@ -157,6 +157,25 @@ select,
   display: none; /* Chrome, Safari, Opera */
 }
 
+/* Themed scrollbar for admin tables that matches dark mode */
+.themed-scrollbar {
+  scrollbar-color: hsl(215, 25%, 35%) hsl(220, 13%, 18%); /* Firefox */
+}
+.themed-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.themed-scrollbar::-webkit-scrollbar-track {
+  background: hsl(220, 13%, 18%); /* dark mode background */
+}
+.themed-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(215, 25%, 35%); /* dark mode border/muted color */
+  border-radius: 4px;
+}
+.themed-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(215, 25%, 45%); /* lighter on hover */
+}
+
 /* Hide browser's native password visibility toggle */
 input[type="password"]::-webkit-credentials-auto-fill-button,
 input[type="password"]::-webkit-strong-password-auto-fill-button {
