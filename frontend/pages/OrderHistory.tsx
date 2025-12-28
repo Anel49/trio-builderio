@@ -2497,7 +2497,7 @@ export default function OrderHistory() {
               setClaimType("");
               setIncidentDate("");
               setClaimDetails("");
-              alert("Claim submitted successfully");
+              setClaimSubmitSuccessOpen(true);
             } else {
               console.error("Failed to submit claim:", data.error);
               alert(`Failed to submit claim: ${data.error}`);
