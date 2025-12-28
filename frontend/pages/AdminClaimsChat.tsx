@@ -469,7 +469,7 @@ export default function AdminClaimsChat() {
                       setSelectedThreadId(thread.threadId);
                       setLeftSidebarOpen(false);
                     }}
-                    className={`p-2 my-1 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
+                    className={`p-2 my-1 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden max-w-[calc(100%-1rem)] ${
                       selectedThreadId === thread.threadId ? "bg-accent" : ""
                     }`}
                   >
