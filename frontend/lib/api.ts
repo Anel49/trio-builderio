@@ -312,9 +312,9 @@ export async function apiFetch(path: string, init?: RequestInit) {
       p,
     );
 
-  // DEBUG: Log all API calls for reservations
-  if (p.includes("reservations")) {
-    console.log("[apiFetch] Reservations call:", { p, base, isDataEndpoint });
+  // DEBUG: Log all API calls for reservations and claims
+  if (p.includes("reservations") || p.includes("claims")) {
+    console.log("[apiFetch] API call:", { p, base, isDataEndpoint });
   }
 
   if (base) {
