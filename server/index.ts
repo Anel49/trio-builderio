@@ -1131,6 +1131,11 @@ export function createServer() {
     deleteReview,
   );
   app.get("/api/admin/claims", requireModeratorOrAdmin, listAllClaims);
+  app.patch(
+    "/api/admin/claims/:claimId/assign",
+    requireModeratorOrAdmin,
+    assignClaimToUser,
+  );
 
   // Admin route aliases (without /api prefix)
   app.get("/admin/users", requireAdmin, listAllUsers);
