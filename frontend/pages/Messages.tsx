@@ -733,8 +733,8 @@ export default function Messages() {
               ) : messages.length === 0 ? (
                 <div className="flex items-center justify-center h-full pt-8">
                   <div className="text-center text-muted-foreground">
-                    {selectedUserNotFound
-                      ? "User not found."
+                    {selectedThreadNotFound
+                      ? "Thread not found."
                       : "No messages yet. Start a conversation!"}
                   </div>
                 </div>
