@@ -111,6 +111,7 @@ export async function listClaimThreads(req: Request, res: Response) {
         SELECT
           mt.id as thread_id,
           mt.thread_title,
+          mt.claim_id,
           m.body,
           m.created_at,
           m.sender_id,
@@ -124,6 +125,7 @@ export async function listClaimThreads(req: Request, res: Response) {
       SELECT
         lm.thread_id,
         lm.thread_title,
+        lm.claim_id,
         lm.body as last_message,
         lm.created_at as last_message_time,
         lm.sender_id as last_message_sender_id
