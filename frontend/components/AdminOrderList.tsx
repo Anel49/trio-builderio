@@ -163,7 +163,7 @@ export default function AdminOrderList() {
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto themed-scrollbar">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
