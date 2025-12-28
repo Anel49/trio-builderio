@@ -1152,6 +1152,11 @@ export function createServer() {
   app.get("/admin/reviews", requireModeratorOrAdmin, listAllReviews);
   app.delete("/admin/reviews/:reviewId", requireModeratorOrAdmin, deleteReview);
   app.get("/admin/claims", requireModeratorOrAdmin, listAllClaims);
+  app.patch(
+    "/admin/claims/:claimId/assign",
+    requireModeratorOrAdmin,
+    assignClaimToUser,
+  );
 
   return app;
 }
