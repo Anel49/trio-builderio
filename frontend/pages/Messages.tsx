@@ -226,24 +226,13 @@ export default function Messages() {
 
   // Handle ghost conversation (userId provided without threadId)
   useEffect(() => {
-    if (!selectedUserId || selectedThreadId) {
+    // Only show ghost conversation if userId is in URL params but threadId is not
+    if (!userIdFromUrl || threadIdFromUrl) {
       setGhostUserData(null);
       return;
     }
 
-    // Check if this user already has a conversation
-    const existingConversation = conversations.find(
-      (c) => c.otherUserId === selectedUserId,
-    );
-
-    if (existingConversation) {
-      // User has a conversation, switch to it
-      setSelectedThreadId(existingConversation.threadId);
-      setGhostUserData(null);
-      return;
-    }
-
-    // Fetch user details for ghost conversation
+    // If userId is in URL without threadId, show ghost conversation
     const fetchGhostUserData = async () => {
       try {
         const response = await apiFetch(`/users/${selectedUserId}`);
@@ -261,8 +250,10 @@ export default function Messages() {
       }
     };
 
-    fetchGhostUserData();
-  }, [selectedUserId, selectedThreadId, conversations]);
+    if (selectedUserId) {
+      fetchGhostUserData();
+    }
+  }, [selectedUserId, userIdFromUrl, threadIdFromUrl]);
 
   // Fetch user reviews and details when selected user changes
   useEffect(() => {
