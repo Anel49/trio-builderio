@@ -15,6 +15,8 @@ import {
   ChevronRight,
   AlertCircle,
   Calendar,
+  X,
+  Check,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
