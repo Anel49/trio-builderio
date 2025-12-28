@@ -127,6 +127,14 @@ export default function Messages() {
     ambassador: false,
   });
 
+  // State for ghost conversation (when userId is provided but threadId doesn't exist)
+  const [ghostUserData, setGhostUserData] = useState<{
+    id: number;
+    name: string;
+    avatarUrl: string | null;
+    username: string | null;
+  } | null>(null);
+
   // Ref for scrolling messages to bottom
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
 
