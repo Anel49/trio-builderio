@@ -433,24 +433,24 @@ export default function Messages() {
 
   // Handle send message
   const handleSendMessage = async () => {
-    if (
-      !messageInput.trim() ||
-      !user?.id ||
-      !selectedThreadId ||
-      !selectedUserId
-    )
-      return;
+    if (!messageInput.trim() || !user?.id || !selectedUserId) return;
 
     try {
+      const messageBody: any = {
+        senderId: user.id,
+        toId: selectedUserId,
+        body: messageInput,
+      };
+
+      // Only include messageThreadId if we have one (not a ghost conversation)
+      if (selectedThreadId) {
+        messageBody.messageThreadId = selectedThreadId;
+      }
+
       const response = await apiFetch("/messages", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          senderId: user.id,
-          toId: selectedUserId,
-          body: messageInput,
-          messageThreadId: selectedThreadId,
-        }),
+        body: JSON.stringify(messageBody),
       });
 
       const data = await response.json();
@@ -458,10 +458,19 @@ export default function Messages() {
         const updatedMessages = [...messages, data.message];
         setMessages(updatedMessages);
         setMessageInput("");
+
+        // If this was a ghost conversation, update the threadId
+        const newThreadId =
+          selectedThreadId || data.message.messageThreadId;
+        if (newThreadId && !selectedThreadId) {
+          setSelectedThreadId(newThreadId);
+        }
+
         // Update cache with the new message
         setMessagesCache((prevCache) =>
-          new Map(prevCache).set(selectedThreadId, updatedMessages),
+          new Map(prevCache).set(newThreadId, updatedMessages),
         );
+
         // Refresh conversations to update last message
         if (user?.id) {
           const convoResponse = await apiFetch(
@@ -470,6 +479,7 @@ export default function Messages() {
           const convoData = await convoResponse.json();
           if (convoData.ok) {
             setConversations(convoData.conversations || []);
+            setGhostUserData(null);
           }
         }
       }
