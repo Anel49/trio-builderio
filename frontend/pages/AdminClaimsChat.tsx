@@ -726,6 +726,61 @@ export default function AdminClaimsChat() {
                     {/* Divider */}
                     <div className="border-t border-border"></div>
 
+                    {/* Thread Title Editor */}
+                    <div className="py-3">
+                      {!isEditingTitle ? (
+                        <div className="flex justify-center">
+                          <Button
+                            onClick={() => {
+                              setIsEditingTitle(true);
+                              setNewThreadTitle(claimData.thread.title);
+                              setTimeout(
+                                () => titleInputRef.current?.focus(),
+                                0,
+                              );
+                            }}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                          >
+                            Set thread title
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center space-x-2 gap-1">
+                          <Input
+                            ref={titleInputRef}
+                            value={newThreadTitle}
+                            onChange={(e) =>
+                              setNewThreadTitle(e.target.value)
+                            }
+                            onKeyPress={(e) => {
+                              if (e.key === "Enter") {
+                                handleSaveThreadTitle();
+                              }
+                            }}
+                            className="text-xs h-8"
+                          />
+                          <Button
+                            onClick={handleCancelEditTitle}
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            onClick={handleSaveThreadTitle}
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                          >
+                            <Check className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
                     {/* Claim Details */}
                     <div className="space-y-3 text-sm">
                       <div>
