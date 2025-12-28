@@ -782,7 +782,7 @@ export default function AdminClaimsChat() {
                     </div>
 
                     {/* Claim Details */}
-                    <div className="space-y-3 text-sm -mt-6">
+                    <div className="space-y-3 text-sm mt-3">
                       <div>
                         <p className="font-semibold">
                           Claim #{claimData.claim.claimNumber}
