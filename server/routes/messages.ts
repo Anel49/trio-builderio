@@ -247,3 +247,65 @@ export async function sendMessage(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function updateThreadTitle(req: Request, res: Response) {
+  try {
+    const threadId = Number((req.params as any)?.threadId || "0");
+    const { threadTitle } = req.body;
+
+    if (!threadId) {
+      return res.status(400).json({ ok: false, error: "threadId is required" });
+    }
+
+    if (!threadTitle || typeof threadTitle !== "string") {
+      return res
+        .status(400)
+        .json({ ok: false, error: "threadTitle is required" });
+    }
+
+    // Get user from auth (assuming it's set by middleware)
+    const user = (req as any).user;
+    if (!user) {
+      return res
+        .status(401)
+        .json({ ok: false, error: "Unauthorized" });
+    }
+
+    // Check if user has permission to update this thread
+    // (moderator/admin assigned to the claim or participant in the thread)
+    const threadCheck = await pool.query(
+      `SELECT mt.id, mt.claim_id, mt.user_a_id, mt.user_b_id, c.assigned_to
+       FROM message_threads mt
+       LEFT JOIN claims c ON mt.claim_id = c.id
+       WHERE mt.id = $1`,
+      [threadId],
+    );
+
+    if (threadCheck.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Thread not found" });
+    }
+
+    const thread = threadCheck.rows[0];
+    const isParticipant = thread.user_a_id === user.id || thread.user_b_id === user.id;
+    const isAssignedModerator = thread.assigned_to === user.id;
+    const hasPermission = isParticipant || isAssignedModerator || user.admin || user.moderator;
+
+    if (!hasPermission) {
+      return res.status(403).json({ ok: false, error: "Unauthorized" });
+    }
+
+    // Update the thread title
+    const result = await pool.query(
+      `UPDATE message_threads SET thread_title = $1 WHERE id = $2 RETURNING id, thread_title`,
+      [threadTitle, threadId],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(500).json({ ok: false, error: "Failed to update thread title" });
+    }
+
+    res.json({ ok: true, thread: result.rows[0] });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
