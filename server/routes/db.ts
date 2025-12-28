@@ -62,6 +62,46 @@ export async function dbSetup(_req: Request, res: Response) {
       }
     }
 
+    // Add thread_title column if it doesn't exist
+    try {
+      const threadTitleColResult = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'message_threads' and column_name = 'thread_title'`,
+      );
+
+      if (threadTitleColResult.rows.length === 0) {
+        await pool.query(
+          `alter table message_threads add column thread_title text`,
+        );
+        console.log("[dbSetup] Added thread_title column to message_threads");
+      }
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Could not add thread_title column:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
+    // Add claim_id column if it doesn't exist
+    try {
+      const claimIdColResult = await pool.query(
+        `select column_name from information_schema.columns
+         where table_name = 'message_threads' and column_name = 'claim_id'`,
+      );
+
+      if (claimIdColResult.rows.length === 0) {
+        await pool.query(
+          `alter table message_threads add column claim_id integer references claims(id) on delete set null`,
+        );
+        console.log("[dbSetup] Added claim_id column to message_threads");
+      }
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Could not add claim_id column:",
+        e?.message?.slice(0, 80),
+      );
+    }
+
     // Add UNIQUE constraint on username if it doesn't exist
     try {
       await pool.query(
