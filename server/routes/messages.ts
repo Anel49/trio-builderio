@@ -132,6 +132,7 @@ export async function getMessages(req: Request, res: Response) {
 export async function sendMessage(req: Request, res: Response) {
   try {
     const { senderId, toId, body, messageThreadId } = (req.body || {}) as any;
+    const user = (req.session as any)?.user;
 
     if (!senderId || !toId || !body) {
       return res.status(400).json({
@@ -143,7 +144,28 @@ export async function sendMessage(req: Request, res: Response) {
     let threadId: number;
 
     if (messageThreadId) {
-      // Thread already exists, use the provided thread ID
+      // Thread already exists, verify the user is authorized to send in this thread
+      const threadCheckResult = await pool.query(
+        `
+        SELECT mt.id
+        FROM message_threads mt
+        LEFT JOIN claims c ON mt.claim_id = c.id
+        WHERE mt.id = $1
+          AND (
+            (mt.user_a_id = $2 OR mt.user_b_id = $2)
+            OR (c.assigned_to = $2 AND ($3 OR $4))
+          )
+        `,
+        [messageThreadId, senderId, user?.moderator || false, user?.admin || false],
+      );
+
+      if (threadCheckResult.rowCount === 0) {
+        return res.status(403).json({
+          ok: false,
+          error: "Unauthorized",
+        });
+      }
+
       threadId = messageThreadId;
     } else {
       // If either user is the support user (ID 2), always create a new thread
