@@ -2848,7 +2848,7 @@ export default function OrderHistory() {
             className="w-full"
             onClick={() => setClaimSubmitSuccessOpen(false)}
           >
-            Got it
+            Ok
           </Button>
         </DialogContent>
       </Dialog>
