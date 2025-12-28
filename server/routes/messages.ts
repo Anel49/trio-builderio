@@ -252,6 +252,7 @@ export async function updateThreadTitle(req: Request, res: Response) {
   try {
     const threadId = Number((req.params as any)?.threadId || "0");
     const { threadTitle } = req.body;
+    const userId = (req.session as any)?.userId;
 
     if (!threadId) {
       return res.status(400).json({ ok: false, error: "threadId is required" });
@@ -263,13 +264,14 @@ export async function updateThreadTitle(req: Request, res: Response) {
         .json({ ok: false, error: "threadTitle is required" });
     }
 
-    // Get user from auth (assuming it's set by middleware)
-    const user = (req as any).user;
-    if (!user) {
+    if (!userId) {
       return res
         .status(401)
         .json({ ok: false, error: "Unauthorized" });
     }
+
+    // Get the current user from session
+    const user = (req.session as any)?.user;
 
     // Check if user has permission to update this thread
     // (moderator/admin assigned to the claim or participant in the thread)
@@ -286,9 +288,9 @@ export async function updateThreadTitle(req: Request, res: Response) {
     }
 
     const thread = threadCheck.rows[0];
-    const isParticipant = thread.user_a_id === user.id || thread.user_b_id === user.id;
-    const isAssignedModerator = thread.assigned_to === user.id;
-    const hasPermission = isParticipant || isAssignedModerator || user.admin || user.moderator;
+    const isParticipant = thread.user_a_id === userId || thread.user_b_id === userId;
+    const isAssignedModerator = thread.assigned_to === userId;
+    const hasPermission = isParticipant || isAssignedModerator || user?.admin || user?.moderator;
 
     if (!hasPermission) {
       return res.status(403).json({ ok: false, error: "Unauthorized" });
