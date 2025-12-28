@@ -69,6 +69,7 @@ export default function AdminClaimsList() {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalClaims, setTotalClaims] = useState(0);
+  const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
 
   const limit = 20;
   const offset = currentPage * limit;
