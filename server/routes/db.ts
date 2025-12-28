@@ -40,15 +40,8 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
-    // Drop message_threads table to recreate it without unique constraint
-    try {
-      await pool.query(`drop table if exists message_threads cascade`);
-      console.log("[dbSetup] Dropped message_threads table");
-    } catch (e: any) {
-      console.log("[dbSetup] Could not drop message_threads:", e?.message?.slice(0, 80));
-    }
-
-    // Recreate message_threads table with new columns for claim support
+    // Create message_threads table with new columns for claim support
+    // Don't drop it to preserve sequences and data
     try {
       await pool.query(
         `create table if not exists message_threads (
@@ -62,10 +55,10 @@ export async function dbSetup(_req: Request, res: Response) {
           last_updated timestamptz not null default now()
         )`,
       );
-      console.log("[dbSetup] Created message_threads table");
+      console.log("[dbSetup] Created/verified message_threads table");
     } catch (e: any) {
       if (!e.message?.includes("already exists")) {
-        console.warn("[dbSetup] Warning creating message_threads table:", e.message);
+        console.warn("[dbSetup] Warning with message_threads table:", e.message);
       }
     }
 
