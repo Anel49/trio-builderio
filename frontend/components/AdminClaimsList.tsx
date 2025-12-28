@@ -133,8 +133,8 @@ export default function AdminClaimsList() {
     }
   };
 
-  const handleAssignToMe = async (claimId: number) => {
-    if (!currentUser?.id) {
+  const handleToggleAssignment = async (claimId: number, assign: boolean) => {
+    if (assign && !currentUser?.id) {
       setError("You must be logged in to assign claims");
       return;
     }
@@ -143,7 +143,9 @@ export default function AdminClaimsList() {
       const response = await apiFetch(`/admin/claims/${claimId}/assign`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ assignToId: currentUser.id }),
+        body: JSON.stringify({
+          assignToId: assign ? currentUser.id : null,
+        }),
       });
 
       const data = await response.json();
@@ -163,11 +165,11 @@ export default function AdminClaimsList() {
         // Close the popover after successful assignment
         setOpenPopoverId(null);
       } else {
-        setError(data.error || "Failed to assign claim");
+        setError(data.error || "Failed to update claim assignment");
       }
     } catch (err: any) {
       console.error("[AdminClaimsList] Assignment error:", err);
-      setError(err.message || "Failed to assign claim");
+      setError(err.message || "Failed to update claim assignment");
     }
   };
 
