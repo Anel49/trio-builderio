@@ -141,6 +141,7 @@ export async function createClaim(req: Request, res: Response) {
           `update claims set claim_number = $1 where id = $2`,
           [claimNumber, claim.id],
         );
+        console.log("[createClaim] Claim number updated to", claimNumber);
       } catch (e: any) {
         console.error(
           "[createClaim] Error setting claim_number:",
@@ -156,6 +157,7 @@ export async function createClaim(req: Request, res: Response) {
         `update message_threads set claim_id = $1, thread_title = $2 where id = $3`,
         [claim.id, claimNumber, messageThreadId],
       );
+      console.log("[createClaim] Thread updated with claim_id and thread_title");
     } catch (e: any) {
       console.error(
         "[createClaim] Error updating message thread with claim details:",
@@ -182,11 +184,13 @@ ${claimDetails}`;
          values ($1, $2, $3, $4)`,
         [2, userId, messageBody, messageThreadId],
       );
+      console.log("[createClaim] System message sent to thread");
     } catch (e: any) {
       console.error("[createClaim] Error sending system message:", e.message);
       // Don't fail the entire operation if system message fails
     }
 
+    console.log("[createClaim] Returning success response");
     res.json({
       ok: true,
       claim: {
