@@ -207,6 +207,14 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/claims-chat"
+            element={
+              <ProtectedRoute>
+                <AdminClaimsChat />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/checkout" element={<Checkout />} />
           <Route
             path="/rentals-and-requests"
