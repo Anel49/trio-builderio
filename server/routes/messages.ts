@@ -66,6 +66,7 @@ export async function getMessages(req: Request, res: Response) {
   try {
     const userId = Number((req.params as any)?.userId || "0");
     const threadId = Number((req.params as any)?.threadId || "0");
+    const user = (req.session as any)?.user;
 
     if (!userId || !threadId) {
       return res.status(400).json({
@@ -74,10 +75,19 @@ export async function getMessages(req: Request, res: Response) {
       });
     }
 
-    // Verify the user is part of this thread
+    // Verify the user is part of this thread OR is a moderator/admin with claim assigned to them
     const threadCheckResult = await pool.query(
-      `SELECT id FROM message_threads WHERE id = $1 AND (user_a_id = $2 OR user_b_id = $2)`,
-      [threadId, userId],
+      `
+      SELECT mt.id
+      FROM message_threads mt
+      LEFT JOIN claims c ON mt.claim_id = c.id
+      WHERE mt.id = $1
+        AND (
+          (mt.user_a_id = $2 OR mt.user_b_id = $2)
+          OR (c.assigned_to = $2 AND ($3 OR $4))
+        )
+      `,
+      [threadId, userId, user?.moderator || false, user?.admin || false],
     );
 
     if (threadCheckResult.rowCount === 0) {
