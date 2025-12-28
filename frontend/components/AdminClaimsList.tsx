@@ -307,17 +307,32 @@ export default function AdminClaimsList() {
                               variant="ghost"
                               size="sm"
                               className="h-6 w-6 p-0 border border-border hover:bg-accent"
-                              title="Assign claim"
+                              title={
+                                claim.assigned_to === currentUser?.id
+                                  ? "Unassign claim"
+                                  : "Assign claim"
+                              }
                             >
-                              <Plus className="h-4 w-4" />
+                              {claim.assigned_to === currentUser?.id ? (
+                                <Minus className="h-4 w-4" />
+                              ) : (
+                                <Plus className="h-4 w-4" />
+                              )}
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent side="left" className="w-40 p-2">
                             <button
-                              onClick={() => handleAssignToMe(claim.id)}
+                              onClick={() =>
+                                handleToggleAssignment(
+                                  claim.id,
+                                  claim.assigned_to !== currentUser?.id,
+                                )
+                              }
                               className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
                             >
-                              Assign to me
+                              {claim.assigned_to === currentUser?.id
+                                ? "Unassign"
+                                : "Assign to me"}
                             </button>
                           </PopoverContent>
                         </Popover>
