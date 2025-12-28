@@ -163,8 +163,9 @@ export default function Messages() {
           if (
             data.conversations &&
             data.conversations.length > 0 &&
-            !selectedUserId
+            !selectedThreadId
           ) {
+            setSelectedThreadId(data.conversations[0].threadId);
             setSelectedUserId(data.conversations[0].otherUserId);
           }
         }
@@ -176,7 +177,7 @@ export default function Messages() {
     };
 
     fetchConversations();
-  }, [user?.id]);
+  }, [user?.id, selectedThreadId]);
 
   // Handle temporary conversation creation when userId is in URL params
   useEffect(() => {
