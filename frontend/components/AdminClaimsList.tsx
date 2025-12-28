@@ -205,9 +205,17 @@ export default function AdminClaimsList() {
                 {claims.map((claim) => (
                   <tr key={claim.id} className="border-b hover:bg-muted/50">
                     <td className={spacing.padding.md}>
-                      <p className={typography.weight.medium}>
+                      <a
+                        href={`/claims-chat?claimId=${claim.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          typography.weight.medium,
+                          "text-primary hover:underline",
+                        )}
+                      >
                         {claim.claim_number || "N/A"}
-                      </p>
+                      </a>
                     </td>
                     <td className={spacing.padding.md}>
                       <span
