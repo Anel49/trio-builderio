@@ -85,7 +85,12 @@ export default function Messages() {
       return threadIdFromUrl ? parseInt(threadIdFromUrl) : null;
     },
   );
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(
+    () => {
+      const userIdFromUrl = searchParams.get("userId");
+      return userIdFromUrl ? parseInt(userIdFromUrl) : null;
+    },
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [messageInput, setMessageInput] = useState("");
   const [isSafetyBannerExpanded, setIsSafetyBannerExpanded] = useState(false);
