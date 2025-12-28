@@ -159,6 +159,8 @@ export default function AdminClaimsList() {
               : claim,
           ),
         );
+        // Close the popover after successful assignment
+        setOpenPopoverId(null);
       } else {
         setError(data.error || "Failed to assign claim");
       }
