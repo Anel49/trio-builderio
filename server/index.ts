@@ -866,9 +866,11 @@ export function createServer() {
   app.get("/api/messages/:userId/conversations", listConversations);
   app.get("/api/messages/:userId/:threadId", getMessages);
   app.post("/api/messages", sendMessage);
+  app.patch("/api/messages/:threadId/title", updateThreadTitle);
   app.get("/messages/:userId/conversations", listConversations);
   app.get("/messages/:userId/:threadId", getMessages);
   app.post("/messages", sendMessage);
+  app.patch("/messages/:threadId/title", updateThreadTitle);
   // Checkout
   app.post("/api/checkout/create-session", createCheckoutSession);
   app.post("/checkout/create-session", createCheckoutSession);
