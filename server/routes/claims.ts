@@ -138,6 +138,7 @@ export async function listClaimThreads(req: Request, res: Response) {
 
     const threads = result.rows.map((r: any) => ({
       threadId: r.thread_id,
+      claimId: r.claim_id,
       threadTitle: r.thread_title,
       lastMessage: r.last_message,
       lastMessageTime: r.last_message_time,
