@@ -678,7 +678,7 @@ export default function Messages() {
                       setSelectedUserId(chat.otherUserId);
                       setLeftSidebarOpen(false);
                     }}
-                    className={`p-2 ml-2 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
+                    className={`p-2 ml-4 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
                       selectedThreadId === chat.threadId ? "bg-accent" : ""
                     }`}
                   >
