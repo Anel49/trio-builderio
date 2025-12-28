@@ -378,14 +378,9 @@ export default function Messages() {
 
   // Handle send message
   const handleSendMessage = async () => {
-    if (!messageInput.trim() || !user?.id || !selectedUserId) return;
+    if (!messageInput.trim() || !user?.id || !selectedThreadId || !selectedUserId) return;
 
     try {
-      const messageThreadId =
-        messages.length > 0
-          ? messages[messages.length - 1].messageThreadId
-          : undefined;
-
       const response = await apiFetch("/messages", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -393,7 +388,7 @@ export default function Messages() {
           senderId: user.id,
           toId: selectedUserId,
           body: messageInput,
-          messageThreadId,
+          messageThreadId: selectedThreadId,
         }),
       });
 
@@ -404,7 +399,7 @@ export default function Messages() {
         setMessageInput("");
         // Update cache with the new message
         setMessagesCache((prevCache) =>
-          new Map(prevCache).set(selectedUserId, updatedMessages),
+          new Map(prevCache).set(selectedThreadId, updatedMessages),
         );
         // Refresh conversations to update last message
         if (user?.id) {
