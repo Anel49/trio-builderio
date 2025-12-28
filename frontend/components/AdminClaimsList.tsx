@@ -10,6 +10,7 @@ import {
   layouts,
   combineTokens,
 } from "@/lib/design-tokens";
+import { cn } from "@/lib/utils";
 
 interface Claim {
   id: number;
