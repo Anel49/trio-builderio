@@ -639,11 +639,14 @@ export default function AdminClaimsChat() {
                       <p className="font-semibold text-lg mb-1">
                         {claimData.claimSubmitter.name}
                       </p>
-                      <p className="text-sm text-muted-foreground flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
-                        Joined{" "}
-                        {formatDateJoined(claimData.claimSubmitter.createdAt)}
-                      </p>
+                      <div className="mb-4">
+                        <div className="flex items-center justify-center space-x-2 text-muted-foreground">
+                          <Calendar className="h-4 w-4" />
+                          <span className="text-sm">
+                            Joined {formatDateJoined(claimData.claimSubmitter.createdAt)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
                     {/* Divider */}
