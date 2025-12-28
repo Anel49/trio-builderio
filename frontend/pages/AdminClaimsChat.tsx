@@ -107,9 +107,9 @@ export default function AdminClaimsChat() {
   const { user, checkAuth } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [selectedClaimId, setSelectedClaimId] = useState<number | null>(() => {
-    const claimIdFromUrl = searchParams.get("claimId");
-    return claimIdFromUrl ? parseInt(claimIdFromUrl) : null;
+  const [selectedThreadId, setSelectedThreadId] = useState<number | null>(() => {
+    const threadIdFromUrl = searchParams.get("threadId");
+    return threadIdFromUrl ? parseInt(threadIdFromUrl) : null;
   });
 
   const [claimThreads, setClaimThreads] = useState<ClaimThread[]>([]);
@@ -157,13 +157,13 @@ export default function AdminClaimsChat() {
         );
         const data = await response.json();
         if (data.ok) {
-          setClaimThreads(data.threads || []);
-          // Auto-select first claim if one is loaded from URL
+          setClaimThreads(data.conversations || []);
+          // Auto-select first thread if one is loaded from URL
           if (
-            selectedClaimId &&
+            selectedThreadId &&
             !claimData
           ) {
-            // Will be handled by the selectedClaimId effect
+            // Will be handled by the selectedThreadId effect
           }
         } else {
           setError(data.error || "Failed to load claims");
@@ -179,75 +179,81 @@ export default function AdminClaimsChat() {
     fetchThreads();
   }, [user?.id]);
 
-  // Fetch claim details when selectedClaimId changes
+  // Fetch messages when selectedThreadId changes
   useEffect(() => {
-    if (!selectedClaimId) {
-      setClaimData(null);
+    if (!selectedThreadId || !user?.id) {
       setMessages([]);
+      return;
+    }
+
+    const fetchMessages = async () => {
+      // Check cache first
+      const cachedMessages = messagesCache.get(selectedThreadId);
+      if (cachedMessages) {
+        setMessages(cachedMessages);
+        return;
+      }
+
+      setMessagesLoading(true);
+      try {
+        const response = await apiFetch(
+          `/messages/${user.id}/${selectedThreadId}`,
+        );
+        const data = await response.json();
+        if (data.ok) {
+          const fetchedMessages = data.messages || [];
+          setMessages(fetchedMessages);
+          setMessagesCache((prev) =>
+            new Map(prev).set(selectedThreadId, fetchedMessages),
+          );
+        }
+      } catch (err) {
+        console.error("Failed to fetch messages:", err);
+      } finally {
+        setMessagesLoading(false);
+      }
+    };
+
+    fetchMessages();
+  }, [selectedThreadId, user?.id]);
+
+  // Fetch claim details when selectedThreadId changes
+  useEffect(() => {
+    if (!selectedThreadId) {
+      setClaimData(null);
+      return;
+    }
+
+    // Find the claim ID from the selected thread
+    const selectedThread = claimThreads.find(
+      (t) => t.threadId === selectedThreadId,
+    );
+    if (!selectedThread || !selectedThread.claimId) {
+      setClaimData(null);
       return;
     }
 
     const fetchClaimData = async () => {
       setClaimDetailsLoading(true);
-      setError(null);
       try {
         const response = await apiFetch(
-          `/admin/claims/${selectedClaimId}/thread-data`,
+          `/admin/claims/${selectedThread.claimId}/thread-data`,
         );
         const data = await response.json();
         if (data.ok) {
           setClaimData(data);
-          // Clear cache and fetch messages for this thread
-          if (data.thread?.id) {
-            setMessagesCache(new Map());
-            fetchMessages(data.thread.id);
-          }
         } else {
-          setError(data.error || "Claim not found");
-          setClaimData(null);
+          console.error("Failed to load claim details:", data.error);
         }
       } catch (err) {
         console.error("Failed to fetch claim data:", err);
-        setError("Failed to load claim details");
-        setClaimData(null);
       } finally {
         setClaimDetailsLoading(false);
       }
     };
 
     fetchClaimData();
-  }, [selectedClaimId]);
-
-  // Fetch messages for a thread
-  const fetchMessages = async (threadId: number) => {
-    if (!user?.id) return;
-
-    // Check cache first
-    const cachedMessages = messagesCache.get(threadId);
-    if (cachedMessages) {
-      setMessages(cachedMessages);
-      return;
-    }
-
-    setMessagesLoading(true);
-    try {
-      const response = await apiFetch(
-        `/messages/${user.id}/${threadId}`,
-      );
-      const data = await response.json();
-      if (data.ok) {
-        const fetchedMessages = data.messages || [];
-        setMessages(fetchedMessages);
-        setMessagesCache((prev) =>
-          new Map(prev).set(threadId, fetchedMessages),
-        );
-      }
-    } catch (err) {
-      console.error("Failed to fetch messages:", err);
-    } finally {
-      setMessagesLoading(false);
-    }
-  };
+  }, [selectedThreadId, claimThreads]);
 
   // Auto-scroll to bottom when messages load or update
   useEffect(() => {
@@ -279,7 +285,7 @@ export default function AdminClaimsChat() {
     if (
       !messageInput.trim() ||
       !user?.id ||
-      !claimData?.thread.id ||
+      !selectedThreadId ||
       !claimData?.claimSubmitter.id
     ) {
       return;
@@ -293,7 +299,7 @@ export default function AdminClaimsChat() {
           senderId: 2, // Always send as Support
           toId: claimData.claimSubmitter.id,
           body: messageInput,
-          messageThreadId: claimData.thread.id,
+          messageThreadId: selectedThreadId,
         }),
       });
 
@@ -304,7 +310,7 @@ export default function AdminClaimsChat() {
         setMessageInput("");
         // Update cache
         setMessagesCache((prev) =>
-          new Map(prev).set(claimData.thread.id, updatedMessages),
+          new Map(prev).set(selectedThreadId, updatedMessages),
         );
       }
     } catch (err) {
@@ -458,11 +464,11 @@ export default function AdminClaimsChat() {
                   <div
                     key={thread.threadId}
                     onClick={() => {
-                      setSelectedClaimId(thread.claimId);
+                      setSelectedThreadId(thread.threadId);
                       setLeftSidebarOpen(false);
                     }}
                     className={`p-2 ml-2 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
-                      selectedClaimId === thread.threadId ? "bg-accent" : ""
+                      selectedThreadId === thread.threadId ? "bg-accent" : ""
                     }`}
                   >
                     <div className="flex-1 w-0">
@@ -511,7 +517,7 @@ export default function AdminClaimsChat() {
                     Loading claim...
                   </div>
                 </div>
-              ) : !claimData ? (
+              ) : !selectedThreadId || !claimData ? (
                 <div className="flex items-center justify-center h-full pt-8">
                   <div className="text-center text-muted-foreground">
                     Select a claim to view details and messages
