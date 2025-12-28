@@ -684,7 +684,7 @@ export default function AdminClaimsChat() {
                 </div>
 
                 <ScrollArea className="h-full">
-                  <div className="p-6 pt-12 md:pt-12 space-y-6">
+                  <div className="p-6 pt-12 md:pt-12">
                     {/* Claim Submitter Info */}
                     <div className="text-center">
                       <div className="relative inline-block mb-4 leading-none h-20">
