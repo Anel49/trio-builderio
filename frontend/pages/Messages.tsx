@@ -179,61 +179,31 @@ export default function Messages() {
     fetchConversations();
   }, [user?.id, selectedThreadId]);
 
-  // Handle temporary conversation creation when userId is in URL params
+  // Handle temporary conversation creation when threadId is in URL params
   useEffect(() => {
-    if (!user?.id || !selectedUserId) {
+    if (!user?.id || !selectedThreadId) {
       setTemporaryConversation(null);
-      setSelectedUserNotFound(false);
+      setSelectedThreadNotFound(false);
       return;
     }
 
-    // Check if selectedUserId already exists in conversations
+    // Check if selectedThreadId already exists in conversations
     const existingConversation = conversations.find(
-      (c) => c.otherUserId === selectedUserId,
+      (c) => c.threadId === selectedThreadId,
     );
 
     if (existingConversation) {
-      // User is in existing conversations, no need for temporary
+      // Thread is in existing conversations, no need for temporary
       setTemporaryConversation(null);
-      setSelectedUserNotFound(false);
+      setSelectedThreadNotFound(false);
+      setSelectedUserId(existingConversation.otherUserId);
       return;
     }
 
-    // Fetch user info to create temporary conversation
-    const fetchUserForTemporaryConversation = async () => {
-      try {
-        const response = await apiFetch(`/users/${selectedUserId}`);
-        const data = await response.json();
-
-        if (data.ok && data.user) {
-          const tempConv: Conversation = {
-            otherUserId: selectedUserId,
-            name: data.user.name || "Unknown User",
-            avatarUrl: data.user.avatarUrl || null,
-            username: data.user.username || null,
-            lastMessage: "No messages yet",
-            lastMessageTime: new Date().toISOString(),
-            lastMessageSenderId: undefined,
-          };
-          setTemporaryConversation(tempConv);
-          setSelectedUserNotFound(false);
-        } else {
-          // User not found
-          setTemporaryConversation(null);
-          setSelectedUserNotFound(true);
-        }
-      } catch (error) {
-        console.error(
-          "Failed to fetch user for temporary conversation:",
-          error,
-        );
-        setTemporaryConversation(null);
-        setSelectedUserNotFound(true);
-      }
-    };
-
-    fetchUserForTemporaryConversation();
-  }, [selectedUserId, conversations, user?.id]);
+    // Thread not found in existing conversations
+    setTemporaryConversation(null);
+    setSelectedThreadNotFound(true);
+  }, [selectedThreadId, conversations, user?.id]);
 
   // Fetch user reviews and details when selected user changes
   useEffect(() => {
