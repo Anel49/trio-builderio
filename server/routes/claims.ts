@@ -145,7 +145,7 @@ export async function listClaimThreads(req: Request, res: Response) {
       lastMessageSenderId: r.last_message_sender_id,
     }));
 
-    res.json({ ok: true, threads });
+    res.json({ ok: true, conversations: threads });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
