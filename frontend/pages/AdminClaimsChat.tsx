@@ -458,7 +458,7 @@ export default function AdminClaimsChat() {
                   <div
                     key={thread.threadId}
                     onClick={() => {
-                      setSelectedClaimId(thread.threadId);
+                      setSelectedClaimId(thread.claimId);
                       setLeftSidebarOpen(false);
                     }}
                     className={`p-2 ml-2 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
