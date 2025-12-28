@@ -727,7 +727,7 @@ export default function AdminClaimsChat() {
                     <div className="border-t border-border"></div>
 
                     {/* Thread Title Editor */}
-                    <div className="py-3">
+                    <div className="py-1">
                       {!isEditingTitle ? (
                         <div className="flex justify-center">
                           <Button
