@@ -813,9 +813,6 @@ export default function Messages() {
             {/* Message Input */}
             <div className="p-4">
               <div className="flex space-x-2">
-                <Button variant="outline" size="icon">
-                  <Paperclip className="h-4 w-4" />
-                </Button>
                 <Input
                   placeholder="Type a message..."
                   value={messageInput}
