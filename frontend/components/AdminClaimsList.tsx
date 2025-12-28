@@ -312,7 +312,7 @@ export default function AdminClaimsList() {
                         </Popover>
                       </div>
                     </td>
-                    <td className={spacing.padding.md}>
+                    <td className={combineTokens(spacing.padding.md, "text-center")}>
                       <p>{claim.priority}</p>
                     </td>
                     <td className={spacing.padding.md}>
