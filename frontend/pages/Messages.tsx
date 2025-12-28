@@ -422,13 +422,13 @@ export default function Messages() {
     ? [
         temporaryConversation,
         ...conversations.filter(
-          (c) => c.otherUserId !== temporaryConversation.otherUserId,
+          (c) => c.threadId !== temporaryConversation.threadId,
         ),
       ]
     : conversations;
 
   const selectedChat = allConversations.find(
-    (c) => c.otherUserId === selectedUserId,
+    (c) => c.threadId === selectedThreadId,
   );
 
   const filteredConversations = allConversations.filter(
