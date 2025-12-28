@@ -84,7 +84,12 @@ import {
   updateListingReviewHelpful,
   deleteListingReview,
 } from "./routes/listing-reviews";
-import { listConversations, getMessages, sendMessage, updateThreadTitle } from "./routes/messages";
+import {
+  listConversations,
+  getMessages,
+  sendMessage,
+  updateThreadTitle,
+} from "./routes/messages";
 import { createCheckoutSession } from "./routes/checkout";
 import {
   createClaim,
@@ -866,11 +871,19 @@ export function createServer() {
   app.get("/api/messages/:userId/conversations", listConversations);
   app.get("/api/messages/:userId/:threadId", getMessages);
   app.post("/api/messages", sendMessage);
-  app.patch("/api/messages/:threadId/title", requireModeratorOrAdmin, updateThreadTitle);
+  app.patch(
+    "/api/messages/:threadId/title",
+    requireModeratorOrAdmin,
+    updateThreadTitle,
+  );
   app.get("/messages/:userId/conversations", listConversations);
   app.get("/messages/:userId/:threadId", getMessages);
   app.post("/messages", sendMessage);
-  app.patch("/messages/:threadId/title", requireModeratorOrAdmin, updateThreadTitle);
+  app.patch(
+    "/messages/:threadId/title",
+    requireModeratorOrAdmin,
+    updateThreadTitle,
+  );
   // Checkout
   app.post("/api/checkout/create-session", createCheckoutSession);
   app.post("/checkout/create-session", createCheckoutSession);

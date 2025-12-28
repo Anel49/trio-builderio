@@ -2834,14 +2834,15 @@ export default function OrderHistory() {
           </DialogHeader>
           <div className="py-4">
             <p className="text-base text-muted-foreground">
-              Your claim was submitted successfully. A new message thread for your claim was created.{" "}
+              Your claim was submitted successfully. A new message thread for
+              your claim was created.{" "}
               <a
                 href="/messages"
                 className="text-primary hover:underline font-medium"
               >
                 Click here
-              </a>
-              {" "}to view your messages.
+              </a>{" "}
+              to view your messages.
             </p>
           </div>
           <div className="flex justify-center">

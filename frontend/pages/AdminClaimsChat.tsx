@@ -332,16 +332,13 @@ export default function AdminClaimsChat() {
     }
 
     try {
-      const response = await apiFetch(
-        `/messages/${selectedThreadId}/title`,
-        {
-          method: "PATCH",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            threadTitle: newThreadTitle.trim(),
-          }),
-        },
-      );
+      const response = await apiFetch(`/messages/${selectedThreadId}/title`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          threadTitle: newThreadTitle.trim(),
+        }),
+      });
 
       const data = await response.json();
       if (data.ok) {
@@ -751,9 +748,7 @@ export default function AdminClaimsChat() {
                           <Input
                             ref={titleInputRef}
                             value={newThreadTitle}
-                            onChange={(e) =>
-                              setNewThreadTitle(e.target.value)
-                            }
+                            onChange={(e) => setNewThreadTitle(e.target.value)}
                             onKeyPress={(e) => {
                               if (e.key === "Enter") {
                                 handleSaveThreadTitle();

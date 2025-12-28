@@ -266,9 +266,7 @@ export async function updateThreadTitle(req: Request, res: Response) {
     }
 
     if (!userId) {
-      return res
-        .status(401)
-        .json({ ok: false, error: "Unauthorized" });
+      return res.status(401).json({ ok: false, error: "Unauthorized" });
     }
 
     // Verify the user has permission to update this thread
@@ -301,7 +299,9 @@ export async function updateThreadTitle(req: Request, res: Response) {
     );
 
     if (result.rows.length === 0) {
-      return res.status(500).json({ ok: false, error: "Failed to update thread title" });
+      return res
+        .status(500)
+        .json({ ok: false, error: "Failed to update thread title" });
     }
 
     res.json({ ok: true, thread: result.rows[0] });
