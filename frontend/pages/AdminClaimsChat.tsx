@@ -469,11 +469,11 @@ export default function AdminClaimsChat() {
                       setSelectedThreadId(thread.threadId);
                       setLeftSidebarOpen(false);
                     }}
-                    className={`p-2 ml-2 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
+                    className={`w-full p-2 ml-2 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
                       selectedThreadId === thread.threadId ? "bg-accent" : ""
                     }`}
                   >
-                    <div className="flex-1 min-w-0 p-2">
+                    <div className="min-w-0 p-2">
                       <div className="font-semibold text-sm truncate text-left w-full">
                         {thread.threadTitle}
                       </div>
