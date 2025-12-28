@@ -516,13 +516,9 @@ export default function Messages() {
         ]
       : conversations;
 
-  const selectedChat = allConversations.find(
-    (c) =>
-      c.threadId === selectedThreadId ||
-      (selectedThreadId === -1 && ghostConversation
-        ? c.otherUserId === ghostConversation.otherUserId
-        : false),
-  );
+  const selectedChat = ghostConversation
+    ? ghostConversation
+    : allConversations.find((c) => c.threadId === selectedThreadId);
 
   const filteredConversations = allConversations.filter(
     (chat) =>
