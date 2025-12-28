@@ -84,7 +84,7 @@ import {
   updateListingReviewHelpful,
   deleteListingReview,
 } from "./routes/listing-reviews";
-import { listConversations, getMessages, sendMessage } from "./routes/messages";
+import { listConversations, getMessages, sendMessage, updateThreadTitle } from "./routes/messages";
 import { createCheckoutSession } from "./routes/checkout";
 import {
   createClaim,
