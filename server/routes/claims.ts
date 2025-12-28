@@ -25,9 +25,7 @@ export async function getClaimThreadData(req: Request, res: Response) {
     const claimId = Number((req.params as any)?.claimId || "0");
 
     if (!claimId) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "claimId is required" });
+      return res.status(400).json({ ok: false, error: "claimId is required" });
     }
 
     const result = await pool.query(
@@ -100,9 +98,7 @@ export async function listClaimThreads(req: Request, res: Response) {
     const userId = Number((req.params as any)?.userId || "0");
 
     if (!userId) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "userId is required" });
+      return res.status(400).json({ ok: false, error: "userId is required" });
     }
 
     const result = await pool.query(

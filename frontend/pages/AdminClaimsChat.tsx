@@ -107,10 +107,12 @@ export default function AdminClaimsChat() {
   const { user, checkAuth } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [selectedThreadId, setSelectedThreadId] = useState<number | null>(() => {
-    const threadIdFromUrl = searchParams.get("threadId");
-    return threadIdFromUrl ? parseInt(threadIdFromUrl) : null;
-  });
+  const [selectedThreadId, setSelectedThreadId] = useState<number | null>(
+    () => {
+      const threadIdFromUrl = searchParams.get("threadId");
+      return threadIdFromUrl ? parseInt(threadIdFromUrl) : null;
+    },
+  );
 
   const [claimThreads, setClaimThreads] = useState<ClaimThread[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -152,19 +154,14 @@ export default function AdminClaimsChat() {
       setThreadsLoading(true);
       setError(null);
       try {
-        const response = await apiFetch(
-          `/admin/claims/${user.id}/threads`,
-        );
+        const response = await apiFetch(`/admin/claims/${user.id}/threads`);
         const data = await response.json();
         if (data.ok) {
           const threads = data.conversations || [];
           setClaimThreads(threads);
 
           // Auto-select first thread if none is selected from URL
-          if (
-            threads.length > 0 &&
-            !selectedThreadId
-          ) {
+          if (threads.length > 0 && !selectedThreadId) {
             setSelectedThreadId(threads[0].threadId);
           }
         } else {
@@ -449,9 +446,7 @@ export default function AdminClaimsChat() {
             {/* Claims List */}
             <ScrollArea className="h-full [&>div]:block [&>div>div]:block">
               {error && (
-                <div className="p-4 text-sm text-destructive">
-                  {error}
-                </div>
+                <div className="p-4 text-sm text-destructive">{error}</div>
               )}
               {threadsLoading ? (
                 <div className="p-4 text-center text-muted-foreground">
@@ -459,7 +454,9 @@ export default function AdminClaimsChat() {
                 </div>
               ) : filteredThreads.length === 0 ? (
                 <div className="p-4 text-center text-muted-foreground">
-                  {searchQuery ? "No claims match your search" : "No claims yet"}
+                  {searchQuery
+                    ? "No claims match your search"
+                    : "No claims yet"}
                 </div>
               ) : (
                 filteredThreads.map((thread) => (
@@ -661,7 +658,10 @@ export default function AdminClaimsChat() {
                         <div className="flex items-center justify-center space-x-2 text-muted-foreground">
                           <Calendar className="h-4 w-4" />
                           <span className="text-sm">
-                            Joined {formatDateJoined(claimData.claimSubmitter.createdAt)}
+                            Joined{" "}
+                            {formatDateJoined(
+                              claimData.claimSubmitter.createdAt,
+                            )}
                           </span>
                         </div>
                       </div>
@@ -694,7 +694,9 @@ export default function AdminClaimsChat() {
 
                       <div>
                         <p>
-                          <span className="font-medium">Order #{claimData.order.number}</span>
+                          <span className="font-medium">
+                            Order #{claimData.order.number}
+                          </span>
                         </p>
                       </div>
 

@@ -85,12 +85,10 @@ export default function Messages() {
       return threadIdFromUrl ? parseInt(threadIdFromUrl) : null;
     },
   );
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(
-    () => {
-      const userIdFromUrl = searchParams.get("userId");
-      return userIdFromUrl ? parseInt(userIdFromUrl) : null;
-    },
-  );
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(() => {
+    const userIdFromUrl = searchParams.get("userId");
+    return userIdFromUrl ? parseInt(userIdFromUrl) : null;
+  });
 
   // Track if userId or threadId came from URL params
   const userIdFromUrl = searchParams.get("userId");
@@ -456,8 +454,7 @@ export default function Messages() {
         setMessageInput("");
 
         // If this was a ghost conversation, update the threadId
-        const newThreadId =
-          selectedThreadId || data.message.messageThreadId;
+        const newThreadId = selectedThreadId || data.message.messageThreadId;
         if (newThreadId && !selectedThreadId) {
           setSelectedThreadId(newThreadId);
         }

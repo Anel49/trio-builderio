@@ -156,7 +156,12 @@ export async function sendMessage(req: Request, res: Response) {
             OR (c.assigned_to = $2 AND ($3 OR $4))
           )
         `,
-        [messageThreadId, senderId, user?.moderator || false, user?.admin || false],
+        [
+          messageThreadId,
+          senderId,
+          user?.moderator || false,
+          user?.admin || false,
+        ],
       );
 
       if (threadCheckResult.rowCount === 0) {

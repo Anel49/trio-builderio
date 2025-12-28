@@ -421,7 +421,14 @@ export async function listAllClaims(req: Request, res: Response) {
     );
     const search = ((req.query.search as string) || "").toLowerCase().trim();
 
-    console.log("[listAllClaims] Parsed params - limit:", limit, "offset:", offset, "search:", search);
+    console.log(
+      "[listAllClaims] Parsed params - limit:",
+      limit,
+      "offset:",
+      offset,
+      "search:",
+      search,
+    );
 
     let whereClause = "1=1";
     const params: any[] = [];
@@ -534,7 +541,9 @@ export async function assignClaimToUser(req: Request, res: Response) {
     );
 
     if (!updateResult.rowCount) {
-      return res.status(500).json({ ok: false, error: "Failed to update claim assignment" });
+      return res
+        .status(500)
+        .json({ ok: false, error: "Failed to update claim assignment" });
     }
 
     res.json({

@@ -11,11 +11,7 @@ import {
   Minus,
 } from "lucide-react";
 import { Button } from "./ui/button";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "./ui/popover";
+import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 import {
   spacing,
   typography,
@@ -338,7 +334,12 @@ export default function AdminClaimsList() {
                         </Popover>
                       </div>
                     </td>
-                    <td className={combineTokens(spacing.padding.md, "text-center")}>
+                    <td
+                      className={combineTokens(
+                        spacing.padding.md,
+                        "text-center",
+                      )}
+                    >
                       <p>{claim.priority}</p>
                     </td>
                     <td className={spacing.padding.md}>
