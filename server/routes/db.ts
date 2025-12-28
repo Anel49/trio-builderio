@@ -40,17 +40,6 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
-    // Drop unique index on message_threads to allow multiple threads between same users (for support)
-    try {
-      await pool.query(`drop index if exists idx_message_threads_users`);
-      console.log("[dbSetup] Dropped unique constraint on message_threads");
-    } catch (e: any) {
-      // Index might not exist, which is fine
-      if (!e.message?.includes("does not exist")) {
-        console.warn("[dbSetup] Warning dropping message_threads index:", e.message);
-      }
-    }
-
     // Add UNIQUE constraint on username if it doesn't exist
     try {
       await pool.query(
