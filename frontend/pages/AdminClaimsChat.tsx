@@ -624,7 +624,7 @@ export default function AdminClaimsChat() {
                               }
                               alt={claimData.claimSubmitter.name}
                             />
-                            <AvatarFallback>
+                            <AvatarFallback className="text-lg">
                               {claimData.claimSubmitter.name
                                 .trim()
                                 .split(" ")
