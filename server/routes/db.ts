@@ -450,6 +450,47 @@ export async function dbSetup(_req: Request, res: Response) {
       }
     }
 
+    // Create reports table if it doesn't exist
+    try {
+      await pool.query(
+        `create table if not exists reports (
+          id serial primary key,
+          reported_by_id integer not null references users(id) on delete cascade,
+          report_for text not null check (report_for in ('listing', 'user')),
+          reported_id integer not null,
+          reported_content_snapshot jsonb,
+          report_reasons jsonb,
+          report_details text,
+          status text not null default 'submitted' check (status in ('submitted', 'rejected', 'resolved')),
+          created_at timestamptz not null default now(),
+          assigned_to integer references users(id) on delete set null,
+          updated_at timestamptz not null default now(),
+          updated_by_id integer references users(id) on delete set null,
+          resolution_action text default 'none' check (resolution_action in ('none', 'removed', 'warned', 'suspended', 'banned')),
+          resolution_notes text
+        )`,
+      );
+      console.log("[dbSetup] Created reports table");
+    } catch (e: any) {
+      // Table might already exist, which is fine
+      if (!e.message?.includes("already exists")) {
+        console.warn("[dbSetup] Warning creating reports table:", e.message);
+      }
+    }
+
+    // Add index for reports query performance
+    try {
+      await pool.query(
+        `create index if not exists idx_reports_admin_query on reports (created_at desc, status, report_for, assigned_to)`,
+      );
+      console.log("[dbSetup] Created index for reports admin dashboard query");
+    } catch (e: any) {
+      // Index might already exist, which is fine
+      if (!e.message?.includes("already exists")) {
+        console.warn("[dbSetup] Warning creating reports index:", e.message);
+      }
+    }
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
