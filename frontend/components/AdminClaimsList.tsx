@@ -307,25 +307,74 @@ export default function AdminClaimsList() {
                       </a>
                     </td>
                     <td className={spacing.padding.md}>
-                      <span
-                        className={combineTokens(
-                          "px-2 py-1 rounded text-xs font-medium",
-                          claim.status === "resolved"
-                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                            : claim.status === "rejected" ||
-                                claim.status === "canceled" ||
-                                claim.status === "legal action"
-                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                              : claim.status === "under review" ||
-                                  claim.status ===
-                                    "awaiting customer response" ||
-                                  claim.status === "reimbursement pending"
-                                ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                                : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={combineTokens(
+                            "px-2 py-1 rounded text-xs font-medium",
+                            claim.status === "resolved"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              : claim.status === "rejected" ||
+                                  claim.status === "canceled" ||
+                                  claim.status === "legal action"
+                                ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                                : claim.status === "under review" ||
+                                    claim.status ===
+                                      "awaiting customer response" ||
+                                    claim.status === "reimbursement pending"
+                                  ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                  : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+                          )}
+                        >
+                          {toTitleCase(claim.status)}
+                        </span>
+                        {claim.assigned_to === currentUser?.id && (
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-5 w-5 p-0"
+                                title="Change status"
+                              >
+                                <ChevronDown className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                              <DropdownMenuRadioGroup
+                                value={claim.status}
+                                onValueChange={(status) =>
+                                  handleStatusChange(claim.id, status)
+                                }
+                              >
+                                <DropdownMenuRadioItem value="submitted">
+                                  Submitted
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="under review">
+                                  Under Review
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="awaiting customer response">
+                                  Awaiting Customer Response
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="reimbursement pending">
+                                  Reimbursement Pending
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="legal action">
+                                  Legal Action
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="canceled">
+                                  Canceled
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="rejected">
+                                  Rejected
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="resolved">
+                                  Resolved
+                                </DropdownMenuRadioItem>
+                              </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         )}
-                      >
-                        {toTitleCase(claim.status)}
-                      </span>
+                      </div>
                     </td>
                     <td className={spacing.padding.md}>
                       <div className="flex items-center gap-2">
