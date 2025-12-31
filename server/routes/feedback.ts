@@ -18,7 +18,11 @@ export async function createFeedback(req: Request, res: Response) {
       });
     }
 
-    if (!details || typeof details !== "string" || details.trim().length === 0) {
+    if (
+      !details ||
+      typeof details !== "string" ||
+      details.trim().length === 0
+    ) {
       return res.status(400).json({
         ok: false,
         error: "Missing required field: details (must be a non-empty string)",
@@ -30,12 +34,7 @@ export async function createFeedback(req: Request, res: Response) {
       `insert into feedback (status, categories, details, created_by_id, updated_by_id, created_at, updated_at)
        values ($1, $2, $3, $4, $4, now(), now())
        returning id, status, created_at`,
-      [
-        "submitted",
-        JSON.stringify({ categories }),
-        details.trim(),
-        userId,
-      ]
+      ["submitted", JSON.stringify({ categories }), details.trim(), userId],
     );
 
     const feedback = result.rows[0];

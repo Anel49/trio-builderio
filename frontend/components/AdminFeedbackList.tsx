@@ -149,7 +149,10 @@ export default function AdminFeedbackList() {
     }
   };
 
-  const handleToggleAssignment = async (feedbackId: number, assign: boolean) => {
+  const handleToggleAssignment = async (
+    feedbackId: number,
+    assign: boolean,
+  ) => {
     if (assign && !currentUser?.id) {
       setError("You must be logged in to assign feedback");
       return;
@@ -444,7 +447,12 @@ export default function AdminFeedbackList() {
                             </PopoverTrigger>
                             <PopoverContent side="left" className="w-40 p-2">
                               <button
-                                onClick={() => handleToggleAssignment(item.id, item.assigned_to_id !== currentUser?.id)}
+                                onClick={() =>
+                                  handleToggleAssignment(
+                                    item.id,
+                                    item.assigned_to_id !== currentUser?.id,
+                                  )
+                                }
                                 className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
                               >
                                 {item.assigned_to_id === currentUser?.id

@@ -983,7 +983,7 @@ export async function listAllFeedback(req: Request, res: Response) {
        left join users u2 on f.assigned_to_id = u2.id
        where ${whereClause}
        order by f.created_at desc
-       limit $${params.length + 1} offset $${params.length + 2}`
+       limit $${params.length + 1} offset $${params.length + 2}`;
 
     console.log("[listAllFeedback] Query:", query);
     console.log("[listAllFeedback] Query params:", queryParams);
@@ -1019,7 +1019,10 @@ export async function listAllFeedback(req: Request, res: Response) {
 
 export async function assignFeedbackToUser(req: Request, res: Response) {
   try {
-    const feedbackId = Number.parseInt((req.params.feedbackId as string) || "", 10);
+    const feedbackId = Number.parseInt(
+      (req.params.feedbackId as string) || "",
+      10,
+    );
     const assignToId = req.body?.assignToId;
 
     if (!Number.isFinite(feedbackId)) {
@@ -1084,7 +1087,10 @@ export async function assignFeedbackToUser(req: Request, res: Response) {
 
 export async function updateFeedbackStatus(req: Request, res: Response) {
   try {
-    const feedbackId = Number.parseInt((req.params.feedbackId as string) || "", 10);
+    const feedbackId = Number.parseInt(
+      (req.params.feedbackId as string) || "",
+      10,
+    );
     const newStatus = (req.body?.status as string) || "";
     const currentUser = (req.session as any)?.user;
 

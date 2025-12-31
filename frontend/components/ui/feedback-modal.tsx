@@ -72,10 +72,7 @@ const feedbackCategories = [
   },
 ];
 
-export function FeedbackModal({
-  isOpen,
-  onOpenChange,
-}: FeedbackModalProps) {
+export function FeedbackModal({ isOpen, onOpenChange }: FeedbackModalProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [additionalDetails, setAdditionalDetails] = useState("");
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -215,7 +212,11 @@ export function FeedbackModal({
               <div className="flex flex-col gap-3 pt-4 [@media(min-width:500px)]:flex-row">
                 <Button
                   onClick={handleSubmit}
-                  disabled={selectedCategories.length === 0 || !additionalDetails.trim() || isSubmitting}
+                  disabled={
+                    selectedCategories.length === 0 ||
+                    !additionalDetails.trim() ||
+                    isSubmitting
+                  }
                   className="flex-1"
                 >
                   {isSubmitting ? "Submitting..." : "Submit Feedback"}
@@ -242,7 +243,10 @@ export function FeedbackModal({
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="text-sm leading-relaxed text-muted-foreground space-y-3">
-              <p>Thank you for your feedback! We appreciate you taking the time to help us improve.</p>
+              <p>
+                Thank you for your feedback! We appreciate you taking the time
+                to help us improve.
+              </p>
             </div>
             <Button
               onClick={() => setIsConfirmationOpen(false)}

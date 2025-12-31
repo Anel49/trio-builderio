@@ -231,32 +231,50 @@ export default function AdminReviewList() {
                   {reviewType === "listing" ? (
                     <>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Listing Title
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Review
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Reviewer
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Created
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Updated
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Action
                       </th>
@@ -264,32 +282,50 @@ export default function AdminReviewList() {
                   ) : (
                     <>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Reviewed User
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Review
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Reviewer
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Created
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Updated
                       </th>
                       <th
-                        className={combineTokens(spacing.padding.md, "text-left")}
+                        className={combineTokens(
+                          spacing.padding.md,
+                          "text-left",
+                        )}
                       >
                         Action
                       </th>
@@ -300,7 +336,9 @@ export default function AdminReviewList() {
               <tbody>
                 {reviews.map((review) => (
                   <tr key={review.id} className="border-b hover:bg-muted/50">
-                    {reviewType === "listing" && review instanceof Object && "listing_title" in review ? (
+                    {reviewType === "listing" &&
+                    review instanceof Object &&
+                    "listing_title" in review ? (
                       <>
                         <td className={spacing.padding.md}>
                           <span className={typography.weight.medium}>
@@ -314,7 +352,8 @@ export default function AdminReviewList() {
                         </td>
                         <td className={spacing.padding.md}>
                           <p className="text-sm">
-                            {(review as ListingReview).reviewer_name || "Unknown"}
+                            {(review as ListingReview).reviewer_name ||
+                              "Unknown"}
                           </p>
                         </td>
                         <td className={spacing.padding.md}>
@@ -366,9 +405,7 @@ export default function AdminReviewList() {
                               >
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                                 <AlertDialogAction
-                                  onClick={() =>
-                                    handleDeleteReview(review.id)
-                                  }
+                                  onClick={() => handleDeleteReview(review.id)}
                                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                 >
                                   Delete
@@ -445,9 +482,7 @@ export default function AdminReviewList() {
                               >
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                                 <AlertDialogAction
-                                  onClick={() =>
-                                    handleDeleteReview(review.id)
-                                  }
+                                  onClick={() => handleDeleteReview(review.id)}
                                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                 >
                                   Delete
