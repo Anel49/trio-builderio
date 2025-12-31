@@ -181,6 +181,7 @@ export default function Profile() {
   const [otherUserDeactivated, setOtherUserDeactivated] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isReportUserModalOpen, setIsReportUserModalOpen] = useState(false);
   const [isReviewUserModalOpen, setIsReviewUserModalOpen] = useState(false);
   const [reviewUserRating, setReviewUserRating] = useState(5);
   const [reviewUserComment, setReviewUserComment] = useState("");
