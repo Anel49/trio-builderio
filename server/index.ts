@@ -1189,6 +1189,11 @@ export function createServer() {
     assignClaimToUser,
   );
   app.get("/admin/reports", requireModeratorOrAdmin, listAllReports);
+  app.patch(
+    "/admin/reports/:reportId/assign",
+    requireModeratorOrAdmin,
+    assignReportToUser,
+  );
 
   return app;
 }
