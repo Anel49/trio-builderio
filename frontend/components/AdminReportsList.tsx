@@ -197,6 +197,36 @@ export default function AdminReportsList() {
     }
   };
 
+  const handleStatusChange = async (reportId: number, newStatus: string) => {
+    try {
+      const response = await apiFetch(`/admin/reports/${reportId}/status`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        setReports((prevReports) =>
+          prevReports.map((report) =>
+            report.id === reportId
+              ? {
+                  ...report,
+                  status: data.report.status,
+                  updated_at: data.report.updated_at,
+                }
+              : report,
+          ),
+        );
+      } else {
+        setError(data.error || "Failed to update report status");
+      }
+    } catch (err: any) {
+      console.error("[AdminReportsList] Status update error:", err);
+      setError(err.message || "Failed to update report status");
+    }
+  };
+
   const totalPages = Math.ceil(totalReports / limit);
   const canPrevious = currentPage > 0;
   const canNext = currentPage < totalPages - 1;
