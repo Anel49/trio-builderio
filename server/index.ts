@@ -51,6 +51,7 @@ import {
   updateClaimStatus,
   updateReportStatus,
   listAllFeedback,
+  assignFeedbackToUser,
 } from "./routes/admin";
 import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
 import {
@@ -1226,6 +1227,16 @@ export function createServer() {
   // Feedback
   app.get("/api/admin/feedback", requireModeratorOrAdmin, listAllFeedback);
   app.get("/admin/feedback", requireModeratorOrAdmin, listAllFeedback);
+  app.patch(
+    "/api/admin/feedback/:feedbackId/assign",
+    requireModeratorOrAdmin,
+    assignFeedbackToUser,
+  );
+  app.patch(
+    "/admin/feedback/:feedbackId/assign",
+    requireModeratorOrAdmin,
+    assignFeedbackToUser,
+  );
 
   return app;
 }
