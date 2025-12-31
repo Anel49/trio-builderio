@@ -16,10 +16,12 @@ import {
 } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { COMPANY_NAME } from "@/lib/constants";
+import { apiFetch } from "@/lib/api";
 
 interface ReportUserModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  userId?: number;
   userName?: string;
 }
 
@@ -73,11 +75,18 @@ const reportCategories = [
 export function ReportUserModal({
   isOpen,
   onOpenChange,
+  userId,
   userName,
 }: ReportUserModalProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [additionalDetails, setAdditionalDetails] = useState("");
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const getCategoryLabel = (categoryId: string): string => {
+    const category = reportCategories.find((c) => c.id === categoryId);
+    return category ? category.label : categoryId;
+  };
 
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
     if (checked) {
@@ -87,21 +96,52 @@ export function ReportUserModal({
     }
   };
 
-  const handleSubmit = () => {
-    console.log("User report submitted:", {
-      categories: selectedCategories,
-      details: additionalDetails,
-      userName,
-    });
+  const handleSubmit = async () => {
+    if (!userId || selectedCategories.length === 0) {
+      console.error("Missing required data for user report submission");
+      return;
+    }
 
-    setSelectedCategories([]);
-    setAdditionalDetails("");
-    onOpenChange(false);
+    setIsSubmitting(true);
 
-    setIsConfirmationOpen(true);
+    try {
+      const reportLabels = selectedCategories.map(getCategoryLabel);
+
+      const response = await apiFetch("reports/create", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          report_for: "user",
+          reported_id: userId,
+          report_reasons: reportLabels,
+          report_details: additionalDetails,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (data.ok) {
+        // Reset form and close report modal
+        setSelectedCategories([]);
+        setAdditionalDetails("");
+        onOpenChange(false);
+
+        // Show confirmation modal
+        setIsConfirmationOpen(true);
+      } else {
+        console.error("Failed to submit report:", data.error);
+        alert("Failed to submit report. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting report:", error);
+      alert("An error occurred while submitting the report.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
+    // Reset form when closing
     setSelectedCategories([]);
     setAdditionalDetails("");
     onOpenChange(false);
