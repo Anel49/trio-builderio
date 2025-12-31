@@ -193,13 +193,15 @@ export function generateUserProfilePictureS3Key(
   userId: number,
   originalFileName: string,
 ): string {
-  // Remove special characters from filename and sanitize
-  const sanitized = originalFileName
-    .replace(/[^a-zA-Z0-9.-]/g, "_")
-    .toLowerCase();
+  // Extract file extension from original filename
+  const lastDotIndex = originalFileName.lastIndexOf(".");
+  const extension =
+    lastDotIndex !== -1
+      ? originalFileName.substring(lastDotIndex + 1).toLowerCase()
+      : "jpg";
 
-  // Create a key: users/{userId}/profile_{filename}
-  return `users/${userId}/profile_${sanitized}`;
+  // Create a key: users/{userId}/avatar.{ext}
+  return `users/${userId}/avatar.${extension}`;
 }
 
 /**
@@ -208,8 +210,8 @@ export function generateUserProfilePictureS3Key(
  * @returns An S3 key for the user's WEBP profile picture
  */
 export function generateUserProfilePictureWebpS3Key(userId: number): string {
-  // Create a key: users/{userId}/profile.webp
-  return `users/${userId}/profile.webp`;
+  // Create a key: users/{userId}/avatar.webp
+  return `users/${userId}/avatar.webp`;
 }
 
 /**
