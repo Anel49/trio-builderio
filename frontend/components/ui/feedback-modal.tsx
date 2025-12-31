@@ -208,10 +208,10 @@ export function FeedbackModal({
 
               <div className="space-y-3">
                 <label className="text-sm font-bold block pr-8">
-                  Additional details
+                  Additional details <span className="text-red-500">*</span>
                 </label>
                 <Textarea
-                  placeholder="Please provide any additional information about your feedback..."
+                  placeholder="Please provide the details of your feedback..."
                   value={additionalDetails}
                   onChange={(e) => setAdditionalDetails(e.target.value)}
                   className="min-h-[100px] resize-none focus-visible:ring-0 focus-visible:ring-offset-0 pr-4"
@@ -221,7 +221,7 @@ export function FeedbackModal({
               <div className="flex flex-col gap-3 pt-4 [@media(min-width:500px)]:flex-row">
                 <Button
                   onClick={handleSubmit}
-                  disabled={selectedCategories.length === 0 || isSubmitting}
+                  disabled={selectedCategories.length === 0 || !additionalDetails.trim() || isSubmitting}
                   className="flex-1"
                 >
                   {isSubmitting ? "Submitting..." : "Submit Feedback"}
