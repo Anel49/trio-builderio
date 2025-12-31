@@ -32,20 +32,23 @@ export async function createReport(req: Request, res: Response) {
       });
     }
 
-    // Copy listing images to reports folder if this is a listing report
-    let copiedCount = 0;
-    if (report_for === "listing" && reported_id) {
+    // Copy listing/user images to reports folder
+    let bucketUrls: string[] = [];
+    if (reported_id) {
       try {
-        const sourcePrefix = `listings/${reported_id}/`;
-        const destPrefix = `reports/${reported_id}/`;
+        const typePrefix = report_for === "listing" ? "listing_" : "user_";
+        const sourcePrefix = `${report_for}s/${reported_id}/`;
+        const destPrefix = `reports/${typePrefix}${reported_id}/`;
         console.log(
-          "[createReport] Copying listing images from:",
+          "[createReport] Copying",
+          report_for,
+          "images from:",
           sourcePrefix,
           "to:",
           destPrefix,
         );
-        copiedCount = await copyS3Prefix(sourcePrefix, destPrefix);
-        console.log("[createReport] Copied", copiedCount, "images");
+        bucketUrls = await copyS3WebpImagesAndGetUrls(sourcePrefix, destPrefix);
+        console.log("[createReport] Copied", bucketUrls.length, "WEBP images");
       } catch (error) {
         console.warn(
           "[createReport] Warning: Failed to copy S3 images:",
