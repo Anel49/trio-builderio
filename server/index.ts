@@ -1162,6 +1162,11 @@ export function createServer() {
     assignClaimToUser,
   );
   app.get("/api/admin/reports", requireModeratorOrAdmin, listAllReports);
+  app.patch(
+    "/api/admin/reports/:reportId/assign",
+    requireModeratorOrAdmin,
+    assignReportToUser,
+  );
 
   // Admin route aliases (without /api prefix)
   app.get("/admin/users", requireAdmin, listAllUsers);
