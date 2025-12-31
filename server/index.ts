@@ -1223,5 +1223,9 @@ export function createServer() {
     updateReportStatus,
   );
 
+  // Feedback
+  app.get("/api/admin/feedback", requireModeratorOrAdmin, listAllFeedback);
+  app.get("/admin/feedback", requireModeratorOrAdmin, listAllFeedback);
+
   return app;
 }
