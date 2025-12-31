@@ -228,7 +228,7 @@ export default function AdminFeedbackList() {
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Feedback ID
+                    ID
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
