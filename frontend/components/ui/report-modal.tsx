@@ -251,7 +251,7 @@ export function ReportModal({
             <DialogTitle>Report submitted</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <p className="text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-muted-foreground">
               {listingTitle} has been reported.
               <br />
               Thank you! Your report plays an important part in keeping our
