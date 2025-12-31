@@ -1206,6 +1206,16 @@ export function createServer() {
     requireModeratorOrAdmin,
     assignReportToUser,
   );
+  app.patch(
+    "/admin/claims/:claimId/status",
+    requireModeratorOrAdmin,
+    updateClaimStatus,
+  );
+  app.patch(
+    "/admin/reports/:reportId/status",
+    requireModeratorOrAdmin,
+    updateReportStatus,
+  );
 
   return app;
 }
