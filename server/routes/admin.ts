@@ -814,8 +814,8 @@ export async function updateReportStatus(req: Request, res: Response) {
     }
 
     const updateResult = await pool.query(
-      `update reports set status = $1, updated_at = now() where id = $2 returning id, status, updated_at`,
-      [newStatus, reportId],
+      `update reports set status = $1, updated_at = now(), updated_by_id = $3 where id = $2 returning id, status, updated_at`,
+      [newStatus, reportId, currentUser?.id],
     );
 
     if (!updateResult.rowCount) {
