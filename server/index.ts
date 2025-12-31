@@ -97,6 +97,7 @@ import {
   getClaimThreadData,
   listClaimThreads,
 } from "./routes/claims";
+import { createReport } from "./routes/reports";
 
 export function createServer() {
   const app = express();
