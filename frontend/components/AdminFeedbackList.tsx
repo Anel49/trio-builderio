@@ -321,30 +321,82 @@ export default function AdminFeedbackList() {
                         </span>
                       </td>
                       <td className={spacing.padding.md}>
-                        <span
-                          className={combineTokens(
-                            "px-2 py-1 rounded text-xs font-medium",
-                            item.status === "submitted"
-                              ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                              : item.status === "triaged"
-                                ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
-                                : item.status === "under review"
-                                  ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                                  : item.status === "planned"
-                                    ? "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200"
-                                    : item.status === "in progress"
-                                      ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
-                                      : item.status === "implemented"
-                                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                                        : item.status === "declined" ||
-                                            item.status === "duplicate" ||
-                                            item.status === "out of scope"
-                                          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                                          : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={combineTokens(
+                              "px-2 py-1 rounded text-xs font-medium",
+                              item.status === "submitted"
+                                ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                                : item.status === "triaged"
+                                  ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
+                                  : item.status === "under review"
+                                    ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                    : item.status === "planned"
+                                      ? "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200"
+                                      : item.status === "in progress"
+                                        ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
+                                        : item.status === "implemented"
+                                          ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                                          : item.status === "declined" ||
+                                              item.status === "duplicate" ||
+                                              item.status === "out of scope"
+                                            ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                                            : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
+                            )}
+                          >
+                            {toTitleCase(item.status)}
+                          </span>
+                          {item.assigned_to_id === currentUser?.id && (
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-5 w-5 p-0"
+                                  title="Change status"
+                                >
+                                  <ChevronDown className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="start">
+                                <DropdownMenuRadioGroup
+                                  value={item.status}
+                                  onValueChange={(status) =>
+                                    handleStatusChange(item.id, status)
+                                  }
+                                >
+                                  <DropdownMenuRadioItem value="submitted">
+                                    Submitted
+                                  </DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="triaged">
+                                    Triaged
+                                  </DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="under review">
+                                    Under Review
+                                  </DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="planned">
+                                    Planned
+                                  </DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="in progress">
+                                    In Progress
+                                  </DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="implemented">
+                                    Implemented
+                                  </DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="declined">
+                                    Declined
+                                  </DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="duplicate">
+                                    Duplicate
+                                  </DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="out of scope">
+                                    Out Of Scope
+                                  </DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           )}
-                        >
-                          {toTitleCase(item.status)}
-                        </span>
+                        </div>
                       </td>
                       <td className={spacing.padding.md}>
                         <div className="flex flex-col gap-1">
