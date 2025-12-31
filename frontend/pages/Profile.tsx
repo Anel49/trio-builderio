@@ -1837,6 +1837,19 @@ export default function Profile() {
                   </div>
                 )}
 
+                {/* Report User Button - Only shown when viewing other users */}
+                {viewingOtherUser && otherUserData?.id && otherUserData.id !== 2 && (
+                  <div className="max-w-[300px] mx-auto mb-4">
+                    <Button
+                      variant="outline"
+                      className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700"
+                      onClick={() => setIsReportUserModalOpen(true)}
+                    >
+                      Report user
+                    </Button>
+                  </div>
+                )}
+
                 {/* Action Buttons */}
                 <div className="space-y-2 max-w-[300px] mx-auto">
                   {!viewingOtherUser && (
