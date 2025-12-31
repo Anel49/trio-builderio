@@ -68,11 +68,14 @@ export function ReportModal({
   isOpen,
   onOpenChange,
   listingTitle,
+  listingId,
+  listingData,
 }: ReportModalProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [additionalDetails, setAdditionalDetails] = useState("");
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
     if (checked) {
@@ -82,22 +85,55 @@ export function ReportModal({
     }
   };
 
-  const handleSubmit = () => {
-    // TODO: Implement report submission logic
-    console.log("Report submitted:", {
-      categories: selectedCategories,
-      details: additionalDetails,
-      listing: listingTitle,
-    });
+  const getCategoryLabel = (categoryId: string): string => {
+    const category = reportCategories.find((c) => c.id === categoryId);
+    return category ? category.label : categoryId;
+  };
 
-    // Reset form and close report modal
-    setSelectedCategories([]);
-    setAdditionalDetails("");
-    setIsDetailsExpanded(false);
-    onOpenChange(false);
+  const handleSubmit = async () => {
+    if (!listingId || !listingData || selectedCategories.length === 0) {
+      console.error("Missing required data for report submission");
+      return;
+    }
 
-    // Show confirmation modal
-    setIsConfirmationOpen(true);
+    setIsSubmitting(true);
+
+    try {
+      const reportLabels = selectedCategories.map(getCategoryLabel);
+
+      const response = await apiFetch("reports/create", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          report_for: "listing",
+          reported_id: listingId,
+          report_reasons: reportLabels,
+          report_details: additionalDetails,
+          listing_data: listingData,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (data.ok) {
+        // Reset form and close report modal
+        setSelectedCategories([]);
+        setAdditionalDetails("");
+        setIsDetailsExpanded(false);
+        onOpenChange(false);
+
+        // Show confirmation modal
+        setIsConfirmationOpen(true);
+      } else {
+        console.error("Failed to submit report:", data.error);
+        alert("Failed to submit report. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting report:", error);
+      alert("An error occurred while submitting the report.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
