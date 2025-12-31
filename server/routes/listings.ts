@@ -1660,6 +1660,48 @@ export async function deleteImage(req: Request, res: Response) {
   }
 }
 
+export async function copyListingToReports(req: Request, res: Response) {
+  try {
+    const id = Number((req.params as any)?.id);
+    if (!id || Number.isNaN(id)) {
+      return res.status(400).json({ ok: false, error: "invalid id" });
+    }
+
+    // Verify listing exists
+    const listingCheckResult = await pool.query(
+      `select id from listings where id = $1`,
+      [id],
+    );
+
+    if (listingCheckResult.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Listing not found" });
+    }
+
+    // Copy listing images from listings/{id}/ to reports/{id}/
+    try {
+      const { copyS3Prefix } = await import("../lib/s3");
+      const sourcePrefix = `listings/${id}/`;
+      const destPrefix = `reports/${id}/`;
+      console.log("[copyListingToReports] Copying from:", sourcePrefix, "to:", destPrefix);
+      const copiedCount = await copyS3Prefix(sourcePrefix, destPrefix);
+      res.json({
+        ok: true,
+        message: `Successfully copied ${copiedCount} image(s) from listing to reports folder`,
+        copiedCount,
+      });
+    } catch (error) {
+      console.error("[copyListingToReports] Error copying S3 objects:", error);
+      res.status(500).json({
+        ok: false,
+        error: "Failed to copy listing images to reports folder",
+      });
+    }
+  } catch (error: any) {
+    console.error("[copyListingToReports] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 async function createOrderFromReservation(
   reservation: any,
 ): Promise<{ ok: boolean; orderId?: number; error?: string }> {
