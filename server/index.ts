@@ -1182,6 +1182,7 @@ export function createServer() {
     requireModeratorOrAdmin,
     assignClaimToUser,
   );
+  app.get("/admin/reports", requireModeratorOrAdmin, listAllReports);
 
   return app;
 }
