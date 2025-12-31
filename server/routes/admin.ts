@@ -920,3 +920,68 @@ export async function listAllFeedback(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function assignFeedbackToUser(req: Request, res: Response) {
+  try {
+    const feedbackId = Number.parseInt((req.params.feedbackId as string) || "", 10);
+    const assignToId = req.body?.assignToId;
+
+    if (!Number.isFinite(feedbackId)) {
+      return res.status(400).json({ ok: false, error: "Invalid feedback ID" });
+    }
+
+    let assignToIdNumber: number | null = null;
+    if (assignToId !== null && assignToId !== undefined) {
+      assignToIdNumber = Number.parseInt(assignToId as string, 10);
+      if (!Number.isFinite(assignToIdNumber)) {
+        return res.status(400).json({ ok: false, error: "Invalid user ID" });
+      }
+    }
+
+    const feedbackResult = await pool.query(
+      `select id from feedback where id = $1`,
+      [feedbackId],
+    );
+
+    if (!feedbackResult.rowCount) {
+      return res.status(404).json({ ok: false, error: "Feedback not found" });
+    }
+
+    let assignedToName: string | null = null;
+    if (assignToIdNumber !== null) {
+      const userResult = await pool.query(
+        `select id, name from users where id = $1`,
+        [assignToIdNumber],
+      );
+
+      if (!userResult.rowCount) {
+        return res.status(404).json({ ok: false, error: "User not found" });
+      }
+
+      assignedToName = userResult.rows[0].name;
+    }
+
+    const updateResult = await pool.query(
+      `update feedback set assigned_to_id = $1 where id = $2 returning id, assigned_to_id`,
+      [assignToIdNumber, feedbackId],
+    );
+
+    if (!updateResult.rowCount) {
+      return res
+        .status(500)
+        .json({ ok: false, error: "Failed to update feedback assignment" });
+    }
+
+    res.json({
+      ok: true,
+      feedback: {
+        id: updateResult.rows[0].id,
+        assigned_to_id: updateResult.rows[0].assigned_to_id,
+        assigned_to_name: assignedToName,
+      },
+    });
+  } catch (error: any) {
+    console.error("[assignFeedbackToUser] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
