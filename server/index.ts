@@ -916,6 +916,10 @@ export function createServer() {
     listClaimThreads,
   );
 
+  // Reports
+  app.post("/api/reports/create", createReport);
+  app.post("/reports/create", createReport);
+
   // WebAuthn verification for OAuth users
   app.post("/api/users/webauthn/verify", async (req: any, res: any) => {
     try {
