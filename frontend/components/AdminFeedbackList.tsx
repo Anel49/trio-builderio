@@ -238,12 +238,12 @@ export default function AdminFeedbackList() {
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Assigned To
+                    Categories
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Categories
+                    Assigned To
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
@@ -309,6 +309,24 @@ export default function AdminFeedbackList() {
                         </span>
                       </td>
                       <td className={spacing.padding.md}>
+                        <div className="flex flex-col gap-1">
+                          {categories.length > 0 ? (
+                            categories.map((category, idx) => (
+                              <p
+                                key={idx}
+                                className="text-xs text-muted-foreground"
+                              >
+                                {category}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="text-xs text-muted-foreground">
+                              No categories
+                            </p>
+                          )}
+                        </div>
+                      </td>
+                      <td className={spacing.padding.md}>
                         <div className="flex items-center gap-2">
                           <p>{item.assigned_to_name || "Unassigned"}</p>
                           <Popover
@@ -346,24 +364,6 @@ export default function AdminFeedbackList() {
                               </button>
                             </PopoverContent>
                           </Popover>
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <div className="flex flex-col gap-1">
-                          {categories.length > 0 ? (
-                            categories.map((category, idx) => (
-                              <p
-                                key={idx}
-                                className="text-xs text-muted-foreground"
-                              >
-                                {category}
-                              </p>
-                            ))
-                          ) : (
-                            <p className="text-xs text-muted-foreground">
-                              No categories
-                            </p>
-                          )}
                         </div>
                       </td>
                       <td className={spacing.padding.md}>
