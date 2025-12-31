@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { pool } from "./db";
-import { copyS3Prefix } from "../lib/s3";
+import { copyS3WebpImagesAndGetUrls } from "../lib/s3";
 
 export async function createReport(req: Request, res: Response) {
   try {
