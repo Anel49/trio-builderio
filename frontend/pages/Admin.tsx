@@ -154,6 +154,11 @@ export default function Admin() {
         label: "Claims",
         icon: <AlertCircle className={spacing.dimensions.icon.sm} />,
       },
+      {
+        id: "feedback",
+        label: "Feedback Submissions",
+        icon: <MessageSquare className={spacing.dimensions.icon.sm} />,
+      },
     );
   }
 
@@ -230,6 +235,17 @@ export default function Admin() {
             </CardHeader>
             <CardContent>
               <AdminClaimsList />
+            </CardContent>
+          </Card>
+        );
+      case "feedback":
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>Feedback Submissions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AdminFeedbackList />
             </CardContent>
           </Card>
         );
