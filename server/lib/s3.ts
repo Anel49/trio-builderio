@@ -444,8 +444,7 @@ export async function copyS3ObjectAndGetUrl(
 
     // Parse the S3 URL to extract bucket and key
     // Expected format: https://lendit-files.s3.us-east-2.amazonaws.com/users/123/avatar.webp
-    const urlPattern =
-      /https:\/\/([^.]+)\.s3\.([^.]+)\.amazonaws\.com\/(.+)/;
+    const urlPattern = /https:\/\/([^.]+)\.s3\.([^.]+)\.amazonaws\.com\/(.+)/;
     const match = sourceUrl.match(urlPattern);
 
     if (!match) {
@@ -480,7 +479,12 @@ export async function copyS3ObjectAndGetUrl(
     });
 
     await s3Client.send(copyCommand);
-    console.log("[S3] Successfully copied object from:", sourceKey, "to:", destKey);
+    console.log(
+      "[S3] Successfully copied object from:",
+      sourceKey,
+      "to:",
+      destKey,
+    );
 
     // Build and return the public URL for the copied object
     const publicUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${destKey}`;
@@ -488,7 +492,13 @@ export async function copyS3ObjectAndGetUrl(
 
     return publicUrl;
   } catch (error) {
-    console.error("[S3] Error copying object from URL:", sourceUrl, "to:", destPrefix, error);
+    console.error(
+      "[S3] Error copying object from URL:",
+      sourceUrl,
+      "to:",
+      destPrefix,
+      error,
+    );
     return null;
   }
 }
@@ -509,10 +519,7 @@ export async function downloadAndUploadImageToS3(
     // Fetch the image from the external URL
     const response = await fetch(imageUrl);
     if (!response.ok) {
-      console.error(
-        "[S3] Failed to download image. Status:",
-        response.status,
-      );
+      console.error("[S3] Failed to download image. Status:", response.status);
       return null;
     }
 
@@ -533,12 +540,14 @@ export async function downloadAndUploadImageToS3(
       const url = new URL(imageUrl);
       const pathName = url.pathname;
       const lastSlash = pathName.lastIndexOf("/");
-      const urlFileName = lastSlash !== -1 ? pathName.substring(lastSlash + 1) : "avatar";
+      const urlFileName =
+        lastSlash !== -1 ? pathName.substring(lastSlash + 1) : "avatar";
 
       // Determine extension based on content type if needed
       let ext = "webp";
       if (contentType.includes("png")) ext = "png";
-      else if (contentType.includes("jpg") || contentType.includes("jpeg")) ext = "jpg";
+      else if (contentType.includes("jpg") || contentType.includes("jpeg"))
+        ext = "jpg";
       else if (contentType.includes("gif")) ext = "gif";
 
       fileName = `avatar.${ext}`;
@@ -567,7 +576,11 @@ export async function downloadAndUploadImageToS3(
 
     return publicUrl;
   } catch (error) {
-    console.error("[S3] Error downloading and uploading image from URL:", imageUrl, error);
+    console.error(
+      "[S3] Error downloading and uploading image from URL:",
+      imageUrl,
+      error,
+    );
     return null;
   }
 }

@@ -1682,7 +1682,12 @@ export async function copyListingToReports(req: Request, res: Response) {
       const { copyS3Prefix } = await import("../lib/s3");
       const sourcePrefix = `listings/${id}/`;
       const destPrefix = `reports/${id}/`;
-      console.log("[copyListingToReports] Copying from:", sourcePrefix, "to:", destPrefix);
+      console.log(
+        "[copyListingToReports] Copying from:",
+        sourcePrefix,
+        "to:",
+        destPrefix,
+      );
       const copiedCount = await copyS3Prefix(sourcePrefix, destPrefix);
       res.json({
         ok: true,

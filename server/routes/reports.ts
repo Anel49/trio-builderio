@@ -22,10 +22,16 @@ export async function createReport(req: Request, res: Response) {
     } = req.body;
 
     // Validate required fields
-    if (!report_for || !reported_id || !report_reasons || !Array.isArray(report_reasons)) {
+    if (
+      !report_for ||
+      !reported_id ||
+      !report_reasons ||
+      !Array.isArray(report_reasons)
+    ) {
       return res.status(400).json({
         ok: false,
-        error: "Missing required fields: report_for, reported_id, report_reasons",
+        error:
+          "Missing required fields: report_for, reported_id, report_reasons",
       });
     }
 
@@ -131,7 +137,11 @@ export async function createReport(req: Request, res: Response) {
             sourcePrefix,
             destPrefix,
           );
-          console.log("[createReport] Copied", bucketUrls.length, "WEBP images");
+          console.log(
+            "[createReport] Copied",
+            bucketUrls.length,
+            "WEBP images",
+          );
 
           // Update the report with the bucket URLs
           if (bucketUrls.length > 0) {
@@ -228,8 +238,6 @@ export async function createReport(req: Request, res: Response) {
     });
   } catch (error: any) {
     console.error("[createReport] Error:", error);
-    res
-      .status(500)
-      .json({ ok: false, error: String(error?.message || error) });
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
