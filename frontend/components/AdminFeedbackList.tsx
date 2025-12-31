@@ -7,8 +7,11 @@ import {
   Loader2,
   ChevronLeft,
   ChevronRight,
+  Plus,
+  Minus,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 import {
   spacing,
   typography,
@@ -24,6 +27,8 @@ interface Feedback {
   details: string;
   created_by_id: number;
   created_by_name: string | null;
+  assigned_to_id: number | null;
+  assigned_to_name: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -74,6 +79,7 @@ export default function AdminFeedbackList() {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalFeedback, setTotalFeedback] = useState(0);
+  const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
 
   const limit = 20;
   const offset = currentPage * limit;
@@ -157,7 +163,7 @@ export default function AdminFeedbackList() {
       <div className={combineTokens(layouts.flex.between, "gap-4")}>
         <Input
           type="text"
-          placeholder="Search by ID, status, or submitter name..."
+          placeholder="Search by ID, status, submitter name, or assignee..."
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -190,6 +196,11 @@ export default function AdminFeedbackList() {
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
                     Status
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Assigned To
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
@@ -258,6 +269,46 @@ export default function AdminFeedbackList() {
                         >
                           {toTitleCase(item.status)}
                         </span>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <div className="flex items-center gap-2">
+                          <p>{item.assigned_to_name || "Unassigned"}</p>
+                          <Popover
+                            open={openPopoverId === item.id}
+                            onOpenChange={(open) =>
+                              setOpenPopoverId(open ? item.id : null)
+                            }
+                          >
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0 border border-border hover:bg-accent"
+                                title={
+                                  item.assigned_to_id === currentUser?.id
+                                    ? "Unassign feedback"
+                                    : "Assign feedback"
+                                }
+                              >
+                                {item.assigned_to_id === currentUser?.id ? (
+                                  <Minus className="h-4 w-4" />
+                                ) : (
+                                  <Plus className="h-4 w-4" />
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent side="left" className="w-40 p-2">
+                              <button
+                                onClick={() => handleToggleAssignment(item.id, item.assigned_to_id !== currentUser?.id)}
+                                className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
+                              >
+                                {item.assigned_to_id === currentUser?.id
+                                  ? "Unassign"
+                                  : "Assign to me"}
+                              </button>
+                            </PopoverContent>
+                          </Popover>
+                        </div>
                       </td>
                       <td className={spacing.padding.md}>
                         <div className="flex flex-col gap-1">
