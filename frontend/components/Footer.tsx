@@ -5,10 +5,12 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { BankingSetupModal } from "./ui/banking-setup-modal";
+import { FeedbackModal } from "./ui/feedback-modal";
 
 export function Footer() {
   const { user } = useAuth();
   const [isBankingSetupModalOpen, setIsBankingSetupModalOpen] = useState(false);
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 
   const handleRentProduct = () => {
     if (!user?.stripeSecret) {
@@ -126,6 +128,14 @@ export function Footer() {
                     Contact us
                   </a>
                 </li>
+                <li>
+                  <button
+                    onClick={() => setIsFeedbackModalOpen(true)}
+                    className="hover:text-foreground transition-colors text-left"
+                  >
+                    Submit Feedback
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
@@ -165,6 +175,11 @@ export function Footer() {
       <BankingSetupModal
         isOpen={isBankingSetupModalOpen}
         onOpenChange={setIsBankingSetupModalOpen}
+      />
+
+      <FeedbackModal
+        isOpen={isFeedbackModalOpen}
+        onOpenChange={setIsFeedbackModalOpen}
       />
     </>
   );
