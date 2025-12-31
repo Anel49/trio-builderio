@@ -208,37 +208,20 @@ export default function AdminReportsList() {
         </div>
       )}
 
-      <div className={combineTokens(layouts.flex.start, "gap-2 flex-wrap")}>
-        <button
-          onClick={() => {
-            setReportFor("listing");
+      <div className="mb-6">
+        <Tabs
+          value={reportFor}
+          onValueChange={(v) => {
+            setReportFor(v as "listing" | "user");
             setCurrentPage(0);
             setSearch("");
           }}
-          className={cn(
-            "px-3 py-1 rounded-full text-sm font-medium transition-colors",
-            reportFor === "listing"
-              ? "bg-primary text-primary-foreground"
-              : "bg-muted text-foreground hover:bg-muted/80",
-          )}
         >
-          Listing Reports
-        </button>
-        <button
-          onClick={() => {
-            setReportFor("user");
-            setCurrentPage(0);
-            setSearch("");
-          }}
-          className={cn(
-            "px-3 py-1 rounded-full text-sm font-medium transition-colors",
-            reportFor === "user"
-              ? "bg-primary text-primary-foreground"
-              : "bg-muted text-foreground hover:bg-muted/80",
-          )}
-        >
-          User Reports
-        </button>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="listing">Listing Reports</TabsTrigger>
+            <TabsTrigger value="user">User Reports</TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
 
       <div className={combineTokens(layouts.flex.between, "gap-4")}>
