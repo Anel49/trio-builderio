@@ -15,6 +15,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { apiFetch } from "@/lib/api";
 
 interface FeedbackModalProps {
   isOpen: boolean;
@@ -104,36 +105,29 @@ export function FeedbackModal({
     try {
       const feedbackLabels = selectedCategories.map(getCategoryLabel);
 
-      // TODO: API endpoint will be implemented when database table is ready
-      // const response = await apiFetch("feedback/create", {
-      //   method: "POST",
-      //   headers: { "content-type": "application/json" },
-      //   body: JSON.stringify({
-      //     categories: feedbackLabels,
-      //     details: additionalDetails,
-      //   }),
-      // });
+      const response = await apiFetch("feedback/create", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          categories: feedbackLabels,
+          details: additionalDetails,
+        }),
+      });
 
-      // const data = await response.json().catch(() => ({}));
+      const data = await response.json().catch(() => ({}));
 
-      // if (data.ok) {
-      //   // Reset form and close feedback modal
-      //   setSelectedCategories([]);
-      //   setAdditionalDetails("");
-      //   onOpenChange(false);
+      if (data.ok) {
+        // Reset form and close feedback modal
+        setSelectedCategories([]);
+        setAdditionalDetails("");
+        onOpenChange(false);
 
-      //   // Show confirmation modal
-      //   setIsConfirmationOpen(true);
-      // } else {
-      //   console.error("Failed to submit feedback:", data.error);
-      //   alert("Failed to submit feedback. Please try again.");
-      // }
-
-      // For now, just show success
-      setSelectedCategories([]);
-      setAdditionalDetails("");
-      onOpenChange(false);
-      setIsConfirmationOpen(true);
+        // Show confirmation modal
+        setIsConfirmationOpen(true);
+      } else {
+        console.error("Failed to submit feedback:", data.error);
+        alert("Failed to submit feedback. Please try again.");
+      }
     } catch (error) {
       console.error("Error submitting feedback:", error);
       alert("An error occurred while submitting the feedback.");
