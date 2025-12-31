@@ -249,32 +249,6 @@ export default function ProductDetails() {
     setIsReviewModalOpen(true);
   };
 
-  const handleCopyListingToReports = async () => {
-    if (!params.id) return;
-
-    setIsCopyingToReports(true);
-    setCopyToReportsMessage("");
-
-    try {
-      const response = await apiFetch(`listings/${params.id}/copy-to-reports`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-      });
-      const data = await response.json().catch(() => ({}));
-
-      if (data.ok) {
-        setCopyToReportsMessage(`✓ ${data.message || "Images copied successfully"}`);
-      } else {
-        setCopyToReportsMessage(`✗ Error: ${data.error || "Failed to copy images"}`);
-      }
-    } catch (error) {
-      console.error("Failed to copy listing to reports:", error);
-      setCopyToReportsMessage("✗ Failed to copy images");
-    } finally {
-      setIsCopyingToReports(false);
-    }
-  };
-
   const handleDeleteReview = async () => {
     if (!editingReviewId) return;
 
