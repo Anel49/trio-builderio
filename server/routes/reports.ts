@@ -32,33 +32,7 @@ export async function createReport(req: Request, res: Response) {
       });
     }
 
-    // Copy listing/user images to reports folder
-    let bucketUrls: string[] = [];
-    if (reported_id) {
-      try {
-        const typePrefix = report_for === "listing" ? "listing_" : "user_";
-        const sourcePrefix = `${report_for}s/${reported_id}/`;
-        const destPrefix = `reports/${typePrefix}${reported_id}/`;
-        console.log(
-          "[createReport] Copying",
-          report_for,
-          "images from:",
-          sourcePrefix,
-          "to:",
-          destPrefix,
-        );
-        bucketUrls = await copyS3WebpImagesAndGetUrls(sourcePrefix, destPrefix);
-        console.log("[createReport] Copied", bucketUrls.length, "WEBP images");
-      } catch (error) {
-        console.warn(
-          "[createReport] Warning: Failed to copy S3 images:",
-          error,
-        );
-        // Continue with report creation even if S3 copy fails
-      }
-    }
-
-    // Build the reported_content_snapshot JSON
+    // Build the reported_content_snapshot JSON (without bucket_urls initially)
     const reportedContentSnapshot = listing_data
       ? {
           title: listing_data.title || null,
@@ -77,7 +51,7 @@ export async function createReport(req: Request, res: Response) {
                 style: addon.style || null,
               }))
             : [],
-          bucket_urls: bucketUrls,
+          bucket_urls: [],
         }
       : null;
 
@@ -86,7 +60,7 @@ export async function createReport(req: Request, res: Response) {
       report_reasons: report_reasons,
     };
 
-    // Insert the report into the database
+    // Insert the report into the database first
     const result = await pool.query(
       `insert into reports (
         reported_by_id,
@@ -112,6 +86,43 @@ export async function createReport(req: Request, res: Response) {
 
     const reportId = result.rows[0]?.id;
     const reportNumber = result.rows[0]?.number;
+
+    // Copy listing/user images to reports folder with report ID in the path
+    let bucketUrls: string[] = [];
+    if (reportId && reported_id) {
+      try {
+        const sourcePrefix = `${report_for}s/${reported_id}/`;
+        const destPrefix = `reports/report_${reportId}_${report_for}_${reported_id}/`;
+        console.log(
+          "[createReport] Copying",
+          report_for,
+          "images from:",
+          sourcePrefix,
+          "to:",
+          destPrefix,
+        );
+        bucketUrls = await copyS3WebpImagesAndGetUrls(sourcePrefix, destPrefix);
+        console.log("[createReport] Copied", bucketUrls.length, "WEBP images");
+
+        // Update the report with the bucket URLs
+        if (bucketUrls.length > 0) {
+          await pool.query(
+            `update reports set reported_content_snapshot = jsonb_set(
+              reported_content_snapshot,
+              '{bucket_urls}',
+              $1::jsonb
+            ) where id = $2`,
+            [JSON.stringify(bucketUrls), reportId],
+          );
+        }
+      } catch (error) {
+        console.warn(
+          "[createReport] Warning: Failed to copy S3 images:",
+          error,
+        );
+        // Continue - report is already created
+      }
+    }
 
     // Set report_number to REP-{number}
     if (reportId && reportNumber) {
