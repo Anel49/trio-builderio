@@ -871,6 +871,7 @@ export async function listAllFeedback(req: Request, res: Response) {
         or lower(f.status) like $${params.length}
         or lower(cast(f.created_by_id as text)) like $${params.length}
         or lower(u.name) like $${params.length}
+        or lower(u2.name) like $${params.length}
       )`;
     }
 
@@ -879,12 +880,14 @@ export async function listAllFeedback(req: Request, res: Response) {
 
     const queryParams = [...params, limit, offset];
     const query = `select f.id, f.status, f.categories, f.details, f.created_by_id,
-              u.name as created_by_name, f.created_at, f.updated_at
+              u.name as created_by_name, f.created_at, f.updated_at, f.assigned_to_id,
+              u2.name as assigned_to_name
        from feedback f
        left join users u on f.created_by_id = u.id
+       left join users u2 on f.assigned_to_id = u2.id
        where ${whereClause}
        order by f.created_at desc
-       limit $${params.length + 1} offset $${params.length + 2}`;
+       limit $${params.length + 1} offset $${params.length + 2}`
 
     console.log("[listAllFeedback] Query:", query);
     console.log("[listAllFeedback] Query params:", queryParams);
@@ -896,6 +899,7 @@ export async function listAllFeedback(req: Request, res: Response) {
     const countResult = await pool.query(
       `select count(*) as total from feedback f
        left join users u on f.created_by_id = u.id
+       left join users u2 on f.assigned_to_id = u2.id
        where ${whereClause}`,
       params,
     );
