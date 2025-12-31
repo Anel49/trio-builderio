@@ -481,10 +481,17 @@ export async function deleteReview(req: Request, res: Response) {
       return res.status(400).json({ ok: false, error: "Invalid review ID" });
     }
 
-    const result = await pool.query(
+    let result = await pool.query(
       `delete from listing_reviews where id = $1 returning id`,
       [reviewId],
     );
+
+    if (!result.rowCount || result.rowCount === 0) {
+      result = await pool.query(
+        `delete from user_reviews where id = $1 returning id`,
+        [reviewId],
+      );
+    }
 
     if (!result.rowCount || result.rowCount === 0) {
       return res.status(404).json({ ok: false, error: "Review not found" });
