@@ -32,28 +32,50 @@ export async function createReport(req: Request, res: Response) {
       });
     }
 
-    // Build the reported_content_snapshot JSON (without bucket_urls initially)
-    const reportedContentSnapshot = listing_data
-      ? {
-          title: listing_data.title || null,
-          description: listing_data.description || null,
-          latitude:
-            typeof listing_data.latitude === "number"
-              ? listing_data.latitude
-              : null,
-          longitude:
-            typeof listing_data.longitude === "number"
-              ? listing_data.longitude
-              : null,
-          addons: listing_data.addons
-            ? listing_data.addons.map((addon: any) => ({
-                item: addon.item,
-                style: addon.style || null,
-              }))
-            : [],
-          bucket_urls: [],
+    // Build the reported_content_snapshot JSON based on report type
+    let reportedContentSnapshot: any = null;
+
+    if (report_for === "listing" && listing_data) {
+      reportedContentSnapshot = {
+        title: listing_data.title || null,
+        description: listing_data.description || null,
+        latitude:
+          typeof listing_data.latitude === "number"
+            ? listing_data.latitude
+            : null,
+        longitude:
+          typeof listing_data.longitude === "number"
+            ? listing_data.longitude
+            : null,
+        addons: listing_data.addons
+          ? listing_data.addons.map((addon: any) => ({
+              item: addon.item,
+              style: addon.style || null,
+            }))
+          : [],
+        bucket_urls: [],
+      };
+    } else if (report_for === "user") {
+      // For user reports, fetch user data from database
+      try {
+        const userResult = await pool.query(
+          `select name, email, username, avatar_url from users where id = $1`,
+          [reported_id],
+        );
+        const reportedUser = userResult.rows[0];
+
+        if (reportedUser) {
+          reportedContentSnapshot = {
+            name: reportedUser.name || null,
+            email: reportedUser.email || null,
+            username: reportedUser.username || null,
+            bucket_url: null,
+          };
         }
-      : null;
+      } catch (error) {
+        console.warn("[createReport] Failed to fetch user data:", error);
+      }
+    }
 
     // Build the report_reasons JSON
     const reportReasonsJson = {
