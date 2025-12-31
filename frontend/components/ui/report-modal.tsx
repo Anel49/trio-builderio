@@ -248,15 +248,15 @@ export function ReportModal({
       <Dialog open={isConfirmationOpen} onOpenChange={setIsConfirmationOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center">Report Submitted</DialogTitle>
+            <DialogTitle>Report submitted</DialogTitle>
           </DialogHeader>
-          <div className="text-center space-y-4 py-4">
-            <div>
-              <p className="font-bold">{listingTitle} has been reported.</p>
-              <p className="text-sm text-muted-foreground mt-2">
-                We appreciate your care and concern!
-              </p>
-            </div>
+          <div className="space-y-4 py-4">
+            <p className="text-sm leading-relaxed">
+              {listingTitle} has been reported.
+              <br />
+              Thank you! Your report plays an important part in keeping our
+              communities safe.
+            </p>
             <Button
               onClick={() => setIsConfirmationOpen(false)}
               className="w-full"
