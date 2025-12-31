@@ -46,6 +46,7 @@ import {
   deleteReview,
   listAllClaims,
   assignClaimToUser,
+  listAllReports,
 } from "./routes/admin";
 import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
 import {
