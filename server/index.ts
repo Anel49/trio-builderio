@@ -687,6 +687,7 @@ export function createServer() {
   app.get("/api/listings/:listingId/conflicts", getListingConflictingDates);
   app.post("/api/listings/:listingId/presigned-url", getPresignedUploadUrl);
   app.post("/api/listings/delete-image", deleteImage);
+  app.post("/api/listings/:id/copy-to-reports", copyListingToReports);
   app.post("/api/reservations", createReservation);
   app.patch("/api/reservations/:reservationId/status", updateReservationStatus);
   app.patch("/api/reservations/:reservationId/dates", updateReservationDates);
