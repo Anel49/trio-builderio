@@ -1155,6 +1155,15 @@ export default function ProductDetails() {
                   </Button>
                 )}
               </div>
+              {copyToReportsMessage && (
+                <div className={cn("text-sm mb-4 p-2 rounded",
+                  copyToReportsMessage.startsWith("✓")
+                    ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100"
+                    : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100"
+                )}>
+                  {copyToReportsMessage}
+                </div>
+              )}
               {(product.instantBookings ||
                 product.categories.filter(Boolean).length > 0) && (
                 <div className="flex flex-wrap gap-2 mb-3">
