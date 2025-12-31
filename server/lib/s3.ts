@@ -327,6 +327,102 @@ export async function copyS3Prefix(
 }
 
 /**
+ * Copy only WEBP images from one prefix to another and return their public URLs
+ * @param sourcePrefix - The source S3 prefix (e.g., "listings/123/")
+ * @param destPrefix - The destination S3 prefix (e.g., "reports/listing_123/")
+ * @returns Array of public URLs for the copied WEBP files
+ */
+export async function copyS3WebpImagesAndGetUrls(
+  sourcePrefix: string,
+  destPrefix: string,
+): Promise<string[]> {
+  try {
+    console.log(
+      "[S3] Copying WEBP images from prefix:",
+      sourcePrefix,
+      "to:",
+      destPrefix,
+    );
+
+    const s3Client = getS3Client();
+
+    // List all objects under the source prefix
+    const listCommand = new ListObjectsV2Command({
+      Bucket: bucketName,
+      Prefix: sourcePrefix,
+    });
+
+    const listResult = await s3Client.send(listCommand);
+    const objects = listResult.Contents || [];
+
+    // Filter to only WEBP files
+    const webpObjects = objects.filter((obj) =>
+      obj.Key?.toLowerCase().endsWith(".webp"),
+    );
+
+    if (webpObjects.length === 0) {
+      console.log(
+        "[S3] No WEBP objects found under source prefix:",
+        sourcePrefix,
+      );
+      return [];
+    }
+
+    console.log(
+      "[S3] Found",
+      webpObjects.length,
+      "WEBP objects to copy from prefix:",
+      sourcePrefix,
+    );
+
+    const copiedUrls: string[] = [];
+    const region = process.env.AWS_REGION || "us-east-2";
+
+    // Copy all WEBP objects and collect their URLs
+    for (const obj of webpObjects) {
+      if (obj.Key) {
+        // Calculate the destination key by replacing the source prefix with dest prefix
+        const relativeKey = obj.Key.substring(sourcePrefix.length);
+        const destKey = destPrefix + relativeKey;
+
+        const copyCommand = new CopyObjectCommand({
+          Bucket: bucketName,
+          CopySource: `${bucketName}/${obj.Key}`,
+          Key: destKey,
+        });
+
+        await s3Client.send(copyCommand);
+        console.log("[S3] Copied:", obj.Key, "to:", destKey);
+
+        // Build the public URL for this object
+        const publicUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${destKey}`;
+        copiedUrls.push(publicUrl);
+      }
+    }
+
+    console.log(
+      "[S3] Successfully copied",
+      webpObjects.length,
+      "WEBP objects from prefix:",
+      sourcePrefix,
+      "to:",
+      destPrefix,
+    );
+
+    return copiedUrls;
+  } catch (error) {
+    console.error(
+      "[S3] Error copying WEBP images from prefix:",
+      sourcePrefix,
+      "to:",
+      destPrefix,
+      error,
+    );
+    throw error;
+  }
+}
+
+/**
  * Delete all objects under a prefix (e.g., all images in a listing folder)
  * @param prefix - The S3 prefix (e.g., "listings/123/")
  * @returns The number of objects deleted
