@@ -128,14 +128,16 @@ export function Footer() {
                     Contact us
                   </a>
                 </li>
-                <li>
-                  <button
-                    onClick={() => setIsFeedbackModalOpen(true)}
-                    className="hover:text-foreground transition-colors text-left"
-                  >
-                    Submit Feedback
-                  </button>
-                </li>
+                {user && (
+                  <li>
+                    <button
+                      onClick={() => setIsFeedbackModalOpen(true)}
+                      className="hover:text-foreground transition-colors text-left"
+                    >
+                      Submit feedback
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
