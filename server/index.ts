@@ -48,6 +48,8 @@ import {
   assignClaimToUser,
   listAllReports,
   assignReportToUser,
+  updateClaimStatus,
+  updateReportStatus,
 } from "./routes/admin";
 import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
 import {
