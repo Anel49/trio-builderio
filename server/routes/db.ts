@@ -491,6 +491,28 @@ export async function dbSetup(_req: Request, res: Response) {
       }
     }
 
+    // Create feedback table
+    try {
+      await pool.query(`
+        create table if not exists feedback (
+          id serial primary key,
+          status text not null default 'submitted',
+          categories jsonb,
+          details text not null,
+          created_at timestamptz default now(),
+          created_by_id integer references users(id),
+          updated_at timestamptz default now(),
+          updated_by_id integer references users(id)
+        )
+      `);
+      console.log("[dbSetup] Created feedback table");
+    } catch (e: any) {
+      // Table might already exist, which is fine
+      if (!e.message?.includes("already exists")) {
+        console.warn("[dbSetup] Warning creating feedback table:", e.message);
+      }
+    }
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
