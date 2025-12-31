@@ -251,12 +251,13 @@ export function ReportModal({
             <DialogTitle>Report submitted</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              {listingTitle} has been reported.
-              <br />
-              Thank you! Your report plays an important part in keeping our
-              communities safe.
-            </p>
+            <div className="text-sm leading-relaxed text-muted-foreground space-y-3">
+              <p>{listingTitle} has been reported.</p>
+              <p>
+                Thank you! Your report plays an important part in keeping our
+                communities safe.
+              </p>
+            </div>
             <Button
               onClick={() => setIsConfirmationOpen(false)}
               className="w-full"
