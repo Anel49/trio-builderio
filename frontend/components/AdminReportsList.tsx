@@ -208,7 +208,7 @@ export default function AdminReportsList() {
         </div>
       )}
 
-      <div className="mb-6">
+      <div className="mb-0">
         <Tabs
           value={reportFor}
           onValueChange={(v) => {
