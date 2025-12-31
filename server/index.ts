@@ -47,6 +47,7 @@ import {
   listAllClaims,
   assignClaimToUser,
   listAllReports,
+  assignReportToUser,
 } from "./routes/admin";
 import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
 import {
