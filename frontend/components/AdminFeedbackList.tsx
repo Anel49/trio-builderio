@@ -187,6 +187,36 @@ export default function AdminFeedbackList() {
     }
   };
 
+  const handleStatusChange = async (feedbackId: number, newStatus: string) => {
+    try {
+      const response = await apiFetch(`/admin/feedback/${feedbackId}/status`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        setFeedback((prevFeedback) =>
+          prevFeedback.map((item) =>
+            item.id === feedbackId
+              ? {
+                  ...item,
+                  status: data.feedback.status,
+                  updated_at: data.feedback.updated_at,
+                }
+              : item,
+          ),
+        );
+      } else {
+        setError(data.error || "Failed to update feedback status");
+      }
+    } catch (err: any) {
+      console.error("[AdminFeedbackList] Status update error:", err);
+      setError(err.message || "Failed to update feedback status");
+    }
+  };
+
   const totalPages = Math.ceil(totalFeedback / limit);
   const canPrevious = currentPage > 0;
   const canNext = currentPage < totalPages - 1;
