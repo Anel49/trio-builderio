@@ -985,3 +985,74 @@ export async function assignFeedbackToUser(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function updateFeedbackStatus(req: Request, res: Response) {
+  try {
+    const feedbackId = Number.parseInt((req.params.feedbackId as string) || "", 10);
+    const newStatus = (req.body?.status as string) || "";
+    const currentUser = (req.session as any)?.user;
+
+    if (!Number.isFinite(feedbackId)) {
+      return res.status(400).json({ ok: false, error: "Invalid feedback ID" });
+    }
+
+    const validStatuses = [
+      "submitted",
+      "triaged",
+      "under review",
+      "planned",
+      "in progress",
+      "implemented",
+      "declined",
+      "duplicate",
+      "out of scope",
+    ];
+
+    if (!newStatus || !validStatuses.includes(newStatus)) {
+      return res.status(400).json({
+        ok: false,
+        error: `Invalid status. Must be one of: ${validStatuses.join(", ")}`,
+      });
+    }
+
+    const feedbackResult = await pool.query(
+      `select id, assigned_to_id from feedback where id = $1`,
+      [feedbackId],
+    );
+
+    if (!feedbackResult.rowCount) {
+      return res.status(404).json({ ok: false, error: "Feedback not found" });
+    }
+
+    const feedback = feedbackResult.rows[0];
+    if (feedback.assigned_to_id !== currentUser?.id) {
+      return res.status(403).json({
+        ok: false,
+        error: "You can only update feedback assigned to you",
+      });
+    }
+
+    const updateResult = await pool.query(
+      `update feedback set status = $1, updated_at = now(), updated_by_id = $3 where id = $2 returning id, status, updated_at`,
+      [newStatus, feedbackId, currentUser?.id],
+    );
+
+    if (!updateResult.rowCount) {
+      return res
+        .status(500)
+        .json({ ok: false, error: "Failed to update feedback status" });
+    }
+
+    res.json({
+      ok: true,
+      feedback: {
+        id: updateResult.rows[0].id,
+        status: updateResult.rows[0].status,
+        updated_at: updateResult.rows[0].updated_at,
+      },
+    });
+  } catch (error: any) {
+    console.error("[updateFeedbackStatus] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
