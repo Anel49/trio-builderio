@@ -837,3 +837,82 @@ export async function updateReportStatus(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function listAllFeedback(req: Request, res: Response) {
+  try {
+    console.log("[listAllFeedback] Starting request");
+
+    const limit = Math.min(
+      Number.parseInt((req.query.limit as string) || "20", 10),
+      500,
+    );
+    const offset = Math.max(
+      Number.parseInt((req.query.offset as string) || "0", 10),
+      0,
+    );
+    const search = ((req.query.search as string) || "").toLowerCase().trim();
+
+    console.log(
+      "[listAllFeedback] Parsed params - limit:",
+      limit,
+      "offset:",
+      offset,
+      "search:",
+      search,
+    );
+
+    let whereClause = "1=1";
+    const params: any[] = [];
+
+    if (search) {
+      params.push(`%${search}%`);
+      whereClause = `(
+        lower(cast(f.id as text)) like $${params.length}
+        or lower(f.status) like $${params.length}
+        or lower(cast(f.created_by_id as text)) like $${params.length}
+        or lower(u.name) like $${params.length}
+      )`;
+    }
+
+    console.log("[listAllFeedback] whereClause:", whereClause);
+    console.log("[listAllFeedback] params array:", params);
+
+    const queryParams = [...params, limit, offset];
+    const query = `select f.id, f.status, f.categories, f.details, f.created_by_id,
+              u.name as created_by_name, f.created_at, f.updated_at
+       from feedback f
+       left join users u on f.created_by_id = u.id
+       where ${whereClause}
+       order by f.created_at desc
+       limit $${params.length + 1} offset $${params.length + 2}`;
+
+    console.log("[listAllFeedback] Query:", query);
+    console.log("[listAllFeedback] Query params:", queryParams);
+
+    const result = await pool.query(query, queryParams);
+
+    console.log("[listAllFeedback] Query succeeded, rows:", result.rowCount);
+
+    const countResult = await pool.query(
+      `select count(*) as total from feedback f
+       left join users u on f.created_by_id = u.id
+       where ${whereClause}`,
+      params,
+    );
+
+    console.log("[listAllFeedback] Count result:", countResult.rows[0]);
+
+    res.json({
+      ok: true,
+      feedback: result.rows,
+      total: Number.parseInt(countResult.rows[0].total, 10),
+      limit,
+      offset,
+    });
+  } catch (error: any) {
+    console.error("[listAllFeedback] Error:", error);
+    console.error("[listAllFeedback] Error message:", error?.message);
+    console.error("[listAllFeedback] Full error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
