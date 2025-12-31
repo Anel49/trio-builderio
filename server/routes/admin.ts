@@ -350,37 +350,126 @@ export async function updateOrderStatus(req: Request, res: Response) {
 
 export async function listAllReviews(req: Request, res: Response) {
   try {
+    console.log("[listAllReviews] Starting request");
+
     const limit = Math.min(
-      Number.parseInt((req.query.limit as string) || "50", 10),
+      Number.parseInt((req.query.limit as string) || "20", 10),
       500,
     );
     const offset = Math.max(
       Number.parseInt((req.query.offset as string) || "0", 10),
       0,
     );
+    const search = ((req.query.search as string) || "").toLowerCase().trim();
+    const reviewType = (req.query.review_type as string) || "listing";
 
-    const result = await pool.query(
-      `select r.id, r.listing_id, r.renter_id, r.host_id, r.rating, r.comment, r.created_at,
-              l.name as listing_title
+    console.log(
+      "[listAllReviews] Parsed params - limit:",
+      limit,
+      "offset:",
+      offset,
+      "search:",
+      search,
+      "review_type:",
+      reviewType,
+    );
+
+    if (reviewType === "user") {
+      let whereClause = "1=1";
+      const params: any[] = [];
+
+      if (search) {
+        params.push(`%${search}%`);
+        whereClause = `(
+          lower(u.name) like $${params.length}
+          or lower(u.username) like $${params.length}
+        )`;
+      }
+
+      console.log("[listAllReviews] User reviews whereClause:", whereClause);
+
+      const queryParams = [...params, limit, offset];
+      const query = `select ur.id, ur.reviewed_user_id, ur.reviewer_id, ur.comment, ur.created_at, ur.updated_at,
+                u.name as reviewed_user_name, u2.name as reviewer_name
+         from user_reviews ur
+         left join users u on ur.reviewed_user_id = u.id
+         left join users u2 on ur.reviewer_id = u2.id
+         where ${whereClause}
+         order by ur.created_at desc
+         limit $${params.length + 1} offset $${params.length + 2}`;
+
+      console.log("[listAllReviews] Query:", query);
+      console.log("[listAllReviews] Query params:", queryParams);
+
+      const result = await pool.query(query, queryParams);
+
+      console.log("[listAllReviews] Query succeeded, rows:", result.rowCount);
+
+      const countResult = await pool.query(
+        `select count(*) as total from user_reviews ur
+         left join users u on ur.reviewed_user_id = u.id
+         left join users u2 on ur.reviewer_id = u2.id
+         where ${whereClause}`,
+        params,
+      );
+
+      console.log("[listAllReviews] Count result:", countResult.rows[0]);
+
+      res.json({
+        ok: true,
+        reviews: result.rows,
+        total: Number.parseInt(countResult.rows[0].total, 10),
+        limit,
+        offset,
+      });
+    } else {
+      let whereClause = "1=1";
+      const params: any[] = [];
+
+      if (search) {
+        params.push(`%${search}%`);
+        whereClause = `lower(l.name) like $${params.length}`;
+      }
+
+      console.log("[listAllReviews] Listing reviews whereClause:", whereClause);
+
+      const queryParams = [...params, limit, offset];
+      const query = `select r.id, r.listing_id, r.reviewer_id, r.comment, r.created_at, r.updated_at,
+              l.name as listing_title, u.name as reviewer_name
        from listing_reviews r
        left join listings l on r.listing_id = l.id
+       left join users u on r.reviewer_id = u.id
+       where ${whereClause}
        order by r.created_at desc
-       limit $1 offset $2`,
-      [limit, offset],
-    );
+       limit $${params.length + 1} offset $${params.length + 2}`;
 
-    const countResult = await pool.query(
-      "select count(*) as total from listing_reviews",
-    );
+      console.log("[listAllReviews] Query:", query);
+      console.log("[listAllReviews] Query params:", queryParams);
 
-    res.json({
-      ok: true,
-      reviews: result.rows,
-      total: Number.parseInt(countResult.rows[0].total, 10),
-      limit,
-      offset,
-    });
+      const result = await pool.query(query, queryParams);
+
+      console.log("[listAllReviews] Query succeeded, rows:", result.rowCount);
+
+      const countResult = await pool.query(
+        `select count(*) as total from listing_reviews r
+         left join listings l on r.listing_id = l.id
+         where ${whereClause}`,
+        params,
+      );
+
+      console.log("[listAllReviews] Count result:", countResult.rows[0]);
+
+      res.json({
+        ok: true,
+        reviews: result.rows,
+        total: Number.parseInt(countResult.rows[0].total, 10),
+        limit,
+        offset,
+      });
+    }
   } catch (error: any) {
+    console.error("[listAllReviews] Error:", error);
+    console.error("[listAllReviews] Error message:", error?.message);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
