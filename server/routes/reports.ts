@@ -109,37 +109,82 @@ export async function createReport(req: Request, res: Response) {
     const reportId = result.rows[0]?.id;
     const reportNumber = result.rows[0]?.number;
 
-    // Copy listing/user images to reports folder with report ID in the path
-    let bucketUrls: string[] = [];
-    if (reportId && reported_id) {
+    // Copy images to reports folder with report ID in the path
+    if (reportId && reported_id && reportedContentSnapshot) {
       try {
-        const sourcePrefix = `${report_for}s/${reported_id}/`;
         const destPrefix = `reports/report_${reportId}_${report_for}_${reported_id}/`;
-        console.log(
-          "[createReport] Copying",
-          report_for,
-          "images from:",
-          sourcePrefix,
-          "to:",
-          destPrefix,
-        );
-        bucketUrls = await copyS3WebpImagesAndGetUrls(sourcePrefix, destPrefix);
-        console.log("[createReport] Copied", bucketUrls.length, "WEBP images");
 
-        // Update the report with the bucket URLs
-        if (bucketUrls.length > 0) {
-          await pool.query(
-            `update reports set reported_content_snapshot = jsonb_set(
-              reported_content_snapshot,
-              '{bucket_urls}',
-              $1::jsonb
-            ) where id = $2`,
-            [JSON.stringify(bucketUrls), reportId],
+        if (report_for === "listing") {
+          // For listings, copy all WEBP images from the listing folder
+          const sourcePrefix = `listings/${reported_id}/`;
+          console.log(
+            "[createReport] Copying listing images from:",
+            sourcePrefix,
+            "to:",
+            destPrefix,
           );
+          const bucketUrls = await copyS3WebpImagesAndGetUrls(
+            sourcePrefix,
+            destPrefix,
+          );
+          console.log("[createReport] Copied", bucketUrls.length, "WEBP images");
+
+          // Update the report with the bucket URLs
+          if (bucketUrls.length > 0) {
+            await pool.query(
+              `update reports set reported_content_snapshot = jsonb_set(
+                reported_content_snapshot,
+                '{bucket_urls}',
+                $1::jsonb
+              ) where id = $2`,
+              [JSON.stringify(bucketUrls), reportId],
+            );
+          }
+        } else if (report_for === "user") {
+          // For users, copy their avatar from avatar_url
+          const userResult = await pool.query(
+            `select avatar_url from users where id = $1`,
+            [reported_id],
+          );
+          const user = userResult.rows[0];
+
+          if (user && user.avatar_url) {
+            try {
+              console.log(
+                "[createReport] Copying user avatar from:",
+                user.avatar_url,
+                "to:",
+                destPrefix,
+              );
+              const bucketUrl = await copyS3ObjectAndGetUrl(
+                user.avatar_url,
+                destPrefix,
+              );
+              console.log("[createReport] Copied user avatar:", bucketUrl);
+
+              // Update the report with the bucket URL
+              if (bucketUrl) {
+                await pool.query(
+                  `update reports set reported_content_snapshot = jsonb_set(
+                    reported_content_snapshot,
+                    '{bucket_url}',
+                    $1::jsonb
+                  ) where id = $2`,
+                  [JSON.stringify(bucketUrl), reportId],
+                );
+              }
+            } catch (error) {
+              console.warn(
+                "[createReport] Warning: Failed to copy user avatar:",
+                error,
+              );
+              // Continue - report is already created with user data
+            }
+          }
         }
       } catch (error) {
         console.warn(
-          "[createReport] Warning: Failed to copy S3 images:",
+          "[createReport] Warning: Failed to process report images:",
           error,
         );
         // Continue - report is already created
