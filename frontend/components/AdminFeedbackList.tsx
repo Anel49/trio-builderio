@@ -141,6 +141,44 @@ export default function AdminFeedbackList() {
     }
   };
 
+  const handleToggleAssignment = async (feedbackId: number, assign: boolean) => {
+    if (assign && !currentUser?.id) {
+      setError("You must be logged in to assign feedback");
+      return;
+    }
+
+    try {
+      const response = await apiFetch(`/admin/feedback/${feedbackId}/assign`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          assignToId: assign ? currentUser.id : null,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        setFeedback((prevFeedback) =>
+          prevFeedback.map((item) =>
+            item.id === feedbackId
+              ? {
+                  ...item,
+                  assigned_to_id: data.feedback.assigned_to_id,
+                  assigned_to_name: data.feedback.assigned_to_name,
+                }
+              : item,
+          ),
+        );
+        setOpenPopoverId(null);
+      } else {
+        setError(data.error || "Failed to update feedback assignment");
+      }
+    } catch (err: any) {
+      console.error("[AdminFeedbackList] Assignment error:", err);
+      setError(err.message || "Failed to update feedback assignment");
+    }
+  };
+
   const totalPages = Math.ceil(totalFeedback / limit);
   const canPrevious = currentPage > 0;
   const canNext = currentPage < totalPages - 1;
