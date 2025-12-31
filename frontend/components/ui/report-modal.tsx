@@ -225,14 +225,15 @@ export function ReportModal({
               <div className="flex flex-col gap-3 pt-4 [@media(min-width:500px)]:flex-row">
                 <Button
                   onClick={handleSubmit}
-                  disabled={selectedCategories.length === 0}
+                  disabled={selectedCategories.length === 0 || isSubmitting}
                   className="flex-1"
                 >
-                  Submit Report
+                  {isSubmitting ? "Submitting..." : "Submit Report"}
                 </Button>
                 <Button
                   variant="outline"
                   onClick={handleClose}
+                  disabled={isSubmitting}
                   className="flex-1"
                 >
                   Cancel
