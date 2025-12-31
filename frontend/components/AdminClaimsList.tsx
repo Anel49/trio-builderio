@@ -177,6 +177,36 @@ export default function AdminClaimsList() {
     }
   };
 
+  const handleStatusChange = async (claimId: number, newStatus: string) => {
+    try {
+      const response = await apiFetch(`/admin/claims/${claimId}/status`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        setClaims((prevClaims) =>
+          prevClaims.map((claim) =>
+            claim.id === claimId
+              ? {
+                  ...claim,
+                  status: data.claim.status,
+                  updated_at: data.claim.updated_at,
+                }
+              : claim,
+          ),
+        );
+      } else {
+        setError(data.error || "Failed to update claim status");
+      }
+    } catch (err: any) {
+      console.error("[AdminClaimsList] Status update error:", err);
+      setError(err.message || "Failed to update claim status");
+    }
+  };
+
   const totalPages = Math.ceil(totalClaims / limit);
   const canPrevious = currentPage > 0;
   const canNext = currentPage < totalPages - 1;
