@@ -203,7 +203,6 @@ export async function createReport(req: Request, res: Response) {
       ok: true,
       message: "Report submitted successfully",
       reportId,
-      copiedImages: bucketUrls.length,
     });
   } catch (error: any) {
     console.error("[createReport] Error:", error);
