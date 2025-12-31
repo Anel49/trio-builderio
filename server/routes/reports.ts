@@ -98,7 +98,7 @@ export async function createReport(req: Request, res: Response) {
         status,
         created_at
       ) values ($1, $2, $3, $4, $5, $6, $7, now())
-       returning id, reported_by_id, report_for, reported_id, created_at`,
+       returning id, number, reported_by_id, report_for, reported_id, created_at`,
       [
         userId,
         report_for,
@@ -111,6 +111,15 @@ export async function createReport(req: Request, res: Response) {
     );
 
     const reportId = result.rows[0]?.id;
+    const reportNumber = result.rows[0]?.number;
+
+    // Set report_number to REP-{number}
+    if (reportId && reportNumber) {
+      await pool.query(
+        `update reports set report_number = 'REP-' || $1 where id = $2`,
+        [reportNumber, reportId],
+      );
+    }
 
     res.json({
       ok: true,
