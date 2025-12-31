@@ -1,0 +1,337 @@
+import React, { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { apiFetch } from "@/lib/api";
+import { Input } from "./ui/input";
+import {
+  AlertCircle,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { Button } from "./ui/button";
+import {
+  spacing,
+  typography,
+  layouts,
+  combineTokens,
+} from "@/lib/design-tokens";
+import { cn } from "@/lib/utils";
+
+interface Feedback {
+  id: number;
+  status: string;
+  categories: any;
+  details: string;
+  created_by_id: number;
+  created_by_name: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+function formatDateForAdmin(dateStr: string): string {
+  const date = new Date(dateStr);
+  const month = date.toLocaleDateString("en-US", { month: "long" });
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const time = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const tz = date
+    .toLocaleTimeString("en-US", { timeZoneName: "short" })
+    .split(" ")
+    .pop();
+
+  return `${month} ${day}, ${year}, ${time} ${tz}`;
+}
+
+function toTitleCase(str: string): string {
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function getCategories(categoriesJson: any): string[] {
+  if (!categoriesJson) return [];
+  if (typeof categoriesJson === "string") {
+    try {
+      const parsed = JSON.parse(categoriesJson);
+      return parsed.categories || [];
+    } catch {
+      return [];
+    }
+  }
+  return categoriesJson.categories || [];
+}
+
+export default function AdminFeedbackList() {
+  const { user: currentUser } = useAuth();
+  const [feedback, setFeedback] = useState<Feedback[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalFeedback, setTotalFeedback] = useState(0);
+
+  const limit = 20;
+  const offset = currentPage * limit;
+
+  useEffect(() => {
+    loadFeedback();
+  }, [currentPage, search]);
+
+  const loadFeedback = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams({
+        limit: limit.toString(),
+        offset: offset.toString(),
+      });
+      if (search) params.append("search", search);
+
+      const url = `/admin/feedback?${params.toString()}`;
+      console.log("[AdminFeedbackList] Fetching:", url);
+
+      const response = await apiFetch(url);
+      console.log("[AdminFeedbackList] Response status:", response.status);
+      console.log("[AdminFeedbackList] Response ok:", response.ok);
+
+      const responseText = await response.text();
+      console.log(
+        "[AdminFeedbackList] Raw response (first 500 chars):",
+        responseText.substring(0, 500),
+      );
+
+      if (!response.ok) {
+        console.error("[AdminFeedbackList] Error response received");
+        throw new Error(
+          `Failed to load feedback (${response.status}): ${responseText.substring(0, 200)}`,
+        );
+      }
+
+      try {
+        const data = JSON.parse(responseText);
+        console.log("[AdminFeedbackList] Data received:", data);
+        setFeedback(data.feedback || []);
+        setTotalFeedback(data.total || 0);
+      } catch (parseErr) {
+        console.error("[AdminFeedbackList] JSON parse error:", parseErr);
+        console.error(
+          "[AdminFeedbackList] Response was:",
+          responseText.substring(0, 1000),
+        );
+        throw new Error(
+          `Invalid JSON response: ${responseText.substring(0, 200)}`,
+        );
+      }
+    } catch (err: any) {
+      console.error("[AdminFeedbackList] Error:", err);
+      setError(err.message || "Failed to load feedback");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const totalPages = Math.ceil(totalFeedback / limit);
+  const canPrevious = currentPage > 0;
+  const canNext = currentPage < totalPages - 1;
+
+  return (
+    <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
+      {error && (
+        <div
+          className={combineTokens(
+            "bg-destructive/10 border border-destructive text-destructive",
+            spacing.padding.md,
+            "rounded-lg flex items-center gap-2",
+          )}
+        >
+          <AlertCircle className={spacing.dimensions.icon.sm} />
+          <span>{error}</span>
+        </div>
+      )}
+
+      <div className={combineTokens(layouts.flex.between, "gap-4")}>
+        <Input
+          type="text"
+          placeholder="Search by ID, status, or submitter name..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(0);
+          }}
+          className="flex-1"
+        />
+      </div>
+
+      {loading ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <Loader2 className="animate-spin" />
+        </div>
+      ) : feedback.length === 0 ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">No feedback found</p>
+        </div>
+      ) : (
+        <>
+          <div className="overflow-x-auto themed-scrollbar">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b">
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Feedback ID
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Status
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Categories
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Details
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Submitted by
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Created
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Updated
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {feedback.map((item) => {
+                  const categories = getCategories(item.categories);
+                  return (
+                    <tr key={item.id} className="border-b hover:bg-muted/50">
+                      <td className={spacing.padding.md}>
+                        <span
+                          className={cn(
+                            typography.weight.medium,
+                            "text-primary",
+                          )}
+                        >
+                          {item.id}
+                        </span>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <span
+                          className={combineTokens(
+                            "px-2 py-1 rounded text-xs font-medium",
+                            item.status === "submitted"
+                              ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                              : item.status === "triaged"
+                                ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
+                                : item.status === "under review"
+                                  ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                  : item.status === "planned"
+                                    ? "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200"
+                                    : item.status === "in progress"
+                                      ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
+                                      : item.status === "implemented"
+                                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                                        : item.status === "declined" ||
+                                            item.status === "duplicate" ||
+                                            item.status === "out of scope"
+                                          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                                          : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
+                          )}
+                        >
+                          {toTitleCase(item.status)}
+                        </span>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <div className="flex flex-col gap-1">
+                          {categories.length > 0 ? (
+                            categories.map((category, idx) => (
+                              <p
+                                key={idx}
+                                className="text-xs text-muted-foreground"
+                              >
+                                {category}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="text-xs text-muted-foreground">
+                              No categories
+                            </p>
+                          )}
+                        </div>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs text-muted-foreground max-w-sm truncate">
+                          {item.details}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs">
+                          {item.created_by_name || "Unknown"}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDateForAdmin(item.created_at)}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDateForAdmin(item.updated_at)}
+                        </p>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          <div className={combineTokens(layouts.flex.between, "mt-6")}>
+            <div className="text-sm text-muted-foreground">
+              Page {currentPage + 1} of {totalPages} ({totalFeedback} total
+              feedback)
+            </div>
+            <div className={combineTokens(layouts.flex.start, "gap-2")}>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={!canPrevious}
+                onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+              >
+                <ChevronLeft className={spacing.dimensions.icon.sm} />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={!canNext}
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
+                }
+              >
+                <ChevronRight className={spacing.dimensions.icon.sm} />
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
