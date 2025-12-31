@@ -1837,8 +1837,8 @@ export default function Profile() {
                   </div>
                 )}
 
-                {/* Report User Button - Only shown when viewing other users */}
-                {viewingOtherUser && otherUserData?.id && otherUserData.id !== 2 && (
+                {/* Report User Button - Only shown when viewing other users and logged in */}
+                {authenticated && viewingOtherUser && otherUserData?.id && otherUserData.id !== 2 && (
                   <div className="max-w-[300px] mx-auto mb-4">
                     <Button
                       variant="outline"
