@@ -1819,6 +1819,21 @@ export default function ProductDetails() {
         isOpen={isReportModalOpen}
         onOpenChange={setIsReportModalOpen}
         listingTitle={product.name}
+        listingId={product ? Number(params.id) : undefined}
+        listingData={
+          product
+            ? {
+                title: product.name,
+                description: product.description,
+                latitude: product.latitude ?? 0,
+                longitude: product.longitude ?? 0,
+                addons: product.addons?.map((a) => ({
+                  item: a.item,
+                  style: a.style || null,
+                })),
+              }
+            : undefined
+        }
       />
       <ListingLocationModal
         open={isLocationModalOpen}
