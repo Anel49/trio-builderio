@@ -1143,6 +1143,17 @@ export default function ProductDetails() {
                     </Tooltip>
                   </TooltipProvider>
                 )}
+                {authUser?.id && authUser?.id !== product?.hostUserId && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="ml-2"
+                    onClick={handleCopyListingToReports}
+                    disabled={isCopyingToReports}
+                  >
+                    {isCopyingToReports ? "Copying..." : "Test Copy to Reports"}
+                  </Button>
+                )}
               </div>
               {(product.instantBookings ||
                 product.categories.filter(Boolean).length > 0) && (
