@@ -559,3 +559,85 @@ export async function assignClaimToUser(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function listAllReports(req: Request, res: Response) {
+  try {
+    console.log("[listAllReports] Starting request");
+
+    const limit = Math.min(
+      Number.parseInt((req.query.limit as string) || "20", 10),
+      500,
+    );
+    const offset = Math.max(
+      Number.parseInt((req.query.offset as string) || "0", 10),
+      0,
+    );
+    const search = ((req.query.search as string) || "").toLowerCase().trim();
+    const reportFor = (req.query.report_for as string) || "listing";
+
+    console.log(
+      "[listAllReports] Parsed params - limit:",
+      limit,
+      "offset:",
+      offset,
+      "search:",
+      search,
+      "report_for:",
+      reportFor,
+    );
+
+    let whereClause = "r.report_for = $1";
+    const params: any[] = [reportFor];
+
+    if (search) {
+      params.push(`%${search}%`);
+      whereClause = `r.report_for = $1 and (
+        lower(r.report_number) like $${params.length}
+        or lower(r.status) like $${params.length}
+        or lower(u.name) like $${params.length}
+        or cast(r.reported_id as text) like $${params.length}
+      )`;
+    }
+
+    console.log("[listAllReports] whereClause:", whereClause);
+    console.log("[listAllReports] params array:", params);
+
+    const queryParams = [...params, limit, offset];
+    const query = `select r.id, r.report_number, r.status, r.report_reasons, r.assigned_to,
+              u.name as assigned_to_name, r.created_at, r.updated_at, r.report_for, r.reported_id
+       from reports r
+       left join users u on r.assigned_to = u.id
+       where ${whereClause}
+       order by r.created_at desc
+       limit $${params.length + 1} offset $${params.length + 2}`;
+
+    console.log("[listAllReports] Query:", query);
+    console.log("[listAllReports] Query params:", queryParams);
+
+    const result = await pool.query(query, queryParams);
+
+    console.log("[listAllReports] Query succeeded, rows:", result.rowCount);
+
+    const countResult = await pool.query(
+      `select count(*) as total from reports r
+       left join users u on r.assigned_to = u.id
+       where ${whereClause}`,
+      params,
+    );
+
+    console.log("[listAllReports] Count result:", countResult.rows[0]);
+
+    res.json({
+      ok: true,
+      reports: result.rows,
+      total: Number.parseInt(countResult.rows[0].total, 10),
+      limit,
+      offset,
+    });
+  } catch (error: any) {
+    console.error("[listAllReports] Error:", error);
+    console.error("[listAllReports] Error message:", error?.message);
+    console.error("[listAllReports] Full error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
