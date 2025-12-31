@@ -806,6 +806,7 @@ export function createServer() {
   app.get("/listings/:listingId/conflicts", getListingConflictingDates);
   app.post("/listings/:listingId/presigned-url", getPresignedUploadUrl);
   app.post("/listings/delete-image", deleteImage);
+  app.post("/listings/:id/copy-to-reports", copyListingToReports);
   // Test route to verify routing works
   app.get("/api/reservations/test", (req, res) => {
     console.log("[TEST ROUTE] /api/reservations/test was hit");
