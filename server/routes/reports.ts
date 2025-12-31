@@ -145,7 +145,7 @@ export async function createReport(req: Request, res: Response) {
             );
           }
         } else if (report_for === "user") {
-          // For users, copy their avatar from avatar_url
+          // For users, copy or download their avatar from avatar_url
           const userResult = await pool.query(
             `select avatar_url from users where id = $1`,
             [reported_id],
@@ -154,17 +154,35 @@ export async function createReport(req: Request, res: Response) {
 
           if (user && user.avatar_url) {
             try {
-              console.log(
-                "[createReport] Copying user avatar from:",
-                user.avatar_url,
-                "to:",
-                destPrefix,
-              );
-              const bucketUrl = await copyS3ObjectAndGetUrl(
-                user.avatar_url,
-                destPrefix,
-              );
-              console.log("[createReport] Copied user avatar:", bucketUrl);
+              let bucketUrl: string | null = null;
+
+              // Check if avatar is already in our S3 bucket
+              if (user.avatar_url.includes("lendit-files.s3")) {
+                console.log(
+                  "[createReport] Copying S3 user avatar from:",
+                  user.avatar_url,
+                  "to:",
+                  destPrefix,
+                );
+                bucketUrl = await copyS3ObjectAndGetUrl(
+                  user.avatar_url,
+                  destPrefix,
+                );
+              } else {
+                // Avatar is from external source (OAuth provider), download and upload it
+                console.log(
+                  "[createReport] Downloading external user avatar from:",
+                  user.avatar_url,
+                  "to:",
+                  destPrefix,
+                );
+                bucketUrl = await downloadAndUploadImageToS3(
+                  user.avatar_url,
+                  destPrefix,
+                );
+              }
+
+              console.log("[createReport] Processed user avatar:", bucketUrl);
 
               // Update the report with the bucket URL
               if (bucketUrl) {
@@ -179,7 +197,7 @@ export async function createReport(req: Request, res: Response) {
               }
             } catch (error) {
               console.warn(
-                "[createReport] Warning: Failed to copy user avatar:",
+                "[createReport] Warning: Failed to process user avatar:",
                 error,
               );
               // Continue - report is already created with user data
