@@ -2705,6 +2705,12 @@ export default function Profile() {
           setIsLoginModalOpen(true);
         }}
       />
+      <ReportUserModal
+        isOpen={isReportUserModalOpen}
+        onOpenChange={setIsReportUserModalOpen}
+        userId={viewingOtherUser ? otherUserData?.id : undefined}
+        userName={viewingOtherUser ? otherUserData?.name : undefined}
+      />
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
