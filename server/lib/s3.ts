@@ -494,6 +494,85 @@ export async function copyS3ObjectAndGetUrl(
 }
 
 /**
+ * Download an image from an external URL and upload it to S3
+ * @param imageUrl - The external image URL (e.g., from OAuth provider)
+ * @param destPrefix - The destination S3 prefix (e.g., "reports/report_123_user_456/")
+ * @returns The public S3 URL of the uploaded image, or null if failed
+ */
+export async function downloadAndUploadImageToS3(
+  imageUrl: string,
+  destPrefix: string,
+): Promise<string | null> {
+  try {
+    console.log("[S3] Downloading image from URL:", imageUrl);
+
+    // Fetch the image from the external URL
+    const response = await fetch(imageUrl);
+    if (!response.ok) {
+      console.error(
+        "[S3] Failed to download image. Status:",
+        response.status,
+      );
+      return null;
+    }
+
+    // Get the content type from response headers
+    const contentType = response.headers.get("content-type") || "image/jpeg";
+    const buffer = await response.arrayBuffer();
+
+    console.log(
+      "[S3] Downloaded image successfully. Size:",
+      buffer.byteLength,
+      "bytes, Content-Type:",
+      contentType,
+    );
+
+    // Extract filename from URL or use default
+    let fileName = "avatar.webp";
+    try {
+      const url = new URL(imageUrl);
+      const pathName = url.pathname;
+      const lastSlash = pathName.lastIndexOf("/");
+      const urlFileName = lastSlash !== -1 ? pathName.substring(lastSlash + 1) : "avatar";
+
+      // Determine extension based on content type if needed
+      let ext = "webp";
+      if (contentType.includes("png")) ext = "png";
+      else if (contentType.includes("jpg") || contentType.includes("jpeg")) ext = "jpg";
+      else if (contentType.includes("gif")) ext = "gif";
+
+      fileName = `avatar.${ext}`;
+    } catch (e) {
+      console.warn("[S3] Failed to parse URL filename, using default");
+    }
+
+    const destKey = destPrefix + fileName;
+    const s3Client = getS3Client();
+    const region = process.env.AWS_REGION || "us-east-2";
+
+    // Upload to S3
+    const uploadCommand = new PutObjectCommand({
+      Bucket: bucketName,
+      Key: destKey,
+      Body: new Uint8Array(buffer),
+      ContentType: contentType,
+    });
+
+    await s3Client.send(uploadCommand);
+    console.log("[S3] Successfully uploaded image to:", destKey);
+
+    // Return the public S3 URL
+    const publicUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${destKey}`;
+    console.log("[S3] Image public URL:", publicUrl);
+
+    return publicUrl;
+  } catch (error) {
+    console.error("[S3] Error downloading and uploading image from URL:", imageUrl, error);
+    return null;
+  }
+}
+
+/**
  * Delete all objects under a prefix (e.g., all images in a listing folder)
  * @param prefix - The S3 prefix (e.g., "listings/123/")
  * @returns The number of objects deleted
