@@ -28,6 +28,7 @@ import AdminReviewList from "@/components/AdminReviewList";
 import AdminClaimsList from "@/components/AdminClaimsList";
 import AdminReportsList from "@/components/AdminReportsList";
 import AdminFeedbackList from "@/components/AdminFeedbackList";
+import { Footer } from "@/components/Footer";
 
 interface NavItem {
   id: string;
@@ -361,6 +362,8 @@ export default function Admin() {
           </nav>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }
