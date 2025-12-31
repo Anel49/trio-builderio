@@ -425,6 +425,75 @@ export async function copyS3WebpImagesAndGetUrls(
 }
 
 /**
+ * Copy a single S3 object (identified by its public URL) to a new destination prefix
+ * @param sourceUrl - The public S3 URL of the source object
+ * @param destPrefix - The destination S3 prefix (e.g., "reports/report_123_user_456/")
+ * @returns The public URL of the copied object, or null if copy failed
+ */
+export async function copyS3ObjectAndGetUrl(
+  sourceUrl: string,
+  destPrefix: string,
+): Promise<string | null> {
+  try {
+    console.log(
+      "[S3] Copying object from URL:",
+      sourceUrl,
+      "to prefix:",
+      destPrefix,
+    );
+
+    // Parse the S3 URL to extract bucket and key
+    // Expected format: https://lendit-files.s3.us-east-2.amazonaws.com/users/123/avatar.webp
+    const urlPattern =
+      /https:\/\/([^.]+)\.s3\.([^.]+)\.amazonaws\.com\/(.+)/;
+    const match = sourceUrl.match(urlPattern);
+
+    if (!match) {
+      console.error("[S3] Invalid S3 URL format:", sourceUrl);
+      return null;
+    }
+
+    const sourceBucket = match[1];
+    const sourceKey = match[3];
+    const region = match[2];
+
+    // Extract the filename from the source key
+    const fileName = sourceKey.split("/").pop() || "avatar.webp";
+    const destKey = destPrefix + fileName;
+
+    console.log(
+      "[S3] Parsed source: bucket=",
+      sourceBucket,
+      "key=",
+      sourceKey,
+      "region=",
+      region,
+    );
+    console.log("[S3] Destination: bucket=", bucketName, "key=", destKey);
+
+    const s3Client = getS3Client();
+
+    const copyCommand = new CopyObjectCommand({
+      Bucket: bucketName,
+      CopySource: `${sourceBucket}/${sourceKey}`,
+      Key: destKey,
+    });
+
+    await s3Client.send(copyCommand);
+    console.log("[S3] Successfully copied object from:", sourceKey, "to:", destKey);
+
+    // Build and return the public URL for the copied object
+    const publicUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${destKey}`;
+    console.log("[S3] Copied object public URL:", publicUrl);
+
+    return publicUrl;
+  } catch (error) {
+    console.error("[S3] Error copying object from URL:", sourceUrl, "to:", destPrefix, error);
+    return null;
+  }
+}
+
+/**
  * Delete all objects under a prefix (e.g., all images in a listing folder)
  * @param prefix - The S3 prefix (e.g., "listings/123/")
  * @returns The number of objects deleted
