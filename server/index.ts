@@ -50,6 +50,7 @@ import {
   assignReportToUser,
   updateClaimStatus,
   updateReportStatus,
+  listAllFeedback,
 } from "./routes/admin";
 import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
 import {
