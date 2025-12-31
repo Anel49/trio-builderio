@@ -77,7 +77,7 @@ export async function createReport(req: Request, res: Response) {
                 style: addon.style || null,
               }))
             : [],
-          bucket_url: `https://lendit-files.s3.us-east-2.amazonaws.com/reports/${reported_id}`,
+          bucket_urls: bucketUrls,
         }
       : null;
 
