@@ -1160,6 +1160,7 @@ export function createServer() {
     requireModeratorOrAdmin,
     assignClaimToUser,
   );
+  app.get("/api/admin/reports", requireModeratorOrAdmin, listAllReports);
 
   // Admin route aliases (without /api prefix)
   app.get("/admin/users", requireAdmin, listAllUsers);
