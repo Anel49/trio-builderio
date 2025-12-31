@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { apiFetch } from "@/lib/api";
-import { Button } from "./ui/button";
-import { Card } from "./ui/card";
+import { Input } from "./ui/input";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import {
   AlertCircle,
   Loader2,
   ChevronLeft,
   ChevronRight,
   Trash2,
-  Star,
 } from "lucide-react";
+import { Button } from "./ui/button";
 import {
   spacing,
   typography,
   layouts,
   combineTokens,
-  shadows,
 } from "@/lib/design-tokens";
 import {
   AlertDialog,
@@ -27,50 +26,115 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
-import { format } from "date-fns";
 
-interface Review {
+interface ListingReview {
   id: number;
   listing_id: number;
-  listing_title: string;
-  renter_id: number;
-  renter_name: string | null;
-  renter_email: string | null;
-  host_name: string | null;
-  host_email: string | null;
-  rating: number;
+  listing_title: string | null;
+  reviewer_id: number;
+  reviewer_name: string | null;
   comment: string;
   created_at: string;
+  updated_at: string;
+}
+
+interface UserReview {
+  id: number;
+  reviewed_user_id: number;
+  reviewed_user_name: string | null;
+  reviewer_id: number;
+  reviewer_name: string | null;
+  comment: string;
+  created_at: string;
+  updated_at: string;
+}
+
+function formatDateForAdmin(dateStr: string): string {
+  const date = new Date(dateStr);
+  const month = date.toLocaleDateString("en-US", { month: "long" });
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const time = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const tz = date
+    .toLocaleTimeString("en-US", { timeZoneName: "short" })
+    .split(" ")
+    .pop();
+
+  return `${month} ${day}, ${year}, ${time} ${tz}`;
 }
 
 export default function AdminReviewList() {
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [listingReviews, setListingReviews] = useState<ListingReview[]>([]);
+  const [userReviews, setUserReviews] = useState<UserReview[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
+  const [reviewType, setReviewType] = useState<"listing" | "user">("listing");
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const limit = 20;
   const offset = currentPage * limit;
 
+  const getSearchPlaceholder = () => {
+    if (reviewType === "listing") {
+      return "Search using a listing name...";
+    }
+    return "Search using a user's name or their username...";
+  };
+
   useEffect(() => {
     loadReviews();
-  }, [currentPage]);
+  }, [currentPage, search, reviewType]);
 
   const loadReviews = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await apiFetch(
-        `/admin/reviews?limit=${limit}&offset=${offset}`,
-      );
-      if (!response.ok) throw new Error("Failed to load reviews");
+      const params = new URLSearchParams({
+        limit: limit.toString(),
+        offset: offset.toString(),
+        review_type: reviewType,
+      });
+      if (search) params.append("search", search);
 
-      const data = await response.json();
-      setReviews(data.reviews);
-      setTotalReviews(data.total);
+      const url = `/admin/reviews?${params.toString()}`;
+      console.log("[AdminReviewList] Fetching:", url);
+
+      const response = await apiFetch(url);
+      console.log("[AdminReviewList] Response status:", response.status);
+
+      const responseText = await response.text();
+
+      if (!response.ok) {
+        console.error("[AdminReviewList] Error response received");
+        throw new Error(
+          `Failed to load reviews (${response.status}): ${responseText.substring(0, 200)}`,
+        );
+      }
+
+      try {
+        const data = JSON.parse(responseText);
+        console.log("[AdminReviewList] Data received:", data);
+        if (reviewType === "listing") {
+          setListingReviews(data.reviews || []);
+        } else {
+          setUserReviews(data.reviews || []);
+        }
+        setTotalReviews(data.total || 0);
+      } catch (parseErr) {
+        console.error("[AdminReviewList] JSON parse error:", parseErr);
+        throw new Error(
+          `Invalid JSON response: ${responseText.substring(0, 200)}`,
+        );
+      }
     } catch (err: any) {
+      console.error("[AdminReviewList] Error:", err);
       setError(err.message || "Failed to load reviews");
     } finally {
       setLoading(false);
@@ -87,7 +151,11 @@ export default function AdminReviewList() {
 
       if (!response.ok) throw new Error("Failed to delete review");
 
-      setReviews((prev) => prev.filter((r) => r.id !== reviewId));
+      if (reviewType === "listing") {
+        setListingReviews((prev) => prev.filter((r) => r.id !== reviewId));
+      } else {
+        setUserReviews((prev) => prev.filter((r) => r.id !== reviewId));
+      }
       setTotalReviews((prev) => prev - 1);
     } catch (err: any) {
       setError(err.message || "Failed to delete review");
@@ -100,21 +168,7 @@ export default function AdminReviewList() {
   const canPrevious = currentPage > 0;
   const canNext = currentPage < totalPages - 1;
 
-  const renderStars = (rating: number) => {
-    return (
-      <div className={combineTokens(layouts.flex.start, "gap-1")}>
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star
-            key={i}
-            size={16}
-            className={
-              i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-            }
-          />
-        ))}
-      </div>
-    );
-  };
+  const reviews = reviewType === "listing" ? listingReviews : userReviews;
 
   return (
     <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
@@ -131,6 +185,35 @@ export default function AdminReviewList() {
         </div>
       )}
 
+      <div className="mb-0">
+        <Tabs
+          value={reviewType}
+          onValueChange={(v) => {
+            setReviewType(v as "listing" | "user");
+            setCurrentPage(0);
+            setSearch("");
+          }}
+        >
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="listing">Listing Reviews</TabsTrigger>
+            <TabsTrigger value="user">User Reviews</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div className={combineTokens(layouts.flex.between, "gap-4")}>
+        <Input
+          type="text"
+          placeholder={getSearchPlaceholder()}
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(0);
+          }}
+          className="flex-1"
+        />
+      </div>
+
       {loading ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
@@ -141,124 +224,244 @@ export default function AdminReviewList() {
         </div>
       ) : (
         <>
-          <div className={combineTokens(spacing.grid.responsive, "gap-6")}>
-            {reviews.map((review) => {
-              const isDeleting = deletingId === review.id;
-              const createdDate = new Date(review.created_at);
-
-              return (
-                <Card key={review.id} className={shadows.card}>
-                  <div className={spacing.padding.card}>
-                    <div
-                      className={combineTokens(
-                        layouts.flex.between,
-                        spacing.margin.bottomMd,
-                      )}
-                    >
-                      <div className="flex-1">
-                        <h3 className={typography.combinations.subheading}>
-                          {review.listing_title}
-                        </h3>
-                        <p
-                          className={combineTokens(
-                            typography.size.sm,
-                            "text-muted-foreground",
-                            spacing.margin.topSm,
-                          )}
-                        >
-                          Reviewed by {review.renter_name}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        {renderStars(review.rating)}
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {format(createdDate, "MMM dd, yyyy")}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div
-                      className={combineTokens(
-                        "bg-muted",
-                        spacing.padding.md,
-                        "rounded",
-                        spacing.margin.bottomMd,
-                      )}
-                    >
-                      <p
-                        className={combineTokens(typography.size.sm, "italic")}
+          <div className="overflow-x-auto themed-scrollbar">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b">
+                  {reviewType === "listing" ? (
+                    <>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
                       >
-                        "{review.comment}"
-                      </p>
-                    </div>
-
-                    <div
-                      className={combineTokens(
-                        spacing.gap.sm,
-                        "flex flex-col text-sm",
-                        spacing.margin.bottomMd,
-                      )}
-                    >
-                      <div>
-                        <span className="font-medium">Renter:</span>{" "}
-                        {review.renter_name} ({review.renter_email})
-                      </div>
-                      <div>
-                        <span className="font-medium">Host:</span>{" "}
-                        {review.host_name} ({review.host_email})
-                      </div>
-                      <div>
-                        <span className="font-medium">Listing ID:</span>{" "}
-                        {review.listing_id}
-                      </div>
-                    </div>
-
-                    <div className={combineTokens(layouts.flex.end)}>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            disabled={isDeleting}
-                          >
-                            <Trash2
-                              className={combineTokens(
-                                spacing.dimensions.icon.sm,
-                                "mr-2",
-                              )}
-                            />
-                            Delete Review
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Review</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you sure you want to delete this review? This
-                              action cannot be undone.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <div
-                            className={combineTokens(
-                              layouts.flex.end,
-                              spacing.gap.sm,
+                        Listing Title
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Review
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Reviewer
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Created
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Updated
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Action
+                      </th>
+                    </>
+                  ) : (
+                    <>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Reviewed User
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Review
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Reviewer
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Created
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Updated
+                      </th>
+                      <th
+                        className={combineTokens(spacing.padding.md, "text-left")}
+                      >
+                        Action
+                      </th>
+                    </>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {reviews.map((review) => (
+                  <tr key={review.id} className="border-b hover:bg-muted/50">
+                    {reviewType === "listing" && review instanceof Object && "listing_title" in review ? (
+                      <>
+                        <td className={spacing.padding.md}>
+                          <span className={typography.weight.medium}>
+                            {(review as ListingReview).listing_title || "N/A"}
+                          </span>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            {(review as ListingReview).comment}
+                          </p>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <p className="text-sm">
+                            {(review as ListingReview).reviewer_name || "Unknown"}
+                          </p>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <p className="text-xs text-muted-foreground">
+                            {formatDateForAdmin(
+                              (review as ListingReview).created_at,
                             )}
-                          >
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDeleteReview(review.id)}
-                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </div>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
+                          </p>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <p className="text-xs text-muted-foreground">
+                            {formatDateForAdmin(
+                              (review as ListingReview).updated_at,
+                            )}
+                          </p>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                disabled={deletingId === review.id}
+                              >
+                                <Trash2
+                                  className={combineTokens(
+                                    spacing.dimensions.icon.sm,
+                                    "mr-2",
+                                  )}
+                                />
+                                Delete
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Delete Review
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete this review?
+                                  This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <div
+                                className={combineTokens(
+                                  layouts.flex.end,
+                                  spacing.gap.sm,
+                                )}
+                              >
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() =>
+                                    handleDeleteReview(review.id)
+                                  }
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </div>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td className={spacing.padding.md}>
+                          <span className={typography.weight.medium}>
+                            {(review as UserReview).reviewed_user_name ||
+                              "Unknown"}
+                          </span>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            {(review as UserReview).comment}
+                          </p>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <p className="text-sm">
+                            {(review as UserReview).reviewer_name || "Unknown"}
+                          </p>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <p className="text-xs text-muted-foreground">
+                            {formatDateForAdmin(
+                              (review as UserReview).created_at,
+                            )}
+                          </p>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <p className="text-xs text-muted-foreground">
+                            {formatDateForAdmin(
+                              (review as UserReview).updated_at,
+                            )}
+                          </p>
+                        </td>
+                        <td className={spacing.padding.md}>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                disabled={deletingId === review.id}
+                              >
+                                <Trash2
+                                  className={combineTokens(
+                                    spacing.dimensions.icon.sm,
+                                    "mr-2",
+                                  )}
+                                />
+                                Delete
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Delete Review
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete this review?
+                                  This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <div
+                                className={combineTokens(
+                                  layouts.flex.end,
+                                  spacing.gap.sm,
+                                )}
+                              >
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() =>
+                                    handleDeleteReview(review.id)
+                                  }
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </div>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
           <div className={combineTokens(layouts.flex.between, "mt-6")}>
