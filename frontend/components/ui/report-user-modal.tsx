@@ -226,14 +226,15 @@ export function ReportUserModal({
               <div className="flex flex-col gap-3 pt-4 [@media(min-width:500px)]:flex-row">
                 <Button
                   onClick={handleSubmit}
-                  disabled={selectedCategories.length === 0}
+                  disabled={selectedCategories.length === 0 || isSubmitting}
                   className="flex-1"
                 >
-                  Submit Report
+                  {isSubmitting ? "Submitting..." : "Submit Report"}
                 </Button>
                 <Button
                   variant="outline"
                   onClick={handleClose}
+                  disabled={isSubmitting}
                   className="flex-1"
                 >
                   Cancel
@@ -248,13 +249,14 @@ export function ReportUserModal({
       <Dialog open={isConfirmationOpen} onOpenChange={setIsConfirmationOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center">Report Submitted</DialogTitle>
+            <DialogTitle>Report submitted</DialogTitle>
           </DialogHeader>
-          <div className="text-center space-y-4 py-4">
-            <div>
-              <p className="font-bold">{userName} has been reported.</p>
-              <p className="text-sm text-muted-foreground mt-2">
-                We appreciate your care and concern!
+          <div className="space-y-4 py-4">
+            <div className="text-sm leading-relaxed text-muted-foreground space-y-3">
+              <p>{userName} has been reported.</p>
+              <p>
+                Thank you! Your report plays an important part in keeping our
+                communities safe.
               </p>
             </div>
             <Button
