@@ -102,6 +102,7 @@ import {
   listClaimThreads,
 } from "./routes/claims";
 import { createReport } from "./routes/reports";
+import { createFeedback } from "./routes/feedback";
 
 export function createServer() {
   const app = express();
@@ -923,6 +924,10 @@ export function createServer() {
   // Reports
   app.post("/api/reports/create", createReport);
   app.post("/reports/create", createReport);
+
+  // Feedback
+  app.post("/api/feedback/create", createFeedback);
+  app.post("/feedback/create", createFeedback);
 
   // WebAuthn verification for OAuth users
   app.post("/api/users/webauthn/verify", async (req: any, res: any) => {
