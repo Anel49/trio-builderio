@@ -15,11 +15,20 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { apiFetch } from "@/lib/api";
 
 interface ReportModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   listingTitle?: string;
+  listingId?: number;
+  listingData?: {
+    title: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+    addons?: Array<{ item: string; style: string | null }>;
+  };
 }
 
 const reportCategories = [
