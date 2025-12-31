@@ -641,3 +641,68 @@ export async function listAllReports(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function assignReportToUser(req: Request, res: Response) {
+  try {
+    const reportId = Number.parseInt((req.params.reportId as string) || "", 10);
+    const assignToId = req.body?.assignToId;
+
+    if (!Number.isFinite(reportId)) {
+      return res.status(400).json({ ok: false, error: "Invalid report ID" });
+    }
+
+    let assignToIdNumber: number | null = null;
+    if (assignToId !== null && assignToId !== undefined) {
+      assignToIdNumber = Number.parseInt(assignToId as string, 10);
+      if (!Number.isFinite(assignToIdNumber)) {
+        return res.status(400).json({ ok: false, error: "Invalid user ID" });
+      }
+    }
+
+    const reportResult = await pool.query(
+      `select id from reports where id = $1`,
+      [reportId],
+    );
+
+    if (!reportResult.rowCount) {
+      return res.status(404).json({ ok: false, error: "Report not found" });
+    }
+
+    let assignedToName: string | null = null;
+    if (assignToIdNumber !== null) {
+      const userResult = await pool.query(
+        `select id, name from users where id = $1`,
+        [assignToIdNumber],
+      );
+
+      if (!userResult.rowCount) {
+        return res.status(404).json({ ok: false, error: "User not found" });
+      }
+
+      assignedToName = userResult.rows[0].name;
+    }
+
+    const updateResult = await pool.query(
+      `update reports set assigned_to = $1 where id = $2 returning id, assigned_to`,
+      [assignToIdNumber, reportId],
+    );
+
+    if (!updateResult.rowCount) {
+      return res
+        .status(500)
+        .json({ ok: false, error: "Failed to update report assignment" });
+    }
+
+    res.json({
+      ok: true,
+      report: {
+        id: updateResult.rows[0].id,
+        assigned_to: updateResult.rows[0].assigned_to,
+        assigned_to_name: assignedToName,
+      },
+    });
+  } catch (error: any) {
+    console.error("[assignReportToUser] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
