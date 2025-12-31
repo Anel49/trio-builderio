@@ -706,3 +706,134 @@ export async function assignReportToUser(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function updateClaimStatus(req: Request, res: Response) {
+  try {
+    const claimId = Number.parseInt((req.params.claimId as string) || "", 10);
+    const newStatus = (req.body?.status as string) || "";
+    const currentUser = (req.session as any)?.user;
+
+    if (!Number.isFinite(claimId)) {
+      return res.status(400).json({ ok: false, error: "Invalid claim ID" });
+    }
+
+    const validStatuses = [
+      "submitted",
+      "under review",
+      "awaiting customer response",
+      "reimbursement pending",
+      "legal action",
+      "canceled",
+      "rejected",
+      "resolved",
+    ];
+
+    if (!newStatus || !validStatuses.includes(newStatus)) {
+      return res.status(400).json({
+        ok: false,
+        error: `Invalid status. Must be one of: ${validStatuses.join(", ")}`,
+      });
+    }
+
+    const claimResult = await pool.query(
+      `select id, assigned_to from claims where id = $1`,
+      [claimId],
+    );
+
+    if (!claimResult.rowCount) {
+      return res.status(404).json({ ok: false, error: "Claim not found" });
+    }
+
+    const claim = claimResult.rows[0];
+    if (claim.assigned_to !== currentUser?.id) {
+      return res.status(403).json({
+        ok: false,
+        error: "You can only update claims assigned to you",
+      });
+    }
+
+    const updateResult = await pool.query(
+      `update claims set status = $1, updated_at = now() where id = $2 returning id, status, updated_at`,
+      [newStatus, claimId],
+    );
+
+    if (!updateResult.rowCount) {
+      return res
+        .status(500)
+        .json({ ok: false, error: "Failed to update claim status" });
+    }
+
+    res.json({
+      ok: true,
+      claim: {
+        id: updateResult.rows[0].id,
+        status: updateResult.rows[0].status,
+        updated_at: updateResult.rows[0].updated_at,
+      },
+    });
+  } catch (error: any) {
+    console.error("[updateClaimStatus] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
+export async function updateReportStatus(req: Request, res: Response) {
+  try {
+    const reportId = Number.parseInt((req.params.reportId as string) || "", 10);
+    const newStatus = (req.body?.status as string) || "";
+    const currentUser = (req.session as any)?.user;
+
+    if (!Number.isFinite(reportId)) {
+      return res.status(400).json({ ok: false, error: "Invalid report ID" });
+    }
+
+    const validStatuses = ["submitted", "rejected", "resolved"];
+
+    if (!newStatus || !validStatuses.includes(newStatus)) {
+      return res.status(400).json({
+        ok: false,
+        error: `Invalid status. Must be one of: ${validStatuses.join(", ")}`,
+      });
+    }
+
+    const reportResult = await pool.query(
+      `select id, assigned_to from reports where id = $1`,
+      [reportId],
+    );
+
+    if (!reportResult.rowCount) {
+      return res.status(404).json({ ok: false, error: "Report not found" });
+    }
+
+    const report = reportResult.rows[0];
+    if (report.assigned_to !== currentUser?.id) {
+      return res.status(403).json({
+        ok: false,
+        error: "You can only update reports assigned to you",
+      });
+    }
+
+    const updateResult = await pool.query(
+      `update reports set status = $1, updated_at = now() where id = $2 returning id, status, updated_at`,
+      [newStatus, reportId],
+    );
+
+    if (!updateResult.rowCount) {
+      return res
+        .status(500)
+        .json({ ok: false, error: "Failed to update report status" });
+    }
+
+    res.json({
+      ok: true,
+      report: {
+        id: updateResult.rows[0].id,
+        status: updateResult.rows[0].status,
+        updated_at: updateResult.rows[0].updated_at,
+      },
+    });
+  } catch (error: any) {
+    console.error("[updateReportStatus] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
