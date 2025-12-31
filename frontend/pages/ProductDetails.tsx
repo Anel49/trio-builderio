@@ -1115,17 +1115,6 @@ export default function ProductDetails() {
                     </Tooltip>
                   </TooltipProvider>
                 )}
-                {authUser?.id && authUser?.id !== product?.hostUserId && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="ml-2"
-                    onClick={handleCopyListingToReports}
-                    disabled={isCopyingToReports}
-                  >
-                    {isCopyingToReports ? "Copying..." : "Test Copy to Reports"}
-                  </Button>
-                )}
               </div>
               {copyToReportsMessage && (
                 <div className={cn("text-sm mb-4 p-2 rounded",
