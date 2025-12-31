@@ -247,6 +247,86 @@ export async function deleteS3Object(key: string): Promise<boolean> {
 }
 
 /**
+ * Copy all objects from one prefix to another (e.g., from listings folder to reports folder)
+ * @param sourcePre fix - The source S3 prefix (e.g., "listings/123/")
+ * @param destPrefix - The destination S3 prefix (e.g., "reports/123/")
+ * @returns The number of objects copied
+ */
+export async function copyS3Prefix(
+  sourcePrefix: string,
+  destPrefix: string,
+): Promise<number> {
+  try {
+    console.log(
+      "[S3] Copying objects from prefix:",
+      sourcePrefix,
+      "to:",
+      destPrefix,
+    );
+
+    const s3Client = getS3Client();
+
+    // List all objects under the source prefix
+    const listCommand = new ListObjectsV2Command({
+      Bucket: bucketName,
+      Prefix: sourcePrefix,
+    });
+
+    const listResult = await s3Client.send(listCommand);
+    const objects = listResult.Contents || [];
+
+    if (objects.length === 0) {
+      console.log("[S3] No objects found under source prefix:", sourcePrefix);
+      return 0;
+    }
+
+    console.log(
+      "[S3] Found",
+      objects.length,
+      "objects to copy from prefix:",
+      sourcePrefix,
+    );
+
+    // Copy all objects
+    for (const obj of objects) {
+      if (obj.Key) {
+        // Calculate the destination key by replacing the source prefix with dest prefix
+        const relativeKey = obj.Key.substring(sourcePrefix.length);
+        const destKey = destPrefix + relativeKey;
+
+        const copyCommand = new CopyObjectCommand({
+          Bucket: bucketName,
+          CopySource: `${bucketName}/${obj.Key}`,
+          Key: destKey,
+        });
+
+        await s3Client.send(copyCommand);
+        console.log("[S3] Copied:", obj.Key, "to:", destKey);
+      }
+    }
+
+    console.log(
+      "[S3] Successfully copied",
+      objects.length,
+      "objects from prefix:",
+      sourcePrefix,
+      "to:",
+      destPrefix,
+    );
+    return objects.length;
+  } catch (error) {
+    console.error(
+      "[S3] Error copying objects from prefix:",
+      sourcePrefix,
+      "to:",
+      destPrefix,
+      error,
+    );
+    throw error;
+  }
+}
+
+/**
  * Delete all objects under a prefix (e.g., all images in a listing folder)
  * @param prefix - The S3 prefix (e.g., "listings/123/")
  * @returns The number of objects deleted
