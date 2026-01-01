@@ -220,47 +220,6 @@ export default function AdminMessages() {
     }
   }, [messages]);
 
-  const handleSendMessage = async () => {
-    if (!messageInput.trim() || !userA || !userB) return;
-
-    try {
-      const messageBody: any = {
-        senderId: userA.id,
-        toId: userB.id,
-        body: messageInput,
-      };
-
-      if (threadId) {
-        messageBody.messageThreadId = threadId;
-      }
-
-      const response = await apiFetch("/messages", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(messageBody),
-      });
-
-      const data = await response.json();
-      if (data.ok) {
-        const newMessage = {
-          ...data.message,
-          isFromCurrentUser: true,
-        };
-        setMessages((prev) => [...prev, newMessage]);
-        setMessageInput("");
-
-        // Update threadId if it was created
-        if (!threadId && data.message.messageThreadId) {
-          setThreadId(data.message.messageThreadId);
-        }
-      } else {
-        setError(data.error || "Failed to send message");
-      }
-    } catch (err: any) {
-      console.error("[AdminMessages] Error sending message:", err);
-      setError(err.message || "Failed to send message");
-    }
-  };
 
   return (
     <div className={combineTokens(spacing.gap.md, "flex flex-col h-full")}>
