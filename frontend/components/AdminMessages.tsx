@@ -167,9 +167,7 @@ export default function AdminMessages() {
       try {
         // Search for or create a thread between these two users
         // For now, we'll fetch from userA's perspective
-        const response = await apiFetch(
-          `/messages/${userA.id}/conversations`,
-        );
+        const response = await apiFetch(`/messages/${userA.id}/conversations`);
         const data = await response.json();
 
         if (data.ok && data.conversations) {
@@ -220,9 +218,13 @@ export default function AdminMessages() {
     }
   }, [messages]);
 
-
   return (
-    <div className={combineTokens(spacing.gap.md, "flex flex-col h-[calc(100vh-8rem)]")}>
+    <div
+      className={combineTokens(
+        spacing.gap.md,
+        "flex flex-col h-[calc(100vh-8rem)]",
+      )}
+    >
       {error && (
         <div
           className={combineTokens(
@@ -237,7 +239,12 @@ export default function AdminMessages() {
       )}
 
       {/* User Selection Area */}
-      <div className={combineTokens(layouts.flex.center, "gap-2 sm:gap-4 py-6 min-w-0")}>
+      <div
+        className={combineTokens(
+          layouts.flex.center,
+          "gap-2 sm:gap-4 py-6 min-w-0",
+        )}
+      >
         {/* User A Input */}
         <div className="flex-1 min-w-0">
           <div className="relative">
@@ -247,9 +254,7 @@ export default function AdminMessages() {
                 variant="outline"
                 className="w-full justify-start text-left h-auto py-2 px-3 overflow-hidden"
               >
-                <span className="truncate">
-                  {formatUserDisplay(userA)}
-                </span>
+                <span className="truncate">{formatUserDisplay(userA)}</span>
                 <X className="h-4 w-4 ml-2 flex-shrink-0" />
               </Button>
             ) : (
@@ -314,9 +319,7 @@ export default function AdminMessages() {
                 variant="outline"
                 className="w-full justify-start text-left h-auto py-2 px-3 overflow-hidden"
               >
-                <span className="truncate">
-                  {formatUserDisplay(userB)}
-                </span>
+                <span className="truncate">{formatUserDisplay(userB)}</span>
                 <X className="h-4 w-4 ml-2 flex-shrink-0" />
               </Button>
             ) : (
