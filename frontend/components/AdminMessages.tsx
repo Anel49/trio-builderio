@@ -3,7 +3,7 @@ import { apiFetch } from "@/lib/api";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
-import { AlertCircle, Loader2, ArrowLeftRight, X, Send } from "lucide-react";
+import { AlertCircle, Loader2, ArrowLeftRight, X } from "lucide-react";
 import {
   spacing,
   typography,
