@@ -126,26 +126,6 @@ export default function AdminOrderList() {
         </div>
       )}
 
-      <div className={combineTokens(layouts.flex.between, "gap-4")}>
-        <Select
-          value={statusFilter}
-          onValueChange={(value) => {
-            setStatusFilter(value);
-            setCurrentPage(0);
-          }}
-        >
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Filter by status..." />
-          </SelectTrigger>
-          <SelectContent>
-            {ORDER_STATUSES.map((status) => (
-              <SelectItem key={status} value={status}>
-                {status.charAt(0).toUpperCase() + status.slice(1)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
 
       {loading ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
