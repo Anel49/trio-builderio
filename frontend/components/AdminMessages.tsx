@@ -306,15 +306,15 @@ export default function AdminMessages() {
         </button>
 
         {/* User B Input */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="relative">
             {userB && !focusedB ? (
               <Button
                 onClick={clearB}
                 variant="outline"
-                className="w-full justify-start text-left h-auto py-2 px-3"
+                className="w-full justify-start text-left h-auto py-2 px-3 overflow-hidden"
               >
-                <span className="flex-1 truncate">
+                <span className="truncate">
                   {formatUserDisplay(userB)}
                 </span>
                 <X className="h-4 w-4 ml-2 flex-shrink-0" />
