@@ -306,7 +306,7 @@ export default function Admin() {
 
           {/* Right Side - Content Area (75%) */}
           <div className="flex-1 bg-background overflow-y-auto no-scrollbar">
-            <div className={spacing.padding.card}>{renderContent()}</div>
+            <div>{renderContent()}</div>
           </div>
         </div>
       </div>
