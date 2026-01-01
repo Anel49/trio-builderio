@@ -17,6 +17,8 @@ import {
 } from "@/lib/design-tokens";
 import { format } from "date-fns";
 
+const ORDER_STATUSES = ["pending", "active", "completed", "canceled"];
+
 interface Order {
   id: number;
   listing_id: number;
