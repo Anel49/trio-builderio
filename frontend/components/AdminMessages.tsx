@@ -366,7 +366,7 @@ export default function AdminMessages() {
         <div
           className={combineTokens(
             layouts.flex.center,
-            "flex-1 bg-background rounded-lg border border-border",
+            "flex-1 bg-background rounded-lg border border-border overflow-hidden",
           )}
         >
           <p className="text-muted-foreground">
@@ -377,7 +377,7 @@ export default function AdminMessages() {
         <div
           className={combineTokens(
             "flex flex-col bg-background rounded-lg border border-border",
-            "flex-1",
+            "flex-1 overflow-hidden",
           )}
         >
           {/* Messages Scroll Area */}
