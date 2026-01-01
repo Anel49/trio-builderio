@@ -176,7 +176,7 @@ export default function Admin() {
     switch (activeTab) {
       case "users":
         return (
-          <Card>
+          <Card className="border-0 rounded-none">
             <CardHeader>
               <CardTitle>User Management</CardTitle>
             </CardHeader>
@@ -187,7 +187,7 @@ export default function Admin() {
         );
       case "listings":
         return (
-          <Card>
+          <Card className="border-0 rounded-none">
             <CardHeader>
               <CardTitle>Listing Management</CardTitle>
             </CardHeader>
@@ -198,7 +198,7 @@ export default function Admin() {
         );
       case "orders":
         return (
-          <Card>
+          <Card className="border-0 rounded-none">
             <CardHeader>
               <CardTitle>Order Management</CardTitle>
             </CardHeader>
@@ -209,7 +209,7 @@ export default function Admin() {
         );
       case "reviews":
         return (
-          <Card>
+          <Card className="border-0 rounded-none">
             <CardHeader>
               <CardTitle>Review Management</CardTitle>
             </CardHeader>
@@ -220,7 +220,7 @@ export default function Admin() {
         );
       case "reports":
         return (
-          <Card>
+          <Card className="border-0 rounded-none">
             <CardHeader>
               <CardTitle>Reports</CardTitle>
             </CardHeader>
@@ -231,7 +231,7 @@ export default function Admin() {
         );
       case "claims":
         return (
-          <Card>
+          <Card className="border-0 rounded-none">
             <CardHeader>
               <CardTitle>Claims</CardTitle>
             </CardHeader>
@@ -242,7 +242,7 @@ export default function Admin() {
         );
       case "feedback":
         return (
-          <Card>
+          <Card className="border-0 rounded-none">
             <CardHeader>
               <CardTitle>Feedback Submissions</CardTitle>
             </CardHeader>
@@ -253,7 +253,7 @@ export default function Admin() {
         );
       case "messages":
         return (
-          <Card>
+          <Card className="border-0 rounded-none">
             <CardHeader>
               <CardTitle>Messages</CardTitle>
             </CardHeader>
