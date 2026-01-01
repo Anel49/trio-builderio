@@ -237,17 +237,17 @@ export default function AdminMessages() {
       )}
 
       {/* User Selection Area */}
-      <div className={combineTokens(layouts.flex.center, "gap-4 py-6")}>
+      <div className={combineTokens(layouts.flex.center, "gap-2 sm:gap-4 py-6 min-w-0")}>
         {/* User A Input */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="relative">
             {userA && !focusedA ? (
               <Button
                 onClick={clearA}
                 variant="outline"
-                className="w-full justify-start text-left h-auto py-2 px-3"
+                className="w-full justify-start text-left h-auto py-2 px-3 overflow-hidden"
               >
-                <span className="flex-1 truncate">
+                <span className="truncate">
                   {formatUserDisplay(userA)}
                 </span>
                 <X className="h-4 w-4 ml-2 flex-shrink-0" />
