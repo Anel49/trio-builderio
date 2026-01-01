@@ -32,13 +32,10 @@ interface Order {
   created_at: string;
 }
 
-const ORDER_STATUSES = ["pending", "active", "completed", "canceled"];
-
 export default function AdminOrderList() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set());
@@ -48,7 +45,7 @@ export default function AdminOrderList() {
 
   useEffect(() => {
     loadOrders();
-  }, [currentPage, statusFilter]);
+  }, [currentPage]);
 
   const loadOrders = async () => {
     setLoading(true);
