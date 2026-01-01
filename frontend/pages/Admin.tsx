@@ -258,9 +258,7 @@ export default function Admin() {
               <CardTitle>Messages</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className={typography.size.sm}>
-                Messages section coming soon.
-              </p>
+              <AdminMessages />
             </CardContent>
           </Card>
         );
