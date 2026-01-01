@@ -305,8 +305,8 @@ export default function Admin() {
           </div>
 
           {/* Right Side - Content Area (75%) */}
-          <div className="flex-1 bg-background overflow-y-auto no-scrollbar">
-            <div>{renderContent()}</div>
+          <div className="flex-1 bg-background overflow-hidden">
+            <div className="h-full">{renderContent()}</div>
           </div>
         </div>
       </div>
