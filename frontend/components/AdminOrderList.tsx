@@ -51,10 +51,7 @@ export default function AdminOrderList() {
     setLoading(true);
     setError(null);
     try {
-      let url = `/admin/orders?limit=${limit}&offset=${offset}`;
-      if (statusFilter) {
-        url += `&status=${statusFilter}`;
-      }
+      const url = `/admin/orders?limit=${limit}&offset=${offset}`;
 
       const response = await apiFetch(url);
       if (!response.ok) throw new Error("Failed to load orders");
