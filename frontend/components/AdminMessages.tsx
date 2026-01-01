@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { apiFetch } from "@/lib/api";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { AlertCircle, Loader2, ArrowLeftRight, X } from "lucide-react";
+import { ScrollArea } from "./ui/scroll-area";
+import { AlertCircle, Loader2, ArrowLeftRight, X, Send } from "lucide-react";
 import {
   spacing,
   typography,
@@ -17,6 +18,16 @@ interface User {
   username: string | null;
 }
 
+interface Message {
+  id: number;
+  senderId: number;
+  toId: number;
+  body: string;
+  createdAt: string;
+  messageThreadId?: number;
+  isFromCurrentUser: boolean;
+}
+
 export default function AdminMessages() {
   const [userA, setUserA] = useState<User | null>(null);
   const [userB, setUserB] = useState<User | null>(null);
@@ -29,6 +40,11 @@ export default function AdminMessages() {
   const [focusedA, setFocusedA] = useState(false);
   const [focusedB, setFocusedB] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [messagesLoading, setMessagesLoading] = useState(false);
+  const [messageInput, setMessageInput] = useState("");
+  const [threadId, setThreadId] = useState<number | null>(null);
+  const messagesScrollRef = React.useRef<HTMLDivElement>(null);
 
   const searchUsers = useCallback(async (query: string) => {
     if (!query.trim()) {
@@ -115,6 +131,8 @@ export default function AdminMessages() {
     setSearchA("");
     setSuggestionsA([]);
     setFocusedA(true);
+    setMessages([]);
+    setThreadId(null);
   };
 
   const clearB = () => {
@@ -122,6 +140,8 @@ export default function AdminMessages() {
     setSearchB("");
     setSuggestionsB([]);
     setFocusedB(true);
+    setMessages([]);
+    setThreadId(null);
   };
 
   const swapUsers = () => {
@@ -134,8 +154,117 @@ export default function AdminMessages() {
     return `${user.name || "Unknown"} (${user.id}, ${user.username || "no username"})`;
   };
 
+  // Fetch messages when both users are selected
+  useEffect(() => {
+    if (!userA || !userB) {
+      setMessages([]);
+      setThreadId(null);
+      return;
+    }
+
+    const fetchMessages = async () => {
+      setMessagesLoading(true);
+      setError(null);
+      try {
+        // Search for or create a thread between these two users
+        // For now, we'll fetch from userA's perspective
+        const response = await apiFetch(
+          `/messages/${userA.id}/conversations`,
+        );
+        const data = await response.json();
+
+        if (data.ok && data.conversations) {
+          // Find thread with userB
+          const thread = data.conversations.find(
+            (c: any) => c.otherUserId === userB.id,
+          );
+
+          if (thread) {
+            setThreadId(thread.threadId);
+            // Fetch messages for this thread
+            const messagesResponse = await apiFetch(
+              `/messages/${userA.id}/${thread.threadId}`,
+            );
+            const messagesData = await messagesResponse.json();
+            if (messagesData.ok) {
+              setMessages(messagesData.messages || []);
+            }
+          } else {
+            setMessages([]);
+            setThreadId(null);
+          }
+        }
+      } catch (err: any) {
+        console.error("[AdminMessages] Error fetching messages:", err);
+        setError(err.message || "Failed to load messages");
+        setMessages([]);
+        setThreadId(null);
+      } finally {
+        setMessagesLoading(false);
+      }
+    };
+
+    fetchMessages();
+  }, [userA, userB]);
+
+  // Auto-scroll to bottom when messages load or update
+  useEffect(() => {
+    if (messagesScrollRef.current) {
+      const scrollElement = messagesScrollRef.current.querySelector(
+        "[data-radix-scroll-area-viewport]",
+      ) as HTMLElement;
+      if (scrollElement) {
+        setTimeout(() => {
+          scrollElement.scrollTop = scrollElement.scrollHeight;
+        }, 0);
+      }
+    }
+  }, [messages]);
+
+  const handleSendMessage = async () => {
+    if (!messageInput.trim() || !userA || !userB) return;
+
+    try {
+      const messageBody: any = {
+        senderId: userA.id,
+        toId: userB.id,
+        body: messageInput,
+      };
+
+      if (threadId) {
+        messageBody.messageThreadId = threadId;
+      }
+
+      const response = await apiFetch("/messages", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(messageBody),
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        const newMessage = {
+          ...data.message,
+          isFromCurrentUser: true,
+        };
+        setMessages((prev) => [...prev, newMessage]);
+        setMessageInput("");
+
+        // Update threadId if it was created
+        if (!threadId && data.message.messageThreadId) {
+          setThreadId(data.message.messageThreadId);
+        }
+      } else {
+        setError(data.error || "Failed to send message");
+      }
+    } catch (err: any) {
+      console.error("[AdminMessages] Error sending message:", err);
+      setError(err.message || "Failed to send message");
+    }
+  };
+
   return (
-    <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
+    <div className={combineTokens(spacing.gap.md, "flex flex-col h-full")}>
       {error && (
         <div
           className={combineTokens(
@@ -149,6 +278,7 @@ export default function AdminMessages() {
         </div>
       )}
 
+      {/* User Selection Area */}
       <div className={combineTokens(layouts.flex.center, "gap-4 py-6")}>
         {/* User A Input */}
         <div className="flex-1">
@@ -272,6 +402,99 @@ export default function AdminMessages() {
           </div>
         </div>
       </div>
+
+      {/* Messages Area */}
+      {!userA || !userB ? (
+        <div
+          className={combineTokens(
+            layouts.flex.center,
+            "flex-1 bg-background rounded-lg border border-border",
+          )}
+        >
+          <p className="text-muted-foreground">
+            Choose a user pair to view messages
+          </p>
+        </div>
+      ) : (
+        <div
+          className={combineTokens(
+            "flex flex-col bg-background rounded-lg border border-border",
+            "flex-1",
+          )}
+        >
+          {/* Messages Scroll Area */}
+          <ScrollArea
+            ref={messagesScrollRef}
+            className="flex-1 px-4 [&>div>div]:md:block [&>div>div]:hidden"
+          >
+            {messagesLoading ? (
+              <div className="flex items-center justify-center h-full pt-8">
+                <div className="text-center text-muted-foreground">
+                  Loading messages...
+                </div>
+              </div>
+            ) : messages.length === 0 ? (
+              <div className="flex items-center justify-center h-full pt-8">
+                <div className="text-center text-muted-foreground">
+                  No messages yet
+                </div>
+              </div>
+            ) : (
+              <div className="py-4 space-y-4">
+                {messages.map((message) => (
+                  <div
+                    key={message.id}
+                    className={`flex ${message.isFromCurrentUser ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                        message.isFromCurrentUser
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted"
+                      }`}
+                    >
+                      <p className="text-sm whitespace-pre-wrap break-words">
+                        {message.body}
+                      </p>
+                      <p
+                        className={`text-xs mt-1 ${
+                          message.isFromCurrentUser
+                            ? "text-primary-foreground/70"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {new Date(message.createdAt).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </ScrollArea>
+
+          {/* Message Input */}
+          <div className={spacing.padding.md}>
+            <div className="flex space-x-2">
+              <Input
+                placeholder="Type a message..."
+                value={messageInput}
+                onChange={(e) => setMessageInput(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                className="flex-1"
+              />
+              <Button
+                onClick={handleSendMessage}
+                disabled={!messageInput.trim()}
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
