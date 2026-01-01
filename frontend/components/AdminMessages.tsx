@@ -209,7 +209,7 @@ export default function AdminMessages() {
                       {user.name || "Unknown"}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {user.email}
+                      {user.id}, {user.username || "no username"}
                     </p>
                   </button>
                 ))}
