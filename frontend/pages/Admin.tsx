@@ -176,88 +176,88 @@ export default function Admin() {
     switch (activeTab) {
       case "users":
         return (
-          <Card className="border-0 rounded-none">
+          <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
               <CardTitle>User Management</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-y-auto">
               <AdminUserList />
             </CardContent>
           </Card>
         );
       case "listings":
         return (
-          <Card className="border-0 rounded-none">
+          <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
               <CardTitle>Listing Management</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-y-auto">
               <AdminListingList />
             </CardContent>
           </Card>
         );
       case "orders":
         return (
-          <Card className="border-0 rounded-none">
+          <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
               <CardTitle>Order Management</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-y-auto">
               <AdminOrderList />
             </CardContent>
           </Card>
         );
       case "reviews":
         return (
-          <Card className="border-0 rounded-none">
+          <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
               <CardTitle>Review Management</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-y-auto">
               <AdminReviewList />
             </CardContent>
           </Card>
         );
       case "reports":
         return (
-          <Card className="border-0 rounded-none">
+          <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
               <CardTitle>Reports</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-y-auto">
               <AdminReportsList />
             </CardContent>
           </Card>
         );
       case "claims":
         return (
-          <Card className="border-0 rounded-none">
+          <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
               <CardTitle>Claims</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-y-auto">
               <AdminClaimsList />
             </CardContent>
           </Card>
         );
       case "feedback":
         return (
-          <Card className="border-0 rounded-none">
+          <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
               <CardTitle>Feedback Submissions</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-y-auto">
               <AdminFeedbackList />
             </CardContent>
           </Card>
         );
       case "messages":
         return (
-          <Card className="border-0 rounded-none">
+          <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
               <CardTitle>Messages</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1">
               <AdminMessages />
             </CardContent>
           </Card>
