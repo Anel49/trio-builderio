@@ -42,7 +42,6 @@ export default function AdminMessages() {
   const [error, setError] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [messagesLoading, setMessagesLoading] = useState(false);
-  const [messageInput, setMessageInput] = useState("");
   const [threadId, setThreadId] = useState<number | null>(null);
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
 
