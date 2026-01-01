@@ -222,7 +222,7 @@ export default function AdminMessages() {
 
 
   return (
-    <div className={combineTokens(spacing.gap.md, "flex flex-col h-full")}>
+    <div className={combineTokens(spacing.gap.md, "flex flex-col min-h-screen")}>
       {error && (
         <div
           className={combineTokens(
