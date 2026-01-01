@@ -219,7 +219,9 @@ export default function AdminMessages() {
           {userB && (
             <div className={combineTokens(spacing.margin.topSm, "text-sm")}>
               <p className={typography.weight.medium}>{userB.name}</p>
-              <p className="text-xs text-muted-foreground">{userB.email}</p>
+              <p className="text-xs text-muted-foreground">
+                {userB.id}, {userB.username || "no username"}
+              </p>
             </div>
           )}
         </div>
