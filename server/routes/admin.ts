@@ -284,29 +284,18 @@ export async function listAllOrders(req: Request, res: Response) {
       Number.parseInt((req.query.offset as string) || "0", 10),
       0,
     );
-    const status = (req.query.status as string) || "";
-
-    let whereClause = "1=1";
-    const params: any[] = [];
-
-    if (status) {
-      params.push(status);
-      whereClause = `o.status = $${params.length}`;
-    }
 
     const result = await pool.query(
       `select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email,
               o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at
        from orders o
-       where ${whereClause}
        order by o.created_at desc
-       limit $${params.length + 1} offset $${params.length + 2}`,
-      [...params, limit, offset],
+       limit $1 offset $2`,
+      [limit, offset],
     );
 
     const countResult = await pool.query(
-      `select count(*) as total from orders where ${whereClause}`,
-      params,
+      "select count(*) as total from orders",
     );
 
     res.json({
