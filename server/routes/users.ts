@@ -261,7 +261,7 @@ export async function upsertUser(req: Request, res: Response) {
       typeof last_name === "string" ? last_name.trim() || null : null;
 
     const result = await pool.query(
-      `insert into users (name, email, avatar_url, latitude, longitude, location_city, founding_supporter, top_referrer, ambassador, open_dms, username, first_name, last_name, pending_identity_auth)
+      `insert into users (name, email, avatar_url, latitude, longitude, location_city, founding_supporter, top_referrer, ambassador, open_dms, username, first_name, last_name, pending_identity_ver)
        values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
        on conflict (email) do update set
          name = coalesce(excluded.name, users.name),
@@ -284,7 +284,7 @@ export async function upsertUser(req: Request, res: Response) {
                  coalesce(active,true) as active,
                  coalesce(admin,false) as admin,
                  coalesce(moderator,false) as moderator,
-                 coalesce(pending_identity_auth,false) as pending_identity_auth`,
+                 coalesce(pending_identity_ver,false) as pending_identity_ver`,
       [
         typeof name === "string" ? name : null,
         emailStr,
