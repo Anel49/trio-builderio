@@ -1382,7 +1382,7 @@ export default function OrderHistory() {
                             ? "Total Earned"
                             : "Total Paid"}
                         </p>
-                        <p className="text-lg font-bold text-foreground">
+                        <p className="text-[1rem] font-bold text-foreground">
                           $
                           {(currentUser?.id === order.host_id
                             ? (order.host_earns || 0) / 100
