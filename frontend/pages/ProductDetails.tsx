@@ -54,6 +54,7 @@ import {
   type BookingSummaryAddon,
 } from "@/components/ui/booking-summary-modal";
 import { PendingIdentityModal } from "@/components/ui/pending-identity-modal";
+import { IdentificationRequiredModal } from "@/components/ui/identification-required-modal";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import {
