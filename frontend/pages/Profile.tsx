@@ -293,6 +293,8 @@ export default function Profile() {
     useState(false);
   const [isUsernameChangeSuccessOpen, setIsUsernameChangeSuccessOpen] =
     useState(false);
+  const [isPendingIdentityModalOpen, setIsPendingIdentityModalOpen] =
+    useState(false);
   const [newEmailForConfirmation, setNewEmailForConfirmation] = useState("");
   const [newUsernameForConfirmation, setNewUsernameForConfirmation] =
     useState("");
