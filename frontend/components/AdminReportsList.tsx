@@ -398,6 +398,41 @@ export default function AdminReportsList() {
                           )}
                         </div>
                       </td>
+                      {reportFor === "user" && (
+                        <td className={spacing.padding.md}>
+                          {report.reported_user_username ? (
+                            <a
+                              href={`/profile/${report.reported_user_username}`}
+                              onClick={(e) => {
+                                if (
+                                  !e.ctrlKey &&
+                                  !e.metaKey &&
+                                  e.button === 0
+                                ) {
+                                  e.preventDefault();
+                                  navigate(
+                                    `/profile/${report.reported_user_username}`,
+                                  );
+                                }
+                              }}
+                              className={combineTokens(
+                                "text-left hover:text-primary transition-colors block",
+                              )}
+                            >
+                              <p className={typography.weight.medium}>
+                                {report.reported_user_name}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                @{report.reported_user_username}
+                              </p>
+                            </a>
+                          ) : (
+                            <p className="text-xs text-muted-foreground">
+                              User not found
+                            </p>
+                          )}
+                        </td>
+                      )}
                       <td className={spacing.padding.md}>
                         <div className="flex flex-col gap-1">
                           {reasons.length > 0 ? (
