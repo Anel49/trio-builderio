@@ -116,6 +116,10 @@ export default function AdminReportsList({
   };
 
   useEffect(() => {
+    setCurrentPage(0);
+  }, [reportFor]);
+
+  useEffect(() => {
     loadReports();
   }, [currentPage, search, reportFor]);
 
