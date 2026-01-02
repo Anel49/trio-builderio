@@ -14,12 +14,16 @@ import { useAuth } from "@/contexts/AuthContext";
 interface MobileMenuProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  onOpenIdentificationRequiredModal?: () => void;
+  onOpenPendingIdentityModal?: () => void;
   onOpenBankingSetupModal?: () => void;
 }
 
 export function MobileMenu({
   isOpen,
   onOpenChange,
+  onOpenIdentificationRequiredModal,
+  onOpenPendingIdentityModal,
   onOpenBankingSetupModal,
 }: MobileMenuProps) {
   const { authenticated, user } = useAuth();
@@ -29,7 +33,13 @@ export function MobileMenu({
   };
 
   const handleRentProduct = () => {
-    if (!user?.stripeSecret) {
+    if (user?.pendingIdentityVer === null) {
+      onOpenChange(false);
+      onOpenIdentificationRequiredModal?.();
+    } else if (user?.pendingIdentityVer === true) {
+      onOpenChange(false);
+      onOpenPendingIdentityModal?.();
+    } else if (!user?.stripeSecret) {
       onOpenChange(false);
       onOpenBankingSetupModal?.();
     } else {
