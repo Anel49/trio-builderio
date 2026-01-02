@@ -413,7 +413,7 @@ export async function emailSignup(req: Request, res: Response) {
     }
 
     const userResult = await pool.query(
-      `insert into users (name, email, avatar_url, first_name, last_name, username, pending_identity_auth)
+      `insert into users (name, email, avatar_url, first_name, last_name, username, pending_identity_ver)
        values ($1, $2, $3, $4, $5, $6, $7)
        returning id, name, email, username, avatar_url, created_at,
                  coalesce(founding_supporter,false) as founding_supporter,
@@ -423,7 +423,7 @@ export async function emailSignup(req: Request, res: Response) {
                  coalesce(active,true) as active,
                  coalesce(admin,false) as admin,
                  coalesce(moderator,false) as moderator,
-                 coalesce(pending_identity_auth,false) as pending_identity_auth`,
+                 coalesce(pending_identity_ver,false) as pending_identity_ver`,
       [
         `${firstNameStr} ${lastNameStr}`,
         emailStr,
