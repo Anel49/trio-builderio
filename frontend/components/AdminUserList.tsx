@@ -276,6 +276,15 @@ export default function AdminUserList() {
                         />
                       </td>
                       <td className={spacing.padding.md}>
+                        {user.pendingIdentityVer === false ? (
+                          <Check className="h-5 w-5 text-green-600" />
+                        ) : user.pendingIdentityVer === null ? (
+                          <span className="text-sm">Not started</span>
+                        ) : (
+                          <span className="text-sm">Pending</span>
+                        )}
+                      </td>
+                      <td className={spacing.padding.md}>
                         <Switch
                           checked={user.active}
                           disabled={isUpdating}
