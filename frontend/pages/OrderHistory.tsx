@@ -1361,7 +1361,7 @@ export default function OrderHistory() {
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                           Order Placed
                         </p>
-                        <p className="text-lg font-bold text-foreground">
+                        <p className="text-[1rem] font-bold text-foreground">
                           {order.created_at
                             ? new Date(order.created_at).toLocaleDateString(
                                 "en-US",
