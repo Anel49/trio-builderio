@@ -1443,10 +1443,7 @@ export default function OrderHistory() {
                       {/* ORDER # and View Details */}
                       <div className="flex flex-col">
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-                          Order #
-                        </p>
-                        <p className="text-sm font-medium text-foreground mb-2">
-                          {order.order_number || order.id}
+                          Order # {order.order_number || order.id}
                         </p>
                         <a
                           href={`/listing/${order.listing_id}`}
