@@ -3420,6 +3420,19 @@ export default function Profile() {
                   </Button>
                 )}
                 {!viewingOtherUser && (
+                  authUser?.pendingIdentityVer === null ||
+                  authUser?.pendingIdentityVer === true
+                ) && (
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {}}
+                  >
+                    <Shield className="h-4 w-4 mr-2" />
+                    Identify me
+                  </Button>
+                )}
+                {!viewingOtherUser && (
                   <>
                     <Button
                       variant="outline"
