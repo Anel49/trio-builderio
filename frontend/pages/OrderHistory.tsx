@@ -1394,52 +1394,6 @@ export default function OrderHistory() {
                         </p>
                       </div>
 
-                      {/* HOST / RENTER AVATAR */}
-                      <div className="flex flex-col items-center justify-start">
-                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-                          {currentUser?.id === order.host_id ? "Renter" : "Host"}
-                        </p>
-                        {currentUser?.id === order.host_id ? (
-                          <a
-                            href={`/profile/${order.renter_username || ""}`}
-                            aria-label="Open renter profile"
-                            className="no-underline"
-                          >
-                            <Avatar className="h-8 w-8">
-                              <AvatarImage
-                                src={order.renter_avatar_url || undefined}
-                                alt={order.renter}
-                              />
-                              <AvatarFallback>
-                                {order.renter
-                                  ?.split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
-                              </AvatarFallback>
-                            </Avatar>
-                          </a>
-                        ) : (
-                          <a
-                            href={`/profile/${order.host_username || ""}`}
-                            aria-label="Open host profile"
-                            className="no-underline"
-                          >
-                            <Avatar className="h-8 w-8">
-                              <AvatarImage
-                                src={order.host_avatar_url || undefined}
-                                alt={order.host}
-                              />
-                              <AvatarFallback>
-                                {order.host
-                                  .split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
-                              </AvatarFallback>
-                            </Avatar>
-                          </a>
-                        )}
-                      </div>
-
                       {/* ORDER # and View Details */}
                       <div className="flex flex-col">
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
