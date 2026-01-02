@@ -40,7 +40,13 @@ interface PendingChange {
   value: boolean;
 }
 
-export default function AdminUserList() {
+interface AdminUserListProps {
+  onViewUserReports?: (username: string) => void;
+}
+
+export default function AdminUserList({
+  onViewUserReports,
+}: AdminUserListProps) {
   const navigate = useNavigate();
   const { user: currentUser } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
