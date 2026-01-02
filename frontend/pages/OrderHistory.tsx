@@ -1568,6 +1568,9 @@ export default function OrderHistory() {
                               )}
                             </span>
                           </div>
+                          <div className="flex items-center text-sm text-muted-foreground gap-2 mt-2">
+                            <span>Hosted by {order.host}</span>
+                          </div>
                         </div>
                       </div>
 
