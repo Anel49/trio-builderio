@@ -1631,7 +1631,11 @@ export default function ProductDetails() {
             {authUser && authUser.id !== product?.hostUserId && (
               <Button
                 onClick={() => {
-                  if (authUser?.pendingIdentityVer) {
+                  if (authUser?.pendingIdentityVer === null) {
+                    setIsIdentificationRequiredModalOpen(true);
+                    return;
+                  }
+                  if (authUser?.pendingIdentityVer === true) {
                     setIsPendingIdentityModalOpen(true);
                     return;
                   }
@@ -1643,7 +1647,9 @@ export default function ProductDetails() {
                 }}
                 className={cn(
                   "whitespace-nowrap",
-                  authUser?.pendingIdentityVer && "opacity-50 cursor-not-allowed",
+                  (authUser?.pendingIdentityVer === null ||
+                    authUser?.pendingIdentityVer === true) &&
+                    "opacity-50 cursor-not-allowed",
                 )}
               >
                 {userReview ? "Edit Review" : "Post a Review"}
