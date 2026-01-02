@@ -1378,6 +1378,8 @@ export default function ProductDetails() {
                     disabledDateRanges={conflictingDates}
                     buttonClassName="w-full"
                     listingTimezone={product?.timezone || "UTC"}
+                    disabled={authUser?.pendingIdentityVer}
+                    onDisabledClick={() => setIsPendingIdentityModalOpen(true)}
                   />
                 </div>
               )}
