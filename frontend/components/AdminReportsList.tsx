@@ -102,7 +102,7 @@ export default function AdminReportsList() {
     if (reportFor === "listing") {
       return "Search using a report number, assigned technician, listing ID, or status...";
     }
-    return "Search using a report number, assigned technician, user ID, or status...";
+    return "Search using a report number, username, assigned technician, or status...";
   };
 
   useEffect(() => {
