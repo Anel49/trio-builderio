@@ -431,7 +431,7 @@ export async function emailSignup(req: Request, res: Response) {
         firstNameStr,
         lastNameStr,
         usernameStr,
-        false,
+        true,
       ],
     );
 
