@@ -1416,46 +1416,43 @@ export default function OrderHistory() {
                     {/* Product Section */}
                     <div className="px-6 py-6 border-b">
                       <div className="flex gap-4">
-                        <div className="flex space-x-4">
-                          <a
-                            href={`/listing/${order.listing_id}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-shrink-0 hover:opacity-80 transition-opacity"
-                          >
-                            <img
-                              src={order.itemImage || order.listing_image}
-                              alt={order.itemName || order.listing_title}
-                              className="w-20 h-20 object-cover rounded-lg cursor-pointer"
-                            />
-                          </a>
-                          <div className="flex-1">
-                            <div className="flex items-start justify-between mb-2">
-                              <a
-                                href={`/listing/${order.listing_id}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-primary transition-colors no-underline"
-                              >
-                                <h3 className="font-semibold text-lg">
-                                  {order.itemName || order.listing_title}
-                                </h3>
-                              </a>
-                              <Badge className={getStatusColor(order.status)}>
-                                {getStatusText(order.status)}
-                              </Badge>
+                        <a
+                          href={`/listing/${order.listing_id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-shrink-0 hover:opacity-80 transition-opacity"
+                        >
+                          <img
+                            src={order.itemImage || order.listing_image}
+                            alt={order.itemName || order.listing_title}
+                            className="w-20 h-20 object-cover rounded-lg cursor-pointer"
+                          />
+                        </a>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <a
+                              href={`/listing/${order.listing_id}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:text-primary transition-colors no-underline"
+                            >
+                              <h3 className="font-semibold text-base">
+                                {order.itemName || order.listing_title}
+                              </h3>
+                            </a>
+                            <Badge className={getStatusColor(order.status)}>
+                              {getStatusText(order.status)}
+                            </Badge>
+                          </div>
+                          {order.listing_postcode && (
+                            <div className="flex items-center text-sm text-muted-foreground mb-2">
+                              <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+                              {order.listing_postcode}
                             </div>
-                            <p className="text-sm text-muted-foreground mb-1">
-                              #{order.order_number || order.id}
-                            </p>
-                            {order.listing_postcode && (
-                              <div className="flex items-center text-sm text-muted-foreground mb-2">
-                                <MapPin className="h-4 w-4 mr-1" />
-                                {order.listing_postcode}
-                              </div>
-                            )}
-                            <div className="flex items-center text-sm text-muted-foreground gap-2">
-                              <Calendar className="h-4 w-4" />
+                          )}
+                          <div className="flex items-center text-sm text-muted-foreground gap-2">
+                            <Calendar className="h-4 w-4 flex-shrink-0" />
+                            <span>
                               {order.start_date ? (
                                 <>
                                   {order.most_recent_extension ? (
@@ -1496,7 +1493,7 @@ export default function OrderHistory() {
                                       </span>
                                     </>
                                   ) : (
-                                    <span>
+                                    <>
                                       {parseDateString(
                                         order.start_date,
                                       ).toLocaleDateString("en-US", {
@@ -1512,273 +1509,161 @@ export default function OrderHistory() {
                                         day: "numeric",
                                         year: "numeric",
                                       })}
-                                    </span>
+                                    </>
                                   )}
                                 </>
                               ) : (
-                                <span>
+                                <>
                                   {order.startDate} - {order.endDate}
-                                </span>
+                                </>
                               )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* People Info */}
-                      <div className="space-y-3">
-                        {order.type === "rented" ? (
-                          <div>
-                            <p className="text-sm font-medium mb-2">Host</p>
-                            <div className="flex items-center space-x-2">
-                              <a
-                                href={`/profile/${order.host_username || ""}`}
-                                aria-label="Open profile"
-                                className="no-underline"
-                              >
-                                <Avatar className="h-8 w-8">
-                                  <AvatarImage
-                                    src={order.host_avatar_url || undefined}
-                                    alt={order.host}
-                                  />
-                                  <AvatarFallback>
-                                    {order.host
-                                      .split(" ")
-                                      .map((n) => n[0])
-                                      .join("")}
-                                  </AvatarFallback>
-                                </Avatar>
-                              </a>
-                              <a
-                                href={`/profile/${order.host_username || ""}`}
-                                className="text-sm no-underline hover:text-primary transition-colors"
-                              >
-                                {order.host}
-                              </a>
-                            </div>
-                          </div>
-                        ) : (
-                          <div>
-                            <p className="text-sm font-medium mb-2">Renter</p>
-                            <div className="flex items-center space-x-2">
-                              <a
-                                href={`/profile/${order.renter_username || ""}`}
-                                aria-label="Open profile"
-                                className="no-underline"
-                              >
-                                <Avatar className="h-8 w-8">
-                                  <AvatarImage
-                                    src={order.renter_avatar_url || undefined}
-                                    alt={order.renter}
-                                  />
-                                  <AvatarFallback>
-                                    {order.renter
-                                      ?.split(" ")
-                                      .map((n) => n[0])
-                                      .join("")}
-                                  </AvatarFallback>
-                                </Avatar>
-                              </a>
-                              <a
-                                href={`/profile/${order.renter_username || ""}`}
-                                className="text-sm no-underline hover:text-primary transition-colors"
-                              >
-                                {order.renter}
-                              </a>
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Rating for completed orders */}
-                        {order.status === "completed" && order.rating && (
-                          <div className="flex items-center space-x-1">
-                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                            <span className="text-sm font-medium">
-                              {order.rating}
                             </span>
                           </div>
-                        )}
-                      </div>
-
-                      {/* Actions & Amount */}
-                      <div className="flex flex-col justify-between">
-                        <div className="text-right mb-4">
-                          {order.host_id || order.renter_id ? (
-                            <>
-                              <p className="text-2xl font-bold">
-                                $
-                                {(currentUser?.id === order.host_id
-                                  ? (order.host_earns || 0) / 100
-                                  : (order.renter_pays || 0) / 100
-                                ).toLocaleString("en-US", {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                })}
-                              </p>
-                              <p className="text-sm text-muted-foreground">
-                                {currentUser?.id === order.host_id
-                                  ? "earned"
-                                  : "paid"}
-                              </p>
-                            </>
-                          ) : (
-                            <>
-                              <p className="text-2xl font-bold">
-                                $
-                                {(order.amount || 0).toLocaleString("en-US", {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                })}
-                              </p>
-                              <p className="text-sm text-muted-foreground">
-                                {order.type === "rented" ? "paid" : "earned"}
-                              </p>
-                            </>
-                          )}
                         </div>
+                      </div>
+                    </div>
 
-                        <div className="flex gap-2 lg:justify-end">
-                          {canCancelOrder(order) && (
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => {
-                                if (
-                                  confirm(
-                                    "Are you sure you want to cancel this rental?",
-                                  )
-                                ) {
-                                  setOrdersState((prev) =>
-                                    prev.map((o) =>
-                                      o.id === order.id
-                                        ? { ...o, status: "canceled" }
-                                        : o,
-                                    ),
+                    {/* Action Buttons Section */}
+                    <div className="px-6 py-4 flex flex-wrap gap-2">
+                      {canCancelOrder(order) && (
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            if (
+                              confirm(
+                                "Are you sure you want to cancel this rental?",
+                              )
+                            ) {
+                              setOrdersState((prev) =>
+                                prev.map((o) =>
+                                  o.id === order.id
+                                    ? { ...o, status: "canceled" }
+                                    : o,
+                                ),
+                              );
+                            }
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      )}
+                      {/* Leave/Edit Review button - only show for renters with completed orders */}
+                      {order.type === "rented" &&
+                        order.status === "completed" && (
+                          <Button
+                            size="sm"
+                            onClick={async () => {
+                              setReviewOrder(order);
+                              if (order.review_id) {
+                                // Load existing review
+                                try {
+                                  const response = await apiFetch(
+                                    `listing-reviews/review/${order.review_id}`,
+                                  );
+                                  const data = await response.json();
+                                  if (data.ok && data.review) {
+                                    setReviewRating(data.review.rating);
+                                    setReviewText(data.review.comment);
+                                    setEditingReviewId(order.review_id);
+                                    setIsEditingReview(true);
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Failed to load review:",
+                                    error,
                                   );
                                 }
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                          )}
-                          {/* Leave/Edit Review button - only show for renters with completed orders */}
-                          {order.type === "rented" &&
-                            order.status === "completed" && (
-                              <Button
-                                size="sm"
-                                onClick={async () => {
-                                  setReviewOrder(order);
-                                  if (order.review_id) {
-                                    // Load existing review
-                                    try {
-                                      const response = await apiFetch(
-                                        `listing-reviews/review/${order.review_id}`,
-                                      );
-                                      const data = await response.json();
-                                      if (data.ok && data.review) {
-                                        setReviewRating(data.review.rating);
-                                        setReviewText(data.review.comment);
-                                        setEditingReviewId(order.review_id);
-                                        setIsEditingReview(true);
-                                      }
-                                    } catch (error) {
-                                      console.error(
-                                        "Failed to load review:",
-                                        error,
-                                      );
-                                    }
-                                  } else {
-                                    setReviewRating(null);
-                                    setReviewText("");
-                                    setEditingReviewId(null);
-                                    setIsEditingReview(false);
-                                  }
-                                  setReviewDialogOpen(true);
-                                }}
-                              >
-                                {order.review_id &&
-                                reviewCommentsCache.has(order.review_id)
-                                  ? "Edit Review"
-                                  : "Leave Review"}
-                              </Button>
-                            )}
-
-                          {/* Extend booking button - only show for renters with active/upcoming orders */}
-                          {order.type === "rented" &&
-                            (order.status === "active" ||
-                              order.status === "upcoming") && (
-                              <Button
-                                size="sm"
-                                onClick={() => handleOpenExtensionModal(order)}
-                                disabled={extensionModalLoading}
-                              >
-                                {extensionModalLoading && (
-                                  <Loader className="h-4 w-4 mr-2 animate-spin" />
-                                )}
-                                Extend booking
-                              </Button>
-                            )}
-
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => {
-                              const recipientId =
-                                order.type === "rented"
-                                  ? order.host_id
-                                  : order.renter_id;
-                              if (recipientId) {
-                                window.open(
-                                  `/messages?userId=${recipientId}`,
-                                  "_blank",
-                                );
+                              } else {
+                                setReviewRating(null);
+                                setReviewText("");
+                                setEditingReviewId(null);
+                                setIsEditingReview(false);
                               }
+                              setReviewDialogOpen(true);
                             }}
                           >
-                            <MessageCircle className="h-4 w-4 mr-1" />
-                            Message
+                            {order.review_id &&
+                            reviewCommentsCache.has(order.review_id)
+                              ? "Edit Review"
+                              : "Leave Review"}
                           </Button>
+                        )}
 
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="outline" size="sm">
-                                <MoreVertical className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => {}}>
-                                View Details
+                      {/* Extend booking button - only show for renters with active/upcoming orders */}
+                      {order.type === "rented" &&
+                        (order.status === "active" ||
+                          order.status === "upcoming") && (
+                          <Button
+                            size="sm"
+                            onClick={() => handleOpenExtensionModal(order)}
+                            disabled={extensionModalLoading}
+                          >
+                            {extensionModalLoading && (
+                              <Loader className="h-4 w-4 mr-2 animate-spin" />
+                            )}
+                            Extend booking
+                          </Button>
+                        )}
+
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const recipientId =
+                            order.type === "rented"
+                              ? order.host_id
+                              : order.renter_id;
+                          if (recipientId) {
+                            window.open(
+                              `/messages?userId=${recipientId}`,
+                              "_blank",
+                            );
+                          }
+                        }}
+                      >
+                        <MessageCircle className="h-4 w-4 mr-1" />
+                        Message
+                      </Button>
+
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => {}}>
+                            View Details
+                          </DropdownMenuItem>
+                          {order.status === "completed" &&
+                            currentUser?.id === order.host_id && (
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  setClaimOrder(order);
+                                  setClaimType("");
+                                  setIncidentDate("");
+                                  setClaimDetails("");
+                                  setClaimDialogOpen(true);
+                                }}
+                              >
+                                Open Claim
                               </DropdownMenuItem>
-                              {order.status === "completed" &&
-                                currentUser?.id === order.host_id && (
-                                  <DropdownMenuItem
-                                    onClick={() => {
-                                      setClaimOrder(order);
-                                      setClaimType("");
-                                      setIncidentDate("");
-                                      setClaimDetails("");
-                                      setClaimDialogOpen(true);
-                                    }}
-                                  >
-                                    Open Claim
-                                  </DropdownMenuItem>
-                                )}
-                              {(order.status === "upcoming" ||
-                                order.status === "pending") && (
-                                <DropdownMenuItem
-                                  onClick={() => {
-                                    setOrderToCancel(order);
-                                    setCancelReason("");
-                                    setCancelDialogOpen(true);
-                                  }}
-                                >
-                                  Cancel Rental
-                                </DropdownMenuItem>
-                              )}
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </div>
-                      </div>
+                            )}
+                          {(order.status === "upcoming" ||
+                            order.status === "pending") && (
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setOrderToCancel(order);
+                                setCancelReason("");
+                                setCancelDialogOpen(true);
+                              }}
+                            >
+                              Cancel Rental
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
 
                     {/* Review Text for completed orders */}
