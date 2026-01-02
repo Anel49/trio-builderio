@@ -37,6 +37,7 @@ import {
   saveLocationToLocalStorage,
   clearLocationFromLocalStorage,
 } from "@/lib/location-storage";
+import { AccountDeactivatedModal } from "@/components/ui/account-deactivated-modal";
 // import { usePageLoading } from "@/contexts/PageLoadingContext";
 import {
   computeDistanceMiles,
