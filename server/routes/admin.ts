@@ -679,12 +679,21 @@ export async function listAllReports(req: Request, res: Response) {
 
     if (search) {
       params.push(`%${search}%`);
-      whereClause = `r.report_for = $1 and (
-        lower(r.report_number) like $${params.length}
-        or lower(r.status) like $${params.length}
-        or lower(u.name) like $${params.length}
-        or cast(r.reported_id as text) like $${params.length}
-      )`;
+      if (reportFor === "user") {
+        whereClause = `r.report_for = $1 and (
+          lower(r.report_number) like $${params.length}
+          or lower(r.status) like $${params.length}
+          or lower(u.name) like $${params.length}
+          or lower(ru.username) like $${params.length}
+        )`;
+      } else {
+        whereClause = `r.report_for = $1 and (
+          lower(r.report_number) like $${params.length}
+          or lower(r.status) like $${params.length}
+          or lower(u.name) like $${params.length}
+          or cast(r.reported_id as text) like $${params.length}
+        )`;
+      }
     }
 
     console.log("[listAllReports] whereClause:", whereClause);
