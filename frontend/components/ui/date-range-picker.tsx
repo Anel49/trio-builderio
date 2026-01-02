@@ -39,6 +39,8 @@ export function DateRangePicker({
   className,
   buttonClassName,
   listingTimezone = "UTC",
+  disabled = false,
+  onDisabledClick,
 }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
