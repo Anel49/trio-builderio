@@ -18,12 +18,12 @@ export function BankingSetupModal({
 }: BankingSetupModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Banking setup incomplete</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 py-4">
-          <p className="text-sm text-muted-foreground leading-relaxed">
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
             In order to create a listing, you are required to configure your
             bank information so that {COMPANY_NAME} can issue your earnings. To
             complete this process, navigate to your profile page and click or
