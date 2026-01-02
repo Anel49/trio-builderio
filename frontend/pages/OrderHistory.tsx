@@ -1466,8 +1466,8 @@ export default function OrderHistory() {
                       </div>
                     </div>
 
-                    {/* Product Section */}
-                    <div className="px-6 py-6 border-b">
+                    {/* Product Section with Action Buttons */}
+                    <div className="px-6 py-6 border-b flex flex-col gap-4">
                       <div className="flex gap-4">
                         <a
                           href={`/listing/${order.listing_id}`}
