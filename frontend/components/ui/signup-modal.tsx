@@ -87,6 +87,12 @@ export function SignUpModal({
 
         const data = await response.json().catch(() => ({}));
 
+        // Check if account is deactivated
+        if (data.error === "account_deactivated") {
+          setIsAccountDeactivatedOpen(true);
+          return;
+        }
+
         if (response.ok && data.ok && data.user) {
           // Clear the image preview from localStorage after successful signup
           localStorage.removeItem("uploadSessionImagePreview");
