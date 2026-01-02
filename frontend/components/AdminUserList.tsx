@@ -297,9 +297,19 @@ export default function AdminUserList({
                         {user.pendingIdentityVer === false ? (
                           <Check className="h-5 w-5 text-green-600" />
                         ) : user.pendingIdentityVer === null ? (
-                          <span className="text-sm">Not started</span>
+                          <Badge
+                            variant="outline"
+                            className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 border-red-300 dark:border-red-700"
+                          >
+                            Not started
+                          </Badge>
                         ) : (
-                          <span className="text-sm">Pending</span>
+                          <Badge
+                            variant="outline"
+                            className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 border-yellow-300 dark:border-yellow-700"
+                          >
+                            Pending
+                          </Badge>
                         )}
                       </td>
                       <td className={spacing.padding.md}>
