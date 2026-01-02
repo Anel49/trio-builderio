@@ -378,6 +378,11 @@ export function LoginModal({
           </div>
         </div>
       </DialogContent>
+
+      <AccountDeactivatedModal
+        open={isAccountDeactivatedOpen}
+        onClose={() => setIsAccountDeactivatedOpen(false)}
+      />
     </Dialog>
   );
 }
