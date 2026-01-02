@@ -1529,7 +1529,7 @@ export default function OrderHistory() {
                                 aria-label="Open renter profile"
                                 className="no-underline hover:opacity-80 transition-opacity"
                               >
-                                <Avatar className="h-[30px] w-[30px]">
+                                <Avatar className="h-7 w-7">
                                   <AvatarImage
                                     src={order.renter_avatar_url || undefined}
                                     alt={order.renter}
@@ -1548,7 +1548,7 @@ export default function OrderHistory() {
                                 aria-label="Open host profile"
                                 className="no-underline hover:opacity-80 transition-opacity"
                               >
-                                <Avatar className="h-[30px] w-[30px]">
+                                <Avatar className="h-7 w-7">
                                   <AvatarImage
                                     src={order.host_avatar_url || undefined}
                                     alt={order.host}
