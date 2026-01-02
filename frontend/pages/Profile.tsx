@@ -2512,7 +2512,6 @@ export default function Profile() {
                       {/* Review User Button */}
                       {authenticated && viewingOtherUser && (
                         <Button
-                          disabled={authUser?.pendingIdentityVer}
                           onClick={() => {
                             if (authUser?.pendingIdentityVer) {
                               setIsPendingIdentityModalOpen(true);
@@ -2524,6 +2523,10 @@ export default function Profile() {
                             }
                             setIsReviewUserModalOpen(true);
                           }}
+                          className={cn(
+                            authUser?.pendingIdentityVer &&
+                              "opacity-50 cursor-not-allowed",
+                          )}
                         >
                           <Star className="h-4 w-4 mr-2" />
                           {userReviewId ? "Edit Review" : "Review User"}
