@@ -14,7 +14,7 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
-import { AlertCircle, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { AlertCircle, Loader2, ChevronLeft, ChevronRight, Check } from "lucide-react";
 import {
   spacing,
   typography,
