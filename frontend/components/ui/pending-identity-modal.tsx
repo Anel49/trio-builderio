@@ -24,7 +24,7 @@ export function PendingIdentityModal({
         </DialogHeader>
         <DialogDescription asChild>
           <div className="space-y-4">
-            <p className="text-sm text-foreground">
+            <p className="text-sm text-muted-foreground">
               Your account is pending identity verification. We use identity
               checks to keep our users and communities safe. You can still edit
               your profile, message users, and favorite listings, but you cannot
