@@ -1572,7 +1572,7 @@ export default function OrderHistory() {
                     </div>
 
                     {/* Action Buttons Section */}
-                    <div className="px-6 py-4 flex flex-wrap gap-2">
+                    <div className="px-6 py-4 flex flex-col gap-2">
                       {canCancelOrder(order) && (
                         <Button
                           variant="destructive"
