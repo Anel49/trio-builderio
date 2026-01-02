@@ -1577,6 +1577,7 @@ export default function OrderHistory() {
                         <Button
                           variant="destructive"
                           size="sm"
+                          className="w-full"
                           onClick={() => {
                             if (
                               confirm(
