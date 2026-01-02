@@ -98,7 +98,10 @@ export function Footer() {
                     <button
                       onClick={handleRentProduct}
                       className={`hover:text-foreground transition-colors block text-left ${
-                        !user?.stripeSecret && "opacity-50"
+                        (user?.pendingIdentityVer === null ||
+                          user?.pendingIdentityVer === true ||
+                          !user?.stripeSecret) &&
+                        "opacity-50"
                       }`}
                     >
                       Rent your product
