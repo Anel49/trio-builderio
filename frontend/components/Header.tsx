@@ -103,16 +103,22 @@ export default function Header() {
                 {authenticated && (
                   <button
                     onClick={() => {
-                      if (!user?.stripeSecret) {
+                      if (user?.pendingIdentityVer === null) {
+                        setIsIdentificationRequiredModalOpen(true);
+                      } else if (user?.pendingIdentityVer === true) {
+                        setIsPendingIdentityModalOpen(true);
+                      } else if (!user?.stripeSecret) {
                         setIsBankingSetupModalOpen(true);
                       } else {
                         window.location.href = "/upload";
                       }
                     }}
                     className={`transition-colors mt-[2px] ml-8 ${
-                      user?.stripeSecret
-                        ? "text-foreground hover:text-primary"
-                        : "text-muted-foreground opacity-50"
+                      user?.pendingIdentityVer === null ||
+                      user?.pendingIdentityVer === true ||
+                      !user?.stripeSecret
+                        ? "text-muted-foreground opacity-50"
+                        : "text-foreground hover:text-primary"
                     }`}
                   >
                     Rent your product
