@@ -1407,9 +1407,17 @@ export default function ProductDetails() {
                       !hasDateConflict() &&
                       "opacity-50 cursor-not-allowed",
                   )}
-                  disabled={!isDateRangeValid() || authUser?.pendingIdentityVer}
+                  disabled={
+                    !isDateRangeValid() ||
+                    authUser?.pendingIdentityVer === true ||
+                    authUser?.pendingIdentityVer === null
+                  }
                   onClick={async () => {
-                    if (authUser?.pendingIdentityVer) {
+                    if (authUser?.pendingIdentityVer === null) {
+                      setIsIdentificationRequiredModalOpen(true);
+                      return;
+                    }
+                    if (authUser?.pendingIdentityVer === true) {
                       setIsPendingIdentityModalOpen(true);
                       return;
                     }
