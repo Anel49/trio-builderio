@@ -185,6 +185,16 @@ export function Footer() {
         </Container>
       </footer>
 
+      <IdentificationRequiredModal
+        isOpen={isIdentificationRequiredModalOpen}
+        onOpenChange={setIsIdentificationRequiredModalOpen}
+      />
+
+      <PendingIdentityModal
+        isOpen={isPendingIdentityModalOpen}
+        onOpenChange={setIsPendingIdentityModalOpen}
+      />
+
       <BankingSetupModal
         isOpen={isBankingSetupModalOpen}
         onOpenChange={setIsBankingSetupModalOpen}
