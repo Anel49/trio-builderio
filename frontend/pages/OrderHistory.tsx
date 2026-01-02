@@ -1394,18 +1394,15 @@ export default function OrderHistory() {
                         </p>
                       </div>
 
-                      {/* ORDER # and View Details */}
+                      {/* ORDER # */}
                       <div className="flex flex-col">
-                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-                          Order # {order.order_number || order.id}
-                        </p>
                         <a
                           href={`/listing/${order.listing_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-[1rem] font-bold text-primary hover:underline cursor-pointer"
                         >
-                          View order details
+                          {order.order_number || order.id}
                         </a>
                       </div>
 
