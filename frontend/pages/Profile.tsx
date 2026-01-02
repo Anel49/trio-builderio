@@ -2053,6 +2053,14 @@ export default function Profile() {
                       <div className="flex flex-col sm:flex-row gap-2 max-w-[220px] sm:max-w-none mx-auto sm:mx-0 sm:ml-auto">
                         <Button
                           onClick={() => {
+                            if (authUser?.pendingIdentityVer === null) {
+                              setIsIdentificationRequiredModalOpen(true);
+                              return;
+                            }
+                            if (authUser?.pendingIdentityVer === true) {
+                              setIsPendingIdentityModalOpen(true);
+                              return;
+                            }
                             if (!authUser?.stripeSecret) {
                               setIsBankingSetupModalOpen(true);
                             } else {
@@ -2060,7 +2068,9 @@ export default function Profile() {
                             }
                           }}
                           className={
-                            !authUser?.stripeSecret
+                            !authUser?.stripeSecret ||
+                            authUser?.pendingIdentityVer === null ||
+                            authUser?.pendingIdentityVer === true
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }
