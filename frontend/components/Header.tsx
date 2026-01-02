@@ -347,6 +347,17 @@ export default function Header() {
         isOpen={isBankingSetupModalOpen}
         onOpenChange={setIsBankingSetupModalOpen}
       />
+
+      <AccountDeactivatedModal
+        isOpen={isAccountDeactivatedModalOpen}
+        onOpenChange={async (open) => {
+          if (!open) {
+            setIsAccountDeactivatedModalOpen(false);
+            await logout();
+            window.location.href = "/";
+          }
+        }}
+      />
     </>
   );
 }
