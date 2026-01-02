@@ -46,7 +46,7 @@ function rowToUser(r: any) {
     active: Boolean(r.active ?? true),
     admin: Boolean(r.admin),
     moderator: Boolean(r.moderator),
-    pendingIdentityVer: r.pending_identity_ver ?? false,
+    pendingIdentityVer: r.pending_identity_ver === null ? null : Boolean(r.pending_identity_ver),
   };
 }
 
