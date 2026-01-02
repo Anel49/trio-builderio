@@ -2034,6 +2034,11 @@ export default function ProductDetails() {
             : undefined
         }
       />
+
+      <PendingIdentityModal
+        isOpen={isPendingIdentityModalOpen}
+        onOpenChange={setIsPendingIdentityModalOpen}
+      />
     </div>
   );
 }
