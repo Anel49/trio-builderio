@@ -1,4 +1,5 @@
 1.	When a server restart is needed, you restart it. Don’t ask me to do it.
 2.	Do not add CASCADE ON DELETE constraints on tables unless I tell you to.
 3.	Always use thematic colors, not whatever color you want. For example, if I tell you to make something blue, make it one of the thematic blue colors, not some random rgb color you chose.
-4. All links should be able to be opened in a new tab by (1) using the middle mouse button, (2) Ctrl + clicking, (3) right clicking and opening the context menu that has the "Open in new tab" button, and, (4) on mobile, holding down the link and having the context menu open there.
+4. All links should be anchors to enable opening the link in a new table by (1) using the middle mouse button, (2) Ctrl + clicking, (3) right clicking and opening the context menu that has the "Open in new tab" button, and, (4) on mobile, holding down the link and having the context menu open there.
+5. Screenshots don't work from your end; you will always be met with a welcome splash, so don't even bother.
