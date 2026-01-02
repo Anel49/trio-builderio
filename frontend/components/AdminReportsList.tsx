@@ -85,6 +85,7 @@ function getReportReasons(reportReasonsJson: any): string[] {
 
 export default function AdminReportsList() {
   const { user: currentUser } = useAuth();
+  const navigate = useNavigate();
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
