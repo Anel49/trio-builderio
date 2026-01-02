@@ -83,16 +83,26 @@ function getReportReasons(reportReasonsJson: any): string[] {
   return reportReasonsJson.report_reasons || [];
 }
 
-export default function AdminReportsList() {
+interface AdminReportsListProps {
+  initialReportFor?: "listing" | "user";
+  initialSearch?: string;
+}
+
+export default function AdminReportsList({
+  initialReportFor = "listing",
+  initialSearch = "",
+}: AdminReportsListProps) {
   const { user: currentUser } = useAuth();
   const navigate = useNavigate();
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(initialSearch);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalReports, setTotalReports] = useState(0);
-  const [reportFor, setReportFor] = useState<"listing" | "user">("listing");
+  const [reportFor, setReportFor] = useState<"listing" | "user">(
+    initialReportFor,
+  );
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
 
   const limit = 20;
