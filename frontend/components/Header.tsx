@@ -37,6 +37,8 @@ export default function Header() {
   const [isEmailLoginModalOpen, setIsEmailLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
+  const [isIdentificationRequiredModalOpen, setIsIdentificationRequiredModalOpen] = useState(false);
+  const [isPendingIdentityModalOpen, setIsPendingIdentityModalOpen] = useState(false);
   const [isBankingSetupModalOpen, setIsBankingSetupModalOpen] = useState(false);
 
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
