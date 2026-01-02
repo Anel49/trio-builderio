@@ -31,6 +31,7 @@ interface User {
   moderator: boolean;
   active: boolean;
   createdAt: string;
+  pendingIdentityVer: boolean | null;
 }
 
 interface PendingChange {
