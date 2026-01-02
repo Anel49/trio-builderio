@@ -40,10 +40,33 @@ interface NavItem {
 export default function Admin() {
   const navigate = useNavigate();
   const { user, authenticated } = useAuth();
+  const [searchParams] = useSearchParams();
   const getDefaultTab = () =>
     user?.admin || user?.moderator ? "users" : "orders";
-  const [activeTab, setActiveTab] = useState(getDefaultTab());
+  const [activeTab, setActiveTab] = useState(() => {
+    const tab = searchParams.get("tab");
+    return tab || getDefaultTab();
+  });
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [reportParams, setReportParams] = useState({
+    reportFor: searchParams.get("reportFor") || "listing",
+    search: searchParams.get("search") || "",
+  });
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab) {
+      setActiveTab(tab);
+    }
+    const reportFor = searchParams.get("reportFor");
+    const search = searchParams.get("search");
+    if (reportFor || search) {
+      setReportParams({
+        reportFor: reportFor || "listing",
+        search: search || "",
+      });
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (isMobileSidebarOpen) {
