@@ -162,6 +162,13 @@ export default function Index() {
     typeof window !== "undefined" ? window.innerWidth : 1500,
   );
 
+  // Check if account is deactivated
+  useEffect(() => {
+    if (authenticated && authUser && !authUser.active) {
+      setIsAccountDeactivatedModalOpen(true);
+    }
+  }, [authenticated, authUser]);
+
   // Track window resize to determine how many listings to show
   useEffect(() => {
     const handleResize = () => {
