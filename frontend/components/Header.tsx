@@ -316,6 +316,16 @@ export default function Header() {
         userId={user?.id.toString()}
       />
 
+      <IdentificationRequiredModal
+        isOpen={isIdentificationRequiredModalOpen}
+        onOpenChange={setIsIdentificationRequiredModalOpen}
+      />
+
+      <PendingIdentityModal
+        isOpen={isPendingIdentityModalOpen}
+        onOpenChange={setIsPendingIdentityModalOpen}
+      />
+
       <BankingSetupModal
         isOpen={isBankingSetupModalOpen}
         onOpenChange={setIsBankingSetupModalOpen}
