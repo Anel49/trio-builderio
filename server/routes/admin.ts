@@ -49,7 +49,8 @@ export async function listAllUsers(req: Request, res: Response) {
               coalesce(u.open_dms,true) as open_dms,
               coalesce(u.active,true) as active,
               coalesce(u.admin,false) as admin,
-              coalesce(u.moderator,false) as moderator
+              coalesce(u.moderator,false) as moderator,
+              u.pending_identity_ver
        from users u
        where ${whereClause}
        order by u.created_at desc
