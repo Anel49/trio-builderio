@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageCircle, Menu, ClipboardList, Heart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -12,6 +12,7 @@ import { FavoritesModal } from "./ui/favorites-modal";
 import { BankingSetupModal } from "./ui/banking-setup-modal";
 import { IdentificationRequiredModal } from "./ui/identification-required-modal";
 import { PendingIdentityModal } from "./ui/pending-identity-modal";
+import { AccountDeactivatedModal } from "./ui/account-deactivated-modal";
 import { useAuth } from "@/contexts/AuthContext";
 import { COMPANY_NAME } from "@/lib/constants";
 import {
