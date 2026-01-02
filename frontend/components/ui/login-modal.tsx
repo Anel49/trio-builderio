@@ -52,6 +52,8 @@ export function LoginModal({
   const { checkAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isAccountDeactivatedOpen, setIsAccountDeactivatedOpen] =
+    useState(false);
 
   // Google OAuth Login
   const handleGoogleLogin = useGoogleLogin({
