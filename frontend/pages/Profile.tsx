@@ -3803,6 +3803,11 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      <PendingIdentityModal
+        isOpen={isPendingIdentityModalOpen}
+        onOpenChange={setIsPendingIdentityModalOpen}
+      />
+
       <Footer />
     </div>
   );
