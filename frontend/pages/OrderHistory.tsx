@@ -1646,6 +1646,7 @@ export default function OrderHistory() {
                           order.status === "upcoming") && (
                           <Button
                             size="sm"
+                            className="w-full"
                             onClick={() => handleOpenExtensionModal(order)}
                             disabled={extensionModalLoading}
                           >
