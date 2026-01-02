@@ -1523,6 +1523,45 @@ export default function OrderHistory() {
                             </span>
                           </div>
                           <div className="flex items-center text-sm text-muted-foreground gap-2 mt-2">
+                            {currentUser?.id === order.host_id ? (
+                              <a
+                                href={`/profile/${order.renter_username || ""}`}
+                                aria-label="Open renter profile"
+                                className="no-underline hover:opacity-80 transition-opacity"
+                              >
+                                <Avatar className="h-6 w-6">
+                                  <AvatarImage
+                                    src={order.renter_avatar_url || undefined}
+                                    alt={order.renter}
+                                  />
+                                  <AvatarFallback>
+                                    {order.renter
+                                      ?.split(" ")
+                                      .map((n) => n[0])
+                                      .join("")}
+                                  </AvatarFallback>
+                                </Avatar>
+                              </a>
+                            ) : (
+                              <a
+                                href={`/profile/${order.host_username || ""}`}
+                                aria-label="Open host profile"
+                                className="no-underline hover:opacity-80 transition-opacity"
+                              >
+                                <Avatar className="h-6 w-6">
+                                  <AvatarImage
+                                    src={order.host_avatar_url || undefined}
+                                    alt={order.host}
+                                  />
+                                  <AvatarFallback>
+                                    {order.host
+                                      .split(" ")
+                                      .map((n) => n[0])
+                                      .join("")}
+                                  </AvatarFallback>
+                                </Avatar>
+                              </a>
+                            )}
                             <span>Hosted by {order.host}</span>
                           </div>
                         </div>
