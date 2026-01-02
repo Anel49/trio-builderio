@@ -370,6 +370,8 @@ export async function emailSignup(req: Request, res: Response) {
         .json({ ok: false, error: "passwords do not match" });
     }
 
+    await ensureIdentityVerificationColumn();
+
     const existingUserResult = await pool.query(
       `select id from users where email = $1`,
       [emailStr],
