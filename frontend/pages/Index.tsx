@@ -640,6 +640,16 @@ export default function Index() {
           clearLocationFromLocalStorage();
         }}
       />
+      <AccountDeactivatedModal
+        isOpen={isAccountDeactivatedModalOpen}
+        onOpenChange={async (open) => {
+          if (!open) {
+            setIsAccountDeactivatedModalOpen(false);
+            await logout();
+            window.location.href = "/";
+          }
+        }}
+      />
     </div>
   );
 }
