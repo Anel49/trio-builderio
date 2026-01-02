@@ -1467,8 +1467,9 @@ export default function OrderHistory() {
                     </div>
 
                     {/* Product Section with Action Buttons */}
-                    <div className="px-6 py-6 border-b flex flex-col gap-4">
-                      <div className="flex gap-4">
+                    <div className="px-6 py-6 border-b flex gap-4 items-start">
+                      {/* Left side: Image and Details */}
+                      <div className="flex gap-4 flex-1">
                         <a
                           href={`/listing/${order.listing_id}`}
                           target="_blank"
@@ -1570,7 +1571,8 @@ export default function OrderHistory() {
                         </div>
                       </div>
 
-                      {/* Action Buttons */}
+                      {/* Right side: Action Buttons */}
+                      <div className="flex flex-col gap-2 w-48 flex-shrink-0">
                       {canCancelOrder(order) && (
                         <Button
                           variant="destructive"
@@ -1714,6 +1716,7 @@ export default function OrderHistory() {
                           )}
                         </DropdownMenuContent>
                       </DropdownMenu>
+                      </div>
                     </div>
 
                     {/* Review Text for completed orders */}
