@@ -17,6 +17,7 @@ function rowToUserDetail(r: any) {
     active: Boolean(r.active),
     admin: Boolean(r.admin),
     moderator: Boolean(r.moderator),
+    pendingIdentityVer: r.pending_identity_ver,
   };
 }
 
