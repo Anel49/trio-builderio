@@ -1610,7 +1610,6 @@ export default function ProductDetails() {
             {/* Post/Edit a Review Button */}
             {authUser && authUser.id !== product?.hostUserId && (
               <Button
-                disabled={authUser?.pendingIdentityVer}
                 onClick={() => {
                   if (authUser?.pendingIdentityVer) {
                     setIsPendingIdentityModalOpen(true);
@@ -1622,7 +1621,10 @@ export default function ProductDetails() {
                     setIsReviewModalOpen(true);
                   }
                 }}
-                className="whitespace-nowrap"
+                className={cn(
+                  "whitespace-nowrap",
+                  authUser?.pendingIdentityVer && "opacity-50 cursor-not-allowed",
+                )}
               >
                 {userReview ? "Edit Review" : "Post a Review"}
               </Button>
