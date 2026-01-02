@@ -116,8 +116,10 @@ export default function AdminReportsList({
   };
 
   useEffect(() => {
+    setSearch(initialSearch);
+    setReportFor(initialReportFor);
     setCurrentPage(0);
-  }, [reportFor]);
+  }, [initialSearch, initialReportFor]);
 
   useEffect(() => {
     loadReports();
