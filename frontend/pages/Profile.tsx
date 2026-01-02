@@ -296,8 +296,10 @@ export default function Profile() {
     useState(false);
   const [isPendingIdentityModalOpen, setIsPendingIdentityModalOpen] =
     useState(false);
-  const [isIdentificationRequiredModalOpen, setIsIdentificationRequiredModalOpen] =
-    useState(false);
+  const [
+    isIdentificationRequiredModalOpen,
+    setIsIdentificationRequiredModalOpen,
+  ] = useState(false);
   const [newEmailForConfirmation, setNewEmailForConfirmation] = useState("");
   const [newUsernameForConfirmation, setNewUsernameForConfirmation] =
     useState("");
@@ -1920,19 +1922,18 @@ export default function Profile() {
                       {isEditingProfile ? "Save changes" : "Edit Profile"}
                     </Button>
                   )}
-                  {!viewingOtherUser && (
-                    authUser?.pendingIdentityVer === null ||
-                    authUser?.pendingIdentityVer === true
-                  ) && (
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => {}}
-                    >
-                      <Shield className="h-4 w-4 mr-2" />
-                      Identify me
-                    </Button>
-                  )}
+                  {!viewingOtherUser &&
+                    (authUser?.pendingIdentityVer === null ||
+                      authUser?.pendingIdentityVer === true) && (
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => {}}
+                      >
+                        <Shield className="h-4 w-4 mr-2" />
+                        Identify me
+                      </Button>
+                    )}
                   {!viewingOtherUser && (
                     <>
                       <Button
@@ -3429,19 +3430,18 @@ export default function Profile() {
                     {isEditingProfile ? "Save changes" : "Edit Profile"}
                   </Button>
                 )}
-                {!viewingOtherUser && (
-                  authUser?.pendingIdentityVer === null ||
-                  authUser?.pendingIdentityVer === true
-                ) && (
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => {}}
-                  >
-                    <Shield className="h-4 w-4 mr-2" />
-                    Identify me
-                  </Button>
-                )}
+                {!viewingOtherUser &&
+                  (authUser?.pendingIdentityVer === null ||
+                    authUser?.pendingIdentityVer === true) && (
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => {}}
+                    >
+                      <Shield className="h-4 w-4 mr-2" />
+                      Identify me
+                    </Button>
+                  )}
                 {!viewingOtherUser && (
                   <>
                     <Button

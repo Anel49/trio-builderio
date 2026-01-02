@@ -11,8 +11,12 @@ import { FeedbackModal } from "./ui/feedback-modal";
 
 export function Footer() {
   const { user } = useAuth();
-  const [isIdentificationRequiredModalOpen, setIsIdentificationRequiredModalOpen] = useState(false);
-  const [isPendingIdentityModalOpen, setIsPendingIdentityModalOpen] = useState(false);
+  const [
+    isIdentificationRequiredModalOpen,
+    setIsIdentificationRequiredModalOpen,
+  ] = useState(false);
+  const [isPendingIdentityModalOpen, setIsPendingIdentityModalOpen] =
+    useState(false);
   const [isBankingSetupModalOpen, setIsBankingSetupModalOpen] = useState(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 

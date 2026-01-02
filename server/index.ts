@@ -539,7 +539,10 @@ export function createServer() {
         moderator: Boolean(row.moderator),
         stripeSecret: row.stripe_secret || null,
         referred_by_user_id: row.referred_by_user_id ?? null,
-        pendingIdentityVer: row.pending_identity_ver === null ? null : Boolean(row.pending_identity_ver),
+        pendingIdentityVer:
+          row.pending_identity_ver === null
+            ? null
+            : Boolean(row.pending_identity_ver),
       };
 
       // Update the session with the latest user data

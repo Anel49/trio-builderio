@@ -31,10 +31,7 @@ export function IdentificationRequiredModal({
               account, select "Identify me" under your profile picture, and
               follow the instructions.
             </p>
-            <Button
-              onClick={() => onOpenChange(false)}
-              className="w-full"
-            >
+            <Button onClick={() => onOpenChange(false)} className="w-full">
               OK
             </Button>
           </div>

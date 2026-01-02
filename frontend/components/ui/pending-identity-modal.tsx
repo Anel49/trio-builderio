@@ -31,10 +31,7 @@ export function PendingIdentityModal({
               create listings, make reservations, or leave reviews. You will be
               notified via email once your account is verified.
             </p>
-            <Button
-              onClick={() => onOpenChange(false)}
-              className="w-full"
-            >
+            <Button onClick={() => onOpenChange(false)} className="w-full">
               OK
             </Button>
           </div>
