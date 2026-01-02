@@ -146,8 +146,11 @@ export function DateRangePicker({
 
       <Button
         variant="outline"
-        disabled={disabled}
-        className={cn("justify-start text-left font-normal", buttonClassName)}
+        className={cn(
+          "justify-start text-left font-normal",
+          disabled && "opacity-50 cursor-not-allowed",
+          buttonClassName,
+        )}
         onClick={() => {
           if (disabled) {
             onDisabledClick?.();
