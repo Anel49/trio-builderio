@@ -211,6 +211,11 @@ export default function AdminUserList() {
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
+                    Verified
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Active
                   </th>
                 </tr>
