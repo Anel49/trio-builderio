@@ -1,41 +1,47 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { COMPANY_EMAIL } from "@/lib/constants";
 
 interface AccountDeactivatedModalProps {
-  open: boolean;
-  onClose: () => void;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 export function AccountDeactivatedModal({
-  open,
-  onClose,
+  isOpen,
+  onOpenChange,
 }: AccountDeactivatedModalProps) {
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Account Activation</DialogTitle>
+          <DialogTitle>Account deactivated</DialogTitle>
         </DialogHeader>
-        <DialogDescription className="text-base">
-          Your account is inactive. To reactivate it, please contact support at{" "}
-          <a
-            href={`mailto:${COMPANY_EMAIL}`}
-            className="text-primary hover:underline font-medium"
-          >
-            {COMPANY_EMAIL}
-          </a>
-          .
+        <DialogDescription asChild>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              This account has been deactivated. If you believe this action was
+              taken in error, require additional information regarding the
+              deactivation, or wish to appeal the decision, please contact us at{" "}
+              <a
+                href={`mailto:${COMPANY_EMAIL}`}
+                className="text-primary hover:underline"
+              >
+                {COMPANY_EMAIL}
+              </a>{" "}
+              using the email address associated with the account.
+            </p>
+            <Button onClick={() => onOpenChange(false)} className="w-full">
+              OK
+            </Button>
+          </div>
         </DialogDescription>
-        <div className="flex justify-end gap-2 mt-6">
-          <Button onClick={onClose}>OK</Button>
-        </div>
       </DialogContent>
     </Dialog>
   );
