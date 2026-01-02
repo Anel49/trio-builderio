@@ -2069,6 +2069,11 @@ export default function ProductDetails() {
         isOpen={isPendingIdentityModalOpen}
         onOpenChange={setIsPendingIdentityModalOpen}
       />
+
+      <IdentificationRequiredModal
+        isOpen={isIdentificationRequiredModalOpen}
+        onOpenChange={setIsIdentificationRequiredModalOpen}
+      />
     </div>
   );
 }
