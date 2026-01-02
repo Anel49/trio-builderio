@@ -1602,6 +1602,7 @@ export default function OrderHistory() {
                         order.status === "completed" && (
                           <Button
                             size="sm"
+                            className="w-full"
                             onClick={async () => {
                               setReviewOrder(order);
                               if (order.review_id) {
