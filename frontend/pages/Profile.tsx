@@ -2516,7 +2516,11 @@ export default function Profile() {
                       {authenticated && viewingOtherUser && (
                         <Button
                           onClick={() => {
-                            if (authUser?.pendingIdentityVer) {
+                            if (authUser?.pendingIdentityVer === null) {
+                              setIsIdentificationRequiredModalOpen(true);
+                              return;
+                            }
+                            if (authUser?.pendingIdentityVer === true) {
                               setIsPendingIdentityModalOpen(true);
                               return;
                             }
@@ -2527,7 +2531,8 @@ export default function Profile() {
                             setIsReviewUserModalOpen(true);
                           }}
                           className={cn(
-                            authUser?.pendingIdentityVer &&
+                            (authUser?.pendingIdentityVer === null ||
+                              authUser?.pendingIdentityVer === true) &&
                               "opacity-50 cursor-not-allowed",
                           )}
                         >
