@@ -80,14 +80,15 @@ export function EmailLoginModal({
 
       const data = await response.json().catch(() => ({}));
 
+      // Check if account is deactivated
+      if (data.error === "account_deactivated") {
+        setIsAccountDeactivatedOpen(true);
+        setEmail("");
+        setPassword("");
+        return;
+      }
+
       if (response.ok && data.ok && data.user) {
-        // Check if user account is active
-        if (data.user.active === false) {
-          setIsAccountDeactivatedOpen(true);
-          setEmail("");
-          setPassword("");
-          return;
-        }
         handleClose();
         if (onLoginSuccess) {
           onLoginSuccess();
