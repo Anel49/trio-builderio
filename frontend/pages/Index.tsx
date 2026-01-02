@@ -61,7 +61,7 @@ import {
 
 export default function Index() {
   const navigate = useNavigate();
-  const { user: authUser, authenticated } = useAuth();
+  const { user: authUser, authenticated, logout } = useAuth();
   // const { setPageLoading } = usePageLoading();
 
   usePageTitle();
@@ -88,6 +88,8 @@ export default function Index() {
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [favoritedListing, setFavoritedListing] = useState("");
   const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false);
+  const [isAccountDeactivatedModalOpen, setIsAccountDeactivatedModalOpen] =
+    useState(false);
   const [browseFilterLocation, setBrowseFilterLocation] = useState<{
     latitude: number;
     longitude: number;
