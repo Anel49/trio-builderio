@@ -1469,7 +1469,7 @@ export default function OrderHistory() {
                     {/* Product Section with Action Buttons */}
                     <div className="px-6 py-6 border-b flex gap-4 items-start">
                       {/* Left side: Image and Details */}
-                      <div className="flex gap-4 flex-1 items-stretch">
+                      <div className="flex gap-4 flex-1">
                         <a
                           href={`/listing/${order.listing_id}`}
                           target="_blank"
