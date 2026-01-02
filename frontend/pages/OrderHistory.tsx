@@ -1403,7 +1403,7 @@ export default function OrderHistory() {
                           href={`/listing/${order.listing_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-lg font-bold text-primary hover:underline cursor-pointer"
+                          className="text-[1rem] font-bold text-primary hover:underline cursor-pointer"
                         >
                           View order details
                         </a>
