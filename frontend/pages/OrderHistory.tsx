@@ -1416,7 +1416,7 @@ export default function OrderHistory() {
                     </div>
 
                     {/* Product Section with Action Buttons */}
-                    <div className="px-6 py-6 border-b flex gap-4 items-start">
+                    <div className="px-6 py-6 flex gap-4 items-start">
                       {/* Left side: Image and Details */}
                       <div className="flex gap-4 flex-1">
                         <a
