@@ -10,6 +10,7 @@ import {
 import { useGoogleLogin } from "@react-oauth/google";
 import { useAuth } from "@/contexts/AuthContext";
 import { apiFetch } from "@/lib/api";
+import { AccountDeactivatedModal } from "@/components/ui/account-deactivated-modal";
 
 // OAuth Configuration - same as original login page
 const GOOGLE_CLIENT_ID =
