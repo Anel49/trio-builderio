@@ -226,25 +226,36 @@ export default function AdminUserList() {
                   return (
                     <tr key={user.id} className="border-b hover:bg-muted/50">
                       <td className={spacing.padding.md}>
-                        <a
-                          href={`/profile/${user.username}`}
-                          onClick={(e) => {
-                            if (!e.ctrlKey && !e.metaKey && e.button === 0) {
-                              e.preventDefault();
-                              navigate(`/profile/${user.username}`);
-                            }
-                          }}
-                          className={combineTokens(
-                            "text-left hover:text-primary transition-colors block",
-                          )}
-                        >
-                          <p className={typography.weight.medium}>
-                            {user.name}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            @{user.username}
-                          </p>
-                        </a>
+                        <div className="flex items-start gap-2">
+                          <a
+                            href={`/profile/${user.username}`}
+                            onClick={(e) => {
+                              if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                                e.preventDefault();
+                                navigate(`/profile/${user.username}`);
+                              }
+                            }}
+                            className={combineTokens(
+                              "text-left hover:text-primary transition-colors block flex-1",
+                            )}
+                          >
+                            <p className={typography.weight.medium}>
+                              {user.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              @{user.username}
+                            </p>
+                          </a>
+                          <button
+                            onClick={() => {
+                              window.location.href = `/admin?tab=reports&reportFor=user&search=${encodeURIComponent(user.username || "")}`;
+                            }}
+                            className="flex-shrink-0 text-muted-foreground hover:text-destructive transition-colors"
+                            title="View reports for this user"
+                          >
+                            <AlertTriangle className="h-4 w-4" />
+                          </button>
+                        </div>
                       </td>
                       <td className={spacing.padding.md}>{user.email}</td>
                       <td className={spacing.padding.md}>
