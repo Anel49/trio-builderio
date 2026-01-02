@@ -1660,6 +1660,7 @@ export default function OrderHistory() {
                       <Button
                         variant="outline"
                         size="sm"
+                        className="w-full"
                         onClick={() => {
                           const recipientId =
                             order.type === "rented"
