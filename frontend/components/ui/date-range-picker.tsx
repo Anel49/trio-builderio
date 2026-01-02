@@ -146,8 +146,15 @@ export function DateRangePicker({
 
       <Button
         variant="outline"
+        disabled={disabled}
         className={cn("justify-start text-left font-normal", buttonClassName)}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (disabled) {
+            onDisabledClick?.();
+            return;
+          }
+          setIsOpen(!isOpen);
+        }}
       >
         <CalendarIcon className="mr-2 h-4 w-4" />
         {formatDateRange()}
