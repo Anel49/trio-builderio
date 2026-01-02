@@ -1425,6 +1425,15 @@ export async function googleOAuth(req: Request, res: Response) {
 
     const user = rowToUser(userResult.rows[0]);
 
+    // Check if account is deactivated
+    if (!user.active) {
+      return res.status(403).json({
+        ok: false,
+        error: "account_deactivated",
+        message: "This account has been deactivated",
+      });
+    }
+
     // Set session
     (req as any).session.userId = user.id;
     (req as any).session.user = user;
