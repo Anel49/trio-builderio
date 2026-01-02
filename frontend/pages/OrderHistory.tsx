@@ -1396,6 +1396,9 @@ export default function OrderHistory() {
 
                       {/* ORDER # */}
                       <div className="flex flex-col">
+                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                          Order #
+                        </p>
                         <a
                           href={`/listing/${order.listing_id}`}
                           target="_blank"
