@@ -1354,8 +1354,8 @@ export default function OrderHistory() {
                   className="hover:shadow-md transition-shadow"
                 >
                   <CardContent className="p-0 flex flex-col">
-                    {/* Header Section with ORDER PLACED, TOTAL, and ORDER # */}
-                    <div className="border-b px-6 py-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Header Section with ORDER PLACED, TOTAL, HOST/RENTER, and ORDER # */}
+                    <div className="border-b px-6 py-4 grid grid-cols-1 md:grid-cols-4 gap-6">
                       {/* ORDER PLACED */}
                       <div className="flex flex-col">
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
@@ -1392,6 +1392,52 @@ export default function OrderHistory() {
                             maximumFractionDigits: 2,
                           })}
                         </p>
+                      </div>
+
+                      {/* HOST / RENTER AVATAR */}
+                      <div className="flex flex-col items-center justify-start">
+                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                          {currentUser?.id === order.host_id ? "Renter" : "Host"}
+                        </p>
+                        {currentUser?.id === order.host_id ? (
+                          <a
+                            href={`/profile/${order.renter_username || ""}`}
+                            aria-label="Open renter profile"
+                            className="no-underline"
+                          >
+                            <Avatar className="h-8 w-8">
+                              <AvatarImage
+                                src={order.renter_avatar_url || undefined}
+                                alt={order.renter}
+                              />
+                              <AvatarFallback>
+                                {order.renter
+                                  ?.split(" ")
+                                  .map((n) => n[0])
+                                  .join("")}
+                              </AvatarFallback>
+                            </Avatar>
+                          </a>
+                        ) : (
+                          <a
+                            href={`/profile/${order.host_username || ""}`}
+                            aria-label="Open host profile"
+                            className="no-underline"
+                          >
+                            <Avatar className="h-8 w-8">
+                              <AvatarImage
+                                src={order.host_avatar_url || undefined}
+                                alt={order.host}
+                              />
+                              <AvatarFallback>
+                                {order.host
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")}
+                              </AvatarFallback>
+                            </Avatar>
+                          </a>
+                        )}
                       </div>
 
                       {/* ORDER # and View Details */}
