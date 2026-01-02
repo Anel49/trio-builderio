@@ -59,6 +59,8 @@ export function SignUpModal({
   const [uploadedImagePreview, setUploadedImagePreview] = useState<
     string | null
   >(null);
+  const [isAccountDeactivatedOpen, setIsAccountDeactivatedOpen] =
+    useState(false);
 
   // Load image snapshot from localStorage when modal opens
   useEffect(() => {
