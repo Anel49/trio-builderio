@@ -720,6 +720,7 @@ export async function listAllReports(req: Request, res: Response) {
     const countResult = await pool.query(
       `select count(*) as total from reports r
        left join users u on r.assigned_to = u.id
+       left join users ru on r.report_for = 'user' and r.reported_id = ru.id
        where ${whereClause}`,
       params,
     );
