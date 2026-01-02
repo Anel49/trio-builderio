@@ -1353,8 +1353,9 @@ export default function OrderHistory() {
                   key={order.id}
                   className="hover:shadow-md transition-shadow"
                 >
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                  <CardContent className="p-0 flex flex-col">
+                    {/* Header Section with ORDER PLACED, TOTAL, and ORDER # */}
+                    <div className="border-b px-6 py-4 grid grid-cols-1 md:grid-cols-3 gap-6">
                       {/* Item Info */}
                       <div className="lg:col-span-2">
                         <div className="flex space-x-4">
