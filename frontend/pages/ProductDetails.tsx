@@ -1393,8 +1393,13 @@ export default function ProductDetails() {
                       !hasDateConflict() &&
                       "opacity-50 cursor-not-allowed",
                   )}
-                  disabled={!isDateRangeValid()}
+                  disabled={!isDateRangeValid() || authUser?.pendingIdentityVer}
                   onClick={async () => {
+                    if (authUser?.pendingIdentityVer) {
+                      setIsPendingIdentityModalOpen(true);
+                      return;
+                    }
+
                     if (!isDateRangeValid() || !authUser?.id) return;
 
                     // Recheck for conflicts before proceeding
