@@ -307,6 +307,8 @@ export default function Header() {
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
+        onOpenIdentificationRequiredModal={() => setIsIdentificationRequiredModalOpen(true)}
+        onOpenPendingIdentityModal={() => setIsPendingIdentityModalOpen(true)}
         onOpenBankingSetupModal={() => setIsBankingSetupModalOpen(true)}
       />
 
