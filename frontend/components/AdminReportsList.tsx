@@ -41,6 +41,8 @@ interface Report {
   updated_at: string;
   report_for: string;
   reported_id: number;
+  reported_user_name: string | null;
+  reported_user_username: string | null;
 }
 
 function formatDateForAdmin(dateStr: string): string {
