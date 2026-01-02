@@ -85,7 +85,7 @@ async function ensureAdminColumns() {
 async function ensureIdentityVerificationColumn() {
   try {
     await pool.query(
-      `alter table users add column if not exists pending_identity_auth boolean default false`,
+      `alter table users add column if not exists pending_identity_ver boolean default false`,
     );
   } catch (e) {
     console.error("Error ensuring identity verification column:", e);
