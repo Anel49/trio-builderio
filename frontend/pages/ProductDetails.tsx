@@ -140,6 +140,8 @@ export default function ProductDetails() {
   const [showBookingSummaryModal, setShowBookingSummaryModal] = useState(false);
   const [selectedAddons, setSelectedAddons] = useState<SelectedAddon[]>([]);
   const [isAddonsExpanded, setIsAddonsExpanded] = useState(false);
+  const [isPendingIdentityModalOpen, setIsPendingIdentityModalOpen] =
+    useState(false);
   const conflictRecheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleFavorite = async (listingName: string, listingId: number) => {
