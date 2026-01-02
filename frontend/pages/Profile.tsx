@@ -3819,6 +3819,11 @@ export default function Profile() {
         onOpenChange={setIsPendingIdentityModalOpen}
       />
 
+      <IdentificationRequiredModal
+        isOpen={isIdentificationRequiredModalOpen}
+        onOpenChange={setIsIdentificationRequiredModalOpen}
+      />
+
       <Footer />
     </div>
   );
