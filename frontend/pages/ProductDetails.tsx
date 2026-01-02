@@ -1381,8 +1381,17 @@ export default function ProductDetails() {
                     disabledDateRanges={conflictingDates}
                     buttonClassName="w-full"
                     listingTimezone={product?.timezone || "UTC"}
-                    disabled={authUser?.pendingIdentityVer}
-                    onDisabledClick={() => setIsPendingIdentityModalOpen(true)}
+                    disabled={
+                      authUser?.pendingIdentityVer === true ||
+                      authUser?.pendingIdentityVer === null
+                    }
+                    onDisabledClick={() => {
+                      if (authUser?.pendingIdentityVer === null) {
+                        setIsIdentificationRequiredModalOpen(true);
+                      } else if (authUser?.pendingIdentityVer === true) {
+                        setIsPendingIdentityModalOpen(true);
+                      }
+                    }}
                   />
                 </div>
               )}
