@@ -46,6 +46,7 @@ function rowToUser(r: any) {
     active: Boolean(r.active ?? true),
     admin: Boolean(r.admin),
     moderator: Boolean(r.moderator),
+    pendingIdentityAuth: Boolean(r.pending_identity_auth ?? false),
   };
 }
 
