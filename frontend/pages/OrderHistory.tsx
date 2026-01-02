@@ -1454,6 +1454,16 @@ export default function OrderHistory() {
                           View order details
                         </a>
                       </div>
+
+                      {/* STATUS */}
+                      <div className="flex flex-col items-center justify-start">
+                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                          Status
+                        </p>
+                        <Badge className={getStatusColor(order.status)}>
+                          {getStatusText(order.status)}
+                        </Badge>
+                      </div>
                     </div>
 
                     {/* Product Section */}
