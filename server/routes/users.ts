@@ -423,7 +423,7 @@ export async function emailSignup(req: Request, res: Response) {
                  coalesce(active,true) as active,
                  coalesce(admin,false) as admin,
                  coalesce(moderator,false) as moderator,
-                 coalesce(pending_identity_ver,false) as pending_identity_ver`,
+                 pending_identity_ver`,
       [
         `${firstNameStr} ${lastNameStr}`,
         emailStr,
