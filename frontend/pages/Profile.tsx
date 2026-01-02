@@ -2512,7 +2512,12 @@ export default function Profile() {
                       {/* Review User Button */}
                       {authenticated && viewingOtherUser && (
                         <Button
+                          disabled={authUser?.pendingIdentityVer}
                           onClick={() => {
+                            if (authUser?.pendingIdentityVer) {
+                              setIsPendingIdentityModalOpen(true);
+                              return;
+                            }
                             if (!userReviewId) {
                               setReviewUserRating(5);
                               setReviewUserComment("");
