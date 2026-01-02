@@ -1356,8 +1356,66 @@ export default function OrderHistory() {
                   <CardContent className="p-0 flex flex-col">
                     {/* Header Section with ORDER PLACED, TOTAL, and ORDER # */}
                     <div className="border-b px-6 py-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {/* Item Info */}
-                      <div className="lg:col-span-2">
+                      {/* ORDER PLACED */}
+                      <div className="flex flex-col">
+                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                          Order Placed
+                        </p>
+                        <p className="text-sm text-foreground">
+                          {order.created_at
+                            ? new Date(order.created_at).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                },
+                              )
+                            : "N/A"}
+                        </p>
+                      </div>
+
+                      {/* TOTAL EARNED / TOTAL PAID */}
+                      <div className="flex flex-col">
+                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                          {currentUser?.id === order.host_id
+                            ? "Total Earned"
+                            : "Total Paid"}
+                        </p>
+                        <p className="text-lg font-bold text-foreground">
+                          $
+                          {(currentUser?.id === order.host_id
+                            ? (order.host_earns || 0) / 100
+                            : (order.renter_pays || 0) / 100
+                          ).toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}
+                        </p>
+                      </div>
+
+                      {/* ORDER # and View Details */}
+                      <div className="flex flex-col">
+                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                          Order #
+                        </p>
+                        <p className="text-sm font-medium text-foreground mb-2">
+                          {order.order_number || order.id}
+                        </p>
+                        <a
+                          href={`/listing/${order.listing_id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-primary hover:underline cursor-pointer"
+                        >
+                          View order details
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Product Section */}
+                    <div className="px-6 py-6 border-b">
+                      <div className="flex gap-4">
                         <div className="flex space-x-4">
                           <a
                             href={`/listing/${order.listing_id}`}
