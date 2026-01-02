@@ -1355,7 +1355,7 @@ export default function OrderHistory() {
                 >
                   <CardContent className="p-0 flex flex-col">
                     {/* Header Section with ORDER PLACED, TOTAL, HOST/RENTER, ORDER #, and STATUS */}
-                    <div className="border-b px-6 py-4 grid grid-cols-1 md:grid-cols-5 gap-6">
+                    <div className="border-b px-6 py-4 grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr_1fr_12rem] gap-6">
                       {/* ORDER PLACED */}
                       <div className="flex flex-col">
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
