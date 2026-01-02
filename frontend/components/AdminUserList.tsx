@@ -254,7 +254,7 @@ export default function AdminUserList({
                           </a>
                           <button
                             onClick={() => {
-                              window.location.href = `/admin?tab=reports&reportFor=user&search=${encodeURIComponent(user.username || "")}`;
+                              onViewUserReports?.(user.username || "");
                             }}
                             className="flex-shrink-0 text-muted-foreground hover:text-destructive transition-colors"
                             title="View reports for this user"
