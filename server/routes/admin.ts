@@ -130,7 +130,8 @@ export async function updateUserAdminStatus(req: Request, res: Response) {
                  coalesce(open_dms,true) as open_dms,
                  coalesce(active,true) as active,
                  coalesce(admin,false) as admin,
-                 coalesce(moderator,false) as moderator`,
+                 coalesce(moderator,false) as moderator,
+                 pending_identity_ver`,
       params,
     );
 
