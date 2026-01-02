@@ -45,8 +45,16 @@ export default function Header() {
   const [isPendingIdentityModalOpen, setIsPendingIdentityModalOpen] =
     useState(false);
   const [isBankingSetupModalOpen, setIsBankingSetupModalOpen] = useState(false);
+  const [isAccountDeactivatedModalOpen, setIsAccountDeactivatedModalOpen] =
+    useState(false);
 
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (authenticated && user && !user.active) {
+      setIsAccountDeactivatedModalOpen(true);
+    }
+  }, [authenticated, user]);
 
   const getInitials = (name: string | null): string => {
     if (!name) return "U";
