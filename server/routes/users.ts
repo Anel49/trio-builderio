@@ -109,7 +109,8 @@ export async function getUserById(req: Request, res: Response) {
             coalesce(open_dms,true) as open_dms,
             coalesce(active,true) as active,
             coalesce(admin,false) as admin,
-            coalesce(moderator,false) as moderator
+            coalesce(moderator,false) as moderator,
+            coalesce(pending_identity_auth,false) as pending_identity_auth
        from users where id = $1 limit 1`,
       [Number.parseInt(userId, 10)],
     );
