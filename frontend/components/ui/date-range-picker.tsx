@@ -25,6 +25,8 @@ interface DateRangePickerProps {
   className?: string;
   buttonClassName?: string;
   listingTimezone?: string;
+  disabled?: boolean;
+  onDisabledClick?: () => void;
 }
 
 export function DateRangePicker({
