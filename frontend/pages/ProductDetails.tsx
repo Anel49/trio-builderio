@@ -1608,7 +1608,12 @@ export default function ProductDetails() {
             {/* Post/Edit a Review Button */}
             {authUser && authUser.id !== product?.hostUserId && (
               <Button
+                disabled={authUser?.pendingIdentityVer}
                 onClick={() => {
+                  if (authUser?.pendingIdentityVer) {
+                    setIsPendingIdentityModalOpen(true);
+                    return;
+                  }
                   if (userReview) {
                     handleEditReview(userReview);
                   } else {
