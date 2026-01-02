@@ -53,6 +53,7 @@ import {
   BookingSummaryModal,
   type BookingSummaryAddon,
 } from "@/components/ui/booking-summary-modal";
+import { PendingIdentityModal } from "@/components/ui/pending-identity-modal";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import {
