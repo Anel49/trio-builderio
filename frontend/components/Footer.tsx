@@ -5,6 +5,8 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { BankingSetupModal } from "./ui/banking-setup-modal";
+import { IdentificationRequiredModal } from "./ui/identification-required-modal";
+import { PendingIdentityModal } from "./ui/pending-identity-modal";
 import { FeedbackModal } from "./ui/feedback-modal";
 
 export function Footer() {
