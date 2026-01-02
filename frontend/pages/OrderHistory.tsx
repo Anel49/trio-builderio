@@ -1474,12 +1474,12 @@ export default function OrderHistory() {
                           href={`/listing/${order.listing_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="hover:opacity-80 transition-opacity"
+                          className="flex-shrink-0 hover:opacity-80 transition-opacity"
                         >
                           <img
                             src={order.itemImage || order.listing_image}
                             alt={order.itemName || order.listing_title}
-                            className="h-full aspect-square object-cover rounded-lg cursor-pointer"
+                            className="w-32 aspect-square object-cover rounded-lg cursor-pointer"
                           />
                         </a>
                         <div className="flex-1 min-w-0">
