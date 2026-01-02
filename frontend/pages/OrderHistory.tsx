@@ -1482,21 +1482,16 @@ export default function OrderHistory() {
                           />
                         </a>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between gap-2 mb-2">
-                            <a
-                              href={`/listing/${order.listing_id}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="hover:text-primary transition-colors no-underline"
-                            >
-                              <h3 className="font-semibold text-base">
-                                {order.itemName || order.listing_title}
-                              </h3>
-                            </a>
-                            <Badge className={getStatusColor(order.status)}>
-                              {getStatusText(order.status)}
-                            </Badge>
-                          </div>
+                          <a
+                            href={`/listing/${order.listing_id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-primary transition-colors no-underline"
+                          >
+                            <h3 className="font-semibold text-base">
+                              {order.itemName || order.listing_title}
+                            </h3>
+                          </a>
                           {order.listing_postcode && (
                             <div className="flex items-center text-sm text-muted-foreground mb-2">
                               <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
