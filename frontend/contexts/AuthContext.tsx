@@ -28,7 +28,7 @@ export interface User {
   moderator: boolean;
   stripeSecret: string | null;
   referred_by_user_id: number | null;
-  pendingIdentityVer: boolean;
+  pendingIdentityVer: boolean | null;
 }
 
 interface AuthContextType {
