@@ -248,7 +248,10 @@ export default function Admin() {
               <CardTitle>Reports</CardTitle>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto">
-              <AdminReportsList />
+              <AdminReportsList
+                initialReportFor={reportParams.reportFor as "listing" | "user"}
+                initialSearch={reportParams.search}
+              />
             </CardContent>
           </Card>
         );
