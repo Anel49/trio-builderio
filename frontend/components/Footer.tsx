@@ -17,7 +17,11 @@ export function Footer() {
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 
   const handleRentProduct = () => {
-    if (!user?.stripeSecret) {
+    if (user?.pendingIdentityVer === null) {
+      setIsIdentificationRequiredModalOpen(true);
+    } else if (user?.pendingIdentityVer === true) {
+      setIsPendingIdentityModalOpen(true);
+    } else if (!user?.stripeSecret) {
       setIsBankingSetupModalOpen(true);
     } else {
       window.location.href = "/upload";
