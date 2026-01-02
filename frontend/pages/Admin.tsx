@@ -204,7 +204,15 @@ export default function Admin() {
               <CardTitle>User Management</CardTitle>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto">
-              <AdminUserList />
+              <AdminUserList
+                onViewUserReports={(username) => {
+                  setActiveTab("reports");
+                  setReportParams({
+                    reportFor: "user",
+                    search: username,
+                  });
+                }}
+              />
             </CardContent>
           </Card>
         );
