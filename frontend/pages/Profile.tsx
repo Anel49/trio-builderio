@@ -296,6 +296,8 @@ export default function Profile() {
     useState(false);
   const [isPendingIdentityModalOpen, setIsPendingIdentityModalOpen] =
     useState(false);
+  const [isIdentificationRequiredModalOpen, setIsIdentificationRequiredModalOpen] =
+    useState(false);
   const [newEmailForConfirmation, setNewEmailForConfirmation] = useState("");
   const [newUsernameForConfirmation, setNewUsernameForConfirmation] =
     useState("");
