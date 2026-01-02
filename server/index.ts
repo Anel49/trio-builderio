@@ -500,7 +500,7 @@ export function createServer() {
                 coalesce(u.active,true) as active,
                 coalesce(u.admin,false) as admin,
                 coalesce(u.moderator,false) as moderator,
-                coalesce(u.pending_identity_ver,true) as pending_identity_ver,
+                coalesce(u.pending_identity_ver,false) as pending_identity_ver,
                 u.referred_by_user_id,
                 uc.oauth,
                 uc.stripe_secret
