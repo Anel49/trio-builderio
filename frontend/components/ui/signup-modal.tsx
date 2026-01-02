@@ -311,6 +311,10 @@ export function SignUpModal({
         email={emailInUseError}
         onSignupModalToggle={onOpenChange}
       />
+      <AccountDeactivatedModal
+        open={isAccountDeactivatedOpen}
+        onClose={() => setIsAccountDeactivatedOpen(false)}
+      />
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <DialogContent className="max-w-md">
           <DialogHeader>
