@@ -299,7 +299,7 @@ export async function upsertUser(req: Request, res: Response) {
         usernameValue,
         firstNameValue,
         lastNameValue,
-        false,
+        true,
       ],
     );
 
