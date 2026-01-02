@@ -302,6 +302,13 @@ export default function AdminReportsList() {
                   >
                     Status
                   </th>
+                  {reportFor === "user" && (
+                    <th
+                      className={combineTokens(spacing.padding.md, "text-left")}
+                    >
+                      Reported User
+                    </th>
+                  )}
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
