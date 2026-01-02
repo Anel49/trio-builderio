@@ -1670,8 +1670,7 @@ export default function OrderHistory() {
                     {order.review_id &&
                       reviewCommentsCache.has(order.review_id) && (
                         <>
-                          <Separator className="my-4" />
-                          <div className="bg-muted/50 p-3 rounded-lg">
+                          <div className="border-t px-6 py-4 bg-muted/50">
                             <p className="text-sm italic">
                               "{reviewCommentsCache.get(order.review_id)}"
                             </p>
@@ -1682,8 +1681,7 @@ export default function OrderHistory() {
                     {/* Extensions for this order */}
                     {getExtensionsForOrder(order.id).length > 0 && (
                       <>
-                        <Separator className="my-4" />
-                        <div className="space-y-3">
+                        <div className="border-t px-6 py-4 space-y-3">
                           <div
                             className="flex items-center justify-between cursor-pointer"
                             onClick={() => {
