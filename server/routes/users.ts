@@ -110,7 +110,7 @@ export async function getUserById(req: Request, res: Response) {
             coalesce(active,true) as active,
             coalesce(admin,false) as admin,
             coalesce(moderator,false) as moderator,
-            coalesce(pending_identity_auth,false) as pending_identity_auth
+            coalesce(pending_identity_ver,false) as pending_identity_ver
        from users where id = $1 limit 1`,
       [Number.parseInt(userId, 10)],
     );
