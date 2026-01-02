@@ -1399,14 +1399,9 @@ export default function OrderHistory() {
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                           Order #
                         </p>
-                        <a
-                          href={`/listing/${order.listing_id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[1rem] font-bold text-primary hover:underline cursor-pointer"
-                        >
+                        <p className="text-[1rem] font-bold text-foreground">
                           {order.order_number || order.id}
-                        </a>
+                        </p>
                       </div>
 
                       {/* STATUS */}
