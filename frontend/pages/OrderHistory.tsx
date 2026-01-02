@@ -1489,7 +1489,7 @@ export default function OrderHistory() {
                             rel="noopener noreferrer"
                             className="hover:text-primary transition-colors no-underline"
                           >
-                            <h3 className="font-semibold text-base mb-2">
+                            <h3 className="font-semibold text-base mb-8">
                               {order.itemName || order.listing_title}
                             </h3>
                           </a>
