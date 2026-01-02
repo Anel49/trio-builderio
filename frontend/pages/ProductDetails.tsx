@@ -143,6 +143,8 @@ export default function ProductDetails() {
   const [isAddonsExpanded, setIsAddonsExpanded] = useState(false);
   const [isPendingIdentityModalOpen, setIsPendingIdentityModalOpen] =
     useState(false);
+  const [isIdentificationRequiredModalOpen, setIsIdentificationRequiredModalOpen] =
+    useState(false);
   const conflictRecheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleFavorite = async (listingName: string, listingId: number) => {
