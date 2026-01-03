@@ -380,8 +380,8 @@ export function LoginModal({
       </DialogContent>
 
       <AccountDeactivatedModal
-        open={isAccountDeactivatedOpen}
-        onClose={() => setIsAccountDeactivatedOpen(false)}
+        isOpen={isAccountDeactivatedOpen}
+        onOpenChange={setIsAccountDeactivatedOpen}
       />
     </Dialog>
   );
