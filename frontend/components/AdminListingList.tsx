@@ -53,7 +53,7 @@ export default function AdminListingList() {
   const [search, setSearch] = useState("");
   const [lastSearchedTerm, setLastSearchedTerm] = useState("");
 
-  const limit = 20;
+  const limit = 6;
   const offset = currentPage * limit;
 
   const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
