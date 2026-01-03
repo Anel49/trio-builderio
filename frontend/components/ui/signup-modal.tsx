@@ -312,8 +312,8 @@ export function SignUpModal({
         onSignupModalToggle={onOpenChange}
       />
       <AccountDeactivatedModal
-        open={isAccountDeactivatedOpen}
-        onClose={() => setIsAccountDeactivatedOpen(false)}
+        isOpen={isAccountDeactivatedOpen}
+        onOpenChange={setIsAccountDeactivatedOpen}
       />
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <DialogContent className="max-w-md">
