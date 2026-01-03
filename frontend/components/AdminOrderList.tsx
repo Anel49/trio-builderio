@@ -42,7 +42,7 @@ export default function AdminOrderList() {
   const [totalOrders, setTotalOrders] = useState(0);
   const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set());
 
-  const limit = 20;
+  const limit = 6;
   const offset = currentPage * limit;
 
   useEffect(() => {
