@@ -283,8 +283,8 @@ export function EmailLoginModal({
       )}
 
       <AccountDeactivatedModal
-        open={isAccountDeactivatedOpen}
-        onClose={() => setIsAccountDeactivatedOpen(false)}
+        isOpen={isAccountDeactivatedOpen}
+        onOpenChange={setIsAccountDeactivatedOpen}
       />
     </Dialog>
   );
