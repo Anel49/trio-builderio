@@ -314,7 +314,7 @@ export default function AdminReportsList({
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Report Number
+                    Report number
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
