@@ -343,7 +343,7 @@ export default function AdminReportsList({
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Assigned To
+                    Assigned to
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
