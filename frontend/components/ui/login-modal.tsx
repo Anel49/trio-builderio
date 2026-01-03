@@ -74,6 +74,7 @@ export function LoginModal({
 
         // Check if account is deactivated
         if (data.error === "account_deactivated") {
+          onOpenChange(false);
           setIsAccountDeactivatedOpen(true);
           return;
         }
