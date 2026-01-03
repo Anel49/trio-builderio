@@ -76,7 +76,7 @@ export default function AdminClaimsList() {
   const [totalClaims, setTotalClaims] = useState(0);
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
 
-  const limit = 20;
+  const limit = 6;
   const offset = currentPage * limit;
 
   useEffect(() => {
