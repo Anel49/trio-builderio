@@ -32,7 +32,8 @@ import {
 } from "./ui/dropdown-menu";
 
 export default function Header() {
-  const { authenticated, user, logout } = useAuth();
+  const { authenticated, user, logout, checkAuth } = useAuth();
+  const location = useLocation();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isEmailSignupModalOpen, setIsEmailSignupModalOpen] = useState(false);
@@ -56,6 +57,12 @@ export default function Header() {
       setIsAccountDeactivatedModalOpen(true);
     }
   }, [authenticated, user]);
+
+  useEffect(() => {
+    if (authenticated) {
+      checkAuth();
+    }
+  }, [location.pathname, authenticated, checkAuth]);
 
   const getInitials = (name: string | null): string => {
     if (!name) return "U";
