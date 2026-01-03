@@ -89,7 +89,7 @@ export default function AdminFeedbackList() {
   const [totalFeedback, setTotalFeedback] = useState(0);
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
 
-  const limit = 20;
+  const limit = 6;
   const offset = currentPage * limit;
 
   useEffect(() => {
