@@ -325,7 +325,7 @@ export default function AdminReportsList({
                     <th
                       className={combineTokens(spacing.padding.md, "text-left")}
                     >
-                      Reported User
+                      Reported user
                     </th>
                   )}
                   {reportFor === "user" && (
