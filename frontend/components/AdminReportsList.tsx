@@ -109,7 +109,7 @@ export default function AdminReportsList({
   );
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
 
-  const limit = 20;
+  const limit = 6;
   const offset = currentPage * limit;
 
   const getSearchPlaceholder = () => {
