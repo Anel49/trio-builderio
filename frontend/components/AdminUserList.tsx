@@ -69,7 +69,7 @@ export default function AdminUserList({
     null,
   );
 
-  const limit = 20;
+  const limit = 6;
   const offset = currentPage * limit;
 
   useEffect(() => {
