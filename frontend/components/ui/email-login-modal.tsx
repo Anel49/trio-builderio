@@ -82,9 +82,8 @@ export function EmailLoginModal({
 
       // Check if account is deactivated
       if (data.error === "account_deactivated") {
+        handleClose();
         setIsAccountDeactivatedOpen(true);
-        setEmail("");
-        setPassword("");
         return;
       }
 
