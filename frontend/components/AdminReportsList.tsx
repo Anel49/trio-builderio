@@ -434,7 +434,8 @@ export default function AdminReportsList({
                       </td>
                       {reportFor === "listing" && (
                         <td className={spacing.padding.md}>
-                          {report.reported_listing_id && report.reported_listing_name ? (
+                          {report.reported_listing_id &&
+                          report.reported_listing_name ? (
                             <a
                               href={`/listing/${report.reported_listing_id}`}
                               onClick={(e) => {
