@@ -424,12 +424,18 @@ const TermsOfServiceContent = () => (
             tax purposes.
           </p>
         </div>
-        
         <div>
           <h3 className="text-lg font-medium mb-2">Payment Processing</h3>
           <p className="text-muted-foreground leading-relaxed">
             All payments are processed securely through Stripe. Payments can be
-            made using credit or debit cards.
+            made using credit or debit cards. 
+            <span style={{ fontWeight: 700 }}>
+              {" "}
+              Listing items at artificially low prices or soliciting tips to
+              circumvent {COMPANY_NAME}'s payment system is prohibited and will
+              result in removal from the platform.
+            </span>
+
           </p>
         </div>
         {/*}
