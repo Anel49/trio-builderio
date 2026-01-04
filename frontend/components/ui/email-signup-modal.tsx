@@ -36,8 +36,9 @@ export function EmailSignupModal({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [tempSessionId, setTempSessionId] = useState("");
   const [photoIds, setPhotoIds] = useState<
-    Array<{ tempId: string; preview: string; s3Url: string }>
+    Array<{ preview: string; s3Url: string }>
   >([]);
   const [isOver18, setIsOver18] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -51,9 +52,13 @@ export function EmailSignupModal({
   const [emailInUseModalOpen, setEmailInUseModalOpen] = useState(false);
   const [emailInUseError, setEmailInUseError] = useState<string>("");
 
-  // Load photo ID previews and S3 URLs from localStorage when modal opens
+  // Generate session ID and load photos when modal opens
   React.useEffect(() => {
     if (isOpen) {
+      // Generate a new session ID for this signup session
+      const sessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      setTempSessionId(sessionId);
+
       try {
         const storedPhotos = localStorage.getItem("signupPhotoIds");
         if (storedPhotos) {
