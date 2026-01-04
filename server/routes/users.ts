@@ -5,8 +5,7 @@ import { OAuth2Client } from "google-auth-library";
 import crypto from "crypto";
 
 async function generateUniqueUsername(): Promise<string> {
-  const maxAttempts = 10;
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+  while (true) {
     // Generate a 9-digit random number (100000000 to 999999999)
     const username = String(Math.floor(Math.random() * 900000000) + 100000000);
 
@@ -20,10 +19,8 @@ async function generateUniqueUsername(): Promise<string> {
       // Username is unique, return it
       return username;
     }
+    // Loop continues if collision found
   }
-
-  // If we've exhausted attempts, throw an error (should be extremely rare)
-  throw new Error("Failed to generate unique username after 10 attempts");
 }
 
 function rowToUser(r: any) {
