@@ -72,7 +72,7 @@ export function EmailSignupModal({
   }, [isOpen]);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const usernameRegex = /^[a-zA-Z0-9_.-]+$/;
+  const usernameRegex = /^[a-zA-Z0-9_.-]*$/;
 
   const validateEmail = (emailValue: string): boolean => {
     return emailRegex.test(emailValue);
