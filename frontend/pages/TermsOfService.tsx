@@ -568,7 +568,7 @@ const TermsOfServiceContent = () => (
             All insurance claims are subject to review and may be denied in
             cases of fraud, misrepresentation, negligence, prohibited item
             listings, or violations of platform policies. Claims may also be
-            denied if documentation of loss or damage is insufficient.
+            denied if documentation of damage or loss is insufficient.
           </p>
         </div>
       </div>
