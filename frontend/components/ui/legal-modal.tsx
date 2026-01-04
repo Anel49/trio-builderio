@@ -83,6 +83,7 @@ export const PrivacyContent = () => (
         <li>Price</li>
         <li>Description</li>
         <li>Categories</li>
+        <li>Addons</li>
         <li>Availability</li>
         <li>Reviews</li>
       </ul>
