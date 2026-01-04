@@ -404,7 +404,7 @@ export function EmailSignupModal({
         "[EmailSignupModal] Closing success modal by outside interaction, refreshing page",
       );
       setIsSuccessModalOpen(false);
-      handleClose();
+      await handleClose();
       // Clear the image previews from localStorage after successful signup
       localStorage.removeItem("uploadSessionImagePreview");
       localStorage.removeItem("signupPhotoIds");
