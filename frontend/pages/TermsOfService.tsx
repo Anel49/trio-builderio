@@ -606,7 +606,7 @@ const TermsOfServiceContent = () => (
       <p className="text-muted-foreground leading-relaxed">
         Your privacy is important to us. We collect, use, and protect your
         personal information in accordance with our Privacy Policy. By using 
-        {COMPANY_NAME}, you consent to the collection and use of your
+         {COMPANY_NAME}, you consent to the collection and use of your
         information as described in our Privacy Policy which is incorporated
         into these Terms of Service by reference.
       </p>
