@@ -321,6 +321,7 @@ export function EmailSignupModal({
 
       if (response.ok && data.ok && data.user) {
         setSuccessUser(data.user);
+        setPhotoIds([]);
         setIsSuccessModalOpen(true);
       } else if (data.error === "email already registered") {
         setEmailInUseError(email.trim());
