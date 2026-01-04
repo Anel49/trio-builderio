@@ -354,10 +354,29 @@ export function EmailSignupModal({
     }
   };
 
-  const handleClose = () => {
+  const handleClose = async () => {
     console.log(
       "[EmailSignupModal] handleClose called, calling onOpenChange(false)",
     );
+
+    // Clean up temporary photos from S3 if they exist
+    if (photoIds.length > 0) {
+      const s3Urls = photoIds.map((p) => p.s3Url).filter(Boolean);
+      if (s3Urls.length > 0) {
+        try {
+          console.log("[EmailSignupModal] Cleaning up", s3Urls.length, "temporary photos");
+          await apiFetch("/users/cleanup-temp-photos", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ s3Urls }),
+          });
+          console.log("[EmailSignupModal] Cleanup completed successfully");
+        } catch (error) {
+          console.error("[EmailSignupModal] Error during cleanup:", error);
+        }
+      }
+    }
+
     setFirstName("");
     setLastName("");
     setUsername("");
