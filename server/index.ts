@@ -72,6 +72,7 @@ import {
   googleOAuth,
   getPresignedProfileImageUrl,
   getPresignedPhotoIdUploadUrl,
+  deletePhotoFromSession,
   cleanupTempPhotos,
   createUserReview,
   getUserReviews,
