@@ -1607,48 +1607,32 @@ export async function getPresignedPhotoIdUploadUrl(
 
 export async function cleanupTempPhotos(req: Request, res: Response) {
   try {
-    const { s3Urls } = req.body || {};
+    const { tempSessionId } = req.body || {};
 
-    if (!Array.isArray(s3Urls) || s3Urls.length === 0) {
-      return res.status(400).json({ ok: false, error: "s3Urls array is required" });
+    if (!tempSessionId || typeof tempSessionId !== "string") {
+      return res
+        .status(400)
+        .json({ ok: false, error: "tempSessionId is required" });
     }
 
-    const { extractS3KeyFromUrl } = await import("../lib/s3");
-    const { deleteVerificationObject } = await import("../lib/s3");
+    const { deleteVerificationPrefix } = await import("../lib/s3");
 
-    let deletedCount = 0;
-    const failedUrls: string[] = [];
+    console.log("[cleanupTempPhotos] Cleaning up temp session:", tempSessionId);
 
-    for (const url of s3Urls) {
-      if (typeof url !== "string" || !url.trim()) {
-        continue;
-      }
+    try {
+      const prefix = `users/${tempSessionId}/`;
+      const deletedCount = await deleteVerificationPrefix(prefix);
+      console.log(`[cleanupTempPhotos] Deleted ${deletedCount} files from prefix:`, prefix);
 
-      try {
-        const s3Key = extractS3KeyFromUrl(url);
-        if (!s3Key) {
-          console.warn("[cleanupTempPhotos] Could not extract S3 key from URL:", url);
-          failedUrls.push(url);
-          continue;
-        }
-
-        console.log("[cleanupTempPhotos] Deleting verification object:", s3Key);
-        await deleteVerificationObject(s3Key);
-        deletedCount++;
-      } catch (error) {
-        console.error("[cleanupTempPhotos] Error deleting verification object:", error);
-        failedUrls.push(url);
-      }
+      res.json({
+        ok: true,
+        message: `Cleaned up ${deletedCount} temporary photo(s)`,
+        deletedCount,
+      });
+    } catch (error) {
+      console.error("[cleanupTempPhotos] Error deleting verification prefix:", error);
+      throw error;
     }
-
-    console.log(`[cleanupTempPhotos] Deleted ${deletedCount} files, failed: ${failedUrls.length}`);
-
-    res.json({
-      ok: true,
-      message: `Cleaned up ${deletedCount} temporary photo(s)`,
-      deletedCount,
-      failedCount: failedUrls.length,
-    });
   } catch (error: any) {
     console.error("[cleanupTempPhotos] Error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
