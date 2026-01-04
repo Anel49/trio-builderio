@@ -96,8 +96,6 @@ export function EmailSignupModal({
       errors.firstName = "First name is required";
     } else if (errorMsg === "last_name is required") {
       errors.lastName = "Last name is required";
-    } else if (errorMsg === "username is required") {
-      errors.username = "Username is required";
     } else if (errorMsg === "username already taken") {
       errors.username = "Username already taken";
     } else if (errorMsg === "valid email is required") {
