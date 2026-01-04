@@ -1606,6 +1606,56 @@ export async function getPresignedPhotoIdUploadUrl(
   }
 }
 
+export async function cleanupTempPhotos(req: Request, res: Response) {
+  try {
+    const { s3Urls } = req.body || {};
+
+    if (!Array.isArray(s3Urls) || s3Urls.length === 0) {
+      return res.status(400).json({ ok: false, error: "s3Urls array is required" });
+    }
+
+    const { extractS3KeyFromUrl } = await import("../lib/s3");
+    const { deleteS3Object } = await import("../lib/s3");
+
+    let deletedCount = 0;
+    const failedUrls: string[] = [];
+
+    for (const url of s3Urls) {
+      if (typeof url !== "string" || !url.trim()) {
+        continue;
+      }
+
+      try {
+        const s3Key = extractS3KeyFromUrl(url);
+        if (!s3Key) {
+          console.warn("[cleanupTempPhotos] Could not extract S3 key from URL:", url);
+          failedUrls.push(url);
+          continue;
+        }
+
+        console.log("[cleanupTempPhotos] Deleting S3 object:", s3Key);
+        await deleteS3Object(s3Key);
+        deletedCount++;
+      } catch (error) {
+        console.error("[cleanupTempPhotos] Error deleting S3 object:", error);
+        failedUrls.push(url);
+      }
+    }
+
+    console.log(`[cleanupTempPhotos] Deleted ${deletedCount} files, failed: ${failedUrls.length}`);
+
+    res.json({
+      ok: true,
+      message: `Cleaned up ${deletedCount} temporary photo(s)`,
+      deletedCount,
+      failedCount: failedUrls.length,
+    });
+  } catch (error: any) {
+    console.error("[cleanupTempPhotos] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function createUserReview(req: Request, res: Response) {
   try {
     const reviewedUserId = Number((req.params as any)?.id);
