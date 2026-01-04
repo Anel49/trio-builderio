@@ -543,11 +543,9 @@ export function EmailSignupModal({
               {/* Profile Name */}
               <div className="space-y-2">
                 <div>
-                  <label className="text-sm font-medium">
-                    Profile Name <span className="text-red-500">*</span>
-                  </label>
+                  <label className="text-sm font-medium">Profile Name</label>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Your Profile Name will be used in your profile's URL.
+                    Optional. Your Profile Name will be used in your profile's URL. If not provided, one will be auto-generated.
                   </p>
                 </div>
                 <Input
@@ -581,7 +579,6 @@ export function EmailSignupModal({
                     }
                   }}
                   disabled={isLoading}
-                  required
                   className={fieldErrors.username ? "border-red-500" : ""}
                 />
                 {fieldErrors.username && (
