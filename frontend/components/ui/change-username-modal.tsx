@@ -228,7 +228,7 @@ export function ChangeUsernameModal({
                 className={fieldErrors.newUsername ? "border-red-500" : ""}
               />
               <p className="text-xs text-muted-foreground mt-1">
-                3-30 characters, letters, numbers, underscores, and hyphens only
+                3-30 characters, non-accented letters, numbers, underscores, hyphens, and periods only
               </p>
               {fieldErrors.newUsername && (
                 <p className="text-sm text-red-500 mt-1">
