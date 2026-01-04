@@ -740,6 +740,7 @@ export function createServer() {
   app.post("/api/users/deactivate", deactivateAccount);
   app.post("/api/users/:userId/presigned-url", getPresignedProfileImageUrl);
   app.post("/api/users/presigned-photo-id-url", getPresignedPhotoIdUploadUrl);
+  app.post("/api/users/cleanup-temp-photos", cleanupTempPhotos);
   app.post("/api/users/:id/reviews", createUserReview);
   app.get("/api/users/:id/reviews", getUserReviews);
   app.patch("/api/users/reviews/:reviewId", updateUserReview);
