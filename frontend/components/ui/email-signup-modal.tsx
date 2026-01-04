@@ -87,7 +87,7 @@ export function EmailSignupModal({
       return "Username must be 30 characters or less";
     }
     if (!usernameRegex.test(usernameValue)) {
-      return "Username can only contain letters, numbers, underscores, hyphens, and periods";
+      return "Username can only contain non-accented letters, numbers, underscores, hyphens, and periods";
     }
     return null;
   };
