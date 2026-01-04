@@ -337,7 +337,7 @@ export async function emailSignup(req: Request, res: Response) {
     const firstNameStr =
       typeof first_name === "string" ? first_name.trim() : "";
     const lastNameStr = typeof last_name === "string" ? last_name.trim() : "";
-    const usernameStr =
+    let usernameStr =
       typeof username === "string" ? username.trim().toLowerCase() : "";
     const emailStr = typeof email === "string" ? email.trim() : "";
     const passwordStr = typeof password === "string" ? password : "";
@@ -349,10 +349,6 @@ export async function emailSignup(req: Request, res: Response) {
       return res
         .status(400)
         .json({ ok: false, error: "first_name is required" });
-    }
-
-    if (!usernameStr) {
-      return res.status(400).json({ ok: false, error: "username is required" });
     }
 
     if (!emailStr || !emailStr.includes("@")) {
@@ -398,19 +394,42 @@ export async function emailSignup(req: Request, res: Response) {
         .json({ ok: false, error: "email already registered" });
     }
 
-    // Check if username is already taken (case-insensitive)
-    const existingUsernameResult = await pool.query(
-      `select id from users where lower(username) = $1`,
-      [usernameStr],
-    );
+    // If username is provided, validate it
+    if (usernameStr) {
+      // Username can only contain: a-z, A-Z, 0-9, "_", "-", and "."
+      const usernameRegex = /^[a-zA-Z0-9_.-]+$/;
+      if (!usernameRegex.test(usernameStr)) {
+        return res.status(400).json({
+          ok: false,
+          error:
+            "Username can only contain letters, numbers, underscores, hyphens, and periods",
+        });
+      }
 
-    if (
-      existingUsernameResult.rowCount &&
-      existingUsernameResult.rowCount > 0
-    ) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "username already taken" });
+      if (usernameStr.length > 30) {
+        return res.status(400).json({
+          ok: false,
+          error: "Username must be 30 characters or less",
+        });
+      }
+
+      // Check if username is already taken (case-insensitive)
+      const existingUsernameResult = await pool.query(
+        `select id from users where lower(username) = $1`,
+        [usernameStr],
+      );
+
+      if (
+        existingUsernameResult.rowCount &&
+        existingUsernameResult.rowCount > 0
+      ) {
+        return res
+          .status(400)
+          .json({ ok: false, error: "username already taken" });
+      }
+    } else {
+      // Generate a unique username if not provided
+      usernameStr = await generateUniqueUsername();
     }
 
     const userResult = await pool.query(
