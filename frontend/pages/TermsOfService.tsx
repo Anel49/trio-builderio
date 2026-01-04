@@ -554,12 +554,7 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Insurance Coverage</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Our long-term vision at {COMPANY_NAME} is to provide comprehensive
-            insurance for every rental. As we are still in the early stages, we
-            can only provide basic insurance. We are working diligently to
-            secure the necessary funding to make comprehensive coverage
-            possible. We appreciate your patience and understanding as we work
-            towards this goal.
+            {COMPANY_NAME} covers 100% of the cost for the repair or replacement of rented item(s) in the case of an accident.
           </p>
         </div>
         <div>
