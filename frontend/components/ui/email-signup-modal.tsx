@@ -800,7 +800,7 @@ export function EmailSignupModal({
               localStorage.removeItem("uploadSessionImagePreview");
               localStorage.removeItem("signupPhotoIds");
               setIsSuccessModalOpen(false);
-              handleClose();
+              await handleClose();
               if (onSignupSuccess) {
                 onSignupSuccess();
               }
