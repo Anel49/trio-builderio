@@ -554,7 +554,8 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Insurance Coverage</h3>
           <p className="text-muted-foreground leading-relaxed">
-            {COMPANY_NAME} covers 100% of the cost for the repair or replacement of rented item(s) in the case of an accident.
+            {COMPANY_NAME} covers 100% of the cost for the repair or
+            replacement of rented item(s) in the case of an accident.
           </p>
         </div>
         <div>
