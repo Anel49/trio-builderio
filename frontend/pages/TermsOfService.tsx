@@ -337,7 +337,7 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Account Security</h3>
           <p className="text-muted-foreground leading-relaxed">
             You are responsible for all activities that occur under your
-            account. You must immediately notify us of any unauthorized use of
+            account. You must immediately notify {COMPANY_NAME} of any unauthorized use of
             your account.
           </p>
         </div>
