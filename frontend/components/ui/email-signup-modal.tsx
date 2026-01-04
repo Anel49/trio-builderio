@@ -278,7 +278,15 @@ export function EmailSignupModal({
   const handleRemovePhoto = (index: number) => {
     setPhotoIds((prev) => {
       const updated = prev.filter((_, i) => i !== index);
-      localStorage.setItem("signupPhotoIds", JSON.stringify(updated));
+      // Store updated list to localStorage
+      try {
+        const storageData = updated.map(p => ({
+          s3Url: p.s3Url,
+        }));
+        localStorage.setItem("signupPhotoIds", JSON.stringify(storageData));
+      } catch (err) {
+        console.error("[EmailSignupModal] Error saving to localStorage:", err);
+      }
       return updated;
     });
   };
