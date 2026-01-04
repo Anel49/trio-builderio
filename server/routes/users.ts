@@ -7,8 +7,8 @@ import crypto from "crypto";
 async function generateUniqueUsername(): Promise<string> {
   const maxAttempts = 10;
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    // Generate a 9-digit random number (100000000 to 999999999)
-    const username = String(Math.floor(Math.random() * 900000000) + 100000000);
+    // Use crypto.randomUUID() - same as OAuth signup
+    const username = crypto.randomUUID();
 
     // Check if this username already exists
     const existingResult = await pool.query(
