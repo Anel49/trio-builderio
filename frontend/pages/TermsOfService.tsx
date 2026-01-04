@@ -419,7 +419,7 @@ const TermsOfServiceContent = () => (
           <p className="text-muted-foreground leading-relaxed">
             Hosts can optionally offer delivery for their item, either free of
             charge or for a fee. Delivery fees are negotiated between the host
-            and the renter through Chats. {COMPANY_NAME} does not take a cut of
+            and the renter through Messages. {COMPANY_NAME} does not take a cut of
             delivery fees. Delivery fees may qualify as deductible expenses for
             tax purposes.
           </p>
