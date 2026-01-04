@@ -354,29 +354,37 @@ export function EmailSignupModal({
     }
   };
 
-  const handleClose = async () => {
-    console.log(
-      "[EmailSignupModal] handleClose called, calling onOpenChange(false)",
-    );
-
+  const performCleanup = async () => {
     // Clean up temporary photos from S3 if they exist
     if (photoIds.length > 0) {
       const s3Urls = photoIds.map((p) => p.s3Url).filter(Boolean);
       if (s3Urls.length > 0) {
         try {
           console.log("[EmailSignupModal] Cleaning up", s3Urls.length, "temporary photos");
-          await apiFetch("/users/cleanup-temp-photos", {
+          const response = await apiFetch("/users/cleanup-temp-photos", {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ s3Urls }),
           });
-          console.log("[EmailSignupModal] Cleanup completed successfully");
+          const data = await response.json().catch(() => ({}));
+          console.log("[EmailSignupModal] Cleanup completed:", data);
         } catch (error) {
           console.error("[EmailSignupModal] Error during cleanup:", error);
         }
       }
     }
+  };
 
+  const handleClose = async (open: boolean) => {
+    console.log("[EmailSignupModal] handleClose called with open:", open);
+
+    if (!open) {
+      // User is closing the modal, perform cleanup
+      console.log("[EmailSignupModal] Modal closing, performing S3 cleanup");
+      await performCleanup();
+    }
+
+    // Clear form state
     setFirstName("");
     setLastName("");
     setUsername("");
@@ -391,7 +399,7 @@ export function EmailSignupModal({
     setSuccessMessage("");
     // Clear photo IDs from localStorage when closing modal
     localStorage.removeItem("signupPhotoIds");
-    onOpenChange(false);
+    onOpenChange(open);
   };
 
   const handleSuccessModalClose = async (open: boolean) => {
