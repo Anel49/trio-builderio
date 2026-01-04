@@ -79,6 +79,10 @@ export function EmailSignupModal({
   };
 
   const validateUsername = (usernameValue: string): string | null => {
+    // Allow empty usernames (optional field)
+    if (!usernameValue.trim()) {
+      return null;
+    }
     if (usernameValue.length > 30) {
       return "Username must be 30 characters or less";
     }
