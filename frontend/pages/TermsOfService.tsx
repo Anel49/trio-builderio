@@ -629,8 +629,8 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Involuntary Termination</h3>
           <p className="text-muted-foreground leading-relaxed">
             We may suspend or terminate accounts that violate these Terms of
-            Service, engage in fraudulent activity, or pose risks to the
-            community.
+            Service, engage in fraudulent activity, or pose risks to our
+            communities.
           </p>
         </div>
       </div>
