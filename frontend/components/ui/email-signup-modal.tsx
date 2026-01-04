@@ -547,7 +547,7 @@ export function EmailSignupModal({
                 <div>
                   <label className="text-sm font-medium">Profile Name</label>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Optional. Your Profile Name will be used in your profile's URL. If not provided, one will be auto-generated.
+                    Your Profile Name will be used in your profile's URL.
                   </p>
                 </div>
                 <Input
