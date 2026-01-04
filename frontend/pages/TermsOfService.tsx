@@ -431,7 +431,7 @@ const TermsOfServiceContent = () => (
             made using credit or debit cards. 
             <span style={{ fontWeight: 700 }}>
               {" "}
-              Listing items at artificially low prices or soliciting tips to
+              Listing items at artificially low prices and soliciting tips to
               circumvent {COMPANY_NAME}'s payment system is prohibited and will
               result in removal from the platform.
             </span>
