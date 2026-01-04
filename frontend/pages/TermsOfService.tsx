@@ -403,15 +403,14 @@ const TermsOfServiceContent = () => (
             customer support, and payment processing.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Item rentals incur a {INSURANCE_FEE}% fee of the item’s daily rental
-            price, plus {INSURANCE_FEE}% of all non-consumable addons selected,
-            charged from the renter. This fee is to insure the renter
-            throughout the booking period. This fee is not charged again with
-            booking extensions. Listings providing a service do not incur this fee.
-            The renter's maximum out-of-pocket insurance payment is capped at $50.
+            Rentals incur a 10% fee for the first day, and 1.5% for each day
+            thereafter, of the rental's daily price and any non-consumable addons
+            as payment for insurance, charged from the renter. This fee will cover
+            100% of the cost for repair or replacement of the rented item(s) in
+            the case of an accident.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            These coverages are subject to change based on the platform’s
+            This coverage is subject to change based on the platform's
             performance and growth.
           </p>
         </div>
@@ -434,7 +433,7 @@ const TermsOfServiceContent = () => (
             <span style={{ fontWeight: 700 }}>
               {" "}
               Listing items at artificially low prices or soliciting tips to
-              circumvent {COMPANY_NAME}’s payment system is prohibited and will
+              circumvent {COMPANY_NAME}'s payment system is prohibited and will
               result in removal from the platform.
             </span>
           </p>
