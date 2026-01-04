@@ -364,7 +364,7 @@ const TermsOfServiceContent = () => (
           <h3 className="text-lg font-medium mb-2">Booking and Confirmation</h3>
           <p className="text-muted-foreground leading-relaxed">
             When you request to rent an item, you're making an offer to enter
-            into a rental agreement with the item owner. The rental agreement is
+            into a rental agreement with the item's owner. The rental agreement is
             formed when the owner accepts your request and payment is processed.
           </p>
         </div>
