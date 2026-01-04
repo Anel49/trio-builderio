@@ -87,7 +87,7 @@ export function ChangeUsernameModal({
         setFieldErrors((prev) => ({
           ...prev,
           newUsername:
-            "Username must be 3-30 characters, containing only letters, numbers, underscores, and hyphens",
+            "Username must be 3-30 characters, containing only non-accented letters, numbers, underscores, hyphens, and periods",
         }));
       }
       if (!isOAuthUser && !password) {
