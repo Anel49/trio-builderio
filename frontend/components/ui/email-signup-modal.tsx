@@ -242,9 +242,19 @@ export function EmailSignupModal({
         }
       }
 
-      // Save to localStorage
+      // Update state with the final photo IDs
       setPhotoIds((prev) => {
-        localStorage.setItem("signupPhotoIds", JSON.stringify(prev));
+        try {
+          // Only store essential data to localStorage (without the large preview data URIs)
+          const storageData = prev.map(p => ({
+            tempId: p.tempId,
+            s3Url: p.s3Url,
+          }));
+          localStorage.setItem("signupPhotoIds", JSON.stringify(storageData));
+        } catch (storageErr) {
+          console.error("[EmailSignupModal] Failed to save photos to localStorage:", storageErr);
+          // Continue anyway - the photos are still in memory
+        }
         return prev;
       });
 
