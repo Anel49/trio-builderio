@@ -129,80 +129,117 @@ export function EmailSignupModal({
 
     try {
       setError("");
+      let uploadedCount = 0;
 
       // Process each selected file
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        if (
-          !file.type.startsWith("image/") &&
-          !file.type.startsWith("application/pdf")
-        ) {
+
+        // Validate file type - check both MIME type and file extension
+        const validMimeTypes = [
+          "image/jpeg",
+          "image/jpg",
+          "image/png",
+          "image/gif",
+          "image/webp",
+          "application/pdf",
+        ];
+
+        const validExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf"];
+        const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf("."));
+
+        const hasValidMimeType = validMimeTypes.some(mime => file.type.startsWith(mime) || file.type === mime);
+        const hasValidExtension = validExtensions.includes(fileExtension);
+
+        if (!hasValidMimeType && !hasValidExtension) {
+          console.warn(
+            `[EmailSignupModal] Skipping file ${file.name} - unsupported format (MIME: ${file.type || "unknown"}, ext: ${fileExtension})`,
+          );
           continue;
         }
 
         // Generate a temporary ID for this photo (will be renamed after signup)
-        // In browser, we use timestamp-based ID since crypto.randomUUID() is not available via require
         const tempId = `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${i}`;
 
-        // Create a local preview data URL immediately
-        const dataUrl = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            const url = event.target?.result as string;
-            resolve(url);
-          };
-          reader.onerror = () => reject(new Error("Failed to read file"));
-          reader.readAsDataURL(file);
-        });
+        try {
+          // Create a local preview data URL immediately
+          const dataUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              const url = event.target?.result as string;
+              resolve(url);
+            };
+            reader.onerror = () => reject(new Error("Failed to read file"));
+            reader.readAsDataURL(file);
+          });
 
-        // Get presigned URL from backend
-        const presignedResponse = await apiFetch(
-          "/users/presigned-photo-id-url",
-          {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({
-              filename: file.name,
-              contentType: file.type,
-            }),
-          },
-        );
-
-        const presignedData = await presignedResponse.json().catch(() => ({}));
-
-        if (!presignedResponse.ok || !presignedData.presignedUrl) {
-          console.warn(
-            `[EmailSignupModal] Failed to get presigned URL for ${file.name}:`,
-            presignedData.error,
+          // Determine content type - use file extension if MIME type is missing
+          const contentType = file.type || (
+            fileExtension === ".pdf" ? "application/pdf" :
+            [".jpg", ".jpeg"].includes(fileExtension) ? "image/jpeg" :
+            fileExtension === ".png" ? "image/png" :
+            fileExtension === ".gif" ? "image/gif" :
+            fileExtension === ".webp" ? "image/webp" :
+            "application/octet-stream"
           );
+
+          // Get presigned URL from backend
+          const presignedResponse = await apiFetch(
+            "/users/presigned-photo-id-url",
+            {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({
+                filename: file.name,
+                contentType,
+              }),
+            },
+          );
+
+          const presignedData = await presignedResponse.json().catch(() => ({}));
+
+          if (!presignedResponse.ok || !presignedData.presignedUrl) {
+            console.warn(
+              `[EmailSignupModal] Failed to get presigned URL for ${file.name}:`,
+              presignedData.error,
+            );
+            continue;
+          }
+
+          // Upload file to S3 using presigned URL
+          const uploadResponse = await fetch(presignedData.presignedUrl, {
+            method: "PUT",
+            headers: {
+              "Content-Type": contentType,
+            },
+            body: file,
+          }).catch((err) => {
+            console.error(`[EmailSignupModal] Fetch error uploading ${file.name}:`, err);
+            throw err;
+          });
+
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text().catch(() => "");
+            console.warn(
+              `[EmailSignupModal] Failed to upload ${file.name} to S3: ${uploadResponse.status} ${errorText.substring(0, 100)}`,
+            );
+            continue;
+          }
+
+          // Extract S3 URL (without query params)
+          const s3Url = presignedData.presignedUrl.split("?")[0];
+
+          // Add to photos array
+          setPhotoIds((prev) => [...prev, { tempId, preview: dataUrl, s3Url }]);
+          uploadedCount++;
+
+          console.log(
+            `[EmailSignupModal] Photo ${uploadedCount} uploaded successfully with tempId: ${tempId}`,
+          );
+        } catch (fileError) {
+          console.error(`[EmailSignupModal] Error processing file ${file.name}:`, fileError);
           continue;
         }
-
-        // Upload file to S3 using presigned URL
-        const uploadResponse = await fetch(presignedData.presignedUrl, {
-          method: "PUT",
-          headers: {
-            "Content-Type": file.type,
-          },
-          body: file,
-        });
-
-        if (!uploadResponse.ok) {
-          console.warn(
-            `[EmailSignupModal] Failed to upload ${file.name} to S3`,
-          );
-          continue;
-        }
-
-        // Extract S3 URL (without query params)
-        const s3Url = presignedData.presignedUrl.split("?")[0];
-
-        // Add to photos array
-        setPhotoIds((prev) => [...prev, { tempId, preview: dataUrl, s3Url }]);
-
-        console.log(
-          `[EmailSignupModal] Photo ${i + 1} uploaded successfully with tempId: ${tempId}`,
-        );
       }
 
       // Save to localStorage
@@ -210,9 +247,13 @@ export function EmailSignupModal({
         localStorage.setItem("signupPhotoIds", JSON.stringify(prev));
         return prev;
       });
+
+      if (uploadedCount === 0 && files.length > 0) {
+        setError("No valid photo files were uploaded. Please select image files (JPG, PNG, GIF, WebP) or PDF documents.");
+      }
     } catch (err) {
       console.error("[EmailSignupModal] Photo upload error:", err);
-      setError("Failed to upload photos. Please try again.");
+      setError("An error occurred while uploading photos. Please try again.");
     }
 
     // Reset file input
