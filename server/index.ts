@@ -869,6 +869,7 @@ export function createServer() {
   app.post("/users/change-username", changeUsername);
   app.post("/users/deactivate", deactivateAccount);
   app.post("/users/presigned-photo-id-url", getPresignedPhotoIdUploadUrl);
+  app.post("/users/delete-photo-from-session", deletePhotoFromSession);
   app.post("/users/cleanup-temp-photos", cleanupTempPhotos);
   app.post("/password-reset-request", passwordResetRequest);
   app.post("/password-reset-verify", passwordResetVerify);
