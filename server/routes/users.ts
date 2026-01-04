@@ -1615,7 +1615,7 @@ export async function cleanupTempPhotos(req: Request, res: Response) {
     }
 
     const { extractS3KeyFromUrl } = await import("../lib/s3");
-    const { deleteS3Object } = await import("../lib/s3");
+    const { deleteVerificationObject } = await import("../lib/s3");
 
     let deletedCount = 0;
     const failedUrls: string[] = [];
@@ -1633,11 +1633,11 @@ export async function cleanupTempPhotos(req: Request, res: Response) {
           continue;
         }
 
-        console.log("[cleanupTempPhotos] Deleting S3 object:", s3Key);
-        await deleteS3Object(s3Key);
+        console.log("[cleanupTempPhotos] Deleting verification object:", s3Key);
+        await deleteVerificationObject(s3Key);
         deletedCount++;
       } catch (error) {
-        console.error("[cleanupTempPhotos] Error deleting S3 object:", error);
+        console.error("[cleanupTempPhotos] Error deleting verification object:", error);
         failedUrls.push(url);
       }
     }
