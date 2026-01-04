@@ -1655,7 +1655,10 @@ export async function deletePhotoFromSession(req: Request, res: Response) {
         s3Key,
       });
     } catch (deleteError) {
-      console.warn("[deletePhotoFromSession] Error deleting photo:", deleteError);
+      console.warn(
+        "[deletePhotoFromSession] Error deleting photo:",
+        deleteError,
+      );
       res.json({
         ok: true,
         message: "Photo removal processed",
@@ -1689,7 +1692,10 @@ export async function cleanupTempPhotos(req: Request, res: Response) {
     try {
       const prefix = `users/${tempSessionId}/`;
       const deletedCount = await deleteVerificationPrefix(prefix);
-      console.log(`[cleanupTempPhotos] Deleted ${deletedCount} files from prefix:`, prefix);
+      console.log(
+        `[cleanupTempPhotos] Deleted ${deletedCount} files from prefix:`,
+        prefix,
+      );
 
       res.json({
         ok: true,
@@ -1697,7 +1703,10 @@ export async function cleanupTempPhotos(req: Request, res: Response) {
         deletedCount,
       });
     } catch (error) {
-      console.error("[cleanupTempPhotos] Error deleting verification prefix:", error);
+      console.error(
+        "[cleanupTempPhotos] Error deleting verification prefix:",
+        error,
+      );
       throw error;
     }
   } catch (error: any) {

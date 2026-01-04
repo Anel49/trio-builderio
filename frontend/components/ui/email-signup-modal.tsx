@@ -56,9 +56,14 @@ export function EmailSignupModal({
   React.useEffect(() => {
     if (isOpen) {
       // Generate a new session ID for this signup session
-      const sessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      const sessionId =
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15);
       setTempSessionId(sessionId);
-      console.log("[EmailSignupModal] Generated new temp session ID:", sessionId);
+      console.log(
+        "[EmailSignupModal] Generated new temp session ID:",
+        sessionId,
+      );
 
       try {
         const storedPhotos = localStorage.getItem("signupPhotoIds");
@@ -67,10 +72,12 @@ export function EmailSignupModal({
           if (Array.isArray(photos)) {
             // Photos stored without preview, so we only have s3Url
             // Set them without preview for now (will be empty on reload)
-            setPhotoIds(photos.map(p => ({
-              preview: "",
-              s3Url: p.s3Url || p,
-            })));
+            setPhotoIds(
+              photos.map((p) => ({
+                preview: "",
+                s3Url: p.s3Url || p,
+              })),
+            );
           }
         }
       } catch (err) {
@@ -156,10 +163,21 @@ export function EmailSignupModal({
           "application/pdf",
         ];
 
-        const validExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf"];
-        const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf("."));
+        const validExtensions = [
+          ".jpg",
+          ".jpeg",
+          ".png",
+          ".gif",
+          ".webp",
+          ".pdf",
+        ];
+        const fileExtension = file.name
+          .toLowerCase()
+          .substring(file.name.lastIndexOf("."));
 
-        const hasValidMimeType = validMimeTypes.some(mime => file.type.startsWith(mime) || file.type === mime);
+        const hasValidMimeType = validMimeTypes.some(
+          (mime) => file.type.startsWith(mime) || file.type === mime,
+        );
         const hasValidExtension = validExtensions.includes(fileExtension);
 
         if (!hasValidMimeType && !hasValidExtension) {
@@ -185,14 +203,19 @@ export function EmailSignupModal({
           });
 
           // Determine content type - use file extension if MIME type is missing
-          const contentType = file.type || (
-            fileExtension === ".pdf" ? "application/pdf" :
-            [".jpg", ".jpeg"].includes(fileExtension) ? "image/jpeg" :
-            fileExtension === ".png" ? "image/png" :
-            fileExtension === ".gif" ? "image/gif" :
-            fileExtension === ".webp" ? "image/webp" :
-            "application/octet-stream"
-          );
+          const contentType =
+            file.type ||
+            (fileExtension === ".pdf"
+              ? "application/pdf"
+              : [".jpg", ".jpeg"].includes(fileExtension)
+                ? "image/jpeg"
+                : fileExtension === ".png"
+                  ? "image/png"
+                  : fileExtension === ".gif"
+                    ? "image/gif"
+                    : fileExtension === ".webp"
+                      ? "image/webp"
+                      : "application/octet-stream");
 
           // Get presigned URL from backend, pass tempSessionId
           const presignedResponse = await apiFetch(
@@ -208,7 +231,9 @@ export function EmailSignupModal({
             },
           );
 
-          const presignedData = await presignedResponse.json().catch(() => ({}));
+          const presignedData = await presignedResponse
+            .json()
+            .catch(() => ({}));
 
           if (!presignedResponse.ok || !presignedData.presignedUrl) {
             console.warn(
@@ -226,7 +251,10 @@ export function EmailSignupModal({
             },
             body: file,
           }).catch((err) => {
-            console.error(`[EmailSignupModal] Fetch error uploading ${file.name}:`, err);
+            console.error(
+              `[EmailSignupModal] Fetch error uploading ${file.name}:`,
+              err,
+            );
             throw err;
           });
 
@@ -249,7 +277,10 @@ export function EmailSignupModal({
             `[EmailSignupModal] Photo ${uploadedCount} uploaded successfully to session: ${tempSessionId}`,
           );
         } catch (fileError) {
-          console.error(`[EmailSignupModal] Error processing file ${file.name}:`, fileError);
+          console.error(
+            `[EmailSignupModal] Error processing file ${file.name}:`,
+            fileError,
+          );
           continue;
         }
       }
@@ -258,19 +289,24 @@ export function EmailSignupModal({
       setPhotoIds((prev) => {
         try {
           // Store S3 URLs only (preview will be kept in-memory)
-          const storageData = prev.map(p => ({
+          const storageData = prev.map((p) => ({
             s3Url: p.s3Url,
           }));
           localStorage.setItem("signupPhotoIds", JSON.stringify(storageData));
         } catch (storageErr) {
-          console.error("[EmailSignupModal] Failed to save photos to localStorage:", storageErr);
+          console.error(
+            "[EmailSignupModal] Failed to save photos to localStorage:",
+            storageErr,
+          );
           // Continue anyway - the photos are still in memory
         }
         return prev;
       });
 
       if (uploadedCount === 0 && files.length > 0) {
-        setError("No valid photo files were uploaded. Please select image files (JPG, PNG, GIF, WebP) or PDF documents.");
+        setError(
+          "No valid photo files were uploaded. Please select image files (JPG, PNG, GIF, WebP) or PDF documents.",
+        );
       }
     } catch (err) {
       console.error("[EmailSignupModal] Photo upload error:", err);
@@ -290,7 +326,7 @@ export function EmailSignupModal({
       const updated = prev.filter((_, i) => i !== index);
       // Store updated list to localStorage
       try {
-        const storageData = updated.map(p => ({
+        const storageData = updated.map((p) => ({
           s3Url: p.s3Url,
         }));
         localStorage.setItem("signupPhotoIds", JSON.stringify(storageData));
@@ -411,7 +447,10 @@ export function EmailSignupModal({
     // Clean up temporary photos folder from S3
     if (tempSessionId) {
       try {
-        console.log("[EmailSignupModal] Cleaning up temp session:", tempSessionId);
+        console.log(
+          "[EmailSignupModal] Cleaning up temp session:",
+          tempSessionId,
+        );
         const response = await apiFetch("/users/cleanup-temp-photos", {
           method: "POST",
           headers: { "content-type": "application/json" },
@@ -720,7 +759,10 @@ export function EmailSignupModal({
                 <div>
                   <label className="text-sm font-medium">Photo ID</label>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Uploading a government-issued ID will begin the identity verification process that will allow you to create listings, make reservations, and leave reviews. This process can be started later at your convenience.
+                    Uploading a government-issued ID will begin the identity
+                    verification process that will allow you to create listings,
+                    make reservations, and leave reviews. This process can be
+                    started later at your convenience.
                   </p>
                 </div>
 

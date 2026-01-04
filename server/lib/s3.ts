@@ -275,7 +275,9 @@ export async function deleteVerificationObject(key: string): Promise<boolean> {
  * @param prefix - The S3 prefix (e.g., "users/{tempSessionId}/")
  * @returns The number of objects deleted
  */
-export async function deleteVerificationPrefix(prefix: string): Promise<number> {
+export async function deleteVerificationPrefix(
+  prefix: string,
+): Promise<number> {
   try {
     console.log("[S3] Deleting all verification objects under prefix:", prefix);
 
@@ -322,7 +324,11 @@ export async function deleteVerificationPrefix(prefix: string): Promise<number> 
     );
     return objects.length;
   } catch (error) {
-    console.error("[S3] Error deleting verification objects under prefix:", prefix, error);
+    console.error(
+      "[S3] Error deleting verification objects under prefix:",
+      prefix,
+      error,
+    );
     throw error;
   }
 }
