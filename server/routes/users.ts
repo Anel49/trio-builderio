@@ -1544,7 +1544,7 @@ export async function getPresignedPhotoIdUploadUrl(
   res: Response,
 ) {
   try {
-    const { filename, contentType } = req.body || {};
+    const { filename, contentType, tempSessionId } = req.body || {};
 
     if (!filename || typeof filename !== "string" || filename.trim() === "") {
       return res.status(400).json({ ok: false, error: "filename is required" });
@@ -1554,6 +1554,12 @@ export async function getPresignedPhotoIdUploadUrl(
       return res
         .status(400)
         .json({ ok: false, error: "contentType is required" });
+    }
+
+    if (!tempSessionId || typeof tempSessionId !== "string") {
+      return res
+        .status(400)
+        .json({ ok: false, error: "tempSessionId is required" });
     }
 
     // Validate that it's an image or document file
@@ -1567,20 +1573,15 @@ export async function getPresignedPhotoIdUploadUrl(
       });
     }
 
-    // Generate a unique temporary ID using crypto.randomUUID to avoid collisions
-    // This temp ID will be replaced with the actual user ID after signup
-    const { randomUUID } = await import("crypto");
-    const tempUserId = randomUUID();
-
     // Import S3 utilities
     const { generatePresignedVerificationUploadUrl } = await import(
       "../lib/s3"
     );
 
     // Generate presigned URL for photo ID upload to verification bucket
-    // The file will be stored with the temp UUID, then moved to the user ID folder after signup
+    // All files for this signup session go into the same folder: users/{tempSessionId}/
     const presignedUrl = await generatePresignedVerificationUploadUrl(
-      tempUserId,
+      tempSessionId,
       "photo_id",
       filename.split(".").pop() || "jpg",
     );
@@ -1590,11 +1591,13 @@ export async function getPresignedPhotoIdUploadUrl(
       "[getPresignedPhotoIdUploadUrl] URL preview:",
       presignedUrl.substring(0, 200) + "...",
     );
+    console.log("[getPresignedPhotoIdUploadUrl] Session ID:", tempSessionId);
 
     res.json({
       ok: true,
       presignedUrl,
       filename,
+      tempSessionId,
     });
   } catch (error: any) {
     console.error("[getPresignedPhotoIdUploadUrl] Error:", error);
