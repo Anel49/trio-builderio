@@ -590,9 +590,12 @@ export function EmailSignupModal({
 
               {/* Photo ID Upload */}
               <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  Photo ID / Documents
-                </label>
+                <div>
+                  <label className="text-sm font-medium">Photo ID</label>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Uploading a government-issued ID will begin the identity verification process that will allow you to create listings, make reservations, and leave reviews. This process can be started later at your convenience.
+                  </p>
+                </div>
 
                 {/* Upload Area */}
                 <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-muted-foreground/50 transition-colors">
