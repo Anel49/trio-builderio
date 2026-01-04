@@ -282,6 +282,10 @@ export function EmailSignupModal({
   };
 
   const handleRemovePhoto = (index: number) => {
+    // Get the photo to delete before updating state
+    const photoToDelete = photoIds[index];
+
+    // Update UI immediately (optimistic update)
     setPhotoIds((prev) => {
       const updated = prev.filter((_, i) => i !== index);
       // Store updated list to localStorage
@@ -295,6 +299,35 @@ export function EmailSignupModal({
       }
       return updated;
     });
+
+    // Delete from S3 in the background (fire-and-forget)
+    if (photoToDelete && photoToDelete.s3Url && tempSessionId) {
+      (async () => {
+        try {
+          console.log(
+            "[EmailSignupModal] Deleting photo from S3:",
+            photoToDelete.s3Url,
+          );
+          const response = await apiFetch("/users/delete-photo-from-session", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              photoUrl: photoToDelete.s3Url,
+              tempSessionId,
+            }),
+          });
+
+          const data = await response.json().catch(() => ({}));
+          console.log("[EmailSignupModal] Photo deletion response:", data);
+        } catch (err) {
+          // Log but don't show error to user - deletion failed silently
+          console.error(
+            "[EmailSignupModal] Error deleting photo from S3:",
+            err,
+          );
+        }
+      })();
+    }
   };
 
   const isFormValid =
