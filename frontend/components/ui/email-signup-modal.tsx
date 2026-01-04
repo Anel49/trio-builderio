@@ -227,14 +227,13 @@ export function EmailSignupModal({
 
   const isFormValid =
     firstName.trim() &&
-    username.trim() &&
-    !validateUsername(username) &&
     email.trim() &&
     validateEmail(email) &&
     password &&
     confirmPassword &&
     password === confirmPassword &&
-    isOver18;
+    isOver18 &&
+    (!username.trim() || !validateUsername(username));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
