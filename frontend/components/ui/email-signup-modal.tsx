@@ -58,13 +58,19 @@ export function EmailSignupModal({
       // Generate a new session ID for this signup session
       const sessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       setTempSessionId(sessionId);
+      console.log("[EmailSignupModal] Generated new temp session ID:", sessionId);
 
       try {
         const storedPhotos = localStorage.getItem("signupPhotoIds");
         if (storedPhotos) {
           const photos = JSON.parse(storedPhotos);
           if (Array.isArray(photos)) {
-            setPhotoIds(photos);
+            // Photos stored without preview, so we only have s3Url
+            // Set them without preview for now (will be empty on reload)
+            setPhotoIds(photos.map(p => ({
+              preview: "",
+              s3Url: p.s3Url || p,
+            })));
           }
         }
       } catch (err) {
