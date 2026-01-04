@@ -800,7 +800,7 @@ export function EmailSignupModal({
           </p>
           <Button
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            onClick={async () => {
+            onClick={() => {
               console.log(
                 "[EmailSignupModal] Continue to Dashboard button clicked",
               );
@@ -808,11 +808,11 @@ export function EmailSignupModal({
               localStorage.removeItem("uploadSessionImagePreview");
               localStorage.removeItem("signupPhotoIds");
               setIsSuccessModalOpen(false);
-              await handleClose();
+              handleClose(false);
               if (onSignupSuccess) {
                 onSignupSuccess();
               }
-              await checkAuth();
+              checkAuth();
               if (successUser?.username) {
                 console.log(
                   "[EmailSignupModal] Navigating to /profile/" +
