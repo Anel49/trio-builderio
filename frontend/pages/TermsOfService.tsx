@@ -471,8 +471,11 @@ const TermsOfServiceContent = () => (
         <div>
           <h3 className="text-lg font-medium mb-2">Identity Verification</h3>
           <p className="text-muted-foreground leading-relaxed">
-            We may require identity verification for certain high-value items or
-            users. This helps maintain trust and safety within our community.
+            Users must complete our identity verification process in order to
+            create listings, make reservations, or leave reviews. To begin
+            verification, go to your account, select "Identify me" under your
+            profile picture, and follow the instructions. Identifying our users
+            helps maintain trust and safety within our communities.
           </p>
         </div>
         <div>
