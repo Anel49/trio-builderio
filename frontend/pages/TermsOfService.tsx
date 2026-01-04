@@ -373,7 +373,7 @@ const TermsOfServiceContent = () => (
           <p className="text-muted-foreground leading-relaxed">
             You must pick up and return the item at the agreed-upon time and
             location. Late returns may result in additional fees. You are
-            responsible for coordinating with the other party for any pickup and return
+            responsible for coordinating with the other party of any pickup and return
             logistics.
           </p>
         </div>
