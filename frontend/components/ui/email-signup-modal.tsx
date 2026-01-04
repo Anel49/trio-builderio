@@ -402,7 +402,7 @@ export function EmailSignupModal({
     onOpenChange(open);
   };
 
-  const handleSuccessModalClose = async (open: boolean) => {
+  const handleSuccessModalClose = (open: boolean) => {
     console.log(
       "[EmailSignupModal] handleSuccessModalClose called, open:",
       open,
@@ -412,7 +412,6 @@ export function EmailSignupModal({
         "[EmailSignupModal] Closing success modal by outside interaction, refreshing page",
       );
       setIsSuccessModalOpen(false);
-      await handleClose();
       // Clear the image previews from localStorage after successful signup
       localStorage.removeItem("uploadSessionImagePreview");
       localStorage.removeItem("signupPhotoIds");
