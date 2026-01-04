@@ -682,7 +682,7 @@ export function EmailSignupModal({
                         className="relative rounded-lg overflow-hidden border border-muted-foreground/20"
                       >
                         <img
-                          src={photo.preview}
+                          src={photo.preview || photo.s3Url}
                           alt={`Photo ID ${index + 1}`}
                           className="w-full h-32 object-cover"
                         />
