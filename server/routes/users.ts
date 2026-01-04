@@ -7,8 +7,8 @@ import crypto from "crypto";
 async function generateUniqueUsername(): Promise<string> {
   const maxAttempts = 10;
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    // Generate UUID and remove hyphens - same approach as OAuth
-    const username = crypto.randomUUID().replace(/-/g, "");
+    // Generate a 9-digit random number (100000000 to 999999999)
+    const username = String(Math.floor(Math.random() * 900000000) + 100000000);
 
     // Check if this username already exists
     const existingResult = await pool.query(
