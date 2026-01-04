@@ -1605,6 +1605,102 @@ export async function getPresignedPhotoIdUploadUrl(
   }
 }
 
+export async function deletePhotoFromSession(req: Request, res: Response) {
+  try {
+    const { photoUrl, tempSessionId } = req.body || {};
+
+    if (!photoUrl || typeof photoUrl !== "string") {
+      return res.status(400).json({ ok: false, error: "photoUrl is required" });
+    }
+
+    if (!tempSessionId || typeof tempSessionId !== "string") {
+      return res
+        .status(400)
+        .json({ ok: false, error: "tempSessionId is required" });
+    }
+
+    const { deleteVerificationObject, extractS3KeyFromUrl, deleteVerificationPrefix } =
+      await import("../lib/s3");
+
+    console.log(
+      "[deletePhotoFromSession] Deleting photo from session:",
+      tempSessionId,
+    );
+
+    try {
+      // Extract S3 key from URL
+      const s3Key = extractS3KeyFromUrl(photoUrl);
+
+      if (!s3Key) {
+        console.warn("[deletePhotoFromSession] Could not extract S3 key from URL:", photoUrl);
+        return res.json({
+          ok: true,
+          message: "Photo removal processed",
+          deleted: false,
+        });
+      }
+
+      // Delete the specific object
+      await deleteVerificationObject(s3Key);
+      console.log("[deletePhotoFromSession] Deleted object:", s3Key);
+
+      // Check if the folder is now empty and delete if needed
+      const prefix = `users/${tempSessionId}/`;
+      try {
+        const { ListObjectsV2Command } = await import("@aws-sdk/client-s3");
+        const { getS3Client } = await import("../lib/s3");
+        const s3Client = getS3Client();
+
+        const listCommand = new ListObjectsV2Command({
+          Bucket:
+            process.env.AWS_LENDIT_VERIFICATION_S3_BUCKET_NAME ||
+            process.env["AWS_LENDIT-VERIFICATION_S3_BUCKET_NAME"] ||
+            "lendit-verification",
+          Prefix: prefix,
+        });
+
+        const listResult = await s3Client.send(listCommand);
+        const remainingObjects = listResult.Contents || [];
+
+        if (remainingObjects.length === 0) {
+          console.log(
+            "[deletePhotoFromSession] Folder is now empty, no cleanup needed (S3 doesn\'t store empty folders)",
+          );
+        } else {
+          console.log(
+            "[deletePhotoFromSession] Folder still contains",
+            remainingObjects.length,
+            "object(s)",
+          );
+        }
+      } catch (checkError) {
+        console.warn("[deletePhotoFromSession] Could not check folder status:", checkError);
+      }
+
+      res.json({
+        ok: true,
+        message: "Photo deleted successfully",
+        deleted: true,
+        s3Key,
+      });
+    } catch (deleteError) {
+      console.warn("[deletePhotoFromSession] Error deleting photo:", deleteError);
+      res.json({
+        ok: true,
+        message: "Photo removal processed",
+        deleted: false,
+      });
+    }
+  } catch (error: any) {
+    console.error("[deletePhotoFromSession] Error:", error);
+    res.json({
+      ok: true,
+      message: "Photo removal processed",
+      deleted: false,
+    });
+  }
+}
+
 export async function cleanupTempPhotos(req: Request, res: Response) {
   try {
     const { tempSessionId } = req.body || {};
