@@ -38,9 +38,9 @@ export function ChangeUsernameModal({
   const isOAuthUser = !!oauth;
 
   const validateUsername = (username: string): boolean => {
-    // Username can contain letters, numbers, underscores, and hyphens
+    // Username can contain: a-z, A-Z, 0-9, "_", "-", and "."
     // Must be 3-30 characters
-    const usernameRegex = /^[a-zA-Z0-9_-]{3,30}$/;
+    const usernameRegex = /^[a-zA-Z0-9_.-]{3,30}$/;
     return usernameRegex.test(username);
   };
 
@@ -53,9 +53,9 @@ export function ChangeUsernameModal({
       errors.newUsername = "Username is required";
     } else if (errorMsg.includes("between")) {
       errors.newUsername = "Username must be between 3 and 30 characters";
-    } else if (errorMsg.includes("letters, numbers")) {
+    } else if (errorMsg.includes("non-accented letters")) {
       errors.newUsername =
-        "Username can only contain letters, numbers, underscores, and hyphens";
+        "Username can only contain non-accented letters, numbers, underscores, hyphens, and periods";
     } else if (errorMsg.includes("password")) {
       errors.password = "Password is incorrect";
     }
