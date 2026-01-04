@@ -424,20 +424,7 @@ const TermsOfServiceContent = () => (
             tax purposes.
           </p>
         </div>
-        <div>
-          <h3 className="text-lg font-medium mb-2">Tipping</h3>
-          <p className="text-muted-foreground leading-relaxed">
-            After a booking completes, renters have the option to leave a
-            tip as a way to show their appreciation. Hosts receive 100% of any
-            tips provided.
-            <span style={{ fontWeight: 700 }}>
-              {" "}
-              Listing items at artificially low prices or soliciting tips to
-              circumvent {COMPANY_NAME}'s payment system is prohibited and will
-              result in removal from the platform.
-            </span>
-          </p>
-        </div>
+        
         <div>
           <h3 className="text-lg font-medium mb-2">Payment Processing</h3>
           <p className="text-muted-foreground leading-relaxed">
