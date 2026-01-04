@@ -170,7 +170,7 @@ export function SplashOnboarding() {
                   <div>
                     <h2 className="text-lg font-semibold mb-3">Hosts</h2>
                     <ol className="list-decimal pl-6 space-y-2 text-muted-foreground">
-                      <li>Choose an item or service</li>
+                      <li>Choose an item</li>
                       <li>Enter listing details</li>
                       <li>Post</li>
                     </ol>
