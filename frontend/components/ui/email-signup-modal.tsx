@@ -767,8 +767,8 @@ export function EmailSignupModal({
                 <Button
                   variant="link"
                   className="p-0"
-                  onClick={async () => {
-                    await handleClose();
+                  onClick={() => {
+                    handleClose(false);
                     if (onSwitchToLogin) {
                       onSwitchToLogin();
                     }
