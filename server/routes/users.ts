@@ -402,7 +402,7 @@ export async function emailSignup(req: Request, res: Response) {
         return res.status(400).json({
           ok: false,
           error:
-            "Username can only contain letters, numbers, underscores, hyphens, and periods",
+            "Username can only contain non-accented letters, numbers, underscores, hyphens, and periods",
         });
       }
 
