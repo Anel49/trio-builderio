@@ -369,22 +369,19 @@ export function EmailSignupModal({
   };
 
   const performCleanup = async () => {
-    // Clean up temporary photos from S3 if they exist
-    if (photoIds.length > 0) {
-      const s3Urls = photoIds.map((p) => p.s3Url).filter(Boolean);
-      if (s3Urls.length > 0) {
-        try {
-          console.log("[EmailSignupModal] Cleaning up", s3Urls.length, "temporary photos");
-          const response = await apiFetch("/users/cleanup-temp-photos", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ s3Urls }),
-          });
-          const data = await response.json().catch(() => ({}));
-          console.log("[EmailSignupModal] Cleanup completed:", data);
-        } catch (error) {
-          console.error("[EmailSignupModal] Error during cleanup:", error);
-        }
+    // Clean up temporary photos folder from S3
+    if (tempSessionId) {
+      try {
+        console.log("[EmailSignupModal] Cleaning up temp session:", tempSessionId);
+        const response = await apiFetch("/users/cleanup-temp-photos", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ tempSessionId }),
+        });
+        const data = await response.json().catch(() => ({}));
+        console.log("[EmailSignupModal] Cleanup completed:", data);
+      } catch (error) {
+        console.error("[EmailSignupModal] Error during cleanup:", error);
       }
     }
   };
