@@ -867,12 +867,12 @@ export async function changeUsername(req: Request, res: Response) {
       });
     }
 
-    // Username should be alphanumeric and contain no spaces
-    if (!/^[a-zA-Z0-9_-]+$/.test(newUsernameStr)) {
+    // Username should only contain: a-z, A-Z, 0-9, "_", "-", and "."
+    if (!/^[a-zA-Z0-9_.-]+$/.test(newUsernameStr)) {
       return res.status(400).json({
         ok: false,
         error:
-          "username can only contain letters, numbers, underscores, and hyphens",
+          "Username can only contain non-accented letters, numbers, underscores, hyphens, and periods",
       });
     }
 
