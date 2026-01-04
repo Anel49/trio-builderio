@@ -179,8 +179,8 @@ export function SplashOnboarding() {
                   <div>
                     <h2 className="text-lg font-semibold mb-3">Renters</h2>
                     <ol className="list-decimal pl-6 space-y-2 text-muted-foreground">
-                      <li>Search for an item or service</li>
-                      <li>Add a date range (optional)</li>
+                      <li>Search for an item</li>
+                      <li>Choose a date range</li>
                       <li>Reserve</li>
                     </ol>
                   </div>
