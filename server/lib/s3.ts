@@ -249,6 +249,28 @@ export async function deleteS3Object(key: string): Promise<boolean> {
 }
 
 /**
+ * Delete an object from the verification bucket
+ * @param key - The S3 object key (file path)
+ * @returns True if the delete was successful
+ */
+export async function deleteVerificationObject(key: string): Promise<boolean> {
+  try {
+    const s3Client = getS3Client();
+    const command = new DeleteObjectCommand({
+      Bucket: verificationBucketName,
+      Key: key,
+    });
+
+    await s3Client.send(command);
+    console.log("[S3] Deleted verification object:", key);
+    return true;
+  } catch (error) {
+    console.error("[S3] Error deleting verification object:", key, error);
+    throw error;
+  }
+}
+
+/**
  * Copy all objects from one prefix to another (e.g., from listings folder to reports folder)
  * @param sourcePre fix - The source S3 prefix (e.g., "listings/123/")
  * @param destPrefix - The destination S3 prefix (e.g., "reports/123/")
