@@ -271,6 +271,63 @@ export async function deleteVerificationObject(key: string): Promise<boolean> {
 }
 
 /**
+ * Delete all objects under a prefix in the verification bucket
+ * @param prefix - The S3 prefix (e.g., "users/{tempSessionId}/")
+ * @returns The number of objects deleted
+ */
+export async function deleteVerificationPrefix(prefix: string): Promise<number> {
+  try {
+    console.log("[S3] Deleting all verification objects under prefix:", prefix);
+
+    const s3Client = getS3Client();
+
+    // List all objects under the prefix
+    const listCommand = new ListObjectsV2Command({
+      Bucket: verificationBucketName,
+      Prefix: prefix,
+    });
+
+    const listResult = await s3Client.send(listCommand);
+    const objects = listResult.Contents || [];
+
+    if (objects.length === 0) {
+      console.log("[S3] No verification objects found under prefix:", prefix);
+      return 0;
+    }
+
+    console.log(
+      "[S3] Found",
+      objects.length,
+      "verification objects to delete under prefix:",
+      prefix,
+    );
+
+    // Delete all objects
+    for (const obj of objects) {
+      if (obj.Key) {
+        const deleteCommand = new DeleteObjectCommand({
+          Bucket: verificationBucketName,
+          Key: obj.Key,
+        });
+        await s3Client.send(deleteCommand);
+        console.log("[S3] Deleted verification object:", obj.Key);
+      }
+    }
+
+    console.log(
+      "[S3] Successfully deleted",
+      objects.length,
+      "verification objects under prefix:",
+      prefix,
+    );
+    return objects.length;
+  } catch (error) {
+    console.error("[S3] Error deleting verification objects under prefix:", prefix, error);
+    throw error;
+  }
+}
+
+/**
  * Copy all objects from one prefix to another (e.g., from listings folder to reports folder)
  * @param sourcePre fix - The source S3 prefix (e.g., "listings/123/")
  * @param destPrefix - The destination S3 prefix (e.g., "reports/123/")
