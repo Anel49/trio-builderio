@@ -188,7 +188,7 @@ export function EmailSignupModal({
             "application/octet-stream"
           );
 
-          // Get presigned URL from backend
+          // Get presigned URL from backend, pass tempSessionId
           const presignedResponse = await apiFetch(
             "/users/presigned-photo-id-url",
             {
@@ -197,6 +197,7 @@ export function EmailSignupModal({
               body: JSON.stringify({
                 filename: file.name,
                 contentType,
+                tempSessionId,
               }),
             },
           );
@@ -234,12 +235,12 @@ export function EmailSignupModal({
           // Extract S3 URL (without query params)
           const s3Url = presignedData.presignedUrl.split("?")[0];
 
-          // Add to photos array
-          setPhotoIds((prev) => [...prev, { tempId, preview: dataUrl, s3Url }]);
+          // Add to photos array (no tempId needed anymore)
+          setPhotoIds((prev) => [...prev, { preview: dataUrl, s3Url }]);
           uploadedCount++;
 
           console.log(
-            `[EmailSignupModal] Photo ${uploadedCount} uploaded successfully with tempId: ${tempId}`,
+            `[EmailSignupModal] Photo ${uploadedCount} uploaded successfully to session: ${tempSessionId}`,
           );
         } catch (fileError) {
           console.error(`[EmailSignupModal] Error processing file ${file.name}:`, fileError);
@@ -250,9 +251,8 @@ export function EmailSignupModal({
       // Update state with the final photo IDs
       setPhotoIds((prev) => {
         try {
-          // Only store essential data to localStorage (without the large preview data URIs)
+          // Store S3 URLs only (preview will be kept in-memory)
           const storageData = prev.map(p => ({
-            tempId: p.tempId,
             s3Url: p.s3Url,
           }));
           localStorage.setItem("signupPhotoIds", JSON.stringify(storageData));
