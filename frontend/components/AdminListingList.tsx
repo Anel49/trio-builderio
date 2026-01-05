@@ -143,7 +143,7 @@ export default function AdminListingList() {
     <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
       <Input
         type="text"
-        placeholder="Search using a listing's title or its ID number."
+        placeholder="Search using a listing's title or ID..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={handleSearch}
