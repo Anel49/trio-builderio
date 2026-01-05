@@ -995,6 +995,8 @@ export async function listAllFeedback(req: Request, res: Response) {
       0,
     );
     const search = ((req.query.search as string) || "").toLowerCase().trim();
+    const showCompleted =
+      (req.query.show_completed as string) === "true" ? true : false;
 
     console.log(
       "[listAllFeedback] Parsed params - limit:",
@@ -1003,6 +1005,8 @@ export async function listAllFeedback(req: Request, res: Response) {
       offset,
       "search:",
       search,
+      "show_completed:",
+      showCompleted,
     );
 
     let whereClause = "1=1";
@@ -1017,6 +1021,10 @@ export async function listAllFeedback(req: Request, res: Response) {
         or lower(u.name) like $${params.length}
         or lower(u2.name) like $${params.length}
       )`;
+    }
+
+    if (!showCompleted) {
+      whereClause += ` and f.status not in ('implemented', 'declined', 'duplicate', 'out of scope')`;
     }
 
     console.log("[listAllFeedback] whereClause:", whereClause);
