@@ -258,10 +258,11 @@ export default function AdminClaimsList() {
           id="show-completed-claims"
           checked={showCompleted}
           onCheckedChange={(checked) => {
-            setShowCompleted(checked === true);
+            const newShowCompleted = checked === true;
+            setShowCompleted(newShowCompleted);
             if (search.trim() === lastSearchedTerm) {
               setCurrentPage(0);
-              loadClaims(0);
+              loadClaims(0, newShowCompleted);
             }
           }}
         />
