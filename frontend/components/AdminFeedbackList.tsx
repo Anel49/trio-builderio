@@ -254,10 +254,8 @@ export default function AdminFeedbackList() {
           type="text"
           placeholder="Search by ID, status, submitter name, or assignee..."
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setCurrentPage(0);
-          }}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleSearch}
           className="flex-1"
         />
       </div>
@@ -268,7 +266,6 @@ export default function AdminFeedbackList() {
           checked={showCompleted}
           onCheckedChange={(checked) => {
             setShowCompleted(checked === true);
-            setCurrentPage(0);
           }}
         />
         <label
