@@ -296,10 +296,8 @@ export default function AdminReportsList({
           type="text"
           placeholder={getSearchPlaceholder()}
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setCurrentPage(0);
-          }}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleSearch}
           className="flex-1"
         />
       </div>
@@ -310,7 +308,6 @@ export default function AdminReportsList({
           checked={showCompleted}
           onCheckedChange={(checked) => {
             setShowCompleted(checked === true);
-            setCurrentPage(0);
           }}
         />
         <label
