@@ -269,6 +269,14 @@ export default function AdminClaimsList() {
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
         </div>
+      ) : search.trim() !== lastSearchedTerm ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">
+            {!search.trim()
+              ? "Search using a claim number, assigned technician, status, priority, or order ID..."
+              : ""}
+          </p>
+        </div>
       ) : claims.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No claims found</p>
