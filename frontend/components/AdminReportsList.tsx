@@ -169,6 +169,7 @@ export default function AdminReportsList({
         console.log("[AdminReportsList] Data received:", data);
         setReports(data.reports || []);
         setTotalReports(data.total || 0);
+        setLastSearchedTerm(search.trim());
       } catch (parseErr) {
         console.error("[AdminReportsList] JSON parse error:", parseErr);
         console.error(
