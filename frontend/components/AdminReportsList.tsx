@@ -322,6 +322,14 @@ export default function AdminReportsList({
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
         </div>
+      ) : search.trim() !== lastSearchedTerm ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">
+            {!search.trim()
+              ? getSearchPlaceholder()
+              : ""}
+          </p>
+        </div>
       ) : reports.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No reports found</p>
