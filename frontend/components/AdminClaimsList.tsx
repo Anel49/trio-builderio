@@ -39,6 +39,8 @@ interface Claim {
   updated_at: string;
   order_id: number;
   order_number: number | null;
+  created_by: number | null;
+  created_by_name: string | null;
 }
 
 function formatDateForAdmin(dateStr: string): string {
