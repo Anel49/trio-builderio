@@ -243,6 +243,25 @@ export default function AdminClaimsList() {
         />
       </div>
 
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="show-completed-claims"
+          checked={showCompleted}
+          onChange={(e) => {
+            setShowCompleted(e.target.checked);
+            setCurrentPage(0);
+          }}
+          className="cursor-pointer"
+        />
+        <label
+          htmlFor="show-completed-claims"
+          className={combineTokens(typography.size.sm, "cursor-pointer")}
+        >
+          Show Completed
+        </label>
+      </div>
+
       {loading ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
