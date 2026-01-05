@@ -232,7 +232,7 @@ export async function createClaim(req: Request, res: Response) {
     const claimResult = await pool.query(
       `insert into claims (
         order_id,
-        created_by,
+        created_by_id,
         claim_type,
         claim_details,
         priority,
