@@ -206,9 +206,10 @@ export default function AdminUserList({
           id="show-inactive-users"
           checked={showInactive}
           onCheckedChange={(checked) => {
-            setShowInactive(checked === true);
+            const newShowInactive = checked === true;
+            setShowInactive(newShowInactive);
             setCurrentPage(0);
-            loadUsers(0);
+            loadUsers(0, newShowInactive);
           }}
         />
         <label
