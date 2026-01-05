@@ -178,7 +178,7 @@ export default function AdminUserList({
       <div className={combineTokens(layouts.flex.between, "gap-4")}>
         <Input
           type="text"
-          placeholder="Search by name, email, or username..."
+          placeholder="Search using a name, email, or username..."
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
