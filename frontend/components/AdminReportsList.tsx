@@ -123,17 +123,26 @@ export default function AdminReportsList({
     return "Search using a report number, username, assigned technician, or status...";
   };
 
-  const loadReports = async () => {
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    if (!search.trim()) return;
+
+    setCurrentPage(0);
+    loadReports(0);
+  };
+
+  const loadReports = async (pageNum: number = currentPage) => {
     setLoading(true);
     setError(null);
     try {
+      const offset = pageNum * limit;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
         report_for: reportFor,
         show_completed: showCompleted.toString(),
       });
-      if (search) params.append("search", search);
+      if (search.trim()) params.append("search", search.trim());
 
       const url = `/admin/reports?${params.toString()}`;
       console.log("[AdminReportsList] Fetching:", url);
