@@ -392,46 +392,48 @@ export default function AdminClaimsList() {
                     <td className={spacing.padding.md}>
                       <div className="flex items-center gap-2">
                         <p>{claim.assigned_to_name || "Unassigned"}</p>
-                        <Popover
-                          open={openPopoverId === claim.id}
-                          onOpenChange={(open) =>
-                            setOpenPopoverId(open ? claim.id : null)
-                          }
-                        >
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-6 w-6 p-0 border border-border hover:bg-accent"
-                              title={
-                                claim.assigned_to === currentUser?.id
-                                  ? "Unassign claim"
-                                  : "Assign claim"
-                              }
-                            >
-                              {claim.assigned_to === currentUser?.id ? (
-                                <Minus className="h-4 w-4" />
-                              ) : (
-                                <Plus className="h-4 w-4" />
-                              )}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent side="left" className="w-40 p-2">
-                            <button
-                              onClick={() =>
-                                handleToggleAssignment(
-                                  claim.id,
-                                  claim.assigned_to !== currentUser?.id,
-                                )
-                              }
-                              className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
-                            >
-                              {claim.assigned_to === currentUser?.id
-                                ? "Unassign"
-                                : "Assign to me"}
-                            </button>
-                          </PopoverContent>
-                        </Popover>
+                        {claim.created_by_id !== currentUser?.id && (
+                          <Popover
+                            open={openPopoverId === claim.id}
+                            onOpenChange={(open) =>
+                              setOpenPopoverId(open ? claim.id : null)
+                            }
+                          >
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0 border border-border hover:bg-accent"
+                                title={
+                                  claim.assigned_to === currentUser?.id
+                                    ? "Unassign claim"
+                                    : "Assign claim"
+                                }
+                              >
+                                {claim.assigned_to === currentUser?.id ? (
+                                  <Minus className="h-4 w-4" />
+                                ) : (
+                                  <Plus className="h-4 w-4" />
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent side="left" className="w-40 p-2">
+                              <button
+                                onClick={() =>
+                                  handleToggleAssignment(
+                                    claim.id,
+                                    claim.assigned_to !== currentUser?.id,
+                                  )
+                                }
+                                className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
+                              >
+                                {claim.assigned_to === currentUser?.id
+                                  ? "Unassign"
+                                  : "Assign to me"}
+                              </button>
+                            </PopoverContent>
+                          </Popover>
+                        )}
                       </div>
                     </td>
                     <td className={spacing.padding.md}>
