@@ -95,7 +95,7 @@ export default function AdminFeedbackList() {
 
   useEffect(() => {
     loadFeedback();
-  }, [currentPage, search]);
+  }, [currentPage, search, showCompleted]);
 
   const loadFeedback = async () => {
     setLoading(true);
@@ -104,6 +104,7 @@ export default function AdminFeedbackList() {
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
+        show_completed: showCompleted.toString(),
       });
       if (search) params.append("search", search);
 
