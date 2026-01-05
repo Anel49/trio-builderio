@@ -283,7 +283,7 @@ export default function AdminFeedbackList() {
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">
             {!search.trim()
-              ? "Search by ID, status, submitter name, or assignee..."
+              ? "Search using an ID, status, submitter name, or assigned technician..."
               : ""}
           </p>
         </div>
