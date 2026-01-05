@@ -532,7 +532,11 @@ export default function AdminFeedbackList() {
                 variant="outline"
                 size="sm"
                 disabled={!canPrevious}
-                onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+                onClick={() => {
+                  const newPage = Math.max(0, currentPage - 1);
+                  setCurrentPage(newPage);
+                  loadFeedback(newPage);
+                }}
               >
                 <ChevronLeft className={spacing.dimensions.icon.sm} />
               </Button>
@@ -540,9 +544,11 @@ export default function AdminFeedbackList() {
                 variant="outline"
                 size="sm"
                 disabled={!canNext}
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
-                }
+                onClick={() => {
+                  const newPage = Math.min(totalPages - 1, currentPage + 1);
+                  setCurrentPage(newPage);
+                  loadFeedback(newPage);
+                }}
               >
                 <ChevronRight className={spacing.dimensions.icon.sm} />
               </Button>
