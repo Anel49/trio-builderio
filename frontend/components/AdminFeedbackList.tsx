@@ -289,7 +289,7 @@ export default function AdminFeedbackList() {
         </div>
       ) : feedback.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">No feedback found</p>
+          <p className="text-muted-foreground">No suggestions found</p>
         </div>
       ) : (
         <>
