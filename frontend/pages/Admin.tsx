@@ -156,7 +156,7 @@ export default function Admin() {
       },
       {
         id: "listings",
-        label: "Listing Management",
+        label: "Listing Lookup",
         icon: <FileText className={spacing.dimensions.icon.sm} />,
       },
       {
