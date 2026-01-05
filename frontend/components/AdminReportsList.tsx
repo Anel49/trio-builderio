@@ -311,10 +311,11 @@ export default function AdminReportsList({
           id="show-completed-reports"
           checked={showCompleted}
           onCheckedChange={(checked) => {
-            setShowCompleted(checked === true);
+            const newShowCompleted = checked === true;
+            setShowCompleted(newShowCompleted);
             if (search.trim() === lastSearchedTerm) {
               setCurrentPage(0);
-              loadReports(0);
+              loadReports(0, newShowCompleted);
             }
           }}
         />
