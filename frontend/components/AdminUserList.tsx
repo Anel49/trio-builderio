@@ -21,6 +21,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Check,
+  X,
   AlertTriangle,
 } from "lucide-react";
 import {
