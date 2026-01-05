@@ -559,6 +559,7 @@ export async function listAllClaims(req: Request, res: Response) {
       `select count(*) as total from claims c
        left join users u on c.assigned_to = u.id
        left join orders o on c.order_id = o.id
+       left join users uc on c.created_by = uc.id
        where ${whereClause}`,
       params,
     );
