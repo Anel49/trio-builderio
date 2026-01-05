@@ -265,7 +265,7 @@ export default function AdminClaimsList() {
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Claim Number
+                    Claim number
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
@@ -275,17 +275,17 @@ export default function AdminClaimsList() {
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Assigned To
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
                     Priority
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Order ID
+                    Created by
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Assigned to
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
