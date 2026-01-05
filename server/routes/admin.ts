@@ -599,9 +599,9 @@ export async function assignClaimToUser(req: Request, res: Response) {
       }
     }
 
-    // Verify claim exists
+    // Verify claim exists and get its created_by field
     const claimResult = await pool.query(
-      `select id from claims where id = $1`,
+      `select id, created_by from claims where id = $1`,
       [claimId],
     );
 
@@ -609,9 +609,19 @@ export async function assignClaimToUser(req: Request, res: Response) {
       return res.status(404).json({ ok: false, error: "Claim not found" });
     }
 
-    // If assigning to a user, verify the user exists
+    const claim = claimResult.rows[0];
+
+    // If assigning to a user, verify the user exists and prevent self-assignment if user created it
     let assignedToName: string | null = null;
     if (assignToIdNumber !== null) {
+      // Check if the user is trying to assign to themselves and they created this claim
+      if (assignToIdNumber === claim.created_by) {
+        return res.status(403).json({
+          ok: false,
+          error: "You cannot assign yourself to a claim you created",
+        });
+      }
+
       const userResult = await pool.query(
         `select id, name from users where id = $1`,
         [assignToIdNumber],
