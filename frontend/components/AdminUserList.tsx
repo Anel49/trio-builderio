@@ -70,13 +70,14 @@ export default function AdminUserList({
   const [pendingChange, setPendingChange] = useState<PendingChange | null>(
     null,
   );
+  const [showInactive, setShowInactive] = useState(false);
 
   const limit = 6;
   const offset = currentPage * limit;
 
   useEffect(() => {
     loadUsers();
-  }, [currentPage, search]);
+  }, [currentPage, search, showInactive]);
 
   const loadUsers = async () => {
     setLoading(true);
