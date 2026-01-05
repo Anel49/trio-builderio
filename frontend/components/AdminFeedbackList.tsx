@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { apiFetch } from "@/lib/api";
 import { Input } from "./ui/input";
+import { Checkbox } from "./ui/checkbox";
 import {
   AlertCircle,
   Loader2,
