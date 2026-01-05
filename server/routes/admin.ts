@@ -778,7 +778,7 @@ export async function assignReportToUser(req: Request, res: Response) {
     }
 
     const reportResult = await pool.query(
-      `select id, created_by_id from reports where id = $1`,
+      `select id, reported_by_id from reports where id = $1`,
       [reportId],
     );
 
@@ -791,7 +791,7 @@ export async function assignReportToUser(req: Request, res: Response) {
     let assignedToName: string | null = null;
     if (assignToIdNumber !== null) {
       // Check if the user is trying to assign to themselves and they created this report
-      if (assignToIdNumber === report.created_by_id) {
+      if (assignToIdNumber === report.reported_by_id) {
         return res.status(403).json({
           ok: false,
           error: "You cannot assign yourself to a report you created",
