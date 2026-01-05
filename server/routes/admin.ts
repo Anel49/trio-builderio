@@ -674,6 +674,8 @@ export async function listAllReports(req: Request, res: Response) {
     );
     const search = ((req.query.search as string) || "").toLowerCase().trim();
     const reportFor = (req.query.report_for as string) || "listing";
+    const showCompleted =
+      (req.query.show_completed as string) === "true" ? true : false;
 
     console.log(
       "[listAllReports] Parsed params - limit:",
@@ -684,6 +686,8 @@ export async function listAllReports(req: Request, res: Response) {
       search,
       "report_for:",
       reportFor,
+      "show_completed:",
+      showCompleted,
     );
 
     let whereClause = "r.report_for = $1";
@@ -706,6 +710,10 @@ export async function listAllReports(req: Request, res: Response) {
           or cast(r.reported_id as text) like $${params.length}
         )`;
       }
+    }
+
+    if (!showCompleted) {
+      whereClause += ` and r.status not in ('rejected', 'resolved')`;
     }
 
     console.log("[listAllReports] whereClause:", whereClause);
