@@ -75,6 +75,7 @@ export default function AdminClaimsList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [lastSearchedTerm, setLastSearchedTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalClaims, setTotalClaims] = useState(0);
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
@@ -83,9 +84,13 @@ export default function AdminClaimsList() {
   const limit = 6;
   const offset = currentPage * limit;
 
-  useEffect(() => {
-    loadClaims();
-  }, [currentPage, search, showCompleted]);
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    if (!search.trim()) return;
+
+    setCurrentPage(0);
+    loadClaims(0);
+  };
 
   const loadClaims = async () => {
     setLoading(true);
