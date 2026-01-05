@@ -192,7 +192,7 @@ export default function AdminReportsList({
 
     // Find the report to check if user created it
     const report = reports.find((r) => r.id === reportId);
-    if (assign && report && report.created_by_id === currentUser?.id) {
+    if (assign && report && report.reported_by_id === currentUser?.id) {
       setError("You cannot assign yourself to a report you created");
       return;
     }
