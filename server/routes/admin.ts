@@ -539,11 +539,11 @@ export async function listAllClaims(req: Request, res: Response) {
 
     const queryParams = [...params, limit, offset];
     const query = `select c.id, c.claim_number, c.status, c.assigned_to, u.name as assigned_to_name, c.priority,
-              c.created_at, c.updated_at, c.order_id, o.number as order_number, c.created_by, uc.name as created_by_name
+              c.created_at, c.updated_at, c.order_id, o.number as order_number, c.created_by_id, uc.name as created_by_name
        from claims c
        left join users u on c.assigned_to = u.id
        left join orders o on c.order_id = o.id
-       left join users uc on c.created_by = uc.id
+       left join users uc on c.created_by_id = uc.id
        where ${whereClause}
        order by c.created_at desc
        limit $${params.length + 1} offset $${params.length + 2}`;
