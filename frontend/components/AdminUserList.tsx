@@ -190,10 +190,8 @@ export default function AdminUserList({
           type="text"
           placeholder="Search using a name, email, or username..."
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setCurrentPage(0);
-          }}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleSearch}
           className="flex-1"
         />
       </div>
