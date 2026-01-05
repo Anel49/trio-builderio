@@ -216,6 +216,14 @@ export default function AdminUserList({
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
         </div>
+      ) : search.trim() !== lastSearchedTerm ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">
+            {!search.trim()
+              ? "Search using a name, email, or username..."
+              : ""}
+          </p>
+        </div>
       ) : users.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No users found</p>
