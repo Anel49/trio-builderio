@@ -91,15 +91,20 @@ export default function AdminClaimsList() {
     loadClaims(0);
   };
 
-  const loadClaims = async (pageNum: number = currentPage) => {
+  const loadClaims = async (
+    pageNum: number = currentPage,
+    showCompletedOverride?: boolean,
+  ) => {
     setLoading(true);
     setError(null);
     try {
       const offset = pageNum * limit;
+      const showCompletedValue =
+        showCompletedOverride !== undefined ? showCompletedOverride : showCompleted;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
-        show_completed: showCompleted.toString(),
+        show_completed: showCompletedValue.toString(),
       });
       if (search.trim()) params.append("search", search.trim());
 
