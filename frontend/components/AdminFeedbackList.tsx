@@ -97,7 +97,6 @@ export default function AdminFeedbackList() {
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
-    if (!search.trim()) return;
 
     setCurrentPage(0);
     loadFeedback(0);
