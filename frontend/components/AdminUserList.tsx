@@ -202,7 +202,6 @@ export default function AdminUserList({
           checked={showInactive}
           onCheckedChange={(checked) => {
             setShowInactive(checked === true);
-            setCurrentPage(0);
           }}
         />
         <label
