@@ -472,6 +472,41 @@ export default function AdminReportsList({
                           )}
                         </td>
                       )}
+                      {reportFor === "listing" && (
+                        <td className={spacing.padding.md}>
+                          {report.reported_by_username ? (
+                            <a
+                              href={`/profile/${report.reported_by_username}`}
+                              onClick={(e) => {
+                                if (
+                                  !e.ctrlKey &&
+                                  !e.metaKey &&
+                                  e.button === 0
+                                ) {
+                                  e.preventDefault();
+                                  navigate(
+                                    `/profile/${report.reported_by_username}`,
+                                  );
+                                }
+                              }}
+                              className={combineTokens(
+                                "text-left hover:text-primary transition-colors block",
+                              )}
+                            >
+                              <p className={typography.weight.medium}>
+                                {report.reported_by_name}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                @{report.reported_by_username}
+                              </p>
+                            </a>
+                          ) : (
+                            <p className="text-xs text-muted-foreground">
+                              User not found
+                            </p>
+                          )}
+                        </td>
+                      )}
                       {reportFor === "user" && (
                         <td className={spacing.padding.md}>
                           {report.reported_user_username ? (
