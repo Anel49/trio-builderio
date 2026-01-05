@@ -37,7 +37,7 @@ export async function getClaimThreadData(req: Request, res: Response) {
         c.claim_details,
         c.incident_date,
         c.created_at,
-        c.created_by,
+        c.created_by_id,
         c.order_id,
         o.number as order_number,
         o.listing_title,
@@ -50,7 +50,7 @@ export async function getClaimThreadData(req: Request, res: Response) {
        from claims c
        left join message_threads mt on c.id = mt.claim_id
        left join orders o on c.order_id = o.id
-       left join users u on c.created_by = u.id
+       left join users u on c.created_by_id = u.id
        where c.id = $1`,
       [claimId],
     );
