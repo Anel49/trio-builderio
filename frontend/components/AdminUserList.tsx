@@ -7,6 +7,7 @@ import { Input } from "./ui/input";
 import { Card } from "./ui/card";
 import { Switch } from "./ui/switch";
 import { Badge } from "./ui/badge";
+import { Checkbox } from "./ui/checkbox";
 import {
   AlertDialog,
   AlertDialogAction,
