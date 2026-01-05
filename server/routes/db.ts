@@ -315,7 +315,7 @@ export async function dbSetup(_req: Request, res: Response) {
           updated_at timestamp not null default now(),
           assigned_to integer references users(id) on delete set null,
           order_id integer not null references orders(id) on delete cascade,
-          created_by integer not null references users(id) on delete cascade,
+          created_by_id integer not null references users(id) on delete cascade,
           claim_type text not null check (claim_type in ('Damage', 'Late Return', 'Missing', 'Theft', 'Other')),
           claim_details text not null,
           priority integer default 5,
