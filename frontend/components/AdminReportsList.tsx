@@ -47,6 +47,7 @@ interface Report {
   reported_by_username: string | null;
   reported_listing_name: string | null;
   reported_listing_id: number | null;
+  created_by_id: number | null;
 }
 
 function formatDateForAdmin(dateStr: string): string {
