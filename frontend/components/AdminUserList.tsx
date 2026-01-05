@@ -321,18 +321,11 @@ export default function AdminUserList({
                         )}
                       </td>
                       <td className={spacing.padding.md}>
-                        <Switch
-                          checked={user.active}
-                          disabled={isUpdating}
-                          onCheckedChange={(checked) => {
-                            setPendingChange({
-                              user,
-                              field: "active",
-                              value: checked,
-                            });
-                            setModalOpen(true);
-                          }}
-                        />
+                        {user.active ? (
+                          <Check className="h-5 w-5 text-green-600" />
+                        ) : (
+                          <X className="h-5 w-5 text-red-600" />
+                        )}
                       </td>
                     </tr>
                   );
