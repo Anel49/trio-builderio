@@ -202,6 +202,10 @@ export default function AdminUserList({
           checked={showInactive}
           onCheckedChange={(checked) => {
             setShowInactive(checked === true);
+            if (lastSearchedTerm || search.trim()) {
+              setCurrentPage(0);
+              loadUsers(0);
+            }
           }}
         />
         <label
