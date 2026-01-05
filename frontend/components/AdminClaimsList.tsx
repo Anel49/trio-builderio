@@ -92,16 +92,17 @@ export default function AdminClaimsList() {
     loadClaims(0);
   };
 
-  const loadClaims = async () => {
+  const loadClaims = async (pageNum: number = currentPage) => {
     setLoading(true);
     setError(null);
     try {
+      const offset = pageNum * limit;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
         show_completed: showCompleted.toString(),
       });
-      if (search) params.append("search", search);
+      if (search.trim()) params.append("search", search.trim());
 
       const url = `/admin/claims?${params.toString()}`;
       console.log("[AdminClaimsList] Fetching:", url);
