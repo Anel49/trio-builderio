@@ -307,6 +307,10 @@ export default function AdminReportsList({
           checked={showCompleted}
           onCheckedChange={(checked) => {
             setShowCompleted(checked === true);
+            if (lastSearchedTerm || search.trim()) {
+              setCurrentPage(0);
+              loadReports(0);
+            }
           }}
         />
         <label
