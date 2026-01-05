@@ -145,6 +145,13 @@ export default function AdminClaimsList() {
       return;
     }
 
+    // Find the claim to check if user created it
+    const claim = claims.find((c) => c.id === claimId);
+    if (assign && claim && claim.created_by === currentUser?.id) {
+      setError("You cannot assign yourself to a claim you created");
+      return;
+    }
+
     try {
       const response = await apiFetch(`/admin/claims/${claimId}/assign`, {
         method: "PATCH",
