@@ -151,7 +151,7 @@ export default function Admin() {
     navItems.push(
       {
         id: "users",
-        label: "User Management",
+        label: "User Lookup",
         icon: <Users className={spacing.dimensions.icon.sm} />,
       },
       {
