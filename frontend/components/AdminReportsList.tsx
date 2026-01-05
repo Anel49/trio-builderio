@@ -3,6 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "@/lib/api";
 import { Input } from "./ui/input";
+import { Checkbox } from "./ui/checkbox";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import {
   AlertCircle,
