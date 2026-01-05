@@ -32,6 +32,8 @@ export async function listAllUsers(req: Request, res: Response) {
       0,
     );
     const search = ((req.query.search as string) || "").toLowerCase().trim();
+    const showInactive =
+      (req.query.show_inactive as string) === "true" ? true : false;
 
     let whereClause = "u.id != 2";
     const params: any[] = [];
@@ -39,6 +41,10 @@ export async function listAllUsers(req: Request, res: Response) {
     if (search) {
       params.push(`%${search}%`);
       whereClause = `u.id != 2 and (lower(u.name) like $${params.length} or lower(u.email) like $${params.length} or lower(u.username) like $${params.length})`;
+    }
+
+    if (!showInactive) {
+      whereClause += ` and u.active = true`;
     }
 
     const result = await pool.query(
