@@ -84,7 +84,7 @@ export default function AdminClaimsList() {
 
   useEffect(() => {
     loadClaims();
-  }, [currentPage, search]);
+  }, [currentPage, search, showCompleted]);
 
   const loadClaims = async () => {
     setLoading(true);
@@ -93,6 +93,7 @@ export default function AdminClaimsList() {
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
+        show_completed: showCompleted.toString(),
       });
       if (search) params.append("search", search);
 
