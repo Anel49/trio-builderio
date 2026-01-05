@@ -86,6 +86,7 @@ export default function AdminFeedbackList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [lastSearchedTerm, setLastSearchedTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalFeedback, setTotalFeedback] = useState(0);
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
@@ -94,9 +95,13 @@ export default function AdminFeedbackList() {
   const limit = 6;
   const offset = currentPage * limit;
 
-  useEffect(() => {
-    loadFeedback();
-  }, [currentPage, search, showCompleted]);
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    if (!search.trim()) return;
+
+    setCurrentPage(0);
+    loadFeedback(0);
+  };
 
   const loadFeedback = async () => {
     setLoading(true);
