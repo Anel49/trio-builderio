@@ -385,6 +385,17 @@ export default function AdminClaimsList() {
                         )}
                       </div>
                     </td>
+                    <td
+                      className={combineTokens(
+                        spacing.padding.md,
+                        "text-center",
+                      )}
+                    >
+                      <p>{claim.priority}</p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-sm">{claim.created_by_name || "Unknown"}</p>
+                    </td>
                     <td className={spacing.padding.md}>
                       <div className="flex items-center gap-2">
                         <p>{claim.assigned_to_name || "Unassigned"}</p>
@@ -429,17 +440,6 @@ export default function AdminClaimsList() {
                           </PopoverContent>
                         </Popover>
                       </div>
-                    </td>
-                    <td
-                      className={combineTokens(
-                        spacing.padding.md,
-                        "text-center",
-                      )}
-                    >
-                      <p>{claim.priority}</p>
-                    </td>
-                    <td className={spacing.padding.md}>
-                      <p>ORD-{claim.order_number || claim.order_id}</p>
                     </td>
                     <td className={spacing.padding.md}>
                       <p className="text-xs text-muted-foreground">
