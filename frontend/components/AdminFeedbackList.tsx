@@ -103,16 +103,17 @@ export default function AdminFeedbackList() {
     loadFeedback(0);
   };
 
-  const loadFeedback = async () => {
+  const loadFeedback = async (pageNum: number = currentPage) => {
     setLoading(true);
     setError(null);
     try {
+      const offset = pageNum * limit;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
         show_completed: showCompleted.toString(),
       });
-      if (search) params.append("search", search);
+      if (search.trim()) params.append("search", search.trim());
 
       const url = `/admin/feedback?${params.toString()}`;
       console.log("[AdminFeedbackList] Fetching:", url);
