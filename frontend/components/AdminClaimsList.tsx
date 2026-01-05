@@ -243,10 +243,8 @@ export default function AdminClaimsList() {
           type="text"
           placeholder="Search using a claim number, assigned technician, status, priority, or order ID..."
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setCurrentPage(0);
-          }}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleSearch}
           className="flex-1"
         />
       </div>
@@ -257,7 +255,6 @@ export default function AdminClaimsList() {
           checked={showCompleted}
           onCheckedChange={(checked) => {
             setShowCompleted(checked === true);
-            setCurrentPage(0);
           }}
         />
         <label
