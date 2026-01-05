@@ -88,6 +88,7 @@ export default function AdminFeedbackList() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalFeedback, setTotalFeedback] = useState(0);
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const limit = 6;
   const offset = currentPage * limit;
