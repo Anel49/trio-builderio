@@ -508,6 +508,8 @@ export async function listAllClaims(req: Request, res: Response) {
       0,
     );
     const search = ((req.query.search as string) || "").toLowerCase().trim();
+    const showCompleted =
+      (req.query.show_completed as string) === "true" ? true : false;
 
     console.log(
       "[listAllClaims] Parsed params - limit:",
@@ -516,6 +518,8 @@ export async function listAllClaims(req: Request, res: Response) {
       offset,
       "search:",
       search,
+      "show_completed:",
+      showCompleted,
     );
 
     let whereClause = "1=1";
@@ -530,6 +534,10 @@ export async function listAllClaims(req: Request, res: Response) {
         or cast(c.priority as text) like $1
         or cast(o.number as text) like $1
       )`;
+    }
+
+    if (!showCompleted) {
+      whereClause += ` and c.status not in ('canceled', 'rejected', 'resolved')`;
     }
 
     console.log("[listAllClaims] whereClause:", whereClause);
