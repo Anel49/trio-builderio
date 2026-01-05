@@ -104,6 +104,7 @@ export default function AdminReportsList({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState(initialSearch);
+  const [lastSearchedTerm, setLastSearchedTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalReports, setTotalReports] = useState(0);
   const [reportFor, setReportFor] = useState<"listing" | "user">(
@@ -121,16 +122,6 @@ export default function AdminReportsList({
     }
     return "Search using a report number, username, assigned technician, or status...";
   };
-
-  useEffect(() => {
-    setSearch(initialSearch);
-    setReportFor(initialReportFor);
-    setCurrentPage(0);
-  }, [initialSearch, initialReportFor]);
-
-  useEffect(() => {
-    loadReports();
-  }, [currentPage, search, reportFor, showCompleted]);
 
   const loadReports = async () => {
     setLoading(true);
