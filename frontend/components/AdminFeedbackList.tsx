@@ -315,17 +315,17 @@ export default function AdminFeedbackList() {
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Assigned To
+                    Submitted by
+                  </th>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
+                    Assigned to
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
                     Details
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Submitted by
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
