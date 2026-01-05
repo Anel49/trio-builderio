@@ -63,6 +63,7 @@ export default function AdminUserList({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [lastSearchedTerm, setLastSearchedTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
   const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set());
@@ -75,9 +76,12 @@ export default function AdminUserList({
   const limit = 6;
   const offset = currentPage * limit;
 
-  useEffect(() => {
-    loadUsers();
-  }, [currentPage, search, showInactive]);
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+
+    setCurrentPage(0);
+    loadUsers(0);
+  };
 
   const loadUsers = async () => {
     setLoading(true);
