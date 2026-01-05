@@ -778,7 +778,7 @@ export async function assignReportToUser(req: Request, res: Response) {
     }
 
     const reportResult = await pool.query(
-      `select id from reports where id = $1`,
+      `select id, created_by_id from reports where id = $1`,
       [reportId],
     );
 
@@ -786,8 +786,18 @@ export async function assignReportToUser(req: Request, res: Response) {
       return res.status(404).json({ ok: false, error: "Report not found" });
     }
 
+    const report = reportResult.rows[0];
+
     let assignedToName: string | null = null;
     if (assignToIdNumber !== null) {
+      // Check if the user is trying to assign to themselves and they created this report
+      if (assignToIdNumber === report.created_by_id) {
+        return res.status(403).json({
+          ok: false,
+          error: "You cannot assign yourself to a report you created",
+        });
+      }
+
       const userResult = await pool.query(
         `select id, name from users where id = $1`,
         [assignToIdNumber],
