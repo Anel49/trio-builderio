@@ -111,7 +111,9 @@ export default function AdminFeedbackList() {
     try {
       const offset = pageNum * limit;
       const showCompletedValue =
-        showCompletedOverride !== undefined ? showCompletedOverride : showCompleted;
+        showCompletedOverride !== undefined
+          ? showCompletedOverride
+          : showCompleted;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),

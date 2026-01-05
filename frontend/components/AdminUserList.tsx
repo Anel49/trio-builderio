@@ -92,7 +92,9 @@ export default function AdminUserList({
     try {
       const pageOffset = pageNum * limit;
       const showInactiveValue =
-        showInactiveOverride !== undefined ? showInactiveOverride : showInactive;
+        showInactiveOverride !== undefined
+          ? showInactiveOverride
+          : showInactive;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: pageOffset.toString(),
@@ -227,9 +229,7 @@ export default function AdminUserList({
       ) : search.trim() !== lastSearchedTerm ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">
-            {!search.trim()
-              ? "Search using a name, email, or username..."
-              : ""}
+            {!search.trim() ? "Search using a name, email, or username..." : ""}
           </p>
         </div>
       ) : users.length === 0 ? (

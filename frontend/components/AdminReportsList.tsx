@@ -139,7 +139,9 @@ export default function AdminReportsList({
     try {
       const offset = pageNum * limit;
       const showCompletedValue =
-        showCompletedOverride !== undefined ? showCompletedOverride : showCompleted;
+        showCompletedOverride !== undefined
+          ? showCompletedOverride
+          : showCompleted;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
@@ -334,9 +336,7 @@ export default function AdminReportsList({
       ) : search.trim() !== lastSearchedTerm ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">
-            {!search.trim()
-              ? getSearchPlaceholder()
-              : ""}
+            {!search.trim() ? getSearchPlaceholder() : ""}
           </p>
         </div>
       ) : reports.length === 0 ? (

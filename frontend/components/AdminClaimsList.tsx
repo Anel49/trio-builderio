@@ -100,7 +100,9 @@ export default function AdminClaimsList() {
     try {
       const offset = pageNum * limit;
       const showCompletedValue =
-        showCompletedOverride !== undefined ? showCompletedOverride : showCompleted;
+        showCompletedOverride !== undefined
+          ? showCompletedOverride
+          : showCompleted;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
@@ -428,7 +430,9 @@ export default function AdminClaimsList() {
                       <p>{claim.priority}</p>
                     </td>
                     <td className={spacing.padding.md}>
-                      <p className="text-sm">{claim.created_by_name || "Unknown"}</p>
+                      <p className="text-sm">
+                        {claim.created_by_name || "Unknown"}
+                      </p>
                     </td>
                     <td className={spacing.padding.md}>
                       <div className="flex items-center gap-2">
