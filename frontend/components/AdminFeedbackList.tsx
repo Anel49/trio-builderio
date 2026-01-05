@@ -251,7 +251,7 @@ export default function AdminFeedbackList() {
       <div className={combineTokens(layouts.flex.between, "gap-4")}>
         <Input
           type="text"
-          placeholder="Search by ID, status, submitter name, or assignee..."
+          placeholder="Search using an ID, status, submitter name, or assigned technician..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onKeyDown={handleSearch}
