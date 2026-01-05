@@ -140,6 +140,7 @@ export default function AdminFeedbackList() {
         console.log("[AdminFeedbackList] Data received:", data);
         setFeedback(data.feedback || []);
         setTotalFeedback(data.total || 0);
+        setLastSearchedTerm(search.trim());
       } catch (parseErr) {
         console.error("[AdminFeedbackList] JSON parse error:", parseErr);
         console.error(
