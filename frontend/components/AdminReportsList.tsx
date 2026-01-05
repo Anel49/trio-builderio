@@ -129,7 +129,7 @@ export default function AdminReportsList({
 
   useEffect(() => {
     loadReports();
-  }, [currentPage, search, reportFor]);
+  }, [currentPage, search, reportFor, showCompleted]);
 
   const loadReports = async () => {
     setLoading(true);
@@ -139,6 +139,7 @@ export default function AdminReportsList({
         limit: limit.toString(),
         offset: offset.toString(),
         report_for: reportFor,
+        show_completed: showCompleted.toString(),
       });
       if (search) params.append("search", search);
 
