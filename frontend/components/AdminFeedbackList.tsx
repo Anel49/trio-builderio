@@ -280,6 +280,14 @@ export default function AdminFeedbackList() {
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
         </div>
+      ) : search.trim() !== lastSearchedTerm ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">
+            {!search.trim()
+              ? "Search by ID, status, submitter name, or assignee..."
+              : ""}
+          </p>
+        </div>
       ) : feedback.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No feedback found</p>
