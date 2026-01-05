@@ -86,7 +86,6 @@ export default function AdminClaimsList() {
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
-    if (!search.trim()) return;
 
     setCurrentPage(0);
     loadClaims(0);
