@@ -245,15 +245,13 @@ export default function AdminClaimsList() {
       </div>
 
       <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
+        <Checkbox
           id="show-completed-claims"
           checked={showCompleted}
-          onChange={(e) => {
-            setShowCompleted(e.target.checked);
+          onCheckedChange={(checked) => {
+            setShowCompleted(checked === true);
             setCurrentPage(0);
           }}
-          className="cursor-pointer"
         />
         <label
           htmlFor="show-completed-claims"
