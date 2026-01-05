@@ -220,7 +220,7 @@ export default function Admin() {
         return (
           <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
-              <CardTitle>Listing Management</CardTitle>
+              <CardTitle>Listing Lookup</CardTitle>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto">
               <AdminListingList />
