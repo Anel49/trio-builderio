@@ -201,7 +201,7 @@ export default function Admin() {
         return (
           <Card className="border-0 rounded-none h-full flex flex-col">
             <CardHeader>
-              <CardTitle>User Management</CardTitle>
+              <CardTitle>User Lookup</CardTitle>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto">
               <AdminUserList
