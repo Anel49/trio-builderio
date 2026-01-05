@@ -192,6 +192,23 @@ export default function AdminUserList({
         />
       </div>
 
+      <div className="flex items-center gap-2">
+        <Checkbox
+          id="show-inactive-users"
+          checked={showInactive}
+          onCheckedChange={(checked) => {
+            setShowInactive(checked === true);
+            setCurrentPage(0);
+          }}
+        />
+        <label
+          htmlFor="show-inactive-users"
+          className={combineTokens(typography.size.sm, "cursor-pointer")}
+        >
+          Show Inactive
+        </label>
+      </div>
+
       {loading ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
