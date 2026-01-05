@@ -269,10 +269,11 @@ export default function AdminFeedbackList() {
           id="show-completed-feedback"
           checked={showCompleted}
           onCheckedChange={(checked) => {
-            setShowCompleted(checked === true);
+            const newShowCompleted = checked === true;
+            setShowCompleted(newShowCompleted);
             if (search.trim() === lastSearchedTerm) {
               setCurrentPage(0);
-              loadFeedback(0);
+              loadFeedback(0, newShowCompleted);
             }
           }}
         />
