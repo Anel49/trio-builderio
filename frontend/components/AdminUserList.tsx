@@ -86,6 +86,7 @@ export default function AdminUserList({
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
+        show_inactive: showInactive.toString(),
       });
       if (search) params.append("search", search);
 
