@@ -83,16 +83,17 @@ export default function AdminUserList({
     loadUsers(0);
   };
 
-  const loadUsers = async () => {
+  const loadUsers = async (pageNum: number = currentPage) => {
     setLoading(true);
     setError(null);
     try {
+      const pageOffset = pageNum * limit;
       const params = new URLSearchParams({
         limit: limit.toString(),
-        offset: offset.toString(),
+        offset: pageOffset.toString(),
         show_inactive: showInactive.toString(),
       });
-      if (search) params.append("search", search);
+      if (search.trim()) params.append("search", search.trim());
 
       const response = await apiFetch(`/admin/users?${params.toString()}`);
       if (!response.ok) throw new Error("Failed to load users");
@@ -100,6 +101,7 @@ export default function AdminUserList({
       const data = await response.json();
       setUsers(data.users);
       setTotalUsers(data.total);
+      setLastSearchedTerm(search.trim());
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     } finally {
