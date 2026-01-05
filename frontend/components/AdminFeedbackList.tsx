@@ -450,6 +450,11 @@ export default function AdminFeedbackList() {
                         </div>
                       </td>
                       <td className={spacing.padding.md}>
+                        <p className="text-xs">
+                          {item.created_by_name || "Unknown"}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
                         <div className="flex items-center gap-2">
                           <p>{item.assigned_to_name || "Unassigned"}</p>
                           <Popover
@@ -497,11 +502,6 @@ export default function AdminFeedbackList() {
                       <td className={spacing.padding.md}>
                         <p className="text-xs text-muted-foreground max-w-sm truncate">
                           {item.details}
-                        </p>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <p className="text-xs">
-                          {item.created_by_name || "Unknown"}
                         </p>
                       </td>
                       <td className={spacing.padding.md}>
