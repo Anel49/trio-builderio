@@ -130,6 +130,7 @@ export default function AdminClaimsList() {
         console.log("[AdminClaimsList] Data received:", data);
         setClaims(data.claims || []);
         setTotalClaims(data.total || 0);
+        setLastSearchedTerm(search.trim());
       } catch (parseErr) {
         console.error("[AdminClaimsList] JSON parse error:", parseErr);
         console.error(
