@@ -109,6 +109,7 @@ export default function AdminReportsList({
     initialReportFor,
   );
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const limit = 6;
   const offset = currentPage * limit;
