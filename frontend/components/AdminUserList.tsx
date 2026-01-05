@@ -83,15 +83,20 @@ export default function AdminUserList({
     loadUsers(0);
   };
 
-  const loadUsers = async (pageNum: number = currentPage) => {
+  const loadUsers = async (
+    pageNum: number = currentPage,
+    showInactiveOverride?: boolean,
+  ) => {
     setLoading(true);
     setError(null);
     try {
       const pageOffset = pageNum * limit;
+      const showInactiveValue =
+        showInactiveOverride !== undefined ? showInactiveOverride : showInactive;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: pageOffset.toString(),
-        show_inactive: showInactive.toString(),
+        show_inactive: showInactiveValue.toString(),
       });
       if (search.trim()) params.append("search", search.trim());
 
