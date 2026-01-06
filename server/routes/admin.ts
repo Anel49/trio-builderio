@@ -298,6 +298,11 @@ export async function listAllOrders(req: Request, res: Response) {
 
     let query =
       "select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email, o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at from orders o";
+
+    if (overdueOnly) {
+      query += " left join listings l on o.listing_id = l.id";
+    }
+
     const params: (string | number)[] = [];
     const whereClauses: string[] = [];
 
@@ -309,7 +314,7 @@ export async function listAllOrders(req: Request, res: Response) {
     if (overdueOnly) {
       whereClauses.push(`o.status = 'active'`);
       whereClauses.push(
-        `(now() at time zone coalesce((select timezone from listings where id = o.listing_id), 'UTC'))::date >= (o.end_date::date + interval '3 days')`
+        `(now() at time zone coalesce(l.timezone, 'UTC'))::date >= (o.end_date::date + interval '3 days')`
       );
     }
 
@@ -322,19 +327,24 @@ export async function listAllOrders(req: Request, res: Response) {
 
     const result = await pool.query(query, params);
 
-    let countQuery = "select count(*) as total from orders";
+    let countQuery = "select count(*) as total from orders o";
+
+    if (overdueOnly) {
+      countQuery += " left join listings l on o.listing_id = l.id";
+    }
+
     const countParams: (string | number)[] = [];
     const countWhereClauses: string[] = [];
 
     if (listingName) {
-      countWhereClauses.push(`listing_title ilike $${countParams.length + 1}`);
+      countWhereClauses.push(`o.listing_title ilike $${countParams.length + 1}`);
       countParams.push(`%${listingName}%`);
     }
 
     if (overdueOnly) {
-      countWhereClauses.push(`status = 'active'`);
+      countWhereClauses.push(`o.status = 'active'`);
       countWhereClauses.push(
-        `(now() at time zone coalesce((select timezone from listings where id = listing_id), 'UTC'))::date >= (end_date::date + interval '3 days')`
+        `(now() at time zone coalesce(l.timezone, 'UTC'))::date >= (o.end_date::date + interval '3 days')`
       );
     }
 
