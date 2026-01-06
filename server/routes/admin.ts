@@ -293,19 +293,30 @@ export async function listAllOrders(req: Request, res: Response) {
       Number.parseInt((req.query.offset as string) || "0", 10),
       0,
     );
+    const listingName = ((req.query.listing_name as string) || "").trim();
 
-    const result = await pool.query(
-      `select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email,
-              o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at
-       from orders o
-       order by o.created_at desc
-       limit $1 offset $2`,
-      [limit, offset],
-    );
+    let query =
+      "select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email, o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at from orders o";
+    const params: (string | number)[] = [];
 
-    const countResult = await pool.query(
-      "select count(*) as total from orders",
-    );
+    if (listingName) {
+      query += " where o.listing_title ilike $1";
+      params.push(`%${listingName}%`);
+    }
+
+    query += ` order by o.created_at desc limit $${params.length + 1} offset $${params.length + 2}`;
+    params.push(limit, offset);
+
+    const result = await pool.query(query, params);
+
+    let countQuery = "select count(*) as total from orders";
+    const countParams: (string | number)[] = [];
+    if (listingName) {
+      countQuery += " where listing_title ilike $1";
+      countParams.push(`%${listingName}%`);
+    }
+
+    const countResult = await pool.query(countQuery, countParams);
 
     res.json({
       ok: true,
