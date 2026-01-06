@@ -1568,149 +1568,153 @@ export default function OrderHistory() {
 
                       {/* Right side: Action Buttons */}
                       <div className="flex flex-col gap-2 w-48 flex-shrink-0">
-                      {canCancelOrder(order) && (
+                        {canCancelOrder(order) && (
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            className="w-full"
+                            onClick={() => {
+                              if (
+                                confirm(
+                                  "Are you sure you want to cancel this rental?",
+                                )
+                              ) {
+                                setOrdersState((prev) =>
+                                  prev.map((o) =>
+                                    o.id === order.id
+                                      ? { ...o, status: "canceled" }
+                                      : o,
+                                  ),
+                                );
+                              }
+                            }}
+                          >
+                            Cancel
+                          </Button>
+                        )}
+                        {/* Leave/Edit Review button - only show for renters with completed orders */}
+                        {order.type === "rented" &&
+                          order.status === "completed" && (
+                            <Button
+                              size="sm"
+                              className="w-full"
+                              onClick={async () => {
+                                setReviewOrder(order);
+                                if (order.review_id) {
+                                  // Load existing review
+                                  try {
+                                    const response = await apiFetch(
+                                      `listing-reviews/review/${order.review_id}`,
+                                    );
+                                    const data = await response.json();
+                                    if (data.ok && data.review) {
+                                      setReviewRating(data.review.rating);
+                                      setReviewText(data.review.comment);
+                                      setEditingReviewId(order.review_id);
+                                      setIsEditingReview(true);
+                                    }
+                                  } catch (error) {
+                                    console.error(
+                                      "Failed to load review:",
+                                      error,
+                                    );
+                                  }
+                                } else {
+                                  setReviewRating(null);
+                                  setReviewText("");
+                                  setEditingReviewId(null);
+                                  setIsEditingReview(false);
+                                }
+                                setReviewDialogOpen(true);
+                              }}
+                            >
+                              {order.review_id &&
+                              reviewCommentsCache.has(order.review_id)
+                                ? "Edit Review"
+                                : "Leave Review"}
+                            </Button>
+                          )}
+
+                        {/* Extend booking button - only show for renters with active/upcoming orders */}
+                        {order.type === "rented" &&
+                          (order.status === "active" ||
+                            order.status === "upcoming") && (
+                            <Button
+                              size="sm"
+                              className="w-full"
+                              onClick={() => handleOpenExtensionModal(order)}
+                              disabled={extensionModalLoading}
+                            >
+                              {extensionModalLoading && (
+                                <Loader className="h-4 w-4 mr-2 animate-spin" />
+                              )}
+                              Extend booking
+                            </Button>
+                          )}
+
                         <Button
-                          variant="destructive"
+                          variant="outline"
                           size="sm"
                           className="w-full"
                           onClick={() => {
-                            if (
-                              confirm(
-                                "Are you sure you want to cancel this rental?",
-                              )
-                            ) {
-                              setOrdersState((prev) =>
-                                prev.map((o) =>
-                                  o.id === order.id
-                                    ? { ...o, status: "canceled" }
-                                    : o,
-                                ),
+                            const recipientId =
+                              order.type === "rented"
+                                ? order.host_id
+                                : order.renter_id;
+                            if (recipientId) {
+                              window.open(
+                                `/messages?userId=${recipientId}`,
+                                "_blank",
                               );
                             }
                           }}
                         >
-                          Cancel
+                          <MessageCircle className="h-4 w-4 mr-1" />
+                          Message
                         </Button>
-                      )}
-                      {/* Leave/Edit Review button - only show for renters with completed orders */}
-                      {order.type === "rented" &&
-                        order.status === "completed" && (
-                          <Button
-                            size="sm"
-                            className="w-full"
-                            onClick={async () => {
-                              setReviewOrder(order);
-                              if (order.review_id) {
-                                // Load existing review
-                                try {
-                                  const response = await apiFetch(
-                                    `listing-reviews/review/${order.review_id}`,
-                                  );
-                                  const data = await response.json();
-                                  if (data.ok && data.review) {
-                                    setReviewRating(data.review.rating);
-                                    setReviewText(data.review.comment);
-                                    setEditingReviewId(order.review_id);
-                                    setIsEditingReview(true);
-                                  }
-                                } catch (error) {
-                                  console.error(
-                                    "Failed to load review:",
-                                    error,
-                                  );
-                                }
-                              } else {
-                                setReviewRating(null);
-                                setReviewText("");
-                                setEditingReviewId(null);
-                                setIsEditingReview(false);
-                              }
-                              setReviewDialogOpen(true);
-                            }}
-                          >
-                            {order.review_id &&
-                            reviewCommentsCache.has(order.review_id)
-                              ? "Edit Review"
-                              : "Leave Review"}
-                          </Button>
-                        )}
 
-                      {/* Extend booking button - only show for renters with active/upcoming orders */}
-                      {order.type === "rented" &&
-                        (order.status === "active" ||
-                          order.status === "upcoming") && (
-                          <Button
-                            size="sm"
-                            className="w-full"
-                            onClick={() => handleOpenExtensionModal(order)}
-                            disabled={extensionModalLoading}
-                          >
-                            {extensionModalLoading && (
-                              <Loader className="h-4 w-4 mr-2 animate-spin" />
-                            )}
-                            Extend booking
-                          </Button>
-                        )}
-
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full"
-                        onClick={() => {
-                          const recipientId =
-                            order.type === "rented"
-                              ? order.host_id
-                              : order.renter_id;
-                          if (recipientId) {
-                            window.open(
-                              `/messages?userId=${recipientId}`,
-                              "_blank",
-                            );
-                          }
-                        }}
-                      >
-                        <MessageCircle className="h-4 w-4 mr-1" />
-                        Message
-                      </Button>
-
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="sm" className="w-full">
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => {}}>
-                            View Details
-                          </DropdownMenuItem>
-                          {order.status === "completed" &&
-                            currentUser?.id === order.host_id && (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="w-full"
+                            >
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => {}}>
+                              View Details
+                            </DropdownMenuItem>
+                            {order.status === "completed" &&
+                              currentUser?.id === order.host_id && (
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    setClaimOrder(order);
+                                    setClaimType("");
+                                    setIncidentDate("");
+                                    setClaimDetails("");
+                                    setClaimDialogOpen(true);
+                                  }}
+                                >
+                                  Open Claim
+                                </DropdownMenuItem>
+                              )}
+                            {(order.status === "upcoming" ||
+                              order.status === "pending") && (
                               <DropdownMenuItem
                                 onClick={() => {
-                                  setClaimOrder(order);
-                                  setClaimType("");
-                                  setIncidentDate("");
-                                  setClaimDetails("");
-                                  setClaimDialogOpen(true);
+                                  setOrderToCancel(order);
+                                  setCancelReason("");
+                                  setCancelDialogOpen(true);
                                 }}
                               >
-                                Open Claim
+                                Cancel Rental
                               </DropdownMenuItem>
                             )}
-                          {(order.status === "upcoming" ||
-                            order.status === "pending") && (
-                            <DropdownMenuItem
-                              onClick={() => {
-                                setOrderToCancel(order);
-                                setCancelReason("");
-                                setCancelDialogOpen(true);
-                              }}
-                            >
-                              Cancel Rental
-                            </DropdownMenuItem>
-                          )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </div>
 
