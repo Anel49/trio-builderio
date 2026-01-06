@@ -1112,7 +1112,7 @@ export default function Messages() {
                       onClick={handleBlockUser}
                       disabled={isBlockingUser}
                     >
-                      {isBlockingUser ? "Blocking..." : "Block user"}
+                      {isBlockingUser ? (isBlocked ? "Unblocking..." : "Blocking...") : (isBlocked ? "Unblock user" : "Block user")}
                     </Button>
                   )}
 
