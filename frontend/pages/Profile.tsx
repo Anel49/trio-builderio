@@ -3945,6 +3945,9 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
+      {/* User Blocked Modal */}
+      {renderUserBlockedModal()}
+
       <PendingIdentityModal
         isOpen={isPendingIdentityModalOpen}
         onOpenChange={setIsPendingIdentityModalOpen}
