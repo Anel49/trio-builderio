@@ -177,7 +177,9 @@ export default function Profile() {
     topReferrer: boolean;
     ambassador: boolean;
   }>(null);
-  const { isBlocked, refetch: refetchBlockStatus } = useBlockStatus(otherUserData?.id ?? null);
+  const { isBlocked, refetch: refetchBlockStatus } = useBlockStatus(
+    otherUserData?.id ?? null,
+  );
   const [isLoadingOtherUser, setIsLoadingOtherUser] = useState(
     Boolean(username),
   );
@@ -195,7 +197,9 @@ export default function Profile() {
   const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
   const [blockedUserName, setBlockedUserName] = useState<string | null>(null);
   const [isUnblockedModalOpen, setIsUnblockedModalOpen] = useState(false);
-  const [unblockedUserName, setUnblockedUserName] = useState<string | null>(null);
+  const [unblockedUserName, setUnblockedUserName] = useState<string | null>(
+    null,
+  );
   const initialLocation = getCurrentUserLocation();
   const [locationCity, setLocationCity] = useState<string | null>(
     initialLocation.city,
@@ -1555,7 +1559,9 @@ export default function Profile() {
         // Refetch block status to update UI
         await refetchBlockStatus();
       } else {
-        alert("Failed to update block status: " + (data.error || "Unknown error"));
+        alert(
+          "Failed to update block status: " + (data.error || "Unknown error"),
+        );
       }
     } catch (error) {
       console.error("Failed to update block status:", error);
@@ -1597,12 +1603,12 @@ export default function Profile() {
           <DialogTitle>User blocked</DialogTitle>
         </DialogHeader>
         <p className="text-muted-foreground">
-          {blockedUserName} has been blocked. You can no longer reserve listings, message, or review each other. You can unblock them at any time.
+          {blockedUserName} has been blocked. You can no longer reserve
+          listings, message, or review each other. You can unblock them at any
+          time.
         </p>
         <div className="flex justify-end gap-2">
-          <Button onClick={() => setIsBlockedModalOpen(false)}>
-            Close
-          </Button>
+          <Button onClick={() => setIsBlockedModalOpen(false)}>Close</Button>
         </div>
       </DialogContent>
     </Dialog>
@@ -1616,12 +1622,11 @@ export default function Profile() {
           <DialogTitle>User unblocked</DialogTitle>
         </DialogHeader>
         <p className="text-muted-foreground">
-          {unblockedUserName} has been unblocked. You may now reserve listings, message, and review each other.
+          {unblockedUserName} has been unblocked. You may now reserve listings,
+          message, and review each other.
         </p>
         <div className="flex justify-end gap-2">
-          <Button onClick={() => setIsUnblockedModalOpen(false)}>
-            Close
-          </Button>
+          <Button onClick={() => setIsUnblockedModalOpen(false)}>Close</Button>
         </div>
       </DialogContent>
     </Dialog>
@@ -1940,7 +1945,13 @@ export default function Profile() {
                         onClick={handleBlockUser}
                         disabled={isBlockingUser}
                       >
-                        {isBlockingUser ? (isBlocked ? "Unblocking..." : "Blocking...") : (isBlocked ? "Unblock user" : "Block user")}
+                        {isBlockingUser
+                          ? isBlocked
+                            ? "Unblocking..."
+                            : "Blocking..."
+                          : isBlocked
+                            ? "Unblock user"
+                            : "Block user"}
                       </Button>
                     </div>
                   )}
@@ -3470,7 +3481,13 @@ export default function Profile() {
                       onClick={handleBlockUser}
                       disabled={isBlockingUser}
                     >
-                      {isBlockingUser ? (isBlocked ? "Unblocking..." : "Blocking...") : (isBlocked ? "Unblock user" : "Block user")}
+                      {isBlockingUser
+                        ? isBlocked
+                          ? "Unblocking..."
+                          : "Blocking..."
+                        : isBlocked
+                          ? "Unblock user"
+                          : "Block user"}
                     </Button>
                   </div>
                 )}

@@ -91,7 +91,8 @@ export default function Messages() {
     return userIdFromUrl ? parseInt(userIdFromUrl) : null;
   });
 
-  const { isBlocked, refetch: refetchBlockStatus } = useBlockStatus(selectedUserId);
+  const { isBlocked, refetch: refetchBlockStatus } =
+    useBlockStatus(selectedUserId);
 
   // Track if userId or threadId came from URL params
   const userIdFromUrl = searchParams.get("userId");
@@ -110,7 +111,9 @@ export default function Messages() {
   const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
   const [blockedUserName, setBlockedUserName] = useState<string | null>(null);
   const [isUnblockedModalOpen, setIsUnblockedModalOpen] = useState(false);
-  const [unblockedUserName, setUnblockedUserName] = useState<string | null>(null);
+  const [unblockedUserName, setUnblockedUserName] = useState<string | null>(
+    null,
+  );
 
   // Real data states
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -516,7 +519,9 @@ export default function Messages() {
         // Refetch block status to update UI
         await refetchBlockStatus();
       } else {
-        alert("Failed to update block status: " + (data.error || "Unknown error"));
+        alert(
+          "Failed to update block status: " + (data.error || "Unknown error"),
+        );
       }
     } catch (error) {
       console.error("Failed to update block status:", error);
@@ -909,7 +914,9 @@ export default function Messages() {
             <div className="p-4">
               <div className="flex space-x-2">
                 <Input
-                  placeholder={isBlocked ? "Cannot message this user" : "Type a message..."}
+                  placeholder={
+                    isBlocked ? "Cannot message this user" : "Type a message..."
+                  }
                   value={messageInput}
                   onChange={(e) => setMessageInput(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
@@ -918,7 +925,9 @@ export default function Messages() {
                 />
                 <Button
                   onClick={handleSendMessage}
-                  disabled={!selectedUserId || !messageInput.trim() || isBlocked}
+                  disabled={
+                    !selectedUserId || !messageInput.trim() || isBlocked
+                  }
                 >
                   <Send className="h-4 w-4" />
                 </Button>
@@ -1116,16 +1125,24 @@ export default function Messages() {
                     </div>
                   )}
 
-                  {user?.id && selectedUserId !== 2 && user.id !== selectedUserId && (
-                    <Button
-                      variant="outline"
-                      className="w-full max-w-[300px] border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700 mx-auto block mb-2"
-                      onClick={handleBlockUser}
-                      disabled={isBlockingUser}
-                    >
-                      {isBlockingUser ? (isBlocked ? "Unblocking..." : "Blocking...") : (isBlocked ? "Unblock user" : "Block user")}
-                    </Button>
-                  )}
+                  {user?.id &&
+                    selectedUserId !== 2 &&
+                    user.id !== selectedUserId && (
+                      <Button
+                        variant="outline"
+                        className="w-full max-w-[300px] border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700 mx-auto block mb-2"
+                        onClick={handleBlockUser}
+                        disabled={isBlockingUser}
+                      >
+                        {isBlockingUser
+                          ? isBlocked
+                            ? "Unblocking..."
+                            : "Blocking..."
+                          : isBlocked
+                            ? "Unblock user"
+                            : "Block user"}
+                      </Button>
+                    )}
 
                   {selectedUserId !== 2 && (
                     <Button
@@ -1198,24 +1215,28 @@ export default function Messages() {
             <DialogTitle>User blocked</DialogTitle>
           </DialogHeader>
           <p className="text-muted-foreground">
-            {blockedUserName} has been blocked. You can no longer reserve listings, message, or review each other. You can unblock them at any time.
+            {blockedUserName} has been blocked. You can no longer reserve
+            listings, message, or review each other. You can unblock them at any
+            time.
           </p>
           <div className="flex justify-end gap-2">
-            <Button onClick={() => setIsBlockedModalOpen(false)}>
-              Close
-            </Button>
+            <Button onClick={() => setIsBlockedModalOpen(false)}>Close</Button>
           </div>
         </DialogContent>
       </Dialog>
 
       {/* User Unblocked Modal */}
-      <Dialog open={isUnblockedModalOpen} onOpenChange={setIsUnblockedModalOpen}>
+      <Dialog
+        open={isUnblockedModalOpen}
+        onOpenChange={setIsUnblockedModalOpen}
+      >
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>User unblocked</DialogTitle>
           </DialogHeader>
           <p className="text-muted-foreground">
-            {unblockedUserName} has been unblocked. You may now reserve listings, message, and review each other.
+            {unblockedUserName} has been unblocked. You may now reserve
+            listings, message, and review each other.
           </p>
           <div className="flex justify-end gap-2">
             <Button onClick={() => setIsUnblockedModalOpen(false)}>
