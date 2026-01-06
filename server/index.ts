@@ -108,7 +108,12 @@ import {
 } from "./routes/claims";
 import { createReport } from "./routes/reports";
 import { createFeedback } from "./routes/feedback";
-import { createUserBlock, removeUserBlock } from "./routes/blocks";
+import {
+  createUserBlock,
+  removeUserBlock,
+  getBlockStatus,
+  isUsersBlocked,
+} from "./routes/blocks";
 
 export function createServer() {
   const app = express();
