@@ -17,7 +17,7 @@ export function useBlockStatus(otherUserId: number | null | undefined) {
       setIsLoading(true);
       try {
         const response = await apiFetch(
-          `/api/blocks/check?otherUserId=${otherUserId}`,
+          `blocks/check?otherUserId=${otherUserId}`,
         );
         const data = await response.json();
 
