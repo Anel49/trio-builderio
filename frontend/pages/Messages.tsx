@@ -91,7 +91,7 @@ export default function Messages() {
     return userIdFromUrl ? parseInt(userIdFromUrl) : null;
   });
 
-  const { isBlocked } = useBlockStatus(selectedUserId);
+  const { isBlocked, refetch: refetchBlockStatus } = useBlockStatus(selectedUserId);
 
   // Track if userId or threadId came from URL params
   const userIdFromUrl = searchParams.get("userId");
