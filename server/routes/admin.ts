@@ -311,6 +311,10 @@ export async function listAllOrders(req: Request, res: Response) {
       params.push(`%${listingName}%`);
     }
 
+    if (!showCompleted) {
+      whereClauses.push(`o.status != 'completed'`);
+    }
+
     if (overdueOnly) {
       whereClauses.push(`o.status = 'active'`);
       whereClauses.push(
