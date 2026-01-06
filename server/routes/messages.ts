@@ -141,6 +141,18 @@ export async function sendMessage(req: Request, res: Response) {
       });
     }
 
+    // Check if sender and recipient are blocked from each other (unless one is support user)
+    if (senderId !== 2 && toId !== 2) {
+      const { isUsersBlocked } = await import("./blocks");
+      const isBlocked = await isUsersBlocked(senderId, toId);
+      if (isBlocked) {
+        return res.status(403).json({
+          ok: false,
+          error: "Cannot message a blocked user",
+        });
+      }
+    }
+
     let threadId: number;
 
     if (messageThreadId) {
