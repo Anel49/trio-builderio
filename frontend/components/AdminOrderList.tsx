@@ -184,7 +184,7 @@ export default function AdminOrderList() {
             setShowCompleted(newShowCompleted);
             if (search.trim() === lastSearchedTerm) {
               setCurrentPage(0);
-              loadOrders(0);
+              loadOrders(0, newShowCompleted);
             }
           }}
         />
