@@ -107,6 +107,8 @@ export default function Messages() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isUpdatingOpenDms, setIsUpdatingOpenDms] = useState(false);
   const [isBlockingUser, setIsBlockingUser] = useState(false);
+  const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
+  const [blockedUserName, setBlockedUserName] = useState<string | null>(null);
 
   // Real data states
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -500,8 +502,11 @@ export default function Messages() {
 
       const data = await response.json();
       if (data.ok) {
-        const message = isBlocked ? "User unblocked successfully" : "User blocked successfully";
-        alert(message);
+        if (!isBlocked) {
+          // Show modal only when blocking (not unblocking)
+          setBlockedUserName(selectedChat?.name || "User");
+          setIsBlockedModalOpen(true);
+        }
         // Refetch block status to update UI
         await refetchBlockStatus();
       } else {
@@ -1176,6 +1181,23 @@ export default function Messages() {
               No
             </Button>
             <Button onClick={() => setSupportModalOpen(false)}>Yes</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* User Blocked Modal */}
+      <Dialog open={isBlockedModalOpen} onOpenChange={setIsBlockedModalOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>User blocked</DialogTitle>
+          </DialogHeader>
+          <p className="text-muted-foreground">
+            {blockedUserName} has been blocked. You can no longer reserve listings, message, or review each other. You can unblock them at any time.
+          </p>
+          <div className="flex justify-end gap-2">
+            <Button onClick={() => setIsBlockedModalOpen(false)}>
+              Close
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
