@@ -1522,6 +1522,33 @@ export default function Profile() {
     }
   }, []);
 
+  // Handle block user
+  const handleBlockUser = async () => {
+    if (!authenticated || !authUser?.id || !otherUserData?.id) return;
+
+    setIsBlockingUser(true);
+    try {
+      const response = await apiFetch("/api/blocks/create", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ targetId: otherUserData.id }),
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        // Block successful
+        alert("User blocked successfully");
+      } else {
+        alert("Failed to block user: " + (data.error || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Failed to block user:", error);
+      alert("Failed to block user");
+    } finally {
+      setIsBlockingUser(false);
+    }
+  };
+
   // Handle logout and redirect after success modal closes
   useEffect(() => {
     if (!isDeactivationSuccessModalOpen && shouldLogoutAfterDeactivation) {
