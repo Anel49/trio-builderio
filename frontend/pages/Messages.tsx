@@ -485,13 +485,14 @@ export default function Messages() {
     }
   };
 
-  // Handle block user
+  // Handle block/unblock user
   const handleBlockUser = async () => {
     if (!user?.id || !selectedUserId) return;
 
     setIsBlockingUser(true);
     try {
-      const response = await apiFetch("blocks/create", {
+      const endpoint = isBlocked ? "blocks/remove" : "blocks/create";
+      const response = await apiFetch(endpoint, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ targetId: selectedUserId }),
@@ -499,14 +500,16 @@ export default function Messages() {
 
       const data = await response.json();
       if (data.ok) {
-        // Block successful, you could show a toast or update UI
-        alert("User blocked successfully");
+        const message = isBlocked ? "User unblocked successfully" : "User blocked successfully";
+        alert(message);
+        // Refetch block status to update UI
+        await refetchBlockStatus();
       } else {
-        alert("Failed to block user: " + (data.error || "Unknown error"));
+        alert("Failed to update block status: " + (data.error || "Unknown error"));
       }
     } catch (error) {
-      console.error("Failed to block user:", error);
-      alert("Failed to block user");
+      console.error("Failed to update block status:", error);
+      alert("Failed to update block status");
     } finally {
       setIsBlockingUser(false);
     }
