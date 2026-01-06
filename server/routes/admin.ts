@@ -294,7 +294,8 @@ export async function listAllOrders(req: Request, res: Response) {
       0,
     );
     const listingName = ((req.query.listing_name as string) || "").trim();
-    const overdueOnly = (req.query.overdue_only as string) === "true\";\n    const showCompleted = (req.query.show_completed as string) === \"true";
+    const overdueOnly = (req.query.overdue_only as string) === "true";
+    const showCompleted = (req.query.show_completed as string) === "true";
 
     let query =
       "select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email, o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at from orders o";
