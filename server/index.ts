@@ -950,6 +950,8 @@ export function createServer() {
   app.post("/feedback/create", createFeedback);
 
   // User Blocks
+  app.get("/api/blocks/check", getBlockStatus);
+  app.get("/blocks/check", getBlockStatus);
   app.post("/api/blocks/create", createUserBlock);
   app.post("/blocks/create", createUserBlock);
   app.post("/api/blocks/remove", removeUserBlock);
