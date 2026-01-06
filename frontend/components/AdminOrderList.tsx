@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { apiFetch } from "@/lib/api";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import {
   Select,
   SelectContent,
@@ -41,6 +42,8 @@ export default function AdminOrderList() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set());
+  const [search, setSearch] = useState("");
+  const [lastSearchedTerm, setLastSearchedTerm] = useState("");
 
   const limit = 6;
   const offset = currentPage * limit;
@@ -49,11 +52,26 @@ export default function AdminOrderList() {
     loadOrders();
   }, [currentPage]);
 
-  const loadOrders = async () => {
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    if (!search.trim()) return;
+
+    setCurrentPage(0);
+    setLoading(true);
+    setError(null);
+    loadOrders(0);
+  };
+
+  const loadOrders = async (pageNum: number = currentPage) => {
     setLoading(true);
     setError(null);
     try {
-      const url = `/admin/orders?limit=${limit}&offset=${offset}`;
+      const pageOffset = pageNum * limit;
+      let url = `/admin/orders?limit=${limit}&offset=${pageOffset}`;
+
+      if (search.trim()) {
+        url += `&listing_name=${encodeURIComponent(search.trim())}`;
+      }
 
       const response = await apiFetch(url);
       if (!response.ok) throw new Error("Failed to load orders");
@@ -61,6 +79,7 @@ export default function AdminOrderList() {
       const data = await response.json();
       setOrders(data.orders);
       setTotalOrders(data.total);
+      setLastSearchedTerm(search.trim());
     } catch (err: any) {
       setError(err.message || "Failed to load orders");
     } finally {
@@ -113,9 +132,26 @@ export default function AdminOrderList() {
         </div>
       )}
 
+      <div className={combineTokens(layouts.flex.between, "gap-4")}>
+        <Input
+          type="text"
+          placeholder="Search using a listing name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleSearch}
+          className="flex-1"
+        />
+      </div>
+
       {loading ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
+        </div>
+      ) : search.trim() !== lastSearchedTerm ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">
+            {!search.trim() ? "Search using a listing name..." : ""}
+          </p>
         </div>
       ) : orders.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
