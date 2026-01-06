@@ -895,16 +895,16 @@ export default function Messages() {
             <div className="p-4">
               <div className="flex space-x-2">
                 <Input
-                  placeholder="Type a message..."
+                  placeholder={isBlocked ? "Cannot message this user" : "Type a message..."}
                   value={messageInput}
                   onChange={(e) => setMessageInput(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                   className="flex-1"
-                  disabled={!selectedUserId}
+                  disabled={!selectedUserId || isBlocked}
                 />
                 <Button
                   onClick={handleSendMessage}
-                  disabled={!selectedUserId || !messageInput.trim()}
+                  disabled={!selectedUserId || !messageInput.trim() || isBlocked}
                 >
                   <Send className="h-4 w-4" />
                 </Button>
