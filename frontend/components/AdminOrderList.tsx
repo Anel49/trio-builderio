@@ -66,7 +66,7 @@ export default function AdminOrderList() {
     loadOrders(0);
   };
 
-  const loadOrders = async (pageNum: number = currentPage) => {
+  const loadOrders = async (pageNum: number = currentPage, showCompletedOverride?: boolean) => {
     setLoading(true);
     setError(null);
     try {
@@ -81,7 +81,8 @@ export default function AdminOrderList() {
         url += `&overdue_only=true`;
       }
 
-      if (showCompleted) {
+      const finalShowCompleted = showCompletedOverride !== undefined ? showCompletedOverride : showCompleted;
+      if (finalShowCompleted) {
         url += `&show_completed=true`;
       }
 
