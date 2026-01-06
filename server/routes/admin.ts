@@ -328,11 +328,8 @@ export async function listAllOrders(req: Request, res: Response) {
 
     const result = await pool.query(query, params);
 
-    let countQuery = "select count(*) as total from orders o";
-
-    if (overdueOnly) {
-      countQuery += " left join listings l on o.listing_id = l.id";
-    }
+    let countQuery =
+      "select count(*) as total from orders o left join listings l on o.listing_id = l.id";
 
     const countParams: (string | number)[] = [];
     const countWhereClauses: string[] = [];
