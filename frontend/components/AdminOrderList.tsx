@@ -52,7 +52,7 @@ export default function AdminOrderList() {
     if (lastSearchedTerm) {
       loadOrders();
     }
-  }, [currentPage, lastSearchedTerm]);
+  }, [currentPage]);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
