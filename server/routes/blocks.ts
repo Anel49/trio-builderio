@@ -1,6 +1,60 @@
 import type { Request, Response } from "express";
 import { pool } from "./db";
 
+export async function isUsersBlocked(
+  userId1: number,
+  userId2: number,
+): Promise<boolean> {
+  try {
+    const result = await pool.query(
+      `select count(*) as count from user_blocks
+       where (actor_id = $1 and target_id = $2)
+          or (actor_id = $2 and target_id = $1)`,
+      [userId1, userId2],
+    );
+    return parseInt(result.rows[0]?.count || "0", 10) > 0;
+  } catch (error) {
+    console.error("[isUsersBlocked] Error:", error);
+    return false;
+  }
+}
+
+export async function getBlockStatus(req: Request, res: Response) {
+  try {
+    const userId = (req as any).session?.userId;
+    const { otherUserId } = req.query;
+
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: "Not authenticated" });
+    }
+
+    if (!otherUserId || typeof otherUserId !== "string") {
+      return res.status(400).json({
+        ok: false,
+        error: "Missing or invalid required parameter: otherUserId",
+      });
+    }
+
+    const otherUserIdNum = parseInt(otherUserId, 10);
+    if (isNaN(otherUserIdNum)) {
+      return res.status(400).json({
+        ok: false,
+        error: "Invalid otherUserId",
+      });
+    }
+
+    const isBlocked = await isUsersBlocked(userId, otherUserIdNum);
+
+    res.json({
+      ok: true,
+      isBlocked,
+    });
+  } catch (error: any) {
+    console.error("[getBlockStatus] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function createUserBlock(req: Request, res: Response) {
   try {
     const actorId = (req as any).session?.userId;
