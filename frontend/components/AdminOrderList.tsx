@@ -35,6 +35,7 @@ interface Order {
   end_date: string;
   status: string;
   created_at: string;
+  timezone_name?: string;
 }
 
 export default function AdminOrderList() {
