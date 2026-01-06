@@ -138,8 +138,8 @@ export default function AdminOrderList() {
           }}
         >
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="all">All Listings</TabsTrigger>
-            <TabsTrigger value="overdue">Overdue Listings</TabsTrigger>
+            <TabsTrigger value="all">All Orders</TabsTrigger>
+            <TabsTrigger value="overdue">Overdue Orders</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
