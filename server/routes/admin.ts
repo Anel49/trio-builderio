@@ -345,6 +345,10 @@ export async function listAllOrders(req: Request, res: Response) {
       countParams.push(`%${listingName}%`);
     }
 
+    if (!showCompleted) {
+      countWhereClauses.push(`o.status != 'completed'`);
+    }
+
     if (overdueOnly) {
       countWhereClauses.push(`o.status = 'active'`);
       countWhereClauses.push(
