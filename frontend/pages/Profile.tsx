@@ -177,6 +177,7 @@ export default function Profile() {
     topReferrer: boolean;
     ambassador: boolean;
   }>(null);
+  const { isBlocked } = useBlockStatus(otherUserData?.id ?? null);
   const [isLoadingOtherUser, setIsLoadingOtherUser] = useState(
     Boolean(username),
   );
