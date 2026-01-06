@@ -59,7 +59,6 @@ export default function AdminOrderList() {
     if (!search.trim()) return;
 
     setCurrentPage(0);
-    setLastSearchedTerm(search.trim());
     loadOrders(0);
   };
 
