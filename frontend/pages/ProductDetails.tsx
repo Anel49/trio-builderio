@@ -36,6 +36,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { apiFetch, getListingConflictingDates } from "@/lib/api";
 import { ResponsiveImage, getWebpUrl } from "@/components/ui/responsive-image";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useBlockStatus } from "@/hooks/useBlockStatus";
 import { format } from "date-fns";
 import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
