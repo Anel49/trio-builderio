@@ -31,6 +31,31 @@ export async function createListingReview(req: Request, res: Response) {
       });
     }
 
+    // Check if reviewer is blocked from the listing host
+    const listingResult = await pool.query(
+      `select host_id from listings where id = $1`,
+      [listing_id],
+    );
+
+    if (listingResult.rows.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        error: "Listing not found",
+      });
+    }
+
+    const hostId = listingResult.rows[0].host_id;
+    if (hostId) {
+      const { isUsersBlocked } = await import("./blocks");
+      const isBlocked = await isUsersBlocked(reviewer_id, hostId);
+      if (isBlocked) {
+        return res.status(403).json({
+          ok: false,
+          error: "Cannot review this listing",
+        });
+      }
+    }
+
     const result = await pool.query(
       `insert into listing_reviews (listing_id, reviewer_id, rating, comment)
        values ($1, $2, $3, $4)
