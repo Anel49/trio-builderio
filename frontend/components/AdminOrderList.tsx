@@ -52,6 +52,7 @@ export default function AdminOrderList() {
     if (lastSearchedTerm) {
       loadOrders();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
