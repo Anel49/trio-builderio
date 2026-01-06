@@ -442,7 +442,7 @@ export default function BrowseListings() {
         });
       }
     },
-    [reservationsCache, dateRange],
+    [dateRange],
   );
 
   // Clear reservations cache when date range changes
