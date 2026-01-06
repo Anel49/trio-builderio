@@ -49,16 +49,17 @@ export default function AdminOrderList() {
   const offset = currentPage * limit;
 
   useEffect(() => {
-    loadOrders();
-  }, [currentPage]);
+    if (lastSearchedTerm) {
+      loadOrders();
+    }
+  }, [currentPage, lastSearchedTerm]);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
     if (!search.trim()) return;
 
     setCurrentPage(0);
-    setLoading(true);
-    setError(null);
+    setLastSearchedTerm(search.trim());
     loadOrders(0);
   };
 
