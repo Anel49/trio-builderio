@@ -1402,6 +1402,19 @@ export async function createReservation(req: Request, res: Response) {
         .json({ ok: false, error: "start_date and end_date are required" });
     }
 
+    // Check if renter and host are blocked from each other
+    if (host_id) {
+      const isBlocked = await import("./blocks").then((m) =>
+        m.isUsersBlocked(renter_id, host_id),
+      );
+      if (isBlocked) {
+        return res.status(403).json({
+          ok: false,
+          error: "Cannot reserve from a blocked user",
+        });
+      }
+    }
+
     const startDate = new Date(start_date);
     const endDate = new Date(end_date);
 
