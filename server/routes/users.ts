@@ -1735,6 +1735,16 @@ export async function createUserReview(req: Request, res: Response) {
         .json({ ok: false, error: "cannot review yourself" });
     }
 
+    // Check if reviewer is blocked from the reviewed user
+    const { isUsersBlocked } = await import("./blocks");
+    const isBlocked = await isUsersBlocked(reviewerId, reviewedUserId);
+    if (isBlocked) {
+      return res.status(403).json({
+        ok: false,
+        error: "Cannot review this user",
+      });
+    }
+
     const parsedRating = typeof rating === "string" ? Number(rating) : rating;
     if (
       parsedRating === null ||
