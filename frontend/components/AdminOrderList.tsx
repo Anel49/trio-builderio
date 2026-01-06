@@ -48,11 +48,11 @@ export default function AdminOrderList() {
   const limit = 6;
   const offset = currentPage * limit;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (lastSearchedTerm) {
       loadOrders();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
