@@ -1650,9 +1650,11 @@ export default function ProductDetails() {
                     setIsReviewModalOpen(true);
                   }
                 }}
+                disabled={isBlocked}
                 className={cn(
                   "whitespace-nowrap",
-                  (authUser?.pendingIdentityVer === null ||
+                  (isBlocked ||
+                    authUser?.pendingIdentityVer === null ||
                     authUser?.pendingIdentityVer === true) &&
                     "opacity-50 cursor-not-allowed",
                 )}
