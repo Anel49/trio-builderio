@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { pool } from "./db";
 
 export async function createListingReview(req: Request, res: Response) {
