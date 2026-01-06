@@ -944,6 +944,12 @@ export function createServer() {
   app.post("/api/feedback/create", createFeedback);
   app.post("/feedback/create", createFeedback);
 
+  // User Blocks
+  app.post("/api/blocks/create", createUserBlock);
+  app.post("/blocks/create", createUserBlock);
+  app.post("/api/blocks/remove", removeUserBlock);
+  app.post("/blocks/remove", removeUserBlock);
+
   // WebAuthn verification for OAuth users
   app.post("/api/users/webauthn/verify", async (req: any, res: any) => {
     try {
