@@ -2602,8 +2602,10 @@ export default function Profile() {
                             }
                             setIsReviewUserModalOpen(true);
                           }}
+                          disabled={isBlocked}
                           className={cn(
-                            (authUser?.pendingIdentityVer === null ||
+                            (isBlocked ||
+                              authUser?.pendingIdentityVer === null ||
                               authUser?.pendingIdentityVer === true) &&
                               "opacity-50 cursor-not-allowed",
                           )}
