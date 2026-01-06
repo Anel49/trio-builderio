@@ -3421,7 +3421,7 @@ export default function Profile() {
                       onClick={handleBlockUser}
                       disabled={isBlockingUser}
                     >
-                      {isBlockingUser ? "Blocking..." : "Block user"}
+                      {isBlockingUser ? (isBlocked ? "Unblocking..." : "Blocking...") : (isBlocked ? "Unblock user" : "Block user")}
                     </Button>
                   </div>
                 )}
