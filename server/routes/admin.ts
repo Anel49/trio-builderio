@@ -298,11 +298,7 @@ export async function listAllOrders(req: Request, res: Response) {
     const showCompleted = (req.query.show_completed as string) === "true";
 
     let query =
-      "select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email, o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at from orders o";
-
-    if (overdueOnly) {
-      query += " left join listings l on o.listing_id = l.id";
-    }
+      "select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email, o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at, coalesce((l.timezone::jsonb->>'name')::text, 'UTC') as timezone_name from orders o left join listings l on o.listing_id = l.id";
 
     const params: (string | number)[] = [];
     const whereClauses: string[] = [];
