@@ -62,7 +62,7 @@ export default function Header() {
     if (authenticated) {
       checkAuth();
     }
-  }, [location.pathname, authenticated, checkAuth]);
+  }, [location.pathname, authenticated]);
 
   const getInitials = (name: string | null): string => {
     if (!name) return "U";
