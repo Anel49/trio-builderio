@@ -132,6 +132,9 @@ export default function AdminOrderList() {
             setListingFilter(v as "all" | "overdue");
             setCurrentPage(0);
             setSearch("");
+            setLastSearchedTerm("");
+            setOrders([]);
+            setTotalOrders(0);
           }}
         >
           <TabsList className="grid w-full grid-cols-2">
