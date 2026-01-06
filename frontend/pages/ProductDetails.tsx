@@ -108,6 +108,8 @@ const REVIEWS_PER_PAGE = 8;
 export default function ProductDetails() {
   const navigate = useNavigate();
   const { user: authUser } = useAuth();
+  const [product, setProduct] = useState<any>(null);
+  const { isBlocked } = useBlockStatus(product?.hostUserId);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [reviewSearchQuery, setReviewSearchQuery] = useState("");
   const [reviewSortBy, setReviewSortBy] = useState("newest");
