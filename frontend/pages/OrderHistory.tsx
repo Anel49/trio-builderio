@@ -1557,7 +1557,11 @@ export default function OrderHistory() {
                                 </Avatar>
                               </a>
                             )}
-                            <span>Hosted by {order.host}</span>
+                            <span>
+                              {currentUser?.id === order.host_id
+                                ? `Rented by ${order.renter}`
+                                : `Hosted by ${order.host}`}
+                            </span>
                           </div>
                         </div>
                       </div>
