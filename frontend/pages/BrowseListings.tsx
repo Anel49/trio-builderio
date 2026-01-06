@@ -459,7 +459,7 @@ export default function BrowseListings() {
 
   // Fetch reservations for all listings when they load, but only if a date filter is applied
   React.useEffect(() => {
-    if (dateRange.start && dateRange.end) {
+    if (dateRange.start && dateRange.end && listings.length > 0) {
       setIsLoadingDistances(true);
       listings.forEach((listing) => {
         fetchReservations(String(listing.id));
