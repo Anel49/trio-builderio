@@ -294,14 +294,27 @@ export async function listAllOrders(req: Request, res: Response) {
       0,
     );
     const listingName = ((req.query.listing_name as string) || "").trim();
+    const overdueOnly = (req.query.overdue_only as string) === "true";
 
     let query =
       "select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email, o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at from orders o";
     const params: (string | number)[] = [];
+    const whereClauses: string[] = [];
 
     if (listingName) {
-      query += " where o.listing_title ilike $1";
+      whereClauses.push(`o.listing_title ilike $${params.length + 1}`);
       params.push(`%${listingName}%`);
+    }
+
+    if (overdueOnly) {
+      whereClauses.push(`o.status = 'active'`);
+      whereClauses.push(
+        `(now() at time zone coalesce((select timezone from listings where id = o.listing_id), 'UTC'))::date >= (o.end_date::date + interval '3 days')`
+      );
+    }
+
+    if (whereClauses.length > 0) {
+      query += " where " + whereClauses.join(" and ");
     }
 
     query += ` order by o.created_at desc limit $${params.length + 1} offset $${params.length + 2}`;
@@ -311,9 +324,22 @@ export async function listAllOrders(req: Request, res: Response) {
 
     let countQuery = "select count(*) as total from orders";
     const countParams: (string | number)[] = [];
+    const countWhereClauses: string[] = [];
+
     if (listingName) {
-      countQuery += " where listing_title ilike $1";
+      countWhereClauses.push(`listing_title ilike $${countParams.length + 1}`);
       countParams.push(`%${listingName}%`);
+    }
+
+    if (overdueOnly) {
+      countWhereClauses.push(`status = 'active'`);
+      countWhereClauses.push(
+        `(now() at time zone coalesce((select timezone from listings where id = listing_id), 'UTC'))::date >= (end_date::date + interval '3 days')`
+      );
+    }
+
+    if (countWhereClauses.length > 0) {
+      countQuery += " where " + countWhereClauses.join(" and ");
     }
 
     const countResult = await pool.query(countQuery, countParams);
