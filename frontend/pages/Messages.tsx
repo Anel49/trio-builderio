@@ -491,7 +491,7 @@ export default function Messages() {
 
     setIsBlockingUser(true);
     try {
-      const response = await apiFetch("/api/blocks/create", {
+      const response = await apiFetch("blocks/create", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ targetId: selectedUserId }),
