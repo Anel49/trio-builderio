@@ -192,6 +192,8 @@ export default function Profile() {
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [userReviewId, setUserReviewId] = useState<number | null>(null);
   const [isBlockingUser, setIsBlockingUser] = useState(false);
+  const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
+  const [blockedUserName, setBlockedUserName] = useState<string | null>(null);
   const initialLocation = getCurrentUserLocation();
   const [locationCity, setLocationCity] = useState<string | null>(
     initialLocation.city,
@@ -1539,8 +1541,11 @@ export default function Profile() {
 
       const data = await response.json();
       if (data.ok) {
-        const message = isBlocked ? "User unblocked successfully" : "User blocked successfully";
-        alert(message);
+        if (!isBlocked) {
+          // Show modal only when blocking (not unblocking)
+          setBlockedUserName(otherUserData.name || "User");
+          setIsBlockedModalOpen(true);
+        }
         // Refetch block status to update UI
         await refetchBlockStatus();
       } else {
@@ -1577,6 +1582,25 @@ export default function Profile() {
   if (isOwnUsername && username) {
     return null;
   }
+
+  // Helper to render the user blocked modal
+  const renderUserBlockedModal = () => (
+    <Dialog open={isBlockedModalOpen} onOpenChange={setIsBlockedModalOpen}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>User blocked</DialogTitle>
+        </DialogHeader>
+        <p className="text-muted-foreground">
+          {blockedUserName} has been blocked. You can no longer reserve listings, message, or review each other. You can unblock them at any time.
+        </p>
+        <div className="flex justify-end gap-2">
+          <Button onClick={() => setIsBlockedModalOpen(false)}>
+            Close
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 
   // Show loading state while checking other user's profile
   if (viewingOtherUser && isLoadingOtherUser) {
