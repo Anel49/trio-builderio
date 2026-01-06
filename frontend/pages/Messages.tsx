@@ -482,6 +482,33 @@ export default function Messages() {
     }
   };
 
+  // Handle block user
+  const handleBlockUser = async () => {
+    if (!user?.id || !selectedUserId) return;
+
+    setIsBlockingUser(true);
+    try {
+      const response = await apiFetch("/api/blocks/create", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ targetId: selectedUserId }),
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        // Block successful, you could show a toast or update UI
+        alert("User blocked successfully");
+      } else {
+        alert("Failed to block user: " + (data.error || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Failed to block user:", error);
+      alert("Failed to block user");
+    } finally {
+      setIsBlockingUser(false);
+    }
+  };
+
   // Create ghost conversation from ghostUserData for display
   const ghostConversation: Conversation | null = ghostUserData
     ? {
