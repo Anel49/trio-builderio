@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { apiFetch } from "@/lib/api";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import {
   Select,
   SelectContent,
@@ -44,6 +45,7 @@ export default function AdminOrderList() {
   const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set());
   const [search, setSearch] = useState("");
   const [lastSearchedTerm, setLastSearchedTerm] = useState("");
+  const [listingFilter, setListingFilter] = useState<"all" | "overdue">("all");
 
   const limit = 6;
   const offset = currentPage * limit;
@@ -71,6 +73,10 @@ export default function AdminOrderList() {
 
       if (search.trim()) {
         url += `&listing_name=${encodeURIComponent(search.trim())}`;
+      }
+
+      if (listingFilter === "overdue") {
+        url += `&overdue_only=true`;
       }
 
       const response = await apiFetch(url);
@@ -119,6 +125,23 @@ export default function AdminOrderList() {
 
   return (
     <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
+      <div className="mb-0">
+        <Tabs
+          value={listingFilter}
+          onValueChange={(v) => {
+            setListingFilter(v as "all" | "overdue");
+            setCurrentPage(0);
+            setSearch("");
+            setLastSearchedTerm("");
+          }}
+        >
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="all">All Listings</TabsTrigger>
+            <TabsTrigger value="overdue">Overdue Listings</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
       {error && (
         <div
           className={combineTokens(
