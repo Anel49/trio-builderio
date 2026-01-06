@@ -22,6 +22,35 @@ import { format } from "date-fns";
 
 const ORDER_STATUSES = ["pending", "active", "completed", "canceled"];
 
+function getUTCOffsetLabel(timezoneName: string | undefined): string {
+  if (!timezoneName) {
+    return "UTC 0";
+  }
+
+  try {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: timezoneName,
+      timeZoneName: "shortOffset",
+    });
+
+    const parts = formatter.formatToParts(new Date());
+    const offsetPart = parts.find((p) => p.type === "timeZoneName");
+
+    if (offsetPart) {
+      let offset = offsetPart.value;
+      offset = offset.replace("GMT", "UTC");
+      if (offset === "UTC+0" || offset === "UTC-0") {
+        return "UTC 0";
+      }
+      offset = offset.replace(/:00$/, "");
+      return offset;
+    }
+  } catch (e) {
+  }
+
+  return "UTC 0";
+}
+
 interface Order {
   id: number;
   listing_id: number;
