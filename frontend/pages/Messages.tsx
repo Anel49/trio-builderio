@@ -1099,6 +1099,17 @@ export default function Messages() {
                     </div>
                   )}
 
+                  {user?.id && selectedUserId !== 2 && user.id !== selectedUserId && (
+                    <Button
+                      variant="outline"
+                      className="w-full max-w-[300px] border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-700 dark:hover:border-red-700 mx-auto block mb-2"
+                      onClick={handleBlockUser}
+                      disabled={isBlockingUser}
+                    >
+                      {isBlockingUser ? "Blocking..." : "Block user"}
+                    </Button>
+                  )}
+
                   {selectedUserId !== 2 && (
                     <Button
                       variant="outline"
