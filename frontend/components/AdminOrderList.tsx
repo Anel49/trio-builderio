@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { AlertCircle, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Checkbox } from "./ui/checkbox";
 import {
   spacing,
   typography,
@@ -46,6 +47,7 @@ export default function AdminOrderList() {
   const [search, setSearch] = useState("");
   const [lastSearchedTerm, setLastSearchedTerm] = useState("");
   const [listingFilter, setListingFilter] = useState<"all" | "overdue">("all");
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const limit = 6;
   const offset = currentPage * limit;
@@ -77,6 +79,10 @@ export default function AdminOrderList() {
 
       if (listingFilter === "overdue") {
         url += `&overdue_only=true`;
+      }
+
+      if (showCompleted) {
+        url += `&show_completed=true`;
       }
 
       const response = await apiFetch(url);
@@ -166,6 +172,27 @@ export default function AdminOrderList() {
           onKeyDown={handleSearch}
           className="flex-1"
         />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <Checkbox
+          id="show-completed-orders"
+          checked={showCompleted}
+          onCheckedChange={(checked) => {
+            const newShowCompleted = checked === true;
+            setShowCompleted(newShowCompleted);
+            if (search.trim() === lastSearchedTerm) {
+              setCurrentPage(0);
+              loadOrders(0);
+            }
+          }}
+        />
+        <label
+          htmlFor="show-completed-orders"
+          className={combineTokens(typography.size.sm, "cursor-pointer")}
+        >
+          Show Completed
+        </label>
       </div>
 
       {loading ? (
