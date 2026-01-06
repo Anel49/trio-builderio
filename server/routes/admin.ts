@@ -319,7 +319,7 @@ export async function listAllOrders(req: Request, res: Response) {
     if (overdueOnly) {
       whereClauses.push(`o.status = 'active'`);
       whereClauses.push(
-        `(now() at time zone coalesce((l.timezone::jsonb->>'name')::text, 'UTC'))::date >= (o.end_date::date + interval '3 days')`
+        `(now() at time zone coalesce((l.timezone::jsonb->>'name')::text, 'UTC'))::date >= (o.end_date::date + interval '3 days')`,
       );
     }
 
@@ -342,7 +342,9 @@ export async function listAllOrders(req: Request, res: Response) {
     const countWhereClauses: string[] = [];
 
     if (listingName) {
-      countWhereClauses.push(`o.listing_title ilike $${countParams.length + 1}`);
+      countWhereClauses.push(
+        `o.listing_title ilike $${countParams.length + 1}`,
+      );
       countParams.push(`%${listingName}%`);
     }
 
@@ -353,7 +355,7 @@ export async function listAllOrders(req: Request, res: Response) {
     if (overdueOnly) {
       countWhereClauses.push(`o.status = 'active'`);
       countWhereClauses.push(
-        `(now() at time zone coalesce((l.timezone::jsonb->>'name')::text, 'UTC'))::date >= (o.end_date::date + interval '3 days')`
+        `(now() at time zone coalesce((l.timezone::jsonb->>'name')::text, 'UTC'))::date >= (o.end_date::date + interval '3 days')`,
       );
     }
 
