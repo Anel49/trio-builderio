@@ -109,6 +109,8 @@ export default function Messages() {
   const [isBlockingUser, setIsBlockingUser] = useState(false);
   const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
   const [blockedUserName, setBlockedUserName] = useState<string | null>(null);
+  const [isUnblockedModalOpen, setIsUnblockedModalOpen] = useState(false);
+  const [unblockedUserName, setUnblockedUserName] = useState<string | null>(null);
 
   // Real data states
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -503,9 +505,13 @@ export default function Messages() {
       const data = await response.json();
       if (data.ok) {
         if (!isBlocked) {
-          // Show modal only when blocking (not unblocking)
+          // Show blocked modal when blocking
           setBlockedUserName(selectedChat?.name || "User");
           setIsBlockedModalOpen(true);
+        } else {
+          // Show unblocked modal when unblocking
+          setUnblockedUserName(selectedChat?.name || "User");
+          setIsUnblockedModalOpen(true);
         }
         // Refetch block status to update UI
         await refetchBlockStatus();
@@ -1196,6 +1202,23 @@ export default function Messages() {
           </p>
           <div className="flex justify-end gap-2">
             <Button onClick={() => setIsBlockedModalOpen(false)}>
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* User Unblocked Modal */}
+      <Dialog open={isUnblockedModalOpen} onOpenChange={setIsUnblockedModalOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>User unblocked</DialogTitle>
+          </DialogHeader>
+          <p className="text-muted-foreground">
+            {unblockedUserName} has been unblocked. You may now reserve listings, message, and review each other.
+          </p>
+          <div className="flex justify-end gap-2">
+            <Button onClick={() => setIsUnblockedModalOpen(false)}>
               Close
             </Button>
           </div>
