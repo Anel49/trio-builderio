@@ -524,6 +524,7 @@ export default function ProductDetails() {
     }>;
     timezone?: string;
   }>(null);
+  const { isBlocked } = useBlockStatus(product?.hostUserId);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   // Host information from the product listing
