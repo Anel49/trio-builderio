@@ -1386,6 +1386,7 @@ export default function ProductDetails() {
                     buttonClassName="w-full"
                     listingTimezone={product?.timezone || "UTC"}
                     disabled={
+                      isBlocked ||
                       authUser?.pendingIdentityVer === true ||
                       authUser?.pendingIdentityVer === null
                     }
