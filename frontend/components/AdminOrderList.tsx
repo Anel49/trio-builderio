@@ -306,7 +306,8 @@ export default function AdminOrderList() {
                         <div className="text-xs">
                           <p>
                             {format(startDate, "MMM dd, yyyy")} -{" "}
-                            {format(endDate, "MMM dd, yyyy")}
+                            {format(endDate, "MMM dd, yyyy")} (
+                            {getUTCOffsetLabel(order.timezone_name)})
                           </p>
                         </div>
                       </td>
