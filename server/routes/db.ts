@@ -126,13 +126,10 @@ export async function dbSetup(_req: Request, res: Response) {
       await pool.query(
         `create sequence if not exists orders_number_seq start with 1000000`,
       );
-      await pool.query(
-        `alter sequence if exists orders_number_seq restart with 1000000`,
-      );
-      console.log("[dbSetup] Reset orders_number_seq to start at 1000000");
+      console.log("[dbSetup] Created/verified orders_number_seq sequence");
     } catch (e: any) {
       console.log(
-        "[dbSetup] Could not reset sequence:",
+        "[dbSetup] Could not create/verify sequence:",
         e?.message?.slice(0, 80),
       );
     }
