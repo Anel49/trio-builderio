@@ -189,6 +189,7 @@ export default function Profile() {
   const [reviewUserComment, setReviewUserComment] = useState("");
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [userReviewId, setUserReviewId] = useState<number | null>(null);
+  const [isBlockingUser, setIsBlockingUser] = useState(false);
   const initialLocation = getCurrentUserLocation();
   const [locationCity, setLocationCity] = useState<string | null>(
     initialLocation.city,
