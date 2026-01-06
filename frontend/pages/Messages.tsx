@@ -103,6 +103,7 @@ export default function Messages() {
   // Settings popover and toggle states
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isUpdatingOpenDms, setIsUpdatingOpenDms] = useState(false);
+  const [isBlockingUser, setIsBlockingUser] = useState(false);
 
   // Real data states
   const [conversations, setConversations] = useState<Conversation[]>([]);
