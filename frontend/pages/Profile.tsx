@@ -194,6 +194,8 @@ export default function Profile() {
   const [isBlockingUser, setIsBlockingUser] = useState(false);
   const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
   const [blockedUserName, setBlockedUserName] = useState<string | null>(null);
+  const [isUnblockedModalOpen, setIsUnblockedModalOpen] = useState(false);
+  const [unblockedUserName, setUnblockedUserName] = useState<string | null>(null);
   const initialLocation = getCurrentUserLocation();
   const [locationCity, setLocationCity] = useState<string | null>(
     initialLocation.city,
@@ -1542,9 +1544,13 @@ export default function Profile() {
       const data = await response.json();
       if (data.ok) {
         if (!isBlocked) {
-          // Show modal only when blocking (not unblocking)
+          // Show blocked modal when blocking
           setBlockedUserName(otherUserData.name || "User");
           setIsBlockedModalOpen(true);
+        } else {
+          // Show unblocked modal when unblocking
+          setUnblockedUserName(otherUserData.name || "User");
+          setIsUnblockedModalOpen(true);
         }
         // Refetch block status to update UI
         await refetchBlockStatus();
@@ -1595,6 +1601,25 @@ export default function Profile() {
         </p>
         <div className="flex justify-end gap-2">
           <Button onClick={() => setIsBlockedModalOpen(false)}>
+            Close
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+
+  // Helper to render the user unblocked modal
+  const renderUserUnblockedModal = () => (
+    <Dialog open={isUnblockedModalOpen} onOpenChange={setIsUnblockedModalOpen}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>User unblocked</DialogTitle>
+        </DialogHeader>
+        <p className="text-muted-foreground">
+          {unblockedUserName} has been unblocked. You may now reserve listings, message, and review each other.
+        </p>
+        <div className="flex justify-end gap-2">
+          <Button onClick={() => setIsUnblockedModalOpen(false)}>
             Close
           </Button>
         </div>
@@ -3947,6 +3972,9 @@ export default function Profile() {
 
       {/* User Blocked Modal */}
       {renderUserBlockedModal()}
+
+      {/* User Unblocked Modal */}
+      {renderUserUnblockedModal()}
 
       <PendingIdentityModal
         isOpen={isPendingIdentityModalOpen}
