@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { apiFetch } from "@/lib/api";
 import { Input } from "./ui/input";
@@ -8,9 +7,7 @@ import {
   Loader2,
   ChevronLeft,
   ChevronRight,
-  Plus,
-  Minus,
-  ChevronDown,
+  Trash2,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
@@ -28,6 +25,18 @@ import {
   combineTokens,
 } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
+import { useState, useEffect } from "react";
+import { ChevronDown, Plus, Minus } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
 
 interface Claim {
   id: number;
@@ -100,7 +109,9 @@ export default function AdminClaimsList() {
     if (e.key !== "Enter") return;
 
     setCurrentPage(0);
-    loadClaims(0);
+    setLastSearchedTerm(search);
+    setStatusFilter("");
+    loadClaims(0, showCompleted, "");
   };
 
   const loadClaims = async (
@@ -170,37 +181,30 @@ export default function AdminClaimsList() {
     }
   };
 
-  const handleToggleAssignment = async (claimId: number, assign: boolean) => {
-    if (assign && !currentUser?.id) {
-      setError("You must be logged in to assign claims");
-      return;
-    }
-
+  const handleToggleAssignment = async (
+    claimId: number,
+    assignToMe: boolean,
+  ) => {
     try {
       const response = await apiFetch(`/admin/claims/${claimId}/assign`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          assignToId: assign ? currentUser.id : null,
-        }),
+        body: JSON.stringify({ assignToId: assignToMe ? currentUser?.id : null }),
       });
 
       const data = await response.json();
       if (data.ok) {
-        // Update the claim in state optimistically
         setClaims((prevClaims) =>
           prevClaims.map((claim) =>
             claim.id === claimId
               ? {
                   ...claim,
-                  assigned_to: data.claim.assigned_to,
-                  assigned_to_name: data.claim.assigned_to_name,
+                  assigned_to: assignToMe ? currentUser?.id || null : null,
+                  assigned_to_name: assignToMe ? currentUser?.name || null : null,
                 }
               : claim,
           ),
         );
-        // Close the popover after successful assignment
-        setOpenPopoverId(null);
       } else {
         setError(data.error || "Failed to update claim assignment");
       }
@@ -208,11 +212,12 @@ export default function AdminClaimsList() {
       console.error("[AdminClaimsList] Assignment error:", err);
       setError(err.message || "Failed to update claim assignment");
     }
+    setOpenPopoverId(null);
   };
 
   const handleStatusChange = async (claimId: number, newStatus: string) => {
     try {
-      const response = await apiFetch(`/admin/claims/${claimId}/status`, {
+      const response = await apiFetch(`/admin/claims/${claimId}`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -368,188 +373,190 @@ export default function AdminClaimsList() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={7} className={combineTokens(layouts.flex.center, "py-12")}>
+                <td colSpan={7} className={combineTokens(layouts.flex.center, "py-4")}>
                   <Loader2 className="animate-spin" />
                 </td>
               </tr>
-            ) : search.trim() !== lastSearchedTerm ? (
+            ) : claims.length === 0 && search.trim() === lastSearchedTerm ? (
               <tr>
-                <td colSpan={7} className={combineTokens(layouts.flex.center, "py-12")}>
-                  <p className="text-muted-foreground">
-                    {!search.trim()
-                      ? "Search using a claim number, assigned technician, status, priority, or order ID..."
-                      : ""}
-                  </p>
-                </td>
-              </tr>
-            ) : claims.length === 0 ? (
-              <tr>
-                <td colSpan={7} className={combineTokens(layouts.flex.center, "py-12")}>
-                  <p className="text-muted-foreground">No claims found</p>
-                </td>
+                <td colSpan={7} className="py-4"></td>
               </tr>
             ) : (
               claims.map((claim) => (
-                  <tr key={claim.id} className="border-b hover:bg-muted/50">
-                    <td className={spacing.padding.md}>
-                      <a
-                        href={`/claims-chat?claimId=${claim.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cn(
-                          typography.weight.medium,
-                          "text-primary hover:underline",
-                        )}
-                      >
-                        {claim.claim_number || "N/A"}
-                      </a>
-                    </td>
-                    <td className={spacing.padding.md}>
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={combineTokens(
-                            "px-2 py-1 rounded text-xs font-medium",
-                            claim.status === "resolved"
-                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                              : claim.status === "rejected" ||
-                                  claim.status === "canceled" ||
-                                  claim.status === "legal action"
-                                ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                                : claim.status === "under review" ||
-                                    claim.status ===
-                                      "awaiting customer response" ||
-                                    claim.status === "reimbursement pending"
-                                  ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                                  : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-                          )}
-                        >
-                          {toTitleCase(claim.status)}
-                        </span>
-                        {claim.assigned_to === currentUser?.id && (
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-5 w-5 p-0"
-                                title="Change status"
-                              >
-                                <ChevronDown className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start">
-                              <DropdownMenuRadioGroup
-                                value={claim.status}
-                                onValueChange={(status) =>
-                                  handleStatusChange(claim.id, status)
-                                }
-                              >
-                                <DropdownMenuRadioItem value="submitted">
-                                  Submitted
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="under review">
-                                  Under Review
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="awaiting customer response">
-                                  Awaiting Customer Response
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="reimbursement pending">
-                                  Reimbursement Pending
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="legal action">
-                                  Legal Action
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="canceled">
-                                  Canceled
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="rejected">
-                                  Rejected
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="resolved">
-                                  Resolved
-                                </DropdownMenuRadioItem>
-                              </DropdownMenuRadioGroup>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        )}
-                      </div>
-                    </td>
-                    <td
-                      className={combineTokens(
-                        spacing.padding.md,
-                        "text-center",
+                <tr key={claim.id} className="border-b hover:bg-muted/50">
+                  <td className={spacing.padding.md}>
+                    <a
+                      href={`/claims-chat?claimId=${claim.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        typography.weight.medium,
+                        "text-primary hover:underline",
                       )}
                     >
-                      <p>{claim.priority}</p>
-                    </td>
-                    <td className={spacing.padding.md}>
-                      <p className="text-sm">
-                        {claim.created_by_name || "Unknown"}
-                      </p>
-                    </td>
-                    <td className={spacing.padding.md}>
-                      <div className="flex items-center gap-2">
-                        <p>{claim.assigned_to_name || "Unassigned"}</p>
-                        {claim.created_by_id !== currentUser?.id && (
-                          <Popover
-                            open={openPopoverId === claim.id}
-                            onOpenChange={(open) =>
-                              setOpenPopoverId(open ? claim.id : null)
-                            }
-                          >
-                            <PopoverTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-6 w-6 p-0 border border-border hover:bg-accent"
-                                title={
-                                  claim.assigned_to === currentUser?.id
-                                    ? "Unassign claim"
-                                    : "Assign claim"
-                                }
-                              >
-                                {claim.assigned_to === currentUser?.id ? (
-                                  <Minus className="h-4 w-4" />
-                                ) : (
-                                  <Plus className="h-4 w-4" />
-                                )}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent side="left" className="w-40 p-2">
-                              <button
-                                onClick={() =>
-                                  handleToggleAssignment(
-                                    claim.id,
-                                    claim.assigned_to !== currentUser?.id,
-                                  )
-                                }
-                                className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
-                              >
-                                {claim.assigned_to === currentUser?.id
-                                  ? "Unassign"
-                                  : "Assign to me"}
-                              </button>
-                            </PopoverContent>
-                          </Popover>
+                      {claim.claim_number || "N/A"}
+                    </a>
+                  </td>
+                  <td className={spacing.padding.md}>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={combineTokens(
+                          "px-2 py-1 rounded text-xs font-medium",
+                          claim.status === "resolved"
+                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                            : claim.status === "rejected" ||
+                                claim.status === "canceled" ||
+                                claim.status === "legal action"
+                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                              : claim.status === "under review" ||
+                                  claim.status ===
+                                    "awaiting customer response" ||
+                                  claim.status === "reimbursement pending"
+                                ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
                         )}
-                      </div>
-                    </td>
-                    <td className={spacing.padding.md}>
-                      <p className="text-xs text-muted-foreground">
-                        {formatDateForAdmin(claim.created_at)}
-                      </p>
-                    </td>
-                    <td className={spacing.padding.md}>
-                      <p className="text-xs text-muted-foreground">
-                        {formatDateForAdmin(claim.updated_at)}
-                      </p>
-                    </td>
-              </tr>
-            ))
+                      >
+                        {toTitleCase(claim.status)}
+                      </span>
+                      {claim.assigned_to === currentUser?.id && (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-5 w-5 p-0"
+                              title="Change status"
+                            >
+                              <ChevronDown className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="start">
+                            <DropdownMenuRadioGroup
+                              value={claim.status}
+                              onValueChange={(status) =>
+                                handleStatusChange(claim.id, status)
+                              }
+                            >
+                              <DropdownMenuRadioItem value="submitted">
+                                Submitted
+                              </DropdownMenuRadioItem>
+                              <DropdownMenuRadioItem value="under review">
+                                Under Review
+                              </DropdownMenuRadioItem>
+                              <DropdownMenuRadioItem value="awaiting customer response">
+                                Awaiting Customer Response
+                              </DropdownMenuRadioItem>
+                              <DropdownMenuRadioItem value="reimbursement pending">
+                                Reimbursement Pending
+                              </DropdownMenuRadioItem>
+                              <DropdownMenuRadioItem value="legal action">
+                                Legal Action
+                              </DropdownMenuRadioItem>
+                              <DropdownMenuRadioItem value="canceled">
+                                Canceled
+                              </DropdownMenuRadioItem>
+                              <DropdownMenuRadioItem value="rejected">
+                                Rejected
+                              </DropdownMenuRadioItem>
+                              <DropdownMenuRadioItem value="resolved">
+                                Resolved
+                              </DropdownMenuRadioItem>
+                            </DropdownMenuRadioGroup>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
+                    </div>
+                  </td>
+                  <td
+                    className={combineTokens(
+                      spacing.padding.md,
+                      "text-center",
+                    )}
+                  >
+                    <p>{claim.priority}</p>
+                  </td>
+                  <td className={spacing.padding.md}>
+                    <p className="text-sm">
+                      {claim.created_by_name || "Unknown"}
+                    </p>
+                  </td>
+                  <td className={spacing.padding.md}>
+                    <div className="flex items-center gap-2">
+                      <p>{claim.assigned_to_name || "Unassigned"}</p>
+                      {claim.created_by_id !== currentUser?.id && (
+                        <Popover
+                          open={openPopoverId === claim.id}
+                          onOpenChange={(open) =>
+                            setOpenPopoverId(open ? claim.id : null)
+                          }
+                        >
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0 border border-border hover:bg-accent"
+                              title={
+                                claim.assigned_to === currentUser?.id
+                                  ? "Unassign claim"
+                                  : "Assign claim"
+                              }
+                            >
+                              {claim.assigned_to === currentUser?.id ? (
+                                <Minus className="h-4 w-4" />
+                              ) : (
+                                <Plus className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent side="left" className="w-40 p-2">
+                            <button
+                              onClick={() =>
+                                handleToggleAssignment(
+                                  claim.id,
+                                  claim.assigned_to !== currentUser?.id,
+                                )
+                              }
+                              className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
+                            >
+                              {claim.assigned_to === currentUser?.id
+                                ? "Unassign"
+                                : "Assign to me"}
+                            </button>
+                          </PopoverContent>
+                        </Popover>
+                      )}
+                    </div>
+                  </td>
+                  <td className={spacing.padding.md}>
+                    <p className="text-xs text-muted-foreground">
+                      {formatDateForAdmin(claim.created_at)}
+                    </p>
+                  </td>
+                  <td className={spacing.padding.md}>
+                    <p className="text-xs text-muted-foreground">
+                      {formatDateForAdmin(claim.updated_at)}
+                    </p>
+                  </td>
+                </tr>
+              ))
             )}
           </tbody>
         </table>
       </div>
+
+      {!loading && search.trim() !== lastSearchedTerm && search.trim() === "" && (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">
+            Search using a claim number, assigned technician, status, priority, or order ID...
+          </p>
+        </div>
+      )}
+
+      {!loading && claims.length === 0 && search.trim() === lastSearchedTerm && (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">No claims found</p>
+        </div>
+      )}
 
       <div className={combineTokens(layouts.flex.between, "mt-6")}>
         <div className="text-sm text-muted-foreground">
