@@ -40,6 +40,22 @@ export async function dbSchema(_req: Request, res: Response) {
 
 export async function dbSetup(_req: Request, res: Response) {
   try {
+    // Create session table for express-session
+    try {
+      await pool.query(
+        `create table if not exists session (
+          sid varchar primary key,
+          sess json not null,
+          expire timestamp not null
+        )`,
+      );
+      console.log("[dbSetup] Created/verified session table");
+    } catch (e: any) {
+      if (!e.message?.includes("already exists")) {
+        console.warn("[dbSetup] Warning with session table:", e.message);
+      }
+    }
+
     // Create message_threads table with new columns for claim support
     // Don't drop it to preserve sequences and data
     try {
