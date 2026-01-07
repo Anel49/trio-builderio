@@ -97,10 +97,7 @@ export function formatDateRangeWithOffset(
  * @param date - Date to check for DST status
  * @returns Timezone abbreviation (e.g., "EST", "CST", "EET")
  */
-export function getTimezoneName(
-  timezoneName: string,
-  date: Date,
-): string {
+export function getTimezoneName(timezoneName: string, date: Date): string {
   if (!timezoneName || timezoneName === "UTC") {
     return "UTC";
   }

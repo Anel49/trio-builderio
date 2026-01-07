@@ -1486,7 +1486,8 @@ export default function OrderHistory() {
                                         {formatDateRangeWithAbbreviation(
                                           parseDateString(order.start_date),
                                           parseDateString(
-                                            order.most_recent_extension.end_date,
+                                            order.most_recent_extension
+                                              .end_date,
                                           ),
                                           order.listing_timezone,
                                         )}
