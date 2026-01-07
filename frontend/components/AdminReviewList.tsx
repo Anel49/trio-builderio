@@ -213,6 +213,9 @@ export default function AdminReviewList() {
             setSearch("");
             setLastSearchedTerm("");
             setHasSearched(false);
+            setListingReviews([]);
+            setUserReviews([]);
+            setTotalReviews(0);
           }}
         >
           <TabsList className="grid w-full grid-cols-2">
