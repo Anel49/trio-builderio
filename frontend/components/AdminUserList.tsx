@@ -266,6 +266,9 @@ export default function AdminUserList({
               <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Active
               </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Created
+              </th>
             </tr>
           </thead>
           <tbody>
