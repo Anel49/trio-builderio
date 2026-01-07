@@ -567,6 +567,7 @@ export async function listAllClaims(req: Request, res: Response) {
     const search = ((req.query.search as string) || "").toLowerCase().trim();
     const showCompleted =
       (req.query.show_completed as string) === "true" ? true : false;
+    const statusFilter = (req.query.status as string) || "";
 
     console.log(
       "[listAllClaims] Parsed params - limit:",
@@ -577,6 +578,8 @@ export async function listAllClaims(req: Request, res: Response) {
       search,
       "show_completed:",
       showCompleted,
+      "status:",
+      statusFilter,
     );
 
     let whereClause = "1=1";
@@ -591,6 +594,12 @@ export async function listAllClaims(req: Request, res: Response) {
         or cast(c.priority as text) like $1
         or cast(o.number as text) like $1
       )`;
+    }
+
+    if (statusFilter) {
+      const paramIndex = params.length + 1;
+      params.push(statusFilter);
+      whereClause += ` and c.status = $${paramIndex}`;
     }
 
     if (!showCompleted) {
