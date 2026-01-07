@@ -83,6 +83,7 @@ export default function AdminOrderList() {
     if (e.key !== "Enter") return;
 
     setCurrentPage(0);
+    setLastSearchedTerm(search);
     loadOrders(0);
   };
 
@@ -251,23 +252,13 @@ export default function AdminOrderList() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={4} className={combineTokens(layouts.flex.center, "py-12")}>
+                <td colSpan={4} className={combineTokens(layouts.flex.center, "py-4")}>
                   <Loader2 className="animate-spin" />
                 </td>
               </tr>
-            ) : search.trim() !== lastSearchedTerm ? (
+            ) : orders.length === 0 && search.trim() === lastSearchedTerm ? (
               <tr>
-                <td colSpan={4} className={combineTokens(layouts.flex.center, "py-12")}>
-                  <p className="text-muted-foreground">
-                    {!search.trim() ? "Search using a listing name..." : ""}
-                  </p>
-                </td>
-              </tr>
-            ) : orders.length === 0 ? (
-              <tr>
-                <td colSpan={4} className={combineTokens(layouts.flex.center, "py-12")}>
-                  <p className="text-muted-foreground">No orders found</p>
-                </td>
+                <td colSpan={4} className="py-4"></td>
               </tr>
             ) : (
               orders.map((order) => {
@@ -334,6 +325,20 @@ export default function AdminOrderList() {
           </tbody>
         </table>
       </div>
+
+      {!loading && search.trim() !== lastSearchedTerm && search.trim() === "" && (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">
+            Search using a listing name...
+          </p>
+        </div>
+      )}
+
+      {!loading && orders.length === 0 && search.trim() === lastSearchedTerm && (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">No orders found</p>
+        </div>
+      )}
 
       <div className={combineTokens(layouts.flex.between, "mt-6")}>
         <div className="text-sm text-muted-foreground">
