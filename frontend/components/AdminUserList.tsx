@@ -83,12 +83,13 @@ export default function AdminUserList({
     setCurrentPage(0);
     setLastSearchedTerm(search);
     setHasSearched(true);
-    loadUsers(0);
+    loadUsers(0, undefined, search);
   };
 
   const loadUsers = async (
     pageNum: number = currentPage,
     showInactiveOverride?: boolean,
+    searchTerm?: string,
   ) => {
     setLoading(true);
     setError(null);
@@ -98,12 +99,13 @@ export default function AdminUserList({
         showInactiveOverride !== undefined
           ? showInactiveOverride
           : showInactive;
+      const finalSearchTerm = searchTerm !== undefined ? searchTerm : lastSearchedTerm;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: pageOffset.toString(),
         show_inactive: showInactiveValue.toString(),
       });
-      if (lastSearchedTerm.trim()) params.append("search", lastSearchedTerm.trim());
+      if (finalSearchTerm.trim()) params.append("search", finalSearchTerm.trim());
 
       const response = await apiFetch(`/admin/users?${params.toString()}`);
       if (!response.ok) throw new Error("Failed to load users");
