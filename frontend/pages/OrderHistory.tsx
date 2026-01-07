@@ -1957,16 +1957,11 @@ export default function OrderHistory() {
                   : null;
                 const startDate = parseDateString(res.start_date);
                 const endDate = parseDateString(res.end_date);
-                const formattedStart = startDate.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                });
-                const formattedEnd = endDate.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                });
+                const formattedDateRange = formatDateRangeWithAbbreviation(
+                  startDate,
+                  endDate,
+                  res.timezone || null,
+                );
 
                 return (
                   <Card
@@ -2044,7 +2039,7 @@ export default function OrderHistory() {
                                 )}
                               <div className="flex items-center text-sm text-muted-foreground">
                                 <Calendar className="h-4 w-4 mr-1" />
-                                {formattedStart} - {formattedEnd}
+                                {formattedDateRange}
                               </div>
                             </div>
                           </div>
