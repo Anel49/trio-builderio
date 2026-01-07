@@ -1462,13 +1462,13 @@ export async function createReservation(req: Request, res: Response) {
         listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
         start_date, end_date, listing_title, listing_image,
         listing_latitude, listing_longitude, daily_price_cents, total_days,
-        rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, postcode, created_at
+        rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, postcode, timezone, created_at
        )
-       values ($1, $2, $3, $4, $5, $6, $7, $8::date, $9::date, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, now())
+       values ($1, $2, $3, $4, $5, $6, $7, $8::date, $9::date, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, now())
        returning id, listing_id, renter_id, host_id, host_name, host_email, renter_name, renter_email,
                  start_date, end_date, listing_title, listing_image,
                  listing_latitude, listing_longitude, daily_price_cents, total_days,
-                 rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, postcode, created_at, number, extension_of`,
+                 rental_type, status, consumable_addon_total, nonconsumable_addon_total, addons, postcode, timezone, created_at, number, extension_of`,
       [
         listing_id,
         renter_id,
@@ -1491,6 +1491,7 @@ export async function createReservation(req: Request, res: Response) {
         nonconsumable_addon_total || 0,
         addons || null,
         listingPostcode,
+        listingTimezone,
       ],
     );
 
