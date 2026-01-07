@@ -204,6 +204,7 @@ export default function AdminReviewList() {
             setReviewType(v as "listing" | "user");
             setCurrentPage(0);
             setSearch("");
+            setLastSearchedTerm("");
           }}
         >
           <TabsList className="grid w-full grid-cols-2">
@@ -222,6 +223,7 @@ export default function AdminReviewList() {
             setSearch(e.target.value);
             setCurrentPage(0);
           }}
+          onKeyDown={handleSearch}
           className="flex-1"
         />
       </div>
