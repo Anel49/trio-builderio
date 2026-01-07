@@ -294,6 +294,8 @@ export default function AdminReportsList({
             setSearch("");
             setLastSearchedTerm("");
             setHasSearched(false);
+            setReports([]);
+            setTotalReports(0);
           }}
         >
           <TabsList className="grid w-full grid-cols-2">
