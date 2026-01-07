@@ -103,19 +103,23 @@ export default function AdminReviewList() {
     setCurrentPage(0);
     setLastSearchedTerm(search);
     setHasSearched(true);
-    loadReviews();
+    loadReviews(0, search);
   };
 
-  const loadReviews = async () => {
+  const loadReviews = async (
+    pageNum: number = currentPage,
+    searchTerm: string = lastSearchedTerm,
+  ) => {
     setLoading(true);
     setError(null);
     try {
+      const pageOffset = pageNum * limit;
       const params = new URLSearchParams({
         limit: limit.toString(),
-        offset: offset.toString(),
+        offset: pageOffset.toString(),
         review_type: reviewType,
       });
-      if (lastSearchedTerm) params.append("search", lastSearchedTerm);
+      if (searchTerm) params.append("search", searchTerm);
 
       const url = `/admin/reviews?${params.toString()}`;
       console.log("[AdminReviewList] Fetching:", url);
