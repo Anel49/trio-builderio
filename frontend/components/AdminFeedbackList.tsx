@@ -102,12 +102,13 @@ export default function AdminFeedbackList() {
     setCurrentPage(0);
     setLastSearchedTerm(search);
     setHasSearched(true);
-    loadFeedback(0);
+    loadFeedback(0, undefined, search);
   };
 
   const loadFeedback = async (
     pageNum: number = currentPage,
     showCompletedOverride?: boolean,
+    searchTerm?: string,
   ) => {
     setLoading(true);
     setError(null);
@@ -117,12 +118,13 @@ export default function AdminFeedbackList() {
         showCompletedOverride !== undefined
           ? showCompletedOverride
           : showCompleted;
+      const finalSearchTerm = searchTerm !== undefined ? searchTerm : lastSearchedTerm;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
         show_completed: showCompletedValue.toString(),
       });
-      if (lastSearchedTerm.trim()) params.append("search", lastSearchedTerm.trim());
+      if (finalSearchTerm.trim()) params.append("search", finalSearchTerm.trim());
 
       const url = `/admin/feedback?${params.toString()}`;
       console.log("[AdminFeedbackList] Fetching:", url);
