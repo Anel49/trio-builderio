@@ -2031,6 +2031,7 @@ export async function getUserOrders(req: Request, res: Response) {
         extension_of: row.extension_of,
         listing_postcode: row.listing_postcode,
         review_id: row.review_id,
+        listing_timezone: row.listing_timezone,
       } as any;
 
       if (row.extension_id) {
