@@ -25,6 +25,15 @@ export function requireModeratorOrAdmin(
   res: Response,
   next: NextFunction,
 ) {
+  console.log("[requireModeratorOrAdmin] Session:", {
+    hasSession: !!req.session,
+    userId: req.session?.userId,
+    sessionId: req.sessionID,
+    headers: {
+      cookie: req.headers.cookie ? "[present]" : "[missing]",
+    },
+  });
+
   if (!req.session || !req.session.userId) {
     return res.status(401).json({ ok: false, error: "Not authenticated" });
   }
