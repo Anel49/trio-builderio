@@ -274,7 +274,7 @@ export default function AdminUserList({
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={6} className="py-4">
+                <td colSpan={7} className="py-4">
                   <div className={combineTokens(layouts.flex.center, "py-8")}>
                     <Loader2 className="animate-spin" />
                   </div>
@@ -282,7 +282,7 @@ export default function AdminUserList({
               </tr>
             ) : users.length === 0 && hasSearched ? (
               <tr>
-                <td colSpan={6} className="py-4"></td>
+                <td colSpan={7} className="py-4"></td>
               </tr>
             ) : (
               users.map((user) => {
