@@ -50,6 +50,12 @@ export async function dbSetup(_req: Request, res: Response) {
         )`,
       );
       console.log("[dbSetup] Created/verified session table");
+
+      // Add index on expire column for cleanup
+      await pool.query(
+        `create index if not exists idx_session_expire on session (expire)`,
+      );
+      console.log("[dbSetup] Created/verified session expire index");
     } catch (e: any) {
       if (!e.message?.includes("already exists")) {
         console.warn("[dbSetup] Warning with session table:", e.message);
