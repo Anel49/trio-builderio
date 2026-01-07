@@ -315,7 +315,7 @@ export default function AdminClaimsList() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-5 w-5 p-0"
+                        className="h-5 w-5 p-0 hover:bg-transparent"
                         title="Filter by status"
                       >
                         <Filter className="h-4 w-4" />
