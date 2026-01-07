@@ -52,7 +52,10 @@ function formatDateForAdmin(dateStr: string): string {
 
 function formatDateUTC(dateStr: string): string {
   const date = new Date(dateStr);
-  const month = date.toLocaleString("en-US", { month: "long", timeZone: "UTC" });
+  const month = date.toLocaleString("en-US", {
+    month: "long",
+    timeZone: "UTC",
+  });
   const day = String(date.getUTCDate()).padStart(2, "0");
   const year = date.getUTCFullYear();
   const hours = String(date.getUTCHours()).padStart(2, "0");
@@ -129,13 +132,15 @@ export default function AdminUserList({
         showInactiveOverride !== undefined
           ? showInactiveOverride
           : showInactive;
-      const finalSearchTerm = searchTerm !== undefined ? searchTerm : lastSearchedTerm;
+      const finalSearchTerm =
+        searchTerm !== undefined ? searchTerm : lastSearchedTerm;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: pageOffset.toString(),
         show_inactive: showInactiveValue.toString(),
       });
-      if (finalSearchTerm.trim()) params.append("search", finalSearchTerm.trim());
+      if (finalSearchTerm.trim())
+        params.append("search", finalSearchTerm.trim());
 
       const response = await apiFetch(`/admin/users?${params.toString()}`);
       if (!response.ok) throw new Error("Failed to load users");

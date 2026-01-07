@@ -146,14 +146,16 @@ export default function AdminReportsList({
         showCompletedOverride !== undefined
           ? showCompletedOverride
           : showCompleted;
-      const finalSearchTerm = searchTerm !== undefined ? searchTerm : lastSearchedTerm;
+      const finalSearchTerm =
+        searchTerm !== undefined ? searchTerm : lastSearchedTerm;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
         report_for: reportFor,
         show_completed: showCompletedValue.toString(),
       });
-      if (finalSearchTerm.trim()) params.append("search", finalSearchTerm.trim());
+      if (finalSearchTerm.trim())
+        params.append("search", finalSearchTerm.trim());
 
       const url = `/admin/reports?${params.toString()}`;
       console.log("[AdminReportsList] Fetching:", url);
@@ -392,7 +394,10 @@ export default function AdminReportsList({
               </tr>
             ) : reports.length === 0 && hasSearched ? (
               <tr>
-                <td colSpan={reportFor === "listing" ? 9 : 9} className="py-4"></td>
+                <td
+                  colSpan={reportFor === "listing" ? 9 : 9}
+                  className="py-4"
+                ></td>
               </tr>
             ) : (
               reports.map((report) => {
@@ -401,10 +406,7 @@ export default function AdminReportsList({
                   <tr key={report.id} className="border-b hover:bg-muted/50">
                     <td className={spacing.padding.md}>
                       <span
-                        className={cn(
-                          typography.weight.medium,
-                          "text-primary",
-                        )}
+                        className={cn(typography.weight.medium, "text-primary")}
                       >
                         {report.report_number || "N/A"}
                       </span>
@@ -467,11 +469,7 @@ export default function AdminReportsList({
                           <a
                             href={`/listing/${report.reported_listing_id}`}
                             onClick={(e) => {
-                              if (
-                                !e.ctrlKey &&
-                                !e.metaKey &&
-                                e.button === 0
-                              ) {
+                              if (!e.ctrlKey && !e.metaKey && e.button === 0) {
                                 e.preventDefault();
                                 navigate(
                                   `/listing/${report.reported_listing_id}`,
@@ -499,11 +497,7 @@ export default function AdminReportsList({
                           <a
                             href={`/profile/${report.reported_by_username}`}
                             onClick={(e) => {
-                              if (
-                                !e.ctrlKey &&
-                                !e.metaKey &&
-                                e.button === 0
-                              ) {
+                              if (!e.ctrlKey && !e.metaKey && e.button === 0) {
                                 e.preventDefault();
                                 navigate(
                                   `/profile/${report.reported_by_username}`,
@@ -534,11 +528,7 @@ export default function AdminReportsList({
                           <a
                             href={`/profile/${report.reported_user_username}`}
                             onClick={(e) => {
-                              if (
-                                !e.ctrlKey &&
-                                !e.metaKey &&
-                                e.button === 0
-                              ) {
+                              if (!e.ctrlKey && !e.metaKey && e.button === 0) {
                                 e.preventDefault();
                                 navigate(
                                   `/profile/${report.reported_user_username}`,
@@ -569,11 +559,7 @@ export default function AdminReportsList({
                           <a
                             href={`/profile/${report.reported_by_username}`}
                             onClick={(e) => {
-                              if (
-                                !e.ctrlKey &&
-                                !e.metaKey &&
-                                e.button === 0
-                              ) {
+                              if (!e.ctrlKey && !e.metaKey && e.button === 0) {
                                 e.preventDefault();
                                 navigate(
                                   `/profile/${report.reported_by_username}`,

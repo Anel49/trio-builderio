@@ -127,7 +127,8 @@ export default function AdminClaimsList() {
         showCompletedOverride !== undefined
           ? showCompletedOverride
           : showCompleted;
-      const statusValue = statusFilterParam !== undefined ? statusFilterParam : statusFilter;
+      const statusValue =
+        statusFilterParam !== undefined ? statusFilterParam : statusFilter;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
@@ -189,7 +190,9 @@ export default function AdminClaimsList() {
       const response = await apiFetch(`/admin/claims/${claimId}/assign`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ assignToId: assignToMe ? currentUser?.id : null }),
+        body: JSON.stringify({
+          assignToId: assignToMe ? currentUser?.id : null,
+        }),
       });
 
       const data = await response.json();
@@ -200,7 +203,9 @@ export default function AdminClaimsList() {
               ? {
                   ...claim,
                   assigned_to: assignToMe ? currentUser?.id || null : null,
-                  assigned_to_name: assignToMe ? currentUser?.name || null : null,
+                  assigned_to_name: assignToMe
+                    ? currentUser?.name || null
+                    : null,
                 }
               : claim,
           ),
@@ -300,14 +305,10 @@ export default function AdminClaimsList() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b">
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Claim number
               </th>
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 <div className="flex items-center gap-2">
                   <span>Status</span>
                   <DropdownMenu>
@@ -343,29 +344,19 @@ export default function AdminClaimsList() {
                   </DropdownMenu>
                 </div>
               </th>
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Priority
               </th>
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Created by
               </th>
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Assigned to
               </th>
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Created
               </th>
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Updated
               </th>
             </tr>
@@ -373,7 +364,10 @@ export default function AdminClaimsList() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={7} className={combineTokens(layouts.flex.center, "py-4")}>
+                <td
+                  colSpan={7}
+                  className={combineTokens(layouts.flex.center, "py-4")}
+                >
                   <Loader2 className="animate-spin" />
                 </td>
               </tr>
@@ -468,10 +462,7 @@ export default function AdminClaimsList() {
                     </div>
                   </td>
                   <td
-                    className={combineTokens(
-                      spacing.padding.md,
-                      "text-center",
-                    )}
+                    className={combineTokens(spacing.padding.md, "text-center")}
                   >
                     <p>{claim.priority}</p>
                   </td>
@@ -544,16 +535,17 @@ export default function AdminClaimsList() {
         </table>
       </div>
 
-      {!loading && claims.length === 0 && search.trim() === lastSearchedTerm && (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">No claims found</p>
-        </div>
-      )}
+      {!loading &&
+        claims.length === 0 &&
+        search.trim() === lastSearchedTerm && (
+          <div className={combineTokens(layouts.flex.center, "py-12")}>
+            <p className="text-muted-foreground">No claims found</p>
+          </div>
+        )}
 
       <div className={combineTokens(layouts.flex.between, "mt-6")}>
         <div className="text-sm text-muted-foreground">
-          Page {currentPage + 1} of {totalPages} ({totalClaims} total
-          claims)
+          Page {currentPage + 1} of {totalPages} ({totalClaims} total claims)
         </div>
         <div className={combineTokens(layouts.flex.start, "gap-2")}>
           <Button

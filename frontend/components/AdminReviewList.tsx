@@ -114,7 +114,8 @@ export default function AdminReviewList() {
     setError(null);
     try {
       const pageOffset = pageNum * limit;
-      const finalSearchTerm = searchTerm !== undefined ? searchTerm : lastSearchedTerm;
+      const finalSearchTerm =
+        searchTerm !== undefined ? searchTerm : lastSearchedTerm;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: pageOffset.toString(),
@@ -245,43 +246,67 @@ export default function AdminReviewList() {
             <tr className="border-b">
               {reviewType === "listing" ? (
                 <>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Listing Title
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Review
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Reviewer
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Created
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Updated
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Action
                   </th>
                 </>
               ) : (
                 <>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Reviewed User
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Review
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Reviewer
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Created
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Updated
                   </th>
-                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  <th
+                    className={combineTokens(spacing.padding.md, "text-left")}
+                  >
                     Action
                   </th>
                 </>
@@ -320,8 +345,7 @@ export default function AdminReviewList() {
                       </td>
                       <td className={spacing.padding.md}>
                         <p className="text-sm">
-                          {(review as ListingReview).reviewer_name ||
-                            "Unknown"}
+                          {(review as ListingReview).reviewer_name || "Unknown"}
                         </p>
                       </td>
                       <td className={spacing.padding.md}>
@@ -357,9 +381,7 @@ export default function AdminReviewList() {
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Delete Review
-                              </AlertDialogTitle>
+                              <AlertDialogTitle>Delete Review</AlertDialogTitle>
                               <AlertDialogDescription>
                                 Are you sure you want to delete this review?
                                 This action cannot be undone.
@@ -434,9 +456,7 @@ export default function AdminReviewList() {
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Delete Review
-                              </AlertDialogTitle>
+                              <AlertDialogTitle>Delete Review</AlertDialogTitle>
                               <AlertDialogDescription>
                                 Are you sure you want to delete this review?
                                 This action cannot be undone.

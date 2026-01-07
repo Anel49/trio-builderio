@@ -227,24 +227,16 @@ export default function AdminOrderList() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b">
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Listing
               </th>
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Renter
               </th>
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Dates
               </th>
-              <th
-                className={combineTokens(spacing.padding.md, "text-left")}
-              >
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Status
               </th>
             </tr>
@@ -252,7 +244,10 @@ export default function AdminOrderList() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={4} className={combineTokens(layouts.flex.center, "py-4")}>
+                <td
+                  colSpan={4}
+                  className={combineTokens(layouts.flex.center, "py-4")}
+                >
                   <Loader2 className="animate-spin" />
                 </td>
               </tr>
@@ -311,8 +306,7 @@ export default function AdminOrderList() {
                         <SelectContent>
                           {ORDER_STATUSES.map((status) => (
                             <SelectItem key={status} value={status}>
-                              {status.charAt(0).toUpperCase() +
-                                status.slice(1)}
+                              {status.charAt(0).toUpperCase() + status.slice(1)}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -326,24 +320,27 @@ export default function AdminOrderList() {
         </table>
       </div>
 
-      {!loading && search.trim() !== lastSearchedTerm && search.trim() === "" && (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">
-            Search using a listing name...
-          </p>
-        </div>
-      )}
+      {!loading &&
+        search.trim() !== lastSearchedTerm &&
+        search.trim() === "" && (
+          <div className={combineTokens(layouts.flex.center, "py-12")}>
+            <p className="text-muted-foreground">
+              Search using a listing name...
+            </p>
+          </div>
+        )}
 
-      {!loading && orders.length === 0 && search.trim() === lastSearchedTerm && (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">No orders found</p>
-        </div>
-      )}
+      {!loading &&
+        orders.length === 0 &&
+        search.trim() === lastSearchedTerm && (
+          <div className={combineTokens(layouts.flex.center, "py-12")}>
+            <p className="text-muted-foreground">No orders found</p>
+          </div>
+        )}
 
       <div className={combineTokens(layouts.flex.between, "mt-6")}>
         <div className="text-sm text-muted-foreground">
-          Page {currentPage + 1} of {totalPages} ({totalOrders} total
-          orders)
+          Page {currentPage + 1} of {totalPages} ({totalOrders} total orders)
         </div>
         <div className={combineTokens(layouts.flex.start, "gap-2")}>
           <Button

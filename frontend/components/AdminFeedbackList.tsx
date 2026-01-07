@@ -118,13 +118,15 @@ export default function AdminFeedbackList() {
         showCompletedOverride !== undefined
           ? showCompletedOverride
           : showCompleted;
-      const finalSearchTerm = searchTerm !== undefined ? searchTerm : lastSearchedTerm;
+      const finalSearchTerm =
+        searchTerm !== undefined ? searchTerm : lastSearchedTerm;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
         show_completed: showCompletedValue.toString(),
       });
-      if (finalSearchTerm.trim()) params.append("search", finalSearchTerm.trim());
+      if (finalSearchTerm.trim())
+        params.append("search", finalSearchTerm.trim());
 
       const url = `/admin/feedback?${params.toString()}`;
       console.log("[AdminFeedbackList] Fetching:", url);
@@ -341,10 +343,7 @@ export default function AdminFeedbackList() {
                   <tr key={item.id} className="border-b hover:bg-muted/50">
                     <td className={spacing.padding.md}>
                       <span
-                        className={cn(
-                          typography.weight.medium,
-                          "text-primary",
-                        )}
+                        className={cn(typography.weight.medium, "text-primary")}
                       >
                         {item.id}
                       </span>
