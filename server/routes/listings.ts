@@ -1805,14 +1805,14 @@ async function createOrderFromReservation(
         addons, review_id, review_message, subtotal_cents, daily_total,
         tax_percentage, tax_cents, platform_commission_host, host_earns,
         platform_commission_renter, renter_pays, platform_commission_total,
-        total_cents, nonconsumable_addon_total, consumable_addon_total, reservation_id, extension_of, created_at
+        total_cents, nonconsumable_addon_total, consumable_addon_total, reservation_id, extension_of, timezone, created_at
       ) values (
         'ORD-' || nextval('orders_number_seq')::text,
         currval('orders_number_seq'),
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16,
         'USD', null, null, $17, 'pending', 'upcoming',
         $18, null, null, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28,
-        $29, $30, $31, $32, now()
+        $29, $30, $31, $32, $33, now()
       ) returning id`,
       [
         reservation.listing_id,
@@ -1847,6 +1847,7 @@ async function createOrderFromReservation(
         consumableAddonTotal,
         reservation.id,
         reservation.extension_of,
+        reservation.timezone || null,
       ],
     );
 
