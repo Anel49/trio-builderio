@@ -149,9 +149,16 @@ export function createServer() {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-  // Session middleware
+  // Session middleware with PostgreSQL store
+  const PostgresqlStore = PgSession(session);
+  const sessionStore = new PostgresqlStore({
+    pool: pool,
+    tableName: "session",
+  });
+
   app.use(
     session({
+      store: sessionStore,
       secret:
         process.env.SESSION_SECRET || "default-secret-key-change-in-production",
       resave: false,
