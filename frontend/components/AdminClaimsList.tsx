@@ -291,100 +291,105 @@ export default function AdminClaimsList() {
         </label>
       </div>
 
-      {loading ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <Loader2 className="animate-spin" />
-        </div>
-      ) : search.trim() !== lastSearchedTerm ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">
-            {!search.trim()
-              ? "Search using a claim number, assigned technician, status, priority, or order ID..."
-              : ""}
-          </p>
-        </div>
-      ) : claims.length === 0 ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">No claims found</p>
-        </div>
-      ) : (
-        <>
-          <div className="overflow-x-auto themed-scrollbar">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Claim number
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span>Status</span>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-5 w-5 p-0"
-                            title="Filter by status"
-                          >
-                            <ChevronDown className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start">
-                          <DropdownMenuRadioGroup
-                            value={statusFilter}
-                            onValueChange={(newStatus) => {
-                              setStatusFilter(newStatus);
-                              setCurrentPage(0);
-                              loadClaims(0, showCompleted, newStatus);
-                            }}
-                          >
-                            <DropdownMenuRadioItem value="">
-                              All Statuses
-                            </DropdownMenuRadioItem>
-                            {CLAIM_STATUSES.map((status) => (
-                              <DropdownMenuRadioItem key={status} value={status}>
-                                {toTitleCase(status)}
-                              </DropdownMenuRadioItem>
-                            ))}
-                          </DropdownMenuRadioGroup>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Priority
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Created by
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Assigned to
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Created
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Updated
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {claims.map((claim) => (
+      <div className="overflow-x-auto themed-scrollbar">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b">
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
+              >
+                Claim number
+              </th>
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
+              >
+                <div className="flex items-center gap-2">
+                  <span>Status</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-5 w-5 p-0"
+                        title="Filter by status"
+                      >
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      <DropdownMenuRadioGroup
+                        value={statusFilter}
+                        onValueChange={(newStatus) => {
+                          setStatusFilter(newStatus);
+                          setCurrentPage(0);
+                          loadClaims(0, showCompleted, newStatus);
+                        }}
+                      >
+                        <DropdownMenuRadioItem value="">
+                          All Statuses
+                        </DropdownMenuRadioItem>
+                        {CLAIM_STATUSES.map((status) => (
+                          <DropdownMenuRadioItem key={status} value={status}>
+                            {toTitleCase(status)}
+                          </DropdownMenuRadioItem>
+                        ))}
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </th>
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
+              >
+                Priority
+              </th>
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
+              >
+                Created by
+              </th>
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
+              >
+                Assigned to
+              </th>
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
+              >
+                Created
+              </th>
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
+              >
+                Updated
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={7} className={combineTokens(layouts.flex.center, "py-12")}>
+                  <Loader2 className="animate-spin" />
+                </td>
+              </tr>
+            ) : search.trim() !== lastSearchedTerm ? (
+              <tr>
+                <td colSpan={7} className={combineTokens(layouts.flex.center, "py-12")}>
+                  <p className="text-muted-foreground">
+                    {!search.trim()
+                      ? "Search using a claim number, assigned technician, status, priority, or order ID..."
+                      : ""}
+                  </p>
+                </td>
+              </tr>
+            ) : claims.length === 0 ? (
+              <tr>
+                <td colSpan={7} className={combineTokens(layouts.flex.center, "py-12")}>
+                  <p className="text-muted-foreground">No claims found</p>
+                </td>
+              </tr>
+            ) : (
+              claims.map((claim) => (
                   <tr key={claim.id} className="border-b hover:bg-muted/50">
                     <td className={spacing.padding.md}>
                       <a
@@ -539,46 +544,45 @@ export default function AdminClaimsList() {
                         {formatDateForAdmin(claim.updated_at)}
                       </p>
                     </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              </tr>
+            ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
-          <div className={combineTokens(layouts.flex.between, "mt-6")}>
-            <div className="text-sm text-muted-foreground">
-              Page {currentPage + 1} of {totalPages} ({totalClaims} total
-              claims)
-            </div>
-            <div className={combineTokens(layouts.flex.start, "gap-2")}>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canPrevious}
-                onClick={() => {
-                  const newPage = Math.max(0, currentPage - 1);
-                  setCurrentPage(newPage);
-                  loadClaims(newPage);
-                }}
-              >
-                <ChevronLeft className={spacing.dimensions.icon.sm} />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canNext}
-                onClick={() => {
-                  const newPage = Math.min(totalPages - 1, currentPage + 1);
-                  setCurrentPage(newPage);
-                  loadClaims(newPage);
-                }}
-              >
-                <ChevronRight className={spacing.dimensions.icon.sm} />
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
+      <div className={combineTokens(layouts.flex.between, "mt-6")}>
+        <div className="text-sm text-muted-foreground">
+          Page {currentPage + 1} of {totalPages} ({totalClaims} total
+          claims)
+        </div>
+        <div className={combineTokens(layouts.flex.start, "gap-2")}>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={!canPrevious}
+            onClick={() => {
+              const newPage = Math.max(0, currentPage - 1);
+              setCurrentPage(newPage);
+              loadClaims(newPage);
+            }}
+          >
+            <ChevronLeft className={spacing.dimensions.icon.sm} />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={!canNext}
+            onClick={() => {
+              const newPage = Math.min(totalPages - 1, currentPage + 1);
+              setCurrentPage(newPage);
+              loadClaims(newPage);
+            }}
+          >
+            <ChevronRight className={spacing.dimensions.icon.sm} />
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
