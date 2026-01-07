@@ -318,7 +318,7 @@ export default function AdminClaimsList() {
                         className="h-5 w-5 p-0"
                         title="Filter by status"
                       >
-                        <ChevronDown className="h-4 w-4" />
+                        <Filter className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
