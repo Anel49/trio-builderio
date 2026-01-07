@@ -73,6 +73,7 @@ export default function AdminReviewList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [lastSearchedTerm, setLastSearchedTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
   const [reviewType, setReviewType] = useState<"listing" | "user">("listing");
@@ -88,9 +89,20 @@ export default function AdminReviewList() {
     return "Search using a user's name or their username...";
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    if (lastSearchedTerm !== undefined && lastSearchedTerm !== null) {
+      loadReviews();
+    }
+  }, [currentPage, reviewType]);
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+
+    setCurrentPage(0);
+    setLastSearchedTerm(search);
     loadReviews();
-  }, [currentPage, search, reviewType]);
+  };
 
   const loadReviews = async () => {
     setLoading(true);
@@ -101,7 +113,7 @@ export default function AdminReviewList() {
         offset: offset.toString(),
         review_type: reviewType,
       });
-      if (search) params.append("search", search);
+      if (lastSearchedTerm) params.append("search", lastSearchedTerm);
 
       const url = `/admin/reviews?${params.toString()}`;
       console.log("[AdminReviewList] Fetching:", url);
