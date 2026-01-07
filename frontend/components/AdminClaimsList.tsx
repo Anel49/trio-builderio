@@ -279,7 +279,7 @@ export default function AdminClaimsList() {
             setShowCompleted(newShowCompleted);
             if (search.trim() === lastSearchedTerm) {
               setCurrentPage(0);
-              loadClaims(0, newShowCompleted);
+              loadClaims(0, newShowCompleted, statusFilter);
             }
           }}
         />
