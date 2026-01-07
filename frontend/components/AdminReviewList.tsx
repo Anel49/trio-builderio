@@ -235,318 +235,268 @@ export default function AdminReviewList() {
         />
       </div>
 
-      {loading ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <Loader2 className="animate-spin" />
-        </div>
-      ) : reviews.length === 0 ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">No reviews found</p>
-        </div>
-      ) : (
-        <>
-          <div className="overflow-x-auto themed-scrollbar">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  {reviewType === "listing" ? (
+      <div className="overflow-x-auto themed-scrollbar">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b">
+              {reviewType === "listing" ? (
+                <>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Listing Title
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Review
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Reviewer
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Created
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Updated
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Action
+                  </th>
+                </>
+              ) : (
+                <>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Reviewed User
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Review
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Reviewer
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Created
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Updated
+                  </th>
+                  <th className={combineTokens(spacing.padding.md, "text-left")}>
+                    Action
+                  </th>
+                </>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={6} className="py-4">
+                  <div className={combineTokens(layouts.flex.center, "py-8")}>
+                    <Loader2 className="animate-spin" />
+                  </div>
+                </td>
+              </tr>
+            ) : reviews.length === 0 && hasSearched ? (
+              <tr>
+                <td colSpan={6} className="py-4"></td>
+              </tr>
+            ) : (
+              reviews.map((review) => (
+                <tr key={review.id} className="border-b hover:bg-muted/50">
+                  {reviewType === "listing" &&
+                  review instanceof Object &&
+                  "listing_title" in review ? (
                     <>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Listing Title
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Review
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Reviewer
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Created
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Updated
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Action
-                      </th>
+                      <td className={spacing.padding.md}>
+                        <span className={typography.weight.medium}>
+                          {(review as ListingReview).listing_title || "N/A"}
+                        </span>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {(review as ListingReview).comment}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-sm">
+                          {(review as ListingReview).reviewer_name ||
+                            "Unknown"}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDateForAdmin(
+                            (review as ListingReview).created_at,
+                          )}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDateForAdmin(
+                            (review as ListingReview).updated_at,
+                          )}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              disabled={deletingId === review.id}
+                            >
+                              <Trash2
+                                className={combineTokens(
+                                  spacing.dimensions.icon.sm,
+                                  "mr-2",
+                                )}
+                              />
+                              Delete
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Delete Review
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete this review?
+                                This action cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <div
+                              className={combineTokens(
+                                layouts.flex.end,
+                                spacing.gap.sm,
+                              )}
+                            >
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDeleteReview(review.id)}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </div>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </td>
                     </>
                   ) : (
                     <>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Reviewed User
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Review
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Reviewer
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Created
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Updated
-                      </th>
-                      <th
-                        className={combineTokens(
-                          spacing.padding.md,
-                          "text-left",
-                        )}
-                      >
-                        Action
-                      </th>
+                      <td className={spacing.padding.md}>
+                        <span className={typography.weight.medium}>
+                          {(review as UserReview).reviewed_user_name ||
+                            "Unknown"}
+                        </span>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {(review as UserReview).comment}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-sm">
+                          {(review as UserReview).reviewer_name || "Unknown"}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDateForAdmin(
+                            (review as UserReview).created_at,
+                          )}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDateForAdmin(
+                            (review as UserReview).updated_at,
+                          )}
+                        </p>
+                      </td>
+                      <td className={spacing.padding.md}>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              disabled={deletingId === review.id}
+                            >
+                              <Trash2
+                                className={combineTokens(
+                                  spacing.dimensions.icon.sm,
+                                  "mr-2",
+                                )}
+                              />
+                              Delete
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Delete Review
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete this review?
+                                This action cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <div
+                              className={combineTokens(
+                                layouts.flex.end,
+                                spacing.gap.sm,
+                              )}
+                            >
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDeleteReview(review.id)}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </div>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </td>
                     </>
                   )}
                 </tr>
-              </thead>
-              <tbody>
-                {reviews.map((review) => (
-                  <tr key={review.id} className="border-b hover:bg-muted/50">
-                    {reviewType === "listing" &&
-                    review instanceof Object &&
-                    "listing_title" in review ? (
-                      <>
-                        <td className={spacing.padding.md}>
-                          <span className={typography.weight.medium}>
-                            {(review as ListingReview).listing_title || "N/A"}
-                          </span>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <p className="text-xs text-muted-foreground line-clamp-2">
-                            {(review as ListingReview).comment}
-                          </p>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <p className="text-sm">
-                            {(review as ListingReview).reviewer_name ||
-                              "Unknown"}
-                          </p>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDateForAdmin(
-                              (review as ListingReview).created_at,
-                            )}
-                          </p>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDateForAdmin(
-                              (review as ListingReview).updated_at,
-                            )}
-                          </p>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button
-                                variant="destructive"
-                                size="sm"
-                                disabled={deletingId === review.id}
-                              >
-                                <Trash2
-                                  className={combineTokens(
-                                    spacing.dimensions.icon.sm,
-                                    "mr-2",
-                                  )}
-                                />
-                                Delete
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Delete Review
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  Are you sure you want to delete this review?
-                                  This action cannot be undone.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <div
-                                className={combineTokens(
-                                  layouts.flex.end,
-                                  spacing.gap.sm,
-                                )}
-                              >
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => handleDeleteReview(review.id)}
-                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                >
-                                  Delete
-                                </AlertDialogAction>
-                              </div>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </td>
-                      </>
-                    ) : (
-                      <>
-                        <td className={spacing.padding.md}>
-                          <span className={typography.weight.medium}>
-                            {(review as UserReview).reviewed_user_name ||
-                              "Unknown"}
-                          </span>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <p className="text-xs text-muted-foreground line-clamp-2">
-                            {(review as UserReview).comment}
-                          </p>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <p className="text-sm">
-                            {(review as UserReview).reviewer_name || "Unknown"}
-                          </p>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDateForAdmin(
-                              (review as UserReview).created_at,
-                            )}
-                          </p>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDateForAdmin(
-                              (review as UserReview).updated_at,
-                            )}
-                          </p>
-                        </td>
-                        <td className={spacing.padding.md}>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button
-                                variant="destructive"
-                                size="sm"
-                                disabled={deletingId === review.id}
-                              >
-                                <Trash2
-                                  className={combineTokens(
-                                    spacing.dimensions.icon.sm,
-                                    "mr-2",
-                                  )}
-                                />
-                                Delete
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Delete Review
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  Are you sure you want to delete this review?
-                                  This action cannot be undone.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <div
-                                className={combineTokens(
-                                  layouts.flex.end,
-                                  spacing.gap.sm,
-                                )}
-                              >
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => handleDeleteReview(review.id)}
-                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                >
-                                  Delete
-                                </AlertDialogAction>
-                              </div>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </td>
-                      </>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
-          <div className={combineTokens(layouts.flex.between, "mt-6")}>
-            <div className="text-sm text-muted-foreground">
-              Page {currentPage + 1} of {totalPages} ({totalReviews} total
-              reviews)
-            </div>
-            <div className={combineTokens(layouts.flex.start, "gap-2")}>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canPrevious}
-                onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-              >
-                <ChevronLeft className={spacing.dimensions.icon.sm} />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canNext}
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
-                }
-              >
-                <ChevronRight className={spacing.dimensions.icon.sm} />
-              </Button>
-            </div>
+      {!loading && reviews.length === 0 && hasSearched && (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">No reviews found</p>
+        </div>
+      )}
+
+      {!loading && reviews.length > 0 && (
+        <div className={combineTokens(layouts.flex.between, "mt-6")}>
+          <div className="text-sm text-muted-foreground">
+            Page {currentPage + 1} of {totalPages} ({totalReviews} total
+            reviews)
           </div>
-        </>
+          <div className={combineTokens(layouts.flex.start, "gap-2")}>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canPrevious}
+              onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+            >
+              <ChevronLeft className={spacing.dimensions.icon.sm} />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canNext}
+              onClick={() =>
+                setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
+              }
+            >
+              <ChevronRight className={spacing.dimensions.icon.sm} />
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   );

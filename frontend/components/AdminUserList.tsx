@@ -64,6 +64,7 @@ export default function AdminUserList({
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [lastSearchedTerm, setLastSearchedTerm] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
   const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set());
@@ -80,6 +81,8 @@ export default function AdminUserList({
     if (e.key !== "Enter") return;
 
     setCurrentPage(0);
+    setLastSearchedTerm(search);
+    setHasSearched(true);
     loadUsers(0);
   };
 
@@ -100,7 +103,7 @@ export default function AdminUserList({
         offset: pageOffset.toString(),
         show_inactive: showInactiveValue.toString(),
       });
-      if (search.trim()) params.append("search", search.trim());
+      if (lastSearchedTerm.trim()) params.append("search", lastSearchedTerm.trim());
 
       const response = await apiFetch(`/admin/users?${params.toString()}`);
       if (!response.ok) throw new Error("Failed to load users");
@@ -108,7 +111,6 @@ export default function AdminUserList({
       const data = await response.json();
       setUsers(data.users);
       setTotalUsers(data.total);
-      setLastSearchedTerm(search.trim());
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     } finally {
@@ -222,189 +224,181 @@ export default function AdminUserList({
         </label>
       </div>
 
-      {loading ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <Loader2 className="animate-spin" />
-        </div>
-      ) : search.trim() !== lastSearchedTerm ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">
-            {!search.trim() ? "Search using a name, email, or username..." : ""}
-          </p>
-        </div>
-      ) : users.length === 0 ? (
+      <div className="overflow-x-auto themed-scrollbar">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b">
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Name
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Email
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Admin
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Moderator
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Verified
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Active
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={6} className="py-4">
+                  <div className={combineTokens(layouts.flex.center, "py-8")}>
+                    <Loader2 className="animate-spin" />
+                  </div>
+                </td>
+              </tr>
+            ) : users.length === 0 && hasSearched ? (
+              <tr>
+                <td colSpan={6} className="py-4"></td>
+              </tr>
+            ) : (
+              users.map((user) => {
+                const isUpdating = updatingIds.has(user.id);
+                return (
+                  <tr key={user.id} className="border-b hover:bg-muted/50">
+                    <td className={spacing.padding.md}>
+                      <div className="flex items-start gap-2">
+                        <a
+                          href={`/profile/${user.username}`}
+                          onClick={(e) => {
+                            if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                              e.preventDefault();
+                              navigate(`/profile/${user.username}`);
+                            }
+                          }}
+                          className={combineTokens(
+                            "text-left hover:text-primary transition-colors block flex-1",
+                          )}
+                        >
+                          <p className={typography.weight.medium}>
+                            {user.name}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            @{user.username}
+                          </p>
+                        </a>
+                        <button
+                          onClick={() => {
+                            onViewUserReports?.(user.username || "");
+                          }}
+                          className="flex-shrink-0 text-muted-foreground hover:text-destructive transition-colors"
+                          title="View reports for this user"
+                        >
+                          <AlertTriangle className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </td>
+                    <td className={spacing.padding.md}>{user.email}</td>
+                    <td className={spacing.padding.md}>
+                      <Switch
+                        checked={user.admin}
+                        disabled={isUpdating || !currentUser?.admin}
+                        onCheckedChange={(checked) => {
+                          setPendingChange({
+                            user,
+                            field: "admin",
+                            value: checked,
+                          });
+                          setModalOpen(true);
+                        }}
+                      />
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <Switch
+                        checked={user.moderator}
+                        disabled={isUpdating || !currentUser?.admin}
+                        onCheckedChange={(checked) => {
+                          setPendingChange({
+                            user,
+                            field: "moderator",
+                            value: checked,
+                          });
+                          setModalOpen(true);
+                        }}
+                      />
+                    </td>
+                    <td className={spacing.padding.md}>
+                      {user.pendingIdentityVer === false ? (
+                        <Check className="h-5 w-5 text-green-600" />
+                      ) : user.pendingIdentityVer === null ? (
+                        <Badge
+                          variant="outline"
+                          className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 border-red-300 dark:border-red-700"
+                        >
+                          Not started
+                        </Badge>
+                      ) : (
+                        <Badge
+                          variant="outline"
+                          className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 border-yellow-300 dark:border-yellow-700"
+                        >
+                          Pending
+                        </Badge>
+                      )}
+                    </td>
+                    <td className={spacing.padding.md}>
+                      {user.active ? (
+                        <Check className="h-5 w-5 text-green-600" />
+                      ) : (
+                        <X className="h-5 w-5 text-red-600" />
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {!loading && users.length === 0 && hasSearched && (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No users found</p>
         </div>
-      ) : (
-        <>
-          <div className="overflow-x-auto themed-scrollbar">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Name
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Email
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Admin
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Moderator
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Verified
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Active
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => {
-                  const isUpdating = updatingIds.has(user.id);
-                  return (
-                    <tr key={user.id} className="border-b hover:bg-muted/50">
-                      <td className={spacing.padding.md}>
-                        <div className="flex items-start gap-2">
-                          <a
-                            href={`/profile/${user.username}`}
-                            onClick={(e) => {
-                              if (!e.ctrlKey && !e.metaKey && e.button === 0) {
-                                e.preventDefault();
-                                navigate(`/profile/${user.username}`);
-                              }
-                            }}
-                            className={combineTokens(
-                              "text-left hover:text-primary transition-colors block flex-1",
-                            )}
-                          >
-                            <p className={typography.weight.medium}>
-                              {user.name}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              @{user.username}
-                            </p>
-                          </a>
-                          <button
-                            onClick={() => {
-                              onViewUserReports?.(user.username || "");
-                            }}
-                            className="flex-shrink-0 text-muted-foreground hover:text-destructive transition-colors"
-                            title="View reports for this user"
-                          >
-                            <AlertTriangle className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>{user.email}</td>
-                      <td className={spacing.padding.md}>
-                        <Switch
-                          checked={user.admin}
-                          disabled={isUpdating || !currentUser?.admin}
-                          onCheckedChange={(checked) => {
-                            setPendingChange({
-                              user,
-                              field: "admin",
-                              value: checked,
-                            });
-                            setModalOpen(true);
-                          }}
-                        />
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <Switch
-                          checked={user.moderator}
-                          disabled={isUpdating || !currentUser?.admin}
-                          onCheckedChange={(checked) => {
-                            setPendingChange({
-                              user,
-                              field: "moderator",
-                              value: checked,
-                            });
-                            setModalOpen(true);
-                          }}
-                        />
-                      </td>
-                      <td className={spacing.padding.md}>
-                        {user.pendingIdentityVer === false ? (
-                          <Check className="h-5 w-5 text-green-600" />
-                        ) : user.pendingIdentityVer === null ? (
-                          <Badge
-                            variant="outline"
-                            className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 border-red-300 dark:border-red-700"
-                          >
-                            Not started
-                          </Badge>
-                        ) : (
-                          <Badge
-                            variant="outline"
-                            className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 border-yellow-300 dark:border-yellow-700"
-                          >
-                            Pending
-                          </Badge>
-                        )}
-                      </td>
-                      <td className={spacing.padding.md}>
-                        {user.active ? (
-                          <Check className="h-5 w-5 text-green-600" />
-                        ) : (
-                          <X className="h-5 w-5 text-red-600" />
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+      )}
 
-          <div className={combineTokens(layouts.flex.between, "mt-6")}>
-            <div className="text-sm text-muted-foreground">
-              Page {currentPage + 1} of {totalPages} ({totalUsers} total users)
-            </div>
-            <div className={combineTokens(layouts.flex.start, "gap-2")}>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canPrevious}
-                onClick={() => {
-                  const newPage = Math.max(0, currentPage - 1);
-                  setCurrentPage(newPage);
-                  loadUsers(newPage);
-                }}
-              >
-                <ChevronLeft className={spacing.dimensions.icon.sm} />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canNext}
-                onClick={() => {
-                  const newPage = Math.min(totalPages - 1, currentPage + 1);
-                  setCurrentPage(newPage);
-                  loadUsers(newPage);
-                }}
-              >
-                <ChevronRight className={spacing.dimensions.icon.sm} />
-              </Button>
-            </div>
+      {!loading && users.length > 0 && (
+        <div className={combineTokens(layouts.flex.between, "mt-6")}>
+          <div className="text-sm text-muted-foreground">
+            Page {currentPage + 1} of {totalPages} ({totalUsers} total users)
           </div>
-        </>
+          <div className={combineTokens(layouts.flex.start, "gap-2")}>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canPrevious}
+              onClick={() => {
+                const newPage = Math.max(0, currentPage - 1);
+                setCurrentPage(newPage);
+                loadUsers(newPage);
+              }}
+            >
+              <ChevronLeft className={spacing.dimensions.icon.sm} />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canNext}
+              onClick={() => {
+                const newPage = Math.min(totalPages - 1, currentPage + 1);
+                setCurrentPage(newPage);
+                loadUsers(newPage);
+              }}
+            >
+              <ChevronRight className={spacing.dimensions.icon.sm} />
+            </Button>
+          </div>
+        </div>
       )}
 
       {pendingChange && (

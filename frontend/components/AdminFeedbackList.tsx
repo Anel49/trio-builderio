@@ -87,6 +87,7 @@ export default function AdminFeedbackList() {
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [lastSearchedTerm, setLastSearchedTerm] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalFeedback, setTotalFeedback] = useState(0);
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
@@ -99,6 +100,8 @@ export default function AdminFeedbackList() {
     if (e.key !== "Enter") return;
 
     setCurrentPage(0);
+    setLastSearchedTerm(search);
+    setHasSearched(true);
     loadFeedback(0);
   };
 
@@ -119,7 +122,7 @@ export default function AdminFeedbackList() {
         offset: offset.toString(),
         show_completed: showCompletedValue.toString(),
       });
-      if (search.trim()) params.append("search", search.trim());
+      if (lastSearchedTerm.trim()) params.append("search", lastSearchedTerm.trim());
 
       const url = `/admin/feedback?${params.toString()}`;
       console.log("[AdminFeedbackList] Fetching:", url);
@@ -146,7 +149,6 @@ export default function AdminFeedbackList() {
         console.log("[AdminFeedbackList] Data received:", data);
         setFeedback(data.feedback || []);
         setTotalFeedback(data.total || 0);
-        setLastSearchedTerm(search.trim());
       } catch (parseErr) {
         console.error("[AdminFeedbackList] JSON parse error:", parseErr);
         console.error(
@@ -273,7 +275,7 @@ export default function AdminFeedbackList() {
           onCheckedChange={(checked) => {
             const newShowCompleted = checked === true;
             setShowCompleted(newShowCompleted);
-            if (search.trim() === lastSearchedTerm) {
+            if (hasSearched) {
               setCurrentPage(0);
               loadFeedback(0, newShowCompleted);
             }
@@ -287,285 +289,271 @@ export default function AdminFeedbackList() {
         </label>
       </div>
 
-      {loading ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <Loader2 className="animate-spin" />
-        </div>
-      ) : search.trim() !== lastSearchedTerm ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">
-            {!search.trim()
-              ? "Search using an ID, status, submitter name, or assigned technician..."
-              : ""}
-          </p>
-        </div>
-      ) : feedback.length === 0 ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">No suggestions found</p>
-        </div>
-      ) : (
-        <>
-          <div className="overflow-x-auto themed-scrollbar">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    ID
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Status
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Categories
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Submitted by
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Assigned to
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Details
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Created
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Updated
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {feedback.map((item) => {
-                  const categories = getCategories(item.categories);
-                  return (
-                    <tr key={item.id} className="border-b hover:bg-muted/50">
-                      <td className={spacing.padding.md}>
+      <div className="overflow-x-auto themed-scrollbar">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b">
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                ID
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Status
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Categories
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Submitted by
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Assigned to
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Details
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Created
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Updated
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={8} className="py-4">
+                  <div className={combineTokens(layouts.flex.center, "py-8")}>
+                    <Loader2 className="animate-spin" />
+                  </div>
+                </td>
+              </tr>
+            ) : feedback.length === 0 && hasSearched ? (
+              <tr>
+                <td colSpan={8} className="py-4"></td>
+              </tr>
+            ) : (
+              feedback.map((item) => {
+                const categories = getCategories(item.categories);
+                return (
+                  <tr key={item.id} className="border-b hover:bg-muted/50">
+                    <td className={spacing.padding.md}>
+                      <span
+                        className={cn(
+                          typography.weight.medium,
+                          "text-primary",
+                        )}
+                      >
+                        {item.id}
+                      </span>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <div className="flex items-center gap-2">
                         <span
-                          className={cn(
-                            typography.weight.medium,
-                            "text-primary",
+                          className={combineTokens(
+                            "px-2 py-1 rounded text-xs font-medium",
+                            item.status === "submitted"
+                              ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                              : item.status === "triaged"
+                                ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
+                                : item.status === "under review"
+                                  ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                  : item.status === "planned" ||
+                                      item.status === "in progress"
+                                    ? "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200"
+                                    : item.status === "implemented"
+                                      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                                      : item.status === "declined" ||
+                                          item.status === "duplicate" ||
+                                          item.status === "out of scope"
+                                        ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                                        : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
                           )}
                         >
-                          {item.id}
+                          {toTitleCase(item.status)}
                         </span>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <div className="flex items-center gap-2">
-                          <span
-                            className={combineTokens(
-                              "px-2 py-1 rounded text-xs font-medium",
-                              item.status === "submitted"
-                                ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                                : item.status === "triaged"
-                                  ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
-                                  : item.status === "under review"
-                                    ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                                    : item.status === "planned" ||
-                                        item.status === "in progress"
-                                      ? "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200"
-                                      : item.status === "implemented"
-                                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                                        : item.status === "declined" ||
-                                            item.status === "duplicate" ||
-                                            item.status === "out of scope"
-                                          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                                          : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
-                            )}
-                          >
-                            {toTitleCase(item.status)}
-                          </span>
-                          {item.assigned_to_id === currentUser?.id && (
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-5 w-5 p-0"
-                                  title="Change status"
-                                >
-                                  <ChevronDown className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="start">
-                                <DropdownMenuRadioGroup
-                                  value={item.status}
-                                  onValueChange={(status) =>
-                                    handleStatusChange(item.id, status)
-                                  }
-                                >
-                                  <DropdownMenuRadioItem value="submitted">
-                                    Submitted
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="triaged">
-                                    Triaged
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="under review">
-                                    Under Review
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="planned">
-                                    Planned
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="in progress">
-                                    In Progress
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="implemented">
-                                    Implemented
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="declined">
-                                    Declined
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="duplicate">
-                                    Duplicate
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="out of scope">
-                                    Out Of Scope
-                                  </DropdownMenuRadioItem>
-                                </DropdownMenuRadioGroup>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          )}
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <div className="flex flex-col gap-1">
-                          {categories.length > 0 ? (
-                            categories.map((category, idx) => (
-                              <p
-                                key={idx}
-                                className="text-xs text-muted-foreground"
-                              >
-                                {category}
-                              </p>
-                            ))
-                          ) : (
-                            <p className="text-xs text-muted-foreground">
-                              No categories
-                            </p>
-                          )}
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <p className="text-xs">
-                          {item.created_by_name || "Unknown"}
-                        </p>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <div className="flex items-center gap-2">
-                          <p>{item.assigned_to_name || "Unassigned"}</p>
-                          <Popover
-                            open={openPopoverId === item.id}
-                            onOpenChange={(open) =>
-                              setOpenPopoverId(open ? item.id : null)
-                            }
-                          >
-                            <PopoverTrigger asChild>
+                        {item.assigned_to_id === currentUser?.id && (
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-6 w-6 p-0 border border-border hover:bg-accent"
-                                title={
-                                  item.assigned_to_id === currentUser?.id
-                                    ? "Unassign feedback"
-                                    : "Assign feedback"
-                                }
+                                className="h-5 w-5 p-0"
+                                title="Change status"
                               >
-                                {item.assigned_to_id === currentUser?.id ? (
-                                  <Minus className="h-4 w-4" />
-                                ) : (
-                                  <Plus className="h-4 w-4" />
-                                )}
+                                <ChevronDown className="h-4 w-4" />
                               </Button>
-                            </PopoverTrigger>
-                            <PopoverContent side="left" className="w-40 p-2">
-                              <button
-                                onClick={() =>
-                                  handleToggleAssignment(
-                                    item.id,
-                                    item.assigned_to_id !== currentUser?.id,
-                                  )
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                              <DropdownMenuRadioGroup
+                                value={item.status}
+                                onValueChange={(status) =>
+                                  handleStatusChange(item.id, status)
                                 }
-                                className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
                               >
-                                {item.assigned_to_id === currentUser?.id
-                                  ? "Unassign"
-                                  : "Assign to me"}
-                              </button>
-                            </PopoverContent>
-                          </Popover>
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <p className="text-xs text-muted-foreground max-w-sm truncate">
-                          {item.details}
-                        </p>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <p className="text-xs text-muted-foreground">
-                          {formatDateForAdmin(item.created_at)}
-                        </p>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <p className="text-xs text-muted-foreground">
-                          {formatDateForAdmin(item.updated_at)}
-                        </p>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                                <DropdownMenuRadioItem value="submitted">
+                                  Submitted
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="triaged">
+                                  Triaged
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="under review">
+                                  Under Review
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="planned">
+                                  Planned
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="in progress">
+                                  In Progress
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="implemented">
+                                  Implemented
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="declined">
+                                  Declined
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="duplicate">
+                                  Duplicate
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="out of scope">
+                                  Out Of Scope
+                                </DropdownMenuRadioItem>
+                              </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        )}
+                      </div>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <div className="flex flex-col gap-1">
+                        {categories.length > 0 ? (
+                          categories.map((category, idx) => (
+                            <p
+                              key={idx}
+                              className="text-xs text-muted-foreground"
+                            >
+                              {category}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="text-xs text-muted-foreground">
+                            No categories
+                          </p>
+                        )}
+                      </div>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-xs">
+                        {item.created_by_name || "Unknown"}
+                      </p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <div className="flex items-center gap-2">
+                        <p>{item.assigned_to_name || "Unassigned"}</p>
+                        <Popover
+                          open={openPopoverId === item.id}
+                          onOpenChange={(open) =>
+                            setOpenPopoverId(open ? item.id : null)
+                          }
+                        >
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0 border border-border hover:bg-accent"
+                              title={
+                                item.assigned_to_id === currentUser?.id
+                                  ? "Unassign feedback"
+                                  : "Assign feedback"
+                              }
+                            >
+                              {item.assigned_to_id === currentUser?.id ? (
+                                <Minus className="h-4 w-4" />
+                              ) : (
+                                <Plus className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent side="left" className="w-40 p-2">
+                            <button
+                              onClick={() =>
+                                handleToggleAssignment(
+                                  item.id,
+                                  item.assigned_to_id !== currentUser?.id,
+                                )
+                              }
+                              className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
+                            >
+                              {item.assigned_to_id === currentUser?.id
+                                ? "Unassign"
+                                : "Assign to me"}
+                            </button>
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-xs text-muted-foreground max-w-sm truncate">
+                        {item.details}
+                      </p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDateForAdmin(item.created_at)}
+                      </p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDateForAdmin(item.updated_at)}
+                      </p>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
 
-          <div className={combineTokens(layouts.flex.between, "mt-6")}>
-            <div className="text-sm text-muted-foreground">
-              Page {currentPage + 1} of {totalPages} ({totalFeedback} total
-              feedback)
-            </div>
-            <div className={combineTokens(layouts.flex.start, "gap-2")}>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canPrevious}
-                onClick={() => {
-                  const newPage = Math.max(0, currentPage - 1);
-                  setCurrentPage(newPage);
-                  loadFeedback(newPage);
-                }}
-              >
-                <ChevronLeft className={spacing.dimensions.icon.sm} />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canNext}
-                onClick={() => {
-                  const newPage = Math.min(totalPages - 1, currentPage + 1);
-                  setCurrentPage(newPage);
-                  loadFeedback(newPage);
-                }}
-              >
-                <ChevronRight className={spacing.dimensions.icon.sm} />
-              </Button>
-            </div>
+      {!loading && feedback.length === 0 && hasSearched && (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">No suggestions found</p>
+        </div>
+      )}
+
+      {!loading && feedback.length > 0 && (
+        <div className={combineTokens(layouts.flex.between, "mt-6")}>
+          <div className="text-sm text-muted-foreground">
+            Page {currentPage + 1} of {totalPages} ({totalFeedback} total
+            feedback)
           </div>
-        </>
+          <div className={combineTokens(layouts.flex.start, "gap-2")}>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canPrevious}
+              onClick={() => {
+                const newPage = Math.max(0, currentPage - 1);
+                setCurrentPage(newPage);
+                loadFeedback(newPage);
+              }}
+            >
+              <ChevronLeft className={spacing.dimensions.icon.sm} />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canNext}
+              onClick={() => {
+                const newPage = Math.min(totalPages - 1, currentPage + 1);
+                setCurrentPage(newPage);
+                loadFeedback(newPage);
+              }}
+            >
+              <ChevronRight className={spacing.dimensions.icon.sm} />
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   );

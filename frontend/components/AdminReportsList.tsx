@@ -105,6 +105,7 @@ export default function AdminReportsList({
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState(initialSearch);
   const [lastSearchedTerm, setLastSearchedTerm] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalReports, setTotalReports] = useState(0);
   const [reportFor, setReportFor] = useState<"listing" | "user">(
@@ -127,6 +128,8 @@ export default function AdminReportsList({
     if (e.key !== "Enter") return;
 
     setCurrentPage(0);
+    setLastSearchedTerm(search);
+    setHasSearched(true);
     loadReports(0);
   };
 
@@ -148,7 +151,7 @@ export default function AdminReportsList({
         report_for: reportFor,
         show_completed: showCompletedValue.toString(),
       });
-      if (search.trim()) params.append("search", search.trim());
+      if (lastSearchedTerm.trim()) params.append("search", lastSearchedTerm.trim());
 
       const url = `/admin/reports?${params.toString()}`;
       console.log("[AdminReportsList] Fetching:", url);
@@ -175,7 +178,6 @@ export default function AdminReportsList({
         console.log("[AdminReportsList] Data received:", data);
         setReports(data.reports || []);
         setTotalReports(data.total || 0);
-        setLastSearchedTerm(search.trim());
       } catch (parseErr) {
         console.error("[AdminReportsList] JSON parse error:", parseErr);
         console.error(
@@ -288,6 +290,8 @@ export default function AdminReportsList({
             setReportFor(v as "listing" | "user");
             setCurrentPage(0);
             setSearch("");
+            setLastSearchedTerm("");
+            setHasSearched(false);
           }}
         >
           <TabsList className="grid w-full grid-cols-2">
@@ -315,7 +319,7 @@ export default function AdminReportsList({
           onCheckedChange={(checked) => {
             const newShowCompleted = checked === true;
             setShowCompleted(newShowCompleted);
-            if (search.trim() === lastSearchedTerm) {
+            if (hasSearched) {
               setCurrentPage(0);
               loadReports(0, newShowCompleted);
             }
@@ -329,405 +333,389 @@ export default function AdminReportsList({
         </label>
       </div>
 
-      {loading ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <Loader2 className="animate-spin" />
-        </div>
-      ) : search.trim() !== lastSearchedTerm ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">
-            {!search.trim() ? getSearchPlaceholder() : ""}
-          </p>
-        </div>
-      ) : reports.length === 0 ? (
+      <div className="overflow-x-auto themed-scrollbar">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b">
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Report number
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Status
+              </th>
+              {reportFor === "listing" && (
+                <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  Reported listing
+                </th>
+              )}
+              {reportFor === "listing" && (
+                <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  Reported by
+                </th>
+              )}
+              {reportFor === "user" && (
+                <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  Reported user
+                </th>
+              )}
+              {reportFor === "user" && (
+                <th className={combineTokens(spacing.padding.md, "text-left")}>
+                  Reported by
+                </th>
+              )}
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Reasons
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Assigned to
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Created
+              </th>
+              <th className={combineTokens(spacing.padding.md, "text-left")}>
+                Updated
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={reportFor === "listing" ? 9 : 9} className="py-4">
+                  <div className={combineTokens(layouts.flex.center, "py-8")}>
+                    <Loader2 className="animate-spin" />
+                  </div>
+                </td>
+              </tr>
+            ) : reports.length === 0 && hasSearched ? (
+              <tr>
+                <td colSpan={reportFor === "listing" ? 9 : 9} className="py-4"></td>
+              </tr>
+            ) : (
+              reports.map((report) => {
+                const reasons = getReportReasons(report.report_reasons);
+                return (
+                  <tr key={report.id} className="border-b hover:bg-muted/50">
+                    <td className={spacing.padding.md}>
+                      <span
+                        className={cn(
+                          typography.weight.medium,
+                          "text-primary",
+                        )}
+                      >
+                        {report.report_number || "N/A"}
+                      </span>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={combineTokens(
+                            "px-2 py-1 rounded text-xs font-medium",
+                            report.status === "resolved"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              : report.status === "rejected" ||
+                                  report.status === "dismissed"
+                                ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                                : report.status === "under review"
+                                  ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                  : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+                          )}
+                        >
+                          {toTitleCase(report.status)}
+                        </span>
+                        {report.assigned_to === currentUser?.id && (
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-5 w-5 p-0"
+                                title="Change status"
+                              >
+                                <ChevronDown className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                              <DropdownMenuRadioGroup
+                                value={report.status}
+                                onValueChange={(status) =>
+                                  handleStatusChange(report.id, status)
+                                }
+                              >
+                                <DropdownMenuRadioItem value="submitted">
+                                  Submitted
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="rejected">
+                                  Rejected
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="resolved">
+                                  Resolved
+                                </DropdownMenuRadioItem>
+                              </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        )}
+                      </div>
+                    </td>
+                    {reportFor === "listing" && (
+                      <td className={spacing.padding.md}>
+                        {report.reported_listing_id &&
+                        report.reported_listing_name ? (
+                          <a
+                            href={`/listing/${report.reported_listing_id}`}
+                            onClick={(e) => {
+                              if (
+                                !e.ctrlKey &&
+                                !e.metaKey &&
+                                e.button === 0
+                              ) {
+                                e.preventDefault();
+                                navigate(
+                                  `/listing/${report.reported_listing_id}`,
+                                );
+                              }
+                            }}
+                            className={combineTokens(
+                              "text-left hover:text-primary transition-colors block",
+                            )}
+                          >
+                            <p className={typography.weight.medium}>
+                              {report.reported_listing_name}
+                            </p>
+                          </a>
+                        ) : (
+                          <p className="text-xs text-muted-foreground">
+                            Listing not found
+                          </p>
+                        )}
+                      </td>
+                    )}
+                    {reportFor === "listing" && (
+                      <td className={spacing.padding.md}>
+                        {report.reported_by_username ? (
+                          <a
+                            href={`/profile/${report.reported_by_username}`}
+                            onClick={(e) => {
+                              if (
+                                !e.ctrlKey &&
+                                !e.metaKey &&
+                                e.button === 0
+                              ) {
+                                e.preventDefault();
+                                navigate(
+                                  `/profile/${report.reported_by_username}`,
+                                );
+                              }
+                            }}
+                            className={combineTokens(
+                              "text-left hover:text-primary transition-colors block",
+                            )}
+                          >
+                            <p className={typography.weight.medium}>
+                              {report.reported_by_name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              @{report.reported_by_username}
+                            </p>
+                          </a>
+                        ) : (
+                          <p className="text-xs text-muted-foreground">
+                            User not found
+                          </p>
+                        )}
+                      </td>
+                    )}
+                    {reportFor === "user" && (
+                      <td className={spacing.padding.md}>
+                        {report.reported_user_username ? (
+                          <a
+                            href={`/profile/${report.reported_user_username}`}
+                            onClick={(e) => {
+                              if (
+                                !e.ctrlKey &&
+                                !e.metaKey &&
+                                e.button === 0
+                              ) {
+                                e.preventDefault();
+                                navigate(
+                                  `/profile/${report.reported_user_username}`,
+                                );
+                              }
+                            }}
+                            className={combineTokens(
+                              "text-left hover:text-primary transition-colors block",
+                            )}
+                          >
+                            <p className={typography.weight.medium}>
+                              {report.reported_user_name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              @{report.reported_user_username}
+                            </p>
+                          </a>
+                        ) : (
+                          <p className="text-xs text-muted-foreground">
+                            User not found
+                          </p>
+                        )}
+                      </td>
+                    )}
+                    {reportFor === "user" && (
+                      <td className={spacing.padding.md}>
+                        {report.reported_by_username ? (
+                          <a
+                            href={`/profile/${report.reported_by_username}`}
+                            onClick={(e) => {
+                              if (
+                                !e.ctrlKey &&
+                                !e.metaKey &&
+                                e.button === 0
+                              ) {
+                                e.preventDefault();
+                                navigate(
+                                  `/profile/${report.reported_by_username}`,
+                                );
+                              }
+                            }}
+                            className={combineTokens(
+                              "text-left hover:text-primary transition-colors block",
+                            )}
+                          >
+                            <p className={typography.weight.medium}>
+                              {report.reported_by_name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              @{report.reported_by_username}
+                            </p>
+                          </a>
+                        ) : (
+                          <p className="text-xs text-muted-foreground">
+                            User not found
+                          </p>
+                        )}
+                      </td>
+                    )}
+                    <td className={spacing.padding.md}>
+                      <div className="flex flex-col gap-1">
+                        {reasons.length > 0 ? (
+                          reasons.map((reason, idx) => (
+                            <p
+                              key={idx}
+                              className="text-xs text-muted-foreground"
+                            >
+                              {reason}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="text-xs text-muted-foreground">
+                            No reasons
+                          </p>
+                        )}
+                      </div>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <div className="flex items-center gap-2">
+                        <p>{report.assigned_to_name || "Unassigned"}</p>
+                        {report.reported_by_id !== currentUser?.id && (
+                          <Popover
+                            open={openPopoverId === report.id}
+                            onOpenChange={(open) =>
+                              setOpenPopoverId(open ? report.id : null)
+                            }
+                          >
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0 border border-border hover:bg-accent"
+                                title={
+                                  report.assigned_to === currentUser?.id
+                                    ? "Unassign report"
+                                    : "Assign report"
+                                }
+                              >
+                                {report.assigned_to === currentUser?.id ? (
+                                  <Minus className="h-4 w-4" />
+                                ) : (
+                                  <Plus className="h-4 w-4" />
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent side="left" className="w-40 p-2">
+                              <button
+                                onClick={() =>
+                                  handleToggleAssignment(
+                                    report.id,
+                                    report.assigned_to !== currentUser?.id,
+                                  )
+                                }
+                                className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
+                              >
+                                {report.assigned_to === currentUser?.id
+                                  ? "Unassign"
+                                  : "Assign to me"}
+                              </button>
+                            </PopoverContent>
+                          </Popover>
+                        )}
+                      </div>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDateForAdmin(report.created_at)}
+                      </p>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDateForAdmin(report.updated_at)}
+                      </p>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {!loading && reports.length === 0 && hasSearched && (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No reports found</p>
         </div>
-      ) : (
-        <>
-          <div className="overflow-x-auto themed-scrollbar">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Report number
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Status
-                  </th>
-                  {reportFor === "listing" && (
-                    <th
-                      className={combineTokens(spacing.padding.md, "text-left")}
-                    >
-                      Reported listing
-                    </th>
-                  )}
-                  {reportFor === "listing" && (
-                    <th
-                      className={combineTokens(spacing.padding.md, "text-left")}
-                    >
-                      Reported by
-                    </th>
-                  )}
-                  {reportFor === "user" && (
-                    <th
-                      className={combineTokens(spacing.padding.md, "text-left")}
-                    >
-                      Reported user
-                    </th>
-                  )}
-                  {reportFor === "user" && (
-                    <th
-                      className={combineTokens(spacing.padding.md, "text-left")}
-                    >
-                      Reported by
-                    </th>
-                  )}
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Reasons
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Assigned to
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Created
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Updated
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {reports.map((report) => {
-                  const reasons = getReportReasons(report.report_reasons);
-                  return (
-                    <tr key={report.id} className="border-b hover:bg-muted/50">
-                      <td className={spacing.padding.md}>
-                        <span
-                          className={cn(
-                            typography.weight.medium,
-                            "text-primary",
-                          )}
-                        >
-                          {report.report_number || "N/A"}
-                        </span>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <div className="flex items-center gap-2">
-                          <span
-                            className={combineTokens(
-                              "px-2 py-1 rounded text-xs font-medium",
-                              report.status === "resolved"
-                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                                : report.status === "rejected" ||
-                                    report.status === "dismissed"
-                                  ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                                  : report.status === "under review"
-                                    ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                                    : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-                            )}
-                          >
-                            {toTitleCase(report.status)}
-                          </span>
-                          {report.assigned_to === currentUser?.id && (
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-5 w-5 p-0"
-                                  title="Change status"
-                                >
-                                  <ChevronDown className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="start">
-                                <DropdownMenuRadioGroup
-                                  value={report.status}
-                                  onValueChange={(status) =>
-                                    handleStatusChange(report.id, status)
-                                  }
-                                >
-                                  <DropdownMenuRadioItem value="submitted">
-                                    Submitted
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="rejected">
-                                    Rejected
-                                  </DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="resolved">
-                                    Resolved
-                                  </DropdownMenuRadioItem>
-                                </DropdownMenuRadioGroup>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          )}
-                        </div>
-                      </td>
-                      {reportFor === "listing" && (
-                        <td className={spacing.padding.md}>
-                          {report.reported_listing_id &&
-                          report.reported_listing_name ? (
-                            <a
-                              href={`/listing/${report.reported_listing_id}`}
-                              onClick={(e) => {
-                                if (
-                                  !e.ctrlKey &&
-                                  !e.metaKey &&
-                                  e.button === 0
-                                ) {
-                                  e.preventDefault();
-                                  navigate(
-                                    `/listing/${report.reported_listing_id}`,
-                                  );
-                                }
-                              }}
-                              className={combineTokens(
-                                "text-left hover:text-primary transition-colors block",
-                              )}
-                            >
-                              <p className={typography.weight.medium}>
-                                {report.reported_listing_name}
-                              </p>
-                            </a>
-                          ) : (
-                            <p className="text-xs text-muted-foreground">
-                              Listing not found
-                            </p>
-                          )}
-                        </td>
-                      )}
-                      {reportFor === "listing" && (
-                        <td className={spacing.padding.md}>
-                          {report.reported_by_username ? (
-                            <a
-                              href={`/profile/${report.reported_by_username}`}
-                              onClick={(e) => {
-                                if (
-                                  !e.ctrlKey &&
-                                  !e.metaKey &&
-                                  e.button === 0
-                                ) {
-                                  e.preventDefault();
-                                  navigate(
-                                    `/profile/${report.reported_by_username}`,
-                                  );
-                                }
-                              }}
-                              className={combineTokens(
-                                "text-left hover:text-primary transition-colors block",
-                              )}
-                            >
-                              <p className={typography.weight.medium}>
-                                {report.reported_by_name}
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                @{report.reported_by_username}
-                              </p>
-                            </a>
-                          ) : (
-                            <p className="text-xs text-muted-foreground">
-                              User not found
-                            </p>
-                          )}
-                        </td>
-                      )}
-                      {reportFor === "user" && (
-                        <td className={spacing.padding.md}>
-                          {report.reported_user_username ? (
-                            <a
-                              href={`/profile/${report.reported_user_username}`}
-                              onClick={(e) => {
-                                if (
-                                  !e.ctrlKey &&
-                                  !e.metaKey &&
-                                  e.button === 0
-                                ) {
-                                  e.preventDefault();
-                                  navigate(
-                                    `/profile/${report.reported_user_username}`,
-                                  );
-                                }
-                              }}
-                              className={combineTokens(
-                                "text-left hover:text-primary transition-colors block",
-                              )}
-                            >
-                              <p className={typography.weight.medium}>
-                                {report.reported_user_name}
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                @{report.reported_user_username}
-                              </p>
-                            </a>
-                          ) : (
-                            <p className="text-xs text-muted-foreground">
-                              User not found
-                            </p>
-                          )}
-                        </td>
-                      )}
-                      {reportFor === "user" && (
-                        <td className={spacing.padding.md}>
-                          {report.reported_by_username ? (
-                            <a
-                              href={`/profile/${report.reported_by_username}`}
-                              onClick={(e) => {
-                                if (
-                                  !e.ctrlKey &&
-                                  !e.metaKey &&
-                                  e.button === 0
-                                ) {
-                                  e.preventDefault();
-                                  navigate(
-                                    `/profile/${report.reported_by_username}`,
-                                  );
-                                }
-                              }}
-                              className={combineTokens(
-                                "text-left hover:text-primary transition-colors block",
-                              )}
-                            >
-                              <p className={typography.weight.medium}>
-                                {report.reported_by_name}
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                @{report.reported_by_username}
-                              </p>
-                            </a>
-                          ) : (
-                            <p className="text-xs text-muted-foreground">
-                              User not found
-                            </p>
-                          )}
-                        </td>
-                      )}
-                      <td className={spacing.padding.md}>
-                        <div className="flex flex-col gap-1">
-                          {reasons.length > 0 ? (
-                            reasons.map((reason, idx) => (
-                              <p
-                                key={idx}
-                                className="text-xs text-muted-foreground"
-                              >
-                                {reason}
-                              </p>
-                            ))
-                          ) : (
-                            <p className="text-xs text-muted-foreground">
-                              No reasons
-                            </p>
-                          )}
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <div className="flex items-center gap-2">
-                          <p>{report.assigned_to_name || "Unassigned"}</p>
-                          {report.reported_by_id !== currentUser?.id && (
-                            <Popover
-                              open={openPopoverId === report.id}
-                              onOpenChange={(open) =>
-                                setOpenPopoverId(open ? report.id : null)
-                              }
-                            >
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-6 w-6 p-0 border border-border hover:bg-accent"
-                                  title={
-                                    report.assigned_to === currentUser?.id
-                                      ? "Unassign report"
-                                      : "Assign report"
-                                  }
-                                >
-                                  {report.assigned_to === currentUser?.id ? (
-                                    <Minus className="h-4 w-4" />
-                                  ) : (
-                                    <Plus className="h-4 w-4" />
-                                  )}
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent side="left" className="w-40 p-2">
-                                <button
-                                  onClick={() =>
-                                    handleToggleAssignment(
-                                      report.id,
-                                      report.assigned_to !== currentUser?.id,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 text-sm text-left rounded hover:bg-accent"
-                                >
-                                  {report.assigned_to === currentUser?.id
-                                    ? "Unassign"
-                                    : "Assign to me"}
-                                </button>
-                              </PopoverContent>
-                            </Popover>
-                          )}
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <p className="text-xs text-muted-foreground">
-                          {formatDateForAdmin(report.created_at)}
-                        </p>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <p className="text-xs text-muted-foreground">
-                          {formatDateForAdmin(report.updated_at)}
-                        </p>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+      )}
 
-          <div className={combineTokens(layouts.flex.between, "mt-6")}>
-            <div className="text-sm text-muted-foreground">
-              Page {currentPage + 1} of {totalPages} ({totalReports} total
-              reports)
-            </div>
-            <div className={combineTokens(layouts.flex.start, "gap-2")}>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canPrevious}
-                onClick={() => {
-                  const newPage = Math.max(0, currentPage - 1);
-                  setCurrentPage(newPage);
-                  loadReports(newPage);
-                }}
-              >
-                <ChevronLeft className={spacing.dimensions.icon.sm} />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canNext}
-                onClick={() => {
-                  const newPage = Math.min(totalPages - 1, currentPage + 1);
-                  setCurrentPage(newPage);
-                  loadReports(newPage);
-                }}
-              >
-                <ChevronRight className={spacing.dimensions.icon.sm} />
-              </Button>
-            </div>
+      {!loading && reports.length > 0 && (
+        <div className={combineTokens(layouts.flex.between, "mt-6")}>
+          <div className="text-sm text-muted-foreground">
+            Page {currentPage + 1} of {totalPages} ({totalReports} total
+            reports)
           </div>
-        </>
+          <div className={combineTokens(layouts.flex.start, "gap-2")}>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canPrevious}
+              onClick={() => {
+                const newPage = Math.max(0, currentPage - 1);
+                setCurrentPage(newPage);
+                loadReports(newPage);
+              }}
+            >
+              <ChevronLeft className={spacing.dimensions.icon.sm} />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canNext}
+              onClick={() => {
+                const newPage = Math.min(totalPages - 1, currentPage + 1);
+                setCurrentPage(newPage);
+                loadReports(newPage);
+              }}
+            >
+              <ChevronRight className={spacing.dimensions.icon.sm} />
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   );

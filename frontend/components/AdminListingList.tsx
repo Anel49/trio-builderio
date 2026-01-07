@@ -52,6 +52,7 @@ export default function AdminListingList() {
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [search, setSearch] = useState("");
   const [lastSearchedTerm, setLastSearchedTerm] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
 
   const limit = 6;
   const offset = currentPage * limit;
@@ -83,6 +84,7 @@ export default function AdminListingList() {
       setTotalListings(data.total);
       setCurrentPage(0);
       setLastSearchedTerm(searchTrimmed);
+      setHasSearched(true);
     } catch (err: any) {
       setError(err.message || "Failed to load listings");
     } finally {
@@ -167,12 +169,10 @@ export default function AdminListingList() {
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
         </div>
-      ) : search.trim() !== lastSearchedTerm ? (
+      ) : !hasSearched ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">
-            {!search.trim()
-              ? "Search using a listing's title or its ID number."
-              : ""}
+            Search using a listing's title or its ID number.
           </p>
         </div>
       ) : listings.length === 0 ? (
