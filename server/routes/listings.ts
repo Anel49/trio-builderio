@@ -1340,7 +1340,8 @@ export async function getUserReservations(req: Request, res: Response) {
       postcode: r.postcode || null,
       reservation_number: r.reservation_number || null,
       number: r.number || null,
-      listingTimezone: r.timezone || "UTC",
+      timezone: r.timezone || r.listing_timezone || "UTC",
+      listingTimezone: r.listing_timezone || "UTC",
     }));
 
     console.log(
