@@ -1458,57 +1458,29 @@ export default function OrderHistory() {
                                   {order.most_recent_extension ? (
                                     <>
                                       <span className="line-through">
-                                        {parseDateString(
-                                          order.start_date,
-                                        ).toLocaleDateString("en-US", {
-                                          month: "short",
-                                          day: "numeric",
-                                          year: "numeric",
-                                        })}{" "}
-                                        -{" "}
-                                        {parseDateString(
-                                          order.end_date || "",
-                                        ).toLocaleDateString("en-US", {
-                                          month: "short",
-                                          day: "numeric",
-                                          year: "numeric",
-                                        })}
+                                        {formatDateRangeWithOffset(
+                                          parseDateString(order.start_date),
+                                          parseDateString(order.end_date || ""),
+                                          order.listing_timezone,
+                                        )}
                                       </span>
                                       <span className="font-medium text-foreground">
-                                        {parseDateString(
-                                          order.start_date,
-                                        ).toLocaleDateString("en-US", {
-                                          month: "short",
-                                          day: "numeric",
-                                          year: "numeric",
-                                        })}{" "}
-                                        -{" "}
-                                        {parseDateString(
-                                          order.most_recent_extension.end_date,
-                                        ).toLocaleDateString("en-US", {
-                                          month: "short",
-                                          day: "numeric",
-                                          year: "numeric",
-                                        })}
+                                        {formatDateRangeWithOffset(
+                                          parseDateString(order.start_date),
+                                          parseDateString(
+                                            order.most_recent_extension.end_date,
+                                          ),
+                                          order.listing_timezone,
+                                        )}
                                       </span>
                                     </>
                                   ) : (
                                     <>
-                                      {parseDateString(
-                                        order.start_date,
-                                      ).toLocaleDateString("en-US", {
-                                        month: "short",
-                                        day: "numeric",
-                                        year: "numeric",
-                                      })}{" "}
-                                      -{" "}
-                                      {parseDateString(
-                                        order.end_date || "",
-                                      ).toLocaleDateString("en-US", {
-                                        month: "short",
-                                        day: "numeric",
-                                        year: "numeric",
-                                      })}
+                                      {formatDateRangeWithOffset(
+                                        parseDateString(order.start_date),
+                                        parseDateString(order.end_date || ""),
+                                        order.listing_timezone,
+                                      )}
                                     </>
                                   )}
                                 </>
