@@ -507,6 +507,45 @@ export async function dbSetup(_req: Request, res: Response) {
       }
     }
 
+    // Add timezone column to listings table
+    try {
+      await pool.query(
+        `alter table listings add column if not exists timezone varchar(50)`,
+      );
+      console.log("[dbSetup] Added timezone column to listings");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] timezone column (listings) error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
+    // Add timezone column to orders table
+    try {
+      await pool.query(
+        `alter table orders add column if not exists timezone varchar(50)`,
+      );
+      console.log("[dbSetup] Added timezone column to orders");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] timezone column (orders) error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
+    // Add timezone column to reservations table
+    try {
+      await pool.query(
+        `alter table reservations add column if not exists timezone varchar(50)`,
+      );
+      console.log("[dbSetup] Added timezone column to reservations");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] timezone column (reservations) error:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
