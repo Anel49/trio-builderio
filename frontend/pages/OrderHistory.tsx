@@ -30,7 +30,10 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useAuth } from "@/contexts/AuthContext";
-import { formatDateRangeWithOffset } from "@/lib/timezone-utils";
+import {
+  formatDateRangeWithOffset,
+  formatDateRangeWithAbbreviation,
+} from "@/lib/timezone-utils";
 
 // Utility to parse dates without timezone conversion
 const parseDateString = (dateStr: string): Date => {
