@@ -544,14 +544,6 @@ export default function AdminClaimsList() {
         </table>
       </div>
 
-      {!loading && search.trim() !== lastSearchedTerm && search.trim() === "" && (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">
-            Search using a claim number, assigned technician, status, priority, or order ID...
-          </p>
-        </div>
-      )}
-
       {!loading && claims.length === 0 && search.trim() === lastSearchedTerm && (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No claims found</p>
