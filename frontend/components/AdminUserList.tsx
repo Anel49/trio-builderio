@@ -32,6 +32,24 @@ import {
   combineTokens,
 } from "@/lib/design-tokens";
 
+function formatDateForAdmin(dateStr: string): string {
+  const date = new Date(dateStr);
+  const month = date.toLocaleDateString("en-US", { month: "long" });
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const time = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const tz = date
+    .toLocaleTimeString("en-US", { timeZoneName: "short" })
+    .split(" ")
+    .pop();
+
+  return `${month} ${day}, ${year}, ${time} ${tz}`;
+}
+
 interface User {
   id: number;
   name: string | null;
