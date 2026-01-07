@@ -171,9 +171,11 @@ interface Reservation {
   modified_by_id?: number | string;
   created_at: string;
   listingTimezone?: string;
+  timezone?: string | null;
   extension_of?: number | null;
   postcode?: string | null;
   reservation_number?: string | null;
+  number?: number;
 }
 
 interface UserProfile {
