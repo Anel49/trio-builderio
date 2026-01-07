@@ -69,6 +69,17 @@ function toTitleCase(str: string): string {
     .join(" ");
 }
 
+const CLAIM_STATUSES = [
+  "submitted",
+  "under review",
+  "awaiting customer response",
+  "reimbursement pending",
+  "legal action",
+  "canceled",
+  "rejected",
+  "resolved",
+];
+
 export default function AdminClaimsList() {
   const { user: currentUser } = useAuth();
   const [claims, setClaims] = useState<Claim[]>([]);
@@ -80,6 +91,7 @@ export default function AdminClaimsList() {
   const [totalClaims, setTotalClaims] = useState(0);
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
   const [showCompleted, setShowCompleted] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("");
 
   const limit = 6;
   const offset = currentPage * limit;
@@ -109,6 +121,7 @@ export default function AdminClaimsList() {
         show_completed: showCompletedValue.toString(),
       });
       if (search.trim()) params.append("search", search.trim());
+      if (statusFilter) params.append("status", statusFilter);
 
       const url = `/admin/claims?${params.toString()}`;
       console.log("[AdminClaimsList] Fetching:", url);
