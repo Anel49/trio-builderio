@@ -1971,12 +1971,14 @@ export async function getUserOrders(req: Request, res: Response) {
               o.extension_of, o.listing_postcode, o.review_id,
               h.username as host_username, h.avatar_url as host_avatar_url,
               r.username as renter_username, r.avatar_url as renter_avatar_url,
+              l.timezone as listing_timezone,
               ext.id as extension_id, ext.start_date as extension_start_date,
               ext.end_date as extension_end_date, ext.status as extension_status,
               ext.created_at as extension_created_at
        from orders o
        left join users h on o.host_id = h.id
        left join users r on o.renter_id = r.id
+       left join listings l on o.listing_id = l.id
        left join lateral (
          select id, start_date, end_date, status, created_at
          from orders
