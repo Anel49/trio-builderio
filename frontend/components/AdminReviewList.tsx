@@ -74,6 +74,7 @@ export default function AdminReviewList() {
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [lastSearchedTerm, setLastSearchedTerm] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
   const [reviewType, setReviewType] = useState<"listing" | "user">("listing");
@@ -91,7 +92,7 @@ export default function AdminReviewList() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (lastSearchedTerm !== undefined && lastSearchedTerm !== null) {
+    if (hasSearched) {
       loadReviews();
     }
   }, [currentPage, reviewType]);
@@ -101,6 +102,7 @@ export default function AdminReviewList() {
 
     setCurrentPage(0);
     setLastSearchedTerm(search);
+    setHasSearched(true);
     loadReviews();
   };
 
@@ -205,6 +207,7 @@ export default function AdminReviewList() {
             setCurrentPage(0);
             setSearch("");
             setLastSearchedTerm("");
+            setHasSearched(false);
           }}
         >
           <TabsList className="grid w-full grid-cols-2">
