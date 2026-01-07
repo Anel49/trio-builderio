@@ -24,7 +24,7 @@ import {
   getOffsetFromTimezone,
 } from "@/lib/timezone-utils";
 
-const ORDER_STATUSES = ["pending", "active", "completed", "canceled"];
+const ORDER_STATUSES = ["upcoming", "pending", "active", "completed", "canceled"];
 
 function getOffsetLabel(timezone: string | undefined, date: Date): string {
   if (!timezone) {
