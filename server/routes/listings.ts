@@ -1543,6 +1543,7 @@ export async function createReservation(req: Request, res: Response) {
         nonconsumable_addon_total: reservation.nonconsumable_addon_total,
         addons: reservation.addons,
         created_at: reservation.created_at,
+        timezone: reservation.timezone || listingTimezone,
         listingTimezone,
         reservation_number: reservationNumber,
       },
