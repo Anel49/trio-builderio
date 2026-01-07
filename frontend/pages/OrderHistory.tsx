@@ -133,6 +133,7 @@ interface Order {
   created_at?: string;
   extension_of?: number | null;
   listing_postcode?: string | null;
+  listing_timezone?: string | null;
   most_recent_extension?: {
     id: number;
     start_date: string;
