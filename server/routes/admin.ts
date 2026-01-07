@@ -298,7 +298,7 @@ export async function listAllOrders(req: Request, res: Response) {
     const showCompleted = (req.query.show_completed as string) === "true";
 
     let query =
-      "select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email, o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at, coalesce((l.timezone::jsonb->>'name')::text, 'UTC') as timezone_name from orders o left join listings l on o.listing_id = l.id";
+      "select o.id, o.listing_id, o.listing_title, o.renter_id, o.renter_name, o.renter_email, o.host_id, o.host_name, o.host_email, o.start_date, o.end_date, o.status, o.created_at, coalesce(l.timezone, 'UTC') as timezone_name from orders o left join listings l on o.listing_id = l.id";
 
     const params: (string | number)[] = [];
     const whereClauses: string[] = [];
@@ -315,7 +315,7 @@ export async function listAllOrders(req: Request, res: Response) {
     if (overdueOnly) {
       whereClauses.push(`o.status = 'active'`);
       whereClauses.push(
-        `(now() at time zone coalesce((l.timezone::jsonb->>'name')::text, 'UTC'))::date >= (o.end_date::date + interval '3 days')`,
+        `(now() at time zone coalesce(l.timezone, 'UTC'))::date >= (o.end_date::date + interval '3 days')`,
       );
     }
 
@@ -348,7 +348,7 @@ export async function listAllOrders(req: Request, res: Response) {
     if (overdueOnly) {
       countWhereClauses.push(`o.status = 'active'`);
       countWhereClauses.push(
-        `(now() at time zone coalesce((l.timezone::jsonb->>'name')::text, 'UTC'))::date >= (o.end_date::date + interval '3 days')`,
+        `(now() at time zone coalesce(l.timezone, 'UTC'))::date >= (o.end_date::date + interval '3 days')`,
       );
     }
 
