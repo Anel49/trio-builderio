@@ -225,7 +225,7 @@ export async function getLocationDataFromCoordinates(
       county: result.county || null,
       city: result.city || null,
       postcode: result.postcode || null,
-      timezone: result.timezone ? JSON.stringify(result.timezone) : null,
+      timezone: result.timezone?.name || null,
       address: result.formatted || null,
     };
 
