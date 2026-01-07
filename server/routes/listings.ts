@@ -1297,8 +1297,8 @@ export async function getUserReservations(req: Request, res: Response) {
               r.start_date, r.end_date, r.listing_title, r.listing_image,
               r.listing_latitude, r.listing_longitude, r.daily_price_cents, r.total_days,
               r.rental_type, r.status, r.consumable_addon_total, r.nonconsumable_addon_total, r.addons, r.created_at, r.new_dates_proposed,
-              r.extension_of, r.modified_by_id, r.postcode, r.reservation_number, r.number,
-              l.timezone
+              r.extension_of, r.modified_by_id, r.postcode, r.reservation_number, r.number, r.timezone,
+              l.timezone as listing_timezone
        from reservations r
        left join listings l on r.listing_id = l.id
        where r.renter_id = $1 or r.host_id = $1
