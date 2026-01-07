@@ -108,18 +108,19 @@ export default function AdminReviewList() {
 
   const loadReviews = async (
     pageNum: number = currentPage,
-    searchTerm: string = lastSearchedTerm,
+    searchTerm?: string,
   ) => {
     setLoading(true);
     setError(null);
     try {
       const pageOffset = pageNum * limit;
+      const finalSearchTerm = searchTerm !== undefined ? searchTerm : lastSearchedTerm;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: pageOffset.toString(),
         review_type: reviewType,
       });
-      if (searchTerm) params.append("search", searchTerm);
+      if (finalSearchTerm) params.append("search", finalSearchTerm);
 
       const url = `/admin/reviews?${params.toString()}`;
       console.log("[AdminReviewList] Fetching:", url);
