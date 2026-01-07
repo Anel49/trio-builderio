@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
+import PgSession from "connect-pg-simple";
 import {
   generateRegistrationOptions,
   verifyRegistrationResponse,
