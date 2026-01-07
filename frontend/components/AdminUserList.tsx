@@ -376,6 +376,11 @@ export default function AdminUserList({
                         <X className="h-5 w-5 text-red-600" />
                       )}
                     </td>
+                    <td className={spacing.padding.md}>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDateForAdmin(user.createdAt)}
+                      </p>
+                    </td>
                   </tr>
                 );
               })
