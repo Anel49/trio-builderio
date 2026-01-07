@@ -1461,14 +1461,14 @@ export default function OrderHistory() {
                                   {order.most_recent_extension ? (
                                     <>
                                       <span className="line-through">
-                                        {formatDateRangeWithOffset(
+                                        {formatDateRangeWithAbbreviation(
                                           parseDateString(order.start_date),
                                           parseDateString(order.end_date || ""),
                                           order.listing_timezone,
                                         )}
                                       </span>
                                       <span className="font-medium text-foreground">
-                                        {formatDateRangeWithOffset(
+                                        {formatDateRangeWithAbbreviation(
                                           parseDateString(order.start_date),
                                           parseDateString(
                                             order.most_recent_extension.end_date,
@@ -1479,7 +1479,7 @@ export default function OrderHistory() {
                                     </>
                                   ) : (
                                     <>
-                                      {formatDateRangeWithOffset(
+                                      {formatDateRangeWithAbbreviation(
                                         parseDateString(order.start_date),
                                         parseDateString(order.end_date || ""),
                                         order.listing_timezone,
