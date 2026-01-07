@@ -288,7 +288,7 @@ export default function AdminOrderList() {
                           <p>
                             {format(startDate, "MMM dd, yyyy")} -{" "}
                             {format(endDate, "MMM dd, yyyy")} (
-                            {getUTCOffsetLabel(order.timezone_name)})
+                            {getOffsetLabel(order.timezone_name, startDate)})
                           </p>
                         </div>
                       </td>
