@@ -1,19 +1,26 @@
 /**
- * Extract timezone name from JSON string
- * @param timezoneJson - Stringified JSON from Geoapify API
+ * Extract timezone name from JSON string or timezone name string
+ * @param timezone - Stringified JSON from Geoapify API or plain timezone name
  * @returns Timezone name (e.g., "America/Chicago") or "UTC"
  */
-export function extractTimezoneName(timezoneJson: string | null): string {
-  if (!timezoneJson) {
+export function extractTimezoneName(timezone: string | null): string {
+  if (!timezone) {
     return "UTC";
   }
 
   try {
-    const parsed = JSON.parse(timezoneJson);
-    return typeof parsed.name === "string" ? parsed.name : "UTC";
+    const parsed = JSON.parse(timezone);
+    if (typeof parsed.name === "string") {
+      return parsed.name;
+    }
   } catch {
-    return "UTC";
+    // Not JSON, might be plain timezone name string
+    if (timezone.includes("/") || timezone === "UTC") {
+      return timezone;
+    }
   }
+
+  return "UTC";
 }
 
 /**
