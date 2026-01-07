@@ -89,3 +89,64 @@ export function formatDateRangeWithOffset(
 
   return `${startFormatted} - ${endFormatted} (${offset})`;
 }
+
+/**
+ * Get timezone abbreviation (letter abbreviation like EST, CST, etc.)
+ * Uses Intl API to get the short timezone name
+ * @param timezoneName - IANA timezone name (e.g., "America/Chicago")
+ * @param date - Date to check for DST status
+ * @returns Timezone abbreviation (e.g., "EST", "CST", "EET")
+ */
+export function getTimezoneName(
+  timezoneName: string,
+  date: Date,
+): string {
+  if (!timezoneName || timezoneName === "UTC") {
+    return "UTC";
+  }
+
+  try {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: timezoneName,
+      timeZoneName: "short",
+    });
+
+    const parts = formatter.formatToParts(date);
+    const timezonePart = parts.find((p) => p.type === "timeZoneName");
+
+    if (timezonePart) {
+      return timezonePart.value;
+    }
+  } catch (e) {
+    // Invalid timezone name
+  }
+
+  return "UTC";
+}
+
+/**
+ * Format date range with timezone abbreviation (for user-facing display)
+ * @param startDate - Start date
+ * @param endDate - End date
+ * @param timezone - Timezone JSON string or name
+ * @returns Formatted string (e.g., "Dec 25, 2025 - Dec 28, 2025 EST")
+ */
+export function formatDateRangeWithAbbreviation(
+  startDate: Date,
+  endDate: Date,
+  timezone: string | null,
+): string {
+  const timezoneName = extractTimezoneName(timezone);
+  const abbreviation = getTimezoneName(timezoneName, startDate);
+
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+  });
+
+  const startFormatted = formatter.format(startDate);
+  const endFormatted = formatter.format(endDate);
+
+  return `${startFormatted} - ${endFormatted} ${abbreviation}`;
+}
