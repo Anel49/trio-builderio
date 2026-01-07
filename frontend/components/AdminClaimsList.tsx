@@ -319,7 +319,40 @@ export default function AdminClaimsList() {
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
                   >
-                    Status
+                    <div className="flex items-center gap-2">
+                      <span>Status</span>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-5 w-5 p-0"
+                            title="Filter by status"
+                          >
+                            <ChevronDown className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start">
+                          <DropdownMenuRadioGroup
+                            value={statusFilter}
+                            onValueChange={(newStatus) => {
+                              setStatusFilter(newStatus);
+                              setCurrentPage(0);
+                              loadClaims(0, showCompleted);
+                            }}
+                          >
+                            <DropdownMenuRadioItem value="">
+                              All Statuses
+                            </DropdownMenuRadioItem>
+                            {CLAIM_STATUSES.map((status) => (
+                              <DropdownMenuRadioItem key={status} value={status}>
+                                {toTitleCase(status)}
+                              </DropdownMenuRadioItem>
+                            ))}
+                          </DropdownMenuRadioGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </th>
                   <th
                     className={combineTokens(spacing.padding.md, "text-left")}
