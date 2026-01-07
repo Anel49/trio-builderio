@@ -222,141 +222,145 @@ export default function AdminOrderList() {
         </label>
       </div>
 
-      {loading ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <Loader2 className="animate-spin" />
-        </div>
-      ) : search.trim() !== lastSearchedTerm ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">
-            {!search.trim() ? "Search using a listing name..." : ""}
-          </p>
-        </div>
-      ) : orders.length === 0 ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">No orders found</p>
-        </div>
-      ) : (
-        <>
-          <div className="overflow-x-auto themed-scrollbar">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Listing
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Renter
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Dates
-                  </th>
-                  <th
-                    className={combineTokens(spacing.padding.md, "text-left")}
-                  >
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => {
-                  const isUpdating = updatingIds.has(order.id);
-                  const startDate = new Date(order.start_date);
-                  const endDate = new Date(order.end_date);
-
-                  return (
-                    <tr key={order.id} className="border-b hover:bg-muted/50">
-                      <td className={spacing.padding.md}>
-                        <div>
-                          <p className={typography.weight.medium}>
-                            {order.listing_title}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            ID: {order.listing_id}
-                          </p>
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <div>
-                          <p className={typography.weight.medium}>
-                            {order.renter_name}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {order.renter_email}
-                          </p>
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <div className="text-xs">
-                          <p>
-                            {format(startDate, "MMM dd, yyyy")} -{" "}
-                            {format(endDate, "MMM dd, yyyy")} (
-                            {getOffsetLabel(order.timezone_name, startDate)})
-                          </p>
-                        </div>
-                      </td>
-                      <td className={spacing.padding.md}>
-                        <Select
-                          value={order.status}
-                          disabled={isUpdating}
-                          onValueChange={(newStatus) =>
-                            handleStatusChange(order.id, newStatus)
-                          }
-                        >
-                          <SelectTrigger className="w-36">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {ORDER_STATUSES.map((status) => (
-                              <SelectItem key={status} value={status}>
-                                {status.charAt(0).toUpperCase() +
-                                  status.slice(1)}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          <div className={combineTokens(layouts.flex.between, "mt-6")}>
-            <div className="text-sm text-muted-foreground">
-              Page {currentPage + 1} of {totalPages} ({totalOrders} total
-              orders)
-            </div>
-            <div className={combineTokens(layouts.flex.start, "gap-2")}>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canPrevious}
-                onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+      <div className="overflow-x-auto themed-scrollbar">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b">
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
               >
-                <ChevronLeft className={spacing.dimensions.icon.sm} />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canNext}
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
-                }
+                Listing
+              </th>
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
               >
-                <ChevronRight className={spacing.dimensions.icon.sm} />
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
+                Renter
+              </th>
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
+              >
+                Dates
+              </th>
+              <th
+                className={combineTokens(spacing.padding.md, "text-left")}
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={4} className={combineTokens(layouts.flex.center, "py-12")}>
+                  <Loader2 className="animate-spin" />
+                </td>
+              </tr>
+            ) : search.trim() !== lastSearchedTerm ? (
+              <tr>
+                <td colSpan={4} className={combineTokens(layouts.flex.center, "py-12")}>
+                  <p className="text-muted-foreground">
+                    {!search.trim() ? "Search using a listing name..." : ""}
+                  </p>
+                </td>
+              </tr>
+            ) : orders.length === 0 ? (
+              <tr>
+                <td colSpan={4} className={combineTokens(layouts.flex.center, "py-12")}>
+                  <p className="text-muted-foreground">No orders found</p>
+                </td>
+              </tr>
+            ) : (
+              orders.map((order) => {
+                const isUpdating = updatingIds.has(order.id);
+                const startDate = new Date(order.start_date);
+                const endDate = new Date(order.end_date);
+
+                return (
+                  <tr key={order.id} className="border-b hover:bg-muted/50">
+                    <td className={spacing.padding.md}>
+                      <div>
+                        <p className={typography.weight.medium}>
+                          {order.listing_title}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          ID: {order.listing_id}
+                        </p>
+                      </div>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <div>
+                        <p className={typography.weight.medium}>
+                          {order.renter_name}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {order.renter_email}
+                        </p>
+                      </div>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <div className="text-xs">
+                        <p>
+                          {format(startDate, "MMM dd, yyyy")} -{" "}
+                          {format(endDate, "MMM dd, yyyy")} (
+                          {getOffsetLabel(order.timezone_name, startDate)})
+                        </p>
+                      </div>
+                    </td>
+                    <td className={spacing.padding.md}>
+                      <Select
+                        value={order.status}
+                        disabled={isUpdating}
+                        onValueChange={(newStatus) =>
+                          handleStatusChange(order.id, newStatus)
+                        }
+                      >
+                        <SelectTrigger className="w-36">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ORDER_STATUSES.map((status) => (
+                            <SelectItem key={status} value={status}>
+                              {status.charAt(0).toUpperCase() +
+                                status.slice(1)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className={combineTokens(layouts.flex.between, "mt-6")}>
+        <div className="text-sm text-muted-foreground">
+          Page {currentPage + 1} of {totalPages} ({totalOrders} total
+          orders)
+        </div>
+        <div className={combineTokens(layouts.flex.start, "gap-2")}>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={!canPrevious}
+            onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+          >
+            <ChevronLeft className={spacing.dimensions.icon.sm} />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={!canNext}
+            onClick={() =>
+              setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
+            }
+          >
+            <ChevronRight className={spacing.dimensions.icon.sm} />
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
