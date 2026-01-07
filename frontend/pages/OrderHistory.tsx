@@ -1372,16 +1372,26 @@ export default function OrderHistory() {
                           Order Placed
                         </p>
                         <p className="text-[1rem] font-bold text-foreground">
-                          {order.created_at
-                            ? new Date(order.created_at).toLocaleDateString(
+                          {order.created_at ? (
+                            <>
+                              {new Date(order.created_at).toLocaleDateString(
                                 "en-US",
                                 {
                                   month: "long",
                                   day: "numeric",
                                   year: "numeric",
                                 },
-                              )
-                            : "N/A"}
+                              )}{" "}
+                              <span className="text-muted-foreground">
+                                {getTimezoneName(
+                                  extractTimezoneName(order.listing_timezone),
+                                  new Date(order.created_at),
+                                )}
+                              </span>
+                            </>
+                          ) : (
+                            "N/A"
+                          )}
                         </p>
                       </div>
 
