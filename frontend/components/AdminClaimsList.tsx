@@ -106,6 +106,7 @@ export default function AdminClaimsList() {
   const loadClaims = async (
     pageNum: number = currentPage,
     showCompletedOverride?: boolean,
+    statusFilterParam?: string,
   ) => {
     setLoading(true);
     setError(null);
@@ -115,13 +116,14 @@ export default function AdminClaimsList() {
         showCompletedOverride !== undefined
           ? showCompletedOverride
           : showCompleted;
+      const statusValue = statusFilterParam !== undefined ? statusFilterParam : statusFilter;
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
         show_completed: showCompletedValue.toString(),
       });
       if (search.trim()) params.append("search", search.trim());
-      if (statusFilter) params.append("status", statusFilter);
+      if (statusValue) params.append("status", statusValue);
 
       const url = `/admin/claims?${params.toString()}`;
       console.log("[AdminClaimsList] Fetching:", url);
@@ -338,7 +340,7 @@ export default function AdminClaimsList() {
                             onValueChange={(newStatus) => {
                               setStatusFilter(newStatus);
                               setCurrentPage(0);
-                              loadClaims(0, showCompleted);
+                              loadClaims(0, showCompleted, newStatus);
                             }}
                           >
                             <DropdownMenuRadioItem value="">
