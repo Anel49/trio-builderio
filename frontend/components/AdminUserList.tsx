@@ -390,7 +390,7 @@ export default function AdminUserList({
                     </td>
                     <td className={spacing.padding.md}>
                       <p className="text-xs text-muted-foreground">
-                        {formatDateForAdmin(user.createdAt)}
+                        {formatDateUTC(user.createdAt)}
                       </p>
                     </td>
                   </tr>
