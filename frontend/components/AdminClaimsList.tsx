@@ -26,7 +26,7 @@ import {
 } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import { ChevronDown, Plus, Minus } from "lucide-react";
+import { ChevronDown, Plus, Minus, Filter } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
