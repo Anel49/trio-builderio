@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -6,23 +6,82 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { X } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { apiFetch } from "@/lib/api";
 
 interface ReportDetailsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  report: any;
+  reportId: number;
+  reportFor: string;
 }
 
 export function AdminReportDetailsModal({
   open,
   onOpenChange,
-  report,
+  reportId,
+  reportFor,
 }: ReportDetailsModalProps) {
-  if (!report) return null;
+  const [report, setReport] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const snapshot = report.reported_content_snapshot;
-  if (!snapshot) {
+  useEffect(() => {
+    if (!open) return;
+
+    const fetchReportDetails = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await apiFetch(`/admin/reports/${reportId}/details`);
+        const data = await response.json();
+        if (data.ok && data.report) {
+          setReport(data.report);
+        } else {
+          setError(data.error || "Failed to load report details");
+        }
+      } catch (err: any) {
+        setError(err.message || "Failed to load report details");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReportDetails();
+  }, [open, reportId]);
+
+  const snapshot = report?.reported_content_snapshot;
+  const isListing = reportFor === "listing";
+
+  if (loading) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Report Details</DialogTitle>
+          </DialogHeader>
+          <div className="flex items-center justify-center py-8">
+            <Loader2 className="animate-spin" />
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  if (error) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Report Details</DialogTitle>
+          </DialogHeader>
+          <p className="text-destructive">{error}</p>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  if (!report || !snapshot) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="max-w-2xl">
@@ -34,8 +93,6 @@ export function AdminReportDetailsModal({
       </Dialog>
     );
   }
-
-  const isListing = report.report_for === "listing";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
