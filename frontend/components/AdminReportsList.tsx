@@ -752,6 +752,14 @@ export default function AdminReportsList({
           reportingUserName={selectedReportForChat.reported_by_name}
         />
       )}
+
+      {selectedReportForDetails && (
+        <AdminReportDetailsModal
+          open={detailsModalOpen}
+          onOpenChange={setDetailsModalOpen}
+          report={selectedReportForDetails}
+        />
+      )}
     </div>
   );
 }
