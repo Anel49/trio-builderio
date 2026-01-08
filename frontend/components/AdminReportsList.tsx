@@ -420,7 +420,8 @@ export default function AdminReportsList({
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => {
-                            setSelectedReportForDetails(report);
+                            setSelectedReportIdForDetails(report.id);
+                            setSelectedReportForForDetails(report.report_for);
                             setDetailsModalOpen(true);
                           }}
                           className={cn(
