@@ -167,7 +167,7 @@ export function formatUTCDateTime(dateString: string | Date): string {
       timeZone: "UTC",
     });
 
-    return formatter.format(date);
+    return formatter.format(date).replace(/,/g, "");
   } catch {
     return "Invalid date";
   }
