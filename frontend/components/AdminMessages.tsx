@@ -425,10 +425,7 @@ export default function AdminMessages() {
                             : "text-muted-foreground"
                         }`}
                       >
-                        {new Date(message.createdAt).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
+                        {formatUTCDateTime(message.createdAt)}
                       </p>
                     </div>
                   </div>
