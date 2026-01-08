@@ -28,11 +28,9 @@ interface Message {
 interface AdminReportChatModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  reportedUserId: number;
-  reportingUserId: number;
+  reportId: number;
   reportedUserName: string | null;
   reportingUserName: string | null;
-  currentUserId: number;
 }
 
 export function AdminReportChatModal({
