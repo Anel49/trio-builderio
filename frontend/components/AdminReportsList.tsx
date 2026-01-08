@@ -30,6 +30,8 @@ import {
   combineTokens,
 } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
+import { AdminReportChatModal } from "./AdminReportChatModal";
+import { MessageCircle } from "lucide-react";
 
 interface Report {
   id: number;
