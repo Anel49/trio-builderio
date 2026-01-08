@@ -1221,6 +1221,11 @@ export function createServer() {
     requireModeratorOrAdmin,
     updateReportStatus,
   );
+  app.get(
+    "/api/admin/reports/:reportId/conversation",
+    requireModeratorOrAdmin,
+    getReportConversation,
+  );
 
   // Admin route aliases (without /api prefix)
   app.get("/admin/users", requireAdmin, listAllUsers);
