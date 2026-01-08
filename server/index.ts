@@ -1274,6 +1274,11 @@ export function createServer() {
     requireModeratorOrAdmin,
     getReportConversation,
   );
+  app.get(
+    "/admin/reports/:reportId/details",
+    requireModeratorOrAdmin,
+    getReportDetails,
+  );
 
   // Feedback
   app.get("/api/admin/feedback", requireModeratorOrAdmin, listAllFeedback);
