@@ -86,6 +86,7 @@ export function AdminReportChatModal({
           body: msg.body,
           createdAt: msg.createdAt,
           messageThreadId: msg.messageThreadId,
+          senderName: msg.senderName || "Unknown",
           isFromCurrentUser: msg.isFromCurrentUser,
         })
       );
