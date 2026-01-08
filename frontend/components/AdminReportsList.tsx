@@ -31,6 +31,7 @@ import {
 } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 import { AdminReportChatModal } from "./AdminReportChatModal";
+import { AdminReportDetailsModal } from "./AdminReportDetailsModal";
 import { MessageCircle } from "lucide-react";
 
 interface Report {
@@ -51,6 +52,7 @@ interface Report {
   reported_listing_name: string | null;
   reported_listing_id: number | null;
   reported_by_id: number | null;
+  reported_content_snapshot?: any;
 }
 
 function formatDateForAdmin(dateStr: string): string {
