@@ -115,6 +115,9 @@ export default function AdminReportsList({
   );
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
   const [showCompleted, setShowCompleted] = useState(false);
+  const [chatModalOpen, setChatModalOpen] = useState(false);
+  const [selectedReportForChat, setSelectedReportForChat] =
+    useState<Report | null>(null);
 
   const limit = 6;
   const offset = currentPage * limit;
