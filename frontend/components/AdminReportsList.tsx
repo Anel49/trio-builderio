@@ -52,7 +52,6 @@ interface Report {
   reported_listing_name: string | null;
   reported_listing_id: number | null;
   reported_by_id: number | null;
-  reported_content_snapshot?: any;
 }
 
 function formatDateForAdmin(dateStr: string): string {
