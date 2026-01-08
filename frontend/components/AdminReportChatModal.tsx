@@ -161,12 +161,7 @@ export function AdminReportChatModal({
                           : "text-muted-foreground"
                       }`}
                     >
-                      <p>
-                        {new Date(message.createdAt).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </p>
+                      <p>{formatUTCDateTime(message.createdAt)}</p>
                       <p>{message.senderName}</p>
                     </div>
                   </div>
