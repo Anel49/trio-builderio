@@ -1280,3 +1280,101 @@ export async function updateFeedbackStatus(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function getReportConversation(req: Request, res: Response) {
+  try {
+    const reportId = Number.parseInt((req.params.reportId as string) || "", 10);
+    const currentUser = (req.session as any)?.user;
+
+    if (!Number.isFinite(reportId)) {
+      return res.status(400).json({ ok: false, error: "Invalid report ID" });
+    }
+
+    if (!currentUser?.moderator && !currentUser?.admin) {
+      return res.status(403).json({
+        ok: false,
+        error: "Only moderators and admins can view reports",
+      });
+    }
+
+    // Get the report
+    const reportResult = await pool.query(
+      `select id, reported_by_id, reported_id, assigned_to from reports where id = $1`,
+      [reportId]
+    );
+
+    if (!reportResult.rowCount) {
+      return res.status(404).json({ ok: false, error: "Report not found" });
+    }
+
+    const report = reportResult.rows[0];
+
+    // Check if the report is assigned to the current user
+    if (report.assigned_to !== currentUser.id) {
+      return res.status(403).json({
+        ok: false,
+        error: "This report is not assigned to you",
+      });
+    }
+
+    const userId1 = report.reported_by_id;
+    const userId2 = report.reported_id;
+
+    if (!userId1 || !userId2) {
+      return res.status(400).json({
+        ok: false,
+        error: "Report missing user IDs",
+      });
+    }
+
+    // Find the message thread between these two users
+    const threadResult = await pool.query(
+      `
+      select id from message_threads
+      where (user_a_id = $1 and user_b_id = $2)
+         or (user_a_id = $2 and user_b_id = $1)
+      limit 1
+      `,
+      [userId1, userId2]
+    );
+
+    if (!threadResult.rowCount) {
+      // No thread exists yet
+      return res.json({ ok: true, messages: [] });
+    }
+
+    const threadId = threadResult.rows[0].id;
+
+    // Get all messages from this thread
+    const messagesResult = await pool.query(
+      `
+      select
+        id,
+        sender_id,
+        to_id,
+        body,
+        created_at,
+        message_thread_id
+      from messages
+      where message_thread_id = $1
+      order by created_at asc
+      `,
+      [threadId]
+    );
+
+    const messages = messagesResult.rows.map((r: any) => ({
+      id: r.id,
+      senderId: r.sender_id,
+      toId: r.to_id,
+      body: r.body,
+      createdAt: r.created_at,
+      messageThreadId: r.message_thread_id,
+      isFromCurrentUser: r.sender_id === userId1, // From the reporting user's perspective
+    }));
+
+    res.json({ ok: true, messages });
+  } catch (error: any) {
+    console.error("[getReportConversation] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
