@@ -121,8 +121,10 @@ export default function AdminReportsList({
   const [selectedReportForChat, setSelectedReportForChat] =
     useState<Report | null>(null);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
-  const [selectedReportForDetails, setSelectedReportForDetails] =
-    useState<Report | null>(null);
+  const [selectedReportIdForDetails, setSelectedReportIdForDetails] =
+    useState<number | null>(null);
+  const [selectedReportForForDetails, setSelectedReportForForDetails] =
+    useState<string>("");
 
   const limit = 6;
   const offset = currentPage * limit;
