@@ -54,6 +54,7 @@ import {
   listAllFeedback,
   assignFeedbackToUser,
   updateFeedbackStatus,
+  getReportConversation,
 } from "./routes/admin";
 import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
 import {
