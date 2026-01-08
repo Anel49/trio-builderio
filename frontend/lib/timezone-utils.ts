@@ -147,3 +147,28 @@ export function formatDateRangeWithAbbreviation(
 
   return `${startFormatted} - ${endFormatted} ${abbreviation}`;
 }
+
+/**
+ * Format date-time in UTC as "Jan 8 2025 10:48 PM"
+ * @param dateString - ISO date string or Date object
+ * @returns Formatted string (e.g., "Jan 8 2025 10:48 PM")
+ */
+export function formatUTCDateTime(dateString: string | Date): string {
+  try {
+    const date = typeof dateString === "string" ? new Date(dateString) : dateString;
+
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "UTC",
+    });
+
+    return formatter.format(date);
+  } catch {
+    return "Invalid date";
+  }
+}
