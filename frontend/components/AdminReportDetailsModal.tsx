@@ -96,7 +96,7 @@ export function AdminReportDetailsModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto themed-scrollbar">
         <DialogHeader>
           <DialogTitle>Report Details</DialogTitle>
         </DialogHeader>
