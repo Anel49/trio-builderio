@@ -416,11 +416,18 @@ export default function AdminReportsList({
                   <tr key={report.id} className="border-b hover:bg-muted/50">
                     <td className={spacing.padding.md}>
                       <div className="flex items-center gap-2">
-                        <span
-                          className={cn(typography.weight.medium, "text-primary")}
+                        <button
+                          onClick={() => {
+                            setSelectedReportForDetails(report);
+                            setDetailsModalOpen(true);
+                          }}
+                          className={cn(
+                            typography.weight.medium,
+                            "text-primary hover:underline cursor-pointer",
+                          )}
                         >
                           {report.report_number || "N/A"}
-                        </span>
+                        </button>
                         {reportFor === "user" &&
                           report.assigned_to === currentUser?.id &&
                           report.reported_by_id && (
