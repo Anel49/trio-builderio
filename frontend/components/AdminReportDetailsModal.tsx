@@ -164,13 +164,19 @@ export function AdminReportDetailsModal({
                   <p className="font-semibold text-sm">Images</p>
                   <div className="grid grid-cols-2 gap-3">
                     {snapshot.bucket_urls.map((url: string, idx: number) => (
-                      <div key={idx} className="rounded border border-border overflow-hidden">
+                      <a
+                        key={idx}
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded border border-border overflow-hidden hover:opacity-80 transition-opacity cursor-pointer"
+                      >
                         <img
                           src={url}
                           alt={`Listing image ${idx + 1}`}
                           className="w-full h-32 object-cover"
                         />
-                      </div>
+                      </a>
                     ))}
                   </div>
                 </div>
