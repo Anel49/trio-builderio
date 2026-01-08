@@ -1345,19 +1345,21 @@ export async function getReportConversation(req: Request, res: Response) {
 
     const threadId = threadResult.rows[0].id;
 
-    // Get all messages from this thread
+    // Get all messages from this thread with sender names
     const messagesResult = await pool.query(
       `
       select
-        id,
-        sender_id,
-        to_id,
-        body,
-        created_at,
-        message_thread_id
-      from messages
-      where message_thread_id = $1
-      order by created_at asc
+        m.id,
+        m.sender_id,
+        m.to_id,
+        m.body,
+        m.created_at,
+        m.message_thread_id,
+        u.name as sender_name
+      from messages m
+      left join users u on m.sender_id = u.id
+      where m.message_thread_id = $1
+      order by m.created_at asc
       `,
       [threadId]
     );
@@ -1369,6 +1371,7 @@ export async function getReportConversation(req: Request, res: Response) {
       body: r.body,
       createdAt: r.created_at,
       messageThreadId: r.message_thread_id,
+      senderName: r.sender_name || "Unknown",
       isFromCurrentUser: r.sender_id === userId1, // From the reporting user's perspective
     }));
 
