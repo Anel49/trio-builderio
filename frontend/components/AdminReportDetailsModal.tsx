@@ -162,7 +162,7 @@ export function AdminReportDetailsModal({
               </div>
 
               {snapshot.bucket_urls && snapshot.bucket_urls.length > 0 && (
-                <div className="space-y-2 border-t pt-6">
+                <div className="space-y-2">
                   <p className="font-semibold text-sm">Images</p>
                   <div className="grid grid-cols-2 gap-3">
                     {snapshot.bucket_urls.map((url: string, idx: number) => (
