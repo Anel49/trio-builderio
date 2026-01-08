@@ -71,7 +71,7 @@ export function AdminReportDetailsModal({
   if (error) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl themed-scrollbar">
           <DialogHeader>
             <DialogTitle>Report Details</DialogTitle>
           </DialogHeader>
