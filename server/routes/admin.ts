@@ -798,8 +798,7 @@ export async function listAllReports(req: Request, res: Response) {
               u.name as assigned_to_name, r.created_at, r.updated_at, r.report_for, r.reported_id,
               ru.name as reported_user_name, ru.username as reported_user_username,
               rb.name as reported_by_name, rb.username as reported_by_username,
-              l.name as reported_listing_name, l.id as reported_listing_id, r.reported_by_id,
-              r.reported_content_snapshot
+              l.name as reported_listing_name, l.id as reported_listing_id, r.reported_by_id
        from reports r
        left join users u on r.assigned_to = u.id
        left join users ru on r.report_for = 'user' and r.reported_id = ru.id
