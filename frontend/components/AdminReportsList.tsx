@@ -735,11 +735,9 @@ export default function AdminReportsList({
         <AdminReportChatModal
           open={chatModalOpen}
           onOpenChange={setChatModalOpen}
-          reportedUserId={selectedReportForChat.reported_id}
-          reportingUserId={selectedReportForChat.reported_by_id || 0}
+          reportId={selectedReportForChat.id}
           reportedUserName={selectedReportForChat.reported_user_name}
           reportingUserName={selectedReportForChat.reported_by_name}
-          currentUserId={currentUser?.id || 0}
         />
       )}
     </div>
