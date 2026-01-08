@@ -36,11 +36,9 @@ interface AdminReportChatModalProps {
 export function AdminReportChatModal({
   open,
   onOpenChange,
-  reportedUserId,
-  reportingUserId,
+  reportId,
   reportedUserName,
   reportingUserName,
-  currentUserId,
 }: AdminReportChatModalProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
@@ -51,7 +49,7 @@ export function AdminReportChatModal({
     if (open) {
       loadMessages();
     }
-  }, [open, reportedUserId, reportingUserId]);
+  }, [open, reportId]);
 
   useEffect(() => {
     // Auto-scroll to bottom when messages load
@@ -69,9 +67,9 @@ export function AdminReportChatModal({
     setLoading(true);
     setError(null);
     try {
-      // Get conversation between reported user and reporting user
+      // Get conversation for this report
       const response = await apiFetch(
-        `/messages/thread?user1=${reportedUserId}&user2=${reportingUserId}`
+        `/admin/reports/${reportId}/conversation`
       );
 
       if (!response.ok) {
@@ -87,7 +85,7 @@ export function AdminReportChatModal({
           body: msg.body,
           createdAt: msg.createdAt,
           messageThreadId: msg.messageThreadId,
-          isFromCurrentUser: msg.senderId === reportingUserId,
+          isFromCurrentUser: msg.isFromCurrentUser,
         })
       );
 
