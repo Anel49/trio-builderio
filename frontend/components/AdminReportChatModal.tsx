@@ -22,6 +22,7 @@ interface Message {
   body: string;
   createdAt: string;
   messageThreadId?: number;
+  senderName?: string;
   isFromCurrentUser: boolean;
 }
 
