@@ -1263,6 +1263,11 @@ export function createServer() {
     requireModeratorOrAdmin,
     updateReportStatus,
   );
+  app.get(
+    "/admin/reports/:reportId/conversation",
+    requireModeratorOrAdmin,
+    getReportConversation,
+  );
 
   // Feedback
   app.get("/api/admin/feedback", requireModeratorOrAdmin, listAllFeedback);
