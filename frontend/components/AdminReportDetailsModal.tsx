@@ -101,66 +101,68 @@ export function AdminReportDetailsModal({
           <DialogTitle>Report Details</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
+        <div className="py-4 space-y-6">
           {isListing ? (
             <>
-              {snapshot.title && (
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm">Title</p>
-                  <p className="text-sm text-muted-foreground break-words">
-                    {snapshot.title}
-                  </p>
-                </div>
-              )}
-
-              {snapshot.description && (
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm">Description</p>
-                  <p className="text-sm text-muted-foreground break-words">
-                    {snapshot.description}
-                  </p>
-                </div>
-              )}
-
-              {snapshot.latitude !== null && snapshot.latitude !== undefined && (
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm">Latitude</p>
-                  <p className="text-sm text-muted-foreground">
-                    {snapshot.latitude}
-                  </p>
-                </div>
-              )}
-
-              {snapshot.longitude !== null && snapshot.longitude !== undefined && (
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm">Longitude</p>
-                  <p className="text-sm text-muted-foreground">
-                    {snapshot.longitude}
-                  </p>
-                </div>
-              )}
-
-              {snapshot.addons && snapshot.addons.length > 0 && (
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm">Addons</p>
-                  <div className="space-y-1">
-                    {snapshot.addons.map(
-                      (addon: any, idx: number) => (
-                        <p
-                          key={idx}
-                          className="text-sm text-muted-foreground ml-2"
-                        >
-                          • {addon.item}
-                          {addon.style && ` (${addon.style})`}
-                        </p>
-                      ),
-                    )}
+              <div className="grid grid-cols-2 gap-6">
+                {snapshot.title && (
+                  <div className="space-y-2">
+                    <p className="font-semibold text-sm">Title</p>
+                    <p className="text-sm text-muted-foreground break-words">
+                      {snapshot.title}
+                    </p>
                   </div>
-                </div>
-              )}
+                )}
+
+                {snapshot.description && (
+                  <div className="space-y-2">
+                    <p className="font-semibold text-sm">Description</p>
+                    <p className="text-sm text-muted-foreground break-words">
+                      {snapshot.description}
+                    </p>
+                  </div>
+                )}
+
+                {snapshot.latitude !== null && snapshot.latitude !== undefined && (
+                  <div className="space-y-2">
+                    <p className="font-semibold text-sm">Latitude</p>
+                    <p className="text-sm text-muted-foreground">
+                      {snapshot.latitude}
+                    </p>
+                  </div>
+                )}
+
+                {snapshot.longitude !== null && snapshot.longitude !== undefined && (
+                  <div className="space-y-2">
+                    <p className="font-semibold text-sm">Longitude</p>
+                    <p className="text-sm text-muted-foreground">
+                      {snapshot.longitude}
+                    </p>
+                  </div>
+                )}
+
+                {snapshot.addons && snapshot.addons.length > 0 && (
+                  <div className="space-y-2 col-span-2">
+                    <p className="font-semibold text-sm">Addons</p>
+                    <div className="space-y-1">
+                      {snapshot.addons.map(
+                        (addon: any, idx: number) => (
+                          <p
+                            key={idx}
+                            className="text-sm text-muted-foreground ml-2"
+                          >
+                            • {addon.item}
+                            {addon.style && ` (${addon.style})`}
+                          </p>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {snapshot.bucket_urls && snapshot.bucket_urls.length > 0 && (
-                <div className="space-y-2">
+                <div className="space-y-2 border-t pt-6">
                   <p className="font-semibold text-sm">Images</p>
                   <div className="grid grid-cols-2 gap-3">
                     {snapshot.bucket_urls.map((url: string, idx: number) => (
@@ -184,50 +186,49 @@ export function AdminReportDetailsModal({
             </>
           ) : (
             <>
-              {snapshot.name && (
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm">Name</p>
-                  <p className="text-sm text-muted-foreground">
-                    {snapshot.name}
-                  </p>
-                </div>
-              )}
-
-              {snapshot.email && (
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm">Email</p>
-                  <p className="text-sm text-muted-foreground break-words">
-                    {snapshot.email}
-                  </p>
-                </div>
-              )}
-
-              {snapshot.username && (
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm">Username</p>
-                  <p className="text-sm text-muted-foreground">
-                    @{snapshot.username}
-                  </p>
-                </div>
-              )}
-
-              {snapshot.bucket_url && (
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm">Avatar</p>
-                  <div className="rounded border border-border overflow-hidden w-24 h-24">
-                    <img
-                      src={snapshot.bucket_url}
-                      alt="User avatar"
-                      className="w-full h-full object-cover"
-                    />
+              <div className="grid grid-cols-2 gap-6">
+                {snapshot.name && (
+                  <div className="space-y-2">
+                    <p className="font-semibold text-sm">Name</p>
+                    <p className="text-sm text-muted-foreground">
+                      {snapshot.name}
+                    </p>
                   </div>
-                </div>
-              )}
+                )}
 
-              {!snapshot.bucket_url && (
-                <div className="space-y-2">
+                {snapshot.email && (
+                  <div className="space-y-2">
+                    <p className="font-semibold text-sm">Email</p>
+                    <p className="text-sm text-muted-foreground break-words">
+                      {snapshot.email}
+                    </p>
+                  </div>
+                )}
+
+                {snapshot.username && (
+                  <div className="space-y-2">
+                    <p className="font-semibold text-sm">Username</p>
+                    <p className="text-sm text-muted-foreground">
+                      @{snapshot.username}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {(snapshot.bucket_url || !snapshot.bucket_url) && (
+                <div className="space-y-2 border-t pt-6">
                   <p className="font-semibold text-sm">Avatar</p>
-                  <p className="text-sm text-muted-foreground">None</p>
+                  {snapshot.bucket_url ? (
+                    <div className="rounded border border-border overflow-hidden w-24 h-24">
+                      <img
+                        src={snapshot.bucket_url}
+                        alt="User avatar"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">None</p>
+                  )}
                 </div>
               )}
             </>
