@@ -216,7 +216,7 @@ export function AdminReportDetailsModal({
               </div>
 
               {(snapshot.bucket_url || !snapshot.bucket_url) && (
-                <div className="space-y-2 border-t pt-6">
+                <div className="space-y-2">
                   <p className="font-semibold text-sm">Avatar</p>
                   {snapshot.bucket_url ? (
                     <div className="rounded border border-border overflow-hidden w-24 h-24">
