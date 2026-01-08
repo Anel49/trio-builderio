@@ -153,18 +153,21 @@ export function AdminReportChatModal({
                     <p className="text-sm whitespace-pre-wrap break-words">
                       {message.body}
                     </p>
-                    <p
-                      className={`text-xs mt-1 ${
+                    <div
+                      className={`text-xs mt-1 space-y-0.5 ${
                         message.isFromCurrentUser
                           ? "text-primary-foreground/70"
                           : "text-muted-foreground"
                       }`}
                     >
-                      {new Date(message.createdAt).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
+                      <p>
+                        {new Date(message.createdAt).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                      <p>{message.senderName}</p>
+                    </div>
                   </div>
                 </div>
               ))}
