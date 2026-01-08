@@ -842,6 +842,41 @@ export async function listAllReports(req: Request, res: Response) {
   }
 }
 
+export async function getReportDetails(req: Request, res: Response) {
+  try {
+    const reportId = Number.parseInt((req.params.reportId as string) || "", 10);
+
+    if (!Number.isFinite(reportId)) {
+      return res.status(400).json({ ok: false, error: "Invalid report ID" });
+    }
+
+    const result = await pool.query(
+      `select r.id, r.report_number, r.status, r.report_reasons, r.assigned_to,
+              u.name as assigned_to_name, r.created_at, r.updated_at, r.report_for, r.reported_id,
+              ru.name as reported_user_name, ru.username as reported_user_username,
+              rb.name as reported_by_name, rb.username as reported_by_username,
+              l.name as reported_listing_name, l.id as reported_listing_id, r.reported_by_id,
+              r.reported_content_snapshot
+       from reports r
+       left join users u on r.assigned_to = u.id
+       left join users ru on r.report_for = 'user' and r.reported_id = ru.id
+       left join users rb on r.reported_by_id = rb.id
+       left join listings l on r.report_for = 'listing' and r.reported_id = l.id
+       where r.id = $1`,
+      [reportId],
+    );
+
+    if (!result.rowCount || result.rowCount === 0) {
+      return res.status(404).json({ ok: false, error: "Report not found" });
+    }
+
+    res.json({ ok: true, report: result.rows[0] });
+  } catch (error: any) {
+    console.error("[getReportDetails] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function assignReportToUser(req: Request, res: Response) {
   try {
     const reportId = Number.parseInt((req.params.reportId as string) || "", 10);
