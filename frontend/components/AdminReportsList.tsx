@@ -756,11 +756,12 @@ export default function AdminReportsList({
         />
       )}
 
-      {selectedReportForDetails && (
+      {selectedReportIdForDetails && (
         <AdminReportDetailsModal
           open={detailsModalOpen}
           onOpenChange={setDetailsModalOpen}
-          report={selectedReportForDetails}
+          reportId={selectedReportIdForDetails}
+          reportFor={selectedReportForForDetails}
         />
       )}
     </div>
