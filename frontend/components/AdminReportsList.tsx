@@ -410,11 +410,29 @@ export default function AdminReportsList({
                 return (
                   <tr key={report.id} className="border-b hover:bg-muted/50">
                     <td className={spacing.padding.md}>
-                      <span
-                        className={cn(typography.weight.medium, "text-primary")}
-                      >
-                        {report.report_number || "N/A"}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={cn(typography.weight.medium, "text-primary")}
+                        >
+                          {report.report_number || "N/A"}
+                        </span>
+                        {reportFor === "user" &&
+                          report.assigned_to === currentUser?.id &&
+                          report.reported_by_id && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-5 w-5 p-0 hover:bg-transparent"
+                              title="View chat"
+                              onClick={() => {
+                                setSelectedReportForChat(report);
+                                setChatModalOpen(true);
+                              }}
+                            >
+                              <MessageCircle className="h-4 w-4" />
+                            </Button>
+                          )}
+                      </div>
                     </td>
                     <td className={spacing.padding.md}>
                       <div className="flex items-center gap-2">
