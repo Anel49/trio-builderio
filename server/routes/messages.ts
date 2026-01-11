@@ -108,7 +108,9 @@ export async function getMessages(req: Request, res: Response) {
       [threadId],
     );
 
-    const isClaimsThread = threadCheckForClaim.rows.length > 0 && threadCheckForClaim.rows[0].claim_id;
+    const isClaimsThread =
+      threadCheckForClaim.rows.length > 0 &&
+      threadCheckForClaim.rows[0].claim_id;
 
     // Only apply special "User 2 (Support)" alignment if viewing from claims chat page
     const shouldUseClaimsAlignment = view === "claims" && isClaimsThread;
@@ -136,7 +138,9 @@ export async function getMessages(req: Request, res: Response) {
       body: r.body,
       createdAt: r.created_at,
       messageThreadId: r.message_thread_id,
-      isFromCurrentUser: shouldUseClaimsAlignment ? r.sender_id === 2 : r.sender_id === userId,
+      isFromCurrentUser: shouldUseClaimsAlignment
+        ? r.sender_id === 2
+        : r.sender_id === userId,
     }));
 
     res.json({ ok: true, messages });

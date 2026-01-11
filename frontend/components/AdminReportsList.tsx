@@ -120,8 +120,9 @@ export default function AdminReportsList({
   const [selectedReportForChat, setSelectedReportForChat] =
     useState<Report | null>(null);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
-  const [selectedReportIdForDetails, setSelectedReportIdForDetails] =
-    useState<number | null>(null);
+  const [selectedReportIdForDetails, setSelectedReportIdForDetails] = useState<
+    number | null
+  >(null);
   const [selectedReportForForDetails, setSelectedReportForForDetails] =
     useState<string>("");
 

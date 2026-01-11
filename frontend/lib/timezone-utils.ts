@@ -155,7 +155,8 @@ export function formatDateRangeWithAbbreviation(
  */
 export function formatUTCDateTime(dateString: string | Date): string {
   try {
-    const date = typeof dateString === "string" ? new Date(dateString) : dateString;
+    const date =
+      typeof dateString === "string" ? new Date(dateString) : dateString;
 
     const formatter = new Intl.DateTimeFormat("en-US", {
       month: "short",
@@ -180,7 +181,8 @@ export function formatUTCDateTime(dateString: string | Date): string {
  */
 export function formatLocalDateTime(dateString: string | Date): string {
   try {
-    const date = typeof dateString === "string" ? new Date(dateString) : dateString;
+    const date =
+      typeof dateString === "string" ? new Date(dateString) : dateString;
 
     const formatter = new Intl.DateTimeFormat("en-US", {
       month: "short",

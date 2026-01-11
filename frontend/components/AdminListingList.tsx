@@ -181,9 +181,7 @@ export default function AdminListingList() {
         </div>
       ) : listings.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">
-            No listings found
-          </p>
+          <p className="text-muted-foreground">No listings found</p>
         </div>
       ) : (
         <>
