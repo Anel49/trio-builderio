@@ -704,7 +704,7 @@ export default function AdminReportsList({
         </table>
       </div>
 
-      {!loading && reports.length === 0 && (
+      {!loading && reports.length === 0 && hasSearched && (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No reports found</p>
         </div>
