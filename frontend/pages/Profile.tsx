@@ -532,6 +532,20 @@ export default function Profile() {
         return;
       }
 
+      // Validate all listings
+      const invalidListings = listedItems.filter((listing) => {
+        const validationError = validateListingForEnable(listing);
+        return validationError !== null;
+      });
+
+      // If any listings are invalid, show alert and stop
+      if (invalidListings.length > 0) {
+        alert(
+          "At least one of your listings is missing required details. You must edit these listing(s) and provide all required details to enable them."
+        );
+        return;
+      }
+
       const response = await apiFetch("/listings/bulk/update-enabled", {
         method: "PATCH",
         headers: { "content-type": "application/json" },
