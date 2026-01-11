@@ -23,6 +23,7 @@ interface ReportUserModalProps {
   onOpenChange: (open: boolean) => void;
   userId?: number;
   userName?: string;
+  onUserBlocked?: () => void;
 }
 
 const reportCategories = [
