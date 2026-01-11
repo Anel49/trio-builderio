@@ -133,6 +133,11 @@ export default function AdminReportsList({
     loadReports(0);
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(0);
+    loadReports(0);
+  }, [reportFor]);
+
   const getSearchPlaceholder = () => {
     if (reportFor === "listing") {
       return "Search using a report number, assigned technician, listing ID, or status...";
