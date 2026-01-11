@@ -123,21 +123,17 @@ export function AdminReportDetailsModal({
                   </div>
                 )}
 
-                {snapshot.latitude !== null && snapshot.latitude !== undefined && (
+                {snapshot.latitude !== null && snapshot.latitude !== undefined && snapshot.longitude !== null && snapshot.longitude !== undefined && (
                   <div className="space-y-2">
-                    <p className="font-semibold text-sm">Latitude</p>
-                    <p className="text-sm text-muted-foreground">
-                      {snapshot.latitude}
-                    </p>
-                  </div>
-                )}
-
-                {snapshot.longitude !== null && snapshot.longitude !== undefined && (
-                  <div className="space-y-2">
-                    <p className="font-semibold text-sm">Longitude</p>
-                    <p className="text-sm text-muted-foreground">
-                      {snapshot.longitude}
-                    </p>
+                    <p className="font-semibold text-sm">Location</p>
+                    <a
+                      href={`https://www.google.com/maps/search/${snapshot.latitude},${snapshot.longitude}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-primary hover:underline break-words"
+                    >
+                      {snapshot.latitude}, {snapshot.longitude}
+                    </a>
                   </div>
                 )}
 
