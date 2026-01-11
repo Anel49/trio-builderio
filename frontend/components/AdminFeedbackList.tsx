@@ -516,7 +516,7 @@ export default function AdminFeedbackList() {
         </table>
       </div>
 
-      {!loading && feedback.length === 0 && (
+      {!loading && feedback.length === 0 && hasSearched && (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No suggestions found</p>
         </div>
