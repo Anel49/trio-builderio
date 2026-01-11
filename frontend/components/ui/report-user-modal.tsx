@@ -82,6 +82,7 @@ export function ReportUserModal({
   const [additionalDetails, setAdditionalDetails] = useState("");
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isBlockingUser, setIsBlockingUser] = useState(false);
 
   const getCategoryLabel = (categoryId: string): string => {
     const category = reportCategories.find((c) => c.id === categoryId);
