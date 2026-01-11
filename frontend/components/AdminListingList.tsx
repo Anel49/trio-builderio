@@ -94,6 +94,7 @@ export default function AdminListingList() {
       setTotalListings(data.total);
       setLastSearchedTerm(finalSearchTerm);
       setHasSearched(true);
+      setCurrentPage(pageNum);
     } catch (err: any) {
       setError(err.message || "Failed to load listings");
     } finally {
