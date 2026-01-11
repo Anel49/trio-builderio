@@ -203,7 +203,7 @@ export default function Admin() {
             <CardHeader>
               <CardTitle>User Lookup</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 overflow-y-auto">
+            <CardContent className="flex-1 overflow-y-auto themed-scrollbar">
               <AdminUserList
                 onViewUserReports={(username) => {
                   setActiveTab("reports");
@@ -222,7 +222,7 @@ export default function Admin() {
             <CardHeader>
               <CardTitle>Listing Lookup</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 overflow-y-auto">
+            <CardContent className="flex-1 overflow-y-auto themed-scrollbar">
               <AdminListingList />
             </CardContent>
           </Card>
@@ -233,7 +233,7 @@ export default function Admin() {
             <CardHeader>
               <CardTitle>Order Management</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 overflow-y-auto">
+            <CardContent className="flex-1 overflow-y-auto themed-scrollbar">
               <AdminOrderList />
             </CardContent>
           </Card>
@@ -244,7 +244,7 @@ export default function Admin() {
             <CardHeader>
               <CardTitle>Review Management</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 overflow-y-auto">
+            <CardContent className="flex-1 overflow-y-auto themed-scrollbar">
               <AdminReviewList />
             </CardContent>
           </Card>
@@ -255,7 +255,7 @@ export default function Admin() {
             <CardHeader>
               <CardTitle>Reports</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 overflow-y-auto">
+            <CardContent className="flex-1 overflow-y-auto themed-scrollbar">
               <AdminReportsList
                 initialReportFor={reportParams.reportFor as "listing" | "user"}
                 initialSearch={reportParams.search}
@@ -269,7 +269,7 @@ export default function Admin() {
             <CardHeader>
               <CardTitle>Claims</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 overflow-y-auto">
+            <CardContent className="flex-1 overflow-y-auto themed-scrollbar">
               <AdminClaimsList />
             </CardContent>
           </Card>
@@ -280,7 +280,7 @@ export default function Admin() {
             <CardHeader>
               <CardTitle>Feedback Submissions</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 overflow-y-auto">
+            <CardContent className="flex-1 overflow-y-auto themed-scrollbar">
               <AdminFeedbackList />
             </CardContent>
           </Card>
