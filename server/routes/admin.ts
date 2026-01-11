@@ -1496,7 +1496,7 @@ export async function takeActionOnReport(req: Request, res: Response) {
       return res.status(404).json({ ok: false, error: "Failed to update listing" });
     }
 
-    // If images are being removed, delete the S3 folder for this listing
+    // If images are being removed, delete the S3 folder and listing_images records
     if (fieldsToRemove.includes("images")) {
       try {
         const s3Prefix = `listings/${listingId}/`;
@@ -1505,6 +1505,17 @@ export async function takeActionOnReport(req: Request, res: Response) {
       } catch (s3Error: any) {
         console.error("[takeActionOnReport] Error deleting S3 prefix:", s3Error);
         // Continue anyway - DB update succeeded, S3 deletion is best-effort
+      }
+
+      try {
+        console.log("[takeActionOnReport] Deleting listing_images records for listing:", listingId);
+        await pool.query(
+          `DELETE FROM listing_images WHERE listing_id = $1`,
+          [listingId],
+        );
+      } catch (dbError: any) {
+        console.error("[takeActionOnReport] Error deleting listing_images records:", dbError);
+        // Continue anyway - S3 deletion succeeded, DB cleanup is important but not blocking
       }
     }
 
