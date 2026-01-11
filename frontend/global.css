@@ -188,6 +188,11 @@ input[type="password"]::-ms-reveal {
 }
 
 /* Remove focus outline from admin page search inputs */
+.admin-page input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
 .admin-page input:focus {
-  outline: none;
+  outline: none !important;
+  box-shadow: none !important;
 }
