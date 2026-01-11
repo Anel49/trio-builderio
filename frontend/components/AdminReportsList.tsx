@@ -403,6 +403,13 @@ export default function AdminReportsList({
                   </div>
                 </td>
               </tr>
+            ) : reports.length === 0 && hasSearched ? (
+              <tr>
+                <td
+                  colSpan={reportFor === "listing" ? 9 : 9}
+                  className="py-4"
+                ></td>
+              </tr>
             ) : (
               reports.map((report) => {
                 const reasons = getReportReasons(report.report_reasons);
