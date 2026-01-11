@@ -1287,6 +1287,40 @@ export default function Profile() {
     return (total / itemReviews.length).toFixed(1);
   };
 
+  const validateListingForEnable = (listing: ListedItem): string | null => {
+    const missingFields: string[] = [];
+
+    if (!listing.name || listing.name.trim() === "") {
+      missingFields.push("Name");
+    }
+
+    if (!listing.price || listing.price.trim() === "") {
+      missingFields.push("Price");
+    }
+
+    if (!listing.image || listing.image.trim() === "") {
+      missingFields.push("Image");
+    }
+
+    if (!listing.description || listing.description.trim() === "") {
+      missingFields.push("Description");
+    }
+
+    if (listing.latitude === null || listing.latitude === undefined) {
+      missingFields.push("Latitude");
+    }
+
+    if (listing.longitude === null || listing.longitude === undefined) {
+      missingFields.push("Longitude");
+    }
+
+    if (missingFields.length > 0) {
+      return `This listing is missing the following required details: ${missingFields.join(", ")}. You must edit the listing and provide these details to enable the listing.`;
+    }
+
+    return null;
+  };
+
   const calculateAvgSellerRating = () => {
     if (sellerReviews.length === 0) return "0.0";
     const total = sellerReviews.reduce((sum, review) => sum + review.rating, 0);
