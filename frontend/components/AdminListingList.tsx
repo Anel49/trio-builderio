@@ -61,23 +61,22 @@ export default function AdminListingList() {
     loadListings();
   }, []);
 
-  const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter") return;
-    if (!search.trim()) return;
-
+  const loadListings = async (searchTerm?: string) => {
     setLoading(true);
     setError(null);
-    setListings([]);
     try {
-      const searchTrimmed = search.trim();
-      const searchInt = Number.parseInt(searchTrimmed, 10);
-      const isInteger = !isNaN(searchInt) && Number.isFinite(searchInt);
+      let url = "/admin/listings";
+      if (searchTerm && searchTerm.trim()) {
+        const searchTrimmed = searchTerm.trim();
+        const searchInt = Number.parseInt(searchTrimmed, 10);
+        const isInteger = !isNaN(searchInt) && Number.isFinite(searchInt);
 
-      let url = "/admin/listings?";
-      if (isInteger) {
-        url += `id=${searchInt}`;
-      } else {
-        url += `name=${encodeURIComponent(searchTrimmed)}`;
+        url += "?";
+        if (isInteger) {
+          url += `id=${searchInt}`;
+        } else {
+          url += `name=${encodeURIComponent(searchTrimmed)}`;
+        }
       }
 
       const response = await apiFetch(url);
@@ -93,6 +92,12 @@ export default function AdminListingList() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    if (!search.trim()) return;
+    loadListings(search);
   };
 
   const handleToggleEnabled = async (listingId: number, enabled: boolean) => {
