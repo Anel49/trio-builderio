@@ -128,10 +128,6 @@ export default function AdminReportsList({
   const limit = 6;
   const offset = currentPage * limit;
 
-  useEffect(() => {
-    loadReports(0, false, "");
-  }, [reportFor]);
-
   const getSearchPlaceholder = () => {
     if (reportFor === "listing") {
       return "Search using a report number, assigned technician, listing ID, or status...";
