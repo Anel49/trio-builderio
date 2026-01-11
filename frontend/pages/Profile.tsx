@@ -2306,11 +2306,7 @@ export default function Profile() {
                                 const validationError =
                                   validateListingForEnable(item);
                                 if (validationError) {
-                                  toast({
-                                    title: "Cannot Enable Listing",
-                                    description: validationError,
-                                    variant: "destructive",
-                                  });
+                                  alert(validationError);
                                 } else {
                                   setItemToEnable(item);
                                   setIsEnableModalOpen(true);
