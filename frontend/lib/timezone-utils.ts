@@ -172,3 +172,27 @@ export function formatUTCDateTime(dateString: string | Date): string {
     return "Invalid date";
   }
 }
+
+/**
+ * Format date-time in viewer's local timezone as "Jan 8 2025 10:48 PM"
+ * @param dateString - ISO date string or Date object
+ * @returns Formatted string (e.g., "Jan 8 2025 10:48 PM")
+ */
+export function formatLocalDateTime(dateString: string | Date): string {
+  try {
+    const date = typeof dateString === "string" ? new Date(dateString) : dateString;
+
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    return formatter.format(date).replace(/,/g, "");
+  } catch {
+    return "Invalid date";
+  }
+}
