@@ -54,24 +54,35 @@ export default function AdminListingList() {
   const [lastSearchedTerm, setLastSearchedTerm] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
-  const limit = 6;
+  const limit = 15;
   const offset = currentPage * limit;
 
-  const loadListings = async (searchTerm?: string) => {
+  useEffect(() => {
+    loadListings();
+  }, []);
+
+  const loadListings = async (
+    pageNum: number = currentPage,
+    searchTerm?: string,
+  ) => {
     setLoading(true);
     setError(null);
     try {
-      let url = "/admin/listings";
-      if (searchTerm && searchTerm.trim()) {
-        const searchTrimmed = searchTerm.trim();
+      const pageOffset = pageNum * limit;
+      const finalSearchTerm =
+        searchTerm !== undefined ? searchTerm : lastSearchedTerm;
+
+      let url = `/admin/listings?limit=${limit}&offset=${pageOffset}`;
+
+      if (finalSearchTerm && finalSearchTerm.trim()) {
+        const searchTrimmed = finalSearchTerm.trim();
         const searchInt = Number.parseInt(searchTrimmed, 10);
         const isInteger = !isNaN(searchInt) && Number.isFinite(searchInt);
 
-        url += "?";
         if (isInteger) {
-          url += `id=${searchInt}`;
+          url += `&id=${searchInt}`;
         } else {
-          url += `name=${encodeURIComponent(searchTrimmed)}`;
+          url += `&name=${encodeURIComponent(searchTrimmed)}`;
         }
       }
 
@@ -81,7 +92,7 @@ export default function AdminListingList() {
       const data = await response.json();
       setListings(data.listings);
       setTotalListings(data.total);
-      setCurrentPage(0);
+      setLastSearchedTerm(finalSearchTerm);
       setHasSearched(true);
     } catch (err: any) {
       setError(err.message || "Failed to load listings");
@@ -92,8 +103,8 @@ export default function AdminListingList() {
 
   const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
-    if (!search.trim()) return;
-    loadListings(search);
+    setCurrentPage(0);
+    loadListings(0, search);
   };
 
   const handleToggleEnabled = async (listingId: number, enabled: boolean) => {
