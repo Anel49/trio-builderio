@@ -57,6 +57,10 @@ export default function AdminListingList() {
   const limit = 6;
   const offset = currentPage * limit;
 
+  useEffect(() => {
+    loadListings();
+  }, []);
+
   const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
     if (!search.trim()) return;
