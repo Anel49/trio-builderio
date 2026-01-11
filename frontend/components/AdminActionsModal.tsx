@@ -140,13 +140,12 @@ export function AdminActionsModal({
             <label htmlFor="message" className="text-sm font-semibold">
               Message to listing's host
             </label>
-            <Input
+            <textarea
               id="message"
               placeholder="Enter moderator notes..."
               value={moderatorMessage}
               onChange={(e) => setModeratorMessage(e.target.value)}
-              className="min-h-24 resize-none"
-              as="textarea"
+              className="flex min-h-24 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
             />
           </div>
 
