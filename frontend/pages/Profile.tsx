@@ -3110,7 +3110,7 @@ export default function Profile() {
                 setIsDisableModalOpen(false);
                 setItemToDisable(null);
               }}
-              className="w-full sm:w-auto bg-yellow-600 hover:bg-yellow-700 text-white"
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               Disable
             </Button>
@@ -3171,7 +3171,7 @@ export default function Profile() {
                 setIsEnableModalOpen(false);
                 setItemToEnable(null);
               }}
-              className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               Enable
             </Button>
