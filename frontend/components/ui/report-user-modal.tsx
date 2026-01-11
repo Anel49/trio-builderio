@@ -97,6 +97,36 @@ export function ReportUserModal({
     }
   };
 
+  const handleBlockUser = async () => {
+    if (!userId) return;
+
+    setIsBlockingUser(true);
+    try {
+      const response = await apiFetch("blocks/create", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ targetId: userId }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (data.ok) {
+        // Close confirmation modal
+        setIsConfirmationOpen(false);
+        // Close main report modal
+        onOpenChange(false);
+      } else {
+        console.error("Failed to block user:", data.error);
+        alert("Failed to block user. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error blocking user:", error);
+      alert("An error occurred while blocking the user.");
+    } finally {
+      setIsBlockingUser(false);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!userId || selectedCategories.length === 0) {
       console.error("Missing required data for user report submission");
