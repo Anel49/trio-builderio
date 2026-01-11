@@ -23,6 +23,13 @@ export function AdminReportDetailsModal({
   const [error, setError] = useState<string | null>(null);
   const [isActionsModalOpen, setIsActionsModalOpen] = useState(false);
 
+  const handleReportDetailsOpenChange = (newOpen: boolean) => {
+    if (!newOpen && isActionsModalOpen) {
+      setIsActionsModalOpen(false);
+    }
+    onOpenChange(newOpen);
+  };
+
   useEffect(() => {
     if (!open) return;
 
@@ -92,7 +99,8 @@ export function AdminReportDetailsModal({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <>
+    <Dialog open={open} onOpenChange={handleReportDetailsOpenChange}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto themed-scrollbar">
         <DialogHeader>
           <DialogTitle>Report Details</DialogTitle>
@@ -295,5 +303,21 @@ export function AdminReportDetailsModal({
         </div>
       </DialogContent>
     </Dialog>
+
+    {report && isListing && (
+      <AdminActionsModal
+        open={isActionsModalOpen}
+        onOpenChange={setIsActionsModalOpen}
+        report={report}
+        onActionComplete={() => {
+          setIsActionsModalOpen(false);
+          onOpenChange(false);
+        }}
+        onCancel={() => {
+          setIsActionsModalOpen(false);
+        }}
+      />
+    )}
+    </>
   );
 }
