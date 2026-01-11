@@ -100,11 +100,36 @@ export function AdminReportDetailsModal({
           {report.report_reasons && (
             <div className="space-y-2">
               <p className="font-semibold text-sm">Report reasons</p>
-              <p className="text-sm text-muted-foreground ml-2">
-                • {typeof report.report_reasons === "object"
-                  ? report.report_reasons.report_reasons
-                  : report.report_reasons}
-              </p>
+              <div className="space-y-1">
+                {(() => {
+                  const reasons = typeof report.report_reasons === "object"
+                    ? report.report_reasons.report_reasons
+                    : report.report_reasons;
+
+                  if (Array.isArray(reasons)) {
+                    return reasons.map((reason: string, idx: number) => (
+                      <p key={idx} className="text-sm text-muted-foreground ml-2">
+                        • {reason}
+                      </p>
+                    ));
+                  } else if (typeof reasons === "string") {
+                    const items = reasons.split(",").map((r: string) => r.trim()).filter(Boolean);
+                    if (items.length > 1) {
+                      return items.map((item: string, idx: number) => (
+                        <p key={idx} className="text-sm text-muted-foreground ml-2">
+                          • {item}
+                        </p>
+                      ));
+                    }
+                    return (
+                      <p className="text-sm text-muted-foreground ml-2">
+                        • {reasons}
+                      </p>
+                    );
+                  }
+                  return null;
+                })()}
+              </div>
             </div>
           )}
 
