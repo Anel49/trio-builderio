@@ -307,8 +307,8 @@ export default function Admin() {
       {/* Main Content - 25/75 Split */}
       <div className="h-[calc(100vh-4rem)] admin-page">
         <div className="h-full flex overflow-hidden">
-          {/* Left Side - Navigation (25%) */}
-          <div className="hidden lg:block w-1/4 bg-muted/30 overflow-hidden border-r border-border">
+          {/* Left Side - Navigation */}
+          <div className="hidden lg:block lg:w-[300px] bg-muted/30 overflow-hidden border-r border-border">
             <div className={spacing.padding.card}>
               <h2
                 className={combineTokens(
