@@ -338,23 +338,29 @@ export default function AdminListingList() {
             </div>
             <div className={combineTokens(layouts.flex.start, "gap-2")}>
               <Button
-                variant="outline"
-                size="sm"
-                disabled={!canPrevious}
-                onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-              >
-                <ChevronLeft className={spacing.dimensions.icon.sm} />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canNext}
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
-                }
-              >
-                <ChevronRight className={spacing.dimensions.icon.sm} />
-              </Button>
+              variant="outline"
+              size="sm"
+              disabled={!canPrevious}
+              onClick={() => {
+                const newPage = Math.max(0, currentPage - 1);
+                setCurrentPage(newPage);
+                loadListings(newPage);
+              }}
+            >
+              <ChevronLeft className={spacing.dimensions.icon.sm} />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canNext}
+              onClick={() => {
+                const newPage = Math.min(totalPages - 1, currentPage + 1);
+                setCurrentPage(newPage);
+                loadListings(newPage);
+              }}
+            >
+              <ChevronRight className={spacing.dimensions.icon.sm} />
+            </Button>
             </div>
           </div>
         </>
