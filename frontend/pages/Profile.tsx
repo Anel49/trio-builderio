@@ -540,8 +540,11 @@ export default function Profile() {
 
       // If any listings are invalid, show alert and stop
       if (invalidListings.length > 0) {
+        const listingNames = invalidListings
+          .map((listing) => `${listing.name} (id ${listing.id})`)
+          .join(", ");
         alert(
-          "At least one of your listings is missing required details. You must edit these listing(s) and provide all required details to enable them."
+          `The following listing(s) are missing required details: ${listingNames}. You must edit these listing(s) and provide all required details to enable them.`
         );
         return;
       }
