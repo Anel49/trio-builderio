@@ -270,6 +270,9 @@ export default function Profile() {
   const [itemToDisable, setItemToDisable] = useState<ListedItem | null>(null);
   const [isEnableModalOpen, setIsEnableModalOpen] = useState(false);
   const [itemToEnable, setItemToEnable] = useState<ListedItem | null>(null);
+  const [validationErrorMessage, setValidationErrorMessage] = useState<
+    string | null
+  >(null);
   const [isDeleteSuccessModalOpen, setIsDeleteSuccessModalOpen] =
     useState(false);
   const [deletedItemName, setDeletedItemName] = useState<string>("");
