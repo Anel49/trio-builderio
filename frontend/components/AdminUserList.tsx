@@ -151,6 +151,7 @@ export default function AdminUserList({
       const data = await response.json();
       setUsers(data.users);
       setTotalUsers(data.total);
+      setHasSearched(true);
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     } finally {
