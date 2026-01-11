@@ -100,19 +100,11 @@ export function AdminReportDetailsModal({
           {report.report_reasons && (
             <div className="space-y-2">
               <p className="font-semibold text-sm">Report reasons</p>
-              <div className="space-y-1">
-                {Array.isArray(report.report_reasons) ? (
-                  report.report_reasons.map((reason: string, idx: number) => (
-                    <p key={idx} className="text-sm text-muted-foreground ml-2">
-                      • {reason}
-                    </p>
-                  ))
-                ) : (
-                  <p className="text-sm text-muted-foreground ml-2">
-                    • {report.report_reasons}
-                  </p>
-                )}
-              </div>
+              <p className="text-sm text-muted-foreground ml-2">
+                • {typeof report.report_reasons === "object"
+                  ? report.report_reasons.report_reasons
+                  : report.report_reasons}
+              </p>
             </div>
           )}
 
