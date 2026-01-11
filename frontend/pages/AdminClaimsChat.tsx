@@ -196,7 +196,7 @@ export default function AdminClaimsChat() {
       setMessagesLoading(true);
       try {
         const response = await apiFetch(
-          `/messages/${user.id}/${selectedThreadId}`,
+          `/messages/${user.id}/${selectedThreadId}?view=claims`,
         );
         const data = await response.json();
         if (data.ok) {
