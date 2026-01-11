@@ -114,15 +114,6 @@ export function AdminReportDetailsModal({
                   </div>
                 )}
 
-                {snapshot.description && (
-                  <div className="space-y-2">
-                    <p className="font-semibold text-sm">Description</p>
-                    <p className="text-sm text-muted-foreground break-words">
-                      {snapshot.description}
-                    </p>
-                  </div>
-                )}
-
                 {snapshot.latitude !== null && snapshot.latitude !== undefined && snapshot.longitude !== null && snapshot.longitude !== undefined && (
                   <div className="space-y-2">
                     <p className="font-semibold text-sm">Location</p>
@@ -138,7 +129,7 @@ export function AdminReportDetailsModal({
                 )}
 
                 {snapshot.addons && snapshot.addons.length > 0 && (
-                  <div className="space-y-2 col-span-2">
+                  <div className="space-y-2">
                     <p className="font-semibold text-sm">Addons</p>
                     <div className="space-y-1">
                       {snapshot.addons.map(
@@ -153,6 +144,15 @@ export function AdminReportDetailsModal({
                         ),
                       )}
                     </div>
+                  </div>
+                )}
+
+                {snapshot.description && (
+                  <div className="space-y-2 col-span-2">
+                    <p className="font-semibold text-sm">Description</p>
+                    <p className="text-sm text-muted-foreground break-words">
+                      {snapshot.description}
+                    </p>
                   </div>
                 )}
               </div>
