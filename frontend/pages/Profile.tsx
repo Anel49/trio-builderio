@@ -182,6 +182,7 @@ export default function Profile() {
   const { isBlocked, refetch: refetchBlockStatus } = useBlockStatus(
     otherUserData?.id ?? null,
   );
+  const { toast } = useToast();
   const [isLoadingOtherUser, setIsLoadingOtherUser] = useState(
     Boolean(username),
   );
