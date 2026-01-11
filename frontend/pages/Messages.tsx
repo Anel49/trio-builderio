@@ -1182,6 +1182,7 @@ export default function Messages() {
       <ReportUserModal
         isOpen={isReportUserModalOpen}
         onOpenChange={setIsReportUserModalOpen}
+        userId={selectedUserId || undefined}
         userName={selectedChat?.name?.trim()}
       />
 
