@@ -56,6 +56,7 @@ import {
   updateFeedbackStatus,
   getReportConversation,
   getReportDetails,
+  takeActionOnReport,
 } from "./routes/admin";
 import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
 import {
