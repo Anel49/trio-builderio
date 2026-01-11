@@ -284,6 +284,7 @@ export async function createListing(req: Request, res: Response) {
       delivery,
       free_delivery,
       instant_bookings,
+      enabled,
       addons,
     } = req.body || {};
 
@@ -347,6 +348,7 @@ export async function createListing(req: Request, res: Response) {
     const deliveryValue = Boolean(delivery);
     const freeDeliveryValue = Boolean(free_delivery) && deliveryValue;
     const instantBookingsValue = Boolean(instant_bookings);
+    const enabledValue = typeof enabled === "boolean" ? enabled : true;
     const lat = parseCoordinate(latitude);
     const lon = parseCoordinate(longitude);
 
