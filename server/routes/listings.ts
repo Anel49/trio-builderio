@@ -374,8 +374,8 @@ export async function createListing(req: Request, res: Response) {
     let result;
     try {
       result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, host_id, category, description, postcode, city, latitude, longitude, delivery, free_delivery, instant_bookings)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
+        `insert into listings (name, price_cents, rating, image_url, host, host_id, category, description, postcode, city, latitude, longitude, delivery, free_delivery, instant_bookings, enabled)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
          returning id`,
         [
           name,
@@ -393,13 +393,14 @@ export async function createListing(req: Request, res: Response) {
           deliveryValue,
           freeDeliveryValue,
           instantBookingsValue,
+          enabledValue,
         ],
       );
     } catch (e) {
       console.log("[createListing] Primary insert failed:", e);
       result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, host_id, category, description, postcode, city, latitude, longitude, delivery, free_delivery, instant_bookings)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
+        `insert into listings (name, price_cents, rating, image_url, host, host_id, category, description, postcode, city, latitude, longitude, delivery, free_delivery, instant_bookings, enabled)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
          returning id`,
         [
           name,
@@ -417,6 +418,7 @@ export async function createListing(req: Request, res: Response) {
           deliveryValue,
           freeDeliveryValue,
           instantBookingsValue,
+          enabledValue,
         ],
       );
     }
@@ -771,6 +773,7 @@ export async function updateListing(req: Request, res: Response) {
       delivery,
       free_delivery,
       instant_bookings,
+      enabled,
       addons,
     } = req.body || {};
 
@@ -790,13 +793,14 @@ export async function updateListing(req: Request, res: Response) {
     const lat = parseCoordinate(latitude);
     const lon = parseCoordinate(longitude);
     const instantBookingsValue = Boolean(instant_bookings);
+    const enabledValue = typeof enabled === "boolean" ? enabled : true;
 
     const result = await pool.query(
       `update listings
        set name = $1, price_cents = $2, description = $3, category = $4,
            image_url = $5, postcode = $6,
            city = $7, latitude = $8, longitude = $9,
-           delivery = $10, free_delivery = $11, instant_bookings = $12
+           delivery = $10, free_delivery = $11, instant_bookings = $12, enabled = $14
        where id = $13
        returning id`,
       [
@@ -813,6 +817,7 @@ export async function updateListing(req: Request, res: Response) {
         free_delivery || false,
         instantBookingsValue,
         id,
+        enabledValue,
       ],
     );
 
