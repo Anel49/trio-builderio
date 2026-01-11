@@ -97,6 +97,18 @@ export async function getMessages(req: Request, res: Response) {
       });
     }
 
+    // Check if this is a claims thread
+    const threadCheckForClaim = await pool.query(
+      `
+      SELECT mt.claim_id
+      FROM message_threads mt
+      WHERE mt.id = $1
+      `,
+      [threadId],
+    );
+
+    const isClaimsThread = threadCheckForClaim.rows.length > 0 && threadCheckForClaim.rows[0].claim_id;
+
     const result = await pool.query(
       `
       SELECT
@@ -120,7 +132,7 @@ export async function getMessages(req: Request, res: Response) {
       body: r.body,
       createdAt: r.created_at,
       messageThreadId: r.message_thread_id,
-      isFromCurrentUser: r.sender_id === userId,
+      isFromCurrentUser: isClaimsThread ? r.sender_id === 2 : r.sender_id === userId,
     }));
 
     res.json({ ok: true, messages });
