@@ -177,8 +177,8 @@ export async function dbSetup(_req: Request, res: Response) {
     await pool.query(`
       create table if not exists listings (
         id serial primary key,
-        name text not null,
-        price_cents integer not null,
+        name text,
+        price_cents integer,
         rating numeric(2,1),
         image_url text,
         host text,
