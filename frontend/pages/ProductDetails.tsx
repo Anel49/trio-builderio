@@ -602,6 +602,17 @@ export default function ProductDetails() {
           return;
         }
         const l = d.listing;
+
+        // Treat disabled listings as not found
+        if (l.enabled === false) {
+          if (!cancelled) {
+            setProduct(null);
+            setProductNotFound(true);
+            setProductLoading(false);
+          }
+          return;
+        }
+
         const listingCoords = extractCoordinates(l);
         const userCoords = coords ?? getCurrentUserCoordinates();
         const distanceMiles = computeDistanceMiles(userCoords, listingCoords);
