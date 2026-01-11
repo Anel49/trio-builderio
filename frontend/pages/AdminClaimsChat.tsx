@@ -738,9 +738,6 @@ export default function AdminClaimsChat() {
                         </p>
                       </div>
                     </div>
-
-                    {/* Divider */}
-                    <div className="border-t border-border mt-6"></div>
                   </div>
                 </ScrollArea>
               </>
