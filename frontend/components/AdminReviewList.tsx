@@ -87,6 +87,10 @@ export default function AdminReviewList() {
     loadReviews(0, "");
   }, []);
 
+  useEffect(() => {
+    loadReviews(0, "");
+  }, [reviewType]);
+
   const getSearchPlaceholder = () => {
     if (reviewType === "listing") {
       return "Search using a listing name...";
@@ -96,7 +100,7 @@ export default function AdminReviewList() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (hasSearched) {
+    if (hasSearched && lastSearchedTerm) {
       loadReviews();
     }
   }, [currentPage, reviewType]);
