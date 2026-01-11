@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
@@ -114,35 +109,36 @@ export function AdminReportDetailsModal({
                   </div>
                 )}
 
-                {snapshot.latitude !== null && snapshot.latitude !== undefined && snapshot.longitude !== null && snapshot.longitude !== undefined && (
-                  <div className="space-y-2">
-                    <p className="font-semibold text-sm">Location</p>
-                    <a
-                      href={`https://www.google.com/maps/search/${snapshot.latitude},${snapshot.longitude}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-primary hover:underline break-words"
-                    >
-                      {snapshot.latitude}, {snapshot.longitude}
-                    </a>
-                  </div>
-                )}
+                {snapshot.latitude !== null &&
+                  snapshot.latitude !== undefined &&
+                  snapshot.longitude !== null &&
+                  snapshot.longitude !== undefined && (
+                    <div className="space-y-2">
+                      <p className="font-semibold text-sm">Location</p>
+                      <a
+                        href={`https://www.google.com/maps/search/${snapshot.latitude},${snapshot.longitude}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-primary hover:underline break-words"
+                      >
+                        {snapshot.latitude}, {snapshot.longitude}
+                      </a>
+                    </div>
+                  )}
 
                 {snapshot.addons && snapshot.addons.length > 0 && (
                   <div className="space-y-2">
                     <p className="font-semibold text-sm">Addons</p>
                     <div className="space-y-1">
-                      {snapshot.addons.map(
-                        (addon: any, idx: number) => (
-                          <p
-                            key={idx}
-                            className="text-sm text-muted-foreground ml-2"
-                          >
-                            • {addon.item}
-                            {addon.style && ` (${addon.style})`}
-                          </p>
-                        ),
-                      )}
+                      {snapshot.addons.map((addon: any, idx: number) => (
+                        <p
+                          key={idx}
+                          className="text-sm text-muted-foreground ml-2"
+                        >
+                          • {addon.item}
+                          {addon.style && ` (${addon.style})`}
+                        </p>
+                      ))}
                     </div>
                   </div>
                 )}

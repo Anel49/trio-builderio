@@ -544,7 +544,7 @@ export default function Profile() {
           .map((listing) => `${listing.name} (id ${listing.id})`)
           .join(", ");
         alert(
-          `The following listing(s) are missing required details: ${listingNames}. You must edit these listing(s) and provide all required details to enable them.`
+          `The following listing(s) are missing required details: ${listingNames}. You must edit these listing(s) and provide all required details to enable them.`,
         );
         return;
       }

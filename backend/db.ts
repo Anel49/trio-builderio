@@ -190,7 +190,6 @@ export async function dbSetup(_req: Request, res: Response) {
     `);
     console.log("[dbSetup] Created listings table");
 
-
     await pool.query(`
       create table if not exists orders (
         id serial primary key,
