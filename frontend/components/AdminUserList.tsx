@@ -406,7 +406,7 @@ export default function AdminUserList({
         </table>
       </div>
 
-      {!loading && users.length === 0 && (
+      {!loading && users.length === 0 && hasSearched && (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No users found</p>
         </div>
