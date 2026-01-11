@@ -108,14 +108,12 @@ export function AdminReportDetailsModal({
             </div>
           )}
 
-          {report.report_details && (
-            <div className="space-y-2">
-              <p className="font-semibold text-sm">Details</p>
-              <p className="text-sm text-muted-foreground break-words">
-                {report.report_details}
-              </p>
-            </div>
-          )}
+          <div className="space-y-2">
+            <p className="font-semibold text-sm">Details</p>
+            <p className="text-sm text-muted-foreground break-words">
+              {report.report_details ?? "null"}
+            </p>
+          </div>
 
           {isListing ? (
             <>
