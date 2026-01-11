@@ -115,6 +115,8 @@ export function AdminReportDetailsModal({
             </p>
           </div>
 
+          <div className="border-t border-border" />
+
           {isListing ? (
             <>
               <div className="space-y-4">
