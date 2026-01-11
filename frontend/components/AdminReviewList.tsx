@@ -322,6 +322,10 @@ export default function AdminReviewList() {
                   </div>
                 </td>
               </tr>
+            ) : reviews.length === 0 && hasSearched ? (
+              <tr>
+                <td colSpan={6} className="py-4"></td>
+              </tr>
             ) : (
               reviews.map((review) => (
                 <tr key={review.id} className="border-b hover:bg-muted/50">
