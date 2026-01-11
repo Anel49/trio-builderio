@@ -57,10 +57,6 @@ export default function AdminListingList() {
   const limit = 6;
   const offset = currentPage * limit;
 
-  useEffect(() => {
-    loadListings();
-  }, []);
-
   const loadListings = async (searchTerm?: string) => {
     setLoading(true);
     setError(null);
@@ -176,6 +172,12 @@ export default function AdminListingList() {
       {loading ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
+        </div>
+      ) : !hasSearched ? (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">
+            Search using a listing's title or its ID number.
+          </p>
         </div>
       ) : listings.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
