@@ -21,6 +21,7 @@ export function AdminReportDetailsModal({
   const [report, setReport] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isActionsModalOpen, setIsActionsModalOpen] = useState(false);
 
   useEffect(() => {
     if (!open) return;
