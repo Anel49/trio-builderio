@@ -69,8 +69,12 @@ export default function AdminOrderList() {
   const [listingFilter, setListingFilter] = useState<"all" | "overdue">("all");
   const [showCompleted, setShowCompleted] = useState(false);
 
-  const limit = 6;
+  const limit = 15;
   const offset = currentPage * limit;
+
+  useEffect(() => {
+    loadOrders(0);
+  }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
