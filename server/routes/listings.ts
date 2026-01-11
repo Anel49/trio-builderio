@@ -1676,7 +1676,42 @@ export async function deleteImage(req: Request, res: Response) {
     // Delete the object from S3
     await deleteS3Object(s3Key);
 
-    res.json({ ok: true, message: "Image deleted successfully" });
+    // Also delete the companion webp or original image
+    // If deleting a webp, also try to delete the original; if deleting original, also delete webp
+    let companionKey: string | null = null;
+    if (s3Key.endsWith(".webp")) {
+      // This is a webp, try to find and delete the original
+      // Try common image extensions
+      const baseKey = s3Key.substring(0, s3Key.length - 5); // Remove .webp
+      for (const ext of [".jpg", ".jpeg", ".png", ".gif"]) {
+        const potentialOriginalKey = baseKey + ext;
+        try {
+          await deleteS3Object(potentialOriginalKey);
+          companionKey = potentialOriginalKey;
+          break; // Stop after successfully deleting one
+        } catch (e) {
+          // File doesn't exist with this extension, try next one
+          continue;
+        }
+      }
+    } else {
+      // This is an original image, also delete the webp
+      const baseKey = s3Key.substring(0, s3Key.lastIndexOf("."));
+      const webpKey = baseKey + ".webp";
+      try {
+        await deleteS3Object(webpKey);
+        companionKey = webpKey;
+      } catch (e) {
+        // Webp doesn't exist, no problem
+      }
+    }
+
+    res.json({
+      ok: true,
+      message: "Image deleted successfully",
+      deletedKey: s3Key,
+      companionKey: companionKey || undefined,
+    });
   } catch (error: any) {
     console.error("[deleteImage] Error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
