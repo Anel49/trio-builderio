@@ -126,8 +126,12 @@ export default function AdminReportsList({
   const [selectedReportForForDetails, setSelectedReportForForDetails] =
     useState<string>("");
 
-  const limit = 6;
+  const limit = 15;
   const offset = currentPage * limit;
+
+  useEffect(() => {
+    loadReports(0);
+  }, []);
 
   const getSearchPlaceholder = () => {
     if (reportFor === "listing") {
