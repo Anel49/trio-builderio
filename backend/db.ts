@@ -190,33 +190,6 @@ export async function dbSetup(_req: Request, res: Response) {
     `);
     console.log("[dbSetup] Created listings table");
 
-    // Remove NOT NULL constraint from name column if it exists
-    try {
-      await pool.query(
-        `alter table listings alter column name drop not null`,
-      );
-      console.log("[dbSetup] Removed NOT NULL constraint from listings.name");
-    } catch (e: any) {
-      console.log(
-        "[dbSetup] Could not alter listings.name constraint:",
-        e?.message?.slice(0, 100),
-      );
-    }
-
-    // Remove NOT NULL constraint from price_cents column if it exists
-    try {
-      await pool.query(
-        `alter table listings alter column price_cents drop not null`,
-      );
-      console.log(
-        "[dbSetup] Removed NOT NULL constraint from listings.price_cents",
-      );
-    } catch (e: any) {
-      console.log(
-        "[dbSetup] Could not alter listings.price_cents constraint:",
-        e?.message?.slice(0, 100),
-      );
-    }
 
     await pool.query(`
       create table if not exists orders (
