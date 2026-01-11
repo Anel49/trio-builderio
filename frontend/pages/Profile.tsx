@@ -103,7 +103,6 @@ import { ChangeEmailModal } from "@/components/ui/change-email-modal";
 import { ChangeUsernameModal } from "@/components/ui/change-username-modal";
 import { PendingIdentityModal } from "@/components/ui/pending-identity-modal";
 import { IdentificationRequiredModal } from "@/components/ui/identification-required-modal";
-import { useToast } from "@/hooks/use-toast";
 
 type ListedItem = {
   id: number;
