@@ -1218,6 +1218,11 @@ export function createServer() {
     requireModeratorOrAdmin,
     getReportDetails,
   );
+  app.post(
+    "/api/admin/reports/:reportId/take-action",
+    requireModeratorOrAdmin,
+    takeActionOnReport,
+  );
 
   // Admin route aliases (without /api prefix)
   app.get("/admin/users", requireAdmin, listAllUsers);
