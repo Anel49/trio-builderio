@@ -121,7 +121,11 @@ export function ReportUserModal({
         onOpenChange(false);
       } else {
         console.error("Failed to block user:", data.error);
-        alert("Failed to block user. Please try again.");
+        const errorMessage =
+          data.error === "User is already blocked"
+            ? "User already blocked."
+            : "Failed to block user. Please try again.";
+        alert(errorMessage);
       }
     } catch (error) {
       console.error("Error blocking user:", error);
