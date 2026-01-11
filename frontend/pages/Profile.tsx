@@ -1011,6 +1011,7 @@ export default function Profile() {
             distanceMiles,
             latitude: listingCoords?.latitude ?? null,
             longitude: listingCoords?.longitude ?? null,
+            description: l.description ?? null,
             rentalPeriod: normalizeRentalPeriod((l as any).rentalPeriod),
             enabled: typeof l.enabled === "boolean" ? l.enabled : true,
             delivery: typeof l.delivery === "boolean" ? l.delivery : false,
