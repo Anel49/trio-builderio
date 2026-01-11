@@ -851,7 +851,7 @@ export async function getReportDetails(req: Request, res: Response) {
     }
 
     const result = await pool.query(
-      `select r.id, r.report_number, r.status, r.report_reasons, r.assigned_to,
+      `select r.id, r.report_number, r.status, r.report_reasons, r.report_details, r.assigned_to,
               u.name as assigned_to_name, r.created_at, r.updated_at, r.report_for, r.reported_id,
               ru.name as reported_user_name, ru.username as reported_user_username,
               rb.name as reported_by_name, rb.username as reported_by_username,
