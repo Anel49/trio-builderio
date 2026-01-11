@@ -1456,7 +1456,7 @@ export async function takeActionOnReport(req: Request, res: Response) {
     }
 
     const listingId = report.reported_id;
-    const listingHostId = report.listing_host_id;
+    const listingHostId = report.host_id;
     const listingName = report.listing_name;
 
     if (!listingId || !listingHostId) {
