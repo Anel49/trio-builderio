@@ -288,7 +288,7 @@ export function AdminReportDetailsModal({
           )}
         </div>
 
-        <div className="flex justify-between gap-2 pt-4">
+        <div className="flex justify-end gap-2 pt-4">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Close
           </Button>

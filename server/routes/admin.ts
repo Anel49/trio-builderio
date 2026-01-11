@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { pool } from "./db";
 import { requireAdmin, requireModeratorOrAdmin } from "./auth";
+import { deleteS3Prefix } from "../lib/s3";
 
 function rowToUserDetail(r: any) {
   return {
@@ -1493,6 +1494,18 @@ export async function takeActionOnReport(req: Request, res: Response) {
 
     if (!updateResult.rowCount) {
       return res.status(404).json({ ok: false, error: "Failed to update listing" });
+    }
+
+    // If images are being removed, delete the S3 folder for this listing
+    if (fieldsToRemove.includes("images")) {
+      try {
+        const s3Prefix = `listings/${listingId}/`;
+        console.log("[takeActionOnReport] Deleting S3 prefix:", s3Prefix);
+        await deleteS3Prefix(s3Prefix);
+      } catch (s3Error: any) {
+        console.error("[takeActionOnReport] Error deleting S3 prefix:", s3Error);
+        // Continue anyway - DB update succeeded, S3 deletion is best-effort
+      }
     }
 
     // Create message thread
