@@ -101,7 +101,6 @@ import {
   listConversations,
   getMessages,
   sendMessage,
-  updateThreadTitle,
 } from "./routes/messages";
 import { createCheckoutSession } from "./routes/checkout";
 import {
