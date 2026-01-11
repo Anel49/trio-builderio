@@ -113,6 +113,8 @@ export function ReportUserModal({
       const data = await response.json().catch(() => ({}));
 
       if (data.ok) {
+        // Call callback to notify parent component
+        onUserBlocked?.();
         // Close confirmation modal
         setIsConfirmationOpen(false);
         // Close main report modal
