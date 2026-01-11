@@ -70,7 +70,7 @@ export function AdminActionsModal({
             fieldsToRemove,
             moderatorMessage: moderatorMessage.trim(),
           }),
-        }
+        },
       );
 
       const data = await response.json().catch(() => ({}));

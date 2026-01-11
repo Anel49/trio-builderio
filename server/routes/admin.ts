@@ -1336,7 +1336,7 @@ export async function getReportConversation(req: Request, res: Response) {
     // Get the report
     const reportResult = await pool.query(
       `select id, reported_by_id, reported_id, assigned_to from reports where id = $1`,
-      [reportId]
+      [reportId],
     );
 
     if (!reportResult.rowCount) {
@@ -1371,7 +1371,7 @@ export async function getReportConversation(req: Request, res: Response) {
          or (user_a_id = $2 and user_b_id = $1)
       limit 1
       `,
-      [userId1, userId2]
+      [userId1, userId2],
     );
 
     if (!threadResult.rowCount) {
@@ -1397,7 +1397,7 @@ export async function getReportConversation(req: Request, res: Response) {
       where m.message_thread_id = $1
       order by m.created_at asc
       `,
-      [threadId]
+      [threadId],
     );
 
     const messages = messagesResult.rows.map((r: any) => ({
@@ -1428,11 +1428,15 @@ export async function takeActionOnReport(req: Request, res: Response) {
     }
 
     if (!Array.isArray(fieldsToRemove) || fieldsToRemove.length === 0) {
-      return res.status(400).json({ ok: false, error: "fieldsToRemove must be a non-empty array" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "fieldsToRemove must be a non-empty array" });
     }
 
     if (typeof moderatorMessage !== "string" || !moderatorMessage.trim()) {
-      return res.status(400).json({ ok: false, error: "moderatorMessage is required" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "moderatorMessage is required" });
     }
 
     // Fetch report details
@@ -1453,7 +1457,12 @@ export async function takeActionOnReport(req: Request, res: Response) {
 
     // Only listing reports can have actions taken
     if (report.report_for !== "listing") {
-      return res.status(400).json({ ok: false, error: "Actions can only be taken on listing reports" });
+      return res
+        .status(400)
+        .json({
+          ok: false,
+          error: "Actions can only be taken on listing reports",
+        });
     }
 
     const listingId = report.reported_id;
@@ -1461,7 +1470,9 @@ export async function takeActionOnReport(req: Request, res: Response) {
     const listingName = report.listing_name;
 
     if (!listingId || !listingHostId) {
-      return res.status(404).json({ ok: false, error: "Listing or host not found" });
+      return res
+        .status(404)
+        .json({ ok: false, error: "Listing or host not found" });
     }
 
     // Build dynamic UPDATE query for listing
@@ -1493,7 +1504,9 @@ export async function takeActionOnReport(req: Request, res: Response) {
     const updateResult = await pool.query(updateQuery, params);
 
     if (!updateResult.rowCount) {
-      return res.status(404).json({ ok: false, error: "Failed to update listing" });
+      return res
+        .status(404)
+        .json({ ok: false, error: "Failed to update listing" });
     }
 
     // If images are being removed, delete the S3 folder and listing_images records
@@ -1503,18 +1516,26 @@ export async function takeActionOnReport(req: Request, res: Response) {
         console.log("[takeActionOnReport] Deleting S3 prefix:", s3Prefix);
         await deleteS3Prefix(s3Prefix);
       } catch (s3Error: any) {
-        console.error("[takeActionOnReport] Error deleting S3 prefix:", s3Error);
+        console.error(
+          "[takeActionOnReport] Error deleting S3 prefix:",
+          s3Error,
+        );
         // Continue anyway - DB update succeeded, S3 deletion is best-effort
       }
 
       try {
-        console.log("[takeActionOnReport] Deleting listing_images records for listing:", listingId);
-        await pool.query(
-          `DELETE FROM listing_images WHERE listing_id = $1`,
-          [listingId],
+        console.log(
+          "[takeActionOnReport] Deleting listing_images records for listing:",
+          listingId,
         );
+        await pool.query(`DELETE FROM listing_images WHERE listing_id = $1`, [
+          listingId,
+        ]);
       } catch (dbError: any) {
-        console.error("[takeActionOnReport] Error deleting listing_images records:", dbError);
+        console.error(
+          "[takeActionOnReport] Error deleting listing_images records:",
+          dbError,
+        );
         // Continue anyway - S3 deletion succeeded, DB cleanup is important but not blocking
       }
     }
@@ -1532,8 +1553,10 @@ export async function takeActionOnReport(req: Request, res: Response) {
     // Build action list for message
     const actionList: string[] = [];
     if (fieldsToRemove.includes("title")) actionList.push("Title removed");
-    if (fieldsToRemove.includes("location")) actionList.push("Location removed");
-    if (fieldsToRemove.includes("description")) actionList.push("Description removed");
+    if (fieldsToRemove.includes("location"))
+      actionList.push("Location removed");
+    if (fieldsToRemove.includes("description"))
+      actionList.push("Description removed");
     if (fieldsToRemove.includes("addons")) actionList.push("Addons removed");
     if (fieldsToRemove.includes("images")) actionList.push("Image(s) removed");
 
