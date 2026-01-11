@@ -3168,31 +3168,6 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
-      {/* Listing Validation Error Modal */}
-      <Dialog
-        open={validationErrorMessage !== null}
-        onOpenChange={(open) => {
-          if (!open) setValidationErrorMessage(null);
-        }}
-      >
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Cannot Enable Listing</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-muted-foreground">
-            {validationErrorMessage}
-          </p>
-          <DialogFooter>
-            <Button
-              onClick={() => setValidationErrorMessage(null)}
-              className="w-full"
-            >
-              Close
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
       {/* Listing Deleted Success Modal */}
       <Dialog
         open={isDeleteSuccessModalOpen}
