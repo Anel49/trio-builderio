@@ -667,6 +667,9 @@ export default function AdminClaimsChat() {
                       </div>
                     </div>
 
+                    {/* Divider */}
+                    <div className="border-t border-border mt-6"></div>
+
                     {/* Claim Details */}
                     <div className="space-y-3 text-sm mt-3 w-full overflow-hidden">
                       <div>
