@@ -107,15 +107,18 @@ export default function AdminUserList({
   );
   const [showInactive, setShowInactive] = useState(false);
 
-  const limit = 6;
+  const limit = 15;
   const offset = currentPage * limit;
+
+  useEffect(() => {
+    loadUsers(0, false);
+  }, []);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
 
     setCurrentPage(0);
     setLastSearchedTerm(search);
-    setHasSearched(true);
     loadUsers(0, undefined, search);
   };
 
