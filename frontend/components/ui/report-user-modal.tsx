@@ -78,6 +78,7 @@ export function ReportUserModal({
   onOpenChange,
   userId,
   userName,
+  onUserBlocked,
 }: ReportUserModalProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [additionalDetails, setAdditionalDetails] = useState("");
