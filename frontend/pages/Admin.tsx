@@ -305,7 +305,7 @@ export default function Admin() {
     <>
       <Header />
       {/* Main Content - 25/75 Split */}
-      <div className="h-[calc(100vh-4rem)]">
+      <div className="h-[calc(100vh-4rem)] admin-page">
         <div className="h-full flex overflow-hidden">
           {/* Left Side - Navigation (25%) */}
           <div className="hidden lg:block w-1/4 bg-muted/30 overflow-hidden border-r border-border">

@@ -186,3 +186,8 @@ input[type="password"]::-webkit-strong-password-auto-fill-button {
 input[type="password"]::-ms-reveal {
   display: none;
 }
+
+/* Remove focus outline from admin page search inputs */
+.admin-page input:focus {
+  outline: none;
+}
