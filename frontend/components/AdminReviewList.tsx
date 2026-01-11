@@ -80,8 +80,12 @@ export default function AdminReviewList() {
   const [reviewType, setReviewType] = useState<"listing" | "user">("listing");
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  const limit = 6;
+  const limit = 15;
   const offset = currentPage * limit;
+
+  useEffect(() => {
+    loadReviews(0, "");
+  }, []);
 
   const getSearchPlaceholder = () => {
     if (reviewType === "listing") {
