@@ -93,8 +93,12 @@ export default function AdminFeedbackList() {
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
   const [showCompleted, setShowCompleted] = useState(false);
 
-  const limit = 6;
+  const limit = 15;
   const offset = currentPage * limit;
+
+  useEffect(() => {
+    loadFeedback(0, false);
+  }, []);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
