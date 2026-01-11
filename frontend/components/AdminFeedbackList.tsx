@@ -336,10 +336,6 @@ export default function AdminFeedbackList() {
                   </div>
                 </td>
               </tr>
-            ) : feedback.length === 0 && hasSearched ? (
-              <tr>
-                <td colSpan={8} className="py-4"></td>
-              </tr>
             ) : (
               feedback.map((item) => {
                 const categories = getCategories(item.categories);
