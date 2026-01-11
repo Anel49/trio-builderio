@@ -207,7 +207,7 @@ export default function Messages() {
     };
 
     fetchConversations();
-  }, [user?.id, selectedThreadId, userIdFromUrl]);
+  }, [user?.id]);
 
   // Handle temporary conversation creation when threadId is in URL params
   useEffect(() => {
