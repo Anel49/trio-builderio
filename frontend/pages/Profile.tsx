@@ -2306,8 +2306,14 @@ export default function Profile() {
                         onEnableClick={
                           !viewingOtherUser
                             ? () => {
-                                setItemToEnable(item);
-                                setIsEnableModalOpen(true);
+                                const validationError =
+                                  validateListingForEnable(item);
+                                if (validationError) {
+                                  setValidationErrorMessage(validationError);
+                                } else {
+                                  setItemToEnable(item);
+                                  setIsEnableModalOpen(true);
+                                }
                               }
                             : undefined
                         }
