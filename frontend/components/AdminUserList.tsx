@@ -110,10 +110,6 @@ export default function AdminUserList({
   const limit = 6;
   const offset = currentPage * limit;
 
-  useEffect(() => {
-    loadUsers(0, undefined, "");
-  }, []);
-
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
 
@@ -410,7 +406,13 @@ export default function AdminUserList({
         </table>
       </div>
 
-      {!loading && users.length === 0 && (
+      {!loading && users.length === 0 && !hasSearched && (
+        <div className={combineTokens(layouts.flex.center, "py-12")}>
+          <p className="text-muted-foreground">No users found</p>
+        </div>
+      )}
+
+      {!loading && users.length === 0 && hasSearched && (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No users found</p>
         </div>
