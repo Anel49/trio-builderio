@@ -572,10 +572,7 @@ export default function AdminClaimsChat() {
                               : "text-muted-foreground"
                           }`}
                         >
-                          {new Date(message.createdAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
+                          {formatLocalDateTime(message.createdAt)}
                         </p>
                       </div>
                     </div>
