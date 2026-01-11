@@ -286,7 +286,7 @@ export function ReportUserModal({
           <DialogHeader>
             <DialogTitle>Report submitted</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 py-4">
+          <div className="space-y-4 py-0">
             <div className="text-sm leading-relaxed text-muted-foreground space-y-3">
               <p>{userName} has been reported.</p>
               <p>
