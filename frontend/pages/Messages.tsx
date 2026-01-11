@@ -899,7 +899,7 @@ export default function Messages() {
                               : "text-muted-foreground"
                           }`}
                         >
-                          {formatUTCDateTime(message.createdAt)}
+                          {formatLocalDateTime(message.createdAt)}
                         </p>
                       </div>
                     </div>
