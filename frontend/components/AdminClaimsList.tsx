@@ -102,8 +102,12 @@ export default function AdminClaimsList() {
   const [showCompleted, setShowCompleted] = useState(false);
   const [statusFilter, setStatusFilter] = useState("");
 
-  const limit = 6;
+  const limit = 15;
   const offset = currentPage * limit;
+
+  useEffect(() => {
+    loadClaims(0, false, "");
+  }, []);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
