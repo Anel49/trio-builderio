@@ -1416,3 +1416,122 @@ export async function getReportConversation(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function takeActionOnReport(req: Request, res: Response) {
+  try {
+    const reportId = Number.parseInt((req.params.reportId as string) || "", 10);
+    const { fieldsToRemove, moderatorMessage } = req.body || {};
+
+    if (!Number.isFinite(reportId)) {
+      return res.status(400).json({ ok: false, error: "Invalid report ID" });
+    }
+
+    if (!Array.isArray(fieldsToRemove) || fieldsToRemove.length === 0) {
+      return res.status(400).json({ ok: false, error: "fieldsToRemove must be a non-empty array" });
+    }
+
+    if (typeof moderatorMessage !== "string" || !moderatorMessage.trim()) {
+      return res.status(400).json({ ok: false, error: "moderatorMessage is required" });
+    }
+
+    // Fetch report details
+    const reportResult = await pool.query(
+      `select r.id, r.report_number, r.reported_id, r.report_for,
+              l.name as listing_name, l.host_id, l.enabled
+       from reports r
+       left join listings l on r.report_for = 'listing' and r.reported_id = l.id
+       where r.id = $1`,
+      [reportId],
+    );
+
+    if (!reportResult.rowCount || reportResult.rowCount === 0) {
+      return res.status(404).json({ ok: false, error: "Report not found" });
+    }
+
+    const report = reportResult.rows[0];
+
+    // Only listing reports can have actions taken
+    if (report.report_for !== "listing") {
+      return res.status(400).json({ ok: false, error: "Actions can only be taken on listing reports" });
+    }
+
+    const listingId = report.reported_id;
+    const listingHostId = report.listing_host_id;
+    const listingName = report.listing_name;
+
+    if (!listingId || !listingHostId) {
+      return res.status(404).json({ ok: false, error: "Listing or host not found" });
+    }
+
+    // Build dynamic UPDATE query for listing
+    const updates: string[] = ["enabled = false"];
+    const params: any[] = [];
+    let paramIndex = 1;
+
+    if (fieldsToRemove.includes("title")) {
+      updates.push(`name = NULL`);
+    }
+    if (fieldsToRemove.includes("location")) {
+      updates.push(`latitude = NULL`);
+      updates.push(`longitude = NULL`);
+    }
+    if (fieldsToRemove.includes("description")) {
+      updates.push(`description = NULL`);
+    }
+    if (fieldsToRemove.includes("addons")) {
+      updates.push(`addons = NULL`);
+    }
+    if (fieldsToRemove.includes("images")) {
+      updates.push(`image_url = NULL`);
+    }
+
+    params.push(listingId);
+
+    // Update the listing
+    const updateQuery = `UPDATE listings SET ${updates.join(", ")} WHERE id = $${paramIndex} RETURNING id`;
+    const updateResult = await pool.query(updateQuery, params);
+
+    if (!updateResult.rowCount) {
+      return res.status(404).json({ ok: false, error: "Failed to update listing" });
+    }
+
+    // Create message thread
+    const threadResult = await pool.query(
+      `INSERT INTO message_threads (user_a_id, user_b_id, thread_title, last_updated_by_id)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id`,
+      [2, listingHostId, report.report_number, 2],
+    );
+
+    const threadId = threadResult.rows[0].id;
+
+    // Build action list for message
+    const actionList: string[] = [];
+    if (fieldsToRemove.includes("title")) actionList.push("Title removed");
+    if (fieldsToRemove.includes("location")) actionList.push("Location removed");
+    if (fieldsToRemove.includes("description")) actionList.push("Description removed");
+    if (fieldsToRemove.includes("addons")) actionList.push("Addons removed");
+    if (fieldsToRemove.includes("images")) actionList.push("Image(s) removed");
+
+    const actionBullets = actionList.map((action) => `• ${action}`).join("\n");
+
+    const messageBody = `Your listing "${listingName}" was found to be in violation of LendIt's policies. The listing was disabled and the following actions were taken:\n${actionBullets}\n\nModerator notes: ${moderatorMessage.trim()}`;
+
+    // Create the message
+    const messageResult = await pool.query(
+      `INSERT INTO messages (sender_id, to_id, body, message_thread_id)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id`,
+      [2, listingHostId, messageBody, threadId],
+    );
+
+    res.json({
+      ok: true,
+      messageThreadId: threadId,
+      messageId: messageResult.rows[0].id,
+    });
+  } catch (error: any) {
+    console.error("[takeActionOnReport] Error:", error);
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
