@@ -22,6 +22,7 @@ import { apiFetch } from "@/lib/api";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { Footer } from "@/components/Footer";
 import { SupportMessage } from "@/components/ui/support-message";
+import { formatLocalDateTime } from "@/lib/timezone-utils";
 
 interface ClaimThread {
   threadId: number;
