@@ -288,7 +288,7 @@ export function AdminReportDetailsModal({
           )}
         </div>
 
-        <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:justify-end">
+        <DialogFooter className="gap-2 sm:justify-end">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Close
           </Button>
