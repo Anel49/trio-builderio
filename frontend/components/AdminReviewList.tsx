@@ -151,6 +151,7 @@ export default function AdminReviewList() {
           setUserReviews(data.reviews || []);
         }
         setTotalReviews(data.total || 0);
+        setHasSearched(true);
       } catch (parseErr) {
         console.error("[AdminReviewList] JSON parse error:", parseErr);
         throw new Error(
