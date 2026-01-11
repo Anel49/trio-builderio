@@ -289,13 +289,25 @@ export function ReportUserModal({
                 Thank you! Your report plays an important part in keeping our
                 communities safe.
               </p>
+              <p>Would you also like to block this user?</p>
             </div>
-            <Button
-              onClick={() => setIsConfirmationOpen(false)}
-              className="w-full"
-            >
-              OK
-            </Button>
+            <div className="flex flex-col gap-3">
+              <Button
+                onClick={handleBlockUser}
+                disabled={isBlockingUser}
+                className="w-full"
+              >
+                {isBlockingUser ? "Blocking..." : `Block ${userName}`}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setIsConfirmationOpen(false)}
+                disabled={isBlockingUser}
+                className="w-full"
+              >
+                Close
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
