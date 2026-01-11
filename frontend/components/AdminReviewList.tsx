@@ -83,10 +83,6 @@ export default function AdminReviewList() {
   const limit = 6;
   const offset = currentPage * limit;
 
-  useEffect(() => {
-    loadReviews(0, "");
-  }, [reviewType]);
-
   const getSearchPlaceholder = () => {
     if (reviewType === "listing") {
       return "Search using a listing name...";
