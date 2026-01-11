@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
+import { AdminActionsModal } from "./AdminActionsModal";
 
 interface ReportDetailsModalProps {
   open: boolean;
