@@ -488,7 +488,7 @@ export default function AdminReviewList() {
         </table>
       </div>
 
-      {!loading && reviews.length === 0 && hasSearched && (
+      {!loading && reviews.length === 0 && (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">No reviews found</p>
         </div>
