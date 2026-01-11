@@ -2869,6 +2869,7 @@ export default function Profile() {
         onOpenChange={setIsReportUserModalOpen}
         userId={viewingOtherUser ? otherUserData?.id : undefined}
         userName={viewingOtherUser ? otherUserData?.name : undefined}
+        onUserBlocked={() => refetchBlockStatus()}
       />
       <MobileMenu
         isOpen={isMobileMenuOpen}
