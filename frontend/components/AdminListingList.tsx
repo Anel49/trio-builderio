@@ -177,16 +177,10 @@ export default function AdminListingList() {
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <Loader2 className="animate-spin" />
         </div>
-      ) : !hasSearched ? (
-        <div className={combineTokens(layouts.flex.center, "py-12")}>
-          <p className="text-muted-foreground">
-            Search using a listing's title or its ID number.
-          </p>
-        </div>
       ) : listings.length === 0 ? (
         <div className={combineTokens(layouts.flex.center, "py-12")}>
           <p className="text-muted-foreground">
-            No listings match your search.
+            No listings found
           </p>
         </div>
       ) : (
