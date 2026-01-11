@@ -1184,6 +1184,7 @@ export default function Messages() {
         onOpenChange={setIsReportUserModalOpen}
         userId={selectedUserId || undefined}
         userName={selectedChat?.name?.trim()}
+        onUserBlocked={() => refetchBlockStatus()}
       />
 
       {/* Contact Support Modal */}
