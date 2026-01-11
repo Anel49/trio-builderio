@@ -96,10 +96,6 @@ export default function AdminFeedbackList() {
   const limit = 6;
   const offset = currentPage * limit;
 
-  useEffect(() => {
-    loadFeedback(0, undefined, "");
-  }, []);
-
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
 
