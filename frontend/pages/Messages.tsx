@@ -49,7 +49,7 @@ import { useBlockStatus } from "@/hooks/useBlockStatus";
 import { Footer } from "@/components/Footer";
 import { LinkifiedMessage } from "@/components/ui/linkified-message";
 import { SupportMessage } from "@/components/ui/support-message";
-import { formatUTCDateTime } from "@/lib/timezone-utils";
+import { formatLocalDateTime } from "@/lib/timezone-utils";
 
 interface Conversation {
   threadId: number;
