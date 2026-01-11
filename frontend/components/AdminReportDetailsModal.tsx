@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
@@ -288,7 +288,7 @@ export function AdminReportDetailsModal({
           )}
         </div>
 
-        <div className="flex justify-end gap-2 pt-4">
+        <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:justify-end">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Close
           </Button>
@@ -300,7 +300,7 @@ export function AdminReportDetailsModal({
               Take Action
             </Button>
           )}
-        </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
 

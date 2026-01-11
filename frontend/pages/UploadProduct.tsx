@@ -606,6 +606,7 @@ export default function UploadProduct() {
         delivery: offerDelivery,
         free_delivery: offerFreeDelivery,
         instant_bookings: enableInstantBooking,
+        enabled: true,
         addons: addons
           .filter((addon) => addon.item.trim() !== "")
           .map((addon) => {
@@ -741,6 +742,7 @@ export default function UploadProduct() {
                   : "00000"),
               delivery: offerDelivery,
               free_delivery: offerFreeDelivery,
+              enabled: true,
               addons: addons
                 .filter((addon) => addon.item.trim() !== "")
                 .map((addon) => {
