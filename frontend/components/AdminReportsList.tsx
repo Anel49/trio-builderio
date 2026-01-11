@@ -435,7 +435,7 @@ export default function AdminReportsList({
                           }}
                           className={cn(
                             typography.weight.medium,
-                            "text-primary hover:underline cursor-pointer",
+                            "text-primary hover:underline cursor-pointer flex-1",
                           )}
                         >
                           {report.report_number || "N/A"}
@@ -446,7 +446,7 @@ export default function AdminReportsList({
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-5 w-5 p-0 hover:bg-transparent"
+                              className="h-5 w-5 p-0 hover:bg-transparent flex-shrink-0"
                               title="View chat"
                               onClick={() => {
                                 setSelectedReportForChat(report);
