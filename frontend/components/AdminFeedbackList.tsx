@@ -283,10 +283,8 @@ export default function AdminFeedbackList() {
           onCheckedChange={(checked) => {
             const newShowCompleted = checked === true;
             setShowCompleted(newShowCompleted);
-            if (hasSearched) {
-              setCurrentPage(0);
-              loadFeedback(0, newShowCompleted);
-            }
+            setCurrentPage(0);
+            loadFeedback(0, newShowCompleted);
           }}
         />
         <label
