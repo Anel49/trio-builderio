@@ -291,10 +291,8 @@ export default function AdminClaimsList() {
           onCheckedChange={(checked) => {
             const newShowCompleted = checked === true;
             setShowCompleted(newShowCompleted);
-            if (search.trim() === lastSearchedTerm) {
-              setCurrentPage(0);
-              loadClaims(0, newShowCompleted, statusFilter);
-            }
+            setCurrentPage(0);
+            loadClaims(0, newShowCompleted, statusFilter);
           }}
         />
         <label
