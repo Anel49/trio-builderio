@@ -213,10 +213,8 @@ export default function AdminOrderList() {
           onCheckedChange={(checked) => {
             const newShowCompleted = checked === true;
             setShowCompleted(newShowCompleted);
-            if (search.trim() === lastSearchedTerm) {
-              setCurrentPage(0);
-              loadOrders(0, newShowCompleted);
-            }
+            setCurrentPage(0);
+            loadOrders(0, newShowCompleted);
           }}
         />
         <label
