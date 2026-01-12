@@ -346,10 +346,8 @@ export default function AdminReportsList({
           onCheckedChange={(checked) => {
             const newShowCompleted = checked === true;
             setShowCompleted(newShowCompleted);
-            if (hasSearched) {
-              setCurrentPage(0);
-              loadReports(0, newShowCompleted);
-            }
+            setCurrentPage(0);
+            loadReports(0, newShowCompleted);
           }}
         />
         <label
