@@ -226,7 +226,7 @@ export default function AdminClaimsList() {
 
   const handleStatusChange = async (claimId: number, newStatus: string) => {
     try {
-      const response = await apiFetch(`/admin/claims/${claimId}`, {
+      const response = await apiFetch(`/admin/claims/${claimId}/status`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
