@@ -1224,6 +1224,11 @@ export function createServer() {
     requireModeratorOrAdmin,
     takeActionOnReport,
   );
+  app.get(
+    "/api/admin/message-threads",
+    requireModeratorOrAdmin,
+    listMessageThreadsByUserPair,
+  );
 
   // Admin route aliases (without /api prefix)
   app.get("/admin/users", requireAdmin, listAllUsers);
