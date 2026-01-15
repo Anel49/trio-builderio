@@ -127,6 +127,31 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Create user_thread_state table
+    try {
+      await pool.query(
+        `create table if not exists user_thread_state (
+          id serial primary key,
+          user_id integer not null references users(id) on delete cascade,
+          thread_id integer not null references message_threads(id) on delete cascade,
+          is_hidden boolean not null default false,
+          is_archived boolean not null default false,
+          is_muted boolean not null default false,
+          created_at timestamptz not null default now(),
+          updated_at timestamptz not null default now(),
+          unique(user_id, thread_id)
+        )`,
+      );
+      console.log("[dbSetup] Created/verified user_thread_state table");
+    } catch (e: any) {
+      if (!e.message?.includes("already exists")) {
+        console.warn(
+          "[dbSetup] Warning with user_thread_state table:",
+          e.message,
+        );
+      }
+    }
+
     // Add UNIQUE constraint on username if it doesn't exist
     try {
       await pool.query(
