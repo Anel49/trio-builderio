@@ -240,7 +240,9 @@ export default function Header() {
                         <button
                           onClick={handleLogout}
                           className={`text-left px-3 py-1.5 text-sm hover:bg-accent rounded-sm whitespace-nowrap w-full ${
-                            user?.admin || user?.moderator ? "rounded-t-none" : ""
+                            user?.admin || user?.moderator
+                              ? "rounded-t-none"
+                              : ""
                           }`}
                         >
                           Log out

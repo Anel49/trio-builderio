@@ -1468,12 +1468,10 @@ export async function takeActionOnReport(req: Request, res: Response) {
 
     // Only listing reports can have actions taken
     if (report.report_for !== "listing") {
-      return res
-        .status(400)
-        .json({
-          ok: false,
-          error: "Actions can only be taken on listing reports",
-        });
+      return res.status(400).json({
+        ok: false,
+        error: "Actions can only be taken on listing reports",
+      });
     }
 
     const listingId = report.reported_id;
@@ -1594,7 +1592,10 @@ export async function takeActionOnReport(req: Request, res: Response) {
   }
 }
 
-export async function listMessageThreadsByUserPair(req: Request, res: Response) {
+export async function listMessageThreadsByUserPair(
+  req: Request,
+  res: Response,
+) {
   try {
     const userId1 = Number.parseInt((req.query.user_a_id as string) || "", 10);
     const userId2 = Number.parseInt((req.query.user_b_id as string) || "", 10);
@@ -1602,7 +1603,8 @@ export async function listMessageThreadsByUserPair(req: Request, res: Response) 
     if (!Number.isFinite(userId1) || !Number.isFinite(userId2)) {
       return res.status(400).json({
         ok: false,
-        error: "user_a_id and user_b_id are required and must be valid integers",
+        error:
+          "user_a_id and user_b_id are required and must be valid integers",
       });
     }
 
@@ -1628,8 +1630,6 @@ export async function listMessageThreadsByUserPair(req: Request, res: Response) 
     });
   } catch (error: any) {
     console.error("[listMessageThreadsByUserPair] Error:", error);
-    res
-      .status(500)
-      .json({ ok: false, error: String(error?.message || error) });
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
