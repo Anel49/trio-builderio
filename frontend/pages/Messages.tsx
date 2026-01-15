@@ -484,6 +484,7 @@ export default function Messages() {
         );
 
         // Refresh conversations to update last message
+        // When a message is sent, it unhides the thread, so we should switch back to viewing normal threads
         if (user?.id) {
           const convoResponse = await apiFetch(
             `/messages/${user.id}/conversations`,
@@ -492,6 +493,8 @@ export default function Messages() {
           if (convoData.ok) {
             setConversations(convoData.conversations || []);
             setGhostUserData(null);
+            // Reset to showing unhidden threads
+            setShowHiddenThreads(false);
           }
         }
       }
