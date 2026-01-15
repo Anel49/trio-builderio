@@ -64,6 +64,69 @@ export async function listConversations(req: Request, res: Response) {
   }
 }
 
+export async function listHiddenConversations(req: Request, res: Response) {
+  try {
+    const userId = Number((req.params as any)?.userId || "0");
+    if (!userId) {
+      return res.status(400).json({ ok: false, error: "userId is required" });
+    }
+
+    const result = await pool.query(
+      `
+      WITH last_messages AS (
+        SELECT
+          mt.id as thread_id,
+          CASE
+            WHEN m.sender_id = $1 THEN m.to_id
+            ELSE m.sender_id
+          END as other_user_id,
+          m.body,
+          m.created_at,
+          m.sender_id,
+          mt.thread_title,
+          ROW_NUMBER() OVER (PARTITION BY mt.id ORDER BY m.created_at DESC) as rn
+        FROM message_threads mt
+        LEFT JOIN messages m ON mt.id = m.message_thread_id
+        WHERE (mt.user_a_id = $1 OR mt.user_b_id = $1)
+      )
+      SELECT
+        lm.thread_id,
+        lm.other_user_id,
+        u.name,
+        u.avatar_url,
+        u.username,
+        lm.body as last_message,
+        lm.created_at as last_message_time,
+        lm.sender_id as last_message_sender_id,
+        lm.thread_title
+      FROM last_messages lm
+      JOIN users u ON u.id = lm.other_user_id
+      INNER JOIN user_thread_state uts ON uts.thread_id = lm.thread_id AND uts.user_id = $1
+      WHERE lm.rn = 1
+        AND uts.is_hidden = true
+      ORDER BY uts.updated_at DESC NULLS LAST
+      `,
+      [userId],
+    );
+
+    const conversations = result.rows.map((r: any) => ({
+      threadId: r.thread_id,
+      otherUserId: r.other_user_id,
+      name: r.name,
+      avatarUrl: r.avatar_url,
+      username: r.username,
+      lastMessage: r.last_message,
+      lastMessageTime: r.last_message_time,
+      lastMessageSenderId: r.last_message_sender_id,
+      threadTitle: r.thread_title,
+    }));
+
+    res.json({ ok: true, conversations });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
+
 export async function getMessages(req: Request, res: Response) {
   try {
     const userId = Number((req.params as any)?.userId || "0");
