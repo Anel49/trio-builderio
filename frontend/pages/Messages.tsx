@@ -153,6 +153,8 @@ export default function Messages() {
   // State for hovered conversation
   const [hoveredThreadId, setHoveredThreadId] = useState<number | null>(null);
   const [isHidingThread, setIsHidingThread] = useState(false);
+  // State for showing hidden threads
+  const [showHiddenThreads, setShowHiddenThreads] = useState(false);
 
   // Ref for scrolling messages to bottom
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
