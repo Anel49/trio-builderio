@@ -498,6 +498,42 @@ export default function Messages() {
     }
   };
 
+  // Handle hide thread
+  const handleHideThread = async (threadId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (!user?.id) return;
+
+    setIsHidingThread(true);
+    try {
+      const response = await apiFetch("/messages/thread/hide", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          threadId: threadId,
+          isHidden: true,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        // Remove the thread from the conversations list
+        setConversations(conversations.filter((c) => c.threadId !== threadId));
+
+        // If the hidden thread was selected, deselect it
+        if (selectedThreadId === threadId) {
+          setSelectedThreadId(null);
+          setSelectedUserId(null);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to hide thread:", error);
+    } finally {
+      setIsHidingThread(false);
+    }
+  };
+
   // Handle block/unblock user
   const handleBlockUser = async () => {
     if (!user?.id || !selectedUserId) return;
