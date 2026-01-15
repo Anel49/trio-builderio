@@ -276,6 +276,32 @@ export async function sendMessage(req: Request, res: Response) {
       [senderId, threadId],
     );
 
+    // Get the thread's user_a_id and user_b_id to unhide for both users
+    const threadResult = await pool.query(
+      `
+      SELECT user_a_id, user_b_id FROM message_threads WHERE id = $1
+      `,
+      [threadId],
+    );
+
+    if (threadResult.rows.length > 0) {
+      const { user_a_id, user_b_id } = threadResult.rows[0];
+      const threadUsers = [user_a_id, user_b_id];
+
+      // Ensure user_thread_state entries exist for both users and unhide the thread
+      for (const userId of threadUsers) {
+        await pool.query(
+          `
+          INSERT INTO user_thread_state (user_id, thread_id, is_hidden, created_at, updated_at)
+          VALUES ($1, $2, false, now(), now())
+          ON CONFLICT (user_id, thread_id)
+          DO UPDATE SET is_hidden = false, updated_at = now()
+          `,
+          [userId, threadId],
+        );
+      }
+    }
+
     res.json({
       ok: true,
       message: {
