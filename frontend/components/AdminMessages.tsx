@@ -456,7 +456,20 @@ export default function AdminMessages() {
           )}
         >
           <p className="text-muted-foreground">
-            Choose a user pair to view messages
+            Choose a user pair to view threads
+          </p>
+        </div>
+      ) : !threadId ? (
+        <div
+          className={combineTokens(
+            layouts.flex.center,
+            "flex-1 bg-background rounded-lg border border-border overflow-hidden",
+          )}
+        >
+          <p className="text-muted-foreground">
+            {threads.length === 0
+              ? "No threads found for this user pair"
+              : "Select a thread to view messages"}
           </p>
         </div>
       ) : (
