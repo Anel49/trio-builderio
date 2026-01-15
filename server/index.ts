@@ -1281,6 +1281,11 @@ export function createServer() {
     requireModeratorOrAdmin,
     takeActionOnReport,
   );
+  app.get(
+    "/admin/message-threads",
+    requireModeratorOrAdmin,
+    listMessageThreadsByUserPair,
+  );
 
   // Feedback
   app.get("/api/admin/feedback", requireModeratorOrAdmin, listAllFeedback);
