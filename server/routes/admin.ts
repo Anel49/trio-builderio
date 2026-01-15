@@ -35,13 +35,23 @@ export async function listAllUsers(req: Request, res: Response) {
     const search = ((req.query.search as string) || "").toLowerCase().trim();
     const showInactive =
       (req.query.show_inactive as string) === "true" ? true : false;
+    const includeSupport =
+      (req.query.include_support as string) === "true" ? true : false;
 
     let whereClause = "u.id != 2";
     const params: any[] = [];
 
+    if (includeSupport) {
+      whereClause = "1=1";
+    }
+
     if (search) {
       params.push(`%${search}%`);
-      whereClause = `u.id != 2 and (lower(u.name) like $${params.length} or lower(u.email) like $${params.length} or lower(u.username) like $${params.length})`;
+      if (includeSupport) {
+        whereClause = `(lower(u.name) like $${params.length} or lower(u.email) like $${params.length} or lower(u.username) like $${params.length})`;
+      } else {
+        whereClause = `u.id != 2 and (lower(u.name) like $${params.length} or lower(u.email) like $${params.length} or lower(u.username) like $${params.length})`;
+      }
     }
 
     if (!showInactive) {
