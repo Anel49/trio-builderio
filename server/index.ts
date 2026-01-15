@@ -907,9 +907,11 @@ export function createServer() {
   app.get("/api/messages/:userId/conversations", listConversations);
   app.get("/api/messages/:userId/:threadId", getMessages);
   app.post("/api/messages", sendMessage);
+  app.post("/api/messages/thread/hide", hideThread);
   app.get("/messages/:userId/conversations", listConversations);
   app.get("/messages/:userId/:threadId", getMessages);
   app.post("/messages", sendMessage);
+  app.post("/messages/thread/hide", hideThread);
   // Checkout
   app.post("/api/checkout/create-session", createCheckoutSession);
   app.post("/checkout/create-session", createCheckoutSession);
