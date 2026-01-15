@@ -60,6 +60,8 @@ export default function AdminMessages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [messagesLoading, setMessagesLoading] = useState(false);
   const [threadId, setThreadId] = useState<number | null>(null);
+  const [threads, setThreads] = useState<MessageThread[]>([]);
+  const [threadsLoading, setThreadsLoading] = useState(false);
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
 
   const searchUsers = useCallback(async (query: string) => {
@@ -72,6 +74,7 @@ export default function AdminMessages() {
         search: query,
         limit: "10",
         offset: "0",
+        include_support: "true",
       });
 
       const response = await apiFetch(`/admin/users?${params.toString()}`);
