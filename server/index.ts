@@ -99,7 +99,7 @@ import {
   updateListingReviewHelpful,
   deleteListingReview,
 } from "./routes/listing-reviews";
-import { listConversations, getMessages, sendMessage, hideThread } from "./routes/messages";
+import { listConversations, listHiddenConversations, getMessages, sendMessage, hideThread } from "./routes/messages";
 import { createCheckoutSession } from "./routes/checkout";
 import {
   createClaim,
