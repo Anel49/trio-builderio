@@ -38,25 +38,26 @@ export async function listAllUsers(req: Request, res: Response) {
     const includeSupport =
       (req.query.include_support as string) === "true" ? true : false;
 
-    let whereClause = "u.id != 2";
     const params: any[] = [];
+    const whereClauses: string[] = [];
 
-    if (includeSupport) {
-      whereClause = "1=1";
+    if (!includeSupport) {
+      whereClauses.push("u.id != 2");
     }
 
     if (search) {
       params.push(`%${search}%`);
-      if (includeSupport) {
-        whereClause = `(lower(u.name) like $${params.length} or lower(u.email) like $${params.length} or lower(u.username) like $${params.length})`;
-      } else {
-        whereClause = `u.id != 2 and (lower(u.name) like $${params.length} or lower(u.email) like $${params.length} or lower(u.username) like $${params.length})`;
-      }
+      whereClauses.push(
+        `(lower(u.name) like $${params.length} or lower(u.email) like $${params.length} or lower(u.username) like $${params.length})`,
+      );
     }
 
     if (!showInactive) {
-      whereClause += ` and u.active = true`;
+      whereClauses.push("u.active = true");
     }
+
+    const whereClause =
+      whereClauses.length > 0 ? whereClauses.join(" and ") : "1=1";
 
     const result = await pool.query(
       `select u.id, u.name, u.email, u.username, u.avatar_url, u.created_at,
