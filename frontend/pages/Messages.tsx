@@ -536,6 +536,31 @@ export default function Messages() {
     }
   };
 
+  // Handle toggle hidden threads view
+  const handleToggleHiddenThreads = async () => {
+    if (!user?.id) return;
+
+    if (showHiddenThreads) {
+      // Switch back to regular conversations
+      setShowHiddenThreads(false);
+      // The conversations state should still have the original list
+      // If not cached, we can just refetch
+      const response = await apiFetch(`/messages/${user.id}/conversations`);
+      const data = await response.json();
+      if (data.ok) {
+        setConversations(data.conversations || []);
+      }
+    } else {
+      // Switch to hidden conversations
+      setShowHiddenThreads(true);
+      const response = await apiFetch(`/messages/${user.id}/conversations/hidden`);
+      const data = await response.json();
+      if (data.ok) {
+        setConversations(data.conversations || []);
+      }
+    }
+  };
+
   // Handle block/unblock user
   const handleBlockUser = async () => {
     if (!user?.id || !selectedUserId) return;
