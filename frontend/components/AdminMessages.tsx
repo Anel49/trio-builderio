@@ -283,128 +283,167 @@ export default function AdminMessages() {
       )}
 
       {/* User Selection Area */}
-      <div
-        className={combineTokens(
-          layouts.flex.center,
-          "gap-2 sm:gap-4 py-6 min-w-0",
-        )}
-      >
-        {/* User A Input */}
-        <div className="flex-1 min-w-0">
-          <div className="relative">
-            {userA && !focusedA ? (
-              <Button
-                onClick={clearA}
-                variant="outline"
-                className="w-full justify-start text-left h-auto py-2 px-3 overflow-hidden"
-              >
-                <span className="truncate">{formatUserDisplay(userA)}</span>
-                <X className="h-4 w-4 ml-2 flex-shrink-0" />
-              </Button>
-            ) : (
-              <>
-                <Input
-                  type="text"
-                  placeholder="Search user by name..."
-                  value={searchA}
-                  onChange={(e) => handleSearchA(e.target.value)}
-                  onFocus={() => setFocusedA(true)}
-                  onBlur={() => {
-                    setTimeout(() => setFocusedA(false), 200);
-                  }}
-                  autoComplete="off"
-                />
-                {loadingA && (
-                  <div className="absolute right-3 top-3">
-                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                  </div>
-                )}
-                {suggestionsA.length > 0 && focusedA && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-lg z-10">
-                    {suggestionsA.map((user) => (
-                      <button
-                        key={user.id}
-                        onClick={() => handleSelectA(user)}
-                        className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-sm"
-                      >
-                        <p className={typography.weight.medium}>
-                          {user.name || "Unknown"}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {user.id}, {user.username || "no username"}
-                        </p>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
+      <div className="flex flex-col gap-4">
+        <div
+          className={combineTokens(
+            layouts.flex.center,
+            "gap-2 sm:gap-4 min-w-0",
+          )}
+        >
+          {/* User A Input */}
+          <div className="flex-1 min-w-0">
+            <div className="relative">
+              {userA && !focusedA ? (
+                <Button
+                  onClick={clearA}
+                  variant="outline"
+                  className="w-full justify-start text-left h-auto py-2 px-3 overflow-hidden"
+                >
+                  <span className="truncate">{formatUserDisplay(userA)}</span>
+                  <X className="h-4 w-4 ml-2 flex-shrink-0" />
+                </Button>
+              ) : (
+                <>
+                  <Input
+                    type="text"
+                    placeholder="Search user by name..."
+                    value={searchA}
+                    onChange={(e) => handleSearchA(e.target.value)}
+                    onFocus={() => setFocusedA(true)}
+                    onBlur={() => {
+                      setTimeout(() => setFocusedA(false), 200);
+                    }}
+                    autoComplete="off"
+                  />
+                  {loadingA && (
+                    <div className="absolute right-3 top-3">
+                      <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                    </div>
+                  )}
+                  {suggestionsA.length > 0 && focusedA && (
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-lg z-10">
+                      {suggestionsA.map((user) => (
+                        <button
+                          key={user.id}
+                          onClick={() => handleSelectA(user)}
+                          className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-sm"
+                        >
+                          <p className={typography.weight.medium}>
+                            {user.name || "Unknown"}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {user.id}, {user.username || "no username"}
+                          </p>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Swap Button */}
+          <button
+            onClick={swapUsers}
+            className={combineTokens(
+              "p-2 rounded-md hover:bg-muted transition-colors",
+              "flex items-center justify-center flex-shrink-0",
             )}
+            title="Swap users"
+          >
+            <ArrowLeftRight className="h-5 w-5" />
+          </button>
+
+          {/* User B Input */}
+          <div className="flex-1 min-w-0">
+            <div className="relative">
+              {userB && !focusedB ? (
+                <Button
+                  onClick={clearB}
+                  variant="outline"
+                  className="w-full justify-start text-left h-auto py-2 px-3 overflow-hidden"
+                >
+                  <span className="truncate">{formatUserDisplay(userB)}</span>
+                  <X className="h-4 w-4 ml-2 flex-shrink-0" />
+                </Button>
+              ) : (
+                <>
+                  <Input
+                    type="text"
+                    placeholder="Search user by name..."
+                    value={searchB}
+                    onChange={(e) => handleSearchB(e.target.value)}
+                    onFocus={() => setFocusedB(true)}
+                    onBlur={() => {
+                      setTimeout(() => setFocusedB(false), 200);
+                    }}
+                    autoComplete="off"
+                  />
+                  {loadingB && (
+                    <div className="absolute right-3 top-3">
+                      <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                    </div>
+                  )}
+                  {suggestionsB.length > 0 && focusedB && (
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-lg z-10">
+                      {suggestionsB.map((user) => (
+                        <button
+                          key={user.id}
+                          onClick={() => handleSelectB(user)}
+                          className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-sm"
+                        >
+                          <p className={typography.weight.medium}>
+                            {user.name || "Unknown"}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {user.id}, {user.username || "no username"}
+                          </p>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Swap Button */}
-        <button
-          onClick={swapUsers}
-          className={combineTokens(
-            "p-2 rounded-md hover:bg-muted transition-colors",
-            "flex items-center justify-center flex-shrink-0",
-          )}
-          title="Swap users"
-        >
-          <ArrowLeftRight className="h-5 w-5" />
-        </button>
-
-        {/* User B Input */}
-        <div className="flex-1 min-w-0">
-          <div className="relative">
-            {userB && !focusedB ? (
-              <Button
-                onClick={clearB}
-                variant="outline"
-                className="w-full justify-start text-left h-auto py-2 px-3 overflow-hidden"
-              >
-                <span className="truncate">{formatUserDisplay(userB)}</span>
-                <X className="h-4 w-4 ml-2 flex-shrink-0" />
-              </Button>
-            ) : (
-              <>
-                <Input
-                  type="text"
-                  placeholder="Search user by name..."
-                  value={searchB}
-                  onChange={(e) => handleSearchB(e.target.value)}
-                  onFocus={() => setFocusedB(true)}
-                  onBlur={() => {
-                    setTimeout(() => setFocusedB(false), 200);
-                  }}
-                  autoComplete="off"
+        {/* Thread Selection Area */}
+        <div>
+          <Select
+            value={threadId ? String(threadId) : ""}
+            onValueChange={(value) => setThreadId(Number.parseInt(value, 10))}
+            disabled={!userA || !userB || threadsLoading}
+          >
+            <SelectTrigger>
+              {threadsLoading ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Loading threads...</span>
+                </div>
+              ) : threadId ? (
+                <SelectValue />
+              ) : (
+                <SelectValue
+                  placeholder={
+                    !userA || !userB
+                      ? "Select two users first"
+                      : threads.length === 0
+                        ? "No threads found"
+                        : "Select a thread"
+                  }
                 />
-                {loadingB && (
-                  <div className="absolute right-3 top-3">
-                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                  </div>
-                )}
-                {suggestionsB.length > 0 && focusedB && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-lg z-10">
-                    {suggestionsB.map((user) => (
-                      <button
-                        key={user.id}
-                        onClick={() => handleSelectB(user)}
-                        className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-sm"
-                      >
-                        <p className={typography.weight.medium}>
-                          {user.name || "Unknown"}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {user.id}, {user.username || "no username"}
-                        </p>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
+              )}
+            </SelectTrigger>
+            <SelectContent>
+              {threads.map((thread) => (
+                <SelectItem key={thread.id} value={String(thread.id)}>
+                  {thread.threadTitle}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
