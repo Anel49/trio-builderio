@@ -76,7 +76,7 @@ export async function getMessages(req: Request, res: Response) {
       });
     }
 
-    // Verify the user is part of this thread OR is a moderator/admin with claim assigned to them OR is admin/moderator viewing for oversight
+    // Verify the user is part of this thread OR is a moderator/admin
     const isModeratorOrAdmin = user?.moderator || user?.admin;
     const threadCheckResult = await pool.query(
       `
@@ -86,11 +86,11 @@ export async function getMessages(req: Request, res: Response) {
       WHERE mt.id = $1
         AND (
           (mt.user_a_id = $2 OR mt.user_b_id = $2)
-          OR (c.assigned_to = $2 AND ($3 OR $4))
-          OR $3 OR $4
+          OR (c.assigned_to = $2)
+          OR $3
         )
       `,
-      [threadId, userId, isModeratorOrAdmin, isModeratorOrAdmin],
+      [threadId, userId, isModeratorOrAdmin],
     );
 
     if (threadCheckResult.rowCount === 0) {
