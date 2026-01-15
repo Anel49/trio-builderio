@@ -734,8 +734,17 @@ export default function Messages() {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10"
-                  title="Show hidden threads"
+                  className={`h-10 w-10 transition-colors ${
+                    showHiddenThreads
+                      ? "bg-sky-500 text-white hover:bg-sky-600 border-sky-500"
+                      : ""
+                  }`}
+                  title={
+                    showHiddenThreads
+                      ? "Show all conversations"
+                      : "Show hidden threads"
+                  }
+                  onClick={handleToggleHiddenThreads}
                 >
                   <MessageCircleOff className="h-4 w-4" />
                 </Button>
