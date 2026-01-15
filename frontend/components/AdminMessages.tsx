@@ -3,6 +3,13 @@ import { apiFetch } from "@/lib/api";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { AlertCircle, Loader2, ArrowLeftRight, X } from "lucide-react";
 import {
   spacing,
@@ -17,6 +24,15 @@ interface User {
   name: string | null;
   email: string | null;
   username: string | null;
+}
+
+interface MessageThread {
+  id: number;
+  userAId: number;
+  userBId: number;
+  threadTitle: string;
+  createdAt: string;
+  lastUpdated: string;
 }
 
 interface Message {
