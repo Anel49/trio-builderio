@@ -775,7 +775,9 @@ export default function Messages() {
                       setSelectedUserId(chat.otherUserId);
                       setLeftSidebarOpen(false);
                     }}
-                    className={`p-2 ml-4 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden ${
+                    onMouseEnter={() => setHoveredThreadId(chat.threadId)}
+                    onMouseLeave={() => setHoveredThreadId(null)}
+                    className={`p-2 ml-4 mr-4 my-0 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors overflow-hidden group ${
                       selectedThreadId === chat.threadId ? "bg-accent" : ""
                     }`}
                   >
@@ -834,6 +836,32 @@ export default function Messages() {
                           )}
                         </div>
                       </div>
+                      {hoveredThreadId === chat.threadId && (
+                        <button
+                          onClick={(e) => handleHideThread(chat.threadId, e)}
+                          disabled={isHidingThread}
+                          className="flex-shrink-0 ml-auto p-1 rounded-full hover:bg-accent transition-colors"
+                          title="Hide thread"
+                          aria-label="Hide thread"
+                        >
+                          <div className="relative flex items-center justify-center h-5 w-5">
+                            <div className="absolute inset-0 rounded-full border border-muted-foreground" />
+                            <svg
+                              className="h-3 w-3 text-muted-foreground"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={3}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </div>
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))
