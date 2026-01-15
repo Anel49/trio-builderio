@@ -732,13 +732,9 @@ export default function Messages() {
                   />
                 </div>
                 <Button
-                  variant="outline"
+                  variant={showHiddenThreads ? "default" : "outline"}
                   size="icon"
-                  className={`h-10 w-10 transition-colors ${
-                    showHiddenThreads
-                      ? "bg-sky-500 text-white hover:bg-sky-600 border-sky-500"
-                      : ""
-                  }`}
+                  className="h-10 w-10"
                   title={
                     showHiddenThreads
                       ? "Show all conversations"
