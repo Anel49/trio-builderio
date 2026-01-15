@@ -1592,3 +1592,43 @@ export async function takeActionOnReport(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function listMessageThreadsByUserPair(req: Request, res: Response) {
+  try {
+    const userId1 = Number.parseInt((req.query.user_a_id as string) || "", 10);
+    const userId2 = Number.parseInt((req.query.user_b_id as string) || "", 10);
+
+    if (!Number.isFinite(userId1) || !Number.isFinite(userId2)) {
+      return res.status(400).json({
+        ok: false,
+        error: "user_a_id and user_b_id are required and must be valid integers",
+      });
+    }
+
+    const result = await pool.query(
+      `select id, user_a_id, user_b_id, thread_title, created_at, last_updated
+       from message_threads
+       where (user_a_id = $1 and user_b_id = $2)
+          or (user_a_id = $2 and user_b_id = $1)
+       order by last_updated desc`,
+      [userId1, userId2],
+    );
+
+    res.json({
+      ok: true,
+      threads: result.rows.map((r: any) => ({
+        id: r.id,
+        userAId: r.user_a_id,
+        userBId: r.user_b_id,
+        threadTitle: r.thread_title || `Thread #${r.id}`,
+        createdAt: r.created_at,
+        lastUpdated: r.last_updated,
+      })),
+    });
+  } catch (error: any) {
+    console.error("[listMessageThreadsByUserPair] Error:", error);
+    res
+      .status(500)
+      .json({ ok: false, error: String(error?.message || error) });
+  }
+}
