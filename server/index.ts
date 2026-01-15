@@ -57,6 +57,7 @@ import {
   getReportConversation,
   getReportDetails,
   takeActionOnReport,
+  listMessageThreadsByUserPair,
 } from "./routes/admin";
 import { requireAdmin, requireModeratorOrAdmin } from "./routes/auth";
 import {
