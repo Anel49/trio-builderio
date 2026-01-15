@@ -320,3 +320,50 @@ export async function sendMessage(req: Request, res: Response) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
 }
+
+export async function hideThread(req: Request, res: Response) {
+  try {
+    const { userId, threadId, isHidden } = (req.body || {}) as any;
+    const user = (req.session as any)?.user;
+
+    if (userId === undefined || threadId === undefined || isHidden === undefined) {
+      return res.status(400).json({
+        ok: false,
+        error: "userId, threadId, and isHidden are required",
+      });
+    }
+
+    // Verify the user is part of this thread
+    const threadCheckResult = await pool.query(
+      `
+      SELECT mt.id
+      FROM message_threads mt
+      WHERE mt.id = $1
+        AND (mt.user_a_id = $2 OR mt.user_b_id = $2)
+      `,
+      [threadId, userId],
+    );
+
+    if (threadCheckResult.rowCount === 0) {
+      return res.status(403).json({
+        ok: false,
+        error: "Unauthorized",
+      });
+    }
+
+    // Create or update the user_thread_state row
+    await pool.query(
+      `
+      INSERT INTO user_thread_state (user_id, thread_id, is_hidden, created_at, updated_at)
+      VALUES ($1, $2, $3, now(), now())
+      ON CONFLICT (user_id, thread_id)
+      DO UPDATE SET is_hidden = $3, updated_at = now()
+      `,
+      [userId, threadId, isHidden],
+    );
+
+    res.json({ ok: true });
+  } catch (error: any) {
+    res.status(500).json({ ok: false, error: String(error?.message || error) });
+  }
+}
