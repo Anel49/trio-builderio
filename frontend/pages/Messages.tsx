@@ -150,6 +150,10 @@ export default function Messages() {
     username: string | null;
   } | null>(null);
 
+  // State for hovered conversation
+  const [hoveredThreadId, setHoveredThreadId] = useState<number | null>(null);
+  const [isHidingThread, setIsHidingThread] = useState(false);
+
   // Ref for scrolling messages to bottom
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
 
