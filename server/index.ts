@@ -905,10 +905,12 @@ export function createServer() {
   app.patch("/users/reviews/:reviewId", updateUserReview);
   // Messages
   app.get("/api/messages/:userId/conversations", listConversations);
+  app.get("/api/messages/:userId/conversations/hidden", listHiddenConversations);
   app.get("/api/messages/:userId/:threadId", getMessages);
   app.post("/api/messages", sendMessage);
   app.post("/api/messages/thread/hide", hideThread);
   app.get("/messages/:userId/conversations", listConversations);
+  app.get("/messages/:userId/conversations/hidden", listHiddenConversations);
   app.get("/messages/:userId/:threadId", getMessages);
   app.post("/messages", sendMessage);
   app.post("/messages/thread/hide", hideThread);
