@@ -173,11 +173,51 @@ export default function AdminMessages() {
     return `${user.name || "Unknown"} (${user.id}, ${user.username || "no username"})`;
   };
 
-  // Fetch messages when both users are selected
+  // Fetch threads when both users are selected
   useEffect(() => {
     if (!userA || !userB) {
-      setMessages([]);
+      setThreads([]);
       setThreadId(null);
+      setMessages([]);
+      return;
+    }
+
+    const fetchThreads = async () => {
+      setThreadsLoading(true);
+      setError(null);
+      try {
+        const params = new URLSearchParams({
+          user_a_id: String(userA.id),
+          user_b_id: String(userB.id),
+        });
+
+        const response = await apiFetch(
+          `/admin/message-threads?${params.toString()}`,
+        );
+        if (!response.ok) throw new Error("Failed to fetch threads");
+
+        const data = await response.json();
+        setThreads(data.threads || []);
+        setThreadId(null);
+        setMessages([]);
+      } catch (err: any) {
+        console.error("[AdminMessages] Error fetching threads:", err);
+        setError(err.message || "Failed to load threads");
+        setThreads([]);
+        setThreadId(null);
+        setMessages([]);
+      } finally {
+        setThreadsLoading(false);
+      }
+    };
+
+    fetchThreads();
+  }, [userA, userB]);
+
+  // Fetch messages when a thread is selected
+  useEffect(() => {
+    if (!threadId || !userA) {
+      setMessages([]);
       return;
     }
 
@@ -185,44 +225,28 @@ export default function AdminMessages() {
       setMessagesLoading(true);
       setError(null);
       try {
-        // Search for or create a thread between these two users
-        // For now, we'll fetch from userA's perspective
-        const response = await apiFetch(`/messages/${userA.id}/conversations`);
+        const response = await apiFetch(
+          `/messages/${userA.id}/${threadId}?view=admin`,
+        );
         const data = await response.json();
 
-        if (data.ok && data.conversations) {
-          // Find thread with userB
-          const thread = data.conversations.find(
-            (c: any) => c.otherUserId === userB.id,
-          );
-
-          if (thread) {
-            setThreadId(thread.threadId);
-            // Fetch messages for this thread
-            const messagesResponse = await apiFetch(
-              `/messages/${userA.id}/${thread.threadId}`,
-            );
-            const messagesData = await messagesResponse.json();
-            if (messagesData.ok) {
-              setMessages(messagesData.messages || []);
-            }
-          } else {
-            setMessages([]);
-            setThreadId(null);
-          }
+        if (data.ok) {
+          setMessages(data.messages || []);
+        } else {
+          setError(data.error || "Failed to load messages");
+          setMessages([]);
         }
       } catch (err: any) {
         console.error("[AdminMessages] Error fetching messages:", err);
         setError(err.message || "Failed to load messages");
         setMessages([]);
-        setThreadId(null);
       } finally {
         setMessagesLoading(false);
       }
     };
 
     fetchMessages();
-  }, [userA, userB]);
+  }, [threadId, userA]);
 
   // Auto-scroll to bottom when messages load or update
   useEffect(() => {
