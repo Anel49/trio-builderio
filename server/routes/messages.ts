@@ -38,7 +38,9 @@ export async function listConversations(req: Request, res: Response) {
         lm.thread_title
       FROM last_messages lm
       JOIN users u ON u.id = lm.other_user_id
+      LEFT JOIN user_thread_state uts ON uts.thread_id = lm.thread_id AND uts.user_id = $1
       WHERE lm.rn = 1
+        AND (uts.is_hidden IS NULL OR uts.is_hidden = false)
       ORDER BY lm.created_at DESC NULLS LAST
       `,
       [userId],
