@@ -389,7 +389,11 @@ export async function hideThread(req: Request, res: Response) {
     const { userId, threadId, isHidden } = (req.body || {}) as any;
     const user = (req.session as any)?.user;
 
-    if (userId === undefined || threadId === undefined || isHidden === undefined) {
+    if (
+      userId === undefined ||
+      threadId === undefined ||
+      isHidden === undefined
+    ) {
       return res.status(400).json({
         ok: false,
         error: "userId, threadId, and isHidden are required",

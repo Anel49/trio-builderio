@@ -561,7 +561,9 @@ export default function Messages() {
     } else {
       // Switch to hidden conversations
       setShowHiddenThreads(true);
-      const response = await apiFetch(`/messages/${user.id}/conversations/hidden`);
+      const response = await apiFetch(
+        `/messages/${user.id}/conversations/hidden`,
+      );
       const data = await response.json();
       if (data.ok) {
         setConversations(data.conversations || []);

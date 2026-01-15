@@ -99,7 +99,13 @@ import {
   updateListingReviewHelpful,
   deleteListingReview,
 } from "./routes/listing-reviews";
-import { listConversations, listHiddenConversations, getMessages, sendMessage, hideThread } from "./routes/messages";
+import {
+  listConversations,
+  listHiddenConversations,
+  getMessages,
+  sendMessage,
+  hideThread,
+} from "./routes/messages";
 import { createCheckoutSession } from "./routes/checkout";
 import {
   createClaim,
@@ -905,7 +911,10 @@ export function createServer() {
   app.patch("/users/reviews/:reviewId", updateUserReview);
   // Messages
   app.get("/api/messages/:userId/conversations", listConversations);
-  app.get("/api/messages/:userId/conversations/hidden", listHiddenConversations);
+  app.get(
+    "/api/messages/:userId/conversations/hidden",
+    listHiddenConversations,
+  );
   app.get("/api/messages/:userId/:threadId", getMessages);
   app.post("/api/messages", sendMessage);
   app.post("/api/messages/thread/hide", hideThread);
