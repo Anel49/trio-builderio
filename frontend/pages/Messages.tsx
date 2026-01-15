@@ -34,6 +34,7 @@ import {
   Star,
   Calendar,
   Shield,
+  MessageCircleOff,
 } from "lucide-react";
 import {
   Popover,
