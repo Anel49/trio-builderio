@@ -664,6 +664,14 @@ export default function Messages() {
                     className="pl-9"
                   />
                 </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10"
+                  title="Show hidden threads"
+                >
+                  <MessageCircleOff className="h-4 w-4" />
+                </Button>
                 {user && (
                   <Popover
                     open={isSettingsOpen}
