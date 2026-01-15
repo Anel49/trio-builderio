@@ -265,6 +265,17 @@ export async function sendMessage(req: Request, res: Response) {
     );
 
     const message = result.rows[0];
+
+    // Update the thread's last_updated and last_updated_by_id
+    await pool.query(
+      `
+      UPDATE message_threads
+      SET last_updated = now(), last_updated_by_id = $1
+      WHERE id = $2
+      `,
+      [senderId, threadId],
+    );
+
     res.json({
       ok: true,
       message: {
