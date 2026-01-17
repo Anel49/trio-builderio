@@ -547,6 +547,28 @@ export default function AdminMessages() {
               </div>
             ) : (
               <div className="py-4 space-y-4">
+                {/* Show older messages button */}
+                {paginationState.hasMoreOlder && (
+                  <div className="flex justify-center mb-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleLoadOlderMessages}
+                      disabled={loadingOlderMessages}
+                      className="text-xs"
+                    >
+                      {loadingOlderMessages ? (
+                        <>
+                          <span className="animate-spin mr-2">⏳</span>
+                          Loading older messages...
+                        </>
+                      ) : (
+                        "Show older messages"
+                      )}
+                    </Button>
+                  </div>
+                )}
+
                 {messages.map((message) => (
                   <div
                     key={message.id}
