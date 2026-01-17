@@ -130,7 +130,13 @@ export default function AdminReportsList({
   const offset = currentPage * limit;
 
   useEffect(() => {
-    loadReports(0);
+    if (initialSearch) {
+      setLastSearchedTerm(initialSearch);
+      setHasSearched(true);
+      loadReports(0, undefined, initialSearch);
+    } else {
+      loadReports(0);
+    }
   }, []);
 
   useEffect(() => {
