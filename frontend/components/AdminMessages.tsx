@@ -285,6 +285,16 @@ export default function AdminMessages() {
   const handleLoadOlderMessages = async () => {
     if (!userA || !threadId || !paginationState.hasMoreOlder) return;
 
+    // Get the scroll element and save current scroll position
+    const scrollElement = messagesScrollRef.current?.querySelector(
+      "[data-radix-scroll-area-viewport]",
+    ) as HTMLElement;
+
+    if (!scrollElement) return;
+
+    const scrollHeightBefore = scrollElement.scrollHeight;
+    const scrollTopBefore = scrollElement.scrollTop;
+
     setLoadingOlderMessages(true);
     try {
       const response = await apiFetch(
@@ -302,6 +312,14 @@ export default function AdminMessages() {
           offset: paginationState.offset + 20,
           hasMoreOlder: data.hasMoreOlder || false,
           totalMessages: data.totalMessages || 0,
+        });
+
+        // Restore scroll position after DOM update
+        // Wait for the next frame to ensure DOM has updated
+        requestAnimationFrame(() => {
+          const scrollHeightAfter = scrollElement.scrollHeight;
+          const heightDifference = scrollHeightAfter - scrollHeightBefore;
+          scrollElement.scrollTop = scrollTopBefore + heightDifference;
         });
       }
     } catch (error) {
