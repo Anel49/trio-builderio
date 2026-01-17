@@ -132,6 +132,8 @@ export async function getMessages(req: Request, res: Response) {
     const userId = Number((req.params as any)?.userId || "0");
     const threadId = Number((req.params as any)?.threadId || "0");
     const view = (req.query as any)?.view || "standard"; // "standard" or "claims"
+    const limit = Math.min(Number((req.query as any)?.limit || "50"), 200); // Max 200, default 50
+    const offset = Math.max(Number((req.query as any)?.offset || "0"), 0); // Min 0
     const user = (req.session as any)?.user;
 
     if (!userId || !threadId) {
@@ -182,6 +184,19 @@ export async function getMessages(req: Request, res: Response) {
     // Only apply special "User 2 (Support)" alignment if viewing from claims chat page
     const shouldUseClaimsAlignment = view === "claims" && isClaimsThread;
 
+    // Get total count of messages
+    const countResult = await pool.query(
+      `
+      SELECT COUNT(*) as total
+      FROM messages
+      WHERE message_thread_id = $1
+      `,
+      [threadId],
+    );
+
+    const totalMessages = Number(countResult.rows[0]?.total || 0);
+
+    // Fetch messages with pagination - order by created_at DESC, then reverse to get ascending
     const result = await pool.query(
       `
       SELECT
@@ -193,12 +208,15 @@ export async function getMessages(req: Request, res: Response) {
         message_thread_id
       FROM messages
       WHERE message_thread_id = $1
-      ORDER BY created_at ASC
+      ORDER BY created_at DESC
+      LIMIT $2
+      OFFSET $3
       `,
-      [threadId],
+      [threadId, limit, offset],
     );
 
-    const messages = result.rows.map((r: any) => ({
+    // Reverse to get ascending order (oldest first)
+    const messages = result.rows.reverse().map((r: any) => ({
       id: r.id,
       senderId: r.sender_id,
       toId: r.to_id,
@@ -210,7 +228,10 @@ export async function getMessages(req: Request, res: Response) {
         : r.sender_id === userId,
     }));
 
-    res.json({ ok: true, messages });
+    // Check if there are more older messages
+    const hasMoreOlder = offset + limit < totalMessages;
+
+    res.json({ ok: true, messages, hasMoreOlder, totalMessages });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
   }
