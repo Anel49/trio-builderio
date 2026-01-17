@@ -119,6 +119,7 @@ export default function AdminClaimsChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [threadsLoading, setThreadsLoading] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(false);
+  const [loadingOlderMessages, setLoadingOlderMessages] = useState(false);
   const [claimDetailsLoading, setClaimDetailsLoading] = useState(false);
   const [messageInput, setMessageInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -133,6 +134,11 @@ export default function AdminClaimsChat() {
   const [messagesCache, setMessagesCache] = useState<Map<number, Message[]>>(
     new Map(),
   );
+
+  // Pagination state: Map<threadId, { offset, hasMoreOlder, totalMessages }>
+  const [paginationState, setPaginationState] = useState<
+    Map<number, { offset: number; hasMoreOlder: boolean; totalMessages: number }>
+  >(new Map());
 
   // Refs
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
