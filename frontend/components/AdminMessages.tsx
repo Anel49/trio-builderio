@@ -73,6 +73,8 @@ export default function AdminMessages() {
     totalMessages: 0,
   });
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
+  // Flag to track if we're loading older messages (to prevent auto-scroll)
+  const isLoadingOlderRef = React.useRef<boolean>(false);
 
   const searchUsers = useCallback(async (query: string) => {
     if (!query.trim()) {
