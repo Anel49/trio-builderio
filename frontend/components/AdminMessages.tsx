@@ -59,9 +59,19 @@ export default function AdminMessages() {
   const [error, setError] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [messagesLoading, setMessagesLoading] = useState(false);
+  const [loadingOlderMessages, setLoadingOlderMessages] = useState(false);
   const [threadId, setThreadId] = useState<number | null>(null);
   const [threads, setThreads] = useState<MessageThread[]>([]);
   const [threadsLoading, setThreadsLoading] = useState(false);
+  const [paginationState, setPaginationState] = useState<{
+    offset: number;
+    hasMoreOlder: boolean;
+    totalMessages: number;
+  }>({
+    offset: 0,
+    hasMoreOlder: false,
+    totalMessages: 0,
+  });
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
 
   const searchUsers = useCallback(async (query: string) => {
