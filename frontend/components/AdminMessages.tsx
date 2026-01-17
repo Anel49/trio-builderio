@@ -228,6 +228,7 @@ export default function AdminMessages() {
   useEffect(() => {
     if (!threadId || !userA) {
       setMessages([]);
+      setPaginationState({ offset: 0, hasMoreOlder: false, totalMessages: 0 });
       return;
     }
 
@@ -236,20 +237,28 @@ export default function AdminMessages() {
       setError(null);
       try {
         const response = await apiFetch(
-          `/messages/${userA.id}/${threadId}?view=admin`,
+          `/messages/${userA.id}/${threadId}?view=admin&limit=50&offset=0`,
         );
         const data = await response.json();
 
         if (data.ok) {
           setMessages(data.messages || []);
+          // Set pagination state
+          setPaginationState({
+            offset: 50,
+            hasMoreOlder: data.hasMoreOlder || false,
+            totalMessages: data.totalMessages || 0,
+          });
         } else {
           setError(data.error || "Failed to load messages");
           setMessages([]);
+          setPaginationState({ offset: 0, hasMoreOlder: false, totalMessages: 0 });
         }
       } catch (err: any) {
         console.error("[AdminMessages] Error fetching messages:", err);
         setError(err.message || "Failed to load messages");
         setMessages([]);
+        setPaginationState({ offset: 0, hasMoreOlder: false, totalMessages: 0 });
       } finally {
         setMessagesLoading(false);
       }
