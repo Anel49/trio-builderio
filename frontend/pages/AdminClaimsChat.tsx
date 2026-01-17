@@ -241,6 +241,16 @@ export default function AdminClaimsChat() {
     const pagination = paginationState.get(selectedThreadId);
     if (!pagination || !pagination.hasMoreOlder) return;
 
+    // Get the scroll element and save current scroll position
+    const scrollElement = messagesScrollRef.current?.querySelector(
+      "[data-radix-scroll-area-viewport]",
+    ) as HTMLElement;
+
+    if (!scrollElement) return;
+
+    const scrollHeightBefore = scrollElement.scrollHeight;
+    const scrollTopBefore = scrollElement.scrollTop;
+
     setLoadingOlderMessages(true);
     try {
       const response = await apiFetch(
@@ -267,6 +277,14 @@ export default function AdminClaimsChat() {
             totalMessages: data.totalMessages || 0,
           });
           return newState;
+        });
+
+        // Restore scroll position after DOM update
+        // Wait for the next frame to ensure DOM has updated
+        requestAnimationFrame(() => {
+          const scrollHeightAfter = scrollElement.scrollHeight;
+          const heightDifference = scrollHeightAfter - scrollHeightBefore;
+          scrollElement.scrollTop = scrollTopBefore + heightDifference;
         });
       }
     } catch (error) {
