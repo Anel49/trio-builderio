@@ -128,39 +128,34 @@ export default function AdminReportsList({
 
   const limit = 15;
   const offset = currentPage * limit;
-  const isInitialMountRef = React.useRef(true);
+  const initialLoadDoneRef = React.useRef(false);
+  const prevReportForRef = React.useRef(initialReportFor);
 
   useEffect(() => {
-    // Trigger search on mount if initialSearch is provided
-    if (initialSearch) {
-      setLastSearchedTerm(initialSearch);
-      setHasSearched(true);
+    // Initial load - only runs once on component mount
+    if (!initialLoadDoneRef.current) {
+      initialLoadDoneRef.current = true;
+      if (initialSearch) {
+        setSearch(initialSearch);
+        setLastSearchedTerm(initialSearch);
+        setHasSearched(true);
+      }
+      // Load with the provided initial search (or empty string for default load)
       loadReports(0, undefined, initialSearch);
-      isInitialMountRef.current = false;
-    } else if (isInitialMountRef.current) {
-      loadReports(0);
-      isInitialMountRef.current = false;
     }
   }, []);
 
   useEffect(() => {
-    // Load reports when reportFor changes, but skip on initial mount
-    if (!isInitialMountRef.current) {
+    // Only load when user manually switches between tabs, not on initial mount
+    if (initialLoadDoneRef.current && reportFor !== prevReportForRef.current) {
+      prevReportForRef.current = reportFor;
       setCurrentPage(0);
+      setSearch("");
+      setLastSearchedTerm("");
+      setHasSearched(false);
       loadReports(0);
     }
   }, [reportFor]);
-
-  useEffect(() => {
-    // Handle when props change (e.g., when coming back to the Reports tab from another tab)
-    if (initialSearch && initialSearch !== lastSearchedTerm) {
-      setSearch(initialSearch);
-      setLastSearchedTerm(initialSearch);
-      setHasSearched(true);
-      setCurrentPage(0);
-      loadReports(0, undefined, initialSearch);
-    }
-  }, [initialSearch]);
 
   const getSearchPlaceholder = () => {
     if (reportFor === "listing") {
