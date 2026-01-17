@@ -337,18 +337,31 @@ export default function Messages() {
     const fetchMessages = async () => {
       setMessagesLoading(true);
       try {
+        // Initial load: fetch 50 messages with offset 0
         const response = await apiFetch(
-          `/messages/${user.id}/${selectedThreadId}`,
+          `/messages/${user.id}/${selectedThreadId}?limit=50&offset=0`,
         );
         const data = await response.json();
         if (data.ok) {
           const fetchedMessages = data.messages || [];
           setMessages(fetchedMessages);
           setSelectedThreadNotFound(false);
+
           // Cache the messages
           setMessagesCache((prevCache) =>
             new Map(prevCache).set(selectedThreadId, fetchedMessages),
           );
+
+          // Set pagination state
+          setPaginationState((prev) => {
+            const newState = new Map(prev);
+            newState.set(selectedThreadId, {
+              offset: 50,
+              hasMoreOlder: data.hasMoreOlder || false,
+              totalMessages: data.totalMessages || 0,
+            });
+            return newState;
+          });
         }
       } catch (error) {
         console.error("Failed to fetch messages:", error);
