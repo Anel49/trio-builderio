@@ -137,7 +137,10 @@ export default function AdminClaimsChat() {
 
   // Pagination state: Map<threadId, { offset, hasMoreOlder, totalMessages }>
   const [paginationState, setPaginationState] = useState<
-    Map<number, { offset: number; hasMoreOlder: boolean; totalMessages: number }>
+    Map<
+      number,
+      { offset: number; hasMoreOlder: boolean; totalMessages: number }
+    >
   >(new Map());
 
   // Refs
@@ -652,26 +655,27 @@ export default function AdminClaimsChat() {
               ) : (
                 <div className="py-4 space-y-4">
                   {/* Show older messages button */}
-                  {selectedThreadId && paginationState.get(selectedThreadId)?.hasMoreOlder && (
-                    <div className="flex justify-center mb-4">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleLoadOlderMessages}
-                        disabled={loadingOlderMessages}
-                        className="text-xs"
-                      >
-                        {loadingOlderMessages ? (
-                          <>
-                            <span className="animate-spin mr-2">⏳</span>
-                            Loading older messages...
-                          </>
-                        ) : (
-                          "Show older messages"
-                        )}
-                      </Button>
-                    </div>
-                  )}
+                  {selectedThreadId &&
+                    paginationState.get(selectedThreadId)?.hasMoreOlder && (
+                      <div className="flex justify-center mb-4">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleLoadOlderMessages}
+                          disabled={loadingOlderMessages}
+                          className="text-xs"
+                        >
+                          {loadingOlderMessages ? (
+                            <>
+                              <span className="animate-spin mr-2">⏳</span>
+                              Loading older messages...
+                            </>
+                          ) : (
+                            "Show older messages"
+                          )}
+                        </Button>
+                      </div>
+                    )}
 
                   {messages.map((message) => (
                     <div

@@ -254,13 +254,21 @@ export default function AdminMessages() {
         } else {
           setError(data.error || "Failed to load messages");
           setMessages([]);
-          setPaginationState({ offset: 0, hasMoreOlder: false, totalMessages: 0 });
+          setPaginationState({
+            offset: 0,
+            hasMoreOlder: false,
+            totalMessages: 0,
+          });
         }
       } catch (err: any) {
         console.error("[AdminMessages] Error fetching messages:", err);
         setError(err.message || "Failed to load messages");
         setMessages([]);
-        setPaginationState({ offset: 0, hasMoreOlder: false, totalMessages: 0 });
+        setPaginationState({
+          offset: 0,
+          hasMoreOlder: false,
+          totalMessages: 0,
+        });
       } finally {
         setMessagesLoading(false);
       }
