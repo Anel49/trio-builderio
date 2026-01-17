@@ -501,6 +501,19 @@ export default function Messages() {
           new Map(prevCache).set(newThreadId, updatedMessages),
         );
 
+        // Update pagination state - increment totalMessages count
+        setPaginationState((prev) => {
+          const newState = new Map(prev);
+          const threadPagination = newState.get(newThreadId);
+          if (threadPagination) {
+            newState.set(newThreadId, {
+              ...threadPagination,
+              totalMessages: threadPagination.totalMessages + 1,
+            });
+          }
+          return newState;
+        });
+
         // Refresh conversations to update last message
         // When a message is sent, it unhides the thread, so we should switch back to viewing normal threads
         if (user?.id) {
