@@ -130,32 +130,31 @@ export default function AdminReportsList({
   const offset = currentPage * limit;
 
   useEffect(() => {
+    // Initialize with props on mount
+    setReportFor(initialReportFor);
     if (initialSearch) {
+      setSearch(initialSearch);
       setLastSearchedTerm(initialSearch);
       setHasSearched(true);
-      loadReports(0, undefined, initialSearch);
-    } else {
-      loadReports(0);
     }
   }, []);
 
   useEffect(() => {
+    // Load reports when reportFor changes
     setCurrentPage(0);
     loadReports(0);
   }, [reportFor]);
 
   useEffect(() => {
-    if (initialReportFor !== reportFor) {
-      setReportFor(initialReportFor);
-    }
-    if (initialSearch && initialSearch !== search) {
+    // Handle when props change (e.g., when coming back to the Reports tab from another tab)
+    if (initialSearch && initialSearch !== lastSearchedTerm) {
       setSearch(initialSearch);
       setLastSearchedTerm(initialSearch);
       setHasSearched(true);
       setCurrentPage(0);
       loadReports(0, undefined, initialSearch);
     }
-  }, [initialReportFor, initialSearch]);
+  }, [initialSearch]);
 
   const getSearchPlaceholder = () => {
     if (reportFor === "listing") {
