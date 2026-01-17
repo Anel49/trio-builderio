@@ -302,7 +302,10 @@ export default function AdminMessages() {
     const scrollHeightBefore = scrollElement.scrollHeight;
     const scrollTopBefore = scrollElement.scrollTop;
 
+    // Set flag to prevent auto-scroll
+    isLoadingOlderRef.current = true;
     setLoadingOlderMessages(true);
+
     try {
       const response = await apiFetch(
         `/messages/${userA.id}/${threadId}?view=admin&limit=20&offset=${paginationState.offset}`,
@@ -322,15 +325,20 @@ export default function AdminMessages() {
         });
 
         // Restore scroll position after DOM update
-        // Wait for the next frame to ensure DOM has updated
+        // Wait for two frames to ensure all DOM updates are complete
         requestAnimationFrame(() => {
-          const scrollHeightAfter = scrollElement.scrollHeight;
-          const heightDifference = scrollHeightAfter - scrollHeightBefore;
-          scrollElement.scrollTop = scrollTopBefore + heightDifference;
+          requestAnimationFrame(() => {
+            const scrollHeightAfter = scrollElement.scrollHeight;
+            const heightDifference = scrollHeightAfter - scrollHeightBefore;
+            scrollElement.scrollTop = scrollTopBefore + heightDifference;
+            // Clear the flag after scroll restoration
+            isLoadingOlderRef.current = false;
+          });
         });
       }
     } catch (error) {
       console.error("Failed to load older messages:", error);
+      isLoadingOlderRef.current = false;
     } finally {
       setLoadingOlderMessages(false);
     }
