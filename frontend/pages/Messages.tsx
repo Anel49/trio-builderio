@@ -122,6 +122,7 @@ export default function Messages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationsLoading, setConversationsLoading] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(false);
+  const [loadingOlderMessages, setLoadingOlderMessages] = useState(false);
   const [temporaryConversation, setTemporaryConversation] =
     useState<Conversation | null>(null);
   // Message cache: Map<threadId, Message[]>
@@ -130,6 +131,10 @@ export default function Messages() {
   );
   // Track if a thread was not found
   const [selectedThreadNotFound, setSelectedThreadNotFound] = useState(false);
+  // Pagination state: Map<threadId, { offset, hasMoreOlder, totalMessages }>
+  const [paginationState, setPaginationState] = useState<
+    Map<number, { offset: number; hasMoreOlder: boolean; totalMessages: number }>
+  >(new Map());
   // User reviews and rating
   const [selectedUserReviews, setSelectedUserReviews] = useState<any[]>([]);
   const [selectedUserCreatedAt, setSelectedUserCreatedAt] = useState<
