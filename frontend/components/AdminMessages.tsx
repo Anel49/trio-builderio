@@ -281,6 +281,36 @@ export default function AdminMessages() {
     }
   }, [messages]);
 
+  // Handle loading older messages
+  const handleLoadOlderMessages = async () => {
+    if (!userA || !threadId || !paginationState.hasMoreOlder) return;
+
+    setLoadingOlderMessages(true);
+    try {
+      const response = await apiFetch(
+        `/messages/${userA.id}/${threadId}?view=admin&limit=20&offset=${paginationState.offset}`,
+      );
+      const data = await response.json();
+      if (data.ok) {
+        const olderMessages = data.messages || [];
+        // Prepend older messages to the beginning
+        const updatedMessages = [...olderMessages, ...messages];
+        setMessages(updatedMessages);
+
+        // Update pagination state
+        setPaginationState({
+          offset: paginationState.offset + 20,
+          hasMoreOlder: data.hasMoreOlder || false,
+          totalMessages: data.totalMessages || 0,
+        });
+      }
+    } catch (error) {
+      console.error("Failed to load older messages:", error);
+    } finally {
+      setLoadingOlderMessages(false);
+    }
+  };
+
   return (
     <div
       className={combineTokens(
