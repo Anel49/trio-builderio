@@ -269,8 +269,13 @@ export default function AdminMessages() {
     fetchMessages();
   }, [threadId, userA]);
 
-  // Auto-scroll to bottom when messages load or update
+  // Auto-scroll to bottom when messages load or update (but not when loading older messages)
   useEffect(() => {
+    // Skip auto-scroll if we're loading older messages
+    if (isLoadingOlderRef.current) {
+      return;
+    }
+
     if (messagesScrollRef.current) {
       const scrollElement = messagesScrollRef.current.querySelector(
         "[data-radix-scroll-area-viewport]",
