@@ -521,6 +521,48 @@ export default function Messages() {
     }
   };
 
+  // Handle loading older messages
+  const handleLoadOlderMessages = async () => {
+    if (!user?.id || !selectedThreadId) return;
+
+    const pagination = paginationState.get(selectedThreadId);
+    if (!pagination || !pagination.hasMoreOlder) return;
+
+    setLoadingOlderMessages(true);
+    try {
+      const response = await apiFetch(
+        `/messages/${user.id}/${selectedThreadId}?limit=20&offset=${pagination.offset}`,
+      );
+      const data = await response.json();
+      if (data.ok) {
+        const olderMessages = data.messages || [];
+        // Prepend older messages to the beginning
+        const updatedMessages = [...olderMessages, ...messages];
+        setMessages(updatedMessages);
+
+        // Update cache
+        setMessagesCache((prevCache) =>
+          new Map(prevCache).set(selectedThreadId, updatedMessages),
+        );
+
+        // Update pagination state
+        setPaginationState((prev) => {
+          const newState = new Map(prev);
+          newState.set(selectedThreadId, {
+            offset: pagination.offset + 20,
+            hasMoreOlder: data.hasMoreOlder || false,
+            totalMessages: data.totalMessages || 0,
+          });
+          return newState;
+        });
+      }
+    } catch (error) {
+      console.error("Failed to load older messages:", error);
+    } finally {
+      setLoadingOlderMessages(false);
+    }
+  };
+
   // Handle hide/unhide thread
   const handleHideThread = async (threadId: number, e: React.MouseEvent) => {
     e.stopPropagation();
