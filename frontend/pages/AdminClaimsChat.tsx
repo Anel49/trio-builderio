@@ -371,6 +371,19 @@ export default function AdminClaimsChat() {
         setMessagesCache((prev) =>
           new Map(prev).set(selectedThreadId, updatedMessages),
         );
+
+        // Update pagination state - increment totalMessages count
+        setPaginationState((prev) => {
+          const newState = new Map(prev);
+          const threadPagination = newState.get(selectedThreadId);
+          if (threadPagination) {
+            newState.set(selectedThreadId, {
+              ...threadPagination,
+              totalMessages: threadPagination.totalMessages + 1,
+            });
+          }
+          return newState;
+        });
       }
     } catch (err) {
       console.error("Failed to send message:", err);
