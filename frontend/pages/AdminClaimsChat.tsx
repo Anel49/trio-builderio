@@ -142,6 +142,8 @@ export default function AdminClaimsChat() {
 
   // Refs
   const messagesScrollRef = React.useRef<HTMLDivElement>(null);
+  // Flag to track if we're loading older messages (to prevent auto-scroll)
+  const isLoadingOlderRef = React.useRef<boolean>(false);
 
   usePageTitle();
 
