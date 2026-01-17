@@ -130,12 +130,13 @@ export default function AdminReportsList({
   const offset = currentPage * limit;
 
   useEffect(() => {
-    // Initialize with props on mount
-    setReportFor(initialReportFor);
+    // Trigger search on mount if initialSearch is provided
     if (initialSearch) {
-      setSearch(initialSearch);
       setLastSearchedTerm(initialSearch);
       setHasSearched(true);
+      loadReports(0, undefined, initialSearch);
+    } else {
+      loadReports(0);
     }
   }, []);
 
