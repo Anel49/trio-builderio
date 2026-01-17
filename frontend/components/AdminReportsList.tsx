@@ -128,6 +128,7 @@ export default function AdminReportsList({
 
   const limit = 15;
   const offset = currentPage * limit;
+  const isInitialMountRef = React.useRef(true);
 
   useEffect(() => {
     // Trigger search on mount if initialSearch is provided
@@ -135,15 +136,19 @@ export default function AdminReportsList({
       setLastSearchedTerm(initialSearch);
       setHasSearched(true);
       loadReports(0, undefined, initialSearch);
-    } else {
+      isInitialMountRef.current = false;
+    } else if (isInitialMountRef.current) {
       loadReports(0);
+      isInitialMountRef.current = false;
     }
   }, []);
 
   useEffect(() => {
-    // Load reports when reportFor changes
-    setCurrentPage(0);
-    loadReports(0);
+    // Load reports when reportFor changes, but skip on initial mount
+    if (!isInitialMountRef.current) {
+      setCurrentPage(0);
+      loadReports(0);
+    }
   }, [reportFor]);
 
   useEffect(() => {
