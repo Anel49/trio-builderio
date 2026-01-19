@@ -147,7 +147,18 @@ export function FavoritesModal({
                         {favorite.name}
                       </h3>
                       <p className="text-sm text-muted-foreground line-clamp-1">
-                        by {favorite.host}
+                        by{" "}
+                        {favorite.hostUsername ? (
+                          <a
+                            href={`/profile/${favorite.hostUsername}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="hover:underline hover:text-foreground transition-colors"
+                          >
+                            {favorite.host}
+                          </a>
+                        ) : (
+                          favorite.host
+                        )}
                       </p>
                       {favorite.listingExists === false && (
                         <p className="text-xs text-muted-foreground mt-1">
