@@ -155,7 +155,7 @@ export function FavoritesModal({
                             onClick={(e) => e.stopPropagation()}
                             className="hover:underline hover:text-foreground transition-colors"
                           >
-                            {favorite.host}
+                            {favorite.hostDisplayName || favorite.host}
                           </a>
                         ) : (
                           favorite.host
