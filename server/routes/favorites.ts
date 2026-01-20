@@ -53,7 +53,7 @@ export async function addFavorite(req: Request, res: Response) {
 
     // First, get the listing details
     const listingResult = await pool.query(
-      `select name, image_url, host from listings where id = $1`,
+      `select name, image_url, host, host_id from listings where id = $1`,
       [listingId],
     );
 
@@ -64,11 +64,11 @@ export async function addFavorite(req: Request, res: Response) {
     const listing = listingResult.rows[0];
 
     const result = await pool.query(
-      `insert into favorites (user_id, listing_id, listing_name, listing_image, listing_host)
-       values ($1, $2, $3, $4, $5)
+      `insert into favorites (user_id, listing_id, listing_name, listing_image, listing_host, listing_host_id)
+       values ($1, $2, $3, $4, $5, $6)
        on conflict (user_id, listing_id) do nothing
        returning user_id, listing_id, created_at`,
-      [userId, listingId, listing.name, listing.image_url, listing.host],
+      [userId, listingId, listing.name, listing.image_url, listing.host, listing.host_id],
     );
 
     if (result.rowCount === 0) {
