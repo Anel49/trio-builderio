@@ -11,10 +11,10 @@ export async function listFavorites(req: Request, res: Response) {
     const result = await pool.query(
       `select f.listing_id, f.listing_name, f.listing_image, f.listing_host,
               f.created_at as favorited_at, l.id as listing_exists, l.enabled,
-              l.host_id, u.username
+              u.username, u.name as host_display_name
        from favorites f
        left join listings l on f.listing_id = l.id
-       left join users u on l.host_id = u.id
+       left join users u on f.listing_host_id = u.id
        where f.user_id = $1
        order by f.created_at desc`,
       [userId],
@@ -26,6 +26,7 @@ export async function listFavorites(req: Request, res: Response) {
       image: r.listing_image,
       host: r.listing_host,
       hostUsername: r.username,
+      hostDisplayName: r.host_display_name,
       listingExists: r.listing_exists !== null,
       enabled: r.enabled !== false,
       favoritedAt: r.favorited_at,
