@@ -30,6 +30,39 @@ interface FavoritesModalProps {
   userId?: string;
 }
 
+const PlaceholderImage = ({ isDisabled }: { isDisabled: boolean }) => (
+  <svg
+    className={`h-20 w-20 rounded flex-shrink-0 ${
+      isDisabled ? "grayscale" : ""
+    }`}
+    viewBox="0 0 80 80"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="80" height="80" rx="4" fill="currentColor" className="text-muted-foreground opacity-20" />
+    <line
+      x1="20"
+      y1="20"
+      x2="60"
+      y2="60"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      className="text-muted-foreground"
+    />
+    <line
+      x1="60"
+      y1="20"
+      x2="20"
+      y2="60"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      className="text-muted-foreground"
+    />
+  </svg>
+);
+
 export function FavoritesModal({
   isOpen,
   onOpenChange,
@@ -39,6 +72,7 @@ export function FavoritesModal({
   const [loading, setLoading] = useState(false);
   const [removalModalOpen, setRemovalModalOpen] = useState(false);
   const [removedListingName, setRemovedListingName] = useState("");
+  const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     if (!isOpen || !userId) return;
