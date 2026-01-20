@@ -305,8 +305,7 @@ export default function AdminListingList() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Delete Listing</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Are you sure you want to delete "{listing.name}"?
-                              This action cannot be undone.
+                              Are you sure you want to delete "{listing.name}"? This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <div
