@@ -116,6 +116,10 @@ export function FavoritesModal({
     }
   };
 
+  const handleImageError = (listingId: number) => {
+    setFailedImages((prev) => new Set(prev).add(listingId));
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[80vh] flex flex-col">
