@@ -3006,7 +3006,7 @@ export default function Profile() {
           <DialogHeader>
             <DialogTitle>Delete Listing</DialogTitle>
             <DialogDescription>
-              {`Are you sure you want to delete ${itemToDelete?.name ?? "this listing"}?`}
+              {`Are you sure you want to delete ${itemToDelete?.name ?? "this listing"}? This action cannot be undone.`}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-col sm:flex-row gap-2">
