@@ -172,15 +172,18 @@ export function FavoritesModal({
                         : "opacity-50 cursor-not-allowed"
                     }`}
                   >
-                    {favorite.image && (
+                    {favorite.image && !failedImages.has(favorite.id) ? (
                       <img
                         src={favorite.image}
                         alt={favorite.name}
                         className={`h-20 w-20 rounded object-cover flex-shrink-0 ${
                           isDisabled ? "grayscale" : ""
                         }`}
+                        onError={() => handleImageError(favorite.id)}
                       />
-                    )}
+                    ) : favorite.image || failedImages.has(favorite.id) ? (
+                      <PlaceholderImage isDisabled={isDisabled} />
+                    ) : null}
                     <div className="flex-1 min-w-0">
                       <h3 className="font-medium line-clamp-1">
                         {favorite.name}
