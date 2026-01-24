@@ -794,13 +794,11 @@ export async function updateListing(req: Request, res: Response) {
     console.log(
       `[updateListing] Existing lat=${existingListing.latitude}, lon=${existingListing.longitude}`,
     );
-    console.log(
-      `[updateListing] New lat=${lat}, lon=${lon}`,
-    );
+    console.log(`[updateListing] New lat=${lat}, lon=${lon}`);
 
     // Check if coordinates have actually changed
     const coordsChanged =
-      (lat !== existingListing.latitude || lon !== existingListing.longitude);
+      lat !== existingListing.latitude || lon !== existingListing.longitude;
 
     if (
       coordsChanged &&

@@ -735,7 +735,8 @@ export default function UploadProduct() {
               images: allImageUrls,
               description,
               category: selectedTags[0] || "Miscellaneous",
-              categories: selectedTags.length > 0 ? selectedTags : ["Miscellaneous"],
+              categories:
+                selectedTags.length > 0 ? selectedTags : ["Miscellaneous"],
               location_city: listingLocation.city,
               latitude: listingLocation.latitude,
               longitude: listingLocation.longitude,
