@@ -191,9 +191,10 @@ export default function ProductDetails() {
 
   const handleShare = async () => {
     const listingUrl = window.location.href;
+    const shareText = `Check out this cool listing I found on LendIt!\n${product?.name}\n${listingUrl}`;
     const shareData = {
-      title: product?.name || "Check out this listing",
-      text: product?.description || "",
+      title: "Check out this cool listing I found on LendIt!",
+      text: shareText,
       url: listingUrl,
     };
 
@@ -202,8 +203,8 @@ export default function ProductDetails() {
         // Use Web Share API if available
         await navigator.share(shareData);
       } else {
-        // Fallback: copy URL to clipboard
-        await navigator.clipboard.writeText(listingUrl);
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(shareText);
         // Show a simple alert or toast notification
         alert("Listing link copied to clipboard!");
       }
