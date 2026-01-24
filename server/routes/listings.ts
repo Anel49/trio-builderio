@@ -742,6 +742,16 @@ export async function updateListing(req: Request, res: Response) {
         .json({ ok: false, error: "name and price_cents are required" });
     }
 
+    // Fetch existing listing to use as fallback for unmodified fields
+    const existingListingResult = await pool.query(
+      `select postcode, city, latitude, longitude from listings where id = $1`,
+      [id],
+    );
+    if (existingListingResult.rows.length === 0) {
+      return res.status(404).json({ ok: false, error: "Listing not found" });
+    }
+    const existingListing = existingListingResult.rows[0];
+
     const normalizedZip = normalizeZipCode(zip_code);
     const imgs: string[] = Array.isArray(images)
       ? (images as any[]).filter((u) => typeof u === "string" && u.trim())
@@ -768,10 +778,10 @@ export async function updateListing(req: Request, res: Response) {
         description || null,
         category || "Miscellaneous",
         primaryImage || null,
-        normalizedZip || null,
-        location_city || null,
-        lat,
-        lon,
+        normalizedZip || existingListing.postcode,
+        location_city || existingListing.city,
+        lat ?? existingListing.latitude,
+        lon ?? existingListing.longitude,
         delivery || false,
         free_delivery || false,
         instantBookingsValue,
