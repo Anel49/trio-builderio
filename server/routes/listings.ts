@@ -202,7 +202,7 @@ export async function listListings(req: Request, res: Response) {
 
       const cats = categoriesMap[r.id] || [];
       const primaryCategory =
-        cats.length > 0 ? cats[0] : r.category || "General";
+        cats.length > 0 ? cats[0] : r.category || "Miscellaneous";
       const formattedPrice = formatPrice(r.price_cents);
       const avgRating =
         r.avg_review_rating && Number(r.avg_review_rating) > 0
