@@ -50,7 +50,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ConfirmationModal as ConfirmationModalTemplate } from "@/components/ui/modal-templates";
+import {
+  ConfirmationModal as ConfirmationModalTemplate,
+  BinaryModal,
+} from "@/components/ui/modal-templates";
 import {
   Tooltip,
   TooltipContent,
