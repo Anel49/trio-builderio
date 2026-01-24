@@ -337,7 +337,7 @@ export default function UploadProduct() {
     rentalPeriod,
   ]);
 
-  const defaultCategory = "General";
+  const defaultCategory = "Miscellaneous";
 
   const recommendedTags = [
     "Appliances",
