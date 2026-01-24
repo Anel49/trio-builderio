@@ -1959,7 +1959,15 @@ export default function UploadProduct() {
         onCancel={handleCancelListing}
         onOpenChange={setShowConfirmModal}
       />
-      <SuccessModal />
+      <ConfirmationModalTemplate
+        isOpen={showSuccessModal}
+        onOpenChange={setShowSuccessModal}
+        title="Success!"
+        description="Your product has been successfully listed!"
+        confirmLabel="See listing"
+        onConfirm={handleSuccessConfirm}
+        centered
+      />
       <ConfirmationModalTemplate
         isOpen={showInstantBookingModal}
         onOpenChange={setShowInstantBookingModal}
