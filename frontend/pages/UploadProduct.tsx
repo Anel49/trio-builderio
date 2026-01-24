@@ -110,7 +110,9 @@ export default function UploadProduct() {
   const [isPriceInfoOpen, setIsPriceInfoOpen] = useState(false);
   const [offerDelivery, setOfferDelivery] = useState(false);
   const [offerFreeDelivery, setOfferFreeDelivery] = useState(false);
+  const [showDeliveryModal, setShowDeliveryModal] = useState(false);
   const [enableInstantBooking, setEnableInstantBooking] = useState(false);
+  const [showInstantBookingModal, setShowInstantBookingModal] = useState(false);
   const [addons, setAddons] = useState<
     Array<{
       id: string;
