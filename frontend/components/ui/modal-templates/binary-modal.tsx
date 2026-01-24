@@ -82,7 +82,11 @@ export function BinaryModal({
         </DialogHeader>
         {description && (
           <div>
-            <p className={`text-base text-muted-foreground ${centered ? "text-center" : ""}`}>{description}</p>
+            <p
+              className={`text-base text-muted-foreground ${centered ? "text-center" : ""}`}
+            >
+              {description}
+            </p>
           </div>
         )}
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:gap-2">
