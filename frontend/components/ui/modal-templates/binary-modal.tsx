@@ -35,6 +35,7 @@ export function BinaryModal({
   primaryLoading = false,
   secondaryLoading = false,
   isDangerous = false,
+  centered = false,
 }: BinaryModalProps) {
   const [isPrimaryLoading, setIsPrimaryLoading] = useState(false);
   const [isSecondaryLoading, setIsSecondaryLoading] = useState(false);
