@@ -57,7 +57,7 @@ export function ConfirmationModal({
         </DialogHeader>
         {description && (
           <div>
-            <p className="text-base text-muted-foreground">{description}</p>
+            <p className={`text-base text-muted-foreground ${centered ? "text-center" : ""}`}>{description}</p>
           </div>
         )}
         <Button
