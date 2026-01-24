@@ -135,28 +135,55 @@ export default function Header() {
                   Browse listings
                 </a>
                 {authenticated && (
-                  <button
-                    onClick={() => {
-                      if (user?.pendingIdentityVer === null) {
-                        setIsIdentificationRequiredModalOpen(true);
-                      } else if (user?.pendingIdentityVer === true) {
-                        setIsPendingIdentityModalOpen(true);
-                      } else if (!user?.stripeSecret) {
-                        setIsBankingSetupModalOpen(true);
-                      } else {
-                        window.location.href = "/upload";
-                      }
-                    }}
-                    className={`transition-colors mt-[2px] ml-8 ${
-                      user?.pendingIdentityVer === null ||
-                      user?.pendingIdentityVer === true ||
-                      !user?.stripeSecret
-                        ? "text-muted-foreground opacity-50"
-                        : "text-foreground hover:text-primary"
-                    }`}
-                  >
-                    Rent your product
-                  </button>
+                  <>
+                    <button
+                      onClick={() => {
+                        if (user?.pendingIdentityVer === null) {
+                          setIsIdentificationRequiredModalOpen(true);
+                        } else if (user?.pendingIdentityVer === true) {
+                          setIsPendingIdentityModalOpen(true);
+                        } else if (!user?.stripeSecret) {
+                          setIsBankingSetupModalOpen(true);
+                        } else {
+                          window.location.href = "/upload";
+                        }
+                      }}
+                      className={`transition-colors mt-[2px] ml-8 ${
+                        user?.pendingIdentityVer === null ||
+                        user?.pendingIdentityVer === true ||
+                        !user?.stripeSecret
+                          ? "text-muted-foreground opacity-50"
+                          : "text-foreground hover:text-primary"
+                      }`}
+                    >
+                      Rent your product
+                    </button>
+                    {/* Demo Modal Buttons */}
+                    <button
+                      onClick={() => setIsSuccessModalDemoOpen(true)}
+                      className="text-xs text-muted-foreground hover:text-primary transition-colors ml-4 opacity-75"
+                    >
+                      success-modal
+                    </button>
+                    <button
+                      onClick={() => setIsConfirmationModalDemoOpen(true)}
+                      className="text-xs text-muted-foreground hover:text-primary transition-colors opacity-75"
+                    >
+                      confirmation-modal
+                    </button>
+                    <button
+                      onClick={() => setIsBinaryModalDemoOpen(true)}
+                      className="text-xs text-muted-foreground hover:text-primary transition-colors opacity-75"
+                    >
+                      binary-modal
+                    </button>
+                    <button
+                      onClick={() => setIsLoadingModalDemoOpen(true)}
+                      className="text-xs text-muted-foreground hover:text-primary transition-colors opacity-75"
+                    >
+                      loading-modal
+                    </button>
+                  </>
                 )}
               </nav>
             </div>
