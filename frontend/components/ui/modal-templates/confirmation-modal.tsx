@@ -3,18 +3,10 @@ import { Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import {
-  spacing,
-  typography,
-  layouts,
-  combineTokens,
-} from "@/lib/design-tokens";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -57,30 +49,26 @@ export function ConfirmationModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className={spacing.padding.card}>
+      <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className={typography.combinations.heading}>
-            {title}
-          </DialogTitle>
-          {description && (
-            <DialogDescription className={typography.combinations.body}>
-              {description}
-            </DialogDescription>
-          )}
+          <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        <DialogFooter>
-          <Button
-            onClick={handleConfirm}
-            disabled={isProcessing}
-            variant={isDangerous ? "destructive" : "default"}
-            className={combineTokens("w-full sm:w-auto")}
-          >
-            {isProcessing && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            {confirmLabel}
-          </Button>
-        </DialogFooter>
+        {description && (
+          <div className="py-4">
+            <p className="text-base text-muted-foreground">{description}</p>
+          </div>
+        )}
+        <Button
+          onClick={handleConfirm}
+          disabled={isProcessing}
+          variant={isDangerous ? "destructive" : "default"}
+          className="w-full"
+        >
+          {isProcessing && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )}
+          {confirmLabel}
+        </Button>
       </DialogContent>
     </Dialog>
   );
