@@ -17,6 +17,7 @@ interface ConfirmationModalProps {
   onConfirm?: () => void | Promise<void>;
   loading?: boolean;
   isDangerous?: boolean;
+  centered?: boolean;
 }
 
 export function ConfirmationModal({
