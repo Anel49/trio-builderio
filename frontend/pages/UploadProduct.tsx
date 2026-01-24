@@ -1985,6 +1985,22 @@ export default function UploadProduct() {
         onOpenChange={setShowConfirmModal}
       />
       <SuccessModal />
+      <ConfirmationModalTemplate
+        isOpen={showInstantBookingModal}
+        onOpenChange={setShowInstantBookingModal}
+        title="Instant Booking"
+        description="Enabling Instant Booking configures your listing to automatically approve incoming booking requests that do not conflict with any existing Pending or Accepted requests, eliminating the need for manual approval."
+        confirmLabel="Got it"
+        onConfirm={() => setShowInstantBookingModal(false)}
+      />
+      <ConfirmationModalTemplate
+        isOpen={showDeliveryModal}
+        onOpenChange={setShowDeliveryModal}
+        title="Delivery Fee"
+        description="Negotiate delivery fees through messages. You keep 100% of the delivery fee."
+        confirmLabel="Got it"
+        onConfirm={() => setShowDeliveryModal(false)}
+      />
       <PreviewModal />
       <LocationPickerModal
         open={isLocationModalOpen}
