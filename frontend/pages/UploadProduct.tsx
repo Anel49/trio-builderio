@@ -1013,7 +1013,7 @@ export default function UploadProduct() {
   );
 
   const InstantBookingModal = () => (
-    <ConfirmationModal
+    <ConfirmationModalTemplate
       isOpen={showInstantBookingModal}
       onOpenChange={setShowInstantBookingModal}
       title="Instant Booking"
