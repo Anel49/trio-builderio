@@ -410,6 +410,51 @@ export default function Header() {
           }
         }}
       />
+
+      {/* Demo Modal Implementations */}
+      <SuccessModal
+        isOpen={isSuccessModalDemoOpen}
+        onOpenChange={setIsSuccessModalDemoOpen}
+        title="Success!"
+        description="Your action was completed successfully."
+        icon={<CheckCircle2 className="h-12 w-12 text-green-500" />}
+      />
+
+      <ConfirmationModal
+        isOpen={isConfirmationModalDemoOpen}
+        onOpenChange={setIsConfirmationModalDemoOpen}
+        title="Confirm Action"
+        description="Do you understand the implications of this action?"
+        confirmLabel="I Understand"
+        onConfirm={() => {
+          console.log("Confirmation received");
+          setIsConfirmationModalDemoOpen(false);
+        }}
+      />
+
+      <BinaryModal
+        isOpen={isBinaryModalDemoOpen}
+        onOpenChange={setIsBinaryModalDemoOpen}
+        title="Delete Item?"
+        description="This action cannot be undone."
+        primaryLabel="Delete"
+        secondaryLabel="Cancel"
+        onPrimary={() => {
+          console.log("Delete confirmed");
+          setIsBinaryModalDemoOpen(false);
+        }}
+        onSecondary={() => {
+          console.log("Canceled");
+          setIsBinaryModalDemoOpen(false);
+        }}
+        isDangerous
+      />
+
+      <LoadingModal
+        isOpen={isLoadingModalDemoOpen}
+        onOpenChange={setIsLoadingModalDemoOpen}
+        text="Loading demo content..."
+      />
     </>
   );
 }
