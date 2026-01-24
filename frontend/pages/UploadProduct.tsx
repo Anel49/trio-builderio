@@ -734,6 +734,7 @@ export default function UploadProduct() {
               image: allImageUrls[0],
               images: allImageUrls,
               description,
+              category: selectedTags[0] || "General",
               categories: selectedTags.length > 0 ? selectedTags : ["General"],
               location_city: listingLocation.city,
               latitude: listingLocation.latitude,
