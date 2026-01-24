@@ -20,6 +20,7 @@ interface BinaryModalProps {
   primaryLoading?: boolean;
   secondaryLoading?: boolean;
   isDangerous?: boolean;
+  centered?: boolean;
 }
 
 export function BinaryModal({
