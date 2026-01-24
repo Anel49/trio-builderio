@@ -372,7 +372,9 @@ export async function createListing(req: Request, res: Response) {
     }
 
     // Fetch location data from Geoapify BEFORE inserting
-    console.log("[createListing] ===== GEOAPIFY LOCATION FETCH START (PRE-INSERT) =====");
+    console.log(
+      "[createListing] ===== GEOAPIFY LOCATION FETCH START (PRE-INSERT) =====",
+    );
     console.log(
       `[createListing] lat=${lat}, lon=${lon}, lat==null: ${lat == null}, lon==null: ${lon == null}`,
     );
@@ -405,7 +407,9 @@ export async function createListing(req: Request, res: Response) {
     } else {
       console.log("[createListing] SKIPPING GEOAPIFY - invalid coordinates");
     }
-    console.log("[createListing] ===== GEOAPIFY LOCATION FETCH END (PRE-INSERT) =====");
+    console.log(
+      "[createListing] ===== GEOAPIFY LOCATION FETCH END (PRE-INSERT) =====",
+    );
 
     // Now insert with all data (including enriched location data from Geoapify)
     let result;
@@ -445,10 +449,7 @@ export async function createListing(req: Request, res: Response) {
       throw e;
     }
     const newId = result.rows[0].id;
-    console.log(
-      "[createListing] Successfully created listing with ID:",
-      newId,
-    );
+    console.log("[createListing] Successfully created listing with ID:", newId);
     if (imgs.length > 0) {
       try {
         for (let i = 0; i < imgs.length; i++) {
