@@ -1013,30 +1013,14 @@ export default function UploadProduct() {
   );
 
   const InstantBookingModal = () => (
-    <Dialog
-      open={showInstantBookingModal}
+    <ConfirmationModal
+      isOpen={showInstantBookingModal}
       onOpenChange={setShowInstantBookingModal}
-    >
-      <DialogContent className="max-w-sm">
-        <DialogHeader>
-          <DialogTitle>Instant Booking</DialogTitle>
-        </DialogHeader>
-        <div className="py-4">
-          <p className="text-base text-muted-foreground">
-            Enabling Instant Booking configures your listing to automatically
-            approve incoming booking requests that do not conflict with any
-            existing Pending or Accepted requests, eliminating the need for
-            manual approval.
-          </p>
-        </div>
-        <Button
-          onClick={() => setShowInstantBookingModal(false)}
-          className="w-full"
-        >
-          Got it
-        </Button>
-      </DialogContent>
-    </Dialog>
+      title="Instant Booking"
+      description="Enabling Instant Booking configures your listing to automatically approve incoming booking requests that do not conflict with any existing Pending or Accepted requests, eliminating the need for manual approval."
+      confirmLabel="Got it"
+      onConfirm={() => setShowInstantBookingModal(false)}
+    />
   );
 
   const PreviewModal = () => (
