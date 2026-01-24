@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { MessageCircle, Menu, ClipboardList, Heart } from "lucide-react";
+import { MessageCircle, Menu, ClipboardList, Heart, CheckCircle2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { ThemeToggle } from "./ui/theme-toggle";
@@ -30,6 +30,12 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "./ui/dropdown-menu";
+import {
+  SuccessModal,
+  ConfirmationModal,
+  BinaryModal,
+  LoadingModal,
+} from "./ui/modal-templates";
 
 export default function Header() {
   const { authenticated, user, logout, checkAuth } = useAuth();
@@ -51,6 +57,13 @@ export default function Header() {
     useState(false);
 
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+
+  // Demo modal states
+  const [isSuccessModalDemoOpen, setIsSuccessModalDemoOpen] = useState(false);
+  const [isConfirmationModalDemoOpen, setIsConfirmationModalDemoOpen] =
+    useState(false);
+  const [isBinaryModalDemoOpen, setIsBinaryModalDemoOpen] = useState(false);
+  const [isLoadingModalDemoOpen, setIsLoadingModalDemoOpen] = useState(false);
 
   useEffect(() => {
     if (authenticated && user && !user.active) {
