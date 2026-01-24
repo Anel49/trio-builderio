@@ -3,16 +3,9 @@ import { CheckCircle2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  spacing,
-  typography,
-  layouts,
-  combineTokens,
-} from "@/lib/design-tokens";
 
 interface SuccessModalProps {
   isOpen: boolean;
@@ -43,26 +36,12 @@ export function SuccessModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent
-        className={combineTokens(
-          "flex flex-col items-center justify-center",
-          spacing.padding.card
-        )}
-      >
-        <DialogHeader
-          className={combineTokens(
-            "flex flex-col items-center space-y-4",
-            "text-center"
-          )}
-        >
+      <DialogContent className="max-w-sm flex flex-col items-center justify-center">
+        <DialogHeader className="flex flex-col items-center space-y-4 text-center">
           {icon || <CheckCircle2 className="h-12 w-12 text-green-500" />}
-          <DialogTitle className={typography.combinations.heading}>
-            {title}
-          </DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
           {description && (
-            <DialogDescription className={typography.combinations.body}>
-              {description}
-            </DialogDescription>
+            <p className="text-base text-muted-foreground">{description}</p>
           )}
         </DialogHeader>
       </DialogContent>
