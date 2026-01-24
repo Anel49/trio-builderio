@@ -991,28 +991,6 @@ export default function UploadProduct() {
     </Dialog>
   );
 
-  const DeliveryModal = () => (
-    <ConfirmationModalTemplate
-      isOpen={showDeliveryModal}
-      onOpenChange={setShowDeliveryModal}
-      title="Delivery Fee"
-      description="Negotiate delivery fees through messages. You keep 100% of the delivery fee."
-      confirmLabel="Got it"
-      onConfirm={() => setShowDeliveryModal(false)}
-    />
-  );
-
-  const InstantBookingModal = () => (
-    <ConfirmationModalTemplate
-      isOpen={showInstantBookingModal}
-      onOpenChange={setShowInstantBookingModal}
-      title="Instant Booking"
-      description="Enabling Instant Booking configures your listing to automatically approve incoming booking requests that do not conflict with any existing Pending or Accepted requests, eliminating the need for manual approval."
-      confirmLabel="Got it"
-      onConfirm={() => setShowInstantBookingModal(false)}
-    />
-  );
-
   const PreviewModal = () => (
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
       <DialogContent className="max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh]">
