@@ -2,15 +2,8 @@ import { Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog";
-import {
-  spacing,
-  typography,
-  layouts,
-  combineTokens,
-} from "@/lib/design-tokens";
 
 interface LoadingModalProps {
   isOpen: boolean;
@@ -35,13 +28,7 @@ export function LoadingModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent
-        className={combineTokens(
-          "flex flex-col items-center justify-center",
-          spacing.padding.card,
-          "gap-4"
-        )}
-      >
+      <DialogContent className="max-w-sm flex flex-col items-center justify-center gap-4">
         {/* Hide close button by default, show only if dismissible */}
         {!isDismissible && (
           <div className="absolute right-4 top-4 opacity-0 pointer-events-none">
@@ -53,9 +40,7 @@ export function LoadingModal({
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
 
         {text && (
-          <DialogDescription className={typography.combinations.body}>
-            {text}
-          </DialogDescription>
+          <p className="text-base text-muted-foreground">{text}</p>
         )}
       </DialogContent>
     </Dialog>
