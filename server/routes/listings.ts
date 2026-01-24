@@ -700,9 +700,9 @@ export async function updateListing(req: Request, res: Response) {
       return res.status(401).json({ ok: false, error: "Not authenticated" });
     }
 
-    // Fetch the listing to verify ownership
+    // Fetch the listing to verify ownership and get existing data for fallbacks
     const listingCheckResult = await pool.query(
-      `select host_id from listings where id = $1`,
+      `select host_id, postcode, city, latitude, longitude from listings where id = $1`,
       [id],
     );
 
@@ -716,6 +716,8 @@ export async function updateListing(req: Request, res: Response) {
         .status(403)
         .json({ ok: false, error: "You can only edit your own listings" });
     }
+
+    const existingListing = listingCheckResult.rows[0];
 
     const {
       name,
