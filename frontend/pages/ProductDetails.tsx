@@ -189,6 +189,32 @@ export default function ProductDetails() {
     }
   };
 
+  const handleShare = async () => {
+    const listingUrl = window.location.href;
+    const shareData = {
+      title: product?.name || "Check out this listing",
+      text: product?.description || "",
+      url: listingUrl,
+    };
+
+    try {
+      if (navigator.share) {
+        // Use Web Share API if available
+        await navigator.share(shareData);
+      } else {
+        // Fallback: copy URL to clipboard
+        await navigator.clipboard.writeText(listingUrl);
+        // Show a simple alert or toast notification
+        alert("Listing link copied to clipboard!");
+      }
+    } catch (error: any) {
+      // User cancelled the share dialog, or clipboard copy failed
+      if (error.name !== "AbortError") {
+        console.error("Share failed:", error);
+      }
+    }
+  };
+
   const refreshReviews = async () => {
     if (!params.id) return;
     const reviewsResponse = await apiFetch(`listing-reviews/${params.id}`);
