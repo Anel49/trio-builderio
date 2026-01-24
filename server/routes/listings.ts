@@ -664,7 +664,7 @@ export async function getListingById(req: Request, res: Response) {
       hostTotalReviews: hostTotalReviews,
       hostOpenDms: Boolean(r.host_open_dms),
       hostCreatedAt: r.host_created_at || null,
-      type: categories[0] || "General",
+      type: categories[0] || "Miscellaneous",
       categories: categories && categories.length > 0 ? categories : [],
       distance: distanceLabel,
       distanceMiles,
