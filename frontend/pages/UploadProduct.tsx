@@ -1983,8 +1983,6 @@ export default function UploadProduct() {
         onOpenChange={setShowConfirmModal}
       />
       <SuccessModal />
-      <DeliveryModal />
-      <InstantBookingModal />
       <PreviewModal />
       <LocationPickerModal
         open={isLocationModalOpen}
