@@ -1,9 +1,5 @@
 import { Loader2 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 
 interface LoadingModalProps {
   isOpen: boolean;
@@ -39,9 +35,7 @@ export function LoadingModal({
 
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
 
-        {text && (
-          <p className="text-base text-muted-foreground">{text}</p>
-        )}
+        {text && <p className="text-base text-muted-foreground">{text}</p>}
       </DialogContent>
     </Dialog>
   );

@@ -64,9 +64,7 @@ export function ConfirmationModal({
           variant={isDangerous ? "destructive" : "default"}
           className="w-full"
         >
-          {isProcessing && (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          )}
+          {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {confirmLabel}
         </Button>
       </DialogContent>

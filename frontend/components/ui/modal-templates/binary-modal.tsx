@@ -67,7 +67,10 @@ export function BinaryModal({
   };
 
   const isAnyLoading =
-    isPrimaryLoading || isSecondaryLoading || primaryLoading || secondaryLoading;
+    isPrimaryLoading ||
+    isSecondaryLoading ||
+    primaryLoading ||
+    secondaryLoading;
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
