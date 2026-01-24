@@ -1152,7 +1152,7 @@ export default function ProductDetails() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-muted-foreground hover:text-primary h-8 w-8"
+                          className="text-muted-foreground hover:text-primary h-8 w-8 pr-2"
                           onClick={handleShare}
                           aria-label="Share listing"
                         >
