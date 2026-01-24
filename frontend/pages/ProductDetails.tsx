@@ -1144,25 +1144,45 @@ export default function ProductDetails() {
             <div>
               <div className="flex items-start justify-between mb-2">
                 <h1 className="text-3xl font-bold flex-1">{product.name}</h1>
-                {authUser?.id && authUser?.id !== product?.hostUserId && (
+                <div className="flex gap-2 ml-4">
                   <TooltipProvider>
                     <Tooltip delayDuration={200}>
                       <TooltipTrigger asChild>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-muted-foreground hover:text-destructive ml-4 h-8 w-8 dark:hover:bg-red-600 dark:hover:text-white"
-                          onClick={() => setIsReportModalOpen(true)}
+                          className="text-muted-foreground hover:text-primary h-8 w-8"
+                          onClick={handleShare}
+                          aria-label="Share listing"
                         >
-                          <Flag className="h-4 w-4" />
+                          <Share2 className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>Report listing</p>
+                        <p>Share listing</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                )}
+                  {authUser?.id && authUser?.id !== product?.hostUserId && (
+                    <TooltipProvider>
+                      <Tooltip delayDuration={200}>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-muted-foreground hover:text-destructive h-8 w-8 dark:hover:bg-red-600 dark:hover:text-white"
+                            onClick={() => setIsReportModalOpen(true)}
+                          >
+                            <Flag className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Report listing</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
+                </div>
               </div>
               {(product.instantBookings ||
                 product.categories.filter(Boolean).length > 0) && (
