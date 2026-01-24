@@ -18,6 +18,7 @@ import { MobileMenu } from "@/components/ui/mobile-menu";
 import { FavoritesModal } from "@/components/ui/favorites-modal";
 import { AddToFavoritesModal } from "@/components/ui/add-to-favorites-modal";
 import { RemoveFromFavoritesModal } from "@/components/ui/remove-from-favorites-modal";
+import { LoadingModal } from "@/components/ui/modal-templates";
 import { ListingsMap } from "@/components/ListingsMap";
 import { LocationPickerModal } from "@/components/LocationPickerModal";
 import { cn } from "@/lib/utils";
