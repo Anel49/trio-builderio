@@ -54,7 +54,7 @@ export function ConfirmationModal({
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         {description && (
-          <div className="py-4">
+          <div>
             <p className="text-base text-muted-foreground">{description}</p>
           </div>
         )}
