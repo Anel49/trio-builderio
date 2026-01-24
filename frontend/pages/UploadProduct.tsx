@@ -994,22 +994,14 @@ export default function UploadProduct() {
   );
 
   const DeliveryModal = () => (
-    <Dialog open={showDeliveryModal} onOpenChange={setShowDeliveryModal}>
-      <DialogContent className="max-w-sm">
-        <DialogHeader>
-          <DialogTitle>Delivery Fee</DialogTitle>
-        </DialogHeader>
-        <div className="py-4">
-          <p className="text-base text-muted-foreground">
-            Negotiate delivery fees through messages. You keep 100% of the
-            delivery fee.
-          </p>
-        </div>
-        <Button onClick={() => setShowDeliveryModal(false)} className="w-full">
-          Got it
-        </Button>
-      </DialogContent>
-    </Dialog>
+    <ConfirmationModalTemplate
+      isOpen={showDeliveryModal}
+      onOpenChange={setShowDeliveryModal}
+      title="Delivery Fee"
+      description="Negotiate delivery fees through messages. You keep 100% of the delivery fee."
+      confirmLabel="Got it"
+      onConfirm={() => setShowDeliveryModal(false)}
+    />
   );
 
   const InstantBookingModal = () => (
