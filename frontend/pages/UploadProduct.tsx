@@ -1955,12 +1955,17 @@ export default function UploadProduct() {
         </div>
       </div>
 
-      <ConfirmationModal
-        showConfirmModal={showConfirmModal}
-        isConfirmingListing={isConfirmingListing}
-        onConfirm={confirmListProduct}
-        onCancel={handleCancelListing}
+      <BinaryModal
+        isOpen={showConfirmModal}
         onOpenChange={setShowConfirmModal}
+        title="Confirm Listing"
+        description="Are you sure you want to list your product?"
+        primaryLabel="Yes"
+        secondaryLabel="No"
+        onPrimary={confirmListProduct}
+        onSecondary={handleCancelListing}
+        primaryLoading={isConfirmingListing}
+        centered
       />
       <ConfirmationModalTemplate
         isOpen={showSuccessModal}
