@@ -788,23 +788,30 @@ export async function updateListing(req: Request, res: Response) {
 
     const listingId = result.rows[0].id;
 
-    // Fetch location data from Geoapify if latitude and longitude are provided
+    // Fetch location data from Geoapify ONLY if latitude and longitude have CHANGED
     console.log("[updateListing] ===== GEOAPIFY LOCATION FETCH START =====");
     console.log("[updateListing] listingId:", listingId);
     console.log(
-      `[updateListing] lat=${lat}, lon=${lon}, lat==null: ${lat == null}, lon==null: ${lon == null}`,
+      `[updateListing] Existing lat=${existingListing.latitude}, lon=${existingListing.longitude}`,
     );
     console.log(
-      `[updateListing] lat is finite: ${Number.isFinite(lat)}, lon is finite: ${Number.isFinite(lon)}`,
+      `[updateListing] New lat=${lat}, lon=${lon}`,
     );
 
+    // Check if coordinates have actually changed
+    const coordsChanged =
+      (lat !== existingListing.latitude || lon !== existingListing.longitude);
+
     if (
+      coordsChanged &&
       lat != null &&
       lon != null &&
       Number.isFinite(lat) &&
       Number.isFinite(lon)
     ) {
-      console.log(`[updateListing] CALLING GEOAPIFY - lat=${lat}, lon=${lon}`);
+      console.log(
+        `[updateListing] Coordinates changed - CALLING GEOAPIFY - lat=${lat}, lon=${lon}`,
+      );
       try {
         console.log(
           "[updateListing] Awaiting getLocationDataFromCoordinates...",
@@ -852,7 +859,9 @@ export async function updateListing(req: Request, res: Response) {
         console.error("[updateListing] Error stack:", e?.stack);
       }
     } else {
-      console.log("[updateListing] SKIPPING GEOAPIFY - invalid coordinates");
+      console.log(
+        `[updateListing] SKIPPING GEOAPIFY - coordinates unchanged or invalid`,
+      );
     }
     console.log("[updateListing] ===== GEOAPIFY LOCATION FETCH END =====");
 
