@@ -86,6 +86,7 @@ import {
   MessageCircle,
   ArrowLeft,
   Info,
+  Share2,
 } from "lucide-react";
 import {
   Dialog,
