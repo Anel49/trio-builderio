@@ -766,7 +766,7 @@ export async function updateListing(req: Request, res: Response) {
         name,
         price_cents,
         description || null,
-        category || "General",
+        category || "Miscellaneous",
         primaryImage || null,
         normalizedZip || null,
         location_city || null,
