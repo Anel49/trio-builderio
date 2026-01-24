@@ -964,34 +964,9 @@ export default function UploadProduct() {
     responseTime: "within an hour",
   };
 
-  const SuccessModal = () => (
-    <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Success!</DialogTitle>
-        </DialogHeader>
-        <div className="py-4">
-          <p className="text-center text-muted-foreground">
-            Your product has been successfully listed!
-          </p>
-        </div>
-        <div className="flex justify-center gap-3">
-          <Button onClick={handleViewListing} className="w-full">
-            See listing
-          </Button>
-          {!createdListingId && (
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => setShowSuccessModal(false)}
-            >
-              Close
-            </Button>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+  const handleSuccessConfirm = () => {
+    handleViewListing();
+  };
 
   const PreviewModal = () => (
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
