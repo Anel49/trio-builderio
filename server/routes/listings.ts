@@ -371,62 +371,8 @@ export async function createListing(req: Request, res: Response) {
       }
     }
 
-    let result;
-    try {
-      result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, host_id, category, description, postcode, city, latitude, longitude, delivery, free_delivery, instant_bookings, enabled)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
-         returning id`,
-        [
-          name,
-          price_cents,
-          rating ?? null,
-          primaryImage,
-          host ?? null,
-          typeof host_id === "number" ? host_id : null,
-          primaryCategory,
-          description ?? null,
-          zip,
-          location_city ?? null,
-          lat,
-          lon,
-          deliveryValue,
-          freeDeliveryValue,
-          instantBookingsValue,
-          enabledValue,
-        ],
-      );
-    } catch (e) {
-      console.log("[createListing] Primary insert failed:", e);
-      result = await pool.query(
-        `insert into listings (name, price_cents, rating, image_url, host, host_id, category, description, postcode, city, latitude, longitude, delivery, free_delivery, instant_bookings, enabled)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
-         returning id`,
-        [
-          name,
-          price_cents,
-          rating ?? null,
-          primaryImage,
-          host ?? null,
-          typeof host_id === "number" ? host_id : null,
-          primaryCategory,
-          description ?? null,
-          zip,
-          location_city ?? null,
-          lat,
-          lon,
-          deliveryValue,
-          freeDeliveryValue,
-          instantBookingsValue,
-          enabledValue,
-        ],
-      );
-    }
-    const newId = result.rows[0].id;
-
-    // Fetch location data from Geoapify if latitude and longitude are provided
-    console.log("[createListing] ===== GEOAPIFY LOCATION FETCH START =====");
-    console.log("[createListing] newId:", newId);
+    // Fetch location data from Geoapify BEFORE inserting
+    console.log("[createListing] ===== GEOAPIFY LOCATION FETCH START (PRE-INSERT) =====");
     console.log(
       `[createListing] lat=${lat}, lon=${lon}, lat==null: ${lat == null}, lon==null: ${lon == null}`,
     );
@@ -434,6 +380,7 @@ export async function createListing(req: Request, res: Response) {
       `[createListing] lat is finite: ${Number.isFinite(lat)}, lon is finite: ${Number.isFinite(lon)}`,
     );
 
+    let locationData: any = null;
     if (
       lat != null &&
       lon != null &&
@@ -445,43 +392,11 @@ export async function createListing(req: Request, res: Response) {
         console.log(
           "[createListing] Awaiting getLocationDataFromCoordinates...",
         );
-        const locationData = await getLocationDataFromCoordinates(lat, lon);
+        locationData = await getLocationDataFromCoordinates(lat, lon);
         console.log(
           "[createListing] Received locationData:",
           JSON.stringify(locationData),
         );
-        if (locationData) {
-          console.log(
-            "[createListing] UPDATE DATABASE with location data:",
-            locationData,
-          );
-          const updateResult = await pool.query(
-            `update listings
-             set country = $1, country_code = $2, state = $3, state_code = $4,
-                 county = $5, city = $6, postcode = $7, timezone = $8, address = $9
-             where id = $10`,
-            [
-              locationData.country,
-              locationData.country_code,
-              locationData.state,
-              locationData.state_code,
-              locationData.county,
-              locationData.city,
-              locationData.postcode,
-              locationData.timezone,
-              locationData.address,
-              newId,
-            ],
-          );
-          console.log(
-            "[createListing] Database updated - rows affected:",
-            updateResult.rowCount,
-          );
-        } else {
-          console.log(
-            "[createListing] locationData is null - API returned no data",
-          );
-        }
       } catch (e: any) {
         console.error("[createListing] EXCEPTION in location fetch:", e);
         console.error("[createListing] Error message:", e?.message);
@@ -490,7 +405,50 @@ export async function createListing(req: Request, res: Response) {
     } else {
       console.log("[createListing] SKIPPING GEOAPIFY - invalid coordinates");
     }
-    console.log("[createListing] ===== GEOAPIFY LOCATION FETCH END =====");
+    console.log("[createListing] ===== GEOAPIFY LOCATION FETCH END (PRE-INSERT) =====");
+
+    // Now insert with all data (including enriched location data from Geoapify)
+    let result;
+    try {
+      result = await pool.query(
+        `insert into listings (name, price_cents, rating, image_url, host, host_id, category, description, postcode, city, latitude, longitude, delivery, free_delivery, instant_bookings, enabled, country, country_code, state, state_code, county, timezone, address)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23)
+         returning id`,
+        [
+          name,
+          price_cents,
+          rating ?? null,
+          primaryImage,
+          host ?? null,
+          typeof host_id === "number" ? host_id : null,
+          primaryCategory,
+          description ?? null,
+          locationData?.postcode ?? zip,
+          locationData?.city ?? location_city ?? null,
+          lat,
+          lon,
+          deliveryValue,
+          freeDeliveryValue,
+          instantBookingsValue,
+          enabledValue,
+          locationData?.country ?? null,
+          locationData?.country_code ?? null,
+          locationData?.state ?? null,
+          locationData?.state_code ?? null,
+          locationData?.county ?? null,
+          locationData?.timezone ?? null,
+          locationData?.address ?? null,
+        ],
+      );
+    } catch (e) {
+      console.error("[createListing] Insert failed:", e);
+      throw e;
+    }
+    const newId = result.rows[0].id;
+    console.log(
+      "[createListing] Successfully created listing with ID:",
+      newId,
+    );
     if (imgs.length > 0) {
       try {
         for (let i = 0; i < imgs.length; i++) {
