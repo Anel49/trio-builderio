@@ -3,18 +3,10 @@ import { Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import {
-  spacing,
-  typography,
-  layouts,
-  combineTokens,
-} from "@/lib/design-tokens";
 
 interface BinaryModalProps {
   isOpen: boolean;
@@ -79,28 +71,21 @@ export function BinaryModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className={spacing.padding.card}>
+      <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className={typography.combinations.heading}>
-            {title}
-          </DialogTitle>
-          {description && (
-            <DialogDescription className={typography.combinations.body}>
-              {description}
-            </DialogDescription>
-          )}
+          <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        <DialogFooter
-          className={combineTokens(
-            "flex-col-reverse sm:flex-row",
-            "gap-3 sm:gap-2"
-          )}
-        >
+        {description && (
+          <div className="py-4">
+            <p className="text-base text-muted-foreground">{description}</p>
+          </div>
+        )}
+        <div className="flex flex-col-reverse gap-3 sm:flex-row sm:gap-2">
           <Button
             onClick={handleSecondary}
             disabled={isAnyLoading}
             variant="outline"
-            className="w-full sm:w-auto"
+            className="w-full"
           >
             {isSecondaryLoading || secondaryLoading ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -111,14 +96,14 @@ export function BinaryModal({
             onClick={handlePrimary}
             disabled={isAnyLoading}
             variant={isDangerous ? "destructive" : "default"}
-            className="w-full sm:w-auto"
+            className="w-full"
           >
             {isPrimaryLoading || primaryLoading ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
             {primaryLabel}
           </Button>
-        </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );
