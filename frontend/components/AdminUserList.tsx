@@ -70,8 +70,6 @@ interface User {
   name: string | null;
   email: string | null;
   username: string | null;
-  admin: boolean;
-  moderator: boolean;
   active: boolean;
   createdAt: string;
   pendingIdentityVer: boolean | null;
