@@ -874,7 +874,7 @@ export default function AdminReportsList({
                   <Button
                     variant={sortBy === "updated" ? "default" : "outline"}
                     size="sm"
-                    className="h-6 w-6 !rounded-none rounded-sm"
+                    className="h-6 w-6 !rounded"
                     title="Sort by updated"
                     onClick={() => {
                       if (sortBy === "updated") {
