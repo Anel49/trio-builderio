@@ -258,6 +258,8 @@ export default function AdminReportsList({
         params.append("report_number_filter", reportNumberVal.trim());
       if (reportedListingVal.trim())
         params.append("reported_listing_filter", reportedListingVal.trim());
+      if (reportedUserVal.trim())
+        params.append("reported_user_filter", reportedUserVal.trim());
       if (reportedByVal.trim())
         params.append("reported_by_filter", reportedByVal.trim());
       if (assignedToVal.trim())
