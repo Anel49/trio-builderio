@@ -129,6 +129,17 @@ export default function AdminReportsList({
   const [selectedReportForForDetails, setSelectedReportForForDetails] =
     useState<string>("");
 
+  // Filter and sort state
+  const [reportNumberFilter, setReportNumberFilter] = useState("");
+  const [reportedListingFilter, setReportedListingFilter] = useState("");
+  const [reportedByFilter, setReportedByFilter] = useState("");
+  const [assignedToFilter, setAssignedToFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [reasonsFilter, setReasonsFilter] = useState("");
+  const [sortBy, setSortBy] = useState<"created" | "updated" | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [openFilterId, setOpenFilterId] = useState<string | null>(null);
+
   const limit = 15;
   const offset = currentPage * limit;
   const initialLoadDoneRef = React.useRef(false);
