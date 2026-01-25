@@ -220,6 +220,26 @@ export default function AdminReportsList({
       if (finalSearchTerm.trim())
         params.append("search", finalSearchTerm.trim());
 
+      // Add filter parameters
+      if (reportNumberFilter.trim())
+        params.append("report_number_filter", reportNumberFilter.trim());
+      if (reportedListingFilter.trim())
+        params.append("reported_listing_filter", reportedListingFilter.trim());
+      if (reportedByFilter.trim())
+        params.append("reported_by_filter", reportedByFilter.trim());
+      if (assignedToFilter.trim())
+        params.append("assigned_to_filter", assignedToFilter.trim());
+      if (statusFilter)
+        params.append("status_filter", statusFilter);
+      if (reasonsFilter)
+        params.append("reasons_filter", reasonsFilter);
+
+      // Add sort parameters
+      if (sortBy) {
+        params.append("sort_by", sortBy);
+        params.append("sort_direction", sortDirection);
+      }
+
       const url = `/admin/reports?${params.toString()}`;
       console.log("[AdminReportsList] Fetching:", url);
 
