@@ -771,6 +771,9 @@ export async function listAllReports(req: Request, res: Response) {
     const reportedByFilter = (
       (req.query.reported_by_filter as string) || ""
     ).trim();
+    const reportedUserFilter = (
+      (req.query.reported_user_filter as string) || ""
+    ).trim();
     const assignedToFilter = (
       (req.query.assigned_to_filter as string) || ""
     ).trim();
