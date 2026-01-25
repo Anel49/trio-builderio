@@ -263,6 +263,7 @@ export default function Admin() {
               <AdminReportsList
                 initialReportFor={reportParams.reportFor as "listing" | "user"}
                 initialSearch={reportParams.search}
+                initialReportedUserFilter={reportParams.reportedUserFilter}
               />
             </CardContent>
           </Card>
