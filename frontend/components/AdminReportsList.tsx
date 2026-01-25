@@ -398,7 +398,16 @@ export default function AdminReportsList({
     setReasonsFilter("");
     setSortBy(null);
     setSortDirection("desc");
-    loadReports(0, showCompleted);
+    loadReports(0, showCompleted, "", {
+      reportNumber: "",
+      reportedListing: "",
+      reportedBy: "",
+      assignedTo: "",
+      status: "",
+      reasons: "",
+      sortBy: null,
+      sortDirection: "desc",
+    });
   };
 
   return (
