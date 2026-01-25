@@ -2018,9 +2018,12 @@ export default function UploadProduct() {
             longitude: selection.longitude,
             postalCode: selection.postalCode,
           });
+          // Clear the initial state when user selects a new location
+          setListingLocationInitialState(null);
         }}
         onClear={() => {
           setListingLocation(initialListingLocationRef.current);
+          setListingLocationInitialState(null);
         }}
       />
 
