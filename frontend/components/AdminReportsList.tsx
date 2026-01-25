@@ -790,6 +790,9 @@ export default function AdminReportsList({
                         setSortDirection("desc");
                       }
                       setCurrentPage(0);
+                      setTimeout(() => {
+                        loadReports(0);
+                      }, 0);
                     }}
                   >
                     {sortBy === "created" && sortDirection === "asc" && (
