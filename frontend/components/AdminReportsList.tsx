@@ -844,7 +844,7 @@ export default function AdminReportsList({
                   <Button
                     variant={sortBy === "created" ? "default" : "outline"}
                     size="sm"
-                    className="h-6 w-6 rounded-md"
+                    className="h-6 w-6 !rounded-sm"
                     title="Sort by created"
                     onClick={() => {
                       setCurrentPage(0);
@@ -874,7 +874,7 @@ export default function AdminReportsList({
                   <Button
                     variant={sortBy === "updated" ? "default" : "outline"}
                     size="sm"
-                    className="h-6 w-6 rounded-md"
+                    className="h-6 w-6 !rounded-sm"
                     title="Sort by updated"
                     onClick={() => {
                       if (sortBy === "updated") {
