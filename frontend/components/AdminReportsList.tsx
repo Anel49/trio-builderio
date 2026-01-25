@@ -364,6 +364,22 @@ export default function AdminReportsList({
   const canPrevious = currentPage > 0;
   const canNext = currentPage < totalPages - 1;
 
+  const handleResetFilters = () => {
+    setCurrentPage(0);
+    setSearch("");
+    setLastSearchedTerm("");
+    setHasSearched(false);
+    setReportNumberFilter("");
+    setReportedListingFilter("");
+    setReportedByFilter("");
+    setAssignedToFilter("");
+    setStatusFilter("");
+    setReasonsFilter("");
+    setSortBy(null);
+    setSortDirection("desc");
+    loadReports(0, showCompleted);
+  };
+
   return (
     <div className={combineTokens(spacing.gap.md, "flex flex-col")}>
       {error && (
