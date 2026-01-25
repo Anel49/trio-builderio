@@ -341,33 +341,15 @@ export default function AdminUserList({
                             @{user.username}
                           </p>
                         </a>
-                        <div className="flex-shrink-0 flex items-center gap-1">
-                          {user.admin && (
-                            <span
-                              className="font-bold text-primary text-sm"
-                              title="Admin"
-                            >
-                              A
-                            </span>
-                          )}
-                          {!user.admin && user.moderator && (
-                            <span
-                              className="font-bold text-primary text-sm"
-                              title="Moderator"
-                            >
-                              M
-                            </span>
-                          )}
-                          <button
-                            onClick={() => {
-                              onViewUserReports?.(user.username || "");
-                            }}
-                            className="flex-shrink-0 flex items-center justify-center text-muted-foreground hover:text-white transition-colors"
-                            title="View reports for this user"
-                          >
-                            <AlertTriangle className="h-4 w-4" />
-                          </button>
-                        </div>
+                        <button
+                          onClick={() => {
+                            onViewUserReports?.(user.username || "");
+                          }}
+                          className="flex-shrink-0 flex items-center justify-center text-muted-foreground hover:text-white transition-colors"
+                          title="View reports for this user"
+                        >
+                          <AlertTriangle className="h-4 w-4" />
+                        </button>
                       </div>
                     </td>
                     <td className={spacing.padding.md}>{user.email}</td>
