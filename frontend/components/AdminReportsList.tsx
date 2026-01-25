@@ -638,16 +638,16 @@ export default function AdminReportsList({
                   <div className="flex items-center gap-2">
                     <span>Reported by</span>
                     <Popover
-                      open={openFilterId === "reported_by"}
+                      open={openFilterId === "reported_by_user"}
                       onOpenChange={(open) =>
-                        setOpenFilterId(open ? "reported_by" : null)
+                        setOpenFilterId(open ? "reported_by_user" : null)
                       }
                     >
                       <PopoverTrigger asChild>
                         <Button
-                          variant="ghost"
+                          variant={reportedByFilter ? "default" : "outline"}
                           size="sm"
-                          className="h-5 w-5 p-0 hover:bg-transparent"
+                          className="h-6 px-2 gap-1"
                           title="Filter by reported by"
                         >
                           <Filter className="h-4 w-4" />
