@@ -318,8 +318,24 @@ export default function AdminUserList({
                             "text-left hover:text-primary transition-colors block flex-1",
                           )}
                         >
-                          <p className={typography.weight.medium}>
+                          <p className={combineTokens(typography.weight.medium, "flex items-center gap-2")}>
                             {user.name}
+                            {user.admin && (
+                              <span
+                                className="font-bold text-primary text-xs"
+                                title="Admin"
+                              >
+                                A
+                              </span>
+                            )}
+                            {!user.admin && user.moderator && (
+                              <span
+                                className="font-bold text-primary text-xs"
+                                title="Moderator"
+                              >
+                                M
+                              </span>
+                            )}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             @{user.username}
