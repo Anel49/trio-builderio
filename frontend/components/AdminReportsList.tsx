@@ -167,6 +167,15 @@ export default function AdminReportsList({
       setSearch("");
       setLastSearchedTerm("");
       setHasSearched(false);
+      // Clear all filters when switching tabs
+      setReportNumberFilter("");
+      setReportedListingFilter("");
+      setReportedByFilter("");
+      setAssignedToFilter("");
+      setStatusFilter("");
+      setReasonsFilter("");
+      setSortBy(null);
+      setSortDirection("desc");
       loadReports(0);
     }
   }, [reportFor]);
