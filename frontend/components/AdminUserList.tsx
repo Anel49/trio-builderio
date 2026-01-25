@@ -77,7 +77,7 @@ interface User {
 
 interface PendingChange {
   user: User;
-  field: "admin" | "moderator" | "active";
+  field: "active";
   value: boolean;
 }
 
