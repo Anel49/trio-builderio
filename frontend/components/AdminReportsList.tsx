@@ -16,7 +16,8 @@ import {
   Filter,
   ArrowUp,
   ArrowDown,
-  Rows,
+  ArrowUpWideNarrow,
+  ArrowDownWideNarrow,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
