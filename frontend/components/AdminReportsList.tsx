@@ -800,15 +800,18 @@ export default function AdminReportsList({
                       }
                     }}
                   >
-                    {sortBy === "created" && sortDirection === "asc" && (
-                      <ArrowUp className="h-4 w-4" />
-                    )}
-                    {sortBy === "created" && sortDirection === "desc" && (
-                      <ArrowDown className="h-4 w-4" />
-                    )}
-                    {sortBy !== "created" && (
-                      <ArrowUp className="h-4 w-4" />
-                    )}
+                    <div className="flex items-center gap-1">
+                      <Rows className="h-3 w-3" />
+                      {sortBy === "created" && sortDirection === "asc" && (
+                        <ArrowUp className="h-3 w-3" />
+                      )}
+                      {sortBy === "created" && sortDirection === "desc" && (
+                        <ArrowDown className="h-3 w-3" />
+                      )}
+                      {sortBy !== "created" && (
+                        <ArrowUp className="h-3 w-3" />
+                      )}
+                    </div>
                   </Button>
                 </div>
               </th>
