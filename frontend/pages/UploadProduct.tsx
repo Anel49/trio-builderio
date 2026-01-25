@@ -286,7 +286,10 @@ export default function UploadProduct() {
       : null;
 
   const listingLocationButtonLabel =
-    initialLocationLabel ?? listingLocation.city ?? coordinateLabel ?? "Add a location";
+    initialLocationLabel ??
+    listingLocation.city ??
+    coordinateLabel ??
+    "Add a location";
 
   const listingLocationPreviewLabel =
     listingLocation.city ?? coordinateLabel ?? "Your location";
