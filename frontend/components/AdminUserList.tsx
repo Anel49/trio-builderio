@@ -311,7 +311,7 @@ export default function AdminUserList({
                 return (
                   <tr key={user.id} className="border-b hover:bg-muted/50">
                     <td className={spacing.padding.md}>
-                      <div className="flex items-start gap-2">
+                      <div className="flex items-center gap-2">
                         <a
                           href={`/profile/${user.username}`}
                           onClick={(e) => {
