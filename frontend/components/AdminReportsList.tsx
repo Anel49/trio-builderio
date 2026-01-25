@@ -209,6 +209,16 @@ export default function AdminReportsList({
     pageNum: number = currentPage,
     showCompletedOverride?: boolean,
     searchTerm?: string,
+    filters?: {
+      reportNumber?: string;
+      reportedListing?: string;
+      reportedBy?: string;
+      assignedTo?: string;
+      status?: string;
+      reasons?: string;
+      sortBy?: "created" | "updated" | null;
+      sortDirection?: "asc" | "desc";
+    },
   ) => {
     setLoading(true);
     setError(null);
@@ -220,6 +230,17 @@ export default function AdminReportsList({
           : showCompleted;
       const finalSearchTerm =
         searchTerm !== undefined ? searchTerm : lastSearchedTerm;
+
+      // Use filter overrides if provided, otherwise use state
+      const reportNumberVal = filters?.reportNumber !== undefined ? filters.reportNumber : reportNumberFilter;
+      const reportedListingVal = filters?.reportedListing !== undefined ? filters.reportedListing : reportedListingFilter;
+      const reportedByVal = filters?.reportedBy !== undefined ? filters.reportedBy : reportedByFilter;
+      const assignedToVal = filters?.assignedTo !== undefined ? filters.assignedTo : assignedToFilter;
+      const statusVal = filters?.status !== undefined ? filters.status : statusFilter;
+      const reasonsVal = filters?.reasons !== undefined ? filters.reasons : reasonsFilter;
+      const sortByVal = filters?.sortBy !== undefined ? filters.sortBy : sortBy;
+      const sortDirVal = filters?.sortDirection !== undefined ? filters.sortDirection : sortDirection;
+
       const params = new URLSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
@@ -230,23 +251,23 @@ export default function AdminReportsList({
         params.append("search", finalSearchTerm.trim());
 
       // Add filter parameters
-      if (reportNumberFilter.trim())
-        params.append("report_number_filter", reportNumberFilter.trim());
-      if (reportedListingFilter.trim())
-        params.append("reported_listing_filter", reportedListingFilter.trim());
-      if (reportedByFilter.trim())
-        params.append("reported_by_filter", reportedByFilter.trim());
-      if (assignedToFilter.trim())
-        params.append("assigned_to_filter", assignedToFilter.trim());
-      if (statusFilter)
-        params.append("status_filter", statusFilter);
-      if (reasonsFilter)
-        params.append("reasons_filter", reasonsFilter);
+      if (reportNumberVal.trim())
+        params.append("report_number_filter", reportNumberVal.trim());
+      if (reportedListingVal.trim())
+        params.append("reported_listing_filter", reportedListingVal.trim());
+      if (reportedByVal.trim())
+        params.append("reported_by_filter", reportedByVal.trim());
+      if (assignedToVal.trim())
+        params.append("assigned_to_filter", assignedToVal.trim());
+      if (statusVal)
+        params.append("status_filter", statusVal);
+      if (reasonsVal)
+        params.append("reasons_filter", reasonsVal);
 
       // Add sort parameters
-      if (sortBy) {
-        params.append("sort_by", sortBy);
-        params.append("sort_direction", sortDirection);
+      if (sortByVal) {
+        params.append("sort_by", sortByVal);
+        params.append("sort_direction", sortDirVal);
       }
 
       const url = `/admin/reports?${params.toString()}`;
