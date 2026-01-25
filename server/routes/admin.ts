@@ -762,14 +762,24 @@ export async function listAllReports(req: Request, res: Response) {
     const reportFor = (req.query.report_for as string) || "listing";
     const showCompleted =
       (req.query.show_completed as string) === "true" ? true : false;
-    const reportNumberFilter = ((req.query.report_number_filter as string) || "").trim();
-    const reportedListingFilter = ((req.query.reported_listing_filter as string) || "").trim();
-    const reportedByFilter = ((req.query.reported_by_filter as string) || "").trim();
-    const assignedToFilter = ((req.query.assigned_to_filter as string) || "").trim();
+    const reportNumberFilter = (
+      (req.query.report_number_filter as string) || ""
+    ).trim();
+    const reportedListingFilter = (
+      (req.query.reported_listing_filter as string) || ""
+    ).trim();
+    const reportedByFilter = (
+      (req.query.reported_by_filter as string) || ""
+    ).trim();
+    const assignedToFilter = (
+      (req.query.assigned_to_filter as string) || ""
+    ).trim();
     const statusFilter = ((req.query.status_filter as string) || "").trim();
     const reasonsFilter = ((req.query.reasons_filter as string) || "").trim();
     const sortBy = (req.query.sort_by as string) || null;
-    const sortDirection = ((req.query.sort_direction as string) || "desc").toLowerCase();
+    const sortDirection = (
+      (req.query.sort_direction as string) || "desc"
+    ).toLowerCase();
 
     console.log(
       "[listAllReports] Parsed params - limit:",
