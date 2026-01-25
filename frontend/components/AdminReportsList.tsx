@@ -123,7 +123,6 @@ export default function AdminReportsList({
   );
   const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
   const [showCompleted, setShowCompleted] = useState(false);
-  const [reportedUserFilterInitialized, setReportedUserFilterInitialized] = useState(false);
   const [chatModalOpen, setChatModalOpen] = useState(false);
   const [selectedReportForChat, setSelectedReportForChat] =
     useState<Report | null>(null);
