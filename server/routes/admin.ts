@@ -841,8 +841,8 @@ export async function listAllReports(req: Request, res: Response) {
     // Add reported by filter
     if (reportedByFilter) {
       params.push(`%${reportedByFilter}%`);
-      const searchParam = `$${params.length}`;
-      whereClause += ` and (lower(rb.name) like lower(${searchParam}) or lower(rb.username) like lower(${searchParam}))`;
+      params.push(`%${reportedByFilter}%`);
+      whereClause += ` and (lower(rb.name) like lower($${params.length - 1}) or lower(rb.username) like lower($${params.length}))`;
     }
 
     // Add assigned to filter
