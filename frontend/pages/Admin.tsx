@@ -51,6 +51,7 @@ export default function Admin() {
   const [reportParams, setReportParams] = useState({
     reportFor: searchParams.get("reportFor") || "listing",
     search: searchParams.get("search") || "",
+    reportedUserFilter: searchParams.get("reportedUserFilter") || "",
   });
 
   useEffect(() => {
