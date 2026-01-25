@@ -200,6 +200,10 @@ export default function UploadProduct() {
                     : null,
                 postalCode: listing.zipCode || null,
               });
+              // Store the initial state for display purposes
+              if (typeof listing.location_state === "string") {
+                setListingLocationInitialState(listing.location_state);
+              }
             }
 
             // Set categories
