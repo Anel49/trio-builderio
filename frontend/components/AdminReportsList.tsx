@@ -134,6 +134,7 @@ export default function AdminReportsList({
   // Filter and sort state
   const [reportNumberFilter, setReportNumberFilter] = useState("");
   const [reportedListingFilter, setReportedListingFilter] = useState("");
+  const [reportedUserFilter, setReportedUserFilter] = useState("");
   const [reportedByFilter, setReportedByFilter] = useState("");
   const [assignedToFilter, setAssignedToFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
