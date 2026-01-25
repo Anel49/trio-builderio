@@ -61,10 +61,12 @@ export default function Admin() {
     }
     const reportFor = searchParams.get("reportFor");
     const search = searchParams.get("search");
-    if (reportFor || search) {
+    const reportedUserFilter = searchParams.get("reportedUserFilter");
+    if (reportFor || search || reportedUserFilter) {
       setReportParams({
         reportFor: reportFor || "listing",
         search: search || "",
+        reportedUserFilter: reportedUserFilter || "",
       });
     }
   }, [searchParams]);
