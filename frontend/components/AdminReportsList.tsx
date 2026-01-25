@@ -398,6 +398,7 @@ export default function AdminReportsList({
     setHasSearched(false);
     setReportNumberFilter("");
     setReportedListingFilter("");
+    setReportedUserFilter("");
     setReportedByFilter("");
     setAssignedToFilter("");
     setStatusFilter("");
@@ -407,6 +408,7 @@ export default function AdminReportsList({
     loadReports(0, showCompleted, "", {
       reportNumber: "",
       reportedListing: "",
+      reportedUser: "",
       reportedBy: "",
       assignedTo: "",
       status: "",
