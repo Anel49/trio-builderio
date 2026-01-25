@@ -335,7 +335,7 @@ export default function AdminUserList({
                           onClick={() => {
                             onViewUserReports?.(user.username || "");
                           }}
-                          className="flex-shrink-0 text-muted-foreground hover:text-white transition-colors"
+                          className="flex-shrink-0 flex items-center justify-center text-muted-foreground hover:text-white transition-colors"
                           title="View reports for this user"
                         >
                           <AlertTriangle className="h-4 w-4" />
