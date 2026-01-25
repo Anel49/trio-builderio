@@ -790,16 +790,13 @@ export default function AdminReportsList({
                     className="h-5 w-5 p-0 hover:bg-transparent"
                     title="Sort by created"
                     onClick={() => {
+                      setCurrentPage(0);
                       if (sortBy === "created") {
                         setSortDirection(sortDirection === "asc" ? "desc" : "asc");
                       } else {
                         setSortBy("created");
                         setSortDirection("desc");
                       }
-                      setCurrentPage(0);
-                      setTimeout(() => {
-                        loadReports(0);
-                      }, 0);
                     }}
                   >
                     {sortBy === "created" && sortDirection === "asc" && (
