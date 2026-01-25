@@ -444,7 +444,7 @@ export default function AdminReportsList({
                       <Button
                         variant={reportNumberFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-6 px-2 gap-1"
+                        className="h-6 w-6"
                         title="Filter by report number"
                       >
                         <Filter className="h-4 w-4" />
@@ -489,7 +489,7 @@ export default function AdminReportsList({
                       <Button
                         variant={statusFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-6 px-2 gap-1"
+                        className="h-6 w-6"
                         title="Filter by status"
                       >
                         <Filter className="h-4 w-4" />
@@ -538,7 +538,7 @@ export default function AdminReportsList({
                         <Button
                           variant={reportedListingFilter ? "default" : "outline"}
                           size="sm"
-                          className="h-6 px-2 gap-1"
+                          className="h-6 w-6"
                           title="Filter by reported listing"
                         >
                           <Filter className="h-4 w-4" />
@@ -590,7 +590,7 @@ export default function AdminReportsList({
                         <Button
                           variant={reportedByFilter ? "default" : "outline"}
                           size="sm"
-                          className="h-6 px-2 gap-1"
+                          className="h-6 w-6"
                           title="Filter by reported by"
                         >
                           <Filter className="h-4 w-4" />
@@ -647,7 +647,7 @@ export default function AdminReportsList({
                         <Button
                           variant={reportedByFilter ? "default" : "outline"}
                           size="sm"
-                          className="h-6 px-2 gap-1"
+                          className="h-6 w-6"
                           title="Filter by reported by"
                         >
                           <Filter className="h-4 w-4" />
@@ -693,7 +693,7 @@ export default function AdminReportsList({
                       <Button
                         variant={reasonsFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-6 px-2 gap-1"
+                        className="h-6 w-6"
                         title="Filter by reasons"
                       >
                         <Filter className="h-4 w-4" />
@@ -744,7 +744,7 @@ export default function AdminReportsList({
                       <Button
                         variant={assignedToFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-6 px-2 gap-1"
+                        className="h-6 w-6"
                         title="Filter by assigned to"
                       >
                         <Filter className="h-4 w-4" />
@@ -787,7 +787,7 @@ export default function AdminReportsList({
                   <Button
                     variant={sortBy === "created" ? "default" : "outline"}
                     size="sm"
-                    className="h-6 px-2 gap-1"
+                    className="h-6 w-6"
                     title="Sort by created"
                     onClick={() => {
                       setCurrentPage(0);
@@ -817,7 +817,7 @@ export default function AdminReportsList({
                   <Button
                     variant={sortBy === "updated" ? "default" : "outline"}
                     size="sm"
-                    className="h-6 px-2 gap-1"
+                    className="h-6 w-6"
                     title="Sort by updated"
                     onClick={() => {
                       if (sortBy === "updated") {
