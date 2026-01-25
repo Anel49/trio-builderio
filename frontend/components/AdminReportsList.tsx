@@ -426,23 +426,32 @@ export default function AdminReportsList({
         />
       </div>
 
-      <div className="flex items-center gap-2">
-        <Checkbox
-          id="show-completed-reports"
-          checked={showCompleted}
-          onCheckedChange={(checked) => {
-            const newShowCompleted = checked === true;
-            setShowCompleted(newShowCompleted);
-            setCurrentPage(0);
-            loadReports(0, newShowCompleted);
-          }}
-        />
-        <label
-          htmlFor="show-completed-reports"
-          className={combineTokens(typography.size.sm, "cursor-pointer")}
+      <div className={combineTokens(layouts.flex.between, "gap-4")}>
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="show-completed-reports"
+            checked={showCompleted}
+            onCheckedChange={(checked) => {
+              const newShowCompleted = checked === true;
+              setShowCompleted(newShowCompleted);
+              setCurrentPage(0);
+              loadReports(0, newShowCompleted);
+            }}
+          />
+          <label
+            htmlFor="show-completed-reports"
+            className={combineTokens(typography.size.sm, "cursor-pointer")}
+          >
+            Show Completed
+          </label>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleResetFilters}
         >
-          Show Completed
-        </label>
+          Reset filters
+        </Button>
       </div>
 
       <div className="overflow-x-auto themed-scrollbar">
