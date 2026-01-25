@@ -236,6 +236,7 @@ export default function AdminReportsList({
       // Use filter overrides if provided, otherwise use state
       const reportNumberVal = filters?.reportNumber !== undefined ? filters.reportNumber : reportNumberFilter;
       const reportedListingVal = filters?.reportedListing !== undefined ? filters.reportedListing : reportedListingFilter;
+      const reportedUserVal = filters?.reportedUser !== undefined ? filters.reportedUser : reportedUserFilter;
       const reportedByVal = filters?.reportedBy !== undefined ? filters.reportedBy : reportedByFilter;
       const assignedToVal = filters?.assignedTo !== undefined ? filters.assignedTo : assignedToFilter;
       const statusVal = filters?.status !== undefined ? filters.status : statusFilter;
