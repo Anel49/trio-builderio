@@ -336,34 +336,6 @@ export default function AdminUserList({
                     </td>
                     <td className={spacing.padding.md}>{user.email}</td>
                     <td className={spacing.padding.md}>
-                      <Switch
-                        checked={user.admin}
-                        disabled={isUpdating || !currentUser?.admin}
-                        onCheckedChange={(checked) => {
-                          setPendingChange({
-                            user,
-                            field: "admin",
-                            value: checked,
-                          });
-                          setModalOpen(true);
-                        }}
-                      />
-                    </td>
-                    <td className={spacing.padding.md}>
-                      <Switch
-                        checked={user.moderator}
-                        disabled={isUpdating || !currentUser?.admin}
-                        onCheckedChange={(checked) => {
-                          setPendingChange({
-                            user,
-                            field: "moderator",
-                            value: checked,
-                          });
-                          setModalOpen(true);
-                        }}
-                      />
-                    </td>
-                    <td className={spacing.padding.md}>
                       {user.pendingIdentityVer === false ? (
                         <Check className="h-5 w-5 text-green-600" />
                       ) : user.pendingIdentityVer === null ? (
