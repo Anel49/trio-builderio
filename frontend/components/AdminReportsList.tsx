@@ -173,6 +173,7 @@ export default function AdminReportsList({
       // Clear all filters when switching tabs
       setReportNumberFilter("");
       setReportedListingFilter("");
+      setReportedUserFilter("");
       setReportedByFilter("");
       setAssignedToFilter("");
       setStatusFilter("");
