@@ -671,6 +671,7 @@ export async function getListingById(req: Request, res: Response) {
       latitude: listingLatitude,
       longitude: listingLongitude,
       location_city: r.city || null,
+      location_state: typeof r.state === "string" ? r.state : null,
       description: r.description ?? null,
       zipCode: normalizedZip,
       createdAt: r.created_at,
