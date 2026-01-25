@@ -232,31 +232,14 @@ export default function AdminReportsList({
         searchTerm !== undefined ? searchTerm : lastSearchedTerm;
 
       // Use filter overrides if provided, otherwise use state
-      const reportNumberVal =
-        filters?.reportNumber !== undefined
-          ? filters.reportNumber
-          : reportNumberFilter;
-      const reportedListingVal =
-        filters?.reportedListing !== undefined
-          ? filters.reportedListing
-          : reportedListingFilter;
-      const reportedByVal =
-        filters?.reportedBy !== undefined
-          ? filters.reportedBy
-          : reportedByFilter;
-      const assignedToVal =
-        filters?.assignedTo !== undefined
-          ? filters.assignedTo
-          : assignedToFilter;
-      const statusVal =
-        filters?.status !== undefined ? filters.status : statusFilter;
-      const reasonsVal =
-        filters?.reasons !== undefined ? filters.reasons : reasonsFilter;
+      const reportNumberVal = filters?.reportNumber !== undefined ? filters.reportNumber : reportNumberFilter;
+      const reportedListingVal = filters?.reportedListing !== undefined ? filters.reportedListing : reportedListingFilter;
+      const reportedByVal = filters?.reportedBy !== undefined ? filters.reportedBy : reportedByFilter;
+      const assignedToVal = filters?.assignedTo !== undefined ? filters.assignedTo : assignedToFilter;
+      const statusVal = filters?.status !== undefined ? filters.status : statusFilter;
+      const reasonsVal = filters?.reasons !== undefined ? filters.reasons : reasonsFilter;
       const sortByVal = filters?.sortBy !== undefined ? filters.sortBy : sortBy;
-      const sortDirVal =
-        filters?.sortDirection !== undefined
-          ? filters.sortDirection
-          : sortDirection;
+      const sortDirVal = filters?.sortDirection !== undefined ? filters.sortDirection : sortDirection;
 
       const params = new URLSearchParams({
         limit: limit.toString(),
@@ -276,8 +259,10 @@ export default function AdminReportsList({
         params.append("reported_by_filter", reportedByVal.trim());
       if (assignedToVal.trim())
         params.append("assigned_to_filter", assignedToVal.trim());
-      if (statusVal) params.append("status_filter", statusVal);
-      if (reasonsVal) params.append("reasons_filter", reasonsVal);
+      if (statusVal)
+        params.append("status_filter", statusVal);
+      if (reasonsVal)
+        params.append("reasons_filter", reasonsVal);
 
       // Add sort parameters
       if (sortByVal) {
@@ -490,7 +475,11 @@ export default function AdminReportsList({
             Show Completed
           </label>
         </div>
-        <Button variant="outline" size="sm" onClick={handleResetFilters}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleResetFilters}
+        >
           Reset filters
         </Button>
       </div>
@@ -512,7 +501,7 @@ export default function AdminReportsList({
                       <Button
                         variant={reportNumberFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-6 w-6 pt-0.5"
+                        className="h-6 w-6 pt-0.5 rounded-md"
                         title="Filter by report number"
                       >
                         <Filter className="h-4 w-4" />
@@ -523,9 +512,7 @@ export default function AdminReportsList({
                         <Input
                           placeholder="Enter report number..."
                           value={reportNumberFilter}
-                          onChange={(e) =>
-                            setReportNumberFilter(e.target.value)
-                          }
+                          onChange={(e) => setReportNumberFilter(e.target.value)}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               setCurrentPage(0);
@@ -559,7 +546,7 @@ export default function AdminReportsList({
                       <Button
                         variant={statusFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-6 w-6 pt-0.5"
+                        className="h-6 w-6 pt-0.5 rounded-md"
                         title="Filter by status"
                       >
                         <Filter className="h-4 w-4" />
@@ -606,11 +593,9 @@ export default function AdminReportsList({
                     >
                       <PopoverTrigger asChild>
                         <Button
-                          variant={
-                            reportedListingFilter ? "default" : "outline"
-                          }
+                          variant={reportedListingFilter ? "default" : "outline"}
                           size="sm"
-                          className="h-6 w-6 pt-0.5"
+                          className="h-6 w-6 pt-0.5 rounded-md"
                           title="Filter by reported listing"
                         >
                           <Filter className="h-4 w-4" />
@@ -621,9 +606,7 @@ export default function AdminReportsList({
                           <Input
                             placeholder="Enter listing name..."
                             value={reportedListingFilter}
-                            onChange={(e) =>
-                              setReportedListingFilter(e.target.value)
-                            }
+                            onChange={(e) => setReportedListingFilter(e.target.value)}
                             onKeyDown={(e) => {
                               if (e.key === "Enter") {
                                 setCurrentPage(0);
@@ -664,7 +647,7 @@ export default function AdminReportsList({
                         <Button
                           variant={reportedByFilter ? "default" : "outline"}
                           size="sm"
-                          className="h-6 w-6 pt-0.5"
+                          className="h-6 w-6 pt-0.5 rounded-md"
                           title="Filter by reported by"
                         >
                           <Filter className="h-4 w-4" />
@@ -675,9 +658,7 @@ export default function AdminReportsList({
                           <Input
                             placeholder="Enter username or name..."
                             value={reportedByFilter}
-                            onChange={(e) =>
-                              setReportedByFilter(e.target.value)
-                            }
+                            onChange={(e) => setReportedByFilter(e.target.value)}
                             onKeyDown={(e) => {
                               if (e.key === "Enter") {
                                 setCurrentPage(0);
@@ -723,7 +704,7 @@ export default function AdminReportsList({
                         <Button
                           variant={reportedByFilter ? "default" : "outline"}
                           size="sm"
-                          className="h-6 w-6 pt-0.5"
+                          className="h-6 w-6 pt-0.5 rounded-md"
                           title="Filter by reported by"
                         >
                           <Filter className="h-4 w-4" />
@@ -734,9 +715,7 @@ export default function AdminReportsList({
                           <Input
                             placeholder="Enter username or name..."
                             value={reportedByFilter}
-                            onChange={(e) =>
-                              setReportedByFilter(e.target.value)
-                            }
+                            onChange={(e) => setReportedByFilter(e.target.value)}
                             onKeyDown={(e) => {
                               if (e.key === "Enter") {
                                 setCurrentPage(0);
@@ -771,7 +750,7 @@ export default function AdminReportsList({
                       <Button
                         variant={reasonsFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-6 w-6 pt-0.5"
+                        className="h-6 w-6 pt-0.5 rounded-md"
                         title="Filter by reasons"
                       >
                         <Filter className="h-4 w-4" />
@@ -822,7 +801,7 @@ export default function AdminReportsList({
                       <Button
                         variant={assignedToFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-6 w-6 pt-0.5"
+                        className="h-6 w-6 pt-0.5 rounded-md"
                         title="Filter by assigned to"
                       >
                         <Filter className="h-4 w-4" />
@@ -865,14 +844,12 @@ export default function AdminReportsList({
                   <Button
                     variant={sortBy === "created" ? "default" : "outline"}
                     size="sm"
-                    className="h-6 w-6"
+                    className="h-6 w-6 rounded-md"
                     title="Sort by created"
                     onClick={() => {
                       setCurrentPage(0);
                       if (sortBy === "created") {
-                        setSortDirection(
-                          sortDirection === "asc" ? "desc" : "asc",
-                        );
+                        setSortDirection(sortDirection === "asc" ? "desc" : "asc");
                       } else {
                         setSortBy("created");
                         setSortDirection("desc");
@@ -897,13 +874,11 @@ export default function AdminReportsList({
                   <Button
                     variant={sortBy === "updated" ? "default" : "outline"}
                     size="sm"
-                    className="h-6 w-6"
+                    className="h-6 w-6 rounded-md"
                     title="Sort by updated"
                     onClick={() => {
                       if (sortBy === "updated") {
-                        setSortDirection(
-                          sortDirection === "asc" ? "desc" : "asc",
-                        );
+                        setSortDirection(sortDirection === "asc" ? "desc" : "asc");
                       } else {
                         setSortBy("updated");
                         setSortDirection("desc");
