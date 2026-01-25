@@ -279,8 +279,14 @@ export default function UploadProduct() {
       ? `${listingLocation.latitude.toFixed(3)}, ${listingLocation.longitude.toFixed(3)}`
       : null;
 
+  // For initial page load, prefer showing "City, State" format
+  const initialLocationLabel =
+    listingLocation.city && listingLocationInitialState
+      ? `${listingLocation.city}, ${listingLocationInitialState}`
+      : null;
+
   const listingLocationButtonLabel =
-    listingLocation.city ?? coordinateLabel ?? "Add a location";
+    initialLocationLabel ?? listingLocation.city ?? coordinateLabel ?? "Add a location";
 
   const listingLocationPreviewLabel =
     listingLocation.city ?? coordinateLabel ?? "Your location";
