@@ -212,7 +212,8 @@ export default function Admin() {
                   setActiveTab("reports");
                   setReportParams({
                     reportFor: "user",
-                    search: username,
+                    search: "",
+                    reportedUserFilter: username,
                   });
                 }}
               />
