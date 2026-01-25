@@ -425,42 +425,414 @@ export default function AdminReportsList({
           <thead>
             <tr className="border-b">
               <th className={combineTokens(spacing.padding.md, "text-left")}>
-                Report number
+                <div className="flex items-center gap-2">
+                  <span>Report number</span>
+                  <Popover
+                    open={openFilterId === "report_number"}
+                    onOpenChange={(open) =>
+                      setOpenFilterId(open ? "report_number" : null)
+                    }
+                  >
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-5 w-5 p-0 hover:bg-transparent"
+                        title="Filter by report number"
+                      >
+                        <Filter className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent side="bottom" className="w-48 p-2">
+                      <div className="space-y-2">
+                        <Input
+                          placeholder="Enter report number..."
+                          value={reportNumberFilter}
+                          onChange={(e) => setReportNumberFilter(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              setCurrentPage(0);
+                              loadReports(0);
+                              setOpenFilterId(null);
+                            }
+                          }}
+                          className="text-sm"
+                        />
+                        <Button
+                          size="sm"
+                          onClick={() => {
+                            setCurrentPage(0);
+                            loadReports(0);
+                            setOpenFilterId(null);
+                          }}
+                          className="w-full"
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </th>
               <th className={combineTokens(spacing.padding.md, "text-left")}>
-                Status
+                <div className="flex items-center gap-2">
+                  <span>Status</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-5 w-5 p-0 hover:bg-transparent"
+                        title="Filter by status"
+                      >
+                        <Filter className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      <DropdownMenuRadioGroup
+                        value={statusFilter}
+                        onValueChange={(newStatus) => {
+                          setStatusFilter(newStatus);
+                          setCurrentPage(0);
+                          loadReports(0);
+                        }}
+                      >
+                        <DropdownMenuRadioItem value="">
+                          All Statuses
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="submitted">
+                          Submitted
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="rejected">
+                          Rejected
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="resolved">
+                          Resolved
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="under review">
+                          Under Review
+                        </DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </th>
               {reportFor === "listing" && (
                 <th className={combineTokens(spacing.padding.md, "text-left")}>
-                  Reported listing
+                  <div className="flex items-center gap-2">
+                    <span>Reported listing</span>
+                    <Popover
+                      open={openFilterId === "reported_listing"}
+                      onOpenChange={(open) =>
+                        setOpenFilterId(open ? "reported_listing" : null)
+                      }
+                    >
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-5 w-5 p-0 hover:bg-transparent"
+                          title="Filter by reported listing"
+                        >
+                          <Filter className="h-4 w-4" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent side="bottom" className="w-48 p-2">
+                        <div className="space-y-2">
+                          <Input
+                            placeholder="Enter listing name..."
+                            value={reportedListingFilter}
+                            onChange={(e) => setReportedListingFilter(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                setCurrentPage(0);
+                                loadReports(0);
+                                setOpenFilterId(null);
+                              }
+                            }}
+                            className="text-sm"
+                          />
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              setCurrentPage(0);
+                              loadReports(0);
+                              setOpenFilterId(null);
+                            }}
+                            className="w-full"
+                          >
+                            Apply
+                          </Button>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                 </th>
               )}
               {reportFor === "listing" && (
                 <th className={combineTokens(spacing.padding.md, "text-left")}>
-                  Reported by
+                  <div className="flex items-center gap-2">
+                    <span>Reported by</span>
+                    <Popover
+                      open={openFilterId === "reported_by"}
+                      onOpenChange={(open) =>
+                        setOpenFilterId(open ? "reported_by" : null)
+                      }
+                    >
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-5 w-5 p-0 hover:bg-transparent"
+                          title="Filter by reported by"
+                        >
+                          <Filter className="h-4 w-4" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent side="bottom" className="w-48 p-2">
+                        <div className="space-y-2">
+                          <Input
+                            placeholder="Enter username or name..."
+                            value={reportedByFilter}
+                            onChange={(e) => setReportedByFilter(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                setCurrentPage(0);
+                                loadReports(0);
+                                setOpenFilterId(null);
+                              }
+                            }}
+                            className="text-sm"
+                          />
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              setCurrentPage(0);
+                              loadReports(0);
+                              setOpenFilterId(null);
+                            }}
+                            className="w-full"
+                          >
+                            Apply
+                          </Button>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                 </th>
               )}
               {reportFor === "user" && (
                 <th className={combineTokens(spacing.padding.md, "text-left")}>
-                  Reported user
+                  <span>Reported user</span>
                 </th>
               )}
               {reportFor === "user" && (
                 <th className={combineTokens(spacing.padding.md, "text-left")}>
-                  Reported by
+                  <div className="flex items-center gap-2">
+                    <span>Reported by</span>
+                    <Popover
+                      open={openFilterId === "reported_by"}
+                      onOpenChange={(open) =>
+                        setOpenFilterId(open ? "reported_by" : null)
+                      }
+                    >
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-5 w-5 p-0 hover:bg-transparent"
+                          title="Filter by reported by"
+                        >
+                          <Filter className="h-4 w-4" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent side="bottom" className="w-48 p-2">
+                        <div className="space-y-2">
+                          <Input
+                            placeholder="Enter username or name..."
+                            value={reportedByFilter}
+                            onChange={(e) => setReportedByFilter(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                setCurrentPage(0);
+                                loadReports(0);
+                                setOpenFilterId(null);
+                              }
+                            }}
+                            className="text-sm"
+                          />
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              setCurrentPage(0);
+                              loadReports(0);
+                              setOpenFilterId(null);
+                            }}
+                            className="w-full"
+                          >
+                            Apply
+                          </Button>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                 </th>
               )}
               <th className={combineTokens(spacing.padding.md, "text-left")}>
-                Reasons
+                <div className="flex items-center gap-2">
+                  <span>Reasons</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-5 w-5 p-0 hover:bg-transparent"
+                        title="Filter by reasons"
+                      >
+                        <Filter className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      <DropdownMenuRadioGroup
+                        value={reasonsFilter}
+                        onValueChange={(newReason) => {
+                          setReasonsFilter(newReason);
+                          setCurrentPage(0);
+                          loadReports(0);
+                        }}
+                      >
+                        <DropdownMenuRadioItem value="">
+                          All Reasons
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="spam">
+                          Spam
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="inappropriate">
+                          Inappropriate
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="fraud">
+                          Fraud
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="illegal">
+                          Illegal
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="other">
+                          Other
+                        </DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </th>
               <th className={combineTokens(spacing.padding.md, "text-left")}>
-                Assigned to
+                <div className="flex items-center gap-2">
+                  <span>Assigned to</span>
+                  <Popover
+                    open={openFilterId === "assigned_to"}
+                    onOpenChange={(open) =>
+                      setOpenFilterId(open ? "assigned_to" : null)
+                    }
+                  >
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-5 w-5 p-0 hover:bg-transparent"
+                        title="Filter by assigned to"
+                      >
+                        <Filter className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent side="bottom" className="w-48 p-2">
+                      <div className="space-y-2">
+                        <Input
+                          placeholder="Enter name..."
+                          value={assignedToFilter}
+                          onChange={(e) => setAssignedToFilter(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              setCurrentPage(0);
+                              loadReports(0);
+                              setOpenFilterId(null);
+                            }
+                          }}
+                          className="text-sm"
+                        />
+                        <Button
+                          size="sm"
+                          onClick={() => {
+                            setCurrentPage(0);
+                            loadReports(0);
+                            setOpenFilterId(null);
+                          }}
+                          className="w-full"
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </th>
               <th className={combineTokens(spacing.padding.md, "text-left")}>
-                Created
+                <div className="flex items-center gap-2">
+                  <span>Created</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-5 w-5 p-0 hover:bg-transparent"
+                    title="Sort by created"
+                    onClick={() => {
+                      if (sortBy === "created") {
+                        setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+                      } else {
+                        setSortBy("created");
+                        setSortDirection("desc");
+                      }
+                      setCurrentPage(0);
+                    }}
+                  >
+                    {sortBy === "created" && sortDirection === "asc" && (
+                      <ArrowUp className="h-4 w-4" />
+                    )}
+                    {sortBy === "created" && sortDirection === "desc" && (
+                      <ArrowDown className="h-4 w-4" />
+                    )}
+                    {sortBy !== "created" && (
+                      <ArrowUp className="h-4 w-4 opacity-30" />
+                    )}
+                  </Button>
+                </div>
               </th>
               <th className={combineTokens(spacing.padding.md, "text-left")}>
-                Updated
+                <div className="flex items-center gap-2">
+                  <span>Updated</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-5 w-5 p-0 hover:bg-transparent"
+                    title="Sort by updated"
+                    onClick={() => {
+                      if (sortBy === "updated") {
+                        setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+                      } else {
+                        setSortBy("updated");
+                        setSortDirection("desc");
+                      }
+                      setCurrentPage(0);
+                    }}
+                  >
+                    {sortBy === "updated" && sortDirection === "asc" && (
+                      <ArrowUp className="h-4 w-4" />
+                    )}
+                    {sortBy === "updated" && sortDirection === "desc" && (
+                      <ArrowDown className="h-4 w-4" />
+                    )}
+                    {sortBy !== "updated" && (
+                      <ArrowUp className="h-4 w-4 opacity-30" />
+                    )}
+                  </Button>
+                </div>
               </th>
             </tr>
           </thead>
