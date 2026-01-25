@@ -213,6 +213,7 @@ export default function AdminReportsList({
     filters?: {
       reportNumber?: string;
       reportedListing?: string;
+      reportedUser?: string;
       reportedBy?: string;
       assignedTo?: string;
       status?: string;
