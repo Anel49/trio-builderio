@@ -762,6 +762,14 @@ export async function listAllReports(req: Request, res: Response) {
     const reportFor = (req.query.report_for as string) || "listing";
     const showCompleted =
       (req.query.show_completed as string) === "true" ? true : false;
+    const reportNumberFilter = ((req.query.report_number_filter as string) || "").trim();
+    const reportedListingFilter = ((req.query.reported_listing_filter as string) || "").trim();
+    const reportedByFilter = ((req.query.reported_by_filter as string) || "").trim();
+    const assignedToFilter = ((req.query.assigned_to_filter as string) || "").trim();
+    const statusFilter = ((req.query.status_filter as string) || "").trim();
+    const reasonsFilter = ((req.query.reasons_filter as string) || "").trim();
+    const sortBy = (req.query.sort_by as string) || null;
+    const sortDirection = ((req.query.sort_direction as string) || "desc").toLowerCase();
 
     console.log(
       "[listAllReports] Parsed params - limit:",
@@ -774,6 +782,14 @@ export async function listAllReports(req: Request, res: Response) {
       reportFor,
       "show_completed:",
       showCompleted,
+      "reportNumberFilter:",
+      reportNumberFilter,
+      "statusFilter:",
+      statusFilter,
+      "sortBy:",
+      sortBy,
+      "sortDirection:",
+      sortDirection,
     );
 
     let whereClause = "r.report_for = $1";
@@ -798,12 +814,58 @@ export async function listAllReports(req: Request, res: Response) {
       }
     }
 
+    // Add report number filter
+    if (reportNumberFilter) {
+      params.push(`%${reportNumberFilter}%`);
+      whereClause += ` and lower(r.report_number) like lower($${params.length})`;
+    }
+
+    // Add status filter
+    if (statusFilter) {
+      params.push(statusFilter);
+      whereClause += ` and r.status = $${params.length}`;
+    }
+
+    // Add reasons filter
+    if (reasonsFilter) {
+      params.push(reasonsFilter);
+      whereClause += ` and r.report_reasons::text like $${params.length}`;
+    }
+
+    // Add reported listing filter (for listing reports only)
+    if (reportedListingFilter && reportFor === "listing") {
+      params.push(`%${reportedListingFilter}%`);
+      whereClause += ` and lower(l.name) like lower($${params.length})`;
+    }
+
+    // Add reported by filter
+    if (reportedByFilter) {
+      params.push(`%${reportedByFilter}%`);
+      const searchParam = `$${params.length}`;
+      whereClause += ` and (lower(rb.name) like lower(${searchParam}) or lower(rb.username) like lower(${searchParam}))`;
+    }
+
+    // Add assigned to filter
+    if (assignedToFilter) {
+      params.push(`%${assignedToFilter}%`);
+      whereClause += ` and lower(u.name) like lower($${params.length})`;
+    }
+
     if (!showCompleted) {
       whereClause += ` and r.status not in ('rejected', 'resolved')`;
     }
 
+    // Build order clause
+    let orderClause = "r.created_at desc";
+    if (sortBy === "created") {
+      orderClause = `r.created_at ${sortDirection === "asc" ? "asc" : "desc"}`;
+    } else if (sortBy === "updated") {
+      orderClause = `r.updated_at ${sortDirection === "asc" ? "asc" : "desc"}`;
+    }
+
     console.log("[listAllReports] whereClause:", whereClause);
     console.log("[listAllReports] params array:", params);
+    console.log("[listAllReports] orderClause:", orderClause);
 
     const queryParams = [...params, limit, offset];
     const query = `select r.id, r.report_number, r.status, r.report_reasons, r.assigned_to,
@@ -817,7 +879,7 @@ export async function listAllReports(req: Request, res: Response) {
        left join users rb on r.reported_by_id = rb.id
        left join listings l on r.report_for = 'listing' and r.reported_id = l.id
        where ${whereClause}
-       order by r.created_at desc
+       order by ${orderClause}
        limit $${params.length + 1} offset $${params.length + 2}`;
 
     console.log("[listAllReports] Query:", query);
