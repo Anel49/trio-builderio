@@ -160,8 +160,14 @@ export default function AdminReportsList({
         setLastSearchedTerm(initialSearch);
         setHasSearched(true);
       }
-      // Load with the provided initial search (or empty string for default load)
-      loadReports(0, undefined, initialSearch);
+      if (initialReportedUserFilter) {
+        setReportedUserFilter(initialReportedUserFilter);
+        setReportedUserFilterInitialized(true);
+      }
+      // Load with the provided initial search or reported user filter
+      loadReports(0, undefined, initialSearch, {
+        reportedUser: initialReportedUserFilter,
+      });
     }
   }, []);
 
