@@ -162,7 +162,6 @@ export default function AdminReportsList({
       }
       if (initialReportedUserFilter) {
         setReportedUserFilter(initialReportedUserFilter);
-        setReportedUserFilterInitialized(true);
       }
       // Load with the provided initial search or reported user filter
       loadReports(0, undefined, initialSearch, {
