@@ -318,7 +318,12 @@ export default function AdminUserList({
                             "text-left hover:text-primary transition-colors block flex-1",
                           )}
                         >
-                          <p className={combineTokens(typography.weight.medium, "flex items-center gap-2")}>
+                          <p
+                            className={combineTokens(
+                              typography.weight.medium,
+                              "flex items-center gap-2",
+                            )}
+                          >
                             {user.name}
                             {user.admin && (
                               <span
