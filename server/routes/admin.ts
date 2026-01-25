@@ -851,6 +851,13 @@ export async function listAllReports(req: Request, res: Response) {
       whereClause += ` and lower(l.name) like lower($${params.length})`;
     }
 
+    // Add reported user filter (for user reports only)
+    if (reportedUserFilter && reportFor === "user") {
+      params.push(`%${reportedUserFilter}%`);
+      params.push(`%${reportedUserFilter}%`);
+      whereClause += ` and (lower(ru.name) like lower($${params.length - 1}) or lower(ru.username) like lower($${params.length}))`;
+    }
+
     // Add reported by filter
     if (reportedByFilter) {
       params.push(`%${reportedByFilter}%`);
