@@ -274,12 +274,6 @@ export default function AdminUserList({
                 Email
               </th>
               <th className={combineTokens(spacing.padding.md, "text-left")}>
-                Admin
-              </th>
-              <th className={combineTokens(spacing.padding.md, "text-left")}>
-                Moderator
-              </th>
-              <th className={combineTokens(spacing.padding.md, "text-left")}>
                 Verified
               </th>
               <th className={combineTokens(spacing.padding.md, "text-left")}>
