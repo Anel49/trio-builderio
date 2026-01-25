@@ -695,7 +695,54 @@ export default function AdminReportsList({
               )}
               {reportFor === "user" && (
                 <th className={combineTokens(spacing.padding.md, "text-left")}>
-                  <span>Reported user</span>
+                  <div className="flex items-center gap-2">
+                    <span>Reported user</span>
+                    <Popover
+                      open={openFilterId === "reported_user"}
+                      onOpenChange={(open) =>
+                        setOpenFilterId(open ? "reported_user" : null)
+                      }
+                    >
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={reportedUserFilter ? "default" : "outline"}
+                          size="sm"
+                          className="h-6 w-6 pt-[1px] !rounded !border-0"
+                          title="Filter by reported user"
+                        >
+                          <Filter className="h-4 w-4" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent side="bottom" className="w-48 p-2">
+                        <div className="space-y-2">
+                          <Input
+                            placeholder="Enter username or name..."
+                            value={reportedUserFilter}
+                            onChange={(e) => setReportedUserFilter(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                setCurrentPage(0);
+                                loadReports(0);
+                                setOpenFilterId(null);
+                              }
+                            }}
+                            className="text-sm"
+                          />
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              setCurrentPage(0);
+                              loadReports(0);
+                              setOpenFilterId(null);
+                            }}
+                            className="w-full"
+                          >
+                            Apply
+                          </Button>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                 </th>
               )}
               {reportFor === "user" && (
