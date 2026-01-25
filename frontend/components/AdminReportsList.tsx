@@ -180,6 +180,13 @@ export default function AdminReportsList({
     }
   }, [reportFor]);
 
+  // Load reports when sort changes
+  useEffect(() => {
+    if (initialLoadDoneRef.current && currentPage === 0) {
+      loadReports(0);
+    }
+  }, [sortBy, sortDirection]);
+
   const getSearchPlaceholder = () => {
     if (reportFor === "listing") {
       return "Search using a report number, assigned technician, listing ID, or status...";
