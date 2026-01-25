@@ -13,6 +13,9 @@ import {
   Plus,
   Minus,
   ChevronDown,
+  Filter,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
