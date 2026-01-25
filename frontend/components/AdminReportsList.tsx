@@ -691,9 +691,9 @@ export default function AdminReportsList({
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
-                        variant="ghost"
+                        variant={reasonsFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-5 w-5 p-0 hover:bg-transparent"
+                        className="h-6 px-2 gap-1"
                         title="Filter by reasons"
                       >
                         <Filter className="h-4 w-4" />
