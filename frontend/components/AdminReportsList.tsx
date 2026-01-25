@@ -100,11 +100,13 @@ function getReportReasons(reportReasonsJson: any): string[] {
 interface AdminReportsListProps {
   initialReportFor?: "listing" | "user";
   initialSearch?: string;
+  initialReportedUserFilter?: string;
 }
 
 export default function AdminReportsList({
   initialReportFor = "listing",
   initialSearch = "",
+  initialReportedUserFilter = "",
 }: AdminReportsListProps) {
   const { user: currentUser } = useAuth();
   const navigate = useNavigate();
