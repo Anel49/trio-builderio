@@ -442,9 +442,9 @@ export default function AdminReportsList({
                   >
                     <PopoverTrigger asChild>
                       <Button
-                        variant="ghost"
+                        variant={reportNumberFilter ? "default" : "outline"}
                         size="sm"
-                        className="h-5 w-5 p-0 hover:bg-transparent"
+                        className="h-6 px-2 gap-1"
                         title="Filter by report number"
                       >
                         <Filter className="h-4 w-4" />
