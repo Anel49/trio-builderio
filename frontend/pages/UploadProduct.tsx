@@ -94,6 +94,8 @@ export default function UploadProduct() {
   const [listingLocation, setListingLocation] = useState<UserLocation>(
     initialListingLocationRef.current,
   );
+  const [listingLocationInitialState, setListingLocationInitialState] =
+    useState<string | null>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [description, setDescription] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
