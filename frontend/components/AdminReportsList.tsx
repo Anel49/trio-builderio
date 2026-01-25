@@ -831,18 +831,15 @@ export default function AdminReportsList({
                       setCurrentPage(0);
                     }}
                   >
-                    <div className="flex items-center gap-1">
-                      <Rows className="h-3 w-3" />
-                      {sortBy === "updated" && sortDirection === "asc" && (
-                        <ArrowUp className="h-3 w-3" />
-                      )}
-                      {sortBy === "updated" && sortDirection === "desc" && (
-                        <ArrowDown className="h-3 w-3" />
-                      )}
-                      {sortBy !== "updated" && (
-                        <ArrowUp className="h-3 w-3" />
-                      )}
-                    </div>
+                    {sortBy === "updated" && sortDirection === "asc" && (
+                      <ArrowUpWideNarrow className="h-4 w-4" />
+                    )}
+                    {sortBy === "updated" && sortDirection === "desc" && (
+                      <ArrowDownWideNarrow className="h-4 w-4" />
+                    )}
+                    {sortBy !== "updated" && (
+                      <ArrowDownWideNarrow className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </th>
