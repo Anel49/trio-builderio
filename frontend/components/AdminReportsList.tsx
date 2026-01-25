@@ -785,9 +785,9 @@ export default function AdminReportsList({
                 <div className="flex items-center gap-2">
                   <span>Created</span>
                   <Button
-                    variant="ghost"
+                    variant={sortBy === "created" ? "default" : "outline"}
                     size="sm"
-                    className="h-5 w-5 p-0 hover:bg-transparent"
+                    className="h-6 px-2 gap-1"
                     title="Sort by created"
                     onClick={() => {
                       setCurrentPage(0);
@@ -806,7 +806,7 @@ export default function AdminReportsList({
                       <ArrowDown className="h-4 w-4" />
                     )}
                     {sortBy !== "created" && (
-                      <ArrowUp className="h-4 w-4 opacity-30" />
+                      <ArrowUp className="h-4 w-4" />
                     )}
                   </Button>
                 </div>
