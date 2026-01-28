@@ -115,9 +115,9 @@ export function AdminReportChatModal({
 
       setMessages(loadedMessages);
 
-      // Set pagination state
+      // Set pagination state - offset should be based on actual messages loaded, not hardcoded
       setPaginationState({
-        offset: 50,
+        offset: loadedMessages.length,
         hasMoreOlder: data.hasMoreOlder || false,
         totalMessages: data.totalMessages || 0,
       });
