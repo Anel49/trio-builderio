@@ -41,7 +41,7 @@ import {
   MoreVertical,
 } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { ENABLE_UPLOAD_PREVIEW_FAVORITES } from "@/lib/constants";
+import { ENABLE_UPLOAD_PREVIEW_FAVORITES, COMPANY_NAME } from "@/lib/constants";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import {
   Dialog,
