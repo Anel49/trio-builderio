@@ -1515,7 +1515,7 @@ export async function getReportConversation(req: Request, res: Response) {
 export async function takeActionOnReport(req: Request, res: Response) {
   try {
     const reportId = Number.parseInt((req.params.reportId as string) || "", 10);
-    const { fieldsToRemove, moderatorMessage } = req.body || {};
+    const { fieldsToRemove, moderatorMessage, reportFor } = req.body || {};
 
     if (!Number.isFinite(reportId)) {
       return res.status(400).json({ ok: false, error: "Invalid report ID" });
