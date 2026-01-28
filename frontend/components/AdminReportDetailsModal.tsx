@@ -172,7 +172,7 @@ export function AdminReportDetailsModal({
               <>
                 <div className="space-y-4">
                   <p className="text-lg font-semibold leading-none tracking-tight">
-                    {isListing ? "Listing Details" : "User Details"}
+                    Listing Details
                   </p>
                   <div className="grid grid-cols-2 gap-6">
                     {snapshot.title && (
