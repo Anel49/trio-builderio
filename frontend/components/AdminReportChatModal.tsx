@@ -91,15 +91,22 @@ export function AdminReportChatModal({
     setError(null);
     try {
       // Get conversation for this report - initially load 50 messages
-      const response = await apiFetch(
-        `/admin/reports/${reportId}/conversation?limit=50&offset=0`
-      );
+      const url = `/admin/reports/${reportId}/conversation?limit=50&offset=0`;
+      console.log("[AdminReportChatModal] Initial load with URL:", url);
+
+      const response = await apiFetch(url);
 
       if (!response.ok) {
         throw new Error("Failed to load messages");
       }
 
       const data = await response.json();
+      console.log("[AdminReportChatModal] Initial load response:", {
+        messagesCount: data.messages?.length,
+        totalMessages: data.totalMessages,
+        hasMoreOlder: data.hasMoreOlder,
+      });
+
       const loadedMessages: Message[] = (data.messages || []).map(
         (msg: any) => ({
           id: msg.id,
@@ -116,8 +123,11 @@ export function AdminReportChatModal({
       setMessages(loadedMessages);
 
       // Set pagination state - offset should be based on actual messages loaded, not hardcoded
+      const nextOffset = loadedMessages.length;
+      console.log("[AdminReportChatModal] Setting offset to:", nextOffset);
+
       setPaginationState({
-        offset: loadedMessages.length,
+        offset: nextOffset,
         hasMoreOlder: data.hasMoreOlder || false,
         totalMessages: data.totalMessages || 0,
       });
