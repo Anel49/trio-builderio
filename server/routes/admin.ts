@@ -1526,6 +1526,9 @@ export async function getReportConversation(req: Request, res: Response) {
     // hasMoreOlder is true if there are more messages beyond what we fetched
     const hasMoreOlder = offset + limit < totalMessages;
 
+    console.log("[getReportConversation] Final response - message IDs:", messages.map((m: any) => m.id));
+    console.log("[getReportConversation] Final response - count:", messages.length, "hasMoreOlder:", hasMoreOlder, "totalMessages:", totalMessages);
+
     res.json({ ok: true, messages, totalMessages, hasMoreOlder });
   } catch (error: any) {
     console.error("[getReportConversation] Error:", error);
