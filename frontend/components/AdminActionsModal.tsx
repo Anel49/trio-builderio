@@ -64,7 +64,7 @@ export function AdminActionsModal({
 
   const handleConfirmAction = async () => {
     if (!moderatorMessage.trim()) {
-      setError("Message to listing's host is required");
+      setError(messageErrorText);
       return;
     }
 
@@ -81,6 +81,7 @@ export function AdminActionsModal({
           body: JSON.stringify({
             fieldsToRemove,
             moderatorMessage: moderatorMessage.trim(),
+            reportFor,
           }),
         },
       );
