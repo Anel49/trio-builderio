@@ -852,7 +852,7 @@ export default function UploadProduct() {
       if (isLocationError) {
         setErrorModalTitle("Failed to create listing");
         setErrorModalContent(
-          `${COMPANY_NAME} failed to create your listing. The likely error is due to an invalid location. If you continue to get this error with a valid location set, please contact ${COMPANY_NAME} support.`,
+          `${COMPANY_NAME} failed to create your listing. This is likely due to an invalid location being set. If you continue to get this error with a valid location set, please contact ${COMPANY_NAME} support.`,
         );
         setShowErrorModal(true);
       } else {
