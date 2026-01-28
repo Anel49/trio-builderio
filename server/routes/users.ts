@@ -4,7 +4,7 @@ import * as argon2 from "argon2";
 import { OAuth2Client } from "google-auth-library";
 import crypto from "crypto";
 
-async function generateUniqueUsername(): Promise<string> {
+export async function generateUniqueUsername(): Promise<string> {
   while (true) {
     // Generate a 9-digit random number (100000000 to 999999999)
     const username = String(Math.floor(Math.random() * 900000000) + 100000000);
