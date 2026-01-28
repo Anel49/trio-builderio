@@ -7,7 +7,7 @@ import {
   DialogFooter,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, ExternalLink } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { AdminActionsModal } from "./AdminActionsModal";
 
