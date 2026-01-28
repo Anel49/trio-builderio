@@ -1487,6 +1487,8 @@ export async function getReportConversation(req: Request, res: Response) {
 
     // Get messages from this thread with sender names, ordered by created_at DESC (newest first)
     // Then reverse the array to display oldest to newest
+    // NOTE: We add id as secondary sort to ensure stable pagination - messages with the same created_at
+    // won't appear in multiple pages due to inconsistent ordering
     const messagesResult = await pool.query(
       `
       select
@@ -1500,7 +1502,7 @@ export async function getReportConversation(req: Request, res: Response) {
       from messages m
       left join users u on m.sender_id = u.id
       where m.message_thread_id = $1
-      order by m.created_at desc
+      order by m.created_at desc, m.id desc
       limit $2
       offset $3
       `,
