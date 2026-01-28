@@ -118,6 +118,9 @@ export default function UploadProduct() {
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
   const [enableInstantBooking, setEnableInstantBooking] = useState(false);
   const [showInstantBookingModal, setShowInstantBookingModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorModalTitle, setErrorModalTitle] = useState("");
+  const [errorModalContent, setErrorModalContent] = useState("");
   const [addons, setAddons] = useState<
     Array<{
       id: string;
