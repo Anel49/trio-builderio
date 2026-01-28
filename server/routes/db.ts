@@ -593,6 +593,53 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Create trigger to automatically update name column when first_name or last_name changes
+    try {
+      await pool.query(
+        `create or replace function update_user_name()
+         returns trigger as $$
+         begin
+           -- Update name column based on first_name and last_name
+           if NEW.first_name is not null and NEW.last_name is not null then
+             NEW.name := NEW.first_name || ' ' || NEW.last_name;
+           elsif NEW.first_name is not null then
+             NEW.name := NEW.first_name;
+           elsif NEW.last_name is not null then
+             NEW.name := NEW.last_name;
+           else
+             NEW.name := null;
+           end if;
+           return NEW;
+         end;
+         $$ language plpgsql`,
+      );
+      console.log("[dbSetup] Created/updated update_user_name() trigger function");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Error creating trigger function:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
+    // Create trigger on users table
+    try {
+      await pool.query(
+        `drop trigger if exists trigger_update_user_name on users`,
+      );
+      await pool.query(
+        `create trigger trigger_update_user_name
+         before insert or update on users
+         for each row
+         execute function update_user_name()`,
+      );
+      console.log("[dbSetup] Created/verified trigger_update_user_name on users table");
+    } catch (e: any) {
+      console.log(
+        "[dbSetup] Error creating/updating trigger:",
+        e?.message?.slice(0, 100),
+      );
+    }
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
