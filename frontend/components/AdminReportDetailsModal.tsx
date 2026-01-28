@@ -171,9 +171,20 @@ export function AdminReportDetailsModal({
             {isListing ? (
               <>
                 <div className="space-y-4">
-                  <p className="text-lg font-semibold leading-none tracking-tight">
-                    Listing Details
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-lg font-semibold leading-none tracking-tight">
+                      Listing Details
+                    </p>
+                  </div>
+                  <a
+                    href={`/listing/${report.reported_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+                  >
+                    Go to listing
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
                   <div className="grid grid-cols-2 gap-6">
                     {snapshot.title && (
                       <div className="space-y-2">
