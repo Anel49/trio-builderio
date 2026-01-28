@@ -1507,6 +1507,10 @@ export async function getReportConversation(req: Request, res: Response) {
       [threadId, limit, offset],
     );
 
+    console.log("[getReportConversation] Query params - limit:", limit, "offset:", offset);
+    console.log("[getReportConversation] Raw DB results count:", messagesResult.rows.length);
+    console.log("[getReportConversation] Raw DB message IDs:", messagesResult.rows.map((r: any) => r.id));
+
     // Reverse to show oldest to newest
     const messages = messagesResult.rows.reverse().map((r: any) => ({
       id: r.id,
