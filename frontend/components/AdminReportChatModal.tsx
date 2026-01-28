@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { apiFetch } from "@/lib/api";
 import { ScrollArea } from "./ui/scroll-area";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import {
@@ -76,7 +71,7 @@ export function AdminReportChatModal({
 
     if (messagesScrollRef.current) {
       const scrollElement = messagesScrollRef.current.querySelector(
-        "[data-radix-scroll-area-viewport]"
+        "[data-radix-scroll-area-viewport]",
       ) as HTMLElement;
       if (scrollElement) {
         setTimeout(() => {
@@ -112,7 +107,7 @@ export function AdminReportChatModal({
           messageThreadId: msg.messageThreadId,
           senderName: msg.senderName || "Unknown",
           isFromCurrentUser: msg.isFromCurrentUser,
-        })
+        }),
       );
 
       setMessages(loadedMessages);
@@ -172,7 +167,7 @@ export function AdminReportChatModal({
                 messageThreadId: msg.messageThreadId,
                 senderName: msg.senderName || "Unknown",
                 isFromCurrentUser: msg.isFromCurrentUser,
-              })
+              }),
             );
 
             // Update messages using functional setState
@@ -228,22 +223,14 @@ export function AdminReportChatModal({
         )}
 
         {loading ? (
-          <div
-            className={combineTokens(
-              layouts.flex.center,
-              "flex-1"
-            )}
-          >
+          <div className={combineTokens(layouts.flex.center, "flex-1")}>
             <Loader2 className="animate-spin" />
           </div>
         ) : messages.length === 0 ? (
-          <div
-            className={combineTokens(
-              layouts.flex.center,
-              "flex-1"
-            )}
-          >
-            <p className="text-muted-foreground">No messages in this conversation</p>
+          <div className={combineTokens(layouts.flex.center, "flex-1")}>
+            <p className="text-muted-foreground">
+              No messages in this conversation
+            </p>
           </div>
         ) : (
           <ScrollArea

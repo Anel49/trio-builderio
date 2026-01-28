@@ -1414,8 +1414,14 @@ export async function updateFeedbackStatus(req: Request, res: Response) {
 export async function getReportConversation(req: Request, res: Response) {
   try {
     const reportId = Number.parseInt((req.params.reportId as string) || "", 10);
-    const limit = Math.min(Number.parseInt((req.query.limit as string) || "50", 10), 100);
-    const offset = Math.max(Number.parseInt((req.query.offset as string) || "0", 10), 0);
+    const limit = Math.min(
+      Number.parseInt((req.query.limit as string) || "50", 10),
+      100,
+    );
+    const offset = Math.max(
+      Number.parseInt((req.query.offset as string) || "0", 10),
+      0,
+    );
     const currentUser = (req.session as any)?.user;
 
     if (!Number.isFinite(reportId)) {
@@ -1472,7 +1478,12 @@ export async function getReportConversation(req: Request, res: Response) {
 
     if (!threadResult.rowCount) {
       // No thread exists yet
-      return res.json({ ok: true, messages: [], totalMessages: 0, hasMoreOlder: false });
+      return res.json({
+        ok: true,
+        messages: [],
+        totalMessages: 0,
+        hasMoreOlder: false,
+      });
     }
 
     const threadId = threadResult.rows[0].id;
