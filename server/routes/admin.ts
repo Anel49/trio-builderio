@@ -1414,6 +1414,8 @@ export async function updateFeedbackStatus(req: Request, res: Response) {
 export async function getReportConversation(req: Request, res: Response) {
   try {
     const reportId = Number.parseInt((req.params.reportId as string) || "", 10);
+    const limit = Math.min(Number.parseInt((req.query.limit as string) || "50", 10), 100);
+    const offset = Math.max(Number.parseInt((req.query.offset as string) || "0", 10), 0);
     const currentUser = (req.session as any)?.user;
 
     if (!Number.isFinite(reportId)) {
@@ -1470,12 +1472,21 @@ export async function getReportConversation(req: Request, res: Response) {
 
     if (!threadResult.rowCount) {
       // No thread exists yet
-      return res.json({ ok: true, messages: [] });
+      return res.json({ ok: true, messages: [], totalMessages: 0, hasMoreOlder: false });
     }
 
     const threadId = threadResult.rows[0].id;
 
-    // Get all messages from this thread with sender names
+    // Get total message count
+    const countResult = await pool.query(
+      `select count(*) as total from messages where message_thread_id = $1`,
+      [threadId],
+    );
+
+    const totalMessages = Number(countResult.rows[0].total);
+
+    // Get messages from this thread with sender names, ordered by created_at DESC (newest first)
+    // Then reverse the array to display oldest to newest
     const messagesResult = await pool.query(
       `
       select
@@ -1489,12 +1500,15 @@ export async function getReportConversation(req: Request, res: Response) {
       from messages m
       left join users u on m.sender_id = u.id
       where m.message_thread_id = $1
-      order by m.created_at asc
+      order by m.created_at desc
+      limit $2
+      offset $3
       `,
-      [threadId],
+      [threadId, limit, offset],
     );
 
-    const messages = messagesResult.rows.map((r: any) => ({
+    // Reverse to show oldest to newest
+    const messages = messagesResult.rows.reverse().map((r: any) => ({
       id: r.id,
       senderId: r.sender_id,
       toId: r.to_id,
@@ -1505,7 +1519,10 @@ export async function getReportConversation(req: Request, res: Response) {
       isFromCurrentUser: r.sender_id === userId1, // From the reporting user's perspective
     }));
 
-    res.json({ ok: true, messages });
+    // hasMoreOlder is true if there are more messages beyond what we fetched
+    const hasMoreOlder = offset + limit < totalMessages;
+
+    res.json({ ok: true, messages, totalMessages, hasMoreOlder });
   } catch (error: any) {
     console.error("[getReportConversation] Error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
