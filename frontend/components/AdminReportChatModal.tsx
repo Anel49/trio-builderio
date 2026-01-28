@@ -172,6 +172,7 @@ export function AdminReportChatModal({
         .then((response) => response.json())
         .then((data) => {
           console.log("[AdminReportChatModal] Got response with", data.messages?.length, "messages");
+          console.log("[AdminReportChatModal] Response message IDs:", data.messages?.map((m: any) => m.id) || []);
 
           if (data.ok && data.messages?.length > 0) {
             const olderMessages: Message[] = (data.messages || []).map(
@@ -189,8 +190,10 @@ export function AdminReportChatModal({
 
             // Update messages using functional setState
             setMessages((currentMessages) => {
+              console.log("[AdminReportChatModal] Current message IDs:", currentMessages.map(m => m.id));
               const updated = [...olderMessages, ...currentMessages];
-              console.log("[AdminReportChatModal] Updated messages count:", updated.length);
+              console.log("[AdminReportChatModal] Updated message count:", updated.length);
+              console.log("[AdminReportChatModal] All message IDs after update:", updated.map(m => m.id));
               return updated;
             });
 
