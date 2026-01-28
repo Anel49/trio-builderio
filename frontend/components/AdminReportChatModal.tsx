@@ -106,6 +106,7 @@ export function AdminReportChatModal({
         totalMessages: data.totalMessages,
         hasMoreOlder: data.hasMoreOlder,
       });
+      console.log("[AdminReportChatModal] Initial load message IDs:", data.messages?.map((m: any) => m.id) || []);
 
       const loadedMessages: Message[] = (data.messages || []).map(
         (msg: any) => ({
@@ -121,6 +122,7 @@ export function AdminReportChatModal({
       );
 
       setMessages(loadedMessages);
+      console.log("[AdminReportChatModal] Loaded initial messages:", loadedMessages.map(m => m.id));
 
       // Set pagination state - offset should be based on actual messages loaded, not hardcoded
       const nextOffset = loadedMessages.length;
