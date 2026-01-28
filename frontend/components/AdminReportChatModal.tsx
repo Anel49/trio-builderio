@@ -61,18 +61,27 @@ export function AdminReportChatModal({
 
   useEffect(() => {
     if (open) {
+      // Reset pagination state when opening
+      setPaginationState({ offset: 0, hasMoreOlder: false, totalMessages: 0 });
       loadMessages();
     }
   }, [open, reportId]);
 
+  // Auto-scroll to bottom when messages load (but not when loading older messages)
   useEffect(() => {
-    // Auto-scroll to bottom when messages load
+    // Skip auto-scroll if we're loading older messages
+    if (isLoadingOlderRef.current) {
+      return;
+    }
+
     if (messagesScrollRef.current) {
       const scrollElement = messagesScrollRef.current.querySelector(
         "[data-radix-scroll-area-viewport]"
-      );
+      ) as HTMLElement;
       if (scrollElement) {
-        scrollElement.scrollTop = scrollElement.scrollHeight;
+        setTimeout(() => {
+          scrollElement.scrollTop = scrollElement.scrollHeight;
+        }, 0);
       }
     }
   }, [messages]);
@@ -81,9 +90,9 @@ export function AdminReportChatModal({
     setLoading(true);
     setError(null);
     try {
-      // Get conversation for this report
+      // Get conversation for this report - initially load 50 messages
       const response = await apiFetch(
-        `/admin/reports/${reportId}/conversation`
+        `/admin/reports/${reportId}/conversation?limit=50&offset=0`
       );
 
       if (!response.ok) {
@@ -105,10 +114,85 @@ export function AdminReportChatModal({
       );
 
       setMessages(loadedMessages);
+
+      // Set pagination state
+      setPaginationState({
+        offset: 50,
+        hasMoreOlder: data.hasMoreOlder || false,
+        totalMessages: data.totalMessages || 0,
+      });
     } catch (err: any) {
       setError(err.message || "Failed to load messages");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Handle loading older messages
+  const handleLoadOlderMessages = async () => {
+    if (!paginationState.hasMoreOlder) return;
+
+    // Get the scroll element and save current scroll position
+    const scrollElement = messagesScrollRef.current?.querySelector(
+      "[data-radix-scroll-area-viewport]",
+    ) as HTMLElement;
+
+    if (!scrollElement) return;
+
+    const scrollHeightBefore = scrollElement.scrollHeight;
+    const scrollTopBefore = scrollElement.scrollTop;
+
+    // Set flag to prevent auto-scroll
+    isLoadingOlderRef.current = true;
+    setLoadingOlderMessages(true);
+
+    try {
+      const response = await apiFetch(
+        `/admin/reports/${reportId}/conversation?limit=20&offset=${paginationState.offset}`,
+      );
+      const data = await response.json();
+      if (data.ok) {
+        const olderMessages: Message[] = (data.messages || []).map(
+          (msg: any) => ({
+            id: msg.id,
+            senderId: msg.senderId,
+            toId: msg.toId,
+            body: msg.body,
+            createdAt: msg.createdAt,
+            messageThreadId: msg.messageThreadId,
+            senderName: msg.senderName || "Unknown",
+            isFromCurrentUser: msg.isFromCurrentUser,
+          })
+        );
+
+        // Prepend older messages to the beginning
+        const updatedMessages = [...olderMessages, ...messages];
+        setMessages(updatedMessages);
+
+        // Update pagination state
+        setPaginationState({
+          offset: paginationState.offset + 20,
+          hasMoreOlder: data.hasMoreOlder || false,
+          totalMessages: data.totalMessages || 0,
+        });
+
+        // Restore scroll position after DOM update
+        // Wait for two frames to ensure all DOM updates are complete
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const scrollHeightAfter = scrollElement.scrollHeight;
+            const heightDifference = scrollHeightAfter - scrollHeightBefore;
+            scrollElement.scrollTop = scrollTopBefore + heightDifference;
+            // Clear the flag after scroll restoration
+            isLoadingOlderRef.current = false;
+          });
+        });
+      }
+    } catch (error) {
+      console.error("Failed to load older messages:", error);
+      isLoadingOlderRef.current = false;
+    } finally {
+      setLoadingOlderMessages(false);
     }
   };
 
