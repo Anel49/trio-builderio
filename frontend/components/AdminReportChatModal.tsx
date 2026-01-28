@@ -138,89 +138,93 @@ export function AdminReportChatModal({
     }
   };
 
-  // Handle loading older messages
-  const handleLoadOlderMessages = async () => {
-    if (!paginationState.hasMoreOlder) return;
-
-    // Get the scroll element and save current scroll position
-    const scrollElement = messagesScrollRef.current?.querySelector(
-      "[data-radix-scroll-area-viewport]",
-    ) as HTMLElement;
-
-    if (!scrollElement) return;
-
-    const scrollHeightBefore = scrollElement.scrollHeight;
-    const scrollTopBefore = scrollElement.scrollTop;
-
-    // Set flag to prevent auto-scroll
-    isLoadingOlderRef.current = true;
-    setLoadingOlderMessages(true);
-
-    try {
-      const url = `/admin/reports/${reportId}/conversation?limit=20&offset=${paginationState.offset}`;
-      console.log("[AdminReportChatModal] Loading older messages with URL:", url);
-      console.log("[AdminReportChatModal] Current pagination state:", paginationState);
-
-      const response = await apiFetch(url);
-      const data = await response.json();
-
-      console.log("[AdminReportChatModal] Response:", {
-        messagesCount: data.messages?.length,
-        hasMoreOlder: data.hasMoreOlder,
-        totalMessages: data.totalMessages,
-      });
-
-      if (data.ok) {
-        const olderMessages: Message[] = (data.messages || []).map(
-          (msg: any) => ({
-            id: msg.id,
-            senderId: msg.senderId,
-            toId: msg.toId,
-            body: msg.body,
-            createdAt: msg.createdAt,
-            messageThreadId: msg.messageThreadId,
-            senderName: msg.senderName || "Unknown",
-            isFromCurrentUser: msg.isFromCurrentUser,
-          })
-        );
-
-        console.log("[AdminReportChatModal] Loaded", olderMessages.length, "older messages");
-        console.log("[AdminReportChatModal] Current total messages:", messages.length);
-
-        // Prepend older messages to the beginning
-        const updatedMessages = [...olderMessages, ...messages];
-        setMessages(updatedMessages);
-
-        console.log("[AdminReportChatModal] New total messages:", updatedMessages.length);
-
-        // Update pagination state - increment by actual number of messages loaded, not hardcoded
-        const newOffset = paginationState.offset + olderMessages.length;
-        console.log("[AdminReportChatModal] Updating offset from", paginationState.offset, 'to', newOffset);
-
-        setPaginationState({
-          offset: newOffset,
-          hasMoreOlder: data.hasMoreOlder || false,
-          totalMessages: data.totalMessages || 0,
-        });
-
-        // Restore scroll position after DOM update
-        // Wait for two frames to ensure all DOM updates are complete
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            const scrollHeightAfter = scrollElement.scrollHeight;
-            const heightDifference = scrollHeightAfter - scrollHeightBefore;
-            scrollElement.scrollTop = scrollTopBefore + heightDifference;
-            // Clear the flag after scroll restoration
-            isLoadingOlderRef.current = false;
-          });
-        });
+  // Handle loading older messages using functional setState to avoid closure issues
+  const handleLoadOlderMessages = () => {
+    setPaginationState((prevState) => {
+      if (!prevState.hasMoreOlder) {
+        return prevState;
       }
-    } catch (error) {
-      console.error("Failed to load older messages:", error);
-      isLoadingOlderRef.current = false;
-    } finally {
-      setLoadingOlderMessages(false);
-    }
+
+      // Capture the offset from the current state
+      const offsetToUse = prevState.offset;
+
+      // Get the scroll element
+      const scrollElement = messagesScrollRef.current?.querySelector(
+        "[data-radix-scroll-area-viewport]",
+      ) as HTMLElement;
+
+      if (!scrollElement) {
+        return prevState;
+      }
+
+      const scrollHeightBefore = scrollElement.scrollHeight;
+      const scrollTopBefore = scrollElement.scrollTop;
+
+      // Set flag to prevent auto-scroll
+      isLoadingOlderRef.current = true;
+      setLoadingOlderMessages(true);
+
+      // Start the async fetch
+      const url = `/admin/reports/${reportId}/conversation?limit=20&offset=${offsetToUse}`;
+      console.log("[AdminReportChatModal] Loading with offset:", offsetToUse, "URL:", url);
+
+      apiFetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("[AdminReportChatModal] Got response with", data.messages?.length, "messages");
+
+          if (data.ok && data.messages?.length > 0) {
+            const olderMessages: Message[] = (data.messages || []).map(
+              (msg: any) => ({
+                id: msg.id,
+                senderId: msg.senderId,
+                toId: msg.toId,
+                body: msg.body,
+                createdAt: msg.createdAt,
+                messageThreadId: msg.messageThreadId,
+                senderName: msg.senderName || "Unknown",
+                isFromCurrentUser: msg.isFromCurrentUser,
+              })
+            );
+
+            // Update messages using functional setState
+            setMessages((currentMessages) => {
+              const updated = [...olderMessages, ...currentMessages];
+              console.log("[AdminReportChatModal] Updated messages count:", updated.length);
+              return updated;
+            });
+
+            // Update pagination state
+            const newOffset = offsetToUse + olderMessages.length;
+            console.log("[AdminReportChatModal] Setting new offset to:", newOffset);
+            setPaginationState((state) => ({
+              ...state,
+              offset: newOffset,
+              hasMoreOlder: data.hasMoreOlder || false,
+              totalMessages: data.totalMessages || 0,
+            }));
+
+            // Restore scroll position
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                const scrollHeightAfter = scrollElement.scrollHeight;
+                const heightDifference = scrollHeightAfter - scrollHeightBefore;
+                scrollElement.scrollTop = scrollTopBefore + heightDifference;
+                isLoadingOlderRef.current = false;
+              });
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("[AdminReportChatModal] Error loading messages:", error);
+          isLoadingOlderRef.current = false;
+        })
+        .finally(() => {
+          setLoadingOlderMessages(false);
+        });
+
+      return prevState;
+    });
   };
 
   return (
