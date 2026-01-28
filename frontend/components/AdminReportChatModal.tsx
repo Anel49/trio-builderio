@@ -169,9 +169,9 @@ export function AdminReportChatModal({
         const updatedMessages = [...olderMessages, ...messages];
         setMessages(updatedMessages);
 
-        // Update pagination state
+        // Update pagination state - increment by actual number of messages loaded, not hardcoded
         setPaginationState({
-          offset: paginationState.offset + 20,
+          offset: paginationState.offset + olderMessages.length,
           hasMoreOlder: data.hasMoreOlder || false,
           totalMessages: data.totalMessages || 0,
         });
