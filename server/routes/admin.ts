@@ -1509,10 +1509,6 @@ export async function getReportConversation(req: Request, res: Response) {
       [threadId, limit, offset],
     );
 
-    console.log("[getReportConversation] Query params - limit:", limit, "offset:", offset);
-    console.log("[getReportConversation] Raw DB results count:", messagesResult.rows.length);
-    console.log("[getReportConversation] Raw DB message IDs:", messagesResult.rows.map((r: any) => r.id));
-
     // Reverse to show oldest to newest
     const messages = messagesResult.rows.reverse().map((r: any) => ({
       id: r.id,
@@ -1527,9 +1523,6 @@ export async function getReportConversation(req: Request, res: Response) {
 
     // hasMoreOlder is true if there are more messages beyond what we fetched
     const hasMoreOlder = offset + limit < totalMessages;
-
-    console.log("[getReportConversation] Final response - message IDs:", messages.map((m: any) => m.id));
-    console.log("[getReportConversation] Final response - count:", messages.length, "hasMoreOlder:", hasMoreOlder, "totalMessages:", totalMessages);
 
     res.json({ ok: true, messages, totalMessages, hasMoreOlder });
   } catch (error: any) {
