@@ -147,10 +147,19 @@ export function AdminReportChatModal({
     setLoadingOlderMessages(true);
 
     try {
-      const response = await apiFetch(
-        `/admin/reports/${reportId}/conversation?limit=20&offset=${paginationState.offset}`,
-      );
+      const url = `/admin/reports/${reportId}/conversation?limit=20&offset=${paginationState.offset}`;
+      console.log("[AdminReportChatModal] Loading older messages with URL:", url);
+      console.log("[AdminReportChatModal] Current pagination state:", paginationState);
+
+      const response = await apiFetch(url);
       const data = await response.json();
+
+      console.log("[AdminReportChatModal] Response:", {
+        messagesCount: data.messages?.length,
+        hasMoreOlder: data.hasMoreOlder,
+        totalMessages: data.totalMessages,
+      });
+
       if (data.ok) {
         const olderMessages: Message[] = (data.messages || []).map(
           (msg: any) => ({
@@ -165,13 +174,21 @@ export function AdminReportChatModal({
           })
         );
 
+        console.log("[AdminReportChatModal] Loaded", olderMessages.length, "older messages");
+        console.log("[AdminReportChatModal] Current total messages:", messages.length);
+
         // Prepend older messages to the beginning
         const updatedMessages = [...olderMessages, ...messages];
         setMessages(updatedMessages);
 
+        console.log("[AdminReportChatModal] New total messages:", updatedMessages.length);
+
         // Update pagination state - increment by actual number of messages loaded, not hardcoded
+        const newOffset = paginationState.offset + olderMessages.length;
+        console.log("[AdminReportChatModal] Updating offset from", paginationState.offset, 'to', newOffset);
+
         setPaginationState({
-          offset: paginationState.offset + olderMessages.length,
+          offset: newOffset,
           hasMoreOlder: data.hasMoreOlder || false,
           totalMessages: data.totalMessages || 0,
         });
