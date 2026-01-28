@@ -1697,8 +1697,10 @@ export async function takeActionOnReport(req: Request, res: Response) {
       // Handle name anonymization
       if (fieldsToRemove.includes("name")) {
         const anonName = `User${generatedUUID}`;
+        updates.push(`name = $${paramIndex++}`);
         updates.push(`first_name = $${paramIndex++}`);
         updates.push(`last_name = $${paramIndex++}`);
+        params.push(anonName);
         params.push(anonName);
         params.push(null);
         actionList.push("Name anonymized");
