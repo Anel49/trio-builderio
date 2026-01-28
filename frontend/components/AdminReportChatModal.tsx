@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
-import { Loader2 } from "lucide-react";
+import { Loader2, Button } from "./ui/button";
 import {
   spacing,
   typography,
@@ -45,7 +45,18 @@ export function AdminReportChatModal({
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadingOlderMessages, setLoadingOlderMessages] = useState(false);
+  const [paginationState, setPaginationState] = useState<{
+    offset: number;
+    hasMoreOlder: boolean;
+    totalMessages: number;
+  }>({
+    offset: 0,
+    hasMoreOlder: false,
+    totalMessages: 0,
+  });
   const messagesScrollRef = useRef<HTMLDivElement>(null);
+  const isLoadingOlderRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (open) {
