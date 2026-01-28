@@ -1644,9 +1644,12 @@ export async function takeActionOnReport(req: Request, res: Response) {
       if (fieldsToRemove.includes("description"))
         actionList.push("Description removed");
       if (fieldsToRemove.includes("addons")) actionList.push("Addons removed");
-      if (fieldsToRemove.includes("images")) actionList.push("Image(s) removed");
+      if (fieldsToRemove.includes("images"))
+        actionList.push("Image(s) removed");
 
-      const actionBullets = actionList.map((action) => `• ${action}`).join("\n");
+      const actionBullets = actionList
+        .map((action) => `• ${action}`)
+        .join("\n");
 
       const messageBody = `Your listing "${listingName}" was found to be in violation of LendIt's policies. The listing was disabled and the following actions were taken:\n${actionBullets}\n\nModerator notes: ${moderatorMessage.trim()}`;
 
@@ -1689,7 +1692,10 @@ export async function takeActionOnReport(req: Request, res: Response) {
 
       // Generate a unique UUID for both name and username (if both selected)
       let generatedUUID: string | null = null;
-      if (fieldsToRemove.includes("name") || fieldsToRemove.includes("username")) {
+      if (
+        fieldsToRemove.includes("name") ||
+        fieldsToRemove.includes("username")
+      ) {
         generatedUUID = await generateUniqueUsername();
         console.log("[takeActionOnReport] Generated UUID:", generatedUUID);
       }
@@ -1707,7 +1713,7 @@ export async function takeActionOnReport(req: Request, res: Response) {
       // Handle username anonymization
       if (fieldsToRemove.includes("username")) {
         // Validate uniqueness of the UUID username
-        const usernameToUse = generatedUUID || await generateUniqueUsername();
+        const usernameToUse = generatedUUID || (await generateUniqueUsername());
         const existingUsername = await pool.query(
           `SELECT id FROM users WHERE username = $1 LIMIT 1`,
           [usernameToUse],
@@ -1743,7 +1749,9 @@ export async function takeActionOnReport(req: Request, res: Response) {
       const updateResult = await pool.query(updateQuery, params);
 
       if (!updateResult.rowCount) {
-        return res.status(404).json({ ok: false, error: "Failed to update user" });
+        return res
+          .status(404)
+          .json({ ok: false, error: "Failed to update user" });
       }
 
       // Create message thread to the user
@@ -1757,7 +1765,9 @@ export async function takeActionOnReport(req: Request, res: Response) {
       const threadId = threadResult.rows[0].id;
 
       // Build message with action details
-      const actionBullets = actionList.map((action) => `• ${action}`).join("\n");
+      const actionBullets = actionList
+        .map((action) => `• ${action}`)
+        .join("\n");
       const messageBody = `Your account was found to be in violation of LendIt's policies. The following actions were taken:\n${actionBullets}\n\nModerator notes: ${moderatorMessage.trim()}`;
 
       // Create the message

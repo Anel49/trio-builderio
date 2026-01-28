@@ -613,7 +613,9 @@ export async function dbSetup(_req: Request, res: Response) {
          end;
          $$ language plpgsql`,
       );
-      console.log("[dbSetup] Created/updated update_user_name() trigger function");
+      console.log(
+        "[dbSetup] Created/updated update_user_name() trigger function",
+      );
     } catch (e: any) {
       console.log(
         "[dbSetup] Error creating trigger function:",
@@ -632,7 +634,9 @@ export async function dbSetup(_req: Request, res: Response) {
          for each row
          execute function update_user_name()`,
       );
-      console.log("[dbSetup] Created/verified trigger_update_user_name on users table");
+      console.log(
+        "[dbSetup] Created/verified trigger_update_user_name on users table",
+      );
     } catch (e: any) {
       console.log(
         "[dbSetup] Error creating/updating trigger:",

@@ -48,9 +48,15 @@ export function AdminActionsModal({
   const [error, setError] = useState<string | null>(null);
 
   const isListingReport = reportFor === "listing";
-  const fieldOptions = isListingReport ? LISTING_FIELD_OPTIONS : USER_FIELD_OPTIONS;
-  const messageLabel = isListingReport ? "Message to listing's host" : "Message to user";
-  const messageErrorText = isListingReport ? "Message to listing's host is required" : "Message to user is required";
+  const fieldOptions = isListingReport
+    ? LISTING_FIELD_OPTIONS
+    : USER_FIELD_OPTIONS;
+  const messageLabel = isListingReport
+    ? "Message to listing's host"
+    : "Message to user";
+  const messageErrorText = isListingReport
+    ? "Message to listing's host is required"
+    : "Message to user is required";
 
   const toggleField = (fieldId: string) => {
     const newChecked = new Set(checkedFields);

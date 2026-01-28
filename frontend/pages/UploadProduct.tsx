@@ -818,9 +818,10 @@ export default function UploadProduct() {
     } catch (e) {
       setIsConfirmingListing(false);
       const errorMessage = e instanceof Error ? e.message : "";
-      const isLocationError = errorMessage.includes(
-        'null value in column "city" of relation "listings"',
-      ) ||
+      const isLocationError =
+        errorMessage.includes(
+          'null value in column "city" of relation "listings"',
+        ) ||
         errorMessage.includes(
           'null value in column "postcode" of relation "listings"',
         ) ||
