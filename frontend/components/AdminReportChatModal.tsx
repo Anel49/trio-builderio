@@ -158,14 +158,9 @@ export function AdminReportChatModal({
 
       // Start the async fetch
       const url = `/admin/reports/${reportId}/conversation?limit=20&offset=${offsetToUse}`;
-      console.log("[AdminReportChatModal] Loading with offset:", offsetToUse, "URL:", url);
-
       apiFetch(url)
         .then((response) => response.json())
         .then((data) => {
-          console.log("[AdminReportChatModal] Got response with", data.messages?.length, "messages");
-          console.log("[AdminReportChatModal] Response message IDs:", data.messages?.map((m: any) => m.id) || []);
-
           if (data.ok && data.messages?.length > 0) {
             const olderMessages: Message[] = (data.messages || []).map(
               (msg: any) => ({
@@ -182,16 +177,11 @@ export function AdminReportChatModal({
 
             // Update messages using functional setState
             setMessages((currentMessages) => {
-              console.log("[AdminReportChatModal] Current message IDs:", currentMessages.map(m => m.id));
-              const updated = [...olderMessages, ...currentMessages];
-              console.log("[AdminReportChatModal] Updated message count:", updated.length);
-              console.log("[AdminReportChatModal] All message IDs after update:", updated.map(m => m.id));
-              return updated;
+              return [...olderMessages, ...currentMessages];
             });
 
             // Update pagination state
             const newOffset = offsetToUse + olderMessages.length;
-            console.log("[AdminReportChatModal] Setting new offset to:", newOffset);
             setPaginationState((state) => ({
               ...state,
               offset: newOffset,
