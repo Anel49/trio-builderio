@@ -817,11 +817,51 @@ export default function UploadProduct() {
       // Skip immediate refresh to avoid redundant network calls; pages load fresh on navigation
     } catch (e) {
       setIsConfirmingListing(false);
-      alert(
-        editListingId
-          ? "Failed to update product. Please try again."
-          : "Failed to list product. Please try again.",
-      );
+      const errorMessage = e instanceof Error ? e.message : "";
+      const isLocationError = errorMessage.includes(
+        'null value in column "city" of relation "listings"',
+      ) ||
+        errorMessage.includes(
+          'null value in column "postcode" of relation "listings"',
+        ) ||
+        errorMessage.includes(
+          'null value in column "latitude" of relation "listings"',
+        ) ||
+        errorMessage.includes(
+          'null value in column "longitude" of relation "listings"',
+        ) ||
+        errorMessage.includes(
+          'null value in column "country" of relation "listings"',
+        ) ||
+        errorMessage.includes(
+          'null value in column "country_code" of relation "listings"',
+        ) ||
+        errorMessage.includes(
+          'null value in column "state" of relation "listings"',
+        ) ||
+        errorMessage.includes(
+          'null value in column "state_code" of relation "listings"',
+        ) ||
+        errorMessage.includes(
+          'null value in column "county" of relation "listings"',
+        ) ||
+        errorMessage.includes(
+          'null value in column "address" of relation "listings"',
+        );
+
+      if (isLocationError) {
+        setErrorModalTitle("Failed to create listing");
+        setErrorModalContent(
+          `${COMPANY_NAME} failed to create your listing. The likely error is due to an invalid location. If you continue to get this error with a valid location set, please contact ${COMPANY_NAME} support.`,
+        );
+        setShowErrorModal(true);
+      } else {
+        alert(
+          editListingId
+            ? "Failed to update product. Please try again."
+            : "Failed to list product. Please try again.",
+        );
+      }
     }
   };
 
