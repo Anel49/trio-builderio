@@ -6,3 +6,6 @@ export const SERVICE_FEE = 12;
 export const INSURANCE_FEE = 10;
 export const ENABLE_FAVORITES = true;
 export const ENABLE_UPLOAD_PREVIEW_FAVORITES = false;
+export const HOST_FEE = 12;
+export const RENTER_FEE = 10;
+export const SUBSEQUENT_DAILY_FEE = 1.5;
