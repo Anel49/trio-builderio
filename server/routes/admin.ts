@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { pool } from "./db";
 import { requireAdmin, requireModeratorOrAdmin } from "./auth";
 import { deleteS3Prefix } from "../lib/s3";
+import { generateUniqueUsername } from "./users";
 
 function rowToUserDetail(r: any) {
   return {
