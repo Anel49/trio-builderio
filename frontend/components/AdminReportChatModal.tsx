@@ -201,7 +201,7 @@ export function AdminReportChatModal({
           }
         })
         .catch((error) => {
-          console.error("[AdminReportChatModal] Error loading messages:", error);
+          console.error("Failed to load older messages:", error);
           isLoadingOlderRef.current = false;
         })
         .finally(() => {
