@@ -266,9 +266,20 @@ export function AdminReportDetailsModal({
             ) : (
               <>
                 <div className="space-y-4">
-                  <p className="text-lg font-semibold leading-none tracking-tight">
-                    User Details
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-lg font-semibold leading-none tracking-tight">
+                      User Details
+                    </p>
+                  </div>
+                  <a
+                    href={`/profile/${report.reported_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+                  >
+                    Go to user
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
                   <div className="grid grid-cols-2 gap-6">
                     {snapshot.name && (
                       <div className="space-y-2">
