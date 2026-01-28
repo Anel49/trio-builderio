@@ -130,7 +130,7 @@ export function AdminActionsModal({
           <div className="space-y-3">
             <p className="font-semibold text-sm">Remove:</p>
             <div className="space-y-2 ml-2">
-              {FIELD_OPTIONS.map((option) => (
+              {fieldOptions.map((option) => (
                 <div key={option.id} className="flex items-center space-x-2">
                   <Checkbox
                     id={option.id}
@@ -151,7 +151,7 @@ export function AdminActionsModal({
           {/* Message Field */}
           <div className="space-y-2">
             <label htmlFor="message" className="text-sm font-semibold">
-              Message to listing's host
+              {messageLabel}
             </label>
             <textarea
               id="message"
