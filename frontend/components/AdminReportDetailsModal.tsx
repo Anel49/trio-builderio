@@ -322,11 +322,12 @@ export function AdminReportDetailsModal({
         </DialogContent>
       </Dialog>
 
-      {report && isListing && (
+      {report && (
         <AdminActionsModal
           open={isActionsModalOpen}
           onOpenChange={setIsActionsModalOpen}
           report={report}
+          reportFor={reportFor}
           onActionComplete={() => {
             setIsActionsModalOpen(false);
             onOpenChange(false);
