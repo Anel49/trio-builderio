@@ -16,16 +16,22 @@ interface AdminActionsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   report: any;
+  reportFor: "listing" | "user";
   onActionComplete: () => void;
   onCancel: () => void;
 }
 
-const FIELD_OPTIONS = [
+const LISTING_FIELD_OPTIONS = [
   { id: "title", label: "Title" },
   { id: "location", label: "Location" },
   { id: "description", label: "Description" },
   { id: "addons", label: "Addons" },
   { id: "images", label: "Images" },
+];
+
+const USER_FIELD_OPTIONS = [
+  { id: "name", label: "Name" },
+  { id: "username", label: "Username" },
 ];
 
 export function AdminActionsModal({
