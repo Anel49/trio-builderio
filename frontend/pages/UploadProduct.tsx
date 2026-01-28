@@ -2052,6 +2052,14 @@ export default function UploadProduct() {
         confirmLabel="Got it"
         onConfirm={() => setShowDeliveryModal(false)}
       />
+      <ConfirmationModalTemplate
+        isOpen={showErrorModal}
+        onOpenChange={setShowErrorModal}
+        title={errorModalTitle}
+        description={errorModalContent}
+        confirmLabel="OK"
+        onConfirm={() => setShowErrorModal(false)}
+      />
       <PreviewModal />
       <LocationPickerModal
         open={isLocationModalOpen}
