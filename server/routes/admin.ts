@@ -1549,126 +1549,236 @@ export async function takeActionOnReport(req: Request, res: Response) {
 
     const report = reportResult.rows[0];
 
-    // Only listing reports can have actions taken
-    if (report.report_for !== "listing") {
+    if (report.report_for === "listing") {
+      // Handle listing reports
+      const listingId = report.reported_id;
+      const listingHostId = report.host_id;
+      const listingName = report.listing_name;
+
+      if (!listingId || !listingHostId) {
+        return res
+          .status(404)
+          .json({ ok: false, error: "Listing or host not found" });
+      }
+
+      // Build dynamic UPDATE query for listing
+      const updates: string[] = ["enabled = false"];
+      const params: any[] = [];
+      let paramIndex = 1;
+
+      if (fieldsToRemove.includes("title")) {
+        updates.push(`name = NULL`);
+      }
+      if (fieldsToRemove.includes("location")) {
+        updates.push(`latitude = NULL`);
+        updates.push(`longitude = NULL`);
+      }
+      if (fieldsToRemove.includes("description")) {
+        updates.push(`description = NULL`);
+      }
+      if (fieldsToRemove.includes("addons")) {
+        updates.push(`addons = NULL`);
+      }
+      if (fieldsToRemove.includes("images")) {
+        updates.push(`image_url = NULL`);
+      }
+
+      params.push(listingId);
+
+      // Update the listing
+      const updateQuery = `UPDATE listings SET ${updates.join(", ")} WHERE id = $${paramIndex} RETURNING id`;
+      const updateResult = await pool.query(updateQuery, params);
+
+      if (!updateResult.rowCount) {
+        return res
+          .status(404)
+          .json({ ok: false, error: "Failed to update listing" });
+      }
+
+      // If images are being removed, delete the S3 folder and listing_images records
+      if (fieldsToRemove.includes("images")) {
+        try {
+          const s3Prefix = `listings/${listingId}/`;
+          console.log("[takeActionOnReport] Deleting S3 prefix:", s3Prefix);
+          await deleteS3Prefix(s3Prefix);
+        } catch (s3Error: any) {
+          console.error(
+            "[takeActionOnReport] Error deleting S3 prefix:",
+            s3Error,
+          );
+          // Continue anyway - DB update succeeded, S3 deletion is best-effort
+        }
+
+        try {
+          console.log(
+            "[takeActionOnReport] Deleting listing_images records for listing:",
+            listingId,
+          );
+          await pool.query(`DELETE FROM listing_images WHERE listing_id = $1`, [
+            listingId,
+          ]);
+        } catch (dbError: any) {
+          console.error(
+            "[takeActionOnReport] Error deleting listing_images records:",
+            dbError,
+          );
+          // Continue anyway - S3 deletion succeeded, DB cleanup is important but not blocking
+        }
+      }
+
+      // Create message thread
+      const threadResult = await pool.query(
+        `INSERT INTO message_threads (user_a_id, user_b_id, thread_title, last_updated_by_id)
+         VALUES ($1, $2, $3, $4)
+         RETURNING id`,
+        [2, listingHostId, report.report_number, 2],
+      );
+
+      const threadId = threadResult.rows[0].id;
+
+      // Build action list for message
+      const actionList: string[] = [];
+      if (fieldsToRemove.includes("title")) actionList.push("Title removed");
+      if (fieldsToRemove.includes("location"))
+        actionList.push("Location removed");
+      if (fieldsToRemove.includes("description"))
+        actionList.push("Description removed");
+      if (fieldsToRemove.includes("addons")) actionList.push("Addons removed");
+      if (fieldsToRemove.includes("images")) actionList.push("Image(s) removed");
+
+      const actionBullets = actionList.map((action) => `• ${action}`).join("\n");
+
+      const messageBody = `Your listing "${listingName}" was found to be in violation of LendIt's policies. The listing was disabled and the following actions were taken:\n${actionBullets}\n\nModerator notes: ${moderatorMessage.trim()}`;
+
+      // Create the message
+      const messageResult = await pool.query(
+        `INSERT INTO messages (sender_id, to_id, body, message_thread_id)
+         VALUES ($1, $2, $3, $4)
+         RETURNING id`,
+        [2, listingHostId, messageBody, threadId],
+      );
+
+      res.json({
+        ok: true,
+        messageThreadId: threadId,
+        messageId: messageResult.rows[0].id,
+      });
+    } else if (report.report_for === "user") {
+      // Handle user reports
+      const userId = report.reported_id;
+
+      if (!userId) {
+        return res.status(404).json({ ok: false, error: "User not found" });
+      }
+
+      // Fetch user details
+      const userResult = await pool.query(
+        `SELECT id, username, first_name, last_name FROM users WHERE id = $1`,
+        [userId],
+      );
+
+      if (!userResult.rowCount) {
+        return res.status(404).json({ ok: false, error: "User not found" });
+      }
+
+      const user = userResult.rows[0];
+      const actionList: string[] = [];
+      const updates: string[] = [];
+      const params: any[] = [];
+      let paramIndex = 1;
+
+      // Generate a unique UUID for both name and username (if both selected)
+      let generatedUUID: string | null = null;
+      if (fieldsToRemove.includes("name") || fieldsToRemove.includes("username")) {
+        generatedUUID = await generateUniqueUsername();
+        console.log("[takeActionOnReport] Generated UUID:", generatedUUID);
+      }
+
+      // Handle name anonymization
+      if (fieldsToRemove.includes("name")) {
+        const anonName = `User${generatedUUID}`;
+        updates.push(`first_name = $${paramIndex++}`);
+        updates.push(`last_name = $${paramIndex++}`);
+        params.push(anonName);
+        params.push(null);
+        actionList.push("Name anonymized");
+      }
+
+      // Handle username anonymization
+      if (fieldsToRemove.includes("username")) {
+        // Validate uniqueness of the UUID username
+        const usernameToUse = generatedUUID || await generateUniqueUsername();
+        const existingUsername = await pool.query(
+          `SELECT id FROM users WHERE username = $1 LIMIT 1`,
+          [usernameToUse],
+        );
+
+        if (existingUsername.rowCount && existingUsername.rowCount > 0) {
+          console.error(
+            "[takeActionOnReport] Generated username already exists:",
+            usernameToUse,
+          );
+          return res.status(400).json({
+            ok: false,
+            error: "Failed to generate unique username. Please try again.",
+          });
+        }
+
+        updates.push(`username = $${paramIndex++}`);
+        params.push(usernameToUse);
+        actionList.push("Username anonymized");
+      }
+
+      // If no updates needed, return error
+      if (updates.length === 0) {
+        return res.status(400).json({
+          ok: false,
+          error: "No actions selected",
+        });
+      }
+
+      // Apply updates to user
+      params.push(userId);
+      const updateQuery = `UPDATE users SET ${updates.join(", ")} WHERE id = $${paramIndex} RETURNING id`;
+      const updateResult = await pool.query(updateQuery, params);
+
+      if (!updateResult.rowCount) {
+        return res.status(404).json({ ok: false, error: "Failed to update user" });
+      }
+
+      // Create message thread to the user
+      const threadResult = await pool.query(
+        `INSERT INTO message_threads (user_a_id, user_b_id, thread_title, last_updated_by_id)
+         VALUES ($1, $2, $3, $4)
+         RETURNING id`,
+        [2, userId, report.report_number, 2],
+      );
+
+      const threadId = threadResult.rows[0].id;
+
+      // Build message with action details
+      const actionBullets = actionList.map((action) => `• ${action}`).join("\n");
+      const messageBody = `Your account was found to be in violation of LendIt's policies. The following actions were taken:\n${actionBullets}\n\nModerator notes: ${moderatorMessage.trim()}`;
+
+      // Create the message
+      const messageResult = await pool.query(
+        `INSERT INTO messages (sender_id, to_id, body, message_thread_id)
+         VALUES ($1, $2, $3, $4)
+         RETURNING id`,
+        [2, userId, messageBody, threadId],
+      );
+
+      res.json({
+        ok: true,
+        messageThreadId: threadId,
+        messageId: messageResult.rows[0].id,
+      });
+    } else {
       return res.status(400).json({
         ok: false,
-        error: "Actions can only be taken on listing reports",
+        error: "Unknown report type",
       });
     }
-
-    const listingId = report.reported_id;
-    const listingHostId = report.host_id;
-    const listingName = report.listing_name;
-
-    if (!listingId || !listingHostId) {
-      return res
-        .status(404)
-        .json({ ok: false, error: "Listing or host not found" });
-    }
-
-    // Build dynamic UPDATE query for listing
-    const updates: string[] = ["enabled = false"];
-    const params: any[] = [];
-    let paramIndex = 1;
-
-    if (fieldsToRemove.includes("title")) {
-      updates.push(`name = NULL`);
-    }
-    if (fieldsToRemove.includes("location")) {
-      updates.push(`latitude = NULL`);
-      updates.push(`longitude = NULL`);
-    }
-    if (fieldsToRemove.includes("description")) {
-      updates.push(`description = NULL`);
-    }
-    if (fieldsToRemove.includes("addons")) {
-      updates.push(`addons = NULL`);
-    }
-    if (fieldsToRemove.includes("images")) {
-      updates.push(`image_url = NULL`);
-    }
-
-    params.push(listingId);
-
-    // Update the listing
-    const updateQuery = `UPDATE listings SET ${updates.join(", ")} WHERE id = $${paramIndex} RETURNING id`;
-    const updateResult = await pool.query(updateQuery, params);
-
-    if (!updateResult.rowCount) {
-      return res
-        .status(404)
-        .json({ ok: false, error: "Failed to update listing" });
-    }
-
-    // If images are being removed, delete the S3 folder and listing_images records
-    if (fieldsToRemove.includes("images")) {
-      try {
-        const s3Prefix = `listings/${listingId}/`;
-        console.log("[takeActionOnReport] Deleting S3 prefix:", s3Prefix);
-        await deleteS3Prefix(s3Prefix);
-      } catch (s3Error: any) {
-        console.error(
-          "[takeActionOnReport] Error deleting S3 prefix:",
-          s3Error,
-        );
-        // Continue anyway - DB update succeeded, S3 deletion is best-effort
-      }
-
-      try {
-        console.log(
-          "[takeActionOnReport] Deleting listing_images records for listing:",
-          listingId,
-        );
-        await pool.query(`DELETE FROM listing_images WHERE listing_id = $1`, [
-          listingId,
-        ]);
-      } catch (dbError: any) {
-        console.error(
-          "[takeActionOnReport] Error deleting listing_images records:",
-          dbError,
-        );
-        // Continue anyway - S3 deletion succeeded, DB cleanup is important but not blocking
-      }
-    }
-
-    // Create message thread
-    const threadResult = await pool.query(
-      `INSERT INTO message_threads (user_a_id, user_b_id, thread_title, last_updated_by_id)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id`,
-      [2, listingHostId, report.report_number, 2],
-    );
-
-    const threadId = threadResult.rows[0].id;
-
-    // Build action list for message
-    const actionList: string[] = [];
-    if (fieldsToRemove.includes("title")) actionList.push("Title removed");
-    if (fieldsToRemove.includes("location"))
-      actionList.push("Location removed");
-    if (fieldsToRemove.includes("description"))
-      actionList.push("Description removed");
-    if (fieldsToRemove.includes("addons")) actionList.push("Addons removed");
-    if (fieldsToRemove.includes("images")) actionList.push("Image(s) removed");
-
-    const actionBullets = actionList.map((action) => `• ${action}`).join("\n");
-
-    const messageBody = `Your listing "${listingName}" was found to be in violation of LendIt's policies. The listing was disabled and the following actions were taken:\n${actionBullets}\n\nModerator notes: ${moderatorMessage.trim()}`;
-
-    // Create the message
-    const messageResult = await pool.query(
-      `INSERT INTO messages (sender_id, to_id, body, message_thread_id)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id`,
-      [2, listingHostId, messageBody, threadId],
-    );
-
-    res.json({
-      ok: true,
-      messageThreadId: threadId,
-      messageId: messageResult.rows[0].id,
-    });
   } catch (error: any) {
     console.error("[takeActionOnReport] Error:", error);
     res.status(500).json({ ok: false, error: String(error?.message || error) });
