@@ -312,14 +312,12 @@ export function AdminReportDetailsModal({
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Close
             </Button>
-            {isListing && (
-              <Button
-                onClick={() => setIsActionsModalOpen(true)}
-                className="bg-primary hover:bg-primary/90"
-              >
-                Take Action
-              </Button>
-            )}
+            <Button
+              onClick={() => setIsActionsModalOpen(true)}
+              className="bg-primary hover:bg-primary/90"
+            >
+              Take Action
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
