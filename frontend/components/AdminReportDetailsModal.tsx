@@ -272,7 +272,7 @@ export function AdminReportDetailsModal({
                     </p>
                   </div>
                   <a
-                    href={`/profile/${report.reported_id}`}
+                    href={`/profile/${report.reported_user_username}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
