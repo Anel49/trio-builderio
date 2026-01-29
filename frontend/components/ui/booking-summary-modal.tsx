@@ -149,46 +149,53 @@ export function BookingSummaryModal({
                 )}
               </div>
               <div className="space-y-1 mb-2">
-                {addonFees.map((item) => {
-                  const { addon, fee } = item;
-                  return (
-                    <div
-                      key={addon.id}
-                      className="text-sm"
-                    >
-                      <div className="flex justify-between items-center">
-                        <span className="text-muted-foreground">
-                          {addon.item}
-                          {addon.style && ` (${addon.style})`}
-                          {addon.consumable && addon.qty && ` × ${addon.qty}`}
-                        </span>
-                        {addon.price !== null ? (
-                          <span>
-                            {addon.consumable && addon.qty
-                              ? formatPrice(addon.price * addon.qty)
-                              : !addon.consumable
-                                ? formatPrice(fee)
-                                : formatPrice(0)}
-                          </span>
-                        ) : (
-                          <span className="text-muted-foreground text-xs">
-                            Free
-                          </span>
-                        )}
-                      </div>
-                      {!addon.consumable && addon.price !== null && (
-                        <div className="text-xs text-muted-foreground mt-0.5 ml-2">
-                          {totalDays === 1
-                            ? `10% of $${(addon.price / 100).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
-                            : `10% 1st day + 1.5% ×${totalDays - 1} days`}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                {selectedAddons.map((addon) => (
+                  <div
+                    key={addon.id}
+                    className="flex justify-between items-center text-sm"
+                  >
+                    <span className="text-muted-foreground">
+                      {addon.item}
+                      {addon.style && ` (${addon.style})`}
+                      {addon.consumable && addon.qty && addon.qty > 1 && ` × ${addon.qty} ${addon.qty === 1 ? "day" : "days"}`}
+                    </span>
+                    {addon.price !== null ? (
+                      <span>
+                        {addon.consumable && addon.qty
+                          ? formatPrice(addon.price * addon.qty)
+                          : formatPrice(addon.price)}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground text-xs">
+                        Free
+                      </span>
+                    )}
+                  </div>
+                ))}
               </div>
+
+              {/* Addon Insurance Row - Only show if non-consumable addons exist */}
+              {hasNonConsumableAddons && (
+                <div className="flex justify-between items-center text-sm pt-2 border-t">
+                  <div className="flex items-center gap-1">
+                    <span className="text-muted-foreground">Addon insurance:</span>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddonFeesModal(true)}
+                      className="p-0 h-4 w-4 text-muted-foreground hover:text-primary transition-colors"
+                      aria-label="Information about addon insurance"
+                    >
+                      <Info className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <span className="font-semibold">
+                    {formatPrice(nonConsumableTotal)}
+                  </span>
+                </div>
+              )}
+
               <div className="flex justify-between items-center pt-2 border-t">
-                <p className="text-sm font-medium">Addon total</p>
+                <p className="text-sm font-medium">Addon cost:</p>
                 <p className="text-sm font-semibold">
                   {formatPrice(addonTotal)}
                 </p>
