@@ -578,13 +578,64 @@ export async function emailLogin(req: Request, res: Response) {
     const passwordStr = typeof password === "string" ? password : "";
     const staySignedInFlag = Boolean(staySignedIn);
 
+    // Import login history utilities
+    const {
+      logLoginAttempt,
+      getIPAddress,
+      detectDeviceType,
+      parseBrowserFromUserAgent,
+      getGeolocationFromIP,
+    } = await import("../lib/login-history");
+
+    const userAgent = req.headers["user-agent"] || null;
+    const ipAddress = getIPAddress(req);
+    const deviceType = detectDeviceType(userAgent as string);
+    const browser = parseBrowserFromUserAgent(userAgent as string);
+    const { country: ipCountry, city: ipCity } = await getGeolocationFromIP(
+      ipAddress,
+    );
+
     if (!emailStr || !emailStr.includes("@")) {
+      // Log failed login attempt
+      await logLoginAttempt(pool, {
+        userId: null,
+        success: false,
+        ipAddress,
+        ipCountry,
+        ipCity,
+        deviceType,
+        method: "email/password",
+        oauthProvider: null,
+        mfaUsed: false,
+        mfaMethod: null,
+        userAgent: userAgent as string,
+        browser,
+        notes: "Invalid email format",
+      });
+
       return res
         .status(400)
         .json({ ok: false, error: "valid email is required" });
     }
 
     if (!passwordStr) {
+      // Log failed login attempt
+      await logLoginAttempt(pool, {
+        userId: null,
+        success: false,
+        ipAddress,
+        ipCountry,
+        ipCity,
+        deviceType,
+        method: "email/password",
+        oauthProvider: null,
+        mfaUsed: false,
+        mfaMethod: null,
+        userAgent: userAgent as string,
+        browser,
+        notes: "Missing password",
+      });
+
       return res.status(400).json({ ok: false, error: "password is required" });
     }
 
@@ -594,6 +645,23 @@ export async function emailLogin(req: Request, res: Response) {
     );
 
     if (!credResult.rowCount || credResult.rowCount === 0) {
+      // Log failed login attempt
+      await logLoginAttempt(pool, {
+        userId: null,
+        success: false,
+        ipAddress,
+        ipCountry,
+        ipCity,
+        deviceType,
+        method: "email/password",
+        oauthProvider: null,
+        mfaUsed: false,
+        mfaMethod: null,
+        userAgent: userAgent as string,
+        browser,
+        notes: "Email not found",
+      });
+
       return res
         .status(400)
         .json({ ok: false, error: "email or password is incorrect" });
@@ -603,6 +671,23 @@ export async function emailLogin(req: Request, res: Response) {
     const isPasswordValid = await argon2.verify(cred.password, passwordStr);
 
     if (!isPasswordValid) {
+      // Log failed login attempt
+      await logLoginAttempt(pool, {
+        userId: cred.user_id,
+        success: false,
+        ipAddress,
+        ipCountry,
+        ipCity,
+        deviceType,
+        method: "email/password",
+        oauthProvider: null,
+        mfaUsed: false,
+        mfaMethod: null,
+        userAgent: userAgent as string,
+        browser,
+        notes: "Invalid password",
+      });
+
       return res
         .status(400)
         .json({ ok: false, error: "email or password is incorrect" });
