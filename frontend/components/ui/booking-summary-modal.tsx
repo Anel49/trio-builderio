@@ -205,7 +205,7 @@ export function BookingSummaryModal({
           {/* Final Total */}
           <div className="bg-accent p-3 rounded-md">
             <div className="flex justify-between items-center">
-              <p className="text-sm font-semibold">Total</p>
+              <p className="text-sm font-semibold">Booking subtotal</p>
               <p className="text-lg font-bold text-primary">
                 {formatPrice(finalTotal)}
               </p>
