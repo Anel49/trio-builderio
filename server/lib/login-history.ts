@@ -130,8 +130,16 @@ export function getIPAddress(req: Request): string | null {
 }
 
 /**
- * Get geolocation data from IP using GEOAPIFY API
+ * Get geolocation data from IP
  * Returns: { country, city }
+ *
+ * NOTE: Currently returns null for all requests
+ * GEOAPIFY_REVERSE_GEOCODING_API_KEY is for reverse geocoding (coords -> address), not IP geolocation
+ * To implement IP geolocation, integrate a dedicated IP geolocation service like:
+ * - MaxMind GeoIP2
+ * - IP2Location
+ * - IPStack
+ * - or similar service
  */
 export async function getGeolocationFromIP(
   ipAddress: string | null,
@@ -140,29 +148,14 @@ export async function getGeolocationFromIP(
     return { country: null, city: null };
   }
 
-  try {
-    const apiKey = process.env.GEOAPIFY_REVERSE_GEOCODING_API_KEY;
-    if (!apiKey) {
-      console.warn("[getGeolocationFromIP] API key not configured");
-      return { country: null, city: null };
-    }
-
-    // Skip if IP is localhost
-    if (ipAddress === "127.0.0.1" || ipAddress === "::1" || ipAddress.includes("localhost")) {
-      return { country: null, city: null };
-    }
-
-    // Note: GEOAPIFY has different endpoints for IP vs coordinates
-    // This uses reverse geocoding with coordinates, but for IP geolocation
-    // you might want to use a dedicated IP geolocation service
-    // For now, we'll return null as a placeholder since GEOAPIFY is for reverse geocoding
-    // You can integrate a dedicated IP geolocation service here
-    
-    return { country: null, city: null };
-  } catch (error: any) {
-    console.error("[getGeolocationFromIP] Error:", error?.message);
+  // Skip if IP is localhost (development environment)
+  if (ipAddress === "127.0.0.1" || ipAddress === "::1" || ipAddress.includes("localhost")) {
     return { country: null, city: null };
   }
+
+  // TODO: Integrate dedicated IP geolocation service here
+  // For now, return null as we don't have the correct API configured
+  return { country: null, city: null };
 }
 
 /**
