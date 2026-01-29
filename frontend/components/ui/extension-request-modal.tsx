@@ -346,16 +346,25 @@ export function ExtensionRequestModal({
                 <span className="text-muted-foreground">Days:</span>
                 <span className="font-medium">{totalDays}</span>
               </div>
-              {addonCost > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Add-ons (per day):</span>
-                  <span className="font-medium">
-                    $
-                    {((order?.nonconsumable_addon_total || 0) / 100).toLocaleString(
-                      "en-US",
-                      { minimumFractionDigits: 2, maximumFractionDigits: 2 },
-                    )}
-                  </span>
+              {/* Display nonconsumable add-ons with their prices */}
+              {nonconsumableAddons.length > 0 && (
+                <div className="space-y-1 bg-background/50 p-2 rounded border border-border/50">
+                  <p className="text-xs font-medium text-muted-foreground">Add-ons (per day):</p>
+                  {nonconsumableAddons.map((addon) => (
+                    <div key={addon.name} className="flex justify-between text-xs">
+                      <span className="text-muted-foreground">
+                        {addon.name}
+                        {addon.style && ` - ${addon.style}`}
+                      </span>
+                      <span>
+                        $
+                        {(addon.price / 100).toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               )}
               <div className="border-t pt-2 flex justify-between text-sm font-semibold">
