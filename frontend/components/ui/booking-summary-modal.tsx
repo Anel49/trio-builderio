@@ -146,19 +146,7 @@ export function BookingSummaryModal({
           {/* Addon Total - Only show if addons are selected */}
           {selectedAddons.length > 0 && (
             <div className="pb-3 border-b">
-              <div className="flex items-center gap-2 mb-2">
-                <p className="text-sm font-medium">Addons</p>
-                {hasNonConsumableAddons && (
-                  <button
-                    type="button"
-                    onClick={() => setShowAddonFeesModal(true)}
-                    className="p-0 h-4 w-4 text-muted-foreground hover:text-primary transition-colors"
-                    aria-label="Information about addon fees"
-                  >
-                    <Info className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
+              <p className="text-sm font-medium mb-2">Addons</p>
               <div className="space-y-1 mb-2">
                 {selectedAddons.map((addon) => (
                   <div
