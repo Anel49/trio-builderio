@@ -2073,6 +2073,8 @@ export async function getUserOrders(req: Request, res: Response) {
         listing_postcode: row.listing_postcode,
         review_id: row.review_id,
         listing_timezone: row.listing_timezone,
+        addons: row.addons,
+        nonconsumable_addon_total: row.nonconsumable_addon_total,
       } as any;
 
       if (row.extension_id) {
