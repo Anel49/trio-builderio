@@ -2171,6 +2171,43 @@ export default function UploadProduct() {
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
       />
+      <ConfirmationModalTemplate
+        isOpen={showAddonInfoModal}
+        onOpenChange={setShowAddonInfoModal}
+        title="Addon How-To"
+        confirmText="OK"
+        onConfirm={() => setShowAddonInfoModal(false)}
+        children={
+          <div className="space-y-4 text-sm">
+            <p>
+              Addons cannot share the same name. If you are offering two or more
+              of the same item, precede or follow the name with a count or
+              number.
+            </p>
+            <div className="space-y-2">
+              <p>
+                <strong>Non-consumable addons</strong>
+              </p>
+              <p className="text-muted-foreground">
+                Non-consumable addons—like camera tripods, table covers, cargo
+                tie-downs, and utensils—are addons that will be returned to
+                you. Non-consumable items are insured.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <p>
+                <strong>Consumable addons</strong>
+              </p>
+              <p className="text-muted-foreground">
+                Consumable addons—like food, filters, wipes, and photo
+                paper—are addons that are not expected to be returned to you.
+                To mark an addon as consumable, select the three vertical dots
+                and select "Mark consumable".
+              </p>
+            </div>
+          </div>
+        }
+      />
     </div>
   );
 }
