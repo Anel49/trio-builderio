@@ -42,6 +42,8 @@ export function BookingSummaryModal({
   onConfirm,
   onBack,
 }: BookingSummaryModalProps) {
+  const [showAddonFeesModal, setShowAddonFeesModal] = useState(false);
+
   // Calculate addon fees with new pricing plan
   // Non-consumable: 10% for first day + 1.5% for subsequent days
   // Consumable: No charge
