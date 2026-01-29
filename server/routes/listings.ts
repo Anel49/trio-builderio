@@ -1785,12 +1785,23 @@ async function createOrderFromReservation(
       dailyTotal + nonconsumableAddonTotal + consumableAddonTotal;
     const taxPercentage = 0.06;
     const taxCents = Math.round(subtotalCents * taxPercentage);
-    const platformCommissionHost = Math.round(subtotalCents * 0.12);
+    const platformCommissionHost = Math.round(subtotalCents * (HOST_FEE / 100));
     const hostEarns = subtotalCents - platformCommissionHost;
-    const platformCommissionRenter =
-      reservation.extension_of && reservation.extension_of !== null
-        ? 0
-        : Math.round((dailyPriceCents + nonconsumableAddonTotal) * 0.1);
+
+    // Calculate tiered renter fee: 10% first day, 1.5% subsequent days
+    let platformCommissionRenter = 0;
+    if (!(reservation.extension_of && reservation.extension_of !== null)) {
+      // Not an extension - apply tiered daily fee
+      const baseAmount = dailyPriceCents + nonconsumableAddonTotal;
+      const firstDayFee = Math.round(baseAmount * (RENTER_FEE / 100));
+      const subsequentDaysFee =
+        totalDays > 1
+          ? Math.round(baseAmount * (SUBSEQUENT_DAILY_FEE / 100)) * (totalDays - 1)
+          : 0;
+      platformCommissionRenter = firstDayFee + subsequentDaysFee;
+    }
+    // Extensions get 0% (unchanged for now)
+
     const renterPays = subtotalCents + platformCommissionRenter + taxCents;
     const platformCommissionTotal =
       platformCommissionHost + platformCommissionRenter;
