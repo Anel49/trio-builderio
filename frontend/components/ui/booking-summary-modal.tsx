@@ -48,14 +48,10 @@ export function BookingSummaryModal({
     useState(false);
 
   // Calculate listing insurance: RENTER_FEE% for first day + SUBSEQUENT_DAILY_FEE% for subsequent days
-  const listingInsuranceFirstDay = Math.round(
-    dailyPrice * (RENTER_FEE / 100)
-  );
+  const listingInsuranceFirstDay = Math.round(dailyPrice * (RENTER_FEE / 100));
   const listingInsuranceSubsequentDays =
     totalDays > 1
-      ? Math.round(
-          dailyPrice * (SUBSEQUENT_DAILY_FEE / 100) * (totalDays - 1)
-        )
+      ? Math.round(dailyPrice * (SUBSEQUENT_DAILY_FEE / 100) * (totalDays - 1))
       : 0;
   const listingInsuranceTotal =
     listingInsuranceFirstDay + listingInsuranceSubsequentDays;
@@ -77,7 +73,9 @@ export function BookingSummaryModal({
       const firstDayFee = Math.round(addon.price * (RENTER_FEE / 100));
       const subsequentDaysFee =
         totalDays > 1
-          ? Math.round(addon.price * (SUBSEQUENT_DAILY_FEE / 100) * (totalDays - 1))
+          ? Math.round(
+              addon.price * (SUBSEQUENT_DAILY_FEE / 100) * (totalDays - 1),
+            )
           : 0;
       const totalFee = firstDayFee + subsequentDaysFee;
       return { addon, fee: totalFee };
@@ -112,8 +110,7 @@ export function BookingSummaryModal({
   const addonTotal =
     consumableTotal + nonConsumableAddonPrices + nonConsumableInsuranceTotal;
   const dailyTotal = dailyPrice * totalDays;
-  const finalTotal =
-    dailyTotal + listingInsuranceTotal + addonTotal;
+  const finalTotal = dailyTotal + listingInsuranceTotal + addonTotal;
 
   // Check if there are any non-consumable addons selected
   const hasNonConsumableAddons = selectedAddons.some(
@@ -167,7 +164,9 @@ export function BookingSummaryModal({
             <div className="pb-3 border-b">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1">
-                  <p className="text-sm text-muted-foreground">Listing insurance</p>
+                  <p className="text-sm text-muted-foreground">
+                    Listing insurance
+                  </p>
                   <button
                     type="button"
                     onClick={() => setShowListingInsuranceModal(true)}
@@ -237,7 +236,6 @@ export function BookingSummaryModal({
                     </span>
                   </div>
                 )}
-
               </div>
             )}
 
@@ -275,10 +273,11 @@ export function BookingSummaryModal({
         onConfirm={() => setShowAddonFeesModal(false)}
       >
         <p className="text-sm text-muted-foreground">
-          When renting a non-consumable addon, you will be charged {RENTER_FEE}% of the
-          addon's cost for the first day and {SUBSEQUENT_DAILY_FEE}% per subsequent day to insure
-          that addon throughout the duration of your rental. Extensions of this
-          order will only be charged {SUBSEQUENT_DAILY_FEE}% per extended day for the addon(s) chosen.
+          When renting a non-consumable addon, you will be charged {RENTER_FEE}%
+          of the addon's cost for the first day and {SUBSEQUENT_DAILY_FEE}% per
+          subsequent day to insure that addon throughout the duration of your
+          rental. Extensions of this order will only be charged{" "}
+          {SUBSEQUENT_DAILY_FEE}% per extended day for the addon(s) chosen.
         </p>
         <p className="text-sm text-muted-foreground mt-3">
           Consumable addons cannot be insured and thus are not charged an
@@ -294,10 +293,11 @@ export function BookingSummaryModal({
         onConfirm={() => setShowListingInsuranceModal(false)}
       >
         <p className="text-sm text-muted-foreground">
-          When booking a listing, you will be charged {RENTER_FEE}% of the listing's daily
-          rate for the first day and {SUBSEQUENT_DAILY_FEE}% per subsequent day to insure the listing's
-          item(s) throughout the duration of your rental. Extensions of this order
-          will only be charged {SUBSEQUENT_DAILY_FEE}% of the daily rate per extended day.
+          When booking a listing, you will be charged {RENTER_FEE}% of the
+          listing's daily rate for the first day and {SUBSEQUENT_DAILY_FEE}% per
+          subsequent day to insure the listing's item(s) throughout the duration
+          of your rental. Extensions of this order will only be charged{" "}
+          {SUBSEQUENT_DAILY_FEE}% of the daily rate per extended day.
         </p>
       </ConfirmationModal>
     </>
