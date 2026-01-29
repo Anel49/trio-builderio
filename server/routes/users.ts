@@ -1398,7 +1398,41 @@ export async function googleOAuth(req: Request, res: Response) {
   try {
     const { token, staySignedIn } = (req.body || {}) as any;
 
+    // Import login history utilities
+    const {
+      logLoginAttempt,
+      getIPAddress,
+      detectDeviceType,
+      parseBrowserFromUserAgent,
+      getGeolocationFromIP,
+    } = await import("../lib/login-history");
+
+    const userAgent = req.headers["user-agent"] || null;
+    const ipAddress = getIPAddress(req);
+    const deviceType = detectDeviceType(userAgent as string);
+    const browser = parseBrowserFromUserAgent(userAgent as string);
+    const { country: ipCountry, city: ipCity } = await getGeolocationFromIP(
+      ipAddress,
+    );
+
     if (!token || typeof token !== "string") {
+      // Log failed login attempt
+      await logLoginAttempt(pool, {
+        userId: null,
+        success: false,
+        ipAddress,
+        ipCountry,
+        ipCity,
+        deviceType,
+        method: "oauth",
+        oauthProvider: "google",
+        mfaUsed: false,
+        mfaMethod: null,
+        userAgent: userAgent as string,
+        browser,
+        notes: "Missing token",
+      });
+
       return res.status(400).json({ ok: false, error: "token is required" });
     }
 
