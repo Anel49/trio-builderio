@@ -140,6 +140,8 @@ interface Order {
   extension_of?: number | null;
   listing_postcode?: string | null;
   listing_timezone?: string | null;
+  addons?: any;
+  nonconsumable_addon_total?: number;
   most_recent_extension?: {
     id: number;
     start_date: string;
