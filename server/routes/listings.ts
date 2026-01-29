@@ -2103,6 +2103,12 @@ export async function getUserOrders(req: Request, res: Response) {
     });
 
     console.log("[getUserOrders] Returning", orders.length, "orders");
+    if (orders.length > 0) {
+      console.log(
+        "[getUserOrders] First order being returned:",
+        JSON.stringify(orders[0], null, 2),
+      );
+    }
     res.json({ ok: true, orders });
   } catch (error: any) {
     console.error("[getUserOrders] Error:", error);
