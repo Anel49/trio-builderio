@@ -415,12 +415,15 @@ export default function ProductDetails() {
         return sum;
       }, 0);
 
-      // Create addons JSON
-      const addonsJson = addonsToStore.map((addon) => ({
-        item: addon.item,
-        style: addon.style,
-        qty: addon.qty,
-      }));
+      // Create addons JSON in format: { "item_name": [style, price_cents, consumable_bool_string] }
+      const addonsJson: Record<string, [string | null, number, string]> = {};
+      addonsToStore.forEach((addon) => {
+        addonsJson[addon.item] = [
+          addon.style || "null",
+          addon.price || 0,
+          String(addon.consumable),
+        ];
+      });
 
       const reservationResponse = await apiFetch("reservations", {
         method: "POST",
