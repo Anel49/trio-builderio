@@ -2730,9 +2730,14 @@ export async function createExtensionOrder(req: Request, res: Response) {
       dailyTotal + nonconsumableAddonTotal + consumableAddonTotal;
     const taxPercentage = 0.06;
     const taxCents = Math.round(subtotalCents * taxPercentage);
-    const platformCommissionHost = Math.round(subtotalCents * 0.12);
+    const platformCommissionHost = Math.round(subtotalCents * (HOST_FEE / 100));
     const hostEarns = subtotalCents - platformCommissionHost;
-    const platformCommissionRenter = 0;
+
+    // Extensions: charge 1.5% per day for all days (no 10% first day charge)
+    const baseAmount = dailyPriceCents + nonconsumableAddonTotal;
+    const dailyExtensionFee = Math.round(baseAmount * (SUBSEQUENT_DAILY_FEE / 100));
+    const platformCommissionRenter = dailyExtensionFee * totalDays;
+
     const renterPays = subtotalCents + platformCommissionRenter + taxCents;
     const platformCommissionTotal =
       platformCommissionHost + platformCommissionRenter;
