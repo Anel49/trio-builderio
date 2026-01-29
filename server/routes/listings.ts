@@ -7,6 +7,7 @@ import {
   normalizeZipCode,
   getLocationDataFromCoordinates,
 } from "../lib/geo";
+import { HOST_FEE, RENTER_FEE, SUBSEQUENT_DAILY_FEE } from "../constants";
 
 function parseCoordinate(value: unknown): number | null {
   if (typeof value === "number" && Number.isFinite(value)) return value;
