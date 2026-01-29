@@ -591,9 +591,8 @@ export async function emailLogin(req: Request, res: Response) {
     const ipAddress = getIPAddress(req);
     const deviceType = detectDeviceType(userAgent as string);
     const browser = parseBrowserFromUserAgent(userAgent as string);
-    const { country: ipCountry, city: ipCity } = await getGeolocationFromIP(
-      ipAddress,
-    );
+    const { country: ipCountry, city: ipCity } =
+      await getGeolocationFromIP(ipAddress);
 
     if (!emailStr || !emailStr.includes("@")) {
       // Log failed login attempt
@@ -1411,9 +1410,8 @@ export async function googleOAuth(req: Request, res: Response) {
     const ipAddress = getIPAddress(req);
     const deviceType = detectDeviceType(userAgent as string);
     const browser = parseBrowserFromUserAgent(userAgent as string);
-    const { country: ipCountry, city: ipCity } = await getGeolocationFromIP(
-      ipAddress,
-    );
+    const { country: ipCountry, city: ipCity } =
+      await getGeolocationFromIP(ipAddress);
 
     if (!token || typeof token !== "string") {
       // Log failed login attempt

@@ -21,7 +21,9 @@ export interface LoginHistoryData {
  * Parse user agent to extract browser name and version
  * Supports: Chrome, Firefox, Safari, Edge, Opera, etc.
  */
-export function parseBrowserFromUserAgent(userAgent: string | null): string | null {
+export function parseBrowserFromUserAgent(
+  userAgent: string | null,
+): string | null {
   if (!userAgent) return null;
 
   // Chrome
@@ -125,7 +127,10 @@ export function getIPAddress(req: Request): string | null {
 
   if (req.headers["cf-connecting-ip"]) {
     ipAddress = req.headers["cf-connecting-ip"] as string;
-    console.log("[getIPAddress] Using cf-connecting-ip (Cloudflare):", ipAddress);
+    console.log(
+      "[getIPAddress] Using cf-connecting-ip (Cloudflare):",
+      ipAddress,
+    );
     return ipAddress;
   }
 
@@ -173,7 +178,11 @@ export async function getGeolocationFromIP(
   }
 
   // Skip if IP is localhost (development environment)
-  if (ipAddress === "127.0.0.1" || ipAddress === "::1" || ipAddress.includes("localhost")) {
+  if (
+    ipAddress === "127.0.0.1" ||
+    ipAddress === "::1" ||
+    ipAddress.includes("localhost")
+  ) {
     return { country: null, city: null };
   }
 
@@ -230,7 +239,10 @@ export async function logLoginAttempt(
 
     console.log(`[logLoginAttempt] Logged login attempt for user ${userId}`);
   } catch (error: any) {
-    console.error("[logLoginAttempt] Error logging login attempt:", error?.message);
+    console.error(
+      "[logLoginAttempt] Error logging login attempt:",
+      error?.message,
+    );
     // Don't throw - login should succeed even if logging fails
   }
 }
@@ -262,7 +274,9 @@ export async function logLogout(
     if (result.rowCount && result.rowCount > 0) {
       console.log(`[logLogout] Logged logout for user ${userId}`);
     } else {
-      console.log(`[logLogout] No matching login record found for user ${userId}`);
+      console.log(
+        `[logLogout] No matching login record found for user ${userId}`,
+      );
     }
   } catch (error: any) {
     console.error("[logLogout] Error logging logout:", error?.message);

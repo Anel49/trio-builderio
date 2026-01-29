@@ -614,7 +614,10 @@ export function createServer() {
           await logLogout(pool, userId, ipAddress);
           console.log(`[/api/auth/logout] Logout logged for user ${userId}`);
         } catch (logError: any) {
-          console.error("[/api/auth/logout] Error logging logout:", logError?.message);
+          console.error(
+            "[/api/auth/logout] Error logging logout:",
+            logError?.message,
+          );
           // Don't fail the logout if logging fails
         }
       }
@@ -659,7 +662,10 @@ export function createServer() {
           await logLogout(pool, userId, ipAddress);
           console.log(`[/auth/logout] Logout logged for user ${userId}`);
         } catch (logError: any) {
-          console.error("[/auth/logout] Error logging logout:", logError?.message);
+          console.error(
+            "[/auth/logout] Error logging logout:",
+            logError?.message,
+          );
           // Don't fail the logout if logging fails
         }
       }
