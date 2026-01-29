@@ -1573,6 +1573,23 @@ export async function googleOAuth(req: Request, res: Response) {
         userId = existingCred.user_id;
       } else {
         // Email exists but not as Google OAuth (either password or different OAuth)
+        // Log failed login attempt
+        await logLoginAttempt(pool, {
+          userId: existingCred.user_id,
+          success: false,
+          ipAddress,
+          ipCountry,
+          ipCity,
+          deviceType,
+          method: "oauth",
+          oauthProvider: "google",
+          mfaUsed: false,
+          mfaMethod: null,
+          userAgent: userAgent as string,
+          browser,
+          notes: "Email already exists with different auth method",
+        });
+
         return res.status(409).json({
           ok: false,
           error: "email_in_use",
