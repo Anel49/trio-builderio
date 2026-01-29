@@ -86,6 +86,11 @@ export function BookingSummaryModal({
   const dailyTotal = dailyPrice * totalDays;
   const finalTotal = dailyTotal + addonTotal;
 
+  // Check if there are any non-consumable addons selected
+  const hasNonConsumableAddons = selectedAddons.some(
+    (addon) => !addon.consumable && addon.price !== null
+  );
+
   const formatPrice = (cents: number) => {
     return `$${(cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
