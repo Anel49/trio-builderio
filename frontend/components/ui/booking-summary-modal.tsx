@@ -156,7 +156,7 @@ export function BookingSummaryModal({
                     <span className="text-muted-foreground">
                       {addon.item}
                       {addon.style && ` (${addon.style})`}
-                      {addon.consumable && addon.qty && addon.qty > 1 && ` × ${addon.qty} days`}
+                      {addon.consumable && addon.qty && addon.qty > 1 && ` × ${addon.qty}`}
                     </span>
                     {addon.price !== null ? (
                       <span>
