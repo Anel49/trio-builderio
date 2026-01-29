@@ -194,7 +194,7 @@ export function BookingSummaryModal({
               )}
 
               <div className="flex justify-between items-center pt-2 border-t">
-                <p className="text-sm font-medium">Addon cost:</p>
+                <p className="text-sm font-medium">Total addon cost:</p>
                 <p className="text-sm font-semibold">
                   {formatPrice(addonTotal)}
                 </p>
