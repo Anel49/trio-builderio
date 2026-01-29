@@ -2171,13 +2171,11 @@ export default function UploadProduct() {
         isOpen={isMobileMenuOpen}
         onOpenChange={setIsMobileMenuOpen}
       />
-      <ConfirmationModalTemplate
-        isOpen={showAddonInfoModal}
-        onOpenChange={setShowAddonInfoModal}
-        title="Addon How-To"
-        confirmText="OK"
-        onConfirm={() => setShowAddonInfoModal(false)}
-        children={
+      <Dialog open={showAddonInfoModal} onOpenChange={setShowAddonInfoModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Addon How-To</DialogTitle>
+          </DialogHeader>
           <div className="space-y-4 text-sm">
             <p>
               Addons cannot share the same name. If you are offering two or more
@@ -2185,9 +2183,7 @@ export default function UploadProduct() {
               number.
             </p>
             <div className="space-y-2">
-              <p>
-                <strong>Non-consumable addons</strong>
-              </p>
+              <p className="font-semibold">Non-consumable addons</p>
               <p className="text-muted-foreground">
                 Non-consumable addons—like camera tripods, table covers, cargo
                 tie-downs, and utensils—are addons that will be returned to
@@ -2195,9 +2191,7 @@ export default function UploadProduct() {
               </p>
             </div>
             <div className="space-y-2">
-              <p>
-                <strong>Consumable addons</strong>
-              </p>
+              <p className="font-semibold">Consumable addons</p>
               <p className="text-muted-foreground">
                 Consumable addons—like food, filters, wipes, and photo
                 paper—are addons that are not expected to be returned to you.
@@ -2206,8 +2200,14 @@ export default function UploadProduct() {
               </p>
             </div>
           </div>
-        }
-      />
+          <Button
+            onClick={() => setShowAddonInfoModal(false)}
+            className="w-full"
+          >
+            OK
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
