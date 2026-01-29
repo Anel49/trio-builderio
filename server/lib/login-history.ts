@@ -100,17 +100,8 @@ export function detectDeviceType(
  * Normalizes IPv6 localhost to 127.0.0.1
  */
 export function getIPAddress(req: Request): string | null {
-  // Log all relevant headers for debugging
-  const debugInfo = {
-    "x-forwarded-for": req.headers["x-forwarded-for"],
-    "x-real-ip": req.headers["x-real-ip"],
-    "cf-connecting-ip": req.headers["cf-connecting-ip"],
-    "x-client-ip": req.headers["x-client-ip"],
-    "x-original-ip": req.headers["x-original-ip"],
-    "true-client-ip": req.headers["true-client-ip"],
-    "socket.remoteAddress": req.socket?.remoteAddress,
-  };
-  console.log("[getIPAddress] Request headers:", debugInfo);
+  // Log ALL headers for debugging
+  console.log("[getIPAddress] All headers:", JSON.stringify(req.headers, null, 2));
 
   // Check for IP from proxies
   const forwarded = (req.headers["x-forwarded-for"] as string)?.split(",")[0];
@@ -131,7 +122,7 @@ export function getIPAddress(req: Request): string | null {
     ipAddress = req.socket?.remoteAddress || null;
   }
 
-  console.log("[getIPAddress] Resolved IP:", ipAddress);
+  console.log("[getIPAddress] Resolved IP before normalization:", ipAddress);
 
   // Normalize IPv6 localhost to 127.0.0.1
   if (ipAddress === "::1" || ipAddress === "::ffff:127.0.0.1") {
@@ -143,6 +134,7 @@ export function getIPAddress(req: Request): string | null {
     return ipAddress.substring(7);
   }
 
+  console.log("[getIPAddress] Final resolved IP:", ipAddress);
   return ipAddress;
 }
 
