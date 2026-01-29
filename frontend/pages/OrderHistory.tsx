@@ -62,6 +62,7 @@ import {
 } from "@/lib/api";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { ExtensionRequestModal } from "@/components/ui/extension-request-modal";
+import { ConfirmationModal } from "@/components/ui/modal-templates";
 import { formatDateForApi } from "@/lib/extensions";
 import {
   ArrowLeft,
