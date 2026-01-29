@@ -612,6 +612,7 @@ export function createServer() {
         try {
           const { logLogout } = await import("./lib/login-history");
           await logLogout(pool, userId, ipAddress);
+          console.log(`[/api/auth/logout] Logout logged for user ${userId}`);
         } catch (logError: any) {
           console.error("[/api/auth/logout] Error logging logout:", logError?.message);
           // Don't fail the logout if logging fails
