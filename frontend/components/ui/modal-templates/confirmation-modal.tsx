@@ -57,7 +57,9 @@ export function ConfirmationModal({
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        {description && (
+        {children ? (
+          <div>{children}</div>
+        ) : description ? (
           <div>
             <p
               className={`text-base text-muted-foreground ${centered ? "text-center" : ""}`}
@@ -65,7 +67,7 @@ export function ConfirmationModal({
               {description}
             </p>
           </div>
-        )}
+        ) : null}
         <Button
           onClick={handleConfirm}
           disabled={isProcessing}
