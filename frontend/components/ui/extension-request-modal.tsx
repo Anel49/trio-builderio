@@ -375,7 +375,13 @@ export function ExtensionRequestModal({
                 <span className="font-medium">{totalDays}</span>
               </div>
               {/* Display nonconsumable add-ons with their prices */}
-              {nonconsumableAddons.length > 0 && (
+              {(() => {
+                console.log(
+                  "[ExtensionModal] Rendering price section - nonconsumableAddons.length:",
+                  nonconsumableAddons.length,
+                );
+                return nonconsumableAddons.length > 0;
+              })() && (
                 <>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Non-consumable addons:</span>
