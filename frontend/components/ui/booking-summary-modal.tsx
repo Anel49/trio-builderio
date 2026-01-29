@@ -197,7 +197,6 @@ export function BookingSummaryModal({
                         {addon.style && ` (${addon.style})`}
                         {addon.consumable &&
                           addon.qty &&
-                          addon.qty > 1 &&
                           ` × ${addon.qty}`}
                       </span>
                       {addon.price !== null ? (
