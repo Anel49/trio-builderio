@@ -292,7 +292,10 @@ export function BookingSummaryModal({
         onConfirm={() => setShowListingInsuranceModal(false)}
       >
         <p className="text-sm text-muted-foreground">
-          When booking a listing, you will be charged 10% of the listing's daily rate for the first day and 1.5% per subsequent day to insure the listing's item(s) throughout the duration of your rental. Extensions of this order will only be charged 1.5% of the daily rate per extended day.
+          When booking a listing, you will be charged 10% of the listing's daily 
+          rate for the first day and 1.5% per subsequent day to insure the listing's 
+          item(s) throughout the duration of your rental. Extensions of this order 
+          will only be charged 1.5% of the daily rate per extended day.
         </p>
       </ConfirmationModal>
     </>
