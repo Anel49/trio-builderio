@@ -121,8 +121,13 @@ export function ExtensionRequestModal({
           order.daily_price_cents,
           requiredStartDate,
           selectedEndDate,
+          order?.nonconsumable_addon_total || 0,
         )
       : 0;
+
+  const addonCost = selectedEndDate && order?.nonconsumable_addon_total
+    ? (order.nonconsumable_addon_total || 0) * totalDays
+    : 0;
 
   const handleEndDateSelect = (date: Date | undefined) => {
     if (!date) return;
