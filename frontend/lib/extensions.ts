@@ -82,15 +82,19 @@ export function formatDateForApi(date: Date): string {
 
 /**
  * Calculate total price for an extension
+ * Includes daily price and nonconsumable addon costs
  */
 export function calculateExtensionTotal(
   dailyPriceCents: number,
   startDate: Date,
   endDate: Date,
+  nonconsumableAddonTotalCents: number = 0,
 ): number {
   const days =
     Math.ceil(
       (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
     ) + 1;
-  return dailyPriceCents * days;
+  const dailyTotal = dailyPriceCents * days;
+  const addonTotal = nonconsumableAddonTotalCents * days;
+  return dailyTotal + addonTotal;
 }
