@@ -162,7 +162,7 @@ export function BookingSummaryModal({
 
             {/* Listing Insurance */}
             <div className="pb-3 border-b">
-              <div className="flex justify-between items-center text-sm">
+              <div className="flex justify-between items-center text-sm pt-2">
                 <div className="flex items-center gap-1">
                   <span className="text-muted-foreground">Listing insurance</span>
                   <button
