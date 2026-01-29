@@ -2755,6 +2755,13 @@ export async function createExtensionOrder(req: Request, res: Response) {
       totalCents,
     });
 
+    console.log("[createExtensionOrder] Extension fee breakdown:", {
+      baseAmount,
+      totalDays,
+      dailyExtensionFee,
+      platformCommissionRenter,
+    });
+
     // Fetch emails from users table if they're missing from reservation
     let hostEmail = reservation.host_email;
     let renterEmail = reservation.renter_email;
