@@ -241,22 +241,6 @@ export function BookingSummaryModal({
               </div>
             )}
 
-            {/* Subtotal and Tax */}
-            <div className="pb-3 border-b space-y-2">
-              <div className="flex justify-between items-center">
-                <p className="text-sm font-medium">Subtotal:</p>
-                <p className="text-sm font-semibold">
-                  {formatPrice(finalTotal)}
-                </p>
-              </div>
-              <div className="flex justify-between items-center">
-                <p className="text-sm font-medium">Tax:</p>
-                <p className="text-sm font-semibold">
-                  {formatPrice(0)}
-                </p>
-              </div>
-            </div>
-
             {/* Final Total */}
             <div className="bg-accent p-3 rounded-md">
               <div className="flex justify-between items-center">
