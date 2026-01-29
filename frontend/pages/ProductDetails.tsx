@@ -24,7 +24,7 @@ import { RemoveFromFavoritesModal } from "@/components/ui/remove-from-favorites-
 import { ReportModal } from "@/components/ui/report-modal";
 import { ViewAllButton } from "@/components/ui/view-all-button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { RequestSentModal } from "@/components/ui/request-sent-modal";
+import { ConfirmationModal } from "@/components/ui/modal-templates";
 import { TouchTooltip } from "@/components/ui/touch-tooltip";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProductCard } from "@/components/ui/product-card";
