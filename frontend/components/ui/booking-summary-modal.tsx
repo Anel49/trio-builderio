@@ -43,6 +43,17 @@ export function BookingSummaryModal({
   onBack,
 }: BookingSummaryModalProps) {
   const [showAddonFeesModal, setShowAddonFeesModal] = useState(false);
+  const [showListingInsuranceModal, setShowListingInsuranceModal] =
+    useState(false);
+
+  // Calculate listing insurance: 10% for first day + 1.5% for subsequent days
+  const listingInsuranceFirstDay = Math.round(dailyPrice * 0.1);
+  const listingInsuranceSubsequentDays =
+    totalDays > 1
+      ? Math.round(dailyPrice * 0.015 * (totalDays - 1))
+      : 0;
+  const listingInsuranceTotal =
+    listingInsuranceFirstDay + listingInsuranceSubsequentDays;
 
   // Calculate addon fees with new pricing plan
   // Non-consumable: 10% for first day + 1.5% for subsequent days
