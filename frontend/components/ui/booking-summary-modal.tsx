@@ -167,7 +167,7 @@ export function BookingSummaryModal({
             <div className="pb-3 border-b">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1">
-                  <p className="text-sm font-medium">Listing insurance</p>
+                  <p className="text-sm text-muted-foreground">Listing insurance</p>
                   <button
                     type="button"
                     onClick={() => setShowListingInsuranceModal(true)}
