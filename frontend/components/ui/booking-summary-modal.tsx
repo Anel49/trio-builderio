@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -5,6 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { ConfirmationModal } from "@/components/ui/modal-templates";
+import { Info } from "lucide-react";
 import { format } from "date-fns";
 
 export interface BookingSummaryAddon {
