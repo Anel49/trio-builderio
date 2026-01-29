@@ -429,13 +429,14 @@ export default function ProductDetails() {
         return sum;
       }, 0);
 
-      // Create addons JSON in format: { "item_name": [style, price_cents, consumable_bool_string] }
-      const addonsJson: Record<string, [string | null, number, string]> = {};
+      // Create addons JSON in format: { "item_name": [style, price_cents, consumable_bool_string, qty] }
+      const addonsJson: Record<string, [string | null, number, string, number]> = {};
       addonsToStore.forEach((addon) => {
         addonsJson[addon.item] = [
           addon.style || "null",
           addon.price || 0,
           String(addon.consumable),
+          addon.qty || 1,
         ];
       });
 
