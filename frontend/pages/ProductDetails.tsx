@@ -408,8 +408,16 @@ export default function ProductDetails() {
         return sum;
       }, 0);
 
-      // Non-consumable addon fees: 10% first day + 1.5% per subsequent day
+      // Non-consumable addon prices from host
       const nonConsumableAddonTotal = addonsToStore.reduce((sum, addon) => {
+        if (!addon.consumable && addon.price !== null) {
+          return sum + addon.price;
+        }
+        return sum;
+      }, 0);
+
+      // Non-consumable addon insurance fees: 10% first day + 1.5% per subsequent day
+      const nonConsumableAddonInsurance = addonsToStore.reduce((sum, addon) => {
         if (!addon.consumable && addon.price !== null) {
           const firstDayFee = Math.round(addon.price * 0.1);
           const subsequentDaysFee =
