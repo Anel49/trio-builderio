@@ -213,6 +213,7 @@ export async function logLoginAttempt(
 
 /**
  * Record logout for a user
+ * Updates the most recent login record without logout_at
  */
 export async function logLogout(
   pool: Pool,
@@ -220,18 +221,24 @@ export async function logLogout(
   ipAddress: string | null,
 ): Promise<void> {
   try {
-    // Find the most recent login for this user from this IP
+    // Find and update the most recent login for this user that doesn't have a logout_at yet
+    // Within the last 24 hours to avoid updating old stale sessions
     const result = await pool.query(
-      `update user_login_history 
+      `update user_login_history
        set logout_at = now()
-       where user_id = $1 and ip_address = $2 and logout_at is null and login_at > now() - interval '24 hours'
-       order by login_at desc
-       limit 1`,
-      [userId, ipAddress],
+       where id = (
+         select id from user_login_history
+         where user_id = $1 and logout_at is null and login_at > now() - interval '24 hours'
+         order by login_at desc
+         limit 1
+       )`,
+      [userId],
     );
 
     if (result.rowCount && result.rowCount > 0) {
       console.log(`[logLogout] Logged logout for user ${userId}`);
+    } else {
+      console.log(`[logLogout] No matching login record found for user ${userId}`);
     }
   } catch (error: any) {
     console.error("[logLogout] Error logging logout:", error?.message);
