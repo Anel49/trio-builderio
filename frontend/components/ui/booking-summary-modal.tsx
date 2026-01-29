@@ -283,7 +283,7 @@ export function BookingSummaryModal({
           When renting a non-consumable addon, you will be charged {RENTER_FEE}% of the
           addon's cost for the first day and {SUBSEQUENT_DAILY_FEE}% per subsequent day to insure
           that addon throughout the duration of your rental. Extensions of this
-          order will only be charged {SUBSEQUENT_DAILY_FEE}% per day for the addon(s) chosen.
+          order will only be charged {SUBSEQUENT_DAILY_FEE}% per extended day for the addon(s) chosen.
         </p>
         <p className="text-sm text-muted-foreground mt-3">
           Consumable addons cannot be insured and thus are not charged an
