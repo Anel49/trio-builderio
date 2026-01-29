@@ -161,23 +161,21 @@ export function BookingSummaryModal({
             </div>
 
             {/* Listing Insurance */}
-            <div className="-mt-4 mb-0">
-              <div className="flex justify-between items-center text-sm pb-2 border-b">
-                <div className="flex items-center gap-1">
-                  <span className="text-muted-foreground">Listing insurance</span>
-                  <button
-                    type="button"
-                    onClick={() => setShowListingInsuranceModal(true)}
-                    className="p-0 h-4 w-4 text-muted-foreground hover:text-primary transition-colors"
-                    aria-label="Information about listing insurance"
-                  >
-                    <Info className="h-4 w-4" />
-                  </button>
-                </div>
-                <span className="font-semibold">
-                  {formatPrice(listingInsuranceTotal)}
-                </span>
+            <div className="flex justify-between items-center text-sm pb-2 border-b -mt-4">
+              <div className="flex items-center gap-1">
+                <span className="text-muted-foreground">Listing insurance</span>
+                <button
+                  type="button"
+                  onClick={() => setShowListingInsuranceModal(true)}
+                  className="p-0 h-4 w-4 text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="Information about listing insurance"
+                >
+                  <Info className="h-4 w-4" />
+                </button>
               </div>
+              <span className="font-semibold">
+                {formatPrice(listingInsuranceTotal)}
+              </span>
             </div>
 
             {/* Addon Total - Only show if addons are selected */}
