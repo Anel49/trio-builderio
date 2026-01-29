@@ -131,6 +131,7 @@ export default function UploadProduct() {
     }>
   >([]);
   const [isAddonsExpanded, setIsAddonsExpanded] = useState(false);
+  const [showAddonInfoModal, setShowAddonInfoModal] = useState(false);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   // Price label is now always "Daily" since rental period is fixed to Daily
   const priceUnit = "day";
