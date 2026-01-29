@@ -187,9 +187,9 @@ export function BookingSummaryModal({
 
               {/* Addon Insurance Row - Only show if non-consumable addons exist */}
               {hasNonConsumableAddons && (
-                <div className="flex justify-between items-center text-sm pt-2 border-t">
+                <div className="flex justify-between items-center text-sm pt-2 pb-2 border-t">
                   <div className="flex items-center gap-1">
-                    <span className="text-muted-foreground">Addon insurance:</span>
+                    <span className="text-muted-foreground">Addon insurance</span>
                     <button
                       type="button"
                       onClick={() => setShowAddonFeesModal(true)}
@@ -200,7 +200,7 @@ export function BookingSummaryModal({
                     </button>
                   </div>
                   <span className="font-semibold">
-                    {formatPrice(nonConsumableTotal)}
+                    {formatPrice(nonConsumableInsuranceTotal)}
                   </span>
                 </div>
               )}
