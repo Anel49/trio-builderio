@@ -18,6 +18,7 @@ interface ConfirmationModalProps {
   loading?: boolean;
   isDangerous?: boolean;
   centered?: boolean;
+  children?: React.ReactNode;
 }
 
 export function ConfirmationModal({
