@@ -565,7 +565,11 @@ export default function UploadProduct() {
 
   const handleListProduct = () => {
     if (isFormValid()) {
-      setShowConfirmModal(true);
+      if (hasAddonNameConflict()) {
+        setShowAddonConflictModal(true);
+      } else {
+        setShowConfirmModal(true);
+      }
     }
   };
 
