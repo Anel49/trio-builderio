@@ -580,24 +580,88 @@ export function createServer() {
   });
 
   // Logout endpoint
-  app.post("/api/auth/logout", (req: any, res: any) => {
-    req.session.destroy((err: any) => {
+  app.post("/api/auth/logout", async (req: any, res: any) => {
+    const userId = req.session?.userId;
+
+    // Get IP address for logout logging
+    const forwarded = (req.headers["x-forwarded-for"] as string)?.split(",")[0];
+    let ipAddress = forwarded?.trim();
+    if (!ipAddress) {
+      ipAddress =
+        (req.headers["x-real-ip"] as string) ||
+        (req.headers["cf-connecting-ip"] as string);
+    }
+    if (!ipAddress) {
+      ipAddress = req.socket?.remoteAddress || null;
+    }
+    // Normalize IPv6 localhost
+    if (ipAddress === "::1" || ipAddress === "::ffff:127.0.0.1") {
+      ipAddress = "127.0.0.1";
+    } else if (ipAddress && ipAddress.startsWith("::ffff:")) {
+      ipAddress = ipAddress.substring(7);
+    }
+
+    req.session.destroy(async (err: any) => {
       if (err) {
         console.error("Logout error:", err);
         return res.status(500).json({ ok: false, error: "Logout failed" });
       }
+
+      // Log logout if userId is available
+      if (userId) {
+        try {
+          const { logLogout } = await import("./lib/login-history");
+          await logLogout(pool, userId, ipAddress);
+        } catch (logError: any) {
+          console.error("[/api/auth/logout] Error logging logout:", logError?.message);
+          // Don't fail the logout if logging fails
+        }
+      }
+
       res.clearCookie("connect.sid");
       res.json({ ok: true, message: "Logged out successfully" });
     });
   });
 
   // Logout endpoint (alias)
-  app.post("/auth/logout", (req: any, res: any) => {
-    req.session.destroy((err: any) => {
+  app.post("/auth/logout", async (req: any, res: any) => {
+    const userId = req.session?.userId;
+
+    // Get IP address for logout logging
+    const forwarded = (req.headers["x-forwarded-for"] as string)?.split(",")[0];
+    let ipAddress = forwarded?.trim();
+    if (!ipAddress) {
+      ipAddress =
+        (req.headers["x-real-ip"] as string) ||
+        (req.headers["cf-connecting-ip"] as string);
+    }
+    if (!ipAddress) {
+      ipAddress = req.socket?.remoteAddress || null;
+    }
+    // Normalize IPv6 localhost
+    if (ipAddress === "::1" || ipAddress === "::ffff:127.0.0.1") {
+      ipAddress = "127.0.0.1";
+    } else if (ipAddress && ipAddress.startsWith("::ffff:")) {
+      ipAddress = ipAddress.substring(7);
+    }
+
+    req.session.destroy(async (err: any) => {
       if (err) {
         console.error("Logout error:", err);
         return res.status(500).json({ ok: false, error: "Logout failed" });
       }
+
+      // Log logout if userId is available
+      if (userId) {
+        try {
+          const { logLogout } = await import("./lib/login-history");
+          await logLogout(pool, userId, ipAddress);
+        } catch (logError: any) {
+          console.error("[/auth/logout] Error logging logout:", logError?.message);
+          // Don't fail the logout if logging fails
+        }
+      }
+
       res.clearCookie("connect.sid");
       res.json({ ok: true, message: "Logged out successfully" });
     });
