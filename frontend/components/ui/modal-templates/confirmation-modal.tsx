@@ -31,6 +31,7 @@ export function ConfirmationModal({
   loading = false,
   isDangerous = false,
   centered = false,
+  children,
 }: ConfirmationModalProps) {
   const [isLoading, setIsLoading] = useState(false);
 
