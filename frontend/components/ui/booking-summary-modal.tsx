@@ -39,17 +39,40 @@ export function BookingSummaryModal({
   onConfirm,
   onBack,
 }: BookingSummaryModalProps) {
-  // Calculate addon totals
-  const consumableTotal = selectedAddons.reduce((sum, addon) => {
-    if (addon.consumable && addon.price !== null) {
-      return sum + addon.price * (addon.qty || 0);
+  // Calculate addon fees with new pricing plan
+  // Non-consumable: 10% for first day + 1.5% for subsequent days
+  // Consumable: No charge
+
+  const addonFees = selectedAddons.map((addon) => {
+    if (addon.price === null) {
+      return { addon, fee: 0 };
+    }
+
+    if (addon.consumable) {
+      // Consumable addons: no charge
+      return { addon, fee: 0 };
+    } else {
+      // Non-consumable addons: 10% first day + 1.5% per subsequent day
+      const firstDayFee = Math.round(addon.price * 0.10);
+      const subsequentDaysFee =
+        totalDays > 1
+          ? Math.round(addon.price * 0.015 * (totalDays - 1))
+          : 0;
+      const totalFee = firstDayFee + subsequentDaysFee;
+      return { addon, fee: totalFee };
+    }
+  });
+
+  const nonConsumableTotal = addonFees.reduce((sum, item) => {
+    if (!item.addon.consumable && item.addon.price !== null) {
+      return sum + item.fee;
     }
     return sum;
   }, 0);
 
-  const nonConsumableTotal = selectedAddons.reduce((sum, addon) => {
-    if (!addon.consumable && addon.price !== null) {
-      return sum + addon.price;
+  const consumableTotal = selectedAddons.reduce((sum, addon) => {
+    if (addon.consumable && addon.price !== null) {
+      return sum + addon.price * (addon.qty || 0);
     }
     return sum;
   }, 0);
