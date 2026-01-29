@@ -2177,7 +2177,7 @@ export default function UploadProduct() {
             <DialogTitle>Addon How-To</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 text-sm">
-            <p>
+            <p className="text-muted-foreground">
               Addons cannot share the same name. If you are offering two or more
               of the same item, precede or follow the name with a count or
               number.
