@@ -1664,6 +1664,23 @@ export async function googleOAuth(req: Request, res: Response) {
 
     // Check if account is deactivated
     if (!user.active) {
+      // Log failed login attempt
+      await logLoginAttempt(pool, {
+        userId: user.id,
+        success: false,
+        ipAddress,
+        ipCountry,
+        ipCity,
+        deviceType,
+        method: "oauth",
+        oauthProvider: "google",
+        mfaUsed: false,
+        mfaMethod: null,
+        userAgent: userAgent as string,
+        browser,
+        notes: "Account deactivated",
+      });
+
       return res.status(403).json({
         ok: false,
         error: "account_deactivated",
@@ -1678,6 +1695,23 @@ export async function googleOAuth(req: Request, res: Response) {
     if (staySignedIn === true) {
       (req as any).session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
     }
+
+    // Log successful login
+    await logLoginAttempt(pool, {
+      userId: user.id,
+      success: true,
+      ipAddress,
+      ipCountry,
+      ipCity,
+      deviceType,
+      method: "oauth",
+      oauthProvider: "google",
+      mfaUsed: false,
+      mfaMethod: null,
+      userAgent: userAgent as string,
+      browser,
+      notes: null,
+    });
 
     res.json({
       ok: true,
