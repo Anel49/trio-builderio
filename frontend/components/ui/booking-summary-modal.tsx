@@ -68,13 +68,23 @@ export function BookingSummaryModal({
     }
   });
 
-  const nonConsumableTotal = addonFees.reduce((sum, item) => {
+  // Insurance fees for non-consumable addons
+  const nonConsumableInsuranceTotal = addonFees.reduce((sum, item) => {
     if (!item.addon.consumable && item.addon.price !== null) {
       return sum + item.fee;
     }
     return sum;
   }, 0);
 
+  // Original prices of non-consumable addons (from host)
+  const nonConsumableAddonPrices = selectedAddons.reduce((sum, addon) => {
+    if (!addon.consumable && addon.price !== null) {
+      return sum + addon.price;
+    }
+    return sum;
+  }, 0);
+
+  // Consumable addon costs (price × qty)
   const consumableTotal = selectedAddons.reduce((sum, addon) => {
     if (addon.consumable && addon.price !== null) {
       return sum + addon.price * (addon.qty || 0);
@@ -82,7 +92,8 @@ export function BookingSummaryModal({
     return sum;
   }, 0);
 
-  const addonTotal = consumableTotal + nonConsumableTotal;
+  // Total addon cost: consumable costs + non-consumable prices + insurance
+  const addonTotal = consumableTotal + nonConsumableAddonPrices + nonConsumableInsuranceTotal;
   const dailyTotal = dailyPrice * totalDays;
   const finalTotal = dailyTotal + addonTotal;
 
