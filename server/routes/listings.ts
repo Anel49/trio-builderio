@@ -2033,6 +2033,14 @@ export async function getUserOrders(req: Request, res: Response) {
     );
 
     console.log("[getUserOrders] Query returned", result.rows.length, "rows");
+    if (result.rows.length > 0) {
+      console.log("[getUserOrders] First row keys:", Object.keys(result.rows[0]));
+      console.log("[getUserOrders] First row addons:", result.rows[0].addons);
+      console.log(
+        "[getUserOrders] First row nonconsumable_addon_total:",
+        result.rows[0].nonconsumable_addon_total,
+      );
+    }
 
     const orders = result.rows.map((row: any) => {
       const order = {
