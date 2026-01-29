@@ -555,6 +555,14 @@ export default function UploadProduct() {
     return isFilled ? "text-gray-400" : "text-red-500";
   };
 
+  const hasAddonNameConflict = (): boolean => {
+    const addonNames = addons
+      .filter((addon) => addon.item.trim() !== "")
+      .map((addon) => addon.item.trim());
+    const uniqueNames = new Set(addonNames);
+    return addonNames.length !== uniqueNames.size;
+  };
+
   const handleListProduct = () => {
     if (isFormValid()) {
       setShowConfirmModal(true);
