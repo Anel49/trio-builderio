@@ -97,20 +97,36 @@ export function detectDeviceType(
 /**
  * Get IP address from request
  * Handles proxies and various headers
+ * Normalizes IPv6 localhost to 127.0.0.1
  */
 export function getIPAddress(req: Request): string | null {
   // Check for IP from proxies
   const forwarded = (req.headers["x-forwarded-for"] as string)?.split(",")[0];
-  if (forwarded) return forwarded.trim();
+  let ipAddress = forwarded?.trim();
 
   // Check for other common proxy headers
-  const proxyIP =
-    (req.headers["x-real-ip"] as string) ||
-    (req.headers["cf-connecting-ip"] as string);
-  if (proxyIP) return proxyIP;
+  if (!ipAddress) {
+    ipAddress =
+      (req.headers["x-real-ip"] as string) ||
+      (req.headers["cf-connecting-ip"] as string);
+  }
 
   // Fall back to socket address
-  return req.socket?.remoteAddress || null;
+  if (!ipAddress) {
+    ipAddress = req.socket?.remoteAddress || null;
+  }
+
+  // Normalize IPv6 localhost to 127.0.0.1
+  if (ipAddress === "::1" || ipAddress === "::ffff:127.0.0.1") {
+    return "127.0.0.1";
+  }
+
+  // Remove IPv6 prefix if present (e.g., "::ffff:192.168.1.1" -> "192.168.1.1")
+  if (ipAddress && ipAddress.startsWith("::ffff:")) {
+    return ipAddress.substring(7);
+  }
+
+  return ipAddress;
 }
 
 /**
