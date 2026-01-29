@@ -112,7 +112,8 @@ export function BookingSummaryModal({
   const addonTotal =
     consumableTotal + nonConsumableAddonPrices + nonConsumableInsuranceTotal;
   const dailyTotal = dailyPrice * totalDays;
-  const finalTotal = dailyTotal + addonTotal;
+  const finalTotal =
+    dailyTotal + listingInsuranceTotal + addonTotal;
 
   // Check if there are any non-consumable addons selected
   const hasNonConsumableAddons = selectedAddons.some(
