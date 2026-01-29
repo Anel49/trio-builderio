@@ -714,6 +714,23 @@ export async function emailLogin(req: Request, res: Response) {
 
     // Check if account is deactivated
     if (!user.active) {
+      // Log failed login attempt - account deactivated
+      await logLoginAttempt(pool, {
+        userId: user.id,
+        success: false,
+        ipAddress,
+        ipCountry,
+        ipCity,
+        deviceType,
+        method: "email/password",
+        oauthProvider: null,
+        mfaUsed: false,
+        mfaMethod: null,
+        userAgent: userAgent as string,
+        browser,
+        notes: "Account deactivated",
+      });
+
       return res.status(403).json({
         ok: false,
         error: "account_deactivated",
@@ -727,6 +744,23 @@ export async function emailLogin(req: Request, res: Response) {
     if (staySignedInFlag) {
       (req as any).session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
     }
+
+    // Log successful login
+    await logLoginAttempt(pool, {
+      userId: user.id,
+      success: true,
+      ipAddress,
+      ipCountry,
+      ipCity,
+      deviceType,
+      method: "email/password",
+      oauthProvider: null,
+      mfaUsed: false,
+      mfaMethod: null,
+      userAgent: userAgent as string,
+      browser,
+      notes: null,
+    });
 
     res.json({
       ok: true,
