@@ -268,7 +268,7 @@ export function BookingSummaryModal({
       <ConfirmationModal
         isOpen={showAddonFeesModal}
         onOpenChange={setShowAddonFeesModal}
-        title="Addon fees"
+        title="Addon insurance"
         confirmLabel="Got it"
         onConfirm={() => setShowAddonFeesModal(false)}
       >
@@ -281,6 +281,21 @@ export function BookingSummaryModal({
         <p className="text-sm text-muted-foreground mt-3">
           Consumable addons cannot be insured and thus are not charged an
           insurance fee.
+        </p>
+      </ConfirmationModal>
+
+      <ConfirmationModal
+        isOpen={showListingInsuranceModal}
+        onOpenChange={setShowListingInsuranceModal}
+        title="Listing insurance"
+        confirmLabel="Got it"
+        onConfirm={() => setShowListingInsuranceModal(false)}
+      >
+        <p className="text-sm text-muted-foreground">
+          When renting an item, you will be charged 10% of the listing's daily
+          rate for the first day and 1.5% per subsequent day to insure that
+          item throughout the duration of your rental. Extensions of this order
+          will only be charged 1.5% per day for the addon(s) chosen.
         </p>
       </ConfirmationModal>
     </>
