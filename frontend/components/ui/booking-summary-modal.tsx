@@ -161,25 +161,21 @@ export function BookingSummaryModal({
             </div>
 
             {/* Listing Insurance */}
-            <div className="pb-3 border-b">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1">
-                  <p className="text-sm text-muted-foreground">
-                    Listing insurance
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setShowListingInsuranceModal(true)}
-                    className="p-0 h-4 w-4 text-muted-foreground hover:text-primary transition-colors"
-                    aria-label="Information about listing insurance"
-                  >
-                    <Info className="h-4 w-4" />
-                  </button>
-                </div>
-                <p className="text-sm font-semibold">
-                  {formatPrice(listingInsuranceTotal)}
-                </p>
+            <div className="flex justify-between items-center text-sm pt-2 border-t">
+              <div className="flex items-center gap-1">
+                <span className="text-muted-foreground">Listing insurance</span>
+                <button
+                  type="button"
+                  onClick={() => setShowListingInsuranceModal(true)}
+                  className="p-0 h-4 w-4 text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="Information about listing insurance"
+                >
+                  <Info className="h-4 w-4" />
+                </button>
               </div>
+              <span className="font-semibold">
+                {formatPrice(listingInsuranceTotal)}
+              </span>
             </div>
 
             {/* Addon Total - Only show if addons are selected */}
@@ -216,7 +212,7 @@ export function BookingSummaryModal({
 
                 {/* Addon Insurance Row - Only show if non-consumable addons exist */}
                 {hasNonConsumableAddons && (
-                  <div className="flex justify-between items-center text-sm pt-2 pb-2 border-t">
+                  <div className="flex justify-between items-center text-sm pt-2 border-t">
                     <div className="flex items-center gap-1">
                       <span className="text-muted-foreground">
                         Addon insurance
