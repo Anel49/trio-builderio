@@ -84,13 +84,17 @@ export function ExtensionRequestModal({
 
   // Debug logging
   useEffect(() => {
-    if (open && order?.end_date) {
-      console.log("[ExtensionModal] Raw end_date from order:", order.end_date);
-      console.log("[ExtensionModal] Parsed orderEndDate:", orderEndDate);
-      console.log(
-        "[ExtensionModal] Formatted display:",
-        format(orderEndDate, "MMM dd, yyyy"),
-      );
+    if (open) {
+      console.log("[ExtensionModal] Modal opened");
+      console.log("[ExtensionModal] Full order object:", order);
+      if (order?.end_date) {
+        console.log("[ExtensionModal] Raw end_date from order:", order.end_date);
+        console.log("[ExtensionModal] Parsed orderEndDate:", orderEndDate);
+        console.log(
+          "[ExtensionModal] Formatted display:",
+          format(orderEndDate, "MMM dd, yyyy"),
+        );
+      }
     }
   }, [open, order?.end_date, orderEndDate]);
 
