@@ -1750,16 +1750,28 @@ export default function UploadProduct() {
 
                   {isAddonsExpanded && (
                     <div className="border-t border-border p-4 space-y-4">
-                      <Button
-                        type="button"
-                        onClick={addAddonEntry}
-                        variant="outline"
-                        size="sm"
-                        className="w-full"
-                      >
-                        <Plus className="h-4 w-4 mr-2" />
-                        Create addon
-                      </Button>
+                      <div className="flex gap-2 items-center">
+                        <Button
+                          type="button"
+                          onClick={addAddonEntry}
+                          variant="outline"
+                          size="sm"
+                          className="flex-1"
+                        >
+                          <Plus className="h-4 w-4 mr-2" />
+                          Create addon
+                        </Button>
+                        <Button
+                          type="button"
+                          onClick={() => setShowAddonInfoModal(true)}
+                          variant="ghost"
+                          size="sm"
+                          className="h-10 w-10 p-0"
+                          title="Addon How-To"
+                        >
+                          <Info className="h-4 w-4" />
+                        </Button>
+                      </div>
                       {addons.length > 0 && (
                         <p className="text-xs text-muted-foreground">
                           Delete or mark addons consumable by using the three
