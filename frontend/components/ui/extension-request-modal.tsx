@@ -400,7 +400,8 @@ export function ExtensionRequestModal({
                           {(addon.price / 100).toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
-                          })}
+                          })}{" "}
+                          × {totalDays} day{totalDays !== 1 ? "s" : ""}
                         </span>
                       </div>
                     ))}
