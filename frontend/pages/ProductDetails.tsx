@@ -408,9 +408,15 @@ export default function ProductDetails() {
         return sum;
       }, 0);
 
+      // Non-consumable addon fees: 10% first day + 1.5% per subsequent day
       const nonConsumableAddonTotal = addonsToStore.reduce((sum, addon) => {
         if (!addon.consumable && addon.price !== null) {
-          return sum + addon.price;
+          const firstDayFee = Math.round(addon.price * 0.10);
+          const subsequentDaysFee =
+            totalDays > 1
+              ? Math.round(addon.price * 0.015 * (totalDays - 1))
+              : 0;
+          return sum + firstDayFee + subsequentDaysFee;
         }
         return sum;
       }, 0);
