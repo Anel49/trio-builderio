@@ -125,9 +125,10 @@ export function ExtensionRequestModal({
         )
       : 0;
 
-  const addonCost = selectedEndDate && order?.nonconsumable_addon_total
-    ? (order.nonconsumable_addon_total || 0) * totalDays
-    : 0;
+  const addonCost =
+    selectedEndDate && order?.nonconsumable_addon_total
+      ? (order.nonconsumable_addon_total || 0) * totalDays
+      : 0;
 
   // Parse addons from the order's addons JSON
   const addonsArray: Array<{
@@ -140,17 +141,19 @@ export function ExtensionRequestModal({
     try {
       const parsedAddons = JSON.parse(order.addons);
       if (typeof parsedAddons === "object" && parsedAddons !== null) {
-        Object.entries(parsedAddons).forEach(([itemName, value]: [string, any]) => {
-          if (Array.isArray(value) && value.length >= 3) {
-            const [style, price, consumableStr] = value;
-            addonsArray.push({
-              name: itemName,
-              style: style === "null" ? null : style,
-              price: typeof price === "number" ? price : 0,
-              consumable: consumableStr === "true",
-            });
-          }
-        });
+        Object.entries(parsedAddons).forEach(
+          ([itemName, value]: [string, any]) => {
+            if (Array.isArray(value) && value.length >= 3) {
+              const [style, price, consumableStr] = value;
+              addonsArray.push({
+                name: itemName,
+                style: style === "null" ? null : style,
+                price: typeof price === "number" ? price : 0,
+                consumable: consumableStr === "true",
+              });
+            }
+          },
+        );
       }
     } catch (e) {
       console.error("[ExtensionModal] Failed to parse addons:", e);
@@ -349,9 +352,14 @@ export function ExtensionRequestModal({
               {/* Display nonconsumable add-ons with their prices */}
               {nonconsumableAddons.length > 0 && (
                 <div className="space-y-1 bg-background/50 p-2 rounded border border-border/50">
-                  <p className="text-xs font-medium text-muted-foreground">Add-ons (per day):</p>
+                  <p className="text-xs font-medium text-muted-foreground">
+                    Add-ons (per day):
+                  </p>
                   {nonconsumableAddons.map((addon) => (
-                    <div key={addon.name} className="flex justify-between text-xs">
+                    <div
+                      key={addon.name}
+                      className="flex justify-between text-xs"
+                    >
                       <span className="text-muted-foreground">
                         {addon.name}
                         {addon.style && ` - ${addon.style}`}

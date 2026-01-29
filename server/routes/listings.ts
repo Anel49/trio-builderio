@@ -1799,7 +1799,8 @@ async function createOrderFromReservation(
       firstDayFee = Math.round(baseAmount * (RENTER_FEE / 100));
       subsequentDaysFee =
         totalDays > 1
-          ? Math.round(baseAmount * (SUBSEQUENT_DAILY_FEE / 100)) * (totalDays - 1)
+          ? Math.round(baseAmount * (SUBSEQUENT_DAILY_FEE / 100)) *
+            (totalDays - 1)
           : 0;
       platformCommissionRenter = firstDayFee + subsequentDaysFee;
     }
@@ -1825,7 +1826,8 @@ async function createOrderFromReservation(
     console.log("[createOrderFromReservation] Renter fee breakdown:", {
       baseAmount,
       totalDays,
-      isExtension: reservation.extension_of && reservation.extension_of !== null,
+      isExtension:
+        reservation.extension_of && reservation.extension_of !== null,
       firstDayFee,
       subsequentDaysFee,
       platformCommissionRenter,
@@ -2735,7 +2737,9 @@ export async function createExtensionOrder(req: Request, res: Response) {
 
     // Extensions: charge 1.5% per day for all days (no 10% first day charge)
     const baseAmount = dailyPriceCents + nonconsumableAddonTotal;
-    const dailyExtensionFee = Math.round(baseAmount * (SUBSEQUENT_DAILY_FEE / 100));
+    const dailyExtensionFee = Math.round(
+      baseAmount * (SUBSEQUENT_DAILY_FEE / 100),
+    );
     const platformCommissionRenter = dailyExtensionFee * totalDays;
 
     const renterPays = subtotalCents + platformCommissionRenter + taxCents;

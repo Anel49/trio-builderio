@@ -2197,17 +2197,17 @@ export default function UploadProduct() {
               <p className="font-semibold">Non-consumable addons</p>
               <p className="text-muted-foreground">
                 Non-consumable addons—like camera tripods, table covers, cargo
-                tie-downs, and utensils—are addons that will be returned to
-                you. Non-consumable items are insured.
+                tie-downs, and utensils—are addons that will be returned to you.
+                Non-consumable items are insured.
               </p>
             </div>
             <div className="space-y-2">
               <p className="font-semibold">Consumable addons</p>
               <p className="text-muted-foreground">
-                Consumable addons—like food, filters, wipes, and photo
-                paper—are addons that are not expected to be returned to you.
-                To mark an addon as consumable, select the three vertical dots
-                and select "Mark consumable".
+                Consumable addons—like food, filters, wipes, and photo paper—are
+                addons that are not expected to be returned to you. To mark an
+                addon as consumable, select the three vertical dots and select
+                "Mark consumable".
               </p>
             </div>
           </div>
@@ -2219,7 +2219,10 @@ export default function UploadProduct() {
           </Button>
         </DialogContent>
       </Dialog>
-      <Dialog open={showAddonConflictModal} onOpenChange={setShowAddonConflictModal}>
+      <Dialog
+        open={showAddonConflictModal}
+        onOpenChange={setShowAddonConflictModal}
+      >
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Addon conflict</DialogTitle>
