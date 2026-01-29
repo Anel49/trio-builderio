@@ -2221,6 +2221,23 @@ export default function UploadProduct() {
           </Button>
         </DialogContent>
       </Dialog>
+      <Dialog open={showAddonConflictModal} onOpenChange={setShowAddonConflictModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Addon conflict</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-muted-foreground">
+            Addons cannot share the same name. Please precede or follow the
+            addons with matching names with a count or number.
+          </p>
+          <Button
+            onClick={() => setShowAddonConflictModal(false)}
+            className="w-full"
+          >
+            OK
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
