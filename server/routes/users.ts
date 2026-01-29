@@ -1479,11 +1479,46 @@ export async function googleOAuth(req: Request, res: Response) {
           "Token verification and user info fetch failed:",
           accessTokenError.message,
         );
+
+        // Log failed login attempt
+        await logLoginAttempt(pool, {
+          userId: null,
+          success: false,
+          ipAddress,
+          ipCountry,
+          ipCity,
+          deviceType,
+          method: "oauth",
+          oauthProvider: "google",
+          mfaUsed: false,
+          mfaMethod: null,
+          userAgent: userAgent as string,
+          browser,
+          notes: `Token verification failed: ${accessTokenError.message}`,
+        });
+
         return res.status(401).json({ ok: false, error: "Invalid token" });
       }
     }
 
     if (!payload) {
+      // Log failed login attempt
+      await logLoginAttempt(pool, {
+        userId: null,
+        success: false,
+        ipAddress,
+        ipCountry,
+        ipCity,
+        deviceType,
+        method: "oauth",
+        oauthProvider: "google",
+        mfaUsed: false,
+        mfaMethod: null,
+        userAgent: userAgent as string,
+        browser,
+        notes: "Invalid token payload",
+      });
+
       return res
         .status(401)
         .json({ ok: false, error: "Invalid token payload" });
@@ -1502,6 +1537,23 @@ export async function googleOAuth(req: Request, res: Response) {
     const name = `${firstName}${lastName ? " " + lastName : ""}`.trim();
 
     if (!email) {
+      // Log failed login attempt
+      await logLoginAttempt(pool, {
+        userId: null,
+        success: false,
+        ipAddress,
+        ipCountry,
+        ipCity,
+        deviceType,
+        method: "oauth",
+        oauthProvider: "google",
+        mfaUsed: false,
+        mfaMethod: null,
+        userAgent: userAgent as string,
+        browser,
+        notes: "Missing email in token payload",
+      });
+
       return res.status(400).json({ ok: false, error: "Email is required" });
     }
 
