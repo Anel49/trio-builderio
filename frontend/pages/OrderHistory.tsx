@@ -527,6 +527,8 @@ export default function OrderHistory() {
           listing_postcode: dbOrder.listing_postcode,
           listing_timezone: dbOrder.listing_timezone,
           review_id: dbOrder.review_id,
+          addons: dbOrder.addons,
+          nonconsumable_addon_total: dbOrder.nonconsumable_addon_total,
           most_recent_extension: dbOrder.most_recent_extension,
           itemName: dbOrder.listing_title,
           itemImage: dbOrder.listing_image,
