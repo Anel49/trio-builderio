@@ -14,7 +14,7 @@ export function RequestSentModal({
       isOpen={open}
       onOpenChange={onOpenChange}
       title="Request sent"
-      confirmLabel="Got it"
+      confirmLabel="OK"
       onConfirm={() => onOpenChange(false)}
     >
       <p className="text-base text-muted-foreground">
