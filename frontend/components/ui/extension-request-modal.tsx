@@ -139,12 +139,22 @@ export function ExtensionRequestModal({
   }> = [];
   if (order?.addons) {
     try {
+      console.log("[ExtensionModal] order.addons raw:", order.addons);
       const parsedAddons = JSON.parse(order.addons);
+      console.log("[ExtensionModal] parsedAddons after JSON.parse:", parsedAddons);
       if (typeof parsedAddons === "object" && parsedAddons !== null) {
         Object.entries(parsedAddons).forEach(
           ([itemName, value]: [string, any]) => {
+            console.log(
+              `[ExtensionModal] Processing addon: ${itemName}`,
+              "value:",
+              value,
+            );
             if (Array.isArray(value) && value.length >= 3) {
               const [style, price, consumableStr] = value;
+              console.log(
+                `[ExtensionModal] Parsed ${itemName}: style=${style}, price=${price}, consumableStr=${consumableStr}`,
+              );
               addonsArray.push({
                 name: itemName,
                 style: style === "null" ? null : style,
@@ -158,10 +168,21 @@ export function ExtensionRequestModal({
     } catch (e) {
       console.error("[ExtensionModal] Failed to parse addons:", e);
     }
+  } else {
+    console.log("[ExtensionModal] No order.addons found");
   }
+
+  console.log(
+    "[ExtensionModal] addonsArray after processing:",
+    addonsArray,
+  );
 
   // Filter to nonconsumable addons only (those charged with insurance fee)
   const nonconsumableAddons = addonsArray.filter((addon) => !addon.consumable);
+  console.log(
+    "[ExtensionModal] nonconsumableAddons after filter:",
+    nonconsumableAddons,
+  );
 
   const handleEndDateSelect = (date: Date | undefined) => {
     if (!date) return;
