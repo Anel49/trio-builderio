@@ -644,6 +644,54 @@ export async function dbSetup(_req: Request, res: Response) {
       );
     }
 
+    // Create user_login_history table
+    try {
+      await pool.query(
+        `create table if not exists user_login_history (
+          id serial primary key,
+          user_id integer references users(id) on delete cascade,
+          success boolean not null,
+          ip_address text,
+          ip_country text,
+          ip_city text,
+          device_type text check (device_type in ('desktop', 'tablet', 'mobile')),
+          method text check (method in ('email/password', 'oauth')),
+          oauth_provider text,
+          mfa_used boolean,
+          mfa_method text,
+          user_agent text,
+          browser text,
+          login_at timestamptz not null default now(),
+          logout_at timestamptz,
+          notes text,
+          created_at timestamptz not null default now()
+        )`,
+      );
+      console.log("[dbSetup] Created/verified user_login_history table");
+    } catch (e: any) {
+      if (!e.message?.includes("already exists")) {
+        console.warn(
+          "[dbSetup] Warning creating user_login_history table:",
+          e.message,
+        );
+      }
+    }
+
+    // Add index on user_login_history for faster queries
+    try {
+      await pool.query(
+        `create index if not exists idx_user_login_history_user_id_date on user_login_history (user_id, login_at desc)`,
+      );
+      console.log("[dbSetup] Created index for user_login_history");
+    } catch (e: any) {
+      if (!e.message?.includes("already exists")) {
+        console.warn(
+          "[dbSetup] Warning creating user_login_history index:",
+          e.message,
+        );
+      }
+    }
+
     res.json({ ok: true });
   } catch (error: any) {
     res.status(500).json({ ok: false, error: String(error?.message || error) });
