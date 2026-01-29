@@ -96,6 +96,7 @@ export function BookingSummaryModal({
   };
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
@@ -220,5 +221,25 @@ export function BookingSummaryModal({
         </div>
       </DialogContent>
     </Dialog>
+
+    <ConfirmationModal
+      isOpen={showAddonFeesModal}
+      onOpenChange={setShowAddonFeesModal}
+      title="Addon fees"
+      confirmLabel="Got it"
+      onConfirm={() => setShowAddonFeesModal(false)}
+    >
+      <p className="text-sm text-muted-foreground">
+        When renting a non-consumable addon, you will be charged 10% of the
+        addon's cost for the first day and 1.5% per subsequent day to insure
+        that addon throughout the duration of your rental. Extensions of this
+        order will only be charged 1.5% per day for the addon(s) chosen.
+      </p>
+      <p className="text-sm text-muted-foreground mt-3">
+        Consumable addons cannot be insured and thus are not charged an insurance
+        fee.
+      </p>
+    </ConfirmationModal>
+    </>
   );
 }
