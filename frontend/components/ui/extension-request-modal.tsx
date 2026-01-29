@@ -88,7 +88,10 @@ export function ExtensionRequestModal({
       console.log("[ExtensionModal] Modal opened");
       console.log("[ExtensionModal] Full order object:", order);
       if (order?.end_date) {
-        console.log("[ExtensionModal] Raw end_date from order:", order.end_date);
+        console.log(
+          "[ExtensionModal] Raw end_date from order:",
+          order.end_date,
+        );
         console.log("[ExtensionModal] Parsed orderEndDate:", orderEndDate);
         console.log(
           "[ExtensionModal] Formatted display:",
@@ -145,7 +148,10 @@ export function ExtensionRequestModal({
     try {
       console.log("[ExtensionModal] order.addons raw:", order.addons);
       const parsedAddons = JSON.parse(order.addons);
-      console.log("[ExtensionModal] parsedAddons after JSON.parse:", parsedAddons);
+      console.log(
+        "[ExtensionModal] parsedAddons after JSON.parse:",
+        parsedAddons,
+      );
       if (typeof parsedAddons === "object" && parsedAddons !== null) {
         Object.entries(parsedAddons).forEach(
           ([itemName, value]: [string, any]) => {
@@ -176,10 +182,7 @@ export function ExtensionRequestModal({
     console.log("[ExtensionModal] No order.addons found");
   }
 
-  console.log(
-    "[ExtensionModal] addonsArray after processing:",
-    addonsArray,
-  );
+  console.log("[ExtensionModal] addonsArray after processing:", addonsArray);
 
   // Filter to nonconsumable addons only (those charged with insurance fee)
   const nonconsumableAddons = addonsArray.filter((addon) => !addon.consumable);
@@ -383,7 +386,9 @@ export function ExtensionRequestModal({
                     "addons",
                   )}
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Non-consumable addons:</span>
+                    <span className="text-muted-foreground">
+                      Non-consumable addons:
+                    </span>
                   </div>
                   <div className="space-y-1 ml-2">
                     {nonconsumableAddons.map((addon) => (

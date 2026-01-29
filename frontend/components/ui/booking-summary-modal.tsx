@@ -58,11 +58,9 @@ export function BookingSummaryModal({
       return { addon, fee: 0 };
     } else {
       // Non-consumable addons: 10% first day + 1.5% per subsequent day
-      const firstDayFee = Math.round(addon.price * 0.10);
+      const firstDayFee = Math.round(addon.price * 0.1);
       const subsequentDaysFee =
-        totalDays > 1
-          ? Math.round(addon.price * 0.015 * (totalDays - 1))
-          : 0;
+        totalDays > 1 ? Math.round(addon.price * 0.015 * (totalDays - 1)) : 0;
       const totalFee = firstDayFee + subsequentDaysFee;
       return { addon, fee: totalFee };
     }
@@ -93,13 +91,14 @@ export function BookingSummaryModal({
   }, 0);
 
   // Total addon cost: consumable costs + non-consumable prices + insurance
-  const addonTotal = consumableTotal + nonConsumableAddonPrices + nonConsumableInsuranceTotal;
+  const addonTotal =
+    consumableTotal + nonConsumableAddonPrices + nonConsumableInsuranceTotal;
   const dailyTotal = dailyPrice * totalDays;
   const finalTotal = dailyTotal + addonTotal;
 
   // Check if there are any non-consumable addons selected
   const hasNonConsumableAddons = selectedAddons.some(
-    (addon) => !addon.consumable && addon.price !== null
+    (addon) => !addon.consumable && addon.price !== null,
   );
 
   const formatPrice = (cents: number) => {
@@ -108,144 +107,151 @@ export function BookingSummaryModal({
 
   return (
     <>
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Booking Summary</DialogTitle>
-        </DialogHeader>
+      <Dialog open={isOpen} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Booking Summary</DialogTitle>
+          </DialogHeader>
 
-        <div className="space-y-4">
-          {/* Dates Selected */}
-          <div className="pb-3 border-b">
-            <p className="text-sm font-medium">Date(s) selected</p>
-            <p className="text-sm text-muted-foreground mt-1">
-              {startDate && endDate
-                ? `${format(startDate, "MMM d, yyyy")} - ${format(endDate, "MMM d, yyyy")}`
-                : "No dates selected"}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              {totalDays} {totalDays === 1 ? "day" : "days"}
-            </p>
-          </div>
-
-          {/* Daily Total */}
-          <div className="pb-3 border-b">
-            <div className="flex justify-between items-center">
-              <p className="text-sm font-medium">Daily total</p>
-              <p className="text-sm">
-                {formatPrice(dailyPrice)} × {totalDays}{" "}
-                {totalDays === 1 ? "day" : "days"}
+          <div className="space-y-4">
+            {/* Dates Selected */}
+            <div className="pb-3 border-b">
+              <p className="text-sm font-medium">Date(s) selected</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                {startDate && endDate
+                  ? `${format(startDate, "MMM d, yyyy")} - ${format(endDate, "MMM d, yyyy")}`
+                  : "No dates selected"}
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {totalDays} {totalDays === 1 ? "day" : "days"}
               </p>
             </div>
-            <div className="flex justify-between items-center mt-2">
-              <p className="text-sm font-medium"></p>
-              <p className="text-sm font-semibold">{formatPrice(dailyTotal)}</p>
-            </div>
-          </div>
 
-          {/* Addon Total - Only show if addons are selected */}
-          {selectedAddons.length > 0 && (
+            {/* Daily Total */}
             <div className="pb-3 border-b">
-              <p className="text-sm font-medium mb-2">Addons</p>
-              <div className="space-y-1 mb-2">
-                {selectedAddons.map((addon) => (
-                  <div
-                    key={addon.id}
-                    className="flex justify-between items-center text-sm"
-                  >
-                    <span className="text-muted-foreground">
-                      {addon.item}
-                      {addon.style && ` (${addon.style})`}
-                      {addon.consumable && addon.qty && addon.qty > 1 && ` × ${addon.qty}`}
-                    </span>
-                    {addon.price !== null ? (
-                      <span>
-                        {addon.consumable && addon.qty
-                          ? formatPrice(addon.price * addon.qty)
-                          : formatPrice(addon.price)}
-                      </span>
-                    ) : (
-                      <span className="text-muted-foreground text-xs">
-                        Free
-                      </span>
-                    )}
-                  </div>
-                ))}
+              <div className="flex justify-between items-center">
+                <p className="text-sm font-medium">Daily total</p>
+                <p className="text-sm">
+                  {formatPrice(dailyPrice)} × {totalDays}{" "}
+                  {totalDays === 1 ? "day" : "days"}
+                </p>
               </div>
-
-              {/* Addon Insurance Row - Only show if non-consumable addons exist */}
-              {hasNonConsumableAddons && (
-                <div className="flex justify-between items-center text-sm pt-2 pb-2 border-t">
-                  <div className="flex items-center gap-1">
-                    <span className="text-muted-foreground">Addon insurance</span>
-                    <button
-                      type="button"
-                      onClick={() => setShowAddonFeesModal(true)}
-                      className="p-0 h-4 w-4 text-muted-foreground hover:text-primary transition-colors"
-                      aria-label="Information about addon insurance"
-                    >
-                      <Info className="h-4 w-4" />
-                    </button>
-                  </div>
-                  <span className="font-semibold">
-                    {formatPrice(nonConsumableInsuranceTotal)}
-                  </span>
-                </div>
-              )}
-
-              <div className="flex justify-between items-center pt-2 border-t">
-                <p className="text-sm font-medium">Total addon cost:</p>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-sm font-medium"></p>
                 <p className="text-sm font-semibold">
-                  {formatPrice(addonTotal)}
+                  {formatPrice(dailyTotal)}
                 </p>
               </div>
             </div>
-          )}
 
-          {/* Final Total */}
-          <div className="bg-accent p-3 rounded-md">
-            <div className="flex justify-between items-center">
-              <p className="text-sm font-semibold">Booking subtotal</p>
-              <p className="text-lg font-bold text-primary">
-                {formatPrice(finalTotal)}
-              </p>
+            {/* Addon Total - Only show if addons are selected */}
+            {selectedAddons.length > 0 && (
+              <div className="pb-3 border-b">
+                <p className="text-sm font-medium mb-2">Addons</p>
+                <div className="space-y-1 mb-2">
+                  {selectedAddons.map((addon) => (
+                    <div
+                      key={addon.id}
+                      className="flex justify-between items-center text-sm"
+                    >
+                      <span className="text-muted-foreground">
+                        {addon.item}
+                        {addon.style && ` (${addon.style})`}
+                        {addon.consumable &&
+                          addon.qty &&
+                          addon.qty > 1 &&
+                          ` × ${addon.qty}`}
+                      </span>
+                      {addon.price !== null ? (
+                        <span>
+                          {addon.consumable && addon.qty
+                            ? formatPrice(addon.price * addon.qty)
+                            : formatPrice(addon.price)}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground text-xs">
+                          Free
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Addon Insurance Row - Only show if non-consumable addons exist */}
+                {hasNonConsumableAddons && (
+                  <div className="flex justify-between items-center text-sm pt-2 pb-2 border-t">
+                    <div className="flex items-center gap-1">
+                      <span className="text-muted-foreground">
+                        Addon insurance
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddonFeesModal(true)}
+                        className="p-0 h-4 w-4 text-muted-foreground hover:text-primary transition-colors"
+                        aria-label="Information about addon insurance"
+                      >
+                        <Info className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <span className="font-semibold">
+                      {formatPrice(nonConsumableInsuranceTotal)}
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center pt-2 border-t">
+                  <p className="text-sm font-medium">Total addon cost:</p>
+                  <p className="text-sm font-semibold">
+                    {formatPrice(addonTotal)}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Final Total */}
+            <div className="bg-accent p-3 rounded-md">
+              <div className="flex justify-between items-center">
+                <p className="text-sm font-semibold">Booking subtotal</p>
+                <p className="text-lg font-bold text-primary">
+                  {formatPrice(finalTotal)}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex gap-3 pt-4">
-          <Button onClick={onConfirm} className="flex-1">
-            Confirm reservation
-          </Button>
-          <Button
-            variant="outline"
-            onClick={onBack || (() => onOpenChange(false))}
-            className="flex-1"
-          >
-            {onBack ? "Back" : "Cancel"}
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+          <div className="flex gap-3 pt-4">
+            <Button onClick={onConfirm} className="flex-1">
+              Confirm reservation
+            </Button>
+            <Button
+              variant="outline"
+              onClick={onBack || (() => onOpenChange(false))}
+              className="flex-1"
+            >
+              {onBack ? "Back" : "Cancel"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
-    <ConfirmationModal
-      isOpen={showAddonFeesModal}
-      onOpenChange={setShowAddonFeesModal}
-      title="Addon fees"
-      confirmLabel="Got it"
-      onConfirm={() => setShowAddonFeesModal(false)}
-    >
-      <p className="text-sm text-muted-foreground">
-        When renting a non-consumable addon, you will be charged 10% of the
-        addon's cost for the first day and 1.5% per subsequent day to insure
-        that addon throughout the duration of your rental. Extensions of this
-        order will only be charged 1.5% per day for the addon(s) chosen.
-      </p>
-      <p className="text-sm text-muted-foreground mt-3">
-        Consumable addons cannot be insured and thus are not charged an insurance
-        fee.
-      </p>
-    </ConfirmationModal>
+      <ConfirmationModal
+        isOpen={showAddonFeesModal}
+        onOpenChange={setShowAddonFeesModal}
+        title="Addon fees"
+        confirmLabel="Got it"
+        onConfirm={() => setShowAddonFeesModal(false)}
+      >
+        <p className="text-sm text-muted-foreground">
+          When renting a non-consumable addon, you will be charged 10% of the
+          addon's cost for the first day and 1.5% per subsequent day to insure
+          that addon throughout the duration of your rental. Extensions of this
+          order will only be charged 1.5% per day for the addon(s) chosen.
+        </p>
+        <p className="text-sm text-muted-foreground mt-3">
+          Consumable addons cannot be insured and thus are not charged an
+          insurance fee.
+        </p>
+      </ConfirmationModal>
     </>
   );
 }
