@@ -339,7 +339,7 @@ export function OrderDetailsModal({
 
                   {/* Addon Insurance Row - Only show if non-consumable addons exist */}
                   {nonconsumableAddons.length > 0 && (
-                    <div className="flex justify-between items-center text-sm pt-2 border-t">
+                    <div className="flex justify-between items-center text-sm pt-2 border-t print:pt-1 print:mt-0 print:text-xs">
                       <div className="flex items-center gap-1">
                         <span className="text-muted-foreground">
                           Addon insurance
