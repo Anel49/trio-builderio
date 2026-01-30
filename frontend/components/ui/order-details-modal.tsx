@@ -167,51 +167,61 @@ export function OrderDetailsModal({
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto print:max-w-full print:max-h-none print:m-0 print:p-0 print:border-0 print:shadow-none">
           <style>{`
             @media print {
-              * {
-                background: white !important;
-                color: black !important;
-              }
-
-              body {
-                margin: 0;
-                padding: 0;
-              }
-
-              html, body {
-                height: auto;
-              }
-
               @page {
                 size: letter;
                 margin: 0.5in;
               }
 
+              html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                background: white;
+                color: black;
+              }
+
+              * {
+                background: transparent !important;
+                color: black !important;
+                box-shadow: none !important;
+                border-color: black !important;
+              }
+
+              [role="dialog"],
+              [role="alertdialog"] {
+                all: revert;
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100% !important;
+                max-height: 100% !important;
+                inset: auto !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: white !important;
+                border: none !important;
+              }
+
               .print-modal {
                 background: white !important;
                 color: black !important;
-                page-break-after: avoid;
                 page-break-inside: avoid;
+                width: 100%;
               }
 
-              .print-modal .dialog-header,
-              .print-modal .dialog-title {
-                color: black !important;
+              .print-modal * {
+                page-break-inside: avoid;
+                orphans: 2;
+                widows: 2;
               }
 
               .print-button {
                 display: none !important;
               }
 
-              [role="dialog"] {
-                position: static !important;
-                padding: 0 !important;
-                border: none !important;
-                box-shadow: none !important;
-                background: white !important;
-              }
-
-              .print-modal div {
-                page-break-inside: avoid;
+              button {
+                display: none !important;
               }
             }
           `}</style>
