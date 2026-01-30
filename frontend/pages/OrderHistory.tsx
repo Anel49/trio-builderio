@@ -1688,7 +1688,12 @@ export default function OrderHistory() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => {}}>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setSelectedOrderForDetails(order);
+                                setOrderDetailsModalOpen(true);
+                              }}
+                            >
                               View Details
                             </DropdownMenuItem>
                             {order.status === "completed" &&
