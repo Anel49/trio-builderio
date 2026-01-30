@@ -258,7 +258,7 @@ export function OrderDetailsModal({
             <div className="border-t" />
 
             {/* Cost breakdown section */}
-            <div className="space-y-3">
+            <div className="space-y-3 print:space-y-1">
               <h3 className="text-lg font-semibold">Cost breakdown</h3>
 
               {/* Daily Total */}
