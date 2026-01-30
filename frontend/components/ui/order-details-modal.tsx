@@ -333,7 +333,7 @@ export function OrderDetailsModal({
               {/* Addons section */}
               {parsedAddons.length > 0 && (
                 <div className="space-y-3 print:space-y-1">
-                  <p className="text-sm font-medium print:text-xs print:mb-1">Addons</p>
+                  <p className="text-sm font-medium print:mb-1">Addons</p>
                   <div className="space-y-1 ml-2 print:space-y-0 print:ml-0">
                     {parsedAddons.map((addon) => (
                       <div
