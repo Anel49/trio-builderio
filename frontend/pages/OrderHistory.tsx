@@ -1487,6 +1487,7 @@ export default function OrderHistory() {
                                           order.listing_timezone,
                                         )}
                                       </span>
+                                      {" "}
                                       <span className="font-medium text-foreground">
                                         {formatDateRangeWithAbbreviation(
                                           parseDateString(order.start_date),
