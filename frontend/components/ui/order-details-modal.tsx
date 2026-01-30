@@ -395,6 +395,38 @@ export function OrderDetailsModal({
             </div>
           </div>
 
+          {/* Print-only footer with insurance information */}
+          <div className="hidden print:block space-y-3 text-xs mt-6 pt-4 border-t">
+            <div className="space-y-2">
+              <p className="font-bold">Listing insurance</p>
+              <p className="text-muted-foreground">
+                When booking a listing, you will be charged {RENTER_FEE}% of the
+                listing's daily rate for the first day and {SUBSEQUENT_DAILY_FEE}%
+                per subsequent day to insure the listing's item(s) throughout the
+                duration of your rental. Extensions of this order will only be
+                charged {SUBSEQUENT_DAILY_FEE}% of the daily rate per extended day.
+              </p>
+            </div>
+
+            {nonconsumableAddons.length > 0 && (
+              <div className="space-y-2">
+                <p className="font-bold">Addon insurance</p>
+                <p className="text-muted-foreground">
+                  When renting a non-consumable addon, you will be charged{" "}
+                  {RENTER_FEE}% of the addon's cost for the first day and{" "}
+                  {SUBSEQUENT_DAILY_FEE}% per subsequent day to insure that addon
+                  throughout the duration of your rental. Extensions of this order
+                  will only be charged {SUBSEQUENT_DAILY_FEE}% per day for the
+                  addon(s) chosen.
+                </p>
+                <p className="text-muted-foreground">
+                  Consumable addons cannot be insured and thus are not charged an
+                  insurance fee.
+                </p>
+              </div>
+            )}
+          </div>
+
           {/* Action buttons - hidden in print */}
           <div className="flex gap-3 pt-4 print:hidden">
             <Button
