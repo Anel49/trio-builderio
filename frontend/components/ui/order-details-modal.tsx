@@ -387,10 +387,10 @@ export function OrderDetailsModal({
                 </span>
               </div>
 
-              {/* Booking Subtotal */}
+              {/* Booking Total */}
               <div className="flex justify-between text-sm font-semibold pt-2 border-t print:pt-1 print:mt-0 print:text-sm">
-                <span>Booking subtotal</span>
-                <span>{formatPrice(bookingSubtotal + (order.tax_cents || 0))}</span>
+                <span>Booking total</span>
+                <span>{formatPrice(order.renter_pays || 0)}</span>
               </div>
             </div>
           </div>
