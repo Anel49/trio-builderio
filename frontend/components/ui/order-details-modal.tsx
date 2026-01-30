@@ -226,8 +226,8 @@ export function OrderDetailsModal({
             }
           `}</style>
 
-          <DialogHeader className="print-modal">
-            <DialogTitle className="text-2xl font-bold">
+          <DialogHeader className="print-modal print:mb-2">
+            <DialogTitle className="text-2xl font-bold print:text-xl print:mb-0">
               Booking Details
             </DialogTitle>
           </DialogHeader>
