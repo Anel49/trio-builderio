@@ -22,6 +22,8 @@ import {
   isValidExtensionDateRange,
 } from "@/lib/extensions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ConfirmationModal } from "@/components/ui/modal-templates";
+import { SUBSEQUENT_DAILY_FEE } from "@/lib/constants";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, Info } from "lucide-react";
 
