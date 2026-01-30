@@ -256,8 +256,8 @@ export function OrderDetailsModal({
                 </p>
               </div>
               <div>
-                <p className="text-muted-foreground">Booking confirmed at</p>
-                <p className="font-semibold text-base">
+                <p className="text-muted-foreground print:text-xs">Booking confirmed at</p>
+                <p className="font-semibold text-base print:text-sm">
                   {order.created_at
                     ? formatTimestampInTimezone(
                         order.created_at,
