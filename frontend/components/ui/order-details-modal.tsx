@@ -164,7 +164,7 @@ export function OrderDetailsModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto print:max-w-full print:max-h-none print:m-0 print:p-0 print:border-0 print:shadow-none">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto print:max-w-full print:max-h-[11in] print:h-[11in] print:m-0 print:p-0 print:border-0 print:shadow-none print:overflow-hidden">
           <style>{`
             @media print {
               @page {
