@@ -164,22 +164,54 @@ export function OrderDetailsModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto print:max-w-full print:max-h-full print:m-0">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto print:max-w-full print:max-h-none print:m-0 print:p-0 print:border-0 print:shadow-none">
           <style>{`
             @media print {
-              .print-modal {
-                background: white;
-                color: black;
+              * {
+                background: white !important;
+                color: black !important;
               }
+
+              body {
+                margin: 0;
+                padding: 0;
+              }
+
+              html, body {
+                height: auto;
+              }
+
+              @page {
+                size: letter;
+                margin: 0.5in;
+              }
+
+              .print-modal {
+                background: white !important;
+                color: black !important;
+                page-break-after: avoid;
+                page-break-inside: avoid;
+              }
+
               .print-modal .dialog-header,
               .print-modal .dialog-title {
-                color: black;
+                color: black !important;
               }
+
               .print-button {
-                display: none;
+                display: none !important;
               }
-              @page {
-                margin: 0.5in;
+
+              [role="dialog"] {
+                position: static !important;
+                padding: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                background: white !important;
+              }
+
+              .print-modal div {
+                page-break-inside: avoid;
               }
             }
           `}</style>
