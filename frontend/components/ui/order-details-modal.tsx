@@ -248,7 +248,7 @@ export function OrderDetailsModal({
 
           <div className="print-modal space-y-4 p-4 print:space-y-2 print:p-0">
             {/* Row 2: Order # and Booking confirmed at */}
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-2 gap-4 text-sm print:gap-2 print:text-xs">
               <div>
                 <p className="text-muted-foreground">Order #</p>
                 <p className="font-semibold text-base">
