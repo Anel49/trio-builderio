@@ -484,6 +484,20 @@ export function ExtensionRequestModal({
           </Button>
         </div>
       </DialogContent>
+
+      <ConfirmationModal
+        isOpen={showAddonInsuranceModal}
+        onOpenChange={setShowAddonInsuranceModal}
+        title="Addon insurance"
+        confirmLabel="Got it"
+        onConfirm={() => setShowAddonInsuranceModal(false)}
+      >
+        <p className="text-sm text-muted-foreground">
+          When extending a rental with non-consumable addons, you will be
+          charged {SUBSEQUENT_DAILY_FEE}% of the addon's cost for each extended
+          day to insure that addon throughout the duration of your extension.
+        </p>
+      </ConfirmationModal>
     </Dialog>
   );
 }
