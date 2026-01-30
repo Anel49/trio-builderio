@@ -237,6 +237,24 @@ export function OrderDetailsModal({
               .print-modal .space-y-2 > * + * {
                 margin-top: 0.125rem;
               }
+
+              .print-modal > * {
+                margin: 0 !important;
+              }
+
+              .print-modal h3 {
+                margin: 0.25rem 0 !important;
+              }
+
+              .print-modal div {
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+              }
+
+              .border-t {
+                margin-top: 0.25rem !important;
+                margin-bottom: 0 !important;
+              }
             }
           `}</style>
 
