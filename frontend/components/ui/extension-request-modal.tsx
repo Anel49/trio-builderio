@@ -451,14 +451,10 @@ export function ExtensionRequestModal({
                 </>
               )}
               <div className="border-t pt-2 flex justify-between text-sm font-semibold">
-                <span>Booking subtotal:</span>
+                <span>Booking subtotal</span>
                 <span>
                   $
-                  {(
-                    ((order?.daily_price_cents || 0) * totalDays +
-                      addonInsurance) /
-                    100
-                  ).toLocaleString("en-US", {
+                  {(((order?.daily_price_cents || 0) * totalDays + addonInsurance) / 100).toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}
