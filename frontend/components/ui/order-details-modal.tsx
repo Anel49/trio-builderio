@@ -250,8 +250,8 @@ export function OrderDetailsModal({
             {/* Row 2: Order # and Booking confirmed at */}
             <div className="grid grid-cols-2 gap-4 text-sm print:gap-2 print:text-xs">
               <div>
-                <p className="text-muted-foreground">Order #</p>
-                <p className="font-semibold text-base">
+                <p className="text-muted-foreground print:text-xs">Order #</p>
+                <p className="font-semibold text-base print:text-sm">
                   {order.order_number || "N/A"}
                 </p>
               </div>
