@@ -362,7 +362,7 @@ export function OrderDetailsModal({
               )}
 
               {/* Tax */}
-              <div className="flex justify-between text-sm pt-2 border-t">
+              <div className="flex justify-between text-sm pt-2 border-t print:pt-1 print:mt-0 print:text-xs">
                 <span className="text-muted-foreground">Tax</span>
                 <span className="text-muted-foreground">
                   {formatPrice(order.tax_cents || 0)}
@@ -370,7 +370,7 @@ export function OrderDetailsModal({
               </div>
 
               {/* Booking Subtotal */}
-              <div className="flex justify-between text-sm font-semibold pt-2 border-t">
+              <div className="flex justify-between text-sm font-semibold pt-2 border-t print:pt-1 print:mt-0 print:text-sm">
                 <span>Booking subtotal</span>
                 <span>{formatPrice(bookingSubtotal + (order.tax_cents || 0))}</span>
               </div>
