@@ -380,7 +380,7 @@ export function OrderDetailsModal({
               )}
 
               {/* Tax */}
-              <div className="flex justify-between text-sm pt-2 border-t print:pt-1 print:mt-0 print:text-xs">
+              <div className="flex justify-between text-sm pt-2 border-t print:pt-1 print:mt-0">
                 <span className="text-muted-foreground">Tax</span>
                 <span className="text-muted-foreground">
                   {formatPrice(order.tax_cents || 0)}
