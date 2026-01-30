@@ -276,7 +276,7 @@ export function OrderDetailsModal({
               <h3 className="text-lg font-semibold print:text-base print:mb-1">Cost breakdown</h3>
 
               {/* Daily Total */}
-              <div className="space-y-2">
+              <div className="space-y-2 print:space-y-0">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Daily total</span>
                   <span className="text-muted-foreground">
