@@ -10,10 +10,7 @@ import { ConfirmationModal } from "@/components/ui/modal-templates";
 import { Info } from "lucide-react";
 import { format } from "date-fns";
 import { RENTER_FEE, SUBSEQUENT_DAILY_FEE } from "@/lib/constants";
-import {
-  extractTimezoneName,
-  getTimezoneName,
-} from "@/lib/timezone-utils";
+import { extractTimezoneName, getTimezoneName } from "@/lib/timezone-utils";
 
 // Utility to parse dates without timezone conversion
 const parseDateString = (dateStr: string): Date => {
@@ -64,18 +61,20 @@ function parseOrderAddons(addonsJson: string | null): ParsedAddon[] {
   try {
     const parsedAddons = JSON.parse(addonsJson);
     if (typeof parsedAddons === "object" && parsedAddons !== null) {
-      Object.entries(parsedAddons).forEach(([itemName, value]: [string, any]) => {
-        if (Array.isArray(value) && value.length >= 3) {
-          const [style, price, consumableStr, qty] = value;
-          addonsArray.push({
-            name: itemName,
-            style: style === "null" ? null : style,
-            price: typeof price === "number" ? price : 0,
-            consumable: consumableStr === "true",
-            qty: typeof qty === "number" ? qty : 1,
-          });
-        }
-      });
+      Object.entries(parsedAddons).forEach(
+        ([itemName, value]: [string, any]) => {
+          if (Array.isArray(value) && value.length >= 3) {
+            const [style, price, consumableStr, qty] = value;
+            addonsArray.push({
+              name: itemName,
+              style: style === "null" ? null : style,
+              price: typeof price === "number" ? price : 0,
+              consumable: consumableStr === "true",
+              qty: typeof qty === "number" ? qty : 1,
+            });
+          }
+        },
+      );
     }
   } catch (e) {
     console.error("[OrderDetailsModal] Failed to parse addons:", e);
@@ -124,15 +123,20 @@ export function OrderDetailsModal({
     return sum + addon.price * (addon.qty || 1);
   }, 0);
 
-  const nonConsumableAddonInsurance = nonconsumableAddons.reduce((sum, addon) => {
-    const addonTotal = addon.price * (addon.qty || 1);
-    const firstDayFee = Math.round(addonTotal * (RENTER_FEE / 100));
-    const subsequentDaysFee =
-      totalDays > 1
-        ? Math.round(addonTotal * (SUBSEQUENT_DAILY_FEE / 100) * (totalDays - 1))
-        : 0;
-    return sum + firstDayFee + subsequentDaysFee;
-  }, 0);
+  const nonConsumableAddonInsurance = nonconsumableAddons.reduce(
+    (sum, addon) => {
+      const addonTotal = addon.price * (addon.qty || 1);
+      const firstDayFee = Math.round(addonTotal * (RENTER_FEE / 100));
+      const subsequentDaysFee =
+        totalDays > 1
+          ? Math.round(
+              addonTotal * (SUBSEQUENT_DAILY_FEE / 100) * (totalDays - 1),
+            )
+          : 0;
+      return sum + firstDayFee + subsequentDaysFee;
+    },
+    0,
+  );
 
   // Consumable addon costs
   const consumableTotal = parsedAddons.reduce((sum, addon) => {
@@ -147,8 +151,7 @@ export function OrderDetailsModal({
     consumableTotal + nonConsumableAddonPrices + nonConsumableAddonInsurance;
 
   // Final subtotal (tax calculated separately)
-  const bookingSubtotal =
-    dailyTotal + listingInsuranceTotal + addonTotal;
+  const bookingSubtotal = dailyTotal + listingInsuranceTotal + addonTotal;
 
   const formatPrice = (cents: number) => {
     return `$${(cents / 100).toLocaleString("en-US", {
@@ -285,7 +288,9 @@ export function OrderDetailsModal({
                 </p>
               </div>
               <div>
-                <p className="text-muted-foreground print:text-xs">Booking confirmed at</p>
+                <p className="text-muted-foreground print:text-xs">
+                  Booking confirmed at
+                </p>
                 <p className="font-semibold text-base print:text-sm">
                   {order.created_at
                     ? formatTimestampInTimezone(
@@ -302,7 +307,9 @@ export function OrderDetailsModal({
 
             {/* Cost breakdown section */}
             <div className="space-y-3 print:space-y-1">
-              <h3 className="text-lg font-semibold print:text-base print:mb-1">Cost breakdown</h3>
+              <h3 className="text-lg font-semibold print:text-base print:mb-1">
+                Cost breakdown
+              </h3>
 
               {/* Daily Total */}
               <div className="space-y-2 print:space-y-0">
@@ -315,7 +322,9 @@ export function OrderDetailsModal({
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="font-medium" />
-                  <span className="font-semibold">{formatPrice(dailyTotal)}</span>
+                  <span className="font-semibold">
+                    {formatPrice(dailyTotal)}
+                  </span>
                 </div>
               </div>
 
@@ -412,10 +421,11 @@ export function OrderDetailsModal({
               <p className="font-bold">Listing insurance</p>
               <p className="text-muted-foreground">
                 When booking a listing, you will be charged {RENTER_FEE}% of the
-                listing's daily rate for the first day and {SUBSEQUENT_DAILY_FEE}%
-                per subsequent day to insure the listing's item(s) throughout the
-                duration of your rental. Extensions of this order will only be
-                charged {SUBSEQUENT_DAILY_FEE}% of the daily rate per extended day.
+                listing's daily rate for the first day and{" "}
+                {SUBSEQUENT_DAILY_FEE}% per subsequent day to insure the
+                listing's item(s) throughout the duration of your rental.
+                Extensions of this order will only be charged{" "}
+                {SUBSEQUENT_DAILY_FEE}% of the daily rate per extended day.
               </p>
             </div>
 
@@ -425,14 +435,14 @@ export function OrderDetailsModal({
                 <p className="text-muted-foreground">
                   When renting a non-consumable addon, you will be charged{" "}
                   {RENTER_FEE}% of the addon's cost for the first day and{" "}
-                  {SUBSEQUENT_DAILY_FEE}% per subsequent day to insure that addon
-                  throughout the duration of your rental. Extensions of this order
-                  will only be charged {SUBSEQUENT_DAILY_FEE}% of the addon's cost
-                  per addon per extended day.
+                  {SUBSEQUENT_DAILY_FEE}% per subsequent day to insure that
+                  addon throughout the duration of your rental. Extensions of
+                  this order will only be charged {SUBSEQUENT_DAILY_FEE}% of the
+                  addon's cost per addon per extended day.
                 </p>
                 <p className="text-muted-foreground">
-                  Consumable addons cannot be insured and thus are not charged an
-                  insurance fee.
+                  Consumable addons cannot be insured and thus are not charged
+                  an insurance fee.
                 </p>
               </div>
             )}
@@ -483,8 +493,9 @@ export function OrderDetailsModal({
           When renting a non-consumable addon, you will be charged {RENTER_FEE}%
           of the addon's cost for the first day and {SUBSEQUENT_DAILY_FEE}% per
           subsequent day to insure that addon throughout the duration of your
-          rental. Extensions of this order will only be charged {SUBSEQUENT_DAILY_FEE}%
-          of the addon's cost per addon per extended day.
+          rental. Extensions of this order will only be charged{" "}
+          {SUBSEQUENT_DAILY_FEE}% of the addon's cost per addon per extended
+          day.
         </p>
         <p className="text-sm text-muted-foreground mt-3">
           Consumable addons cannot be insured and thus are not charged an
