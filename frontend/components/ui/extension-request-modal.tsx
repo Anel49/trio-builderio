@@ -424,13 +424,37 @@ export function ExtensionRequestModal({
                       </div>
                     ))}
                   </div>
+
+                  {/* Addon Insurance Row */}
+                  <div className="flex justify-between items-center text-sm pt-2 border-t">
+                    <div className="flex items-center gap-1">
+                      <span className="text-muted-foreground">
+                        Addon insurance
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddonInsuranceModal(true)}
+                        className="p-0 h-4 w-4 text-muted-foreground hover:text-primary transition-colors"
+                        aria-label="Information about addon insurance"
+                      >
+                        <Info className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <span className="font-semibold">
+                      $
+                      {(addonInsurance / 100).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </span>
+                  </div>
                 </>
               )}
               <div className="border-t pt-2 flex justify-between text-sm font-semibold">
-                <span>Total:</span>
+                <span>Booking subtotal:</span>
                 <span>
                   $
-                  {(totalPrice / 100).toLocaleString("en-US", {
+                  {((totalPrice + addonInsurance) / 100).toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}
