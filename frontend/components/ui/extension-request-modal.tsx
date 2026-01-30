@@ -495,7 +495,7 @@ export function ExtensionRequestModal({
         <p className="text-sm text-muted-foreground">
           When extending a rental with a non-consumable addon, you will be
           charged 1.5% of the addon's cost for each extended day to insure that
-          addon throughout the duration of your extension.
+          addon throughout the duration of your rental.
         </p>
       </ConfirmationModal>
     </Dialog>
