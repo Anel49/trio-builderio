@@ -132,7 +132,7 @@ export function OrderDetailsModal({
         ? Math.round(addonTotal * (SUBSEQUENT_DAILY_FEE / 100) * (totalDays - 1))
         : 0;
     return sum + firstDayFee + subsequentDaysFee;
-  }, sum);
+  }, 0);
 
   // Consumable addon costs
   const consumableTotal = parsedAddons.reduce((sum, addon) => {
