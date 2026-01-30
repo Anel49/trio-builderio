@@ -340,6 +340,11 @@ export default function OrderHistory() {
   const [extensionSuccessModalOpen, setExtensionSuccessModalOpen] =
     useState(false);
 
+  // Order details modal state (for print-friendly order details)
+  const [orderDetailsModalOpen, setOrderDetailsModalOpen] = useState(false);
+  const [selectedOrderForDetails, setSelectedOrderForDetails] =
+    useState<Order | null>(null);
+
   // Proposed dates response modal state
   const [proposedDatesModalOpen, setProposedDatesModalOpen] = useState(false);
   const [proposedDatesAction, setProposedDatesAction] = useState<
