@@ -334,7 +334,7 @@ export function OrderDetailsModal({
               {parsedAddons.length > 0 && (
                 <div className="space-y-3 print:space-y-1">
                   <p className="text-sm font-medium print:mb-1">Addons</p>
-                  <div className="space-y-1 ml-2 print:space-y-0 print:ml-2">
+                  <div className="space-y-1 ml-4 print:space-y-0 print:ml-4">
                     {parsedAddons.map((addon) => (
                       <div
                         key={addon.name}
