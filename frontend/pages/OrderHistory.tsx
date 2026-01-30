@@ -2827,6 +2827,15 @@ export default function OrderHistory() {
         </DialogContent>
       </Dialog>
 
+      {/* Order Details Modal (Print-friendly) */}
+      {selectedOrderForDetails && (
+        <OrderDetailsModal
+          isOpen={orderDetailsModalOpen}
+          onOpenChange={setOrderDetailsModalOpen}
+          order={selectedOrderForDetails}
+        />
+      )}
+
       <Footer />
     </div>
   );
