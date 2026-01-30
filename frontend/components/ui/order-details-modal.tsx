@@ -291,7 +291,7 @@ export function OrderDetailsModal({
               </div>
 
               {/* Listing Insurance */}
-              <div className="pt-2 border-t">
+              <div className="pt-2 border-t print:pt-1 print:mt-0">
                 <div className="flex justify-between items-center text-sm">
                   <div className="flex items-center gap-1">
                     <span className="text-muted-foreground">
