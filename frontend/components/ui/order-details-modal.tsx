@@ -232,7 +232,7 @@ export function OrderDetailsModal({
             </DialogTitle>
           </DialogHeader>
 
-          <div className="print-modal space-y-4 p-4">
+          <div className="print-modal space-y-4 p-4 print:space-y-2 print:p-0">
             {/* Row 2: Order # and Booking confirmed at */}
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
