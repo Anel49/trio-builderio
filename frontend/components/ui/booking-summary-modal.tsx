@@ -146,7 +146,7 @@ export function BookingSummaryModal({
             {/* Daily Total */}
             <div className="pb-3 border-b">
               <div className="flex justify-between items-center">
-                <p className="text-sm font-medium">Daily total</p>
+                <p className="text-sm font-medium">Daily subtotal</p>
                 <p className="text-sm">
                   {formatPrice(dailyPrice)} × {totalDays}{" "}
                   {totalDays === 1 ? "day" : "days"}
