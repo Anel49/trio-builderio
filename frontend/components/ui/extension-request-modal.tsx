@@ -454,7 +454,7 @@ export function ExtensionRequestModal({
                 <span>Booking subtotal:</span>
                 <span>
                   $
-                  {((totalPrice + addonInsurance) / 100).toLocaleString("en-US", {
+                  {(((order?.daily_price_cents || 0) * totalDays + addonInsurance) / 100).toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}
