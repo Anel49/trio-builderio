@@ -296,7 +296,7 @@ export function OrderDetailsModal({
               {/* Daily Total */}
               <div className="space-y-2 print:space-y-0">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Daily total</span>
+                  <span className="text-muted-foreground">Daily subtotal</span>
                   <span className="text-muted-foreground">
                     {formatPrice(dailyPrice)} × {totalDays}{" "}
                     {totalDays === 1 ? "day" : "days"}
