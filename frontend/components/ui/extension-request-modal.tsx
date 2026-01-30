@@ -314,7 +314,7 @@ export function ExtensionRequestModal({
                         sideOffset={8}
                       >
                         <p className="text-sm">
-                          Extensions must start the day after a booking's end
+                          Extensions must start the day after the booking's end
                           date.
                         </p>
                         <PopoverPrimitive.Arrow className="fill-popover" />
