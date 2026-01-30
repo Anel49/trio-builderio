@@ -416,8 +416,8 @@ export function OrderDetailsModal({
                   {RENTER_FEE}% of the addon's cost for the first day and{" "}
                   {SUBSEQUENT_DAILY_FEE}% per subsequent day to insure that addon
                   throughout the duration of your rental. Extensions of this order
-                  will only be charged {SUBSEQUENT_DAILY_FEE}% per day for the
-                  addon(s) chosen.
+                  will only be charged {SUBSEQUENT_DAILY_FEE}% of the addon's cost
+                  per addon per extended day.
                 </p>
                 <p className="text-muted-foreground">
                   Consumable addons cannot be insured and thus are not charged an
