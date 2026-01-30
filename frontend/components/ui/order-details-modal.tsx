@@ -223,6 +223,20 @@ export function OrderDetailsModal({
               button {
                 display: none !important;
               }
+
+              .space-y-4 {
+                --tw-space-y-reverse: 0;
+                margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+                margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+              }
+
+              .print-modal .space-y-3 > * + * {
+                margin-top: 0.25rem;
+              }
+
+              .print-modal .space-y-2 > * + * {
+                margin-top: 0.125rem;
+              }
             }
           `}</style>
 
