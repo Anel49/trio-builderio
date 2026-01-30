@@ -140,6 +140,16 @@ export function ExtensionRequestModal({
       ? (order.nonconsumable_addon_total || 0) * totalDays
       : 0;
 
+  // Addon insurance for extensions: 1.5% per day on nonconsumable addon total
+  const addonInsurance =
+    selectedEndDate && order?.nonconsumable_addon_total
+      ? Math.round(
+          (order.nonconsumable_addon_total || 0) *
+            (SUBSEQUENT_DAILY_FEE / 100) *
+            totalDays,
+        )
+      : 0;
+
   // Parse addons from the order's addons JSON
   const addonsArray: Array<{
     name: string;
