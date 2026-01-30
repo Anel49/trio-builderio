@@ -59,6 +59,7 @@ export function ExtensionRequestModal({
   const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [showAddonInsuranceModal, setShowAddonInsuranceModal] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Close date picker when clicking outside
